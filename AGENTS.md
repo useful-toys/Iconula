@@ -40,6 +40,8 @@ deliberadamente mínimo (sem router, sem gerenciador de estado global).
 | `.github/workflows/` | Workflows de deploy (produção em merge na `main`, preview em PRs). |
 | `docs/adr/` | Decisões de arquitetura (ADRs) — leia antes de propor mudanças estruturais. |
 | `docs/tdr/` | Decisões técnicas pontuais (TDRs). |
+| `docs/github.md` | Tudo o que foi configurado no GitHub (repo, secrets, workflows, branch protection) — como reproduzir. |
+| `docs/gcloud.md` | Tudo o que foi configurado no Google Cloud/Firebase (projeto, service account, Hosting) — como reproduzir. |
 
 ## Convenções
 
