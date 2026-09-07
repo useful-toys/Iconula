@@ -44,10 +44,18 @@ Adicionar `hosting.headers` ao `firebase.json`:
 - `Cross-Origin-Opener-Policy: same-origin`.
 
 Aproveitado o mesmo bloco para corrigir `Cache-Control`: assets com hash
-(`/assets/**`) recebem `max-age=31536000, immutable`; `/index.html`
-recebe `no-cache`, para que um deploy fique visível imediatamente aos
+(`/assets/**`) recebem `max-age=31536000, immutable`; `/index.html` e `/`
+recebem `no-cache`, para que um deploy fique visível imediatamente aos
 visitantes (isso não é segurança, é correção de cache — estava faltando
 e o custo de fazer junto era zero).
+
+**Correção (source casa antes do rewrite)**: a primeira versão só tinha
+`source: "/index.html"`. O casamento de `headers.source` no Firebase
+Hosting acontece contra o path **pedido**, antes de qualquer `rewrite`
+ser aplicado — então `GET /` (a URL que qualquer visitante realmente usa)
+nunca batia com `/index.html` e continuava recebendo o `max-age=3600`
+default, sem passar pelo `no-cache`. Corrigido adicionando um segundo
+bloco idêntico com `source: "/"`.
 
 Não foi necessário configurar HSTS: o Firebase Hosting já envia
 `Strict-Transport-Security: max-age=31556926; includeSubDomains; preload`
