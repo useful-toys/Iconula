@@ -29,6 +29,30 @@ Pré-requisito: `gh auth status` autenticado com uma conta que seja membro
 gh api user/memberships/orgs/useful-toys
 ```
 
+## Segurança e análise do repositório
+
+Configuração de segurança ativa no repositório público (gratuita), em
+2026-09-07:
+
+| Recurso | Estado | Como foi habilitado |
+|---|---|---|
+| Secret scanning | `enabled` | `PATCH /repos/...` (primeira etapa) |
+| Secret scanning push protection | `enabled` | `PATCH /repos/...` (primeira etapa) |
+| Dependabot alerts | `enabled` | `PUT /repos/.../vulnerability-alerts` |
+| Dependabot security updates | `enabled` | `PUT /repos/.../automated-security-fixes` |
+| Secret scanning validity checks | `disabled` | **não habilitável** — requer GitHub Advanced Security (plano Team/Enterprise); PATCH retorna 200 mas o campo não muda |
+| Secret scanning non-provider patterns | `disabled` | **não habilitável** — idem, requer GitHub Advanced Security |
+
+O essencial (secret scanning + push protection) cobre o risco do
+`key.json` mencionado em [docs/gcloud.md](gcloud.md): push protection
+bloqueia o push de um segredo detectado, mesmo num commit acidental.
+
+Conferir o estado atual:
+
+```bash
+gh api repos/useful-toys/Iconula --jq .security_and_analysis
+```
+
 ## Secrets do repositório
 
 | Secret | Origem | Uso |
@@ -268,3 +292,5 @@ passar; o PR foi então mesclado (squash) e a branch de teste removida.
    (dispara o preview deploy)
 6. Aplicar a regra de proteção de branch referenciando o nome do job do
    workflow de PR, usando `gh api .../protection` com um payload JSON
+7. Habilitar os recursos de segurança gratuitos (ver seção "Segurança e
+   análise do repositório" acima)
