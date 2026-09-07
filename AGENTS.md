@@ -49,7 +49,7 @@ deliberadamente mínimo (sem router, sem gerenciador de estado global).
 | `docs/adr/` | Decisões de arquitetura (ADRs) — leia antes de propor mudanças estruturais. |
 | `docs/tdr/` | Decisões técnicas pontuais (TDRs). |
 | `docs/firebase.md` | Tudo o que foi configurado no Firebase (projeto, Hosting, login) — como reproduzir. |
-| `docs/gcloud.md` | Tudo o que foi configurado no Google Cloud (service account, IAM) — como reproduzir. |
+| `docs/gcloud.md` | Tudo o que foi configurado no Google Cloud (APIs habilitadas, service account, IAM) — como reproduzir. |
 | `docs/github.md` | Tudo o que foi configurado no GitHub (repo, secrets, workflows, branch protection) — como reproduzir. |
 | `docs/registrobr.md` | Configuração de DNS no registro.br para o domínio customizado (`iconula.danielferber.com.br`) — como reproduzir. |
 

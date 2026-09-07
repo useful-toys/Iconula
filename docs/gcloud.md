@@ -19,6 +19,18 @@ armazenada como secret), ver [docs/github.md](github.md).
 gcloud config set project iconula
 ```
 
+## APIs habilitadas
+
+| API | Motivo |
+|---|---|
+| `identitytoolkit.googleapis.com` (Identity Toolkit API) | Usada pelo Firebase Auth (login com Google — ver [ADR 0005](adr/0005-autenticacao-google-firebase-auth.md) e [docs/firebase.md](firebase.md#firebase-authentication)); também é a API por trás do Identity Platform Admin API, usada para automatizar authorized domains via `curl` + token do `gcloud` (mesmo padrão da Firebase Hosting REST API já usado para o domínio customizado). |
+
+Habilitada com:
+
+```bash
+gcloud services enable identitytoolkit.googleapis.com --project iconula
+```
+
 ## Service account para deploy via GitHub Actions
 
 O workflow de deploy (`.github/workflows/firebase-hosting-*.yml`, ver
@@ -100,6 +112,8 @@ gcloud iam service-accounts keys delete <KEY_ID> \
 ## Reproduzindo do zero (resumo)
 
 1. `gcloud config set project <project-id>` (mesmo ID do projeto Firebase)
-2. Criar a service account e conceder `roles/firebasehosting.admin` +
+2. `gcloud services enable identitytoolkit.googleapis.com --project <project-id>`
+   (necessário para o Firebase Auth — ver seção "APIs habilitadas")
+3. Criar a service account e conceder `roles/firebasehosting.admin` +
    `roles/firebase.viewer`
-3. Gerar a chave JSON, registrar como secret no GitHub, apagar o arquivo local
+4. Gerar a chave JSON, registrar como secret no GitHub, apagar o arquivo local
