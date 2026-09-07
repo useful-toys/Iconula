@@ -80,9 +80,13 @@ Adicionados em resposta a um review de segurança (ver
 `X-Content-Type-Options`, `Referrer-Policy`, `X-Frame-Options`,
 `Permissions-Policy`, `Cross-Origin-Opener-Policy`, aplicados a `**`
 (todas as rotas). O bloco também corrige `Cache-Control` — assets com
-hash (`/assets/**`) ficam com `max-age` de 1 ano e `immutable`;
-`/index.html` fica com `no-cache`, para que um deploy fique visível
-imediatamente aos visitantes.
+hash (`/assets/**`) ficam com `max-age` de 1 ano e `immutable`; `/` e
+`/index.html` ficam com `no-cache`, para que um deploy fique visível
+imediatamente aos visitantes. Precisa dos **dois** sources (`/` e
+`/index.html`): o casamento de `headers.source` acontece contra o path
+pedido antes do `rewrite` `**` → `/index.html` ser aplicado, então
+`GET /` (o que qualquer visitante realmente acessa) não bate com o source
+`/index.html` sozinho.
 
 A CSP restringe `img-src` a `'self' data:'` (sem CDN externo) desde que
 as bandeiras Twemoji passaram a ser vendorizadas em
