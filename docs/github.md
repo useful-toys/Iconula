@@ -66,20 +66,45 @@ e deploy em produção via `FirebaseExtended/action-hosting-deploy@v0`, com
 
 ### `firebase-hosting-pull-request.yml`
 
-Dispara em todo pull request. Faz build e um *preview deploy* (canal
+Dispara em todo pull request, mas só quando o PR **não** é de fork
+(`if: head.repo.full_name == github.repository`), para não expor os
+secrets de deploy a um fork. Faz build e um *preview deploy* (canal
 temporário, expira em ~7 dias), comentando a URL de preview automaticamente
 no PR. Roda no job chamado **`build_and_preview`** — esse nome é
 importante porque é o identificador usado na regra de proteção de branch
 abaixo.
 
-Ambos usam `actions/setup-node@v4` (Node 20) antes do build, e a versão
-`@v0` do `FirebaseExtended/action-hosting-deploy`.
+Ambos (`firebase-hosting-merge.yml` e `firebase-hosting-pull-request.yml`)
+usam `actions/setup-node@v4` (Node 20) antes do build, e a versão `@v0` do
+`FirebaseExtended/action-hosting-deploy`.
+
+### `ci.yml`
+
+Lint (`npm run lint`, oxlint) e testes (`npm test`, Vitest), rodando em
+todo PR (**inclusive de fork**, já que não usa secret nenhum) e em todo
+push na `main`. Ver [docs/tdr/0004](tdr/0004-ci-roda-lint-e-testes.md)
+para o motivo de ser um workflow separado do deploy, em vez de dois
+`run` a mais no `build_and_preview` — em resumo: cobrir PRs de fork e ter
+um status check com nome próprio (`ci`), distinto de uma falha de deploy.
+
+Roda no job chamado **`ci`** — assim como `build_and_preview`, esse nome
+precisa ser adicionado à lista de required status checks da branch `main`
+(ver seção abaixo) depois que o workflow rodar ao menos uma vez.
+
+Usa `actions/checkout` e `actions/setup-node` pinados por SHA de commit
+(comentário `# vX.Y.Z` ao lado indica a tag correspondente), em vez de
+`@v4` como os workflows de deploy — reduz a superfície de um ataque de
+supply-chain via tag re-apontada. Os workflows de deploy não foram
+alterados por esta decisão; considerar migrá-los também numa próxima
+revisão.
 
 ## Proteção da branch `main`
 
-Configurada para exigir que o workflow de preview deploy passe antes de
-permitir merge de qualquer PR (ver
-[docs/adr/0004](adr/0004-branch-protection-preview-required.md)).
+Configurada para exigir que o workflow de preview deploy (`build_and_preview`)
+passe antes de permitir merge de qualquer PR (ver
+[docs/adr/0004](adr/0004-branch-protection-preview-required.md)); depois
+estendida para exigir também o job de lint/testes (`ci`, ver
+[docs/tdr/0004](tdr/0004-ci-roda-lint-e-testes.md)).
 
 Como foi configurada (via API do GitHub, já que a UI e os flags do `gh api`
 não aceitam bem tipos booleanos/arrays diretamente — foi necessário um
@@ -90,7 +115,7 @@ cat > branch_protection.json <<'JSON'
 {
   "required_status_checks": {
     "strict": true,
-    "contexts": ["build_and_preview"]
+    "contexts": ["build_and_preview", "ci"]
   },
   "enforce_admins": false,
   "required_pull_request_reviews": null,
