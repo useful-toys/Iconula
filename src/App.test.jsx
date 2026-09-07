@@ -2,10 +2,46 @@
 
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import "@testing-library/jest-dom/vitest";
-import App from "./App";
 import { sortedTeams } from "./data/teams";
+
+const { authState, signOutMock } = vi.hoisted(() => ({
+  authState: { user: null },
+  signOutMock: vi.fn(),
+}));
+
+vi.mock("./lib/firebase", () => ({
+  firebase: {
+    auth: {
+      GoogleAuthProvider: { PROVIDER_ID: "google.com" },
+    },
+  },
+  auth: {
+    onAuthStateChanged: (callback) => {
+      callback(authState.user);
+      return () => {};
+    },
+    signOut: signOutMock,
+  },
+}));
+
+vi.mock("firebaseui", () => ({
+  auth: {
+    AuthUI: {
+      getInstance: () => ({ start: vi.fn(), reset: vi.fn() }),
+    },
+  },
+}));
+
+vi.mock("firebaseui/dist/firebaseui.css", () => ({}));
+
+import App from "./App";
+
+afterEach(() => {
+  authState.user = null;
+  signOutMock.mockClear();
+});
 
 describe("App", () => {
   it("mostra o primeiro time em ordem alfabética ao carregar", () => {
@@ -13,11 +49,11 @@ describe("App", () => {
     expect(screen.getByText(sortedTeams[0].name)).toBeInTheDocument();
   });
 
-  it("avança para o próximo time ao clicar no botão", async () => {
+  it("avança para o próximo time ao clicar no botão do time", async () => {
     const user = userEvent.setup();
     render(<App />);
 
-    await user.click(screen.getByRole("button"));
+    await user.click(screen.getByRole("button", { name: sortedTeams[0].name }));
 
     expect(screen.getByText(sortedTeams[1].name)).toBeInTheDocument();
   });
@@ -26,11 +62,31 @@ describe("App", () => {
     const user = userEvent.setup();
     render(<App />);
 
-    const button = screen.getByRole("button");
     for (let i = 0; i < sortedTeams.length; i++) {
-      await user.click(button);
+      await user.click(screen.getByRole("button", { name: sortedTeams[i % sortedTeams.length].name }));
     }
 
     expect(screen.getByText(sortedTeams[0].name)).toBeInTheDocument();
+  });
+
+  it("mostra o login quando não há usuário autenticado", () => {
+    render(<App />);
+    expect(document.querySelector(".app__auth")).toBeInTheDocument();
+  });
+
+  it("mostra o nome do usuário e permite sair quando autenticado", async () => {
+    const user = userEvent.setup();
+    authState.user = {
+      displayName: "Daniel Ferber",
+      photoURL: "https://lh3.googleusercontent.com/avatar.jpg",
+    };
+
+    render(<App />);
+
+    expect(screen.getByText("Daniel Ferber")).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Sair" }));
+
+    expect(signOutMock).toHaveBeenCalledTimes(1);
   });
 });

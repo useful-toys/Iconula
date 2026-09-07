@@ -45,6 +45,38 @@ gh secret set FIREBASE_SERVICE_ACCOUNT_ICONULA --repo useful-toys/Iconula < key.
 O `GITHUB_TOKEN` usado pelos workflows para comentar a URL de preview no
 PR é automático (gerado pelo GitHub por execução, não precisa ser criado).
 
+## Variáveis do repositório
+
+Diferente da tabela acima, estas **não são secretas** — são o config do
+Web App do Firebase (ver [docs/firebase.md](firebase.md#firebase-authentication)),
+enviado ao navegador de qualquer forma. Usar Actions **Variables** (não
+Secrets) evita alarme de secret-scanning e deixa o `gh variable list`
+mostrar o valor, útil para depurar builds.
+
+| Variável | Uso |
+|---|---|
+| `VITE_FIREBASE_API_KEY` | Config do Firebase Web App, injetado no build via `vars.*` |
+| `VITE_FIREBASE_AUTH_DOMAIN` | idem |
+| `VITE_FIREBASE_PROJECT_ID` | idem |
+| `VITE_FIREBASE_STORAGE_BUCKET` | idem |
+| `VITE_FIREBASE_MESSAGING_SENDER_ID` | idem |
+| `VITE_FIREBASE_APP_ID` | idem |
+
+Como foram criadas:
+
+```bash
+gh variable set VITE_FIREBASE_API_KEY --repo useful-toys/Iconula --body "<valor>"
+gh variable set VITE_FIREBASE_AUTH_DOMAIN --repo useful-toys/Iconula --body "iconula.firebaseapp.com"
+gh variable set VITE_FIREBASE_PROJECT_ID --repo useful-toys/Iconula --body "iconula"
+gh variable set VITE_FIREBASE_STORAGE_BUCKET --repo useful-toys/Iconula --body "<valor>"
+gh variable set VITE_FIREBASE_MESSAGING_SENDER_ID --repo useful-toys/Iconula --body "<valor>"
+gh variable set VITE_FIREBASE_APP_ID --repo useful-toys/Iconula --body "<valor>"
+```
+
+Referenciadas nos workflows de deploy (`firebase-hosting-merge.yml` e
+`firebase-hosting-pull-request.yml`) como `vars.VITE_FIREBASE_*`, num
+bloco `env:` antes do `npm run build`.
+
 > Nota: originalmente a intenção era deixar o comando
 > `firebase init hosting:github` criar esse secret automaticamente (ele
 > faz um fluxo OAuth com o GitHub e registra o secret sozinho). Na prática,

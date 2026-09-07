@@ -28,6 +28,9 @@ deliberadamente mínimo (sem router, sem gerenciador de estado global).
 - Testes: [Vitest](https://vitest.dev/) + [React Testing Library](https://testing-library.com/react)
 - Deploy: Firebase Hosting via GitHub Actions (repositório na organização
   GitHub `useful-toys`, projeto Firebase `iconula`)
+- Login: Firebase Auth, único provedor Google, UI via
+  [FirebaseUI](https://github.com/firebase/firebaseui-web) (ver
+  [docs/adr/0005](docs/adr/0005-autenticacao-google-firebase-auth.md))
 
 ## Onde fica cada coisa
 
@@ -35,9 +38,12 @@ deliberadamente mínimo (sem router, sem gerenciador de estado global).
 |---|---|
 | `src/data/teams.js` | Os 48 times (nome + emoji de bandeira), em ordem alfabética. Única fonte de dados dos times. |
 | `src/components/TeamButton.jsx` | Componente apresentacional do botão; converte o emoji em imagem via Twemoji. |
-| `src/App.jsx` | Estado do time atual (`useState`) e lógica de avanço com wrap-around. Exporta `sortedTeams` para uso em testes. |
+| `src/App.jsx` | Estado do time atual (`useState`) e lógica de avanço com wrap-around; estado do usuário autenticado (`useState` + `auth.onAuthStateChanged`), repassado por prop para `AuthStatus` — sem Context (ver [ADR 0005](docs/adr/0005-autenticacao-google-firebase-auth.md)). Exporta `sortedTeams` para uso em testes. |
 | `src/App.css` | Estilo do app (minimalista, responsivo, suporte a dark mode via `prefers-color-scheme`). |
-| `src/App.test.jsx` | Testes: estado inicial, avanço ao clicar, wrap-around. |
+| `src/App.test.jsx` | Testes: estado inicial, avanço ao clicar, wrap-around, estado de login/logout (mocka `src/lib/firebase.js`). |
+| `src/lib/firebase.js` | Inicializa o SDK do Firebase (API compat — ver ADR 0005) a partir das variáveis `VITE_FIREBASE_*`; exporta `auth` (`null` se a config estiver ausente/inválida — login fica indisponível, mas o resto do app funciona). |
+| `src/components/AuthStatus.jsx` | Mostra `LoginButton` (deslogado) ou nome/avatar/botão "Sair" (logado); puramente controlado por props. |
+| `src/components/LoginButton.jsx` | Monta o widget de login do FirebaseUI (só provedor Google). |
 | `firebase.json`, `.firebaserc` | Configuração do Firebase Hosting (aponta para `dist/`). |
 | `.github/workflows/` | Workflows de deploy (produção em merge na `main`, preview em PRs). |
 | `docs/adr/` | Decisões de arquitetura (ADRs) — leia antes de propor mudanças estruturais. |
@@ -97,6 +103,10 @@ npm run test     # roda a suíte de testes (Vitest)
 npm run build    # build de produção em dist/
 npm run preview  # serve o build de produção localmente
 ```
+
+`npm run dev` funciona sem nenhuma credencial — sem um `.env.local` com as
+variáveis `VITE_FIREBASE_*` (ver [docs/firebase.md](docs/firebase.md#firebase-authentication)),
+o app roda normalmente, só a área de login não aparece.
 
 ## Como funciona o deploy
 
