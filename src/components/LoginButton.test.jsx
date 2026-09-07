@@ -43,10 +43,11 @@ describe("LoginButton", () => {
     expect(startMock).toHaveBeenCalledWith(
       container.firstChild,
       expect.objectContaining({
-        // Redirect, não popup: signInWithPopup do Firebase Auth carrega
-        // apis.google.com internamente, incompatível com a CSP (ver
-        // TDR 0005).
-        signInFlow: "redirect",
+        // Popup, não redirect: com `authDomain` numa origem diferente
+        // da do app, o particionamento de storage de terceiros do
+        // navegador impede o redirect de entregar o resultado do login
+        // (ver TDR 0005 e o comentário em LoginButton.jsx).
+        signInFlow: "popup",
         credentialHelper: "none",
       }),
     );

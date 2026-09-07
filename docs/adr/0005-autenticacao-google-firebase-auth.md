@@ -57,15 +57,23 @@ agora captura esse erro e exporta `auth: null` nesse caso; `App.jsx` trata
   `AuthContext` nesse momento — não antes.
 - A CSP do `firebase.json` precisa de exceções para o Firebase Auth/OAuth
   do Google funcionarem — ver [TDR 0005](../tdr/0005-csp-firebase-auth-google-oauth.md).
-- **`signInFlow: "redirect"`, não `"popup"`** — testando o preview deploy
-  real (não `npm run dev`, que não aplica CSP), `signInWithPopup` do
-  Firebase Auth se mostrou incompatível com a CSP estrita sem confiar num
-  script de terceiro não versionado por nós (`apis.google.com`/gapi, ver
-  TDR 0005). Redirect evita isso por completo e é o fluxo recomendado
-  pelo Firebase pra web mobile, onde popup é historicamente pouco
-  confiável. Trade-off aceito: sem router/estado persistente hoje, a
-  volta do redirect recarrega o app do zero — não há nada a perder no
-  momento (ver "Gatilho de revisão futura" abaixo).
+- **`signInFlow: "popup"`, não `"redirect"`** — `"redirect"` foi
+  tentado (commit 2ad7ff4) e **não funciona neste projeto**, por um
+  motivo estrutural, não de implementação: o app roda em
+  `iconula.web.app` / `iconula.danielferber.com.br` / canais de preview,
+  enquanto o `authDomain` é `iconula.firebaseapp.com` — origem
+  diferente. O `signInWithRedirect` depende de o SDK reler, por um
+  iframe de terceiro, o resultado que o handler gravou como página de
+  topo; o particionamento de storage de terceiros dos navegadores
+  (Chrome ≥115, Safari/ITP, Firefox) dá a esse iframe um bucket
+  diferente, e o resultado nunca chega. Sintoma: o login no Google
+  completa, o app volta e nada acontece — sem erro e sem violação de
+  CSP. Popup é imune (a janela é top-level em `firebaseapp.com` e fala
+  direto com o opener). Ver TDR 0005 pro diagnóstico completo.
+- Custo aceito do popup: `Cross-Origin-Opener-Policy` relaxada de
+  `same-origin` para `same-origin-allow-popups`. A exceção de CSP pro
+  gapi (`apis.google.com`) **não** é custo do popup — o `@firebase/auth`
+  a exige nos dois fluxos, ver TDR 0005.
 
 ## Consequências
 
@@ -87,35 +95,45 @@ agora captura esse erro e exporta `auth: null` nesse caso; `App.jsx` trata
   esquecido — reavaliar se o Firebase lançar uma correção upstream, ou se
   o escopo crescer para incluir Firestore/Functions/Storage (aí sim
   passaria a valer a pena investigar mais a fundo).
-- `Cross-Origin-Opener-Policy` continua estrita (`same-origin`, sem
-  relaxar) — consequência de ter escolhido redirect em vez de popup (ver
-  TDR 0005).
+- `Cross-Origin-Opener-Policy` fica em `same-origin-allow-popups` em vez
+  de `same-origin` estrito — consequência direta do fluxo de popup (ver
+  TDR 0005). É um relaxamento pontual: o isolamento continua valendo
+  contra qualquer origem que não seja um popup aberto pela própria
+  página.
+- Sem estado preservado através do login (o popup não recarrega o app,
+  então na prática isso hoje é um não-problema — ao contrário do que
+  aconteceria com redirect).
 
 ## Gatilho de revisão futura
 
-Esta decisão (FirebaseUI + `signInFlow: "redirect"`) é adequada pro
-escopo atual (app sem router, sem estado a preservar através do login),
-mas **não é definitiva**. Se o app crescer a ponto de ter estado que
-valha a pena preservar durante o login (rota profunda, formulário em
-andamento, carrinho) — reavaliar então, nesta ordem de preferência:
+Esta decisão (FirebaseUI + `signInFlow: "popup"`) é adequada pro escopo
+atual, mas **não é definitiva**. Dois gatilhos distintos, cada um com um
+caminho próprio:
 
-1. **Redirect + persistência explícita de estado**: salvar o que importa
-   em `sessionStorage` antes de `signInWithRedirect`, restaurar depois de
-   processar o resultado. Mantém a CSP como está, mais barato de
-   implementar que a opção 2.
-2. **Google Identity Services (GIS)** direto (`accounts.google.com/gsi/client`),
-   não `signInWithPopup` do Firebase: a UI roda isolada num iframe do
-   próprio Google (não injeta estilo/script na nossa página), então dá
-   popup de verdade sem reabrir a CSP pro gapi. Mais implementação
-   (abandona o widget pronto do FirebaseUI para o provedor Google
-   especificamente, troca a credencial resultante via
-   `signInWithCredential`), mas é o caminho certo se popup virar
-   requisito de produto.
-3. **Popup nativo do Firebase + CSP relaxada** (`apis.google.com` em
-   `script-src`/`frame-src`, `'unsafe-hashes'` pro conteúdo inline dele):
-   avaliado e descartado nesta rodada (ver TDR 0005) — evitar a menos que
-   as opções 1 e 2 se mostrem inviáveis, já que depende de um script de
-   terceiro não versionado por nós.
+**Se popup virar problema de UX** (navegador mobile bloqueando, ou
+aparecer estado a preservar durante o login — rota profunda, formulário
+em andamento): a única forma de fazer redirect funcionar é **`authDomain`
+na mesma origem do app**. O Firebase Hosting já serve `/__/auth/handler`
+e `/__/auth/iframe` em todos os hosts do projeto (`iconula.web.app`,
+`iconula.danielferber.com.br` e canais de preview — verificado), então
+basta apontar `VITE_FIREBASE_AUTH_DOMAIN` pro host do app. **Custo**: o
+`redirect_uri` passa a ser `https://<host>/__/auth/handler`, e cada host
+precisa ser registrado à mão nos *Authorized redirect URIs* do OAuth
+client no Google Cloud Console — senão o Google devolve
+`redirect_uri_mismatch`. Para um domínio de produção fixo é um passo
+único; para os canais de preview efêmeros vira uma chatice por PR
+(somada à de Authorized domains que já existe). Por isso não foi feito
+agora.
+
+**Se o objetivo for fechar a exceção de CSP pro gapi** (`apis.google.com`
+em `script-src`/`frame-src` + `'unsafe-hashes'`, o único ponto onde
+dependemos de um script de terceiro não versionado por nós — ver TDR
+0005): migrar para **Google Identity Services (GIS)** direto
+(`accounts.google.com/gsi/client`), trocando a credencial resultante por
+`signInWithCredential`. A UI roda isolada num iframe do próprio Google,
+sem gapi, sem handler e sem iframe de reconciliação — imune tanto ao
+particionamento de storage quanto à questão do COOP. Custo: abandona o
+widget pronto do FirebaseUI para o provedor Google especificamente.
 
 ## Alternativas consideradas
 
