@@ -94,6 +94,35 @@ deliberadamente mínimo (sem router, sem gerenciador de estado global).
   estado real de cada ambiente; se notar alguma divergência, corrigir o
   documento junto com a mudança de código.
 
+## Ferramentas de automação disponíveis
+
+Para configurar Firebase, Google Cloud ou GitHub (ex.: os itens do
+parágrafo acima), preferir automatizar via CLI a pedir para o usuário
+fazer manualmente no console — estas ferramentas estão instaladas e
+autenticadas como `danielferber`/`danielferber@gmail.com` neste ambiente:
+
+- **`firebase`** — executável instalado localmente (não via `npx`).
+  Cobre Hosting, Firestore, criação/config de Web Apps
+  (`firebase apps:create`, `firebase apps:sdkconfig`), etc. Não tem
+  comando para habilitar provedores de login do Auth nem para authorized
+  domains — ver próximo item.
+- **`gcloud`** — Google Cloud SDK. Necessário para obter um token de
+  acesso (`gcloud auth print-access-token`) e chamar diretamente APIs do
+  Google/Firebase que o `firebase` CLI não cobre (ex.: Identity Platform
+  Admin API para provedores de login e authorized domains, Firebase
+  Hosting REST API para domínio customizado — ver
+  [docs/firebase.md](docs/firebase.md), seção "Domínio customizado", para
+  um exemplo desse padrão já usado neste repositório).
+- **`gh`** — GitHub CLI, para secrets/variables do repositório
+  (`gh secret set`, `gh variable set`), branch protection
+  (`gh api repos/.../protection`), etc. — ver [docs/github.md](docs/github.md).
+
+Qualquer configuração feita dessa forma continua sujeita à regra acima:
+refletir no `docs/*.md` correspondente na mesma alteração. Mudanças que
+afetam configuração pública/de conta (habilitar um provedor de login,
+alterar authorized domains, etc.) exigem confirmação explícita do usuário
+antes de executar, mesmo com a ferramenta disponível.
+
 ## Como rodar
 
 ```bash
