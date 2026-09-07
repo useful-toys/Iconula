@@ -28,9 +28,9 @@ deliberadamente mínimo (sem router, sem gerenciador de estado global).
 - Testes: [Vitest](https://vitest.dev/) + [React Testing Library](https://testing-library.com/react)
 - Deploy: Firebase Hosting via GitHub Actions (repositório na organização
   GitHub `useful-toys`, projeto Firebase `iconula`)
-- Login: Firebase Auth, único provedor Google, UI via
-  [FirebaseUI](https://github.com/firebase/firebaseui-web) (ver
-  [docs/adr/0005](docs/adr/0005-autenticacao-google-firebase-auth.md))
+- Login: Firebase Auth (SDK modular), único provedor Google, botão
+  próprio — sem FirebaseUI (ver
+  [docs/adr/0006](docs/adr/0006-login-google-sdk-modular.md))
 
 ## Onde fica cada coisa
 
@@ -38,12 +38,12 @@ deliberadamente mínimo (sem router, sem gerenciador de estado global).
 |---|---|
 | `src/data/teams.js` | Os 48 times (nome + emoji de bandeira), em ordem alfabética. Única fonte de dados dos times. |
 | `src/components/TeamButton.jsx` | Componente apresentacional do botão; converte o emoji em imagem via Twemoji. |
-| `src/App.jsx` | Estado do time atual (`useState`) e lógica de avanço com wrap-around; estado do usuário autenticado (`useState` + `auth.onAuthStateChanged`), repassado por prop para `AuthStatus` — sem Context (ver [ADR 0005](docs/adr/0005-autenticacao-google-firebase-auth.md)). Exporta `sortedTeams` para uso em testes. |
+| `src/App.jsx` | Estado do time atual (`useState`) e lógica de avanço com wrap-around; estado do usuário autenticado (`useState` + `onAuthStateChanged`), repassado por prop para `AuthStatus` — sem Context (ver [ADR 0006](docs/adr/0006-login-google-sdk-modular.md)). Exporta `sortedTeams` para uso em testes. |
 | `src/App.css` | Estilo do app (minimalista, responsivo, suporte a dark mode via `prefers-color-scheme`). |
 | `src/App.test.jsx` | Testes: estado inicial, avanço ao clicar, wrap-around, estado de login/logout (mocka `src/lib/firebase.js`). |
-| `src/lib/firebase.js` | Inicializa o SDK do Firebase (API compat — ver ADR 0005) a partir das variáveis `VITE_FIREBASE_*`; exporta `auth` (`null` se a config estiver ausente/inválida — login fica indisponível, mas o resto do app funciona). |
+| `src/lib/firebase.js` | Inicializa o SDK do Firebase (API modular — ver ADR 0006) a partir das variáveis `VITE_FIREBASE_*`; exporta `auth` (`null` se a config estiver incompleta — login fica indisponível, mas o resto do app funciona) e `signInWithGoogle()`. |
 | `src/components/AuthStatus.jsx` | Mostra `LoginButton` (deslogado) ou nome/avatar/botão "Sair" (logado); puramente controlado por props. |
-| `src/components/LoginButton.jsx` | Monta o widget de login do FirebaseUI (só provedor Google). |
+| `src/components/LoginButton.jsx` | Botão "Entrar com Google" (`signInWithPopup`), com mensagem de erro para falhas que não sejam o usuário fechar o popup. |
 | `firebase.json`, `.firebaserc` | Configuração do Firebase Hosting (aponta para `dist/`). |
 | `.github/workflows/` | Workflows de deploy (produção em merge na `main`, preview em PRs). |
 | `docs/adr/` | Decisões de arquitetura (ADRs) — leia antes de propor mudanças estruturais. |

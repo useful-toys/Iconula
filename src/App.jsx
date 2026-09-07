@@ -1,6 +1,7 @@
 // Copyright (c) 2026 Daniel Felix Ferber
 
 import { useEffect, useState } from "react";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 import { sortedTeams } from "./data/teams";
 import TeamButton from "./components/TeamButton";
 import AuthStatus from "./components/AuthStatus";
@@ -13,7 +14,7 @@ export default function App() {
 
   useEffect(() => {
     if (!auth) return;
-    return auth.onAuthStateChanged(setUser);
+    return onAuthStateChanged(auth, setUser);
   }, []);
 
   function handleNext() {
@@ -24,7 +25,7 @@ export default function App() {
     <main className="app">
       {auth && (
         <div className="app__auth">
-          <AuthStatus user={user} onSignOut={() => auth.signOut()} />
+          <AuthStatus user={user} onSignOut={() => signOut(auth)} />
         </div>
       )}
       <TeamButton team={sortedTeams[index]} onClick={handleNext} />

@@ -32,3 +32,6 @@ dist-ssr
 
 # Relatórios de revisão/auditoria (locais, não versionados)
 .findings/
+
+# Worktrees do Claude Code (checkouts locais de outras branches)
+.claude/worktrees/

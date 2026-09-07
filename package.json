@@ -15,8 +15,7 @@
   },
   "dependencies": {
     "@twemoji/api": "^17.0.3",
-    "firebase": "^10.14.1",
-    "firebaseui": "^6.1.0",
+    "firebase": "^12.18.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"
   },

@@ -119,8 +119,9 @@ firebase deploy --only hosting
 ## Firebase Authentication
 
 Configurado para login com **Google** (único provedor — ver
+[ADR 0006](adr/0006-login-google-sdk-modular.md), que substitui o
 [ADR 0005](adr/0005-autenticacao-google-firebase-auth.md)), usado pelo
-componente `LoginButton.jsx` (widget FirebaseUI) em conjunto com
+componente `LoginButton.jsx` (botão próprio, SDK modular) em conjunto com
 `src/lib/firebase.js`.
 
 ### Como foi habilitado

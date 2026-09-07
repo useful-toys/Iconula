@@ -1,56 +1,53 @@
 // Copyright (c) 2026 Daniel Felix Ferber
 
-import { useEffect, useRef } from "react";
-import * as firebaseui from "firebaseui";
-import "firebaseui/dist/firebaseui.css";
-import { firebase, auth } from "../lib/firebase";
+import { useState } from "react";
+import { signInWithGoogle } from "../lib/firebase";
+import googleLogo from "../assets/google-logo.svg";
 
-const uiConfig = {
-  // Popup, não redirect. `signInFlow: "redirect"` foi tentado e **não
-  // funciona neste projeto**: o app roda em `iconula.web.app` /
-  // `iconula.danielferber.com.br` / canais de preview, mas o
-  // `authDomain` é `iconula.firebaseapp.com` — origem diferente. No
-  // redirect, o handler grava o resultado do OAuth no storage de
-  // `firebaseapp.com` como página de topo e, na volta, o SDK tenta lê-lo
-  // pelo iframe oculto da mesma origem — que agora é third-party e
-  // recebe um bucket de storage particionado pelo navegador. O evento
-  // nunca chega, `onAuthStateChanged` nunca dispara, e o widget só
-  // re-renderiza. Sem erro, sem violação de CSP. Ver TDR 0005.
-  //
-  // Popup é imune a isso (a janela do popup é top-level em
-  // `firebaseapp.com`, fala direto com o opener) — ao custo de
-  // `Cross-Origin-Opener-Policy: same-origin-allow-popups` no
-  // `firebase.json`.
-  signInFlow: "popup",
-  signInOptions: [firebase.auth.GoogleAuthProvider.PROVIDER_ID],
-  // Desliga o "Smart Lock"/credential helper do Google — não usamos
-  // sugestão de conta salva. Não elimina o gapi: o próprio
-  // @firebase/auth (popup ou redirect, independente do FirebaseUI) usa
-  // um iframe oculto + gapi.iframes pra reconciliar o resultado do login
-  // com <authDomain>/__/auth/iframe — confirmado direto no bundle da
-  // lib. CSP em firebase.json abre exceção pontual pra isso (ver
-  // TDR 0005); sem essa exceção o login falha com auth/internal-error.
-  credentialHelper: firebaseui.auth.CredentialHelper.NONE,
-  callbacks: {
-    // App.jsx já reage à mudança via onAuthStateChanged; sem redirect
-    // próprio do FirebaseUI.
-    signInSuccessWithAuthResult: () => false,
-  },
-};
-
+// Botão próprio, com o SDK modular — o widget do FirebaseUI foi removido
+// (ver ADR 0005). Para um único provedor e um único botão, o widget
+// custava mais do que entregava: prendia o projeto no `firebase` 10.x,
+// exigia handlers/estilos inline na CSP e importava Google Fonts.
+//
+// O fluxo continua sendo popup (`signInWithPopup`), não redirect, pelo
+// mesmo motivo estrutural de antes: o `authDomain`
+// (`iconula.firebaseapp.com`) é origem diferente da do app, e o
+// particionamento de storage de terceiros impede o redirect de entregar
+// o resultado — ver TDR 0005.
 export default function LoginButton() {
-  const containerRef = useRef(null);
+  const [error, setError] = useState(null);
 
-  useEffect(() => {
-    // AuthUI é um singleton: o StrictMode do React invoca efeitos duas
-    // vezes em dev, e `new firebaseui.auth.AuthUI(auth)` lança erro se já
-    // existe uma instância — por isso reusar via getInstance(). No
-    // cleanup, `reset()` (não `delete()`) para não destruir o singleton
-    // entre montagens do StrictMode.
-    const ui = firebaseui.auth.AuthUI.getInstance() ?? new firebaseui.auth.AuthUI(auth);
-    ui.start(containerRef.current, uiConfig);
-    return () => ui.reset();
-  }, []);
+  async function handleSignIn() {
+    setError(null);
+    try {
+      await signInWithGoogle();
+    } catch (cause) {
+      // Fechar o popup é uma ação deliberada do usuário, não um erro a
+      // reportar. O resto (rede fora, domínio não autorizado, popup
+      // bloqueado) merece feedback visível — antes isso ficava só no
+      // console, escondido dentro do widget.
+      if (
+        cause.code === "auth/popup-closed-by-user" ||
+        cause.code === "auth/cancelled-popup-request"
+      ) {
+        return;
+      }
+      console.error("Falha no login com Google", cause);
+      setError("Não foi possível entrar. Tente novamente.");
+    }
+  }
 
-  return <div ref={containerRef} />;
+  return (
+    <div className="login">
+      <button className="login__button" onClick={handleSignIn}>
+        <img className="login__logo" src={googleLogo} alt="" aria-hidden="true" />
+        Entrar com Google
+      </button>
+      {error && (
+        <p className="login__error" role="alert">
+          {error}
+        </p>
+      )}
+    </div>
+  );
 }

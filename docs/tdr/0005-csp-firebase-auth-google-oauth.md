@@ -4,7 +4,40 @@
 
 ## Status
 
-Aceito
+Aceito — **atualizado** pela remoção do FirebaseUI
+([ADR 0006](../adr/0006-login-google-sdk-modular.md)).
+
+As concessões que existiam **por causa do widget** foram removidas da CSP:
+`style-src https://fonts.googleapis.com`, `font-src https://fonts.gstatic.com`,
+`img-src https://www.gstatic.com` e o `style-src-attr 'unsafe-hashes'`
+(`'sha256-O9Chn…'`). O `style-src-attr` passou a `'none'`.
+
+**As concessões do gapi permanecem**, e este documento é a razão pela qual
+elas não foram removidas junto por engano: a análise da "Tentativa 1"
+abaixo já havia estabelecido, indo ao bundle publicado, que
+`https://apis.google.com` e os dois hashes de `script-src` /
+`script-src-attr` são exigidos pelo `@firebase/auth` — **modular ou
+compat, popup ou redirect** —, não pelo FirebaseUI. Trocar o widget não
+os elimina; só o Google Identity Services eliminaria.
+
+A política em vigor após essa limpeza:
+
+```
+default-src 'self';
+script-src 'self' https://apis.google.com 'sha256-ieoeWczDHkReVBsRBqaal5AFMlBtNjMzgwKvLqi/tSU=';
+script-src-attr 'unsafe-hashes' 'sha256-2rvfFrggTCtyF5WOiTri1gDS8Boibj4Njn0e+VCBmDI=';
+style-src 'self'; style-src-attr 'none';
+img-src 'self' data: https://lh3.googleusercontent.com;
+font-src 'self';
+connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com;
+frame-src 'self' https://iconula.firebaseapp.com https://apis.google.com;
+object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none';
+upgrade-insecure-requests
+```
+
+O texto abaixo é o registro original do diagnóstico, mantido porque as
+descobertas continuam válidas. Onde ele descreve entradas de CSP
+específicas do FirebaseUI, leia como histórico.
 
 ## Contexto
 
