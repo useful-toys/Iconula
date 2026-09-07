@@ -46,6 +46,11 @@ jobs:
     if: ${{ github.event.action == 'closed' && github.event.pull_request.head.repo.full_name == github.repository }}
     runs-on: ubuntu-latest
     steps:
+      # O checkout é obrigatório: `firebase hosting:channel:delete` exige
+      # rodar dentro de um diretório com `firebase.json` (senão falha com
+      # "Not in a Firebase app directory"). Sem este passo o job falhava
+      # em todo PR fechado, e os canais de preview nunca eram apagados.
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
       - env:
           FIREBASE_SERVICE_ACCOUNT_ICONULA: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_ICONULA }}
         run: |
