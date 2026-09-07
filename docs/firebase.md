@@ -134,29 +134,31 @@ firebase apps:sdkconfig WEB <appId> --project iconula
 
 App ID: `1:192114864110:web:9c4687b6a320f65b44a8ff`.
 
-**Provedor Google e Authorized domains (pendente — precisa do console)**:
-tentei automatizar via Identity Platform Admin API
+**Provedor Google (concluído — passo manual no console)**: tentei
+automatizar via Identity Platform Admin API
 (`identitytoolkit.googleapis.com/admin/v2/.../defaultSupportedIdpConfigs/google.com`),
-mas o projeto nunca teve Authentication inicializado (todos os endpoints
-de config retornam `404 CONFIGURATION_NOT_FOUND`), e criar o provedor
-Google via API exige um `client_id`/`client_secret` OAuth já existente —
-esse client (`Web client (auto created by Google Service)`) só é
-provisionado automaticamente pelo próprio fluxo do console ao clicar em
-"Habilitar"; não há API pública para criar esse tipo de credencial OAuth.
-Passo manual único necessário:
+mas o projeto nunca tinha tido Authentication inicializado (todos os
+endpoints de config retornavam `404 CONFIGURATION_NOT_FOUND` antes deste
+passo), e criar o provedor Google via API exige um `client_id`/
+`client_secret` OAuth já existente — esse client
+(`Web client (auto created by Google Service)`) só é provisionado
+automaticamente pelo próprio fluxo do console ao clicar em "Habilitar";
+não há API pública para criar esse tipo de credencial OAuth. Habilitado
+manualmente em
+[Authentication → Sign-in method](https://console.firebase.google.com/project/iconula/authentication/providers)
+→ provedor **Google** (e-mail de suporte do projeto selecionado).
 
-1. [Console do Firebase](https://console.firebase.google.com/project/iconula/authentication/providers)
-   → **Authentication → Sign-in method** → habilitar o provedor
-   **Google** (escolher o e-mail de suporte do projeto quando pedido).
-2. **Authentication → Settings → Authorized domains** → confirmar que
-   `iconula.firebaseapp.com`, `iconula.web.app` e `localhost` já estão
-   presentes (vêm por padrão) e **adicionar manualmente**
-   `iconula.danielferber.com.br` (o domínio customizado não é adicionado
-   automaticamente ao conectar o Hosting). Alternativamente, depois do
-   passo 1, isso também pode ser feito via API
-   (`PATCH .../admin/v2/projects/iconula/config?updateMask=authorizedDomains`),
-   já que a primeira chamada de habilitação do provedor inicializa o
-   recurso `config` do projeto.
+**Authorized domains (concluído)**: depois do passo acima (que
+inicializa o recurso `config` do projeto), `iconula.danielferber.com.br`
+foi adicionado via API (`iconula.firebaseapp.com`, `iconula.web.app` e
+`localhost` já vêm por padrão):
+
+```bash
+TOKEN=$(gcloud auth print-access-token)
+curl -X PATCH "https://identitytoolkit.googleapis.com/admin/v2/projects/iconula/config?updateMask=authorizedDomains" \
+  -H "Authorization: Bearer $TOKEN" -H "X-Goog-User-Project: iconula" -H "Content-Type: application/json" \
+  -d '{"authorizedDomains": ["localhost","iconula.firebaseapp.com","iconula.web.app","iconula.danielferber.com.br"]}'
+```
 
 ### Variáveis de ambiente
 
