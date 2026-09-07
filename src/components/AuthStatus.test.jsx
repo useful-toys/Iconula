@@ -5,7 +5,7 @@ import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 import "@testing-library/jest-dom/vitest";
 
-// AuthStatus é testado isolado do Firebase/FirebaseUI: LoginButton (o
+// AuthStatus é testado isolado do Firebase: LoginButton (o
 // único componente que toca o SDK) é substituído por um stub.
 vi.mock("./LoginButton", () => ({
   default: () => <div data-testid="login-button" />,

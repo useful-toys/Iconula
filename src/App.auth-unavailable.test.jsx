@@ -5,17 +5,18 @@ import { describe, expect, it, vi } from "vitest";
 import "@testing-library/jest-dom/vitest";
 import { sortedTeams } from "./data/teams";
 
-// Cobre o caso de VITE_FIREBASE_* ausentes/inválidas (ex.: .env.local não
-// configurado): src/lib/firebase.js captura o erro síncrono de
-// `firebase.auth()` e exporta `auth: null` — App.jsx deve renderizar
-// normalmente sem a área de login, em vez de travar (ver ADR 0005).
+// Cobre o caso de VITE_FIREBASE_* ausentes (ex.: .env.local não
+// configurado): src/lib/firebase.js detecta a config incompleta e exporta
+// `auth: null` — App.jsx deve renderizar normalmente sem a área de login,
+// em vez de travar (ver ADR 0005).
+vi.mock("firebase/auth", () => ({
+  onAuthStateChanged: vi.fn(),
+  signOut: vi.fn(),
+}));
+
 vi.mock("./lib/firebase", () => ({
-  firebase: {
-    auth: {
-      GoogleAuthProvider: { PROVIDER_ID: "google.com" },
-    },
-  },
   auth: null,
+  signInWithGoogle: vi.fn(),
 }));
 
 import App from "./App";

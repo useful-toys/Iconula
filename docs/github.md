@@ -143,7 +143,7 @@ re-apontada por um mantenedor ou atacante para um commit arbitrário: cada
 execução usa exatamente o código revisado. O comentário da tag não é
 decorativo — além de documentar a versão, é o que o Dependabot (ecossistema
 `github-actions`, se for configurado num item futuro — ver
-[docs/tdr/0005](tdr/0005-pinning-actions-por-sha.md)) lê para saber qual
+[docs/tdr/0006](tdr/0006-pinning-actions-por-sha.md)) lê para saber qual
 versão está fixada e propor a atualização do SHA.
 
 | Action | SHA fixado | Tag |
@@ -168,7 +168,7 @@ A política de Actions do repositório (via
 `sha_pinning_required` obriga que toda ação referenciada nos workflows do
 repositório use um SHA de commit completo — um `@v4` solto volta a falhar
 no CI/status check, impedindo a regressão por descuido. Ver
-[docs/tdr/0005](tdr/0005-pinning-actions-por-sha.md).
+[docs/tdr/0006](tdr/0006-pinning-actions-por-sha.md).
 
 Como foi configurado:
 

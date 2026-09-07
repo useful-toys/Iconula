@@ -4,7 +4,15 @@
 
 ## Status
 
-Aceito
+**Substituído pelo [ADR 0006](0006-login-google-sdk-modular.md)** — o
+FirebaseUI foi removido e o projeto passou a usar a API modular do
+Firebase. O gatilho de revisão previsto aqui ("quando `firebaseui` 7
+sair GA") nunca poderia disparar: a v7 não existe, e a 6.1.0 travava o
+`firebase` na 10.x.
+
+O documento é mantido na íntegra por registrar o diagnóstico de
+popup vs. redirect e o levantamento de alternativas, que continuam
+válidos e são referenciados pelo ADR 0006.
 
 ## Contexto
 

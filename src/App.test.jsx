@@ -6,36 +6,27 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import "@testing-library/jest-dom/vitest";
 import { sortedTeams } from "./data/teams";
 
-const { authState, signOutMock } = vi.hoisted(() => ({
+const { authState, signOutMock, signInWithGoogleMock } = vi.hoisted(() => ({
   authState: { user: null },
   signOutMock: vi.fn(),
+  signInWithGoogleMock: vi.fn(),
+}));
+
+// API modular: `onAuthStateChanged`/`signOut` são funções importadas de
+// "firebase/auth" e recebem `auth` como primeiro argumento — não são mais
+// métodos da instância (ver ADR 0005).
+vi.mock("firebase/auth", () => ({
+  onAuthStateChanged: (_auth, callback) => {
+    callback(authState.user);
+    return () => {};
+  },
+  signOut: signOutMock,
 }));
 
 vi.mock("./lib/firebase", () => ({
-  firebase: {
-    auth: {
-      GoogleAuthProvider: { PROVIDER_ID: "google.com" },
-    },
-  },
-  auth: {
-    onAuthStateChanged: (callback) => {
-      callback(authState.user);
-      return () => {};
-    },
-    signOut: signOutMock,
-  },
+  auth: {},
+  signInWithGoogle: signInWithGoogleMock,
 }));
-
-vi.mock("firebaseui", () => ({
-  auth: {
-    AuthUI: {
-      getInstance: () => ({ start: vi.fn(), reset: vi.fn() }),
-    },
-    CredentialHelper: { NONE: "none" },
-  },
-}));
-
-vi.mock("firebaseui/dist/firebaseui.css", () => ({}));
 
 import App from "./App";
 

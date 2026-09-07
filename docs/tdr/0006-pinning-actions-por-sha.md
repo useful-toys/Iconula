@@ -1,6 +1,6 @@
 <!-- Copyright (c) 2026 Daniel Felix Ferber -->
 
-# TDR 0005: Actions de GitHub referenciadas por SHA de commit
+# TDR 0006: Actions de GitHub referenciadas por SHA de commit
 
 ## Status
 

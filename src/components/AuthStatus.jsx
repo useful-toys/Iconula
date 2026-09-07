@@ -4,7 +4,7 @@ import LoginButton from "./LoginButton";
 
 // Componente puramente controlado por props, sem import direto do
 // Firebase — mantém os testes simples (ver AuthStatus.test.jsx) e deixa
-// LoginButton.jsx isolado como o único ponto que toca o SDK/FirebaseUI.
+// LoginButton.jsx isolado como o único ponto que toca o SDK do Firebase.
 export default function AuthStatus({ user, onSignOut }) {
   if (!user) {
     return <LoginButton />;

@@ -1,55 +1,60 @@
 // Copyright (c) 2026 Daniel Felix Ferber
 
-import { render } from "@testing-library/react";
-import { describe, expect, it, vi } from "vitest";
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import "@testing-library/jest-dom/vitest";
 
-const { startMock, resetMock } = vi.hoisted(() => ({
-  startMock: vi.fn(),
-  resetMock: vi.fn(),
+const { signInWithGoogleMock } = vi.hoisted(() => ({
+  signInWithGoogleMock: vi.fn(),
 }));
 
-vi.mock("firebaseui", () => {
-  class AuthUI {
-    constructor() {
-      return { start: startMock, reset: resetMock };
-    }
-    static getInstance() {
-      return null;
-    }
-  }
-  return { auth: { AuthUI, CredentialHelper: { NONE: "none" } } };
-});
-
-vi.mock("firebaseui/dist/firebaseui.css", () => ({}));
-
 vi.mock("../lib/firebase", () => ({
-  firebase: {
-    auth: {
-      GoogleAuthProvider: { PROVIDER_ID: "google.com" },
-    },
-  },
   auth: {},
+  signInWithGoogle: signInWithGoogleMock,
 }));
 
 import LoginButton from "./LoginButton";
 
-describe("LoginButton", () => {
-  it("monta o widget do FirebaseUI no container", () => {
-    const { container } = render(<LoginButton />);
+beforeEach(() => {
+  signInWithGoogleMock.mockReset();
+  vi.spyOn(console, "error").mockImplementation(() => {});
+});
 
-    expect(container.firstChild).toBeInTheDocument();
-    expect(startMock).toHaveBeenCalledTimes(1);
-    expect(startMock).toHaveBeenCalledWith(
-      container.firstChild,
-      expect.objectContaining({
-        // Popup, não redirect: com `authDomain` numa origem diferente
-        // da do app, o particionamento de storage de terceiros do
-        // navegador impede o redirect de entregar o resultado do login
-        // (ver TDR 0005 e o comentário em LoginButton.jsx).
-        signInFlow: "popup",
-        credentialHelper: "none",
-      }),
+afterEach(() => {
+  vi.restoreAllMocks();
+});
+
+describe("LoginButton", () => {
+  it("dispara o login com Google ao clicar", async () => {
+    const user = userEvent.setup();
+    signInWithGoogleMock.mockResolvedValue({});
+
+    render(<LoginButton />);
+    await user.click(screen.getByRole("button", { name: /entrar com google/i }));
+
+    expect(signInWithGoogleMock).toHaveBeenCalledTimes(1);
+  });
+
+  it("mostra mensagem quando o login falha", async () => {
+    const user = userEvent.setup();
+    signInWithGoogleMock.mockRejectedValue({ code: "auth/network-request-failed" });
+
+    render(<LoginButton />);
+    await user.click(screen.getByRole("button", { name: /entrar com google/i }));
+
+    expect(await screen.findByRole("alert")).toHaveTextContent(
+      "Não foi possível entrar",
     );
+  });
+
+  it("não mostra erro quando o usuário fecha o popup", async () => {
+    const user = userEvent.setup();
+    signInWithGoogleMock.mockRejectedValue({ code: "auth/popup-closed-by-user" });
+
+    render(<LoginButton />);
+    await user.click(screen.getByRole("button", { name: /entrar com google/i }));
+
+    expect(screen.queryByRole("alert")).not.toBeInTheDocument();
   });
 });

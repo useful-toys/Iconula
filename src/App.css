@@ -16,6 +16,54 @@
   justify-content: center;
 }
 
+/* Botão de login próprio, no lugar do widget do FirebaseUI (ADR 0006).
+   Segue as diretrizes de marca do Google para "Entrar com Google": logo
+   "G" oficial à esquerda, fundo branco, texto escuro. */
+.login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.login__button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 1.25rem;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #1f1f1f;
+  background: #ffffff;
+  border: 1px solid #dadce0;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.08s ease, box-shadow 0.08s ease;
+}
+
+.login__button:hover {
+  background: #f7f8f8;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.16);
+}
+
+.login__button:focus-visible {
+  outline: 2px solid #4285f4;
+  outline-offset: 2px;
+}
+
+.login__logo {
+  width: 1.125rem;
+  height: 1.125rem;
+}
+
+.login__error {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 0.8rem;
+  color: #b3261e;
+}
+
 .auth-status {
   display: flex;
   align-items: center;
@@ -97,5 +145,10 @@
   }
   .auth-status {
     color: #f5f5f5;
+  }
+  /* O botão do Google mantém fundo claro no tema escuro: as diretrizes de
+     marca não permitem recolorir o logo nem o fundo livremente. */
+  .login__error {
+    color: #f2b8b5;
   }
 }
