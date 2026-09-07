@@ -43,10 +43,10 @@ describe("LoginButton", () => {
     expect(startMock).toHaveBeenCalledWith(
       container.firstChild,
       expect.objectContaining({
-        signInFlow: "popup",
-        // Sem isso, o FirebaseUI carrega apis.google.com/js/api.js e
-        // injeta estilo/handler inline no DOM, incompatível com a CSP
-        // (ver TDR 0005).
+        // Redirect, não popup: signInWithPopup do Firebase Auth carrega
+        // apis.google.com internamente, incompatível com a CSP (ver
+        // TDR 0005).
+        signInFlow: "redirect",
         credentialHelper: "none",
       }),
     );
