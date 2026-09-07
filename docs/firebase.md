@@ -181,6 +181,20 @@ Ver [`.env.example`](../.env.example) — cada dev copia para `.env.local`
 variáveis já foram configuradas como **GitHub Actions Variables** (não
 Secrets — ver [docs/github.md](github.md)), via `gh variable set`.
 
+### `authDomain` e o fluxo de login (armadilha conhecida)
+
+O `authDomain` (`iconula.firebaseapp.com`) **não é a mesma origem** de
+onde o app é servido (`iconula.web.app`, `iconula.danielferber.com.br`,
+ou o canal de preview do PR). Isso torna `signInFlow: "redirect"`
+inviável: o resultado do login fica preso no storage particionado de
+`firebaseapp.com` e o app nunca o enxerga — login "funciona" no Google e
+o app continua deslogado, sem erro nenhum. Por isso o projeto usa
+`signInFlow: "popup"`, que é imune a esse mecanismo. Diagnóstico
+completo em [docs/tdr/0005](tdr/0005-csp-firebase-auth-google-oauth.md);
+o que seria necessário para voltar ao redirect está no
+[ADR 0005](adr/0005-autenticacao-google-firebase-auth.md), seção
+"Gatilho de revisão futura".
+
 ### CSP e COOP
 
 O login com Google exigiu abrir exceções pontuais na CSP e relaxar o
