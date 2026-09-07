@@ -28,6 +28,63 @@ esse workflow passar.
   de conseguir selecioná-lo como check obrigatório na configuração da
   regra (limitação da interface do GitHub).
 
+## Atualização (2026-09-07): a garantia original era menor do que o texto sugeria
+
+O texto acima descreve a garantia como maior do que ela era. A regra
+original barrava **merges de PR**, mas não o caminho que realmente leva a
+produção: com `enforce_admins: false` e um único administrador, um
+`git push origin main` publicava no domínio de produção sem passar por PR,
+sem check e sem revisão. Um controle com um contorno trivial e não
+registrado não é um controle — é uma convenção. Isso foi levantado no item
+4 de `.findings/2026-09-07-opus.md`.
+
+A regra foi então substituída por uma que exige PR **e** vale para o admin.
+O truque, num repositório de um desenvolvedor só, é exigir pull request com
+**zero** aprovações necessárias: força o fluxo de PR (e portanto os checks)
+sem exigir um revisor que não existe.
+
+Estado em vigor, verificado contra a API:
+
+| Campo | Valor |
+|---|---|
+| `required_status_checks.contexts` | `["build_and_preview", "ci"]` |
+| `required_status_checks.strict` | `true` |
+| `enforce_admins` | `true` |
+| `required_pull_request_reviews.required_approving_review_count` | `0` |
+| `required_pull_request_reviews.dismiss_stale_reviews` | `true` |
+| `required_linear_history` | `true` (combina com o squash merge em uso) |
+| `required_conversation_resolution` | `true` |
+| `allow_force_pushes` / `allow_deletions` | `false` |
+
+O comando exato está em [docs/github.md](../github.md). O check `ci` vem do
+[TDR 0004](../tdr/0004-ci-roda-lint-e-testes.md).
+
+### O que esta regra garante, literalmente
+
+Todo caminho até `main` — e portanto até o deploy de produção — passa por um
+PR com `build_and_preview` e `ci` verdes, sobre uma branch atualizada em
+relação à `main`. Isso vale para o dono do repositório também.
+
+### O que ela não garante
+
+- **Um admin pode desativar a proteção, empurrar o commit e reativá-la.**
+  Não há como eliminar isso sendo o dono o único owner. A diferença em
+  relação ao estado anterior é que agora essa ação é explícita e fica
+  registrada no audit log da organização, em vez de ser indistinguível de
+  trabalho normal.
+- **Commits não são assinados** (`required_signatures: false`). Nada prova
+  criptograficamente que um commit em `main` foi criado pelo dono; se um
+  token vazar, os commits do atacante são indistinguíveis dos legítimos.
+  Habilitar exige o endpoint próprio
+  (`/protection/required_signatures`, não aceito no payload de
+  `/protection`) e ter GPG/SSH signing configurado localmente antes — sob
+  pena de se trancar para fora do próprio repositório.
+
+### Custo aceito
+
+Qualquer alteração em `main` passa a exigir branch e PR, inclusive um typo
+no README. É o preço de fechar o contorno, e foi aceito explicitamente.
+
 ## Alternativas consideradas
 
 - **Sem required status check**: o workflow roda mas não bloqueia merge;

@@ -185,6 +185,14 @@ passe antes de permitir merge de qualquer PR (ver
 estendida para exigir também o job de lint/testes (`ci`, ver
 [docs/tdr/0004](tdr/0004-ci-roda-lint-e-testes.md)).
 
+Numa terceira etapa (2026-09-07) a regra foi endurecida para **também valer
+para administradores** e exigir PR. Até então, `enforce_admins: false` e
+`required_pull_request_reviews: null` deixavam um `git push origin main`
+publicar em produção sem passar por check nenhum — os checks só barravam o
+botão de merge do PR. Ver a
+[atualização no ADR 0004](adr/0004-branch-protection-preview-required.md),
+que descreve o que a regra garante e o que continua fora do alcance dela.
+
 Como foi configurada (via API do GitHub, já que a UI e os flags do `gh api`
 não aceitam bem tipos booleanos/arrays diretamente — foi necessário um
 payload JSON):
@@ -196,8 +204,16 @@ cat > branch_protection.json <<'JSON'
     "strict": true,
     "contexts": ["build_and_preview", "ci"]
   },
-  "enforce_admins": false,
-  "required_pull_request_reviews": null,
+  "enforce_admins": true,
+  "required_pull_request_reviews": {
+    "required_approving_review_count": 0,
+    "dismiss_stale_reviews": true,
+    "require_last_push_approval": false
+  },
+  "required_linear_history": true,
+  "required_conversation_resolution": true,
+  "allow_force_pushes": false,
+  "allow_deletions": false,
   "restrictions": null
 }
 JSON
@@ -207,6 +223,23 @@ gh api repos/useful-toys/Iconula/branches/main/protection \
   -H "Accept: application/vnd.github+json" \
   --input branch_protection.json
 ```
+
+Notas sobre esse payload:
+
+- `required_approving_review_count: 0` é o que torna a regra viável num
+  repositório de um desenvolvedor só: força o fluxo de PR (e portanto os
+  checks) sem exigir um revisor que não existe.
+- `required_linear_history: true` combina com o merge por squash já em uso.
+- `enforce_admins: true` significa que o dono também precisa de PR para
+  qualquer alteração em `main`, inclusive um typo no README.
+- `required_signatures` **não é aceito neste endpoint**, apesar de aparecer
+  no objeto de leitura. Para exigir commits assinados é preciso o endpoint
+  próprio — e ter GPG/SSH signing configurado localmente antes, senão você
+  se tranca para fora do próprio repositório:
+
+  ```bash
+  gh api -X POST repos/useful-toys/Iconula/branches/main/protection/required_signatures -H "Accept: application/vnd.github+json"
+  ```
 
 **Importante**: o nome do check (`build_and_preview`) só existe para o
 GitHub associar depois que o workflow rodou ao menos uma vez. Por isso a
