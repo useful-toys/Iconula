@@ -57,6 +57,15 @@ agora captura esse erro e exporta `auth: null` nesse caso; `App.jsx` trata
   `AuthContext` nesse momento — não antes.
 - A CSP do `firebase.json` precisa de exceções para o Firebase Auth/OAuth
   do Google funcionarem — ver [TDR 0005](../tdr/0005-csp-firebase-auth-google-oauth.md).
+- **`signInFlow: "redirect"`, não `"popup"`** — testando o preview deploy
+  real (não `npm run dev`, que não aplica CSP), `signInWithPopup` do
+  Firebase Auth se mostrou incompatível com a CSP estrita sem confiar num
+  script de terceiro não versionado por nós (`apis.google.com`/gapi, ver
+  TDR 0005). Redirect evita isso por completo e é o fluxo recomendado
+  pelo Firebase pra web mobile, onde popup é historicamente pouco
+  confiável. Trade-off aceito: sem router/estado persistente hoje, a
+  volta do redirect recarrega o app do zero — não há nada a perder no
+  momento (ver "Gatilho de revisão futura" abaixo).
 
 ## Consequências
 
@@ -78,10 +87,35 @@ agora captura esse erro e exporta `auth: null` nesse caso; `App.jsx` trata
   esquecido — reavaliar se o Firebase lançar uma correção upstream, ou se
   o escopo crescer para incluir Firestore/Functions/Storage (aí sim
   passaria a valer a pena investigar mais a fundo).
-- Login exige que o app rode com `Cross-Origin-Opener-Policy:
-  same-origin-allow-popups` (ver TDR 0005) — qualquer novo header/feature
-  de isolamento de origem introduzido depois precisa manter essa exceção
-  em mente.
+- `Cross-Origin-Opener-Policy` continua estrita (`same-origin`, sem
+  relaxar) — consequência de ter escolhido redirect em vez de popup (ver
+  TDR 0005).
+
+## Gatilho de revisão futura
+
+Esta decisão (FirebaseUI + `signInFlow: "redirect"`) é adequada pro
+escopo atual (app sem router, sem estado a preservar através do login),
+mas **não é definitiva**. Se o app crescer a ponto de ter estado que
+valha a pena preservar durante o login (rota profunda, formulário em
+andamento, carrinho) — reavaliar então, nesta ordem de preferência:
+
+1. **Redirect + persistência explícita de estado**: salvar o que importa
+   em `sessionStorage` antes de `signInWithRedirect`, restaurar depois de
+   processar o resultado. Mantém a CSP como está, mais barato de
+   implementar que a opção 2.
+2. **Google Identity Services (GIS)** direto (`accounts.google.com/gsi/client`),
+   não `signInWithPopup` do Firebase: a UI roda isolada num iframe do
+   próprio Google (não injeta estilo/script na nossa página), então dá
+   popup de verdade sem reabrir a CSP pro gapi. Mais implementação
+   (abandona o widget pronto do FirebaseUI para o provedor Google
+   especificamente, troca a credencial resultante via
+   `signInWithCredential`), mas é o caminho certo se popup virar
+   requisito de produto.
+3. **Popup nativo do Firebase + CSP relaxada** (`apis.google.com` em
+   `script-src`/`frame-src`, `'unsafe-hashes'` pro conteúdo inline dele):
+   avaliado e descartado nesta rodada (ver TDR 0005) — evitar a menos que
+   as opções 1 e 2 se mostrem inviáveis, já que depende de um script de
+   terceiro não versionado por nós.
 
 ## Alternativas consideradas
 
