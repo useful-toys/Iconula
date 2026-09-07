@@ -80,6 +80,61 @@ npm run build
 firebase deploy --only hosting
 ```
 
+## Domínio customizado
+
+- **Domínio**: `iconula.danielferber.com.br` (subdomínio de `danielferber.com.br`,
+  registrado pelo usuário no [registro.br](https://registro.br))
+- O DNS do domínio é gerenciado externamente no registro.br — o Firebase
+  não hospeda o DNS, só valida os registros que apontam para ele.
+
+### Como foi configurado
+
+O Firebase CLI não tem um comando dedicado para gerenciar domínios
+customizados (`firebase hosting:sites`/`hosting:channel` não cobrem
+isso); a associação foi feita diretamente via **Firebase Hosting REST
+API** (`firebasehosting.googleapis.com`, recurso
+`projects.sites.customDomains`), usando o token de acesso do `gcloud`:
+
+```bash
+TOKEN=$(gcloud auth print-access-token)
+
+# Validação (dry run, não cria nada)
+curl -X POST "https://firebasehosting.googleapis.com/v1beta1/projects/iconula/sites/iconula/customDomains?customDomainId=iconula.danielferber.com.br&validateOnly=true" \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "X-Goog-User-Project: iconula" \
+  -H "Content-Type: application/json" -d '{}'
+
+# Criação real
+curl -X POST "https://firebasehosting.googleapis.com/v1beta1/projects/iconula/sites/iconula/customDomains?customDomainId=iconula.danielferber.com.br" \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "X-Goog-User-Project: iconula" \
+  -H "Content-Type: application/json" -d '{}'
+```
+
+Depois de criado, os registros DNS necessários (que mudam por instância
+— reconsultar antes de usar os valores abaixo em outro domínio) são
+obtidos com:
+
+```bash
+curl -X GET "https://firebasehosting.googleapis.com/v1beta1/projects/iconula/sites/iconula/customDomains/iconula.danielferber.com.br" \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "X-Goog-User-Project: iconula"
+```
+
+Registros solicitados no campo `requiredDnsUpdates`/`cert.verification`,
+adicionados manualmente pelo usuário no painel DNS do registro.br:
+
+| Tipo | Nome/Host | Valor |
+|---|---|---|
+| `CNAME` | `iconula` | `iconula.web.app` |
+| `TXT` | `_acme-challenge.iconula` | (gerado pela API na criação; único por domínio, usado só para emitir o certificado TLS — pode ser removido depois que o certificado passar para `ACTIVE`) |
+
+Depois de adicionar os registros, a propagação de DNS e a emissão do
+certificado TLS gerenciado pelo Firebase podem levar de minutos a ~24h.
+Conferir o progresso reconsultando o `GET` acima e olhando os campos
+`hostState` (deve chegar a `HOST_ACTIVE`) e `cert.state` (deve chegar a
+`ACTIVE`).
+
 > Nota: a intenção original era rodar `firebase init hosting` de forma
 > interativa para gerar esses arquivos. Os prompts interativos do
 > Firebase CLI não funcionaram de forma confiável em shell não-interativo

@@ -43,6 +43,7 @@ deliberadamente mínimo (sem router, sem gerenciador de estado global).
 | `docs/firebase.md` | Tudo o que foi configurado no Firebase (projeto, Hosting, login) — como reproduzir. |
 | `docs/gcloud.md` | Tudo o que foi configurado no Google Cloud (service account, IAM) — como reproduzir. |
 | `docs/github.md` | Tudo o que foi configurado no GitHub (repo, secrets, workflows, branch protection) — como reproduzir. |
+| `docs/registrobr.md` | Configuração de DNS no registro.br para o domínio customizado (`iconula.danielferber.com.br`) — como reproduzir. |
 
 ## Convenções
 
@@ -74,14 +75,16 @@ deliberadamente mínimo (sem router, sem gerenciador de estado global).
   em `src/data/`. Evitar introduzir router ou state manager global até
   que a SPA realmente precise.
 - **Qualquer alteração no processo de build ou deploy, ou no ambiente
-  Firebase, Google Cloud ou GitHub** (novos scripts de build, mudança nos
-  workflows, novas roles/permissões na service account, nova regra de
-  branch protection, novos secrets, etc.) deve ser refletida no arquivo
+  Firebase, Google Cloud, GitHub ou DNS (registro.br)** (novos scripts de
+  build, mudança nos workflows, novas roles/permissões na service
+  account, nova regra de branch protection, novos secrets, novo
+  domínio/registro DNS, etc.) deve ser refletida no arquivo
   correspondente — [docs/firebase.md](docs/firebase.md),
-  [docs/gcloud.md](docs/gcloud.md) ou [docs/github.md](docs/github.md) —
-  na mesma alteração/PR que muda a configuração. Esses arquivos devem
-  sempre corresponder ao estado real de cada ambiente; se notar alguma
-  divergência, corrigir o documento junto com a mudança de código.
+  [docs/gcloud.md](docs/gcloud.md), [docs/github.md](docs/github.md) ou
+  [docs/registrobr.md](docs/registrobr.md) — na mesma alteração/PR que
+  muda a configuração. Esses arquivos devem sempre corresponder ao
+  estado real de cada ambiente; se notar alguma divergência, corrigir o
+  documento junto com a mudança de código.
 
 ## Como rodar
 
