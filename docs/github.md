@@ -93,8 +93,8 @@ aqui pelo motivo explicado acima):
 ### `firebase-hosting-merge.yml`
 
 Dispara em todo push na branch `main`. Faz build (`npm ci && npm run build`)
-e deploy em produção via `FirebaseExtended/action-hosting-deploy@v0`, com
-`channelId: live`.
+e deploy em produção via `FirebaseExtended/action-hosting-deploy` (pinned por
+SHA, ver abaixo), com `channelId: live`.
 
 ### `firebase-hosting-pull-request.yml`
 
@@ -107,12 +107,14 @@ importante porque é o identificador usado na regra de proteção de branch
 abaixo.
 
 Ambos (`firebase-hosting-merge.yml` e `firebase-hosting-pull-request.yml`)
-usam `actions/setup-node@v4` (Node 22) antes do build, e a versão `@v0` do
-`FirebaseExtended/action-hosting-deploy`. A versão do Node é a mesma nos
-três workflows (incluindo `ci.yml`) e corresponde ao `engines.node` do
-`package.json` — ver [docs/tdr/0004](tdr/0004-ci-roda-lint-e-testes.md)
-para o porquê (Node 20 nunca rodou os testes em CI porque não é
-suportado por `jsdom`/`vitest`, só ninguém tinha notado).
+usam `actions/setup-node` (Node 22) antes do build, e a versão `v0` do
+`FirebaseExtended/action-hosting-deploy` — as três actions com a tag fixada
+por SHA de commit (ver seção "Pinning de actions por SHA" abaixo). A versão
+do Node é a mesma nos três workflows (incluindo `ci.yml`) e corresponde ao
+`engines.node` do `package.json` — ver
+[docs/tdr/0004](tdr/0004-ci-roda-lint-e-testes.md) para o porquê (Node 20
+nunca rodou os testes em CI porque não é suportado por `jsdom`/`vitest`, só
+ninguém tinha notado).
 
 ### `ci.yml`
 
@@ -129,10 +131,51 @@ precisa ser adicionado à lista de required status checks da branch `main`
 
 Usa `actions/checkout` e `actions/setup-node` pinados por SHA de commit
 (comentário `# vX.Y.Z` ao lado indica a tag correspondente), em vez de
-`@v4` como os workflows de deploy — reduz a superfície de um ataque de
-supply-chain via tag re-apontada. Os workflows de deploy não foram
-alterados por esta decisão; considerar migrá-los também numa próxima
-revisão.
+`@v4` — reduz a superfície de um ataque de supply-chain via tag
+re-apontada. Ver seção "Pinning de actions por SHA" abaixo.
+
+## Pinning de actions por SHA
+
+Todas as ações de terceiros/GitHub usadas nos workflows são referenciadas
+por SHA de commit completo, com a tag correspondente como comentário ao
+lado (`# v4.4.0`, `# v0`). Isso impede que uma tag móvel (`@v4`, `@v0`) seja
+re-apontada por um mantenedor ou atacante para um commit arbitrário: cada
+execução usa exatamente o código revisado. O comentário da tag não é
+decorativo — além de documentar a versão, é o que o Dependabot (ecossistema
+`github-actions`, se for configurado num item futuro — ver
+[docs/tdr/0005](tdr/0005-pinning-actions-por-sha.md)) lê para saber qual
+versão está fixada e propor a atualização do SHA.
+
+| Action | SHA fixado | Tag |
+|---|---|---|
+| `actions/checkout` | `11d5960a326750d5838078e36cf38b85af677262` | `v4.4.0` |
+| `actions/setup-node` | `49933ea5288caeca8642d1e84afbd3f7d6820020` | `v4.4.0` |
+| `FirebaseExtended/action-hosting-deploy` | `500ac625ca2dd40cbd15f7659af953801858032a` | `v0` |
+
+Para re-resolver os SHAs atuais das tags no futuro:
+
+```bash
+gh api repos/actions/checkout/commits/v4 --jq .sha
+gh api repos/actions/setup-node/commits/v4 --jq .sha
+gh api repos/FirebaseExtended/action-hosting-deploy/commits/v0 --jq .sha
+```
+
+## Permissões de GitHub Actions
+
+A política de Actions do repositório (via
+`repos/useful-toys/Iconula/actions/permissions`) é:
+`enabled: true`, `allowed_actions: all`, `sha_pinning_required: true`. O
+`sha_pinning_required` obriga que toda ação referenciada nos workflows do
+repositório use um SHA de commit completo — um `@v4` solto volta a falhar
+no CI/status check, impedindo a regressão por descuido. Ver
+[docs/tdr/0005](tdr/0005-pinning-actions-por-sha.md).
+
+Como foi configurado:
+
+```bash
+gh api -X PUT repos/useful-toys/Iconula/actions/permissions \
+  -F enabled=true -f allowed_actions=all -F sha_pinning_required=true
+```
 
 ## Proteção da branch `main`
 
