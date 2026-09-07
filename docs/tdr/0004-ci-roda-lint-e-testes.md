@@ -51,7 +51,7 @@ jobs:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262   # v4.4.0
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
       - run: npm ci --ignore-scripts
       - run: npm run lint
@@ -81,6 +81,22 @@ deploy:
   deste projeto precisa de scripts de instalação (`postinstall` etc.),
   então desabilitá-los reduz a superfície de execução de código arbitrário
   durante `npm ci`.
+
+**Descoberta durante a implementação**: a primeira versão deste workflow
+usava `node-version: 20` (mesma versão já usada nos dois workflows de
+deploy) e o job passou em lint e build, mas **`npm test` falhou** com
+`TypeError: webidl.util.markAsUncloneable is not a function` dentro de
+`jsdom`. Investigando: `jsdom` (v30, via `vitest`) declara
+`"engines": { "node": "^22.22.2 || ^24.15.0 || >=26.0.0" }` — Node 20
+nunca foi suportado por essa versão. Isso não tinha sido notado antes
+porque os testes nunca rodavam em CI (exatamente o problema que este TDR
+resolve) e localmente o Node instalado já era >= 26. Corrigido subindo
+`node-version` para `22` nos **três** workflows
+(`ci.yml`, `firebase-hosting-merge.yml`,
+`firebase-hosting-pull-request.yml`, para não deixar os workflows de
+deploy discrepantes) e adicionando `engines.node` ao `package.json` com a
+mesma faixa de versão, para que a incompatibilidade apareça localmente
+(`npm install`/`npm ci` avisam) em vez de só em CI.
 
 ## Consequências
 

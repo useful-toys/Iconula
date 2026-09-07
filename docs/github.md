@@ -75,8 +75,12 @@ importante porque é o identificador usado na regra de proteção de branch
 abaixo.
 
 Ambos (`firebase-hosting-merge.yml` e `firebase-hosting-pull-request.yml`)
-usam `actions/setup-node@v4` (Node 20) antes do build, e a versão `@v0` do
-`FirebaseExtended/action-hosting-deploy`.
+usam `actions/setup-node@v4` (Node 22) antes do build, e a versão `@v0` do
+`FirebaseExtended/action-hosting-deploy`. A versão do Node é a mesma nos
+três workflows (incluindo `ci.yml`) e corresponde ao `engines.node` do
+`package.json` — ver [docs/tdr/0004](tdr/0004-ci-roda-lint-e-testes.md)
+para o porquê (Node 20 nunca rodou os testes em CI porque não é
+suportado por `jsdom`/`vitest`, só ninguém tinha notado).
 
 ### `ci.yml`
 
