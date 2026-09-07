@@ -31,6 +31,7 @@ vi.mock("firebaseui", () => ({
     AuthUI: {
       getInstance: () => ({ start: vi.fn(), reset: vi.fn() }),
     },
+    CredentialHelper: { NONE: "none" },
   },
 }));
 
