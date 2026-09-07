@@ -20,9 +20,11 @@ deliberadamente mínimo (sem router, sem gerenciador de estado global).
 
 - [Vite](https://vitejs.dev/) + [React](https://react.dev/) 19
 - Bandeiras: emoji Unicode em `src/data/teams.js`, renderizado como `<img>`
-  via [`@twemoji/api`](https://github.com/jdecked/twemoji) em
-  `TeamButton.jsx` (necessário porque o Windows não renderiza emoji de
-  bandeira nativamente — ver [docs/adr/0002](docs/adr/0002-bandeiras-emoji-unicode.md))
+  a partir de SVGs [Twemoji](https://github.com/jdecked/twemoji)
+  vendorizados em `src/assets/flags/` (nome do arquivo = code point
+  Unicode, calculado via `@twemoji/api`) em `TeamButton.jsx` (necessário
+  porque o Windows não renderiza emoji de bandeira nativamente — ver
+  [docs/adr/0002](docs/adr/0002-bandeiras-emoji-unicode.md))
 - Testes: [Vitest](https://vitest.dev/) + [React Testing Library](https://testing-library.com/react)
 - Deploy: Firebase Hosting via GitHub Actions (repositório na organização
   GitHub `useful-toys`, projeto Firebase `iconula`)

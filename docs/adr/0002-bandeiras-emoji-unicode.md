@@ -4,7 +4,8 @@
 
 ## Status
 
-Aceito (revisado após teste manual)
+Aceito (revisado após teste manual; revisado novamente para remover a
+dependência de CDN em runtime)
 
 ## Contexto
 
@@ -27,20 +28,35 @@ adicional instalada.
 Manter os dados como emoji Unicode em `src/data/teams.js` (continua sendo
 a forma mais simples de representar e ler o dado), mas renderizar a
 bandeira no componente `TeamButton` convertendo o emoji em uma imagem SVG
-via [`@twemoji/api`](https://github.com/jdecked/twemoji) (fork mantido do
-Twemoji original do Twitter), que serve os assets por CDN
-(`cdn.jsdelivr.net`). Isso garante bandeiras visualmente consistentes em
+do [Twemoji](https://github.com/jdecked/twemoji) (fork mantido do Twemoji
+original do Twitter). Isso garante bandeiras visualmente consistentes em
 qualquer sistema operacional/navegador, incluindo as sequências "tag" de
 England e Scotland (que não têm código de país ISO próprio).
 
+**Revisão (dependência de CDN externo removida)**: os 48 SVGs foram
+baixados uma única vez de `cdn.jsdelivr.net` e passaram a ser vendorizados
+em `src/assets/flags/`, nomeados pelo code point Unicode da bandeira
+(ex.: `1f1e6-1f1f7.svg` para Argentina). `TeamButton.jsx` resolve o
+arquivo correspondente via `import.meta.glob` do Vite e renderiza um
+`<img>` React normal — sem CDN em runtime e sem `dangerouslySetInnerHTML`
+(ver decisão relacionada sobre o item de segurança correspondente). A
+função `twemoji.convert.toCodePoint` (de `@twemoji/api`) continua em uso
+só para calcular o nome do arquivo a partir do emoji — não há mais
+`twemoji.parse()` nem geração de HTML.
+
 ## Consequências
 
-- Depende de uma requisição de rede por bandeira exibida (SVG pequeno,
-  servido por CDN com boa disponibilidade); em uso normal do app (só a
-  bandeira do time atual é renderizada por vez) o impacto é mínimo.
+- Nenhuma requisição de rede em runtime para exibir bandeiras: os SVGs
+  fazem parte do bundle, servidos pelo mesmo Firebase Hosting do resto do
+  app.
+- `Content-Security-Policy` do Hosting não precisa mais abrir `img-src`
+  para `cdn.jsdelivr.net` — fica restrita a `'self' data:'`.
 - O dado em `teams.js` continua sendo só o caractere emoji — a lógica de
-  renderização fica isolada em `TeamButton.jsx`, então trocar a estratégia
-  de exibição no futuro (ex. self-host dos SVGs) não exige tocar nos dados.
+  renderização (e de resolução do SVG local) fica isolada em
+  `TeamButton.jsx`.
+- Adicionar um time novo no futuro exige também baixar o SVG
+  correspondente para `src/assets/flags/` (nome do arquivo = code point
+  Unicode do emoji, gerado com `twemoji.convert.toCodePoint`).
 
 ## Alternativas consideradas
 
@@ -50,6 +66,6 @@ England e Scotland (que não têm código de país ISO próprio).
   "realista" que emoji, mas exigiria mapear cada país para seu código
   ISO 3166-1 alpha-2 e não resolveria England/Scotland (sem código
   próprio) sem tratamento especial.
-- **SVGs locais no repositório**: funciona 100% offline, mas exige
-  baixar e versionar 48 arquivos; adiado — pode ser revisitado se a
-  dependência de CDN externo em runtime se tornar um problema.
+- **Twemoji via CDN em runtime** (decisão original): simples de
+  implementar, mas depende de rede em runtime e impede fechar a CSP —
+  substituída pelos SVGs vendorizados acima.
