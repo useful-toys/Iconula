@@ -1,90 +1,23 @@
 <!-- Copyright (c) 2026 Daniel Felix Ferber -->
 
-# Configuração do Google Cloud / Firebase
+# Configuração do Google Cloud (IAM / service account)
 
-Este documento descreve tudo o que foi configurado no Google Cloud e no
-Firebase para o projeto **Iconula Button**, para o caso de ser necessário
-reproduzir a configuração (novo projeto, migração, etc.).
+Este documento descreve tudo o que foi configurado no **Google Cloud**
+(fora do que é gerenciado pelo próprio Firebase) para o projeto
+**Iconula Button** — especificamente a service account usada pelo GitHub
+Actions para fazer deploy. Para o projeto Firebase e o Hosting em si, ver
+[docs/firebase.md](firebase.md). Para o lado GitHub (onde a chave é
+armazenada como secret), ver [docs/github.md](github.md).
 
-## Conta e ferramentas
+## Ferramenta
 
-- **Conta Google**: `danielferber@gmail.com` (o usuário tem múltiplas
-  contas Google — importante selecionar esta no login)
-- **Firebase CLI**: instalado localmente (`firebase --version`)
-- **gcloud CLI**: instalado localmente (`gcloud --version`), usado para
-  criar a service account de deploy (ver abaixo)
-
-### Login do Firebase CLI
-
-```bash
-firebase login
-```
-
-É um fluxo interativo (abre navegador) — não pode ser automatizado.
-Verificar quem está logado com:
+- **gcloud CLI**: instalado localmente (`gcloud --version`)
+- Projeto de trabalho: `iconula` (mesmo Project ID do Firebase, já que
+  todo projeto Firebase é também um projeto Google Cloud)
 
 ```bash
-firebase login:list
+gcloud config set project iconula
 ```
-
-## Projeto Firebase
-
-- **Project ID**: `iconula` (escolhido explicitamente pelo usuário —
-  não usar variantes como `iconula-button` sem confirmar antes)
-- **Nome de exibição**: "Iconula Button"
-- **Console**: https://console.firebase.google.com/project/iconula/overview
-
-Criado com:
-
-```bash
-firebase projects:create iconula --display-name "Iconula Button"
-```
-
-## Firebase Hosting
-
-Configurado via dois arquivos na raiz do repositório (criados manualmente
-em vez de `firebase init hosting` interativo — ver nota abaixo):
-
-`.firebaserc`:
-```json
-{
-  "projects": {
-    "default": "iconula"
-  }
-}
-```
-
-`firebase.json`:
-```json
-{
-  "hosting": {
-    "public": "dist",
-    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
-    "rewrites": [{ "source": "**", "destination": "/index.html" }]
-  }
-}
-```
-
-`"public": "dist"` aponta para a pasta gerada pelo `npm run build` (Vite).
-O rewrite `**` → `/index.html` é o modo SPA (necessário mesmo que hoje o
-app não tenha rotas, para não quebrar se isso mudar no futuro).
-
-- **URL de produção**: https://iconula.web.app
-- **URLs de preview** (por PR): `https://iconula--pr<N>-<slug>-<hash>.web.app`, expiram automaticamente após ~7 dias
-
-### Deploy manual (fora do CI, se necessário)
-
-```bash
-npm run build
-firebase deploy --only hosting
-```
-
-> Nota: a intenção original era rodar `firebase init hosting` de forma
-> interativa para gerar esses arquivos. Os prompts interativos do
-> Firebase CLI não funcionaram de forma confiável em shell não-interativo
-> nesta sessão (heredocs/pipes de resposta ficam fora de sincronia com
-> prompts assíncronos), então os arquivos foram escritos manualmente com
-> o conteúdo equivalente.
 
 ## Service account para deploy via GitHub Actions
 
@@ -93,14 +26,15 @@ O workflow de deploy (`.github/workflows/firebase-hosting-*.yml`, ver
 account do Google Cloud, cuja chave fica armazenada como secret no
 repositório GitHub — **não** no repositório de código.
 
-### Por que não foi usado `firebase init hosting:github`
+### Por que foi configurada manualmente
 
-Esse comando normalmente cria a service account, gera a chave e registra
-o secret no GitHub automaticamente, via um fluxo OAuth interativo com o
-GitHub. Nesta sessão, os prompts subsequentes do comando (nome do
-repositório, confirmação do build script, branch de deploy) não
-funcionaram de forma confiável em modo não-interativo. A alternativa foi
-configurar cada peça manualmente com `gcloud` + `gh`, descrita abaixo.
+A intenção original era deixar `firebase init hosting:github` criar a
+service account, gerar a chave e registrar o secret no GitHub
+automaticamente, via um fluxo OAuth interativo. Nesta sessão, os prompts
+subsequentes desse comando (nome do repositório, confirmação do build
+script, branch de deploy) não funcionaram de forma confiável em modo
+não-interativo. A alternativa foi configurar cada peça manualmente com
+`gcloud` + `gh`, descrita abaixo.
 
 ### Passo a passo (o que foi executado)
 
@@ -165,11 +99,7 @@ gcloud iam service-accounts keys delete <KEY_ID> \
 
 ## Reproduzindo do zero (resumo)
 
-1. `firebase login` (interativo, conta Google correta)
-2. `firebase projects:create <project-id> --display-name "<nome>"`
-3. Criar `.firebaserc` e `firebase.json` apontando para `dist`
-4. `gcloud config set project <project-id>`
-5. Criar a service account e conceder `roles/firebasehosting.admin` +
+1. `gcloud config set project <project-id>` (mesmo ID do projeto Firebase)
+2. Criar a service account e conceder `roles/firebasehosting.admin` +
    `roles/firebase.viewer`
-6. Gerar a chave JSON, registrar como secret no GitHub, apagar o arquivo local
-7. Referenciar esse secret e o `projectId` nos workflows do GitHub Actions
+3. Gerar a chave JSON, registrar como secret no GitHub, apagar o arquivo local

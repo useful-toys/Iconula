@@ -42,7 +42,8 @@ O deploy para produção acontece automaticamente a cada push/merge na
 branch `main`, via GitHub Actions + Firebase Hosting. Pull requests
 geram um preview deploy temporário, que é um check obrigatório para
 poder mesclar o PR. Detalhes de como isso foi configurado (e como
-reproduzir) em [docs/github.md](docs/github.md) e [docs/gcloud.md](docs/gcloud.md).
+reproduzir) em [docs/firebase.md](docs/firebase.md), [docs/gcloud.md](docs/gcloud.md)
+e [docs/github.md](docs/github.md).
 
 ## Licença
 

@@ -4,7 +4,9 @@
 
 Este documento descreve tudo o que foi configurado no GitHub para o
 projeto **Iconula Button**, para o caso de ser necessário reproduzir a
-configuração (novo repositório, migração, etc.).
+configuração (novo repositório, migração, etc.). Para o projeto/Hosting
+do Firebase, ver [docs/firebase.md](firebase.md); para a service account
+e permissões no Google Cloud, ver [docs/gcloud.md](gcloud.md).
 
 ## Repositório
 
@@ -120,8 +122,8 @@ passar; o PR foi então mesclado (squash) e a branch de teste removida.
 ## Reproduzindo do zero (resumo)
 
 1. `gh repo create <org>/<repo> --public --source=. --remote=origin --push`
-2. Criar/obter a service account e a chave JSON no Google Cloud (ver
-   [docs/gcloud.md](gcloud.md))
+2. Criar/obter o projeto Firebase (ver [docs/firebase.md](firebase.md)) e
+   a service account/chave JSON no Google Cloud (ver [docs/gcloud.md](gcloud.md))
 3. `gh secret set FIREBASE_SERVICE_ACCOUNT_<NOME> --repo <org>/<repo> < key.json`
 4. Commitar os dois workflows em `.github/workflows/` apontando para esse
    secret e para o `projectId` correto

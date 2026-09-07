@@ -40,8 +40,9 @@ deliberadamente mínimo (sem router, sem gerenciador de estado global).
 | `.github/workflows/` | Workflows de deploy (produção em merge na `main`, preview em PRs). |
 | `docs/adr/` | Decisões de arquitetura (ADRs) — leia antes de propor mudanças estruturais. |
 | `docs/tdr/` | Decisões técnicas pontuais (TDRs). |
+| `docs/firebase.md` | Tudo o que foi configurado no Firebase (projeto, Hosting, login) — como reproduzir. |
+| `docs/gcloud.md` | Tudo o que foi configurado no Google Cloud (service account, IAM) — como reproduzir. |
 | `docs/github.md` | Tudo o que foi configurado no GitHub (repo, secrets, workflows, branch protection) — como reproduzir. |
-| `docs/gcloud.md` | Tudo o que foi configurado no Google Cloud/Firebase (projeto, service account, Hosting) — como reproduzir. |
 
 ## Convenções
 
@@ -56,6 +57,15 @@ deliberadamente mínimo (sem router, sem gerenciador de estado global).
 - Novos componentes vão em `src/components/`; novos conjuntos de dados
   em `src/data/`. Evitar introduzir router ou state manager global até
   que a SPA realmente precise.
+- **Qualquer alteração no processo de build ou deploy, ou no ambiente
+  Firebase, Google Cloud ou GitHub** (novos scripts de build, mudança nos
+  workflows, novas roles/permissões na service account, nova regra de
+  branch protection, novos secrets, etc.) deve ser refletida no arquivo
+  correspondente — [docs/firebase.md](docs/firebase.md),
+  [docs/gcloud.md](docs/gcloud.md) ou [docs/github.md](docs/github.md) —
+  na mesma alteração/PR que muda a configuração. Esses arquivos devem
+  sempre corresponder ao estado real de cada ambiente; se notar alguma
+  divergência, corrigir o documento junto com a mudança de código.
 
 ## Como rodar
 
