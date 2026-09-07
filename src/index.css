@@ -1,0 +1,13 @@
+/* Copyright (c) 2026 Daniel Felix Ferber */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+#root {
+  width: 100%;
+}
