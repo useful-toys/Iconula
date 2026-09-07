@@ -18,7 +18,7 @@ vi.mock("firebaseui", () => {
       return null;
     }
   }
-  return { auth: { AuthUI } };
+  return { auth: { AuthUI, CredentialHelper: { NONE: "none" } } };
 });
 
 vi.mock("firebaseui/dist/firebaseui.css", () => ({}));
@@ -42,7 +42,13 @@ describe("LoginButton", () => {
     expect(startMock).toHaveBeenCalledTimes(1);
     expect(startMock).toHaveBeenCalledWith(
       container.firstChild,
-      expect.objectContaining({ signInFlow: "popup" }),
+      expect.objectContaining({
+        signInFlow: "popup",
+        // Sem isso, o FirebaseUI carrega apis.google.com/js/api.js e
+        // injeta estilo/handler inline no DOM, incompatível com a CSP
+        // (ver TDR 0005).
+        credentialHelper: "none",
+      }),
     );
   });
 });

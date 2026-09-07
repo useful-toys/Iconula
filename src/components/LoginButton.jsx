@@ -9,6 +9,12 @@ const uiConfig = {
   // Sem router na SPA — evita navegação de página inteira.
   signInFlow: "popup",
   signInOptions: [firebase.auth.GoogleAuthProvider.PROVIDER_ID],
+  // Desliga o "Smart Lock"/credential helper do Google (gapi): sem isso,
+  // o FirebaseUI carrega https://apis.google.com/js/api.js e injeta
+  // estilos/handlers inline no DOM da página, incompatível com a CSP
+  // estrita deste app (ver TDR 0005) — e não usamos sugestão de conta
+  // salva mesmo. Não afeta o botão "Sign in with Google" nem o popup.
+  credentialHelper: firebaseui.auth.CredentialHelper.NONE,
   callbacks: {
     // App.jsx já reage à mudança via onAuthStateChanged; sem redirect
     // próprio do FirebaseUI.
