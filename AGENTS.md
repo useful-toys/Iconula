@@ -50,10 +50,26 @@ deliberadamente mínimo (sem router, sem gerenciador de estado global).
   `Copyright (c) 2026 Daniel Felix Ferber` (sintaxe de comentário do
   tipo de arquivo: `//` em JS/JSX, `/* */` em CSS, `<!-- -->` em HTML/MD,
   `#` em YAML).
-- Ao tomar uma decisão de arquitetura ou técnica relevante, registrar um
-  novo ADR/TDR em `docs/adr/` ou `docs/tdr/`, seguindo a numeração
-  sequencial e o formato dos arquivos existentes (Status / Contexto /
-  Decisão / Consequências / Alternativas consideradas).
+- Registrar um novo ADR/TDR em `docs/adr/` ou `docs/tdr/` **no momento em
+  que a decisão é tomada**, não depois — inclusive decisões tomadas
+  durante o planejamento (antes de qualquer código existir) e decisões
+  tomadas automaticamente por um agente de IA durante a execução (ex.:
+  escolher uma biblioteca para contornar um bug, ajustar uma abordagem
+  ao encontrar uma limitação). Um agente de IA que tome uma decisão
+  técnica ou de arquitetura não documentada deixa o trabalho incompleto,
+  mesmo que o código funcione. Usar ADR para decisões de
+  arquitetura/tecnologia (stack, forma de deploy, dependências
+  estruturais) e TDR para decisões técnicas mais pontuais de
+  implementação, seguindo a numeração sequencial e o formato dos
+  arquivos existentes (Status / Contexto / Decisão / Consequências /
+  Alternativas consideradas).
+- Descobertas relevantes feitas durante a implementação (ex.: uma
+  limitação de plataforma, um comportamento inesperado de uma
+  biblioteca) que motivaram uma decisão devem ser registradas na seção
+  de Contexto do ADR/TDR correspondente — não precisam de um documento
+  próprio. Só criar uma categoria separada (ex. `docs/notes.md`) se
+  esse tipo de achado se acumular a ponto de não caber bem em ADRs/TDRs
+  individuais.
 - Novos componentes vão em `src/components/`; novos conjuntos de dados
   em `src/data/`. Evitar introduzir router ou state manager global até
   que a SPA realmente precise.
