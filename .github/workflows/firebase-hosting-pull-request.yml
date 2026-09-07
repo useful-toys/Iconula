@@ -1,0 +1,24 @@
+# Copyright (c) 2026 Daniel Felix Ferber
+#
+# Preview deploy no Firebase Hosting para todo pull request. Este workflow
+# é configurado como required status check da branch main (ver
+# docs/adr/0004-branch-protection-preview-required.md): PRs só podem ser
+# mesclados se este job passar com sucesso.
+
+name: Deploy to Firebase Hosting on PR
+on: pull_request
+jobs:
+  build_and_preview:
+    if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm ci && npm run build
+      - uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_ICONULA }}"
+          projectId: iconula
