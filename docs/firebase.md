@@ -116,6 +116,68 @@ npm run build
 firebase deploy --only hosting
 ```
 
+## Firebase Authentication
+
+Configurado para login com **Google** (único provedor — ver
+[ADR 0005](adr/0005-autenticacao-google-firebase-auth.md)), usado pelo
+componente `LoginButton.jsx` (widget FirebaseUI) em conjunto com
+`src/lib/firebase.js`.
+
+### Como foi habilitado
+
+No [console do Firebase](https://console.firebase.google.com/project/iconula/authentication/providers):
+
+1. **Authentication → Sign-in method** → habilitar o provedor **Google**.
+2. **Authentication → Settings → Authorized domains** → confirmar que
+   `iconula.firebaseapp.com`, `iconula.web.app` e `localhost` já estão
+   presentes (vêm por padrão) e **adicionar manualmente**
+   `iconula.danielferber.com.br` (o domínio customizado não é adicionado
+   automaticamente ao conectar o Hosting).
+3. **Project Settings → General → Your apps** → registrar um Web App
+   (se ainda não existir um) para obter o objeto de config (`apiKey`,
+   `authDomain`, `projectId`, `storageBucket`, `messagingSenderId`,
+   `appId`).
+
+### Variáveis de ambiente
+
+O config do Web App **não é secreto por natureza** (é enviado ao
+navegador; a segurança vem dos Authorized domains, não de sigilo), mas
+mesmo assim não fica hardcoded no código-fonte — segue o padrão
+idiomático de Vite via `import.meta.env.VITE_*`:
+
+| Variável | Origem |
+|---|---|
+| `VITE_FIREBASE_API_KEY` | Web App config, console do Firebase |
+| `VITE_FIREBASE_AUTH_DOMAIN` | `iconula.firebaseapp.com` |
+| `VITE_FIREBASE_PROJECT_ID` | `iconula` |
+| `VITE_FIREBASE_STORAGE_BUCKET` | Web App config, console do Firebase |
+| `VITE_FIREBASE_MESSAGING_SENDER_ID` | Web App config, console do Firebase |
+| `VITE_FIREBASE_APP_ID` | Web App config, console do Firebase |
+
+Ver [`.env.example`](../.env.example) — cada dev copia para `.env.local`
+(já ignorado pelo git) com os valores reais. Em CI/deploy, essas mesmas
+variáveis são passadas como **GitHub Actions Variables** (não Secrets —
+ver [docs/github.md](github.md)).
+
+### CSP e COOP
+
+O login com Google exigiu abrir exceções pontuais na CSP e relaxar o
+`Cross-Origin-Opener-Policy` (de `same-origin` para
+`same-origin-allow-popups`, necessário para o fluxo de popup do
+`signInWithPopup` funcionar) — ver
+[docs/tdr/0005](tdr/0005-csp-firebase-auth-google-oauth.md) para o
+detalhamento de cada diretiva.
+
+### Limitação conhecida: preview deploys por PR
+
+O canal de preview gerado por `firebase-hosting-pull-request.yml` usa um
+host temporário (`https://iconula--pr<N>-<slug>-<hash>.web.app`) que
+**não é adicionado automaticamente** às Authorized domains do Firebase
+Auth. Se o login falhar num preview com o erro
+`auth/unauthorized-domain`, adicionar manualmente esse host em
+Authentication → Settings → Authorized domains (ele expira junto com o
+canal de preview, ~7 dias — não precisa ser removido manualmente depois).
+
 ## Domínio customizado
 
 - **Domínio**: `iconula.danielferber.com.br` (subdomínio de `danielferber.com.br`,
@@ -186,3 +248,6 @@ Conferir o progresso reconsultando o `GET` acima e olhando os campos
 4. Configurar a service account de deploy no Google Cloud — ver [docs/gcloud.md](gcloud.md)
 5. Referenciar o secret dessa service account e o `projectId` nos
    workflows do GitHub Actions — ver [docs/github.md](github.md)
+6. Habilitar o provedor Google em Authentication → Sign-in method,
+   registrar um Web App e configurar as variáveis `VITE_FIREBASE_*` (ver
+   seção "Firebase Authentication" acima)
