@@ -3,7 +3,8 @@
 # Preview deploy no Firebase Hosting para todo pull request. Este workflow
 # é configurado como required status check da branch main (ver
 # docs/adr/0004-branch-protection-preview-required.md): PRs só podem ser
-# mesclados se este job passar com sucesso.
+# mesclados se este job passar com sucesso. Lint e testes rodam
+# separadamente em ci.yml (ver docs/tdr/0004-ci-roda-lint-e-testes.md).
 
 name: Deploy to Firebase Hosting on PR
 on: pull_request
@@ -15,7 +16,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
       - run: npm ci && npm run build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
