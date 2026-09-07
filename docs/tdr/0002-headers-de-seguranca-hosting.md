@@ -55,10 +55,10 @@ por padrão.
 
 ## Consequências
 
-- Se o item de mover Twemoji para asset local (bandeiras) for
-  implementado, remover `https://cdn.jsdelivr.net` de `img-src` e deixar
-  `img-src 'self' data:'` — a CSP fica completamente fechada, sem
-  dependência de CDN externo.
+- **Atualização**: as bandeiras Twemoji foram vendorizadas em
+  `src/assets/flags/` (ver [ADR 0002](../adr/0002-bandeiras-emoji-unicode.md)),
+  então `img-src` já foi restrita a `'self' data:'` — a CSP está
+  completamente fechada, sem dependência de CDN externo.
 - Qualquer novo componente que precise de `style` inline ou de
   script/imagem de outra origem vai quebrar sob esta CSP — a correção é
   ajustar o componente (ex.: mover para CSS externo) ou, se realmente
