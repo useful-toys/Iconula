@@ -125,18 +125,38 @@ componente `LoginButton.jsx` (widget FirebaseUI) em conjunto com
 
 ### Como foi habilitado
 
-No [console do Firebase](https://console.firebase.google.com/project/iconula/authentication/providers):
+**Web App** (concluído, via `firebase` CLI — não precisa do console):
 
-1. **Authentication → Sign-in method** → habilitar o provedor **Google**.
+```bash
+firebase apps:create WEB "Iconula Button" --project iconula
+firebase apps:sdkconfig WEB <appId> --project iconula
+```
+
+App ID: `1:192114864110:web:9c4687b6a320f65b44a8ff`.
+
+**Provedor Google e Authorized domains (pendente — precisa do console)**:
+tentei automatizar via Identity Platform Admin API
+(`identitytoolkit.googleapis.com/admin/v2/.../defaultSupportedIdpConfigs/google.com`),
+mas o projeto nunca teve Authentication inicializado (todos os endpoints
+de config retornam `404 CONFIGURATION_NOT_FOUND`), e criar o provedor
+Google via API exige um `client_id`/`client_secret` OAuth já existente —
+esse client (`Web client (auto created by Google Service)`) só é
+provisionado automaticamente pelo próprio fluxo do console ao clicar em
+"Habilitar"; não há API pública para criar esse tipo de credencial OAuth.
+Passo manual único necessário:
+
+1. [Console do Firebase](https://console.firebase.google.com/project/iconula/authentication/providers)
+   → **Authentication → Sign-in method** → habilitar o provedor
+   **Google** (escolher o e-mail de suporte do projeto quando pedido).
 2. **Authentication → Settings → Authorized domains** → confirmar que
    `iconula.firebaseapp.com`, `iconula.web.app` e `localhost` já estão
    presentes (vêm por padrão) e **adicionar manualmente**
    `iconula.danielferber.com.br` (o domínio customizado não é adicionado
-   automaticamente ao conectar o Hosting).
-3. **Project Settings → General → Your apps** → registrar um Web App
-   (se ainda não existir um) para obter o objeto de config (`apiKey`,
-   `authDomain`, `projectId`, `storageBucket`, `messagingSenderId`,
-   `appId`).
+   automaticamente ao conectar o Hosting). Alternativamente, depois do
+   passo 1, isso também pode ser feito via API
+   (`PATCH .../admin/v2/projects/iconula/config?updateMask=authorizedDomains`),
+   já que a primeira chamada de habilitação do provedor inicializa o
+   recurso `config` do projeto.
 
 ### Variáveis de ambiente
 
@@ -156,8 +176,8 @@ idiomático de Vite via `import.meta.env.VITE_*`:
 
 Ver [`.env.example`](../.env.example) — cada dev copia para `.env.local`
 (já ignorado pelo git) com os valores reais. Em CI/deploy, essas mesmas
-variáveis são passadas como **GitHub Actions Variables** (não Secrets —
-ver [docs/github.md](github.md)).
+variáveis já foram configuradas como **GitHub Actions Variables** (não
+Secrets — ver [docs/github.md](github.md)), via `gh variable set`.
 
 ### CSP e COOP
 
