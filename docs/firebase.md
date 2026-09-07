@@ -55,13 +55,16 @@ em vez de `firebase init hosting` interativo — ver nota abaixo):
 }
 ```
 
-`firebase.json`:
+`firebase.json` (ver o arquivo na raiz do repositório para o conteúdo
+completo e atual — abaixo, um resumo do que cada seção faz):
+
 ```json
 {
   "hosting": {
     "public": "dist",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
-    "rewrites": [{ "source": "**", "destination": "/index.html" }]
+    "rewrites": [{ "source": "**", "destination": "/index.html" }],
+    "headers": [ /* ver abaixo */ ]
   }
 }
 ```
@@ -69,6 +72,35 @@ em vez de `firebase init hosting` interativo — ver nota abaixo):
 `"public": "dist"` aponta para a pasta gerada pelo `npm run build` (Vite).
 O rewrite `**` → `/index.html` é o modo SPA (necessário mesmo que hoje o
 app não tenha rotas, para não quebrar se isso mudar no futuro).
+
+### Headers de segurança
+
+Adicionados em resposta a um review de segurança (ver
+[docs/tdr/0002](tdr/0002-headers-de-seguranca-hosting.md)): CSP,
+`X-Content-Type-Options`, `Referrer-Policy`, `X-Frame-Options`,
+`Permissions-Policy`, `Cross-Origin-Opener-Policy`, aplicados a `**`
+(todas as rotas). O bloco também corrige `Cache-Control` — assets com
+hash (`/assets/**`) ficam com `max-age` de 1 ano e `immutable`;
+`/index.html` fica com `no-cache`, para que um deploy fique visível
+imediatamente aos visitantes.
+
+A CSP restringe `img-src` a `'self' data:'` (sem CDN externo) desde que
+as bandeiras Twemoji passaram a ser vendorizadas em
+`src/assets/flags/` em vez de servidas por `cdn.jsdelivr.net` em runtime
+(ver [docs/adr/0002](adr/0002-bandeiras-emoji-unicode.md)). Se um
+componente futuro precisar de outra origem externa (script, imagem,
+fonte), a exceção deve ser aberta explicitamente na CSP — nunca com
+`'unsafe-inline'`/`'unsafe-eval'` como atalho.
+
+Não é preciso configurar HSTS: o Firebase Hosting já envia
+`Strict-Transport-Security: max-age=31556926; includeSubDomains; preload`
+por padrão, mesmo sem essa seção.
+
+Verificação após deploy:
+
+```bash
+curl -sI https://iconula.web.app
+```
 
 - **URL de produção**: https://iconula.web.app
 - **URLs de preview** (por PR): `https://iconula--pr<N>-<slug>-<hash>.web.app`, expiram automaticamente após ~7 dias
