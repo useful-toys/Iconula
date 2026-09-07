@@ -46,3 +46,5 @@ poder mesclar o PR.
 ## Licença
 
 [MIT](LICENSE)
+
+<!-- PR de teste para validar o preview deploy -->
