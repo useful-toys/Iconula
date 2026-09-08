@@ -26,9 +26,10 @@ da tela inteira, **jamais scroll dentro de scroll**.
 
 - Duas ordenações da sequência de seções: alfabética pela sigla
   (ARG, AUS, AUT, …) e ordem do álbum físico (pela página de cada seção)
-- Duas disposições por seção: lista contínua (01 a N) e grade que
-  reproduz a página física — duas colunas, com a figurinha paisagem da
-  foto da seleção (posição 13)
+- Duas disposições: lista contínua (01 a N) para toda seção, e grade
+  que reproduz a página física — apenas para as 48 seleções (duas
+  colunas, figurinha paisagem da foto na posição 13; layout exato e
+  escopo no [IDR 0009](0009-disposicao-como-no-album-reproduz-a-pagina-fisica.md))
 - O percurso é sempre rolagem da tela inteira — caso particular da
   regra global do [IDR 0008](0008-uma-unica-pagina-scrollavel.md)
 - O número da página do álbum é exibido no cabeçalho do grupo — fixo,

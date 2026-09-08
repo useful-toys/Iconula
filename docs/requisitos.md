@@ -92,9 +92,11 @@ Questões recorrentes são marcadas como "Nota".*
   - Ordem alfabética pela sigla da seção (ARG, AUS, AUT, …)
   - Ordem igual à do álbum físico
 - Apresentar cada seção em duas disposições
-  - Lista: figurinhas em sequência (01 a N)
-  - Álbum: disposição próxima à da página física — facilita comparar
-    com o álbum real ("qual eu já tenho?")
+  - Lista: figurinhas em sequência (01 a N) — disposição única dos
+    especiais (FWC e Coca-Cola)
+  - Álbum: reproduz a página física, apenas para as 48 seleções —
+    facilita comparar com o álbum real ("qual eu já tenho?") (ver
+    [IDR 0009](idr/0009-disposicao-como-no-album-reproduz-a-pagina-fisica.md))
 - Apresentar o catálogo conforme o tamanho da tela (celular, tablet,
   navegador)
   - Em qualquer tamanho, os fluxos essenciais — cadastrar e consultar —
