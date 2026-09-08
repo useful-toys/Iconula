@@ -66,6 +66,7 @@ acontece, o código neste repositório ainda é o descrito acima.
 | `docs/requisitos.md` | Requisitos do produto (o que é, diferenciais, MVP, futuros, fora de escopo) — ler antes de propor funcionalidades. Descreve o produto para o qual o app atual será transformado. |
 | `docs/interface.md` | Decisões de interface (o "como" da UI: telas, faixas de tela, identidade visual, interações). Tela principal especificada; demais telas e faixas de tela pendentes; em conflito com requisitos, requisitos vence. |
 | `docs/persistencia.md` | Como os dados do usuário são gravados no Firestore — modelo, regras, custos e o que muda com o controle de figurinhas. |
+| `docs/arquitetura.md` | Visão de conjunto da arquitetura — serviços, camadas, fluxo de dados e índice das decisões (ADRs/TDRs/IDRs). |
 | `docs/adr/` | Decisões de arquitetura (ADRs) — leia antes de propor mudanças estruturais. |
 | `docs/tdr/` | Decisões técnicas pontuais (TDRs). |
 | `docs/idr/` | Decisões de interface significantes (IDRs) — apresentação, interação, navegação; mesmo formato dos ADRs/TDRs. |
