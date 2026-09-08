@@ -88,6 +88,12 @@ Questões recorrentes são marcadas como "Nota".*
     como grupos nomeados, iguais a uma seleção
   - Nomes em português ("Alemanha", "Estados Unidos")
   - Bandeiras via Twemoji, incluindo Inglaterra e Escócia (ver ADR 0002)
+- Apresentar o catálogo com apresentações especiais conforme o tamanho
+  da tela (celular, tablet, navegador)
+  - Em qualquer tamanho, os fluxos essenciais — cadastrar e consultar —
+    permanecem completos
+  - Nota: quais apresentações existem em cada faixa de tela ainda não
+    está especificado — definir antes de implementar
 
 ### Contagem
 - Ajustar a contagem de uma figurinha: incrementar, decrementar e zerar
@@ -176,6 +182,9 @@ Questões recorrentes são marcadas como "Nota".*
   `aria-hidden`, botões com texto)
 - **Performance**: catálogo com ~1000 figurinhas renderiza e filtra sem
   travar; virtualizar listas longas se necessário
+- **Responsividade**: o app funciona bem em navegador, celular e tablet;
+  a apresentação do catálogo se adapta ao tamanho da tela — preservar a
+  base atual (`App.css` responsivo com dark mode)
 - **Compartilhamento do site**: `title`, `description` e Open Graph
   básicos em PT-BR
 - **Deploy**: Firebase Hosting — produção em merge na `main`, preview por
