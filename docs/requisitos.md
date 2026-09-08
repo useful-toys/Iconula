@@ -77,6 +77,10 @@ Questões recorrentes são marcadas como "Nota".*
 - Sair da conta
   - Volta à tela de login; a coleção permanece gravada no Firestore e é
     recarregada no próximo login
+- Apagar meus dados do app
+  - Confirmação explícita; apaga a coleção (`users/{uid}`) e a conta de
+    login do app, e volta à tela de login
+  - A conta Google em si permanece — é do Google, não do app
 
 ### Catálogo
 - Exibir o catálogo completo: 994 figurinhas
@@ -115,6 +119,9 @@ Questões recorrentes são marcadas como "Nota".*
   - Desfaz a última alteração — incremento, decremento ou zerar — e
     pode ser repetido para desfazer as N últimas (ver
     [IDR 0010](idr/0010-desfazer-ajustes-em-vez-de-confirmacoes.md))
+- Exibir dica de uso no estado vazio
+  - Primeira visita com coleção zerada: uma linha ensinando a somar a
+    primeira figurinha
 
 ### Estado da sincronização
 - A persistência é automática e transparente: sem botões de ler ou
@@ -128,6 +135,8 @@ Questões recorrentes são marcadas como "Nota".*
 
 ### Progresso e listas
 - Exibir progresso da coleção: total, coladas, faltantes e repetidas
+  - Repetidas conta códigos distintos com contagem ≥ 2; as unidades
+    sobrando (contagem − 1) aparecem por figurinha na lista de repetidas
   - Geral: sobre as 994 do catálogo — todas as figurinhas contam,
     inclusive especiais e Coca-Cola
   - Por seção: os mesmos números sobre o total da seção
@@ -158,6 +167,11 @@ Questões recorrentes são marcadas como "Nota".*
   - Acessível a partir da tela de login, antes de autenticar
   - Declara os dados tratados — identidade da conta Google (nome,
     e-mail, foto) e a coleção —, finalidade, retenção e direitos do titular
+  - Trata dados de menores (LGPD art. 14 — consentimento dos
+    responsáveis)
+- Exibir aviso de independência e marcas (rodapé)
+  - Projeto independente, sem vínculo com Panini ou FIFA; marcas
+    pertencem aos seus titulares (Lei 9.279/96, art. 132)
 
 ## Regras Transversais
 
@@ -213,6 +227,8 @@ Questões recorrentes são marcadas como "Nota".*
 - **Acessibilidade**: operável por teclado, contraste adequado, semântica
   legível por leitores de tela — preservar a base atual (bandeira
   `aria-hidden`, botões com texto)
+- **Navegadores**: evergreen — últimas duas versões de Chrome, Edge,
+  Firefox e Safari, desktop e mobile
 - **Performance**: catálogo com ~1000 figurinhas renderiza e filtra sem
   travar; virtualizar listas longas se necessário
 - **Responsividade**: o app funciona bem em navegador, celular e tablet;
@@ -231,6 +247,11 @@ Questões recorrentes são marcadas como "Nota".*
 especificação própria antes de implementar.*
 
 - Modo pacotinho: lançar de uma vez os 7 números de um envelope
+- Entrada em massa por texto: colar códigos (com repetições) e
+  transformá-los em contagens de uma vez — carga inicial de quem já tem
+  centenas coladas
+- Sincronização ao vivo entre dispositivos: dispositivos abertos se
+  atualizam sem recarregar (hoje a carga acontece só no login)
 - Match entre coleções: comparar com a coleção de outro usuário ("o que
   eu tenho que tu falta")
 - Importar lista colada do WhatsApp (se "receber por mensagem" virar
@@ -238,7 +259,9 @@ especificação própria antes de implementar.*
 - Pacote de atualização: as 120 figurinhas de convocados lançadas em
   junho/2026
 - Variantes Extra: figurinhas paralelas roxa/bronze/prata/ouro
-- PWA/offline: uso em feiras de troca com sinal ruim
+- PWA: instalável como app
+- Consulta sem rede: cache local do Firestore para abrir o app offline
+  e consultar a coleção carregada (feiras de troca)
 - Analytics anônimo de uso
 
 ### Decisões Pendentes

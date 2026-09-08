@@ -26,7 +26,8 @@ repetidas) para o todo **e para cada seção** — sem tela separada.
   com barra de progresso — e cartões de estatísticas: percentual,
   faltantes, repetidas
 - Progresso por seção no cabeçalho de cada grupo: total, coladas e
-  repetidas da seção
+  repetidas da seção — repetidas = códigos distintos com contagem ≥ 2;
+  as unidades sobrando ficam por figurinha, na lista de repetidas
 
 ## Consequências
 
