@@ -88,12 +88,20 @@ Questões recorrentes são marcadas como "Nota".*
     como grupos nomeados, iguais a uma seleção
   - Nomes em português ("Alemanha", "Estados Unidos")
   - Bandeiras via Twemoji, incluindo Inglaterra e Escócia (ver ADR 0002)
-- Apresentar o catálogo com apresentações especiais conforme o tamanho
-  da tela (celular, tablet, navegador)
+- Apresentar o catálogo em duas ordenações de seções
+  - Ordem alfabética pela sigla da seção (ARG, AUS, AUT, …)
+  - Ordem igual à do álbum físico
+- Apresentar cada seção em duas disposições
+  - Lista: figurinhas em sequência (01 a N)
+  - Álbum: disposição próxima à da página física — facilita comparar
+    com o álbum real ("qual eu já tenho?")
+- Apresentar o catálogo conforme o tamanho da tela (celular, tablet,
+  navegador)
   - Em qualquer tamanho, os fluxos essenciais — cadastrar e consultar —
     permanecem completos
-  - Nota: quais apresentações existem em cada faixa de tela ainda não
-    está especificado — definir antes de implementar
+  - Nota: qual ordenação e disposição são usadas ou oferecidas em cada
+    faixa de tela ainda não está especificado — definir antes de
+    implementar
 
 ### Contagem
 - Ajustar a contagem de uma figurinha: incrementar, decrementar e zerar
@@ -172,6 +180,10 @@ Questões recorrentes são marcadas como "Nota".*
   atravessá-los
 - Minimalismo funcional: sem modos, sem configurações e sem passos
   opcionais nos fluxos essenciais
+- Navegação por rolagem da tela inteira, não por filtros: o catálogo é
+  percorrido rolando a página de ponta a ponta
+- Jamais scroll dentro de scroll: a rolagem pertence à página inteira;
+  nenhum painel interno rola por conta própria
 
 ## Requisitos Não Funcionais
 
@@ -219,8 +231,8 @@ especificação própria antes de implementar.*
   WhatsApp
 - **Formato do JSON de exportação**: campos e versionamento do arquivo
 - **Fonte do checklist**: fonte canônica e verificável das 994
-  figurinhas (códigos, nomes PT-BR, seções, posições fixas) para montar
-  `src/data/`
+  figurinhas (códigos, nomes PT-BR, seções, posições fixas, ordem do
+  álbum) para montar `src/data/`
 
 ## Fora de Escopo
 
