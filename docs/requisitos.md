@@ -23,7 +23,7 @@ implementação desta especificação.
 
 ## Conceitos fundamentais
 
-O catálogo espelha o álbum físico: cada figurinha tem um número e
+O catálogo espelha o álbum físico: cada figurinha tem um código e
 pertence a uma seção — uma seleção ou um especial. A coleção de um
 usuário é um contador de unidades por figurinha. Os estados "colada no
 álbum" e "sobra para troca" derivam da contagem — nunca são registrados
@@ -32,16 +32,23 @@ usuário é um contador de unidades por figurinha. Os estados "colada no
 ## Conceitos (Glossário)
 
 - **Catálogo**: lista fixa de todas as figurinhas do álbum, embutida no
-  código (números, nomes, seções e bandeiras — sem imagens dos cromos)
-- **Figurinha**: item do catálogo, identificada pelo seu número
-- **Seção**: agrupamento de figurinhas no álbum; toda seção é uma
-  seleção ou um especial
+  código (códigos, nomes, seções e bandeiras — sem imagens dos cromos)
+- **Figurinha**: item do catálogo, identificada pelo seu código — três
+  letras da seção + dois dígitos da posição dentro da seção (ex.:
+  `BRA05`, `FWC12`, `COC03`)
+- **Seção**: agrupamento de figurinhas no álbum, identificada pelas três
+  letras do código de suas figurinhas; toda seção é uma seleção ou um
+  especial
   - **Seleção**: seção das figurinhas de um mesmo time — as 48 seleções
-    classificadas, com 20 figurinhas cada
+    classificadas, código FIFA de três letras (BRA, ARG, RSA…), com 20
+    figurinhas cada
+    - **Posições fixas**: 01 é o escudo (cromo brilhante) e 13 é a foto
+      da seleção (cromo horizontal); as demais são os 18 jogadores
   - **Especiais**: seções que não são de seleção — "Extras FIFA"
-    (20 figurinhas, parte da numeração oficial: troféu, mascotes,
-    campeãs do passado) e "Coca-Cola" (14, página especial), exibidas
-    como grupos nomeados, iguais a uma seleção
+    (código `FWC`; 20 figurinhas, parte da numeração oficial: troféu,
+    mascotes, campeãs do passado) e "Coca-Cola" (código `COC`; 14,
+    página especial), exibidas como grupos nomeados, iguais a uma
+    seleção
 - **Coleção**: os contadores de unidades de um usuário, um por figurinha
   do catálogo
 - **Contagem**: unidades registradas de uma figurinha (0, 1, 2, …)
@@ -129,8 +136,9 @@ Questões recorrentes são marcadas como "Nota".*
   (n−1) repetidas
 - "Colada" é presunção da contagem, não estado registrado à parte — não
   existe "tenho mas ainda não colei"
-- A identidade de uma figurinha é o seu número no catálogo, imutável;
-  contagens são sempre endereçadas por número
+- A identidade de uma figurinha é o seu código — letras da seção +
+  dígitos da posição —, imutável no catálogo; contagens são sempre
+  endereçadas por código
 
 ### Dados e isolamento
 - A coleção vive no Firestore em `users/{uid}`; o isolamento entre
@@ -148,7 +156,7 @@ Questões recorrentes são marcadas como "Nota".*
 
 ### Conteúdo
 - O app não exibe imagens dos cromos (direitos autorais Panini): só
-  números, nomes, seções e bandeiras Twemoji
+  códigos, nomes, seções e bandeiras Twemoji
 - O catálogo é embutido no código (`src/data/`), não carregado de
   serviço externo
 
@@ -202,7 +210,8 @@ especificação própria antes de implementar.*
   WhatsApp
 - **Formato do JSON de exportação**: campos e versionamento do arquivo
 - **Fonte do checklist**: fonte canônica e verificável das 994
-  figurinhas (números, nomes PT-BR, seções) para montar `src/data/`
+  figurinhas (códigos, nomes PT-BR, seções, posições fixas) para montar
+  `src/data/`
 
 ## Fora de Escopo
 
