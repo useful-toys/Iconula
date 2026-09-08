@@ -20,6 +20,12 @@ Este é o ponto de partida de uma SPA que deve crescer no futuro — a
 estrutura de pastas já é organizada para isso, mas hoje o escopo é
 deliberadamente mínimo (sem router, sem gerenciador de estado global).
 
+**Mudança de rumo decidida**: o produto foi especificado para se tornar
+o controle de figurinhas do álbum Panini da Copa 2026, substituindo o
+botão — ver [docs/requisitos.md](docs/requisitos.md), a fonte da verdade
+de escopo (MVP, futuros, fora de escopo). Enquanto a implementação não
+acontece, o código neste repositório ainda é o descrito acima.
+
 ## Stack
 
 - [Vite](https://vitejs.dev/) + [React](https://react.dev/) 19
@@ -57,6 +63,7 @@ deliberadamente mínimo (sem router, sem gerenciador de estado global).
 | `src/components/LoginButton.jsx` | Botão "Entrar com Google" (`signInWithPopup`), com mensagem de erro para falhas que não sejam o usuário fechar o popup. |
 | `firebase.json`, `.firebaserc` | Configuração do Firebase Hosting (aponta para `dist/`), das regras do Firestore e do emulador. |
 | `.github/workflows/` | Workflows de deploy (produção em merge na `main`, preview em PRs). |
+| `docs/requisitos.md` | Requisitos do produto (o que é, diferenciais, MVP, futuros, fora de escopo) — ler antes de propor funcionalidades. Descreve o produto para o qual o app atual será transformado. |
 | `docs/adr/` | Decisões de arquitetura (ADRs) — leia antes de propor mudanças estruturais. |
 | `docs/tdr/` | Decisões técnicas pontuais (TDRs). |
 | `docs/firebase.md` | Tudo o que foi configurado no Firebase (projeto, Hosting, login) — como reproduzir. |
