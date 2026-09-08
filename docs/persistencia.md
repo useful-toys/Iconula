@@ -139,6 +139,9 @@ ADR 0007 (abuso de cota ou migração para o Blaze).
 - Região: `southamerica-east1` tem faixa gratuita; no Blaze é mais cara
   por operação que `us-*` — gatilho de revisão se o projeto vincular
   faturamento (ADR 0007)
+- O lado de requisito é a RNF de economia de requisições em
+  [requisitos.md](requisitos.md): uma leitura por login, escritas
+  agregadas, nenhuma requisição por figurinha
 
 ## Pronto × falta
 
