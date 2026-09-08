@@ -249,9 +249,10 @@ especificação própria antes de implementar.*
   nomes, faltantes e repetidas juntas ou separadas; copiar vs. abrir o
   WhatsApp
 - **Formato do JSON de exportação**: campos e versionamento do arquivo
-- **Fonte do checklist**: fonte canônica e verificável das 994
-  figurinhas (códigos, nomes PT-BR, seções, posições fixas, ordem do
-  álbum) para montar `src/data/`
+- **Fonte do checklist**: nomes das figurinhas de cada seção (jogadores
+  e especiais), páginas dos especiais (FWC e COC) e verificação das
+  posições fixas — as 48 seleções (código, nome, página) já estão no
+  Anexo; tudo vira `src/data/`
 
 ## Fora de Escopo
 
@@ -264,3 +265,67 @@ especificação própria antes de implementar.*
   2026
 - **O botão de seleções atual** ("Iconula Button"): removido no PR de
   implementação desta especificação; o histórico permanece no git
+
+## Anexo: seções do catálogo
+
+As 48 seleções — código, nome como impresso no álbum (PT-BR) e página
+no álbum físico, que define a ordem do álbum (ver
+[IDR 0005](idr/0005-ordenacoes-disposicoes-e-percurso-do-catalogo.md)).
+Páginas dos especiais (FWC e COC) e nomes das figurinhas de cada seção
+seguem como pendência do checklist.
+
+Observações para verificação na fonte do checklist: as páginas das
+seleções são todas pares (cada seleção ocupa um spread), com a página
+56 ausente; as páginas 1–7 e 106–112 devem cobrir capa, extras FWC e a
+página Coca-Cola.
+
+| Código | Seção | Página |
+|---|---|---|
+| ALG | Argélia | 84 |
+| ARG | Argentina | 82 |
+| AUS | Austrália | 36 |
+| AUT | Áustria | 86 |
+| BEL | Bélgica | 58 |
+| BIH | Bósnia-Herzegovina | 18 |
+| BRA | Brasil | 24 |
+| CAN | Canadá | 16 |
+| CIV | Costa do Marfim | 44 |
+| COD | Congo DR | 92 |
+| COL | Colômbia | 96 |
+| CPV | Cabo Verde | 68 |
+| CRO | Croácia | 100 |
+| CUW | Curaçao | 42 |
+| CZE | Chéquia | 14 |
+| ECU | Equador | 46 |
+| EGY | Egito | 60 |
+| ENG | Inglaterra | 98 |
+| ESP | Espanha | 66 |
+| FRA | França | 74 |
+| GER | Alemanha | 40 |
+| GHA | Gana | 102 |
+| HAI | Haiti | 28 |
+| IRN | Irã | 62 |
+| IRQ | Iraque | 78 |
+| JOR | Jordânia | 88 |
+| JPN | Japão | 50 |
+| KOR | Coreia do Sul | 12 |
+| KSA | Arábia Saudita | 70 |
+| MAR | Marrocos | 26 |
+| MEX | México | 8 |
+| NED | Países Baixos | 48 |
+| NOR | Noruega | 80 |
+| NZL | Nova Zelândia | 64 |
+| PAN | Panamá | 104 |
+| PAR | Paraguai | 34 |
+| POR | Portugal | 90 |
+| QAT | Catar | 20 |
+| RSA | África do Sul | 10 |
+| SCO | Escócia | 30 |
+| SEN | Senegal | 76 |
+| SUI | Suíça | 22 |
+| SWE | Suécia | 52 |
+| TUN | Tunísia | 54 |
+| TUR | Turquia | 38 |
+| URU | Uruguai | 72 |
+| USA | Estados Unidos | 32 |
+| UZB | Uzbequistão | 94 |
