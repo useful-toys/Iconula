@@ -96,6 +96,105 @@ cheias abaixo dela, como no recorte de uma página impressa.
   últimas (ver
   [IDR 0010](idr/0010-desfazer-ajustes-em-vez-de-confirmacoes.md))
 
+## Wireframe da tela principal
+
+Esquemático em texto; cores indicadas são as do
+[IDR 0006](idr/0006-estados-visuais-e-interacao-da-figurinha.md).
+
+### Página inteira
+
+```
+┌──────────────────────────────────────────────────────────────┐
+│  ICONULA 2026                         última alteração 12:34 │
+│                                                              │
+│  ╔══════════════╗   ┌──────────┐ ┌──────────┐ ┌──────────┐  │
+│  ║  412 / 994   ║   │   41 %   │ │   582    │ │    37    │  │
+│  ║   coladas    ║   │ completo │ │ faltantes│ │ repetidas│  │
+│  ╚══════════════╝   └──────────┘ └──────────┘ └──────────┘  │
+│  ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  │
+│                                                              │
+│  ● gravado 12:34    ● carregado 12:02    ● falha 11:58       │
+├──────────────────────────────────────────────────────────────┤
+│  ordem:      [página do álbum ▾ | sigla ▾]                   │
+│  disposição: [ lista | álbum ]                               │
+│  status:     [todas | faltantes | repetidas]  ← só na lista  │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│     … grupos do catálogo, um após o outro, até o fim …       │
+│                                                              │
+├──────────────────────────────────────────────────────────────┤
+│  projeto independente · sem vínculo com Panini ou FIFA ·     │
+│  marcas pertencem aos seus titulares (Lei 9.279/96)          │
+└──────────────────────────────────────────────────────────────┘
+```
+
+- Uma única rolagem (IDR 0008); o cabeçalho pode ser sticky
+- Avisos coloridos (IDR 0002): gravado = verde · carregado = azul ·
+  falha = vermelho — efêmeros ou empilháveis com limite, nunca log com
+  scroll
+- Primeira visita (0/994): uma linha de dica sobre o placar — "toque
+  nas figurinhas que você tem"
+- O comando desfazer (IDR 0010) ainda não tem lugar desenhado —
+  pendência
+
+### Grupo na disposição lista
+
+```
+┌──────────────────────────────────────────────────────────────┐
+│  [bandeira] Brasil · BRA · pág. 24        12/20 · 3 repetidas │
+├──────────────────────────────────────────────────────────────┤
+│  ┌────┐ ┌────┐ ┌────┐ ┌────┐ ┌────┐ ┌────┐                   │
+│  │BRA │ │BRA │ │BRA │ │BRA │ │BRA │ │BRA │                  │
+│  │ 01 │ │ 02 │ │ 03 │ │ 04 │ │ 05 │ │ 06 │   …              │
+│  └────┘ └────┘ └────┘ └────┘ └────┘ └────┘                   │
+│   cinza   cinza   verde   laranja  cinza   verde             │
+│                           ×2                                 │
+└──────────────────────────────────────────────────────────────┘
+```
+
+Cards fluem e quebram de linha conforme a largura da tela; o filtro de
+status atua aqui (todas/faltantes/repetidas).
+
+### Grupo na disposição álbum
+
+```
+   coluna 1 (fig. 01–10)           coluna 2 (fig. 11–20)
+  ┌─────────────────────────────┐  ┌─────────────────────────────┐
+  │              ┌────┐ ┌────┐ │  │ ┌────┐ ┌────┐ ┌───────────┐ │
+  │              │ 01 │ │ 02 │ │  │ │ 11 │ │ 12 │ │    13     │ │
+  │              └────┘ └────┘ │  │ └────┘ └────┘ └───────────┘ │
+  │ ┌────┐ ┌────┐ ┌────┐ ┌────┐ │  │ ┌────┐ ┌────┐ ┌────┐ ┌────┐ │
+  │ │ 03 │ │ 04 │ │ 05 │ │ 06 │ │  │ │ 14 │ │ 15 │ │ 16 │ │ 17 │ │
+  │ └────┘ └────┘ └────┘ └────┘ │  │ └────┘ └────┘ └────┘ └────┘ │
+  │ ┌────┐ ┌────┐ ┌────┐ ┌────┐ │  │      ┌────┐ ┌────┐ ┌────┐ │
+  │ │ 07 │ │ 08 │ │ 09 │ │ 10 │ │  │      │ 18 │ │ 19 │ │ 20 │ │
+  │ └────┘ └────┘ └────┘ └────┘ │  │      └────┘ └────┘ └────┘ │
+  └─────────────────────────────┘  └─────────────────────────────┘
+    01–02 nas trilhas 3–4            13 paisagem nas trilhas 3–4
+                                        18–20 nas trilhas 2–4
+```
+
+Trilhas de largura fixa, posições explícitas de linha/coluna — o
+recorte da página impressa (IDR 0009). Em telas estreitas: pendência de
+faixa de tela (empilhar colunas ou cair para lista).
+
+### Figurinha
+
+```
+   ┌──────────┐     ┌──────────┐     ┌──────────┐
+   │ BRA      │     │ BRA      │     │ BRA      │
+   │ 05       │     │ 05       │     │ 05     * │
+   │          │     │          │     │      ×2  │
+   └──────────┘     └──────────┘     └──────────┘
+    faltante         colada           repetida
+    (cinza)          (verde)          (laranja, n−1 sobrando)
+```
+
+- Código em duas linhas (sigla + número), como impresso na figurinha
+  física; bordas perfuradas (efeito selo)
+- `*` = metalizada/especial (estrelinha no canto); `×N` = unidades
+  sobrando
+
 ## Demais telas
 
 *A preencher quando desenhadas: login, exportação e importação,
