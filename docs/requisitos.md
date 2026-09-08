@@ -111,6 +111,10 @@ Questões recorrentes são marcadas como "Nota".*
     sem ação do usuário (ver Estado da sincronização)
   - Falha de persistência não bloqueia o ajuste: a tela reflete a
     mudança, a falha é notificada e a gravação seguinte regrava o valor completo
+- Desfazer ajustes
+  - Desfaz a última alteração — incremento, decremento ou zerar — e
+    pode ser repetido para desfazer as N últimas (ver
+    [IDR 0010](idr/0010-desfazer-ajustes-em-vez-de-confirmacoes.md))
 
 ### Estado da sincronização
 - A persistência é automática e transparente: sem botões de ler ou
@@ -193,9 +197,9 @@ Questões recorrentes são marcadas como "Nota".*
   atravessá-los
 - Minimalismo funcional: sem modos, sem configurações e sem passos
   opcionais nos fluxos essenciais
-- Navegação por rolagem da tela inteira: o catálogo é percorrido
-  rolando a página de ponta a ponta; o seletor "ir para" seção é
-  navegação (salto), não filtro
+- Navegação por rolagem da tela inteira, sem seletor "ir para": a
+  rolagem em si percorre o caminho até a seção desejada (ver
+  [IDR 0004](idr/0004-ir-para-secao-e-salto-de-navegacao.md), rejeitado)
 - Filtro de status (todas/faltantes/repetidas) existe apenas na
   disposição lista; a disposição álbum nunca é filtrada
 - Jamais scroll dentro de scroll: cada tela é uma única página

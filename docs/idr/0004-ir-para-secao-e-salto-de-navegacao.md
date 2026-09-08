@@ -4,8 +4,11 @@
 
 ## Status
 
-Aceito. Detalha o papel do seletor de seções apontado lateralmente pelo
-[IDR 0001](0001-filtro-de-status-so-na-disposicao-lista.md).
+**Rejeitado** — o seletor "ir para" foi removido da especificação: com
+uma UX de percurso suficientemente boa, rolar até a seção desejada já é
+o caminho natural, e um seletor de salto não se justifica. Mantido na
+íntegra por registrar o diagnóstico filtro × salto, que segue válido
+como referência.
 
 ## Contexto
 

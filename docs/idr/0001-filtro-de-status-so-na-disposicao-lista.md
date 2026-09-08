@@ -28,8 +28,9 @@ real é navegação — pular direto a um grupo.
   disposição lista**
 - A disposição álbum — que imita a página física — **nunca é
   filtrada**: espelhar o álbum real é o propósito dessa disposição
-- O seletor "ir para" seção é navegação por salto, não filtro —
-  detalhado no [IDR 0004](0004-ir-para-secao-e-salto-de-navegacao.md)
+- Sem seletor de seção: o percurso é só rolagem — o "ir para" do
+  [IDR 0004](0004-ir-para-secao-e-salto-de-navegacao.md) acabou
+  rejeitado
 
 ## Consequências
 

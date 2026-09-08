@@ -37,7 +37,6 @@ por grupo não é editável — é fixo, apenas exibido, dado do catálogo.*
   (duas colunas, com a figurinha paisagem da foto da seleção)
 - Filtro de status (todas/faltantes/repetidas): apenas na disposição
   lista
-- Seletor "ir para" seção: navegação por salto, não filtro
 
 ### Corpo
 - Grupos = seções do catálogo: 48 seleções e os especiais "Extras FIFA"
@@ -93,6 +92,9 @@ cheias abaixo dela, como no recorte de uma página impressa.
 ### Interações
 - Tocar na figurinha soma uma unidade
 - Ícone de menos que surge ao tocar remove uma unidade
+- Comando desfazer reverte a última alteração; repetível para as N
+  últimas (ver
+  [IDR 0010](idr/0010-desfazer-ajustes-em-vez-de-confirmacoes.md))
 
 ## Demais telas
 
@@ -119,5 +121,8 @@ política de privacidade.*
   do schema)
 - Interação de zerar contagem (o toque soma e o menos remove; zerar
   ainda não tem gesto definido)
-- Reforço não-cromático do estado da figurinha: faltente vs. colada
+- Desenho do comando desfazer: gesto/atalho e profundidade do
+  histórico (ver
+  [IDR 0010](idr/0010-desfazer-ajustes-em-vez-de-confirmacoes.md))
+- Reforço não-cromático do estado da figurinha: faltante vs. colada
   hoje difere só por cor (ver [IDR 0006](idr/0006-estados-visuais-e-interacao-da-figurinha.md))
