@@ -238,6 +238,13 @@ Questões recorrentes são marcadas como "Nota".*
   básicos em PT-BR
 - **Deploy**: Firebase Hosting — produção em merge na `main`, preview por
   PR (já vigentes)
+- **Economia de requisições**: operar dentro da cota gratuita do plano
+  Spark exige ser econômico nas requisições ao Firestore — uma leitura
+  por login, escritas agregadas (IDR 0003), mapa esparso (zeros nunca
+  gravados — ver [persistencia.md](persistencia.md)); nenhuma
+  requisição por figurinha; cada feature nova contabiliza seu custo em
+  leituras/escritas antes de entrar (o sync ao vivo, em futuros, é o
+  primeiro candidato a pesar)
 - **Custo**: plano Spark (gratuito); Firestore em `southamerica-east1`
   com faixa gratuita (ADR 0007)
 
