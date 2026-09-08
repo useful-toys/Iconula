@@ -88,6 +88,13 @@ pedido antes do `rewrite` `**` → `/index.html` ser aplicado, então
 `GET /` (o que qualquer visitante realmente acessa) não bate com o source
 `/index.html` sozinho.
 
+O `connect-src` lista as origens que o SDK do Firebase chama:
+`identitytoolkit.googleapis.com` e `securetoken.googleapis.com` (Auth) e
+`firestore.googleapis.com` (persistência). O Firestore **não** precisa de
+`wss:` — ele fala WebChannel sobre HTTPS, ao contrário do Realtime
+Database; a verificação está no
+[docs/tdr/0007](tdr/0007-csp-para-o-firestore.md).
+
 A CSP restringe `img-src` a `'self' data:'` (sem CDN externo) desde que
 as bandeiras Twemoji passaram a ser vendorizadas em
 `src/assets/flags/` em vez de servidas por `cdn.jsdelivr.net` em runtime
@@ -215,6 +222,74 @@ Auth. Se o login falhar num preview com o erro
 Authentication → Settings → Authorized domains (ele expira junto com o
 canal de preview, ~7 dias — não precisa ser removido manualmente depois).
 
+## Cloud Firestore
+
+Guarda a preferência de bandeira de cada usuário autenticado — ver
+[ADR 0007](adr/0007-persistencia-do-time-no-firestore.md) para o modelo de
+dados e o raciocínio.
+
+- **Banco**: `(default)`, modo **Native**
+- **Região**: `southamerica-east1` (São Paulo) — **irreversível**
+- **Coleção**: `users`, um documento por conta (`users/{uid}`), com um
+  único campo `teamName`
+
+**Nenhuma variável de ambiente nova é necessária**: o Firestore reusa a
+config do mesmo Web App já usada pelo Auth (as `VITE_FIREBASE_*` acima).
+
+Os comandos de criação do banco (e por que `gcloud` em vez do `firebase`
+CLI) estão em [docs/gcloud.md](gcloud.md#cloud-firestore), junto com a
+API que precisa estar habilitada.
+
+### Regras de segurança
+
+O arquivo é [`firestore.rules`](../firestore.rules), na raiz do
+repositório, referenciado pelo bloco `firestore` do `firebase.json`. Ele
+é a **única** garantia de que um usuário não acessa os dados de outro: o
+bundle do app é público e qualquer requisição pode ser forjada, então a
+autorização é avaliada no servidor, contra o ID token.
+
+Em resumo, o que as regras permitem em `users/{uid}`:
+
+- `get` apenas do próprio documento (`request.auth.uid == uid`);
+  deliberadamente **não** `list`, para que ninguém possa varrer a coleção
+- `create`/`update` apenas do próprio documento, validando que o payload
+  tem só `teamName`, string, entre 1 e 64 caracteres
+- **sem `delete`**
+- todo o resto é negado por padrão
+
+Isso é verificado por testes automatizados contra o emulador
+(`npm run test:rules`), que rodam no CI a cada PR — ver
+[TDR 0008](tdr/0008-deploy-e-teste-das-regras-do-firestore.md).
+
+### Deploy das regras
+
+As regras sobem automaticamente no **merge para a `main`**, num passo do
+workflow `firebase-hosting-merge.yml` (a action de Hosting não cobre
+regras). Manualmente, quando necessário:
+
+```bash
+firebase deploy --only firestore:rules --project iconula
+```
+
+**Armadilha importante**: regras são **globais do projeto** e não têm
+canal de preview. Um preview deploy de PR roda o cliente novo contra as
+regras que já estão publicadas — então, ao testar uma mudança que dependa
+de regras novas, é preciso publicá-las à mão antes (comando acima,
+idempotente), ou toda gravação falhará com `permission-denied`. E, pela
+política de erro do ADR 0007, essa falha é **silenciosa**: aparece no
+console do navegador, não na tela.
+
+> Atenção: com o bloco `firestore` no `firebase.json`, um
+> `firebase deploy` **sem** `--only` passa a publicar as regras junto com
+> o Hosting.
+
+### Emulador (desenvolvimento)
+
+`firebase.json` traz um bloco `emulators` com o Firestore na porta 8080,
+usado só pelos testes de regras. O emulador roda na JVM e o
+`firebase-tools` exige **JDK 21 ou superior** — com um JDK mais antigo no
+`PATH`, `npm run test:rules` falha por ambiente, não por regra.
+
 ## Domínio customizado
 
 - **Domínio**: `iconula.danielferber.com.br` (subdomínio de `danielferber.com.br`,
@@ -288,3 +363,5 @@ Conferir o progresso reconsultando o `GET` acima e olhando os campos
 6. Habilitar o provedor Google em Authentication → Sign-in method,
    registrar um Web App e configurar as variáveis `VITE_FIREBASE_*` (ver
    seção "Firebase Authentication" acima)
+7. Criar o banco `(default)` do Firestore e publicar as regras (ver
+   seção "Cloud Firestore" acima e [docs/gcloud.md](gcloud.md#cloud-firestore))

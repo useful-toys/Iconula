@@ -1,0 +1,49 @@
+// Copyright (c) 2026 Daniel Felix Ferber
+//
+// Regras de segurança do Cloud Firestore. Esta é a ÚNICA garantia de que
+// um usuário não acessa os dados de outro: o bundle do app é público e
+// qualquer requisição pode ser forjada, então a autorização precisa ser
+// avaliada aqui, no servidor, contra o ID token. Ver ADR 0007 e TDR 0008.
+//
+// Coberto por firestore.rules.test.js (`npm run test:rules`), que roda no
+// CI a cada PR — uma regressão neste arquivo quebra o build.
+
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Preferências do usuário: um documento por conta, com o uid no
+    // caminho. Isso torna a autorização uma comparação direta, sem
+    // consulta e sem índice.
+    match /users/{userId} {
+
+      // `get`, e não `read`: `read` abrangeria também `list`, fazendo
+      // com que uma query na coleção `users` passasse a ser avaliada.
+      // Aqui só existe acesso a documento por id — e o id é o próprio
+      // uid —, então negar a listagem de saída é mais barato que confiar
+      // que a condição não seja satisfazível numa query.
+      allow get: if request.auth != null && request.auth.uid == userId;
+
+      // Só `create` e `update`; `delete` não é operação que o app faça,
+      // e não autorizá-la é de graça.
+      //
+      // A validação de formato existe porque o documento é do usuário,
+      // mas o armazenamento e a cota são do projeto: sem ela, um usuário
+      // autenticado poderia usar o próprio documento como armazenamento
+      // livre. `hasOnly` acopla schema a deploy de regras — um campo
+      // novo exige que estas regras subam antes ou junto com o código
+      // que o escreve (ver TDR 0008).
+      allow create, update: if request.auth != null
+        && request.auth.uid == userId
+        && request.resource.data.keys().hasOnly(["teamName"])
+        && request.resource.data.teamName is string
+        && request.resource.data.teamName.size() > 0
+        && request.resource.data.teamName.size() <= 64;
+    }
+
+    // Qualquer outro caminho já é negado por padrão pelo Firestore. Não
+    // há regra catch-all `if false` de propósito: ela só daria a falsa
+    // impressão de que sua ausência abriria o banco.
+  }
+}

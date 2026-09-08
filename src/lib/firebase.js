@@ -20,10 +20,11 @@ const config = {
   appId: import.meta.env.VITE_FIREBASE_APP_ID,
 };
 
-// Login é uma feature adicional: sua ausência não deve travar o resto do
-// app. Sem as VITE_FIREBASE_* (ex.: `.env.local` não configurado ao rodar
-// `npm run dev` pela primeira vez), exportamos `auth = null` e App.jsx
-// simplesmente não renderiza a área de autenticação — ver ADR 0005.
+// Login e persistência são features adicionais: sua ausência não deve
+// travar o resto do app. Sem as VITE_FIREBASE_* (ex.: `.env.local` não
+// configurado ao rodar `npm run dev` pela primeira vez), exportamos
+// `auth = null` e `app = null`: App.jsx simplesmente não renderiza a área
+// de autenticação, e nada é gravado — ver ADR 0005 e ADR 0007.
 //
 // A checagem é explícita, e não um try/catch em volta de `getAuth()`: na
 // API modular o erro de credencial inválida só aparece na primeira
@@ -34,11 +35,20 @@ const isConfigured = Object.values(config).every(Boolean);
 
 export let auth = null;
 
+// A instância de FirebaseApp é exportada porque `src/lib/userPreferences.js`
+// carrega o SDK do Firestore sob demanda (`import()` dinâmico) e precisa
+// dela para chamar `getFirestore(app)`. Este módulo deliberadamente **não**
+// importa `firebase/firestore`: fazê-lo estaticamente jogaria ~430 KB no
+// bundle principal, entregues a todo visitante — inclusive quem nunca faz
+// login e portanto nunca grava nada. Ver ADR 0007.
+export let app = null;
+
 if (isConfigured) {
-  auth = getAuth(initializeApp(config));
+  app = initializeApp(config);
+  auth = getAuth(app);
 } else {
   console.error(
-    "Firebase Auth não inicializado — configure VITE_FIREBASE_* em .env.local (ver docs/firebase.md). Login ficará indisponível.",
+    "Firebase não inicializado — configure VITE_FIREBASE_* em .env.local (ver docs/firebase.md). Login e persistência ficarão indisponíveis.",
   );
 }
 

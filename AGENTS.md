@@ -12,6 +12,10 @@ classificadas para a Copa do Mundo FIFA 2026. A cada clique, avança para
 o próximo time em ordem alfabética, voltando ao primeiro depois do
 último (wrap-around).
 
+Para quem está autenticado, a bandeira visível é gravada no Cloud
+Firestore a cada clique e restaurada no próximo login. Deslogado, o app
+começa no primeiro time e não guarda nada.
+
 Este é o ponto de partida de uma SPA que deve crescer no futuro — a
 estrutura de pastas já é organizada para isso, mas hoje o escopo é
 deliberadamente mínimo (sem router, sem gerenciador de estado global).
@@ -31,6 +35,10 @@ deliberadamente mínimo (sem router, sem gerenciador de estado global).
 - Login: Firebase Auth (SDK modular), único provedor Google, botão
   próprio — sem FirebaseUI (ver
   [docs/adr/0006](docs/adr/0006-login-google-sdk-modular.md))
+- Persistência: Cloud Firestore, um documento por usuário
+  (`users/{uid}`), com o SDK carregado sob demanda para não pesar no
+  bundle de quem não faz login (ver
+  [docs/adr/0007](docs/adr/0007-persistencia-do-time-no-firestore.md))
 
 ## Onde fica cada coisa
 
@@ -38,13 +46,16 @@ deliberadamente mínimo (sem router, sem gerenciador de estado global).
 |---|---|
 | `src/data/teams.js` | Os 48 times (nome + emoji de bandeira), em ordem alfabética. Única fonte de dados dos times. |
 | `src/components/TeamButton.jsx` | Componente apresentacional do botão; converte o emoji em imagem via Twemoji. |
-| `src/App.jsx` | Estado do time atual (`useState`) e lógica de avanço com wrap-around; estado do usuário autenticado (`useState` + `onAuthStateChanged`), repassado por prop para `AuthStatus` — sem Context (ver [ADR 0006](docs/adr/0006-login-google-sdk-modular.md)). Exporta `sortedTeams` para uso em testes. |
+| `src/App.jsx` | Estado do time atual (`useState`) e lógica de avanço com wrap-around; estado do usuário autenticado (`useState` + `onAuthStateChanged`), repassado por prop para `AuthStatus` — sem Context (ver [ADR 0006](docs/adr/0006-login-google-sdk-modular.md)). Carrega o time salvo ao entrar e grava a cada clique de usuário logado (ver [ADR 0007](docs/adr/0007-persistencia-do-time-no-firestore.md)). |
 | `src/App.css` | Estilo do app (minimalista, responsivo, suporte a dark mode via `prefers-color-scheme`). |
-| `src/App.test.jsx` | Testes: estado inicial, avanço ao clicar, wrap-around, estado de login/logout (mocka `src/lib/firebase.js`). |
-| `src/lib/firebase.js` | Inicializa o SDK do Firebase (API modular — ver ADR 0006) a partir das variáveis `VITE_FIREBASE_*`; exporta `auth` (`null` se a config estiver incompleta — login fica indisponível, mas o resto do app funciona) e `signInWithGoogle()`. |
+| `src/App.test.jsx` | Testes: estado inicial, avanço ao clicar, wrap-around, login/logout e persistência (mocka `src/lib/firebase.js` e `src/lib/userPreferences.js`). |
+| `src/lib/firebase.js` | Inicializa o SDK do Firebase (API modular — ver ADR 0006) a partir das variáveis `VITE_FIREBASE_*`; exporta `auth`, `app` (ambos `null` se a config estiver incompleta — login e persistência ficam indisponíveis, mas o resto do app funciona) e `signInWithGoogle()`. **Não** importa `firebase/firestore`: quem faz isso é `userPreferences.js`, sob demanda. |
+| `src/lib/userPreferences.js` | Lê e grava o time do usuário em `users/{uid}` no Firestore, carregando o SDK com `import()` dinâmico. Nunca lança: falha de persistência vira log e não altera a tela (ver [ADR 0007](docs/adr/0007-persistencia-do-time-no-firestore.md)). |
+| `firestore.rules` | Regras de segurança do Firestore — a única garantia de que um usuário não acessa os dados de outro. |
+| `firestore.rules.test.js` | Testes das regras contra o emulador (`npm run test:rules`, config em `vitest.rules.config.js`); rodam no CI a cada PR (ver [TDR 0008](docs/tdr/0008-deploy-e-teste-das-regras-do-firestore.md)). |
 | `src/components/AuthStatus.jsx` | Mostra `LoginButton` (deslogado) ou nome/avatar/botão "Sair" (logado); puramente controlado por props. |
 | `src/components/LoginButton.jsx` | Botão "Entrar com Google" (`signInWithPopup`), com mensagem de erro para falhas que não sejam o usuário fechar o popup. |
-| `firebase.json`, `.firebaserc` | Configuração do Firebase Hosting (aponta para `dist/`). |
+| `firebase.json`, `.firebaserc` | Configuração do Firebase Hosting (aponta para `dist/`), das regras do Firestore e do emulador. |
 | `.github/workflows/` | Workflows de deploy (produção em merge na `main`, preview em PRs). |
 | `docs/adr/` | Decisões de arquitetura (ADRs) — leia antes de propor mudanças estruturais. |
 | `docs/tdr/` | Decisões técnicas pontuais (TDRs). |
@@ -127,11 +138,15 @@ antes de executar, mesmo com a ferramenta disponível.
 
 ```bash
 npm install
-npm run dev      # desenvolvimento local
-npm run test     # roda a suíte de testes (Vitest)
-npm run build    # build de produção em dist/
-npm run preview  # serve o build de produção localmente
+npm run dev        # desenvolvimento local
+npm run test       # roda a suíte de testes (Vitest)
+npm run test:rules # regras do Firestore contra o emulador (precisa de JDK 21+)
+npm run build      # build de produção em dist/
+npm run preview    # serve o build de produção localmente
 ```
+
+`npm run test:rules` sobe o emulador do Firestore, que roda na JVM: com um
+JDK anterior ao 21 no `PATH`, ele falha por ambiente, não por regra.
 
 `npm run dev` funciona sem nenhuma credencial — sem um `.env.local` com as
 variáveis `VITE_FIREBASE_*` (ver [docs/firebase.md](docs/firebase.md#firebase-authentication)),

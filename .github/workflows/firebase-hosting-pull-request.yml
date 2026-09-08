@@ -56,6 +56,14 @@ jobs:
         run: |
           echo "$FIREBASE_SERVICE_ACCOUNT_ICONULA" > "$RUNNER_TEMP/sa.json"
           echo "SA_PATH=$RUNNER_TEMP/sa.json" >> "$GITHUB_ENV"
+      # Versão do firebase-tools fixada: este comando roda com a chave da
+      # service account no ambiente, e uma tag móvel (@latest) executando
+      # com credencial de deploy é o mesmo risco de cadeia de suprimentos
+      # que o pinning por SHA fecha para as actions (ver TDR 0006 e
+      # TDR 0008).
       - env:
           GOOGLE_APPLICATION_CREDENTIALS: ${{ env.SA_PATH }}
-        run: npx --yes firebase-tools@latest hosting:channel:delete "pr${{ github.event.number }}" --project iconula --force
+        run: npx --yes firebase-tools@15.29.0 hosting:channel:delete "pr${{ github.event.number }}" --project iconula --force
+      - name: Remover credencial da service account
+        if: always()
+        run: rm -f "$RUNNER_TEMP/sa.json"
