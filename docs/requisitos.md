@@ -105,12 +105,16 @@ Questões recorrentes são marcadas como "Nota".*
 ### Contagem
 - Ajustar a contagem de uma figurinha: incrementar, decrementar e zerar
   - A contagem nunca fica negativa (decremento para em 0)
-  - Cada ajuste dispara a persistência no Firestore — fire-and-forget,
-    sem debounce (política do ADR 0007)
+  - O ajuste é aplicado na hora na tela e entra na gravação seguinte —
+    sem ação do usuário (ver Estado da sincronização)
   - Falha de persistência não bloqueia o ajuste: a tela reflete a
-    mudança, a falha é notificada e o ajuste seguinte regrava o valor completo
+    mudança, a falha é notificada e a gravação seguinte regrava o valor completo
 
 ### Estado da sincronização
+- A persistência é automática e transparente: sem botões de ler ou
+  salvar; a gravação é relativamente rápida, sem precisar acontecer a
+  cada ajuste — agregar mudanças é aceitável (frequência exata no ADR
+  do schema)
 - Notificar eventos de persistência: gravado com sucesso, dados
   carregados com sucesso e falhas — falhas informadas claramente ao
   usuário
@@ -234,7 +238,10 @@ especificação própria antes de implementar.*
 - **Schema Firestore da coleção**: mapa de contagens no documento
   `users/{uid}` vs. subcoleção — impacto em cota de escritas e regras;
   exige ADR novo revisando o 0007, inclusive a política de erro
-  (agora com notificações visíveis — ver Estado da sincronização)
+  (agora com notificações visíveis — ver Estado da sincronização), a
+  frequência de gravação (debounce/agregação em vez de uma escrita por
+  clique) e a garantia de que gravações pendentes não se percam ao
+  fechar a página
 - **Migração do `teamName`**: manter, ignorar ou remover o campo da era
   do botão quando ela for desativada
 - **Formato do texto de WhatsApp**: agrupamento por seção, com ou sem

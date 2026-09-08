@@ -77,7 +77,7 @@ política de privacidade.*
 - Qual ordenação e disposição são usadas ou oferecidas em cada faixa de
   tela
 - Desenho da área de avisos: notificar eventos de persistência sem
-  virar ruído (cada ajuste dispara uma gravação — ver fire-and-forget
-  em requisitos.md)
+  virar ruído (as gravações agregam ajustes — frequência exata no ADR
+  do schema)
 - Interação de zerar contagem (o toque soma e o menos remove; zerar
   ainda não tem gesto definido)
