@@ -21,14 +21,31 @@ gcloud config set project iconula
 
 ## APIs habilitadas
 
+Habilitadas explicitamente por este projeto:
+
 | API | Motivo |
 |---|---|
 | `identitytoolkit.googleapis.com` (Identity Toolkit API) | Usada pelo Firebase Auth (login com Google — ver [ADR 0005](adr/0005-autenticacao-google-firebase-auth.md) e [docs/firebase.md](firebase.md#firebase-authentication)); também é a API por trás do Identity Platform Admin API, usada para automatizar authorized domains via `curl` + token do `gcloud` (mesmo padrão da Firebase Hosting REST API já usado para o domínio customizado). |
+| `firestore.googleapis.com` (Cloud Firestore API) | Persistência do time visível por usuário — ver [ADR 0007](adr/0007-persistencia-do-time-no-firestore.md) e a seção "Cloud Firestore" abaixo. Sem ela, qualquer `gcloud firestore ...` falha com `SERVICE_DISABLED`. |
 
-Habilitada com:
+Habilitadas com:
 
 ```bash
 gcloud services enable identitytoolkit.googleapis.com --project iconula
+gcloud services enable firestore.googleapis.com --project iconula
+```
+
+Além dessas, o próprio Firebase habilita um conjunto de APIs por padrão
+ao criar o projeto (`firebase.googleapis.com`,
+`firebasehosting.googleapis.com`, `firebaserules.googleapis.com`,
+`datastore.googleapis.com`, `serviceusage.googleapis.com`, entre outras).
+Duas importam aqui: **`firebaserules.googleapis.com`** é a que o deploy
+das regras do Firestore usa, e **`datastore.googleapis.com`** acompanha o
+Firestore — nenhuma das duas precisou ser habilitada à mão. Conferir o
+estado real com:
+
+```bash
+gcloud services list --enabled --project iconula
 ```
 
 ## Service account para deploy via GitHub Actions
@@ -80,6 +97,32 @@ não-interativo. A alternativa foi configurar cada peça manualmente com
      --condition=None
    ```
 
+   E, para publicar as regras de segurança do Firestore no workflow de
+   merge (ver [TDR 0008](tdr/0008-deploy-e-teste-das-regras-do-firestore.md)):
+
+   ```bash
+   gcloud projects add-iam-policy-binding iconula \
+     --member="serviceAccount:github-action-iconula@iconula.iam.gserviceaccount.com" \
+     --role="roles/firebaserules.admin" \
+     --condition=None
+   ```
+
+   `roles/firebaserules.admin` contém exatamente o que
+   `firebase deploy --only firestore:rules` executa
+   (`firebaserules.rulesets.create`, `firebaserules.releases.create/update`);
+   o lado de leitura (`datastore.databases.get`, `firebase.projects.get`)
+   já vem do `roles/firebase.viewer` acima. **`roles/datastore.owner` foi
+   deliberadamente descartado**: daria à conta de CI leitura e escrita
+   sobre o documento de todos os usuários, para uma tarefa que não toca
+   em dado nenhum. Conferir as roles concedidas com:
+
+   ```bash
+   gcloud projects get-iam-policy iconula \
+     --flatten="bindings[].members" \
+     --filter="bindings.members:github-action-iconula@iconula.iam.gserviceaccount.com" \
+     --format="table(bindings.role)"
+   ```
+
 4. Gerar uma chave JSON para a service account:
 
    ```bash
@@ -109,11 +152,47 @@ gcloud iam service-accounts keys delete <KEY_ID> \
 # Gerar uma nova e atualizar o secret no GitHub (ver docs/github.md)
 ```
 
+## Cloud Firestore
+
+O banco `(default)` foi criado via `gcloud`, e **não** via
+`firebase firestore:databases:create`, por um motivo específico: o
+comando do Firebase não tem a flag `--type` e cria o modo Native
+implicitamente. O `gcloud` deixa a escolha explícita e auditável — o modo
+Datastore quebraria o SDK cliente inteiro.
+
+```bash
+# Conferir as regiões elegíveis ANTES: a escolha é irreversível
+firebase firestore:locations --project iconula
+
+# Ensaio: não cria nada
+gcloud firestore databases create --project=iconula \
+  --database='(default)' --location=southamerica-east1 \
+  --type=firestore-native --dry-run
+
+# Criação real
+gcloud firestore databases create --project=iconula \
+  --database='(default)' --location=southamerica-east1 --type=firestore-native
+
+# Conferir
+gcloud firestore databases describe --database='(default)' --project=iconula
+```
+
+Região **`southamerica-east1`** (São Paulo). A escolha, a pesquisa sobre
+faixa gratuita por região e o gatilho de revisão caso o projeto vá para o
+plano Blaze estão registrados no
+[ADR 0007](adr/0007-persistencia-do-time-no-firestore.md), seção "Região
+e faixa gratuita". As regras de segurança e como elas são publicadas
+ficam em [docs/firebase.md](firebase.md#cloud-firestore) e no
+[TDR 0008](tdr/0008-deploy-e-teste-das-regras-do-firestore.md).
+
 ## Reproduzindo do zero (resumo)
 
 1. `gcloud config set project <project-id>` (mesmo ID do projeto Firebase)
 2. `gcloud services enable identitytoolkit.googleapis.com --project <project-id>`
-   (necessário para o Firebase Auth — ver seção "APIs habilitadas")
-3. Criar a service account e conceder `roles/firebasehosting.admin` +
-   `roles/firebase.viewer`
-4. Gerar a chave JSON, registrar como secret no GitHub, apagar o arquivo local
+   (Firebase Auth) e
+   `gcloud services enable firestore.googleapis.com --project <project-id>`
+   (Firestore) — ver seção "APIs habilitadas"
+3. Criar o banco `(default)` do Firestore — ver seção "Cloud Firestore"
+4. Criar a service account e conceder `roles/firebasehosting.admin` +
+   `roles/firebase.viewer` + `roles/firebaserules.admin`
+5. Gerar a chave JSON, registrar como secret no GitHub, apagar o arquivo local

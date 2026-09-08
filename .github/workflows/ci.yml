@@ -21,7 +21,19 @@ jobs:
         with:
           node-version: 22
           cache: npm
+      # O emulador do Firestore roda na JVM e o firebase-tools exige JDK
+      # 21+. A imagem do runner traz mais de um JDK e o default pode
+      # mudar entre versões da imagem — fixar a versão aqui evita que os
+      # testes de regras quebrem por troca de imagem (ver TDR 0008).
+      - uses: actions/setup-java@c5195efecf7bdfc987ee8bae7a71cb8b11521c00 # v4.7.1
+        with:
+          distribution: temurin
+          java-version: 21
       - run: npm ci --ignore-scripts
       - run: npm run lint
       - run: npm test
+      # Regras de segurança do Firestore contra o emulador. Não usa
+      # secret nenhum (projeto `demo-`, emulador offline), então continua
+      # valendo para PR de fork — ver TDR 0008.
+      - run: npm run test:rules
       - run: npm run build

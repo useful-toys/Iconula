@@ -57,7 +57,7 @@ gh api repos/useful-toys/Iconula --jq .security_and_analysis
 
 | Secret | Origem | Uso |
 |---|---|---|
-| `FIREBASE_SERVICE_ACCOUNT_ICONULA` | Chave JSON da service account `github-action-iconula@iconula.iam.gserviceaccount.com` (ver [docs/gcloud.md](gcloud.md)) | Autenticar o `FirebaseExtended/action-hosting-deploy@v0` nos workflows de deploy |
+| `FIREBASE_SERVICE_ACCOUNT_ICONULA` | Chave JSON da service account `github-action-iconula@iconula.iam.gserviceaccount.com` (ver [docs/gcloud.md](gcloud.md)) | Autenticar o `FirebaseExtended/action-hosting-deploy@v0` nos workflows de deploy; e, via `GOOGLE_APPLICATION_CREDENTIALS`, o `firebase deploy --only firestore:rules` no merge e o `hosting:channel:delete` no fechamento de PR |
 
 Como foi criado (a partir do arquivo de chave gerado no lado do Google
 Cloud — ver `docs/gcloud.md`):
@@ -120,6 +120,19 @@ Dispara em todo push na branch `main`. Faz build (`npm ci && npm run build`)
 e deploy em produção via `FirebaseExtended/action-hosting-deploy` (pinned por
 SHA, ver abaixo), com `channelId: live`.
 
+Também **publica as regras de segurança do Firestore**, num passo próprio:
+a action de Hosting não cobre regras, e regras não têm canal de preview
+(são globais do projeto), então o merge é o único ponto onde elas sobem —
+ver [docs/tdr/0008](tdr/0008-deploy-e-teste-das-regras-do-firestore.md).
+O passo roda **antes** do deploy de Hosting (se as regras falharem, o
+cliente novo nem sobe) e usa `npx firebase-tools` com a mesma service
+account, autenticando por um arquivo temporário em `$RUNNER_TEMP`
+apontado por `GOOGLE_APPLICATION_CREDENTIALS` — o mesmo padrão que o job
+`cleanup_preview` já usava. A credencial é apagada num passo
+`if: always()` ao fim do job.
+
+O workflow tem `permissions: contents: read`, como o `ci.yml`.
+
 ### `firebase-hosting-pull-request.yml`
 
 Dispara em todo pull request, mas só quando o PR **não** é de fork
@@ -142,8 +155,10 @@ ninguém tinha notado).
 
 ### `ci.yml`
 
-Lint (`npm run lint`, oxlint) e testes (`npm test`, Vitest), rodando em
-todo PR (**inclusive de fork**, já que não usa secret nenhum) e em todo
+Lint (`npm run lint`, oxlint), testes (`npm test`, Vitest) e testes das
+regras de segurança do Firestore (`npm run test:rules`, Vitest contra o
+emulador), rodando em todo PR (**inclusive de fork**, já que não usa
+secret nenhum — o emulador roda offline num projeto `demo-`) e em todo
 push na `main`. Ver [docs/tdr/0004](tdr/0004-ci-roda-lint-e-testes.md)
 para o motivo de ser um workflow separado do deploy, em vez de dois
 `run` a mais no `build_and_preview` — em resumo: cobrir PRs de fork e ter
@@ -153,10 +168,13 @@ Roda no job chamado **`ci`** — assim como `build_and_preview`, esse nome
 precisa ser adicionado à lista de required status checks da branch `main`
 (ver seção abaixo) depois que o workflow rodar ao menos uma vez.
 
-Usa `actions/checkout` e `actions/setup-node` pinados por SHA de commit
-(comentário `# vX.Y.Z` ao lado indica a tag correspondente), em vez de
-`@v4` — reduz a superfície de um ataque de supply-chain via tag
-re-apontada. Ver seção "Pinning de actions por SHA" abaixo.
+Usa `actions/checkout`, `actions/setup-node` e `actions/setup-java`
+pinados por SHA de commit (comentário `# vX.Y.Z` ao lado indica a tag
+correspondente), em vez de `@v4` — reduz a superfície de um ataque de
+supply-chain via tag re-apontada. Ver seção "Pinning de actions por SHA"
+abaixo. O `setup-java` existe porque o emulador do Firestore roda na JVM
+e o `firebase-tools` exige JDK 21+ (ver
+[docs/tdr/0008](tdr/0008-deploy-e-teste-das-regras-do-firestore.md)).
 
 ## Pinning de actions por SHA
 
@@ -174,6 +192,7 @@ versão está fixada e propor a atualização do SHA.
 |---|---|---|
 | `actions/checkout` | `11d5960a326750d5838078e36cf38b85af677262` | `v4.4.0` |
 | `actions/setup-node` | `49933ea5288caeca8642d1e84afbd3f7d6820020` | `v4.4.0` |
+| `actions/setup-java` | `c5195efecf7bdfc987ee8bae7a71cb8b11521c00` | `v4.7.1` |
 | `FirebaseExtended/action-hosting-deploy` | `500ac625ca2dd40cbd15f7659af953801858032a` | `v0` |
 
 Para re-resolver os SHAs atuais das tags no futuro:
@@ -181,8 +200,34 @@ Para re-resolver os SHAs atuais das tags no futuro:
 ```bash
 gh api repos/actions/checkout/commits/v4 --jq .sha
 gh api repos/actions/setup-node/commits/v4 --jq .sha
+gh api repos/actions/setup-java/commits/v4 --jq .sha
 gh api repos/FirebaseExtended/action-hosting-deploy/commits/v0 --jq .sha
 ```
+
+`actions/setup-java` entrou com os testes de regras do Firestore: o
+emulador roda na JVM e o `firebase-tools` exige JDK 21+, então a versão é
+fixada em vez de depender do default da imagem do runner, que muda entre
+versões.
+
+### `firebase-tools` (pacote npm, não action)
+
+O `sha_pinning_required` acima governa referências `uses:` a actions, não
+pacotes npm. Ainda assim, os dois lugares onde o `firebase-tools` é
+executado por `npx` usam **versão exata** (`firebase-tools@15.29.0`), e
+não `@latest`:
+
+| Workflow | Comando |
+|---|---|
+| `firebase-hosting-merge.yml` | `deploy --only firestore:rules` |
+| `firebase-hosting-pull-request.yml` (`cleanup_preview`) | `hosting:channel:delete` |
+
+O motivo é o mesmo do pinning por SHA, agravado: os dois rodam **com a
+chave da service account no ambiente**, então uma tag móvel apontando
+para uma publicação maliciosa executaria com credencial de deploy. O bump
+passa a ser manual e deliberado (ver
+[docs/tdr/0008](tdr/0008-deploy-e-teste-das-regras-do-firestore.md)).
+O `npm run test:rules`, no `ci.yml`, usa a mesma versão fixada — mas ali
+não há credencial nenhuma.
 
 ## Permissões de GitHub Actions
 

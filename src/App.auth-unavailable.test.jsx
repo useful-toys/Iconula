@@ -7,8 +7,9 @@ import { sortedTeams } from "./data/teams";
 
 // Cobre o caso de VITE_FIREBASE_* ausentes (ex.: .env.local não
 // configurado): src/lib/firebase.js detecta a config incompleta e exporta
-// `auth: null` — App.jsx deve renderizar normalmente sem a área de login,
-// em vez de travar (ver ADR 0005).
+// `auth: null` e `app: null` — App.jsx deve renderizar normalmente sem a
+// área de login e sem persistência, em vez de travar (ver ADR 0005 e
+// ADR 0007).
 vi.mock("firebase/auth", () => ({
   onAuthStateChanged: vi.fn(),
   signOut: vi.fn(),
@@ -16,6 +17,7 @@ vi.mock("firebase/auth", () => ({
 
 vi.mock("./lib/firebase", () => ({
   auth: null,
+  app: null,
   signInWithGoogle: vi.fn(),
 }));
 

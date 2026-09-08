@@ -14,6 +14,10 @@ export default defineConfig({
     // checkouts de outras branches, com código antigo. Sem esta exclusão o
     // Vitest os coleta e a suíte falha por causa de arquivos que não fazem
     // parte da branch atual.
-    exclude: [...configDefaults.exclude, '.claude/**'],
+    //
+    // `*.rules.test.js` são os testes das regras do Firestore: rodam em
+    // Node contra o emulador, não em jsdom, e têm config e script
+    // próprios (`npm run test:rules`) — ver TDR 0008.
+    exclude: [...configDefaults.exclude, '.claude/**', '**/*.rules.test.js'],
   },
 })

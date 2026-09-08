@@ -11,7 +11,8 @@
     "build": "vite build",
     "lint": "oxlint",
     "preview": "vite preview",
-    "test": "vitest run"
+    "test": "vitest run",
+    "test:rules": "npx --yes firebase-tools@15.29.0 emulators:exec --only firestore --project demo-iconula \"vitest run --config vitest.rules.config.js\""
   },
   "dependencies": {
     "@twemoji/api": "^17.0.3",
@@ -20,6 +21,7 @@
     "react-dom": "^19.2.8"
   },
   "devDependencies": {
+    "@firebase/rules-unit-testing": "^5.0.2",
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/react": "^16.3.3",
     "@testing-library/user-event": "^14.6.7",
