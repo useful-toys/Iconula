@@ -85,3 +85,5 @@ política de privacidade.*
   do schema)
 - Interação de zerar contagem (o toque soma e o menos remove; zerar
   ainda não tem gesto definido)
+- Reforço não-cromático do estado da figurinha: faltente vs. colada
+  hoje difere só por cor (ver [IDR 0006](idr/0006-estados-visuais-e-interacao-da-figurinha.md))
