@@ -4,7 +4,9 @@
 
 ## Status
 
-Aceito.
+Aceito. Ampliado pelo
+[IDR 0011](0011-faltantes-por-secao-no-cabecalho-do-grupo.md): o
+cabeçalho de grupo também exibe os faltantes da seção.
 
 ## Contexto
 

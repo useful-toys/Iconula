@@ -63,7 +63,7 @@ regras do Firestore, avaliadas no servidor contra o ID token.
 
 | Camada | Hoje (botão) | Alvo (figurinhas) |
 |---|---|---|
-| `src/data/` | `teams.js` (48 times) | catálogo: seções, códigos, nomes, páginas, ordem do álbum — gerado do checklist (fonte pendente) |
+| `src/data/` | `teams.js` (48 times) | catálogo: seções, códigos, nomes, páginas, grupos da Copa (A–L), ordem do álbum — gerado do checklist (fonte pendente) |
 | `src/lib/` | `firebase.js`, `userPreferences.js` | + persistência da coleção, export/import JSON, texto WhatsApp |
 | `src/components/` | `TeamButton`, `AuthStatus`, `LoginButton` | tela de login, cabeçalho/placar, controles, grupo, figurinha, avisos |
 | `App.jsx` | estado do time + usuário | estado da coleção + usuário; tela de login como guarda |
@@ -80,7 +80,7 @@ Dois mundos, nunca misturados:
   nunca toca o Firestore. Identidade da figurinha é o código
   (`BRA05`), imutável
 - **Coleção** — estado do usuário, contagens por código, vive em
-  `users/{uid}` (schema pendente — ver persistencia.md)
+  `users/{uid}` (schema decidido — ADR 0008, ver persistencia.md)
 
 Fluxos:
 
@@ -118,14 +118,13 @@ Fluxos:
 | Persistência Firestore | [ADR 0007](adr/0007-persistencia-do-time-no-firestore.md) + [persistencia.md](persistencia.md) |
 | CSP para Auth/Firestore | [TDR 0005](tdr/0005-csp-firebase-auth-google-oauth.md), [TDR 0007](tdr/0007-csp-para-o-firestore.md) |
 | Regras: deploy e teste | [TDR 0008](tdr/0008-deploy-e-teste-das-regras-do-firestore.md) |
-| Interface (disposições, estados, sync, scroll…) | [IDR 0001–0010](idr/) + [interface.md](interface.md) |
-| Schema da coleção | ADR futuro — pendente |
+| Interface (disposições, estados, sync, scroll…) | [IDR 0001–0020](idr/) + [interface.md](interface.md) |
+| Schema da coleção | [ADR 0008](adr/0008-schema-da-colecao-mapa-esparso.md) + [persistencia.md](persistencia.md) |
 
 ## Pontos em aberto (fase de implementação)
 
-- **Schema Firestore da coleção**: mapa vs. subcoleção; escrita
-  agregada, flush ao fechar, `updatedAt`, `delete` — exige ADR novo
-  revisando o 0007 (ver [persistencia.md](persistencia.md))
+- **Aceite do ADR 0008**: redigido — revisar os valores numéricos
+  (debounce, teto de espera, teto por contagem) antes de implementar
 - **Router**: tela de privacidade como rota ou vista interna — decidir
   quando as telas existirem
 - **Estado global**: a coleção consumida por várias telas pode exigir

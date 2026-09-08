@@ -6,7 +6,10 @@
 
 Aceito. Generaliza para o app inteiro a regra que o
 [IDR 0005](0005-ordenacoes-disposicoes-e-percurso-do-catalogo.md)
-aplicou ao percurso do catálogo.
+aplicou ao percurso do catálogo. Exceção pontual registrada pelo
+[IDR 0016](0016-salto-pela-faixa-de-bandeiras.md): a faixa de
+bandeiras do salto tem rolagem horizontal própria — rasa, uma linha,
+não compete com a rolagem vertical da página.
 
 ## Contexto
 

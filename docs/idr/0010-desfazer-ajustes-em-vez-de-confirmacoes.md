@@ -4,7 +4,11 @@
 
 ## Status
 
-Aceito.
+Aceito. As pendências de desenho (lugar na tela e profundidade) foram
+resolvidas pelo
+[IDR 0012](0012-desfazer-no-cabecalho-historico-de-10.md). Nota: o
+"zerar" foi depois removido dos ajustes (só incremento e decremento —
+requisitos.md); o desfazer reverte incrementos e decrementos.
 
 ## Contexto
 

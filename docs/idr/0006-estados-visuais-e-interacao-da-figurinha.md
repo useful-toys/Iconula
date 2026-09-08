@@ -4,7 +4,9 @@
 
 ## Status
 
-Aceito.
+Aceito. A pendência de reforço não-cromático foi resolvida: faltante =
+cartão esvaziado (opacidade reduzida, borda tracejada), colada =
+preenchido — registrado em interface.md.
 
 ## Contexto
 

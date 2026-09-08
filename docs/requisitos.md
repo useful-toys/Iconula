@@ -72,16 +72,15 @@ Questões recorrentes são marcadas como "Nota".*
     não são acessíveis sem autenticar
   - Falha de login exibe mensagem de erro, exceto quando o usuário fecha
     o popup (desistência, não erro)
+  - Atestação de menores no primeiro login (LGPD art. 14): um clique
+    atestando ter 12 anos ou mais ou estar autorizado pelos
+    responsáveis, antes de liberar o app — uma única vez por conta,
+    gravada em `atestadoEm` em `users/{uid}` (ver ADR 0008)
   - Nota: a tela de login expõe o link para a política de privacidade
     antes de qualquer autenticação
 - Sair da conta
   - Volta à tela de login; a coleção permanece gravada no Firestore e é
     recarregada no próximo login
-- Apagar meus dados do app
-  - Confirmação explícita; apaga a coleção (`users/{uid}`) e a conta de
-    login do app, e volta à tela de login
-  - A conta Google em si permanece — é do Google, não do app
-
 ### Catálogo
 - Exibir o catálogo completo: 994 figurinhas
   - 980 da numeração oficial: 48 seleções × 20 figurinhas (960) + 20
@@ -92,15 +91,37 @@ Questões recorrentes são marcadas como "Nota".*
     como grupos nomeados, iguais a uma seleção
   - Nomes em português ("Alemanha", "Estados Unidos")
   - Bandeiras via Twemoji, incluindo Inglaterra e Escócia (ver ADR 0002)
+- Pular direto para uma seção
+  - Salta a tela até a seção pedida — o catálogo permanece inteiro,
+    antes e depois do salto; nunca filtra a vista (ver
+    [IDR 0014](idr/0014-salto-direto-para-secao.md))
+  - Mecanismo: faixa de bandeiras no cabeçalho, rolável para os lados —
+    tocar na bandeira salta (ver
+    [IDR 0016](idr/0016-salto-pela-faixa-de-bandeiras.md))
+  - O salto expande super-grupo e seção colapsados no caminho até o
+    alvo (ver IDRs 0019 e 0020)
 - Apresentar o catálogo em duas ordenações de seções
-  - Ordem alfabética pela sigla da seção (ARG, AUS, AUT, …)
-  - Ordem igual à do álbum físico
+  - Ordem alfabética pela sigla da seção (ARG, AUS, AUT, …), com os
+    especiais antes da primeira seleção — entre si, COC e FWC (ver
+    [IDR 0013](idr/0013-especiais-no-comeco-da-ordenacao-por-sigla.md));
+    sem super-grupos
+  - Ordem igual à do álbum físico, agrupada em super-grupos colapsáveis
+    — "Especiais" e os 12 grupos da Copa A–L — com nome e progresso
+    agregado no título; abertos por padrão (ver
+    [IDR 0019](idr/0019-ordem-do-album-agrupada-e-colapsavel.md))
 - Apresentar cada seção em duas disposições
   - Lista: figurinhas em sequência (01 a N) — disposição única dos
     especiais (FWC e Coca-Cola)
   - Álbum: reproduz a página física, apenas para as 48 seleções —
     facilita comparar com o álbum real ("qual eu já tenho?") (ver
     [IDR 0009](idr/0009-disposicao-como-no-album-reproduz-a-pagina-fisica.md))
+  - Álbum responsivo: as duas páginas do spread lado a lado quando cabem
+    na largura da tela, empilhadas (uma abaixo da outra) quando não
+    cabem — nunca cai para a lista (ver
+    [IDR 0015](idr/0015-paginas-do-album-empilham-em-tela-estreita.md))
+  - Seções colapsáveis em qualquer ordenação e disposição: tocar no
+    título abre/fecha o corpo da seção; abertas por padrão (ver
+    [IDR 0020](idr/0020-secoes-colapsaveis-em-qualquer-visualizacao.md))
 - Apresentar o catálogo conforme o tamanho da tela (celular, tablet,
   navegador)
   - Em qualquer tamanho, os fluxos essenciais — cadastrar e consultar —
@@ -109,29 +130,38 @@ Questões recorrentes são marcadas como "Nota".*
     faixa de tela é decisão de interface — ver [interface.md](interface.md)
 
 ### Contagem
-- Ajustar a contagem de uma figurinha: incrementar, decrementar e zerar
+- Ajustar a contagem de uma figurinha: incrementar e decrementar
+  - Sem ação dedicada de zerar: chegar a 0 é decrementar até 0
   - A contagem nunca fica negativa (decremento para em 0)
   - O ajuste é aplicado na hora na tela e entra na gravação seguinte —
     sem ação do usuário (ver Estado da sincronização)
   - Falha de persistência não bloqueia o ajuste: a tela reflete a
     mudança, a falha é notificada e a gravação seguinte regrava o valor completo
 - Desfazer ajustes
-  - Desfaz a última alteração — incremento, decremento ou zerar — e
-    pode ser repetido para desfazer as N últimas (ver
-    [IDR 0010](idr/0010-desfazer-ajustes-em-vez-de-confirmacoes.md))
-- Exibir dica de uso no estado vazio
-  - Primeira visita com coleção zerada: uma linha ensinando a somar a
-    primeira figurinha
+  - Desfaz a última alteração — incremento ou decremento — e
+    pode ser repetido para desfazer as últimas 10, na ordem inversa
+    (ver [IDR 0010](idr/0010-desfazer-ajustes-em-vez-de-confirmacoes.md)
+    e [IDR 0012](idr/0012-desfazer-no-cabecalho-historico-de-10.md))
+- Nota: o estado vazio (0/994) não tem tela, dica ou mensagem especial —
+  o app mostra a coleção normal, ainda vazia
 
 ### Estado da sincronização
 - A persistência é automática e transparente: sem botões de ler ou
   salvar; a gravação é relativamente rápida, sem precisar acontecer a
-  cada ajuste — agregar mudanças é aceitável (frequência exata no ADR
-  do schema)
-- Notificar eventos de persistência: gravado com sucesso, dados
-  carregados com sucesso e falhas — falhas informadas claramente ao
-  usuário
-- Exibir data/hora da última alteração gravada
+  cada ajuste — agregar mudanças é aceitável (debounce de ~2s com teto
+  de espera e flush ao fechar a página — ver ADR 0008)
+- Notificar falhas de persistência claramente ao usuário
+  - Sucesso não gera aviso: a data/hora no título (última transação
+    bem-sucedida) atualiza — esse é o feedback
+  - Falha avisa em caixa junto à borda inferior: fica até dispensada
+    ou até a gravação seguinte ter sucesso, e revela a mensagem
+    técnica ao ser tocada (ver
+    [IDR 0017](idr/0017-aviso-so-na-falha-com-detalhe-tecnico.md))
+- Exibir data/hora da última transação bem-sucedida — leitura ou
+  escrita
+- Nota: sessões simultâneas do mesmo usuário não são tratadas no MVP —
+  vence a última gravação e ajustes da outra sessão podem ser perdidos
+  (decisão consciente; ver Requisitos futuros)
 
 ### Progresso e listas
 - Exibir progresso da coleção: total, coladas, faltantes e repetidas
@@ -146,16 +176,21 @@ Questões recorrentes são marcadas como "Nota".*
 
 ### Compartilhamento
 - Gerar texto pronto para WhatsApp com faltantes e/ou repetidas
-  - Texto esparso e legível para grupos de troca — formato exato é
-    decisão pendente
-  - Entrega por copiar para a área de transferência e/ou abrir o
-    WhatsApp com o texto (decisão pendente)
+  - Uma linha por seção: nome e sigla no início, números em sequência
+    (ex.: `Brasil BRA: 5 8 12 19`)
+  - Repetidas indicam as unidades sobrando por número (ex.: `5×2`)
+  - Faltantes e repetidas geram textos separados
+  - Entrega por copiar para a área de transferência — sem abrir o
+    WhatsApp
   - Nota: a lista de troca é apenas saída; portabilidade usa JSON
 
 ### Portabilidade (sem lock-in)
 - Exportar a coleção completa em arquivo JSON
   - Lossless: todas as contagens, suficiente para restaurar a coleção
     exatamente como está
+  - Formato: `{ "versao": 1, "geradoEm": <ISO 8601>, "contagens": {
+    "BRA05": 3 } }` — versionado, sem dados pessoais; a importação
+    valida a versão
   - Disponível sempre, sem etapas adicionais
 - Importar coleção a partir de arquivo JSON
   - A importação substitui a coleção inteira, após confirmação explícita
@@ -167,8 +202,11 @@ Questões recorrentes são marcadas como "Nota".*
   - Acessível a partir da tela de login, antes de autenticar
   - Declara os dados tratados — identidade da conta Google (nome,
     e-mail, foto) e a coleção —, finalidade, retenção e direitos do titular
-  - Trata dados de menores (LGPD art. 14 — consentimento dos
-    responsáveis)
+  - Direitos do titular (acesso, correção, exclusão) exercidos por canal
+    de contato declarado na própria política — exclusão dentro do app é
+    requisito futuro
+  - Trata dados de menores (LGPD art. 14): consentimento dos
+    responsáveis capturado pela atestação do primeiro login (ver Acesso)
 - Exibir aviso de independência e marcas (rodapé)
   - Projeto independente, sem vínculo com Panini ou FIFA; marcas
     pertencem aos seus titulares (Lei 9.279/96, art. 132)
@@ -189,13 +227,13 @@ Questões recorrentes são marcadas como "Nota".*
   usuários é garantido pelas `firestore.rules` avaliadas no servidor
   (ADR 0007) — nunca pelo cliente
 - Falha de persistência não trava a interface, mas é informada
-  claramente ao usuário, junto com os sucessos — revisa a política de
-  erro do ADR 0007 (falha invisível, só log), que valia para o botão
+  claramente ao usuário — revisa a política de erro do ADR 0007
+  (falha invisível, só log), que valia para o botão
 - Sem as variáveis `VITE_FIREBASE_*`, o login fica indisponível e o app
   não oferece funcionalidade — coerente com o login obrigatório; modo
   não suportado
-- Nota: o campo `teamName` gravado pela versão anterior fica órfão na
-  migração — ver Decisões Pendentes
+- Nota: o campo `teamName` da era do botão é removido na migração —
+  apagado pela primeira gravação do schema novo (ver ADR 0008)
 - Nenhum dado além da identidade Google e da coleção é tratado; sem
   analytics no MVP
 
@@ -211,9 +249,17 @@ Questões recorrentes são marcadas como "Nota".*
   atravessá-los
 - Minimalismo funcional: sem modos, sem configurações e sem passos
   opcionais nos fluxos essenciais
-- Navegação por rolagem da tela inteira, sem seletor "ir para": a
-  rolagem em si percorre o caminho até a seção desejada (ver
-  [IDR 0004](idr/0004-ir-para-secao-e-salto-de-navegacao.md), rejeitado)
+- Minimalismo é regra de ouro: título, busca e comandos minimalistas,
+  espaço otimizado para o catálogo — o app assume usuário especialista,
+  sem rótulos explicativos nem reforço redundante; notação compacta de
+  progresso nos títulos (`12/20 · 60% · ▢8 · ×3`) e título em linha única
+  (`ICONULA 2026 · 412/994 · 41% · ▢582 · ×37 · 12:34`), sem barra de
+  progresso (ver
+  [IDR 0018](idr/0018-usuario-especialista-e-minimalismo.md))
+- Navegação por rolagem da tela inteira: as seções fluem uma abaixo da
+  outra, sem interrupções; um salto direto à seção desejada complementa
+  a rolagem (ver [IDR 0014](idr/0014-salto-direto-para-secao.md), que
+  retoma o [IDR 0004](idr/0004-ir-para-secao-e-salto-de-navegacao.md))
 - Filtro de status (todas/faltantes/repetidas) existe apenas na
   disposição lista; a disposição álbum nunca é filtrada
 - Jamais scroll dentro de scroll: cada tela é uma única página
@@ -259,6 +305,13 @@ especificação própria antes de implementar.*
   centenas coladas
 - Sincronização ao vivo entre dispositivos: dispositivos abertos se
   atualizam sem recarregar (hoje a carga acontece só no login)
+- Merge de sessões simultâneas: ajustes de figurinhas distintas feitos
+  em dispositivos abertos ao mesmo tempo se combinam, em vez de a
+  última gravação vencer (hoje: a última vence — decisão conscienta)
+- Apagar meus dados do app: excluir a coleção e a conta de login e
+  voltar à tela de login — a conta Google permanece (é do Google, não
+  do app); exige re-autenticação via popup quando o login não for
+  recente
 - Match entre coleções: comparar com a coleção de outro usuário ("o que
   eu tenho que tu falta")
 - Importar lista colada do WhatsApp (se "receber por mensagem" virar
@@ -272,23 +325,11 @@ especificação própria antes de implementar.*
 - Analytics anônimo de uso
 
 ### Decisões Pendentes
-- **Schema Firestore da coleção**: mapa de contagens no documento
-  `users/{uid}` vs. subcoleção — impacto em cota de escritas e regras;
-  exige ADR novo revisando o 0007, inclusive a política de erro
-  (agora com notificações visíveis — ver Estado da sincronização), a
-  frequência de gravação (debounce/agregação em vez de uma escrita por
-  clique) e a garantia de que gravações pendentes não se percam ao
-  fechar a página
-- **Migração do `teamName`**: manter, ignorar ou remover o campo da era
-  do botão quando ela for desativada
-- **Formato do texto de WhatsApp**: agrupamento por seção, com ou sem
-  nomes, faltantes e repetidas juntas ou separadas; copiar vs. abrir o
-  WhatsApp
-- **Formato do JSON de exportação**: campos e versionamento do arquivo
 - **Fonte do checklist**: nomes das figurinhas de cada seção (jogadores
-  e especiais), páginas dos especiais (FWC e COC) e verificação das
-  posições fixas — as 48 seleções (código, nome, página) já estão no
-  Anexo; tudo vira `src/data/`
+  e especiais), páginas do FWC, grupo da Copa (A–L) de cada seleção e
+  verificação das posições fixas — as 48 seleções (código, nome,
+  página) e as páginas da Coca-Cola já estão no Anexo; tudo vira
+  `src/data/`
 
 ## Fora de Escopo
 
@@ -307,13 +348,14 @@ especificação própria antes de implementar.*
 As 48 seleções — código, nome como impresso no álbum (PT-BR) e página
 no álbum físico, que define a ordem do álbum (ver
 [IDR 0005](idr/0005-ordenacoes-disposicoes-e-percurso-do-catalogo.md)).
-Páginas dos especiais (FWC e COC) e nomes das figurinhas de cada seção
-seguem como pendência do checklist.
+Páginas do FWC, grupos da Copa (A–L) de cada seleção e nomes das
+figurinhas de cada seção seguem como pendência do checklist. A Coca-Cola é a última seção do álbum, nas
+páginas 112–113: 6 figurinhas na página 112 (2 linhas × 3 colunas) e 8
+na página 113 (3 figurinhas nas linhas 1 e 2, 2 na linha 3).
 
 Observações para verificação na fonte do checklist: as páginas das
 seleções são todas pares (cada seleção ocupa um spread), com a página
-56 ausente; as páginas 1–7 e 106–112 devem cobrir capa, extras FWC e a
-página Coca-Cola.
+56 ausente; as páginas 1–7 e 106–111 devem cobrir capa e extras FWC.
 
 | Código | Seção | Página |
 |---|---|---|
