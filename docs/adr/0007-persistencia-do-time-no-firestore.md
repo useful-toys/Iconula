@@ -148,13 +148,23 @@ automatizados no emulador, rodando no CI a cada PR — ver
 
 ### Região e faixa gratuita
 
-Banco criado em **`southamerica-east1`** (São Paulo) — decisão
-irreversível.
+Banco criado em **`southamerica-east1`** (São Paulo).
 
-Durante o planejamento levantou-se a objeção de que a faixa gratuita do
-Firestore só valeria em `us-central1`, `us-east1` e `us-west1`, e que São
-Paulo cobraria desde o primeiro byte. **Não foi possível confirmar isso
-para o Firestore** nas fontes oficiais:
+**Resolvido empiricamente: a faixa gratuita vale nesta região.** Depois de
+criado, o próprio recurso devolvido pela API do Google traz o campo
+`freeTier: true`:
+
+```bash
+$ gcloud firestore databases describe --database='(default)' --project=iconula \
+    --format="value(freeTier,locationId)"
+True    southamerica-east1
+```
+
+Isso encerra uma divergência levantada durante o planejamento: a de que a
+faixa gratuita do Firestore só valeria em `us-central1`, `us-east1` e
+`us-west1`, e que São Paulo cobraria desde o primeiro byte. A pesquisa em
+documentação já apontava nessa direção, e a API confirmou. As fontes,
+para quem precisar refazer o raciocínio:
 
 - [Google Cloud Free Program](https://cloud.google.com/free/docs/free-cloud-features):
   a restrição existe e está escrita — para o **Cloud Storage** ("The Free
@@ -168,26 +178,28 @@ para o Firestore** nas fontes oficiais:
   [quotas](https://firebase.google.com/docs/firestore/quotas) do
   Firestore não mencionam restrição de região para a cota gratuita.
 
-A leitura adotada é que a regra das três regiões `us-*` é do Cloud
-Storage — as duas notas ficam lado a lado na mesma página de preços, o
-que explica a confusão. O usuário reafirmou São Paulo com essa evidência
-em mãos.
+A regra das três regiões `us-*` é do **Cloud Storage** — as duas notas
+ficam lado a lado na mesma página de preços, o que explica a confusão.
 
 O que procede da objeção independentemente: **no plano Blaze, São Paulo é
 materialmente mais caro** por operação e por GiB que `us-central1`. Hoje
 isso é inócuo porque o projeto está no **Spark, sem conta de faturamento
-vinculada** (`billingEnabled: false`) — nenhuma região gera cobrança;
-esgotada a cota diária, as requisições falham até o dia seguinte, e a
-política de erro acima garante que o app continue funcionando.
+vinculada** (`billingEnabled: false`) — sem conta vinculada não há como
+cobrar; esgotada a cota diária, as requisições falham até o dia seguinte,
+e a política de erro acima garante que o app continue funcionando.
 
-Antes da criação, `gcloud firestore databases create --dry-run` serviu de
-última verificação: qualquer sinal de cobrança imediata pararia o
-processo em vez de virar contorno.
+**A escolha de região não é uma porta de mão única.** Bancos Firestore
+podem ser apagados (`gcloud firestore databases delete --database='(default)'`,
+com exemplo explícito para o banco default na ajuda do comando), então
+trocar de região é apagar e recriar. O custo é perder o que estiver
+gravado — hoje, nada. Não existe `--dry-run` para
+`gcloud firestore databases create`, em nenhum dos dois CLIs; a
+reversibilidade acima é o que cobre esse papel.
 
 **Gatilho de revisão**: se o projeto vier a vincular conta de faturamento
 (Blaze), a região volta a ser variável de custo real e deve ser
-reavaliada — inclusive a possibilidade de migrar os dados para uma região
-`us-*`.
+reavaliada — inclusive migrar para uma região `us-*`, que a essa altura
+já teria dados de usuário a preservar.
 
 ### App Check fica de fora, por ora
 

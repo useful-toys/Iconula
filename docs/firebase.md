@@ -228,8 +228,10 @@ Guarda a preferência de bandeira de cada usuário autenticado — ver
 [ADR 0007](adr/0007-persistencia-do-time-no-firestore.md) para o modelo de
 dados e o raciocínio.
 
-- **Banco**: `(default)`, modo **Native**
-- **Região**: `southamerica-east1` (São Paulo) — **irreversível**
+- **Banco**: `(default)`, edição `STANDARD`, modo **Native**
+- **Região**: `southamerica-east1` (São Paulo), **dentro da faixa
+  gratuita** (a API do projeto reporta `freeTier: true` para este banco —
+  ver [docs/gcloud.md](gcloud.md#cloud-firestore))
 - **Coleção**: `users`, um documento por conta (`users/{uid}`), com um
   único campo `teamName`
 
