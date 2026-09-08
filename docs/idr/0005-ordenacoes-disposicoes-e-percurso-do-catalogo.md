@@ -29,8 +29,8 @@ da tela inteira, **jamais scroll dentro de scroll**.
 - Duas disposições por seção: lista contínua (01 a N) e grade que
   reproduz a página física — duas colunas, com a figurinha paisagem da
   foto da seleção (posição 13)
-- O percurso é sempre rolagem da tela inteira; nenhum painel interno
-  rola por conta própria
+- O percurso é sempre rolagem da tela inteira — caso particular da
+  regra global do [IDR 0008](0008-uma-unica-pagina-scrollavel.md)
 - O número da página do álbum é exibido no cabeçalho do grupo — fixo,
   apenas leitura, dado do catálogo (ao contrário da POC, que o deixava
   editável)
