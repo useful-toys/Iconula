@@ -108,12 +108,19 @@ Questões recorrentes são marcadas como "Nota".*
   - Cada ajuste dispara a persistência no Firestore — fire-and-forget,
     sem debounce (política do ADR 0007)
   - Falha de persistência não bloqueia o ajuste: a tela reflete a
-    mudança, a falha vira log e o ajuste seguinte regrava o valor completo
+    mudança, a falha é notificada e o ajuste seguinte regrava o valor completo
+
+### Estado da sincronização
+- Notificar eventos de persistência: gravado com sucesso, dados
+  carregados com sucesso e falhas — falhas informadas claramente ao
+  usuário
+- Exibir data/hora da última alteração gravada
 
 ### Progresso e listas
-- Exibir progresso da coleção
-  - Geral: figurinhas coladas de 994 e percentual
-  - Por seção: coladas sobre o total da seção
+- Exibir progresso da coleção: total, coladas, faltantes e repetidas
+  - Geral: sobre as 994 do catálogo — todas as figurinhas contam,
+    inclusive especiais e Coca-Cola
+  - Por seção: os mesmos números sobre o total da seção
 - Exibir lista de faltantes: figurinhas com contagem 0
 - Exibir lista de repetidas: figurinhas com contagem ≥ 2, com as
   unidades sobrando (contagem − 1)
@@ -157,8 +164,9 @@ Questões recorrentes são marcadas como "Nota".*
 - A coleção vive no Firestore em `users/{uid}`; o isolamento entre
   usuários é garantido pelas `firestore.rules` avaliadas no servidor
   (ADR 0007) — nunca pelo cliente
-- Falha de persistência nunca derruba a interface: vira log e a tela
-  segue funcional (política do ADR 0007)
+- Falha de persistência não trava a interface, mas é informada
+  claramente ao usuário, junto com os sucessos — revisa a política de
+  erro do ADR 0007 (falha invisível, só log), que valia para o botão
 - Sem as variáveis `VITE_FIREBASE_*`, o login fica indisponível e o app
   não oferece funcionalidade — coerente com o login obrigatório; modo
   não suportado
@@ -179,8 +187,11 @@ Questões recorrentes são marcadas como "Nota".*
   atravessá-los
 - Minimalismo funcional: sem modos, sem configurações e sem passos
   opcionais nos fluxos essenciais
-- Navegação por rolagem da tela inteira, não por filtros: o catálogo é
-  percorrido rolando a página de ponta a ponta
+- Navegação por rolagem da tela inteira: o catálogo é percorrido
+  rolando a página de ponta a ponta; o seletor "ir para" seção é
+  navegação (salto), não filtro
+- Filtro de status (todas/faltantes/repetidas) existe apenas na
+  disposição lista; a disposição álbum nunca é filtrada
 - Jamais scroll dentro de scroll: a rolagem pertence à página inteira;
   nenhum painel interno rola por conta própria
 
@@ -222,7 +233,8 @@ especificação própria antes de implementar.*
 ### Decisões Pendentes
 - **Schema Firestore da coleção**: mapa de contagens no documento
   `users/{uid}` vs. subcoleção — impacto em cota de escritas e regras;
-  exige ADR novo revisando o 0007
+  exige ADR novo revisando o 0007, inclusive a política de erro
+  (agora com notificações visíveis — ver Estado da sincronização)
 - **Migração do `teamName`**: manter, ignorar ou remover o campo da era
   do botão quando ela for desativada
 - **Formato do texto de WhatsApp**: agrupamento por seção, com ou sem
