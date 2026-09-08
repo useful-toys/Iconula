@@ -67,6 +67,7 @@ acontece, o código neste repositório ainda é o descrito acima.
 | `docs/interface.md` | Decisões de interface (o "como" da UI: telas, faixas de tela, identidade visual, interações). Tela principal especificada; demais telas e faixas de tela pendentes; em conflito com requisitos, requisitos vence. |
 | `docs/adr/` | Decisões de arquitetura (ADRs) — leia antes de propor mudanças estruturais. |
 | `docs/tdr/` | Decisões técnicas pontuais (TDRs). |
+| `docs/idr/` | Decisões de interface significantes (IDRs) — apresentação, interação, navegação; mesmo formato dos ADRs/TDRs. |
 | `docs/firebase.md` | Tudo o que foi configurado no Firebase (projeto, Hosting, login) — como reproduzir. |
 | `docs/gcloud.md` | Tudo o que foi configurado no Google Cloud (APIs habilitadas, service account, IAM) — como reproduzir. |
 | `docs/github.md` | Tudo o que foi configurado no GitHub (repo, secrets, workflows, branch protection) — como reproduzir. |
@@ -78,7 +79,8 @@ acontece, o código neste repositório ainda é o descrito acima.
   `Copyright (c) 2026 Daniel Felix Ferber` (sintaxe de comentário do
   tipo de arquivo: `//` em JS/JSX, `/* */` em CSS, `<!-- -->` em HTML/MD,
   `#` em YAML).
-- Registrar um novo ADR/TDR em `docs/adr/` ou `docs/tdr/` **no momento em
+- Registrar um novo ADR/TDR/IDR em `docs/adr/`, `docs/tdr/` ou
+  `docs/idr/` **no momento em
   que a decisão é tomada**, não depois — inclusive decisões tomadas
   durante o planejamento (antes de qualquer código existir) e decisões
   tomadas automaticamente por um agente de IA durante a execução (ex.:
@@ -87,9 +89,11 @@ acontece, o código neste repositório ainda é o descrito acima.
   técnica ou de arquitetura não documentada deixa o trabalho incompleto,
   mesmo que o código funcione. Usar ADR para decisões de
   arquitetura/tecnologia (stack, forma de deploy, dependências
-  estruturais) e TDR para decisões técnicas mais pontuais de
-  implementação, seguindo a numeração sequencial e o formato dos
-  arquivos existentes (Status / Contexto / Decisão / Consequências /
+  estruturais), TDR para decisões técnicas mais pontuais de
+  implementação e IDR para decisões de interface significantes
+  (apresentação, interação, navegação — detalhes puramente estéticos
+  não precisam de registro), seguindo a numeração sequencial e o formato
+  dos arquivos existentes (Status / Contexto / Decisão / Consequências /
   Alternativas consideradas).
 - Descobertas relevantes feitas durante a implementação (ex.: uma
   limitação de plataforma, um comportamento inesperado de uma

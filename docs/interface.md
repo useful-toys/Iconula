@@ -11,6 +11,10 @@ documento detalha como a interface realiza aqueles requisitos. Decisão
 aqui registrada não abre exceção a requisito de requisitos.md — em
 conflito, requisitos.md vence.
 
+Decisões significantes — com contexto, alternativas e consequências —
+ganham registro próprio em [idr/](idr/); este documento mantém apenas o
+estado atual da interface.
+
 *Inspiração: uma POC de painel de acompanhamento (artifact HTML
 autocontido). Diferenças já decididas: a persistência local da POC não
 se aplica (aqui é Firestore por usuário); o número da página do álbum
