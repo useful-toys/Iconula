@@ -100,8 +100,7 @@ Questões recorrentes são marcadas como "Nota".*
   - Em qualquer tamanho, os fluxos essenciais — cadastrar e consultar —
     permanecem completos
   - Nota: qual ordenação e disposição são usadas ou oferecidas em cada
-    faixa de tela ainda não está especificado — definir antes de
-    implementar
+    faixa de tela é decisão de interface — ver [interface.md](interface.md)
 
 ### Contagem
 - Ajustar a contagem de uma figurinha: incrementar, decrementar e zerar
