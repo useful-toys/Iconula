@@ -161,15 +161,10 @@ implicitamente. O `gcloud` deixa a escolha explícita e auditável — o modo
 Datastore quebraria o SDK cliente inteiro.
 
 ```bash
-# Conferir as regiões elegíveis ANTES: a escolha é irreversível
-firebase firestore:locations --project iconula
+# Conferir as regiões elegíveis antes
+gcloud firestore locations list --project iconula --format="value(locationId)"
 
-# Ensaio: não cria nada
-gcloud firestore databases create --project=iconula \
-  --database='(default)' --location=southamerica-east1 \
-  --type=firestore-native --dry-run
-
-# Criação real
+# Criar. Não existe --dry-run para este comando (nem no firebase CLI).
 gcloud firestore databases create --project=iconula \
   --database='(default)' --location=southamerica-east1 --type=firestore-native
 
@@ -177,12 +172,32 @@ gcloud firestore databases create --project=iconula \
 gcloud firestore databases describe --database='(default)' --project=iconula
 ```
 
-Região **`southamerica-east1`** (São Paulo). A escolha, a pesquisa sobre
-faixa gratuita por região e o gatilho de revisão caso o projeto vá para o
-plano Blaze estão registrados no
+Região **`southamerica-east1`** (São Paulo), edição `STANDARD`, modo
+`FIRESTORE_NATIVE`.
+
+**A região está na faixa gratuita**, o que a própria API confirma no
+recurso criado:
+
+```bash
+$ gcloud firestore databases describe --database='(default)' --project=iconula \
+    --format="value(freeTier,locationId)"
+True    southamerica-east1
+```
+
+Isso encerra a dúvida de que a cota gratuita do Firestore valeria só em
+`us-central1`/`us-east1`/`us-west1` — essa restrição é do Cloud Storage.
+O raciocínio completo e o gatilho de revisão (caso o projeto vá para o
+plano Blaze, onde São Paulo é mais caro por operação) estão no
 [ADR 0007](adr/0007-persistencia-do-time-no-firestore.md), seção "Região
-e faixa gratuita". As regras de segurança e como elas são publicadas
-ficam em [docs/firebase.md](firebase.md#cloud-firestore) e no
+e faixa gratuita".
+
+**Trocar de região é possível**: bancos Firestore podem ser apagados
+(`gcloud firestore databases delete --database='(default)'`) e recriados
+em outra região — ao custo de perder os dados gravados. Não é uma escolha
+sem volta, mas passa a ter custo real assim que houver usuários.
+
+As regras de segurança e como elas são publicadas ficam em
+[docs/firebase.md](firebase.md#cloud-firestore) e no
 [TDR 0008](tdr/0008-deploy-e-teste-das-regras-do-firestore.md).
 
 ## Reproduzindo do zero (resumo)
