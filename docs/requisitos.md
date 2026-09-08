@@ -196,8 +196,9 @@ Questões recorrentes são marcadas como "Nota".*
   navegação (salto), não filtro
 - Filtro de status (todas/faltantes/repetidas) existe apenas na
   disposição lista; a disposição álbum nunca é filtrada
-- Jamais scroll dentro de scroll: a rolagem pertence à página inteira;
-  nenhum painel interno rola por conta própria
+- Jamais scroll dentro de scroll: cada tela é uma única página
+  scrollável; nenhum componente tem rolagem própria (ver
+  [IDR 0008](idr/0008-uma-unica-pagina-scrollavel.md))
 
 ## Requisitos Não Funcionais
 
