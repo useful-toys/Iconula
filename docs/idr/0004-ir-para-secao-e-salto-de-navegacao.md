@@ -8,7 +8,9 @@
 uma UX de percurso suficientemente boa, rolar até a seção desejada já é
 o caminho natural, e um seletor de salto não se justifica. Mantido na
 íntegra por registrar o diagnóstico filtro × salto, que segue válido
-como referência.
+como referência. Retomado pelo
+[IDR 0014](0014-salto-direto-para-secao.md): o salto direto volta, com
+mecanismo aberto.
 
 ## Contexto
 

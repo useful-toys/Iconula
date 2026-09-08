@@ -7,7 +7,10 @@
 Aceito — revê, para este produto, a política de erro do
 [ADR 0007](../adr/0007-persistencia-do-time-no-firestore.md) (falha
 invisível, só log). A revisão formal fica registrada como pendência do
-ADR do schema.
+ADR do schema. Refinado pelo
+[IDR 0017](0017-aviso-so-na-falha-com-detalhe-tecnico.md): só a falha
+avisa — o sucesso não notifica, a data/hora do título atualiza; a
+área de avisos vive na borda inferior, não no cabeçalho.
 
 ## Contexto
 

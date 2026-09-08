@@ -52,7 +52,9 @@ users/{uid}
     "COC03": 2
                           // chave ausente = contagem 0
   },
-  "updatedAt": <timestamp>  // carimbo do servidor
+  "updatedAt": <timestamp>,  // carimbo do servidor
+  "atestadoEm": <timestamp>  // quando atestou ser maior/autorizado
+                             // (uma vez por conta — requisitos.md)
 }
 ```
 
@@ -64,46 +66,50 @@ Regras do formato:
 - **Valor = contagem, inteiro ≥ 1** — o mapa é **esparso**: chave
   ausente significa contagem 0, e zeros nunca são gravados; o documento
   só cresce com o que o usuário tem
-- **Zerar a última unidade = apagar a chave** do mapa (não gravar 0)
+- **Contagem chegando a 0 = apagar a chave** do mapa (não gravar 0)
 - **`updatedAt`** é carimbo **do servidor** (`serverTimestamp()`), não
-  do relógio do cliente — é o que o cabeçalho exibe como última
-  alteração gravada; reverte o "sem updatedAt" do ADR 0007, que valia
-  quando não havia leitor para o carimbo
-- **Tipos**: `contagens` é `map<string, int>`; o teto por contagem e a
-  validação exata das chaves ficam com o ADR do schema
+  do relógio do cliente — carimbo da última escrita no documento; o
+  cabeçalho exibe a data/hora da última transação bem-sucedida,
+  leitura ou escrita (requisitos.md); reverte o "sem updatedAt" do
+  ADR 0007, que valia quando não havia leitor para o carimbo
+- **Tipos**: `contagens` é `map<string, int 1–99>`; chaves = códigos do
+  catálogo — validação exata (regex × allow-list) no TDR das regras
+  ([ADR 0008](adr/0008-schema-da-colecao-mapa-esparso.md))
 - **Tamanho**: no pior caso (coleção completa), ~994 chaves de ~5
   caracteres — poucos KB, muito abaixo do limite de 1 MiB por documento
-- **Nada além disso**: os únicos campos são `contagens` e `updatedAt`
-  (+ `teamName` enquanto a migração não decide o que fazer com ele —
-  pendência em requisitos.md)
+- **Nada além disso**: os únicos campos são `contagens`, `updatedAt` e
+  `atestadoEm`; o `teamName` da era do botão é apagado na migração
+  (primeira gravação do schema novo — ADR 0008)
 
-### Formato físico pendente: mapa × subcoleção
+### Formato físico: mapa no documento (ADR 0008)
 
-O formato lógico acima vale igual nos dois candidatos físicos; o ADR
-do schema decide:
-
-- **Mapa no documento `users/{uid}`** (desenhado acima): a coleção
-  inteira carrega numa leitura e a gravação agregada é uma única
-  escrita — candidato natural
-- **Subcoleção** (`users/{uid}/contagens/{código}`): uma escrita por
-  figurinha e leitura em query; mais documentos, regras por
-  subcaminho — só compensaria se a coleção não coubesse num documento
+Decidido: mapa esparso no documento `users/{uid}` — a coleção inteira
+carrega numa leitura e a gravação agregada é uma única escrita (por
+chaves alteradas). A subcoleção foi descartada: uma escrita por
+figurinha e leitura em query, sem caber melhor — ~994 chaves ficam em
+poucos KB. Detalhes (debounce, flush, teto, migração) no
+[ADR 0008](adr/0008-schema-da-colecao-mapa-esparso.md).
 
 ### Operações sobre o formato
 
 | Operação | Efeito no documento |
 |---|---|
 | Carregar (login) | 1 leitura de `users/{uid}` → mapa inteiro no estado da tela |
-| Ajustar (+1/−1) | gravação agregada com as chaves acumuladas desde a última (caminhos individuais ou mapa inteiro — detalhe do ADR; `increment()` atômico é candidato) |
-| Zerar | apaga a chave do mapa |
-| Apagar meus dados | `delete` do documento inteiro (contagens junto) — exige autorizar `delete` nas regras |
+| Ajustar (+1/−1) | gravação agregada com as chaves alteradas desde a última — valores absolutos ou `deleteField`, numa única escrita (ADR 0008) |
+| Chegar a 0 (decremento) | apaga a chave do mapa |
+| Atestação de menores | grava `atestadoEm`, uma única vez por conta |
 | Importar JSON | **substitui** o campo `contagens` inteiro (sobrescreve, sem merge; normalizado — zeros viram chave ausente) + `updatedAt` |
 
 O comportamento de sincronização em volta do formato — gravação
-agregada relativamente rápida, notificações de gravado/carregado/falha,
-flush ao fechar a página — está nos
+agregada relativamente rápida, aviso apenas na falha (IDR 0017: o
+sucesso não avisa, a data/hora do título atualiza), flush ao fechar a
+página — está nos
 [IDRs 0002/0003](idr/0003-gravacao-agrega-ajustes.md); a garantia de
 flush fica no ADR do schema.
+
+Sessões simultâneas do mesmo usuário não são tratadas no MVP: a última
+gravação vence e ajustes da outra sessão podem ser perdidos — decisão
+consciente registrada em requisitos.md (merge é futuro).
 
 ## Regras de segurança
 
@@ -121,8 +127,9 @@ O que muda com o produto novo:
 - Validação do formato (seção "Formato dos dados"): `contagens` é map
   com int ≥ 1, `updatedAt` é timestamp; teto por contagem e padrão das
   chaves (regex × allow-list dos 994 códigos) ficam no TDR das regras
-- `delete` precisa ser autorizado para "apagar meus dados" — hoje é
-  negado por não ser operação do app
+- `delete` segue negado — "apagar meus dados" saiu do MVP (requisito
+  futuro em requisitos.md; quando voltar, exigirá re-autenticação e
+  autorização nova nas regras)
 - `get` continua a única leitura; `list` segue negado
 
 App Check segue de fora, com gatilho de revisão já registrado no
@@ -130,12 +137,32 @@ ADR 0007 (abuso de cota ou migração para o Blaze).
 
 ## Custos e cotas
 
-- Plano Spark (gratuito): esgotada a cota diária (~20 mil escritas/dia),
-  as requisições falham até o dia seguinte — a política de erro mantém
-  o app utilizável
+- Plano Spark (gratuito): ~50 mil leituras e ~20 mil escritas por dia;
+  esgotada a cota, as requisições falham até o dia seguinte — a política
+  de erro mantém o app utilizável
+- Custo por operação (schema do ADR 0008):
+
+| Ação | Operações cobradas |
+|---|---|
+| Login (carga) | 1 leitura; com o cache local (IndexedDB), cargas repetidas podem servir do cache — leitura só quando o servidor é consultado |
+| Ajustes em rajada | 1 escrita por agregação — debounce de ~2s, no máximo 1 escrita a cada ~10s de atividade contínua |
+| Chegar a 0 | vai na escrita da agregação (`deleteField` conta como escrita, não como exclusão) |
+| Atestação de menores | 1 escrita na vida da conta |
+| Import JSON | 1 escrita (substitui `contagens` + `updatedAt`) |
+| Export JSON, texto WhatsApp, desfazer | 0 — leem o estado em memória |
+| Migração do `teamName` | 1 escrita única por usuário da era do botão |
+
+- Teto estimado: um usuário pesado (1 h/dia registrando sem parar) ≈
+  360 escritas/dia — a cota comporta dezenas de usuários pesados
+  simultâneos; leituras (1 por login) são irrelevantes
 - Volume estimado: 1 leitura de documento por login; escritas agregadas
   (IDR 0003) — a era "uma escrita por clique" consumiria cota à toa em
   sessões de registro em rajada
+- O risco de cota vem dos futuros, não do MVP: sincronização ao vivo
+  (`onSnapshot` — cada entrega cobrada como leitura, multiplicada por
+  dispositivo) é o primeiro candidato; import usado como "salvar" é o
+  segundo (import é substituição rara, não gravação) — gatilhos de
+  revisão já no ADR 0007
 - Região: `southamerica-east1` tem faixa gratuita; no Blaze é mais cara
   por operação que `us-*` — gatilho de revisão se o projeto vincular
   faturamento (ADR 0007)
@@ -147,10 +174,10 @@ ADR 0007 (abuso de cota ou migração para o Blaze).
 
 | Pronto (na main) | Falta (implementação do produto novo) |
 |---|---|
-| Banco criado (região, Spark) | ADR do schema (mapa vs. subcoleção) |
-| `users/{uid}` + regras + testes no CI | Regras novas (schema, `updatedAt`, `delete`) |
-| SDK sob demanda + CSP (TDR 0007) | Escrita agregada, flush, `updatedAt` |
-| Deploy das regras (TDR 0008) | Migração do `teamName` |
+| Banco criado (região, Spark) | Revisar/aceitar o ADR 0008 (redigido) |
+| `users/{uid}` + regras + testes no CI | Regras novas (schema, `updatedAt`, `atestadoEm`) |
+| SDK sob demanda + CSP (TDR 0007) | Escrita agregada, flush, `updatedAt`, `atestadoEm` |
+| Deploy das regras (TDR 0008) | Migração: apagar o `teamName` na primeira gravação |
 
 ## Futuro
 
