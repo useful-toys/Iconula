@@ -3,7 +3,7 @@
 # Tarefa [0001-0001]: registrar o plano de implementação no AGENTS.md
 
 ## Status
-Pendente
+Concluída
 
 ## Documentos de referência (ler antes de implementar)
 - `AGENTS.md` § Onde fica cada coisa — formato exato das linhas da tabela (caminho entre crases na primeira coluna, descrição em uma frase na segunda)
@@ -65,11 +65,11 @@ seções do `AGENTS.md`; a criação dos arquivos do plano, que já existe.
 - `AGENTS.md` — modificar
 
 ## Critérios de aceite
-- [ ] A tabela "Onde fica cada coisa" tem uma linha para `docs/plano/`, no
+- [x] A tabela "Onde fica cada coisa" tem uma linha para `docs/plano/`, no
       formato das demais
-- [ ] Nenhuma outra seção do `AGENTS.md` foi alterada
-- [ ] Registros ADR/TDR/IDR criados para as decisões tomadas (nenhum esperado)
-- [ ] `docs/plano/0001-fundacao-catalogo-e-assets/logs/0001-log-registrar-o-plano-no-agents.md` gerado
+- [x] Nenhuma outra seção do `AGENTS.md` foi alterada
+- [x] Registros ADR/TDR/IDR criados para as decisões tomadas (nenhum esperado)
+- [x] `docs/plano/0001-fundacao-catalogo-e-assets/logs/0001-log-registrar-o-plano-no-agents.md` gerado
 
 ## Validação
 `npm run lint && npm run test && npm run build`.
