@@ -5,7 +5,7 @@
 ## Status
 
 Aceito — retoma a ideia que o
-[IDR 0004](0004-ir-para-secao-e-salto-de-navegacao.md) rejeitou.
+[IDR 0004](0004-rejeitado-ir-para-secao-e-salto-de-navegacao.md) rejeitou.
 Mecanismo decidido: faixa de bandeiras no cabeçalho
 ([IDR 0016](0016-salto-pela-faixa-de-bandeiras.md)).
 

@@ -10,7 +10,14 @@ invisível, só log). A revisão formal fica registrada como pendência do
 ADR do schema. Refinado pelo
 [IDR 0017](0017-aviso-so-na-falha-com-detalhe-tecnico.md): só a falha
 avisa — o sucesso não notifica, a data/hora do título atualiza; a
-área de avisos vive na borda inferior, não no cabeçalho.
+área de avisos vive na borda inferior, não no cabeçalho. A data/hora
+do cabeçalho foi precisada pelo
+[IDR 0027](0027-relogio-do-titulo-e-o-updatedat-do-documento.md): é o
+`updatedAt` do documento — a última escrita bem-sucedida. O
+[IDR 0029](0029-avisos-flutuantes-com-tres-severidades.md) restabelece
+os avisos de sucesso que o 0017 tinha suprimido: a decisão original
+deste registro — notificar gravado, carregado e falhas — volta a valer,
+com sucesso e aviso efêmeros (5s) e falha persistente.
 
 ## Contexto
 

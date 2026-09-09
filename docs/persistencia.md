@@ -22,6 +22,19 @@ sincronização do produto novo) e [requisitos.md](requisitos.md)
 - Fora isso, só a identidade Google (nome, e-mail, foto) — que mora no
   Firebase Auth, não no Firestore; nenhum outro dado de usuário existe
 
+### O que **não** vai para o Firestore
+
+- **Preferências de vista** — ordenação, disposição e filtro — vivem no
+  `localStorage` do navegador, por dispositivo, e custam zero requisição
+  ([IDR 0026](idr/0026-preferencias-de-vista-persistidas-no-navegador.md))
+- **Estado de colapso** de seções e super-grupos é volátil: some ao
+  recarregar ([IDR 0020](idr/0020-secoes-colapsaveis-em-qualquer-visualizacao.md))
+- **Histórico de desfazer** (últimas 10 alterações) vive em memória
+  ([IDR 0012](idr/0012-desfazer-no-cabecalho-historico-de-10.md))
+- **Cache do SDK** (IndexedDB, `persistentLocalCache` com
+  `persistentMultipleTabManager()`) espelha o documento e sustenta o
+  flush de gravações pendentes (ADR 0008)
+
 ## Formato dos dados
 
 ### Hoje (implementado): a bandeira do botão
@@ -68,12 +81,16 @@ Regras do formato:
   só cresce com o que o usuário tem
 - **Contagem chegando a 0 = apagar a chave** do mapa (não gravar 0)
 - **`updatedAt`** é carimbo **do servidor** (`serverTimestamp()`), não
-  do relógio do cliente — carimbo da última escrita no documento; o
-  cabeçalho exibe a data/hora da última transação bem-sucedida,
-  leitura ou escrita (requisitos.md); reverte o "sem updatedAt" do
+  do relógio do cliente — carimbo da última escrita no documento, e é
+  exatamente esse valor que o relógio do cabeçalho exibe
+  ([IDR 0027](idr/0027-relogio-do-titulo-e-o-updatedat-do-documento.md)):
+  a carga o traz, a gravação o move; reverte o "sem updatedAt" do
   ADR 0007, que valia quando não havia leitor para o carimbo
-- **Tipos**: `contagens` é `map<string, int 1–99>`; chaves = códigos do
-  catálogo — validação exata (regex × allow-list) no TDR das regras
+- **Tipos**: `contagens` é `map<string, int 1–99>`; o teto de 99 existe
+  para que as regras consigam validar os valores — é a única forma, e a
+  interface para o incremento nele
+  ([TDR 0009](tdr/0009-validacao-do-mapa-nas-regras.md)); chaves =
+  códigos do catálogo
   ([ADR 0008](adr/0008-schema-da-colecao-mapa-esparso.md))
 - **Tamanho**: no pior caso (coleção completa), ~994 chaves de ~5
   caracteres — poucos KB, muito abaixo do limite de 1 MiB por documento
@@ -87,7 +104,7 @@ Decidido: mapa esparso no documento `users/{uid}` — a coleção inteira
 carrega numa leitura e a gravação agregada é uma única escrita (por
 chaves alteradas). A subcoleção foi descartada: uma escrita por
 figurinha e leitura em query, sem caber melhor — ~994 chaves ficam em
-poucos KB. Detalhes (debounce, flush, teto, migração) no
+poucos KB. Detalhes (debounce, flush, migração) no
 [ADR 0008](adr/0008-schema-da-colecao-mapa-esparso.md).
 
 ### Operações sobre o formato
@@ -100,10 +117,14 @@ poucos KB. Detalhes (debounce, flush, teto, migração) no
 | Atestação de menores | grava `atestadoEm`, uma única vez por conta |
 | Importar JSON | **substitui** o campo `contagens` inteiro (sobrescreve, sem merge; normalizado — zeros viram chave ausente) + `updatedAt` |
 
+Sem rede, a escrita não falha nem confirma: fica enfileirada no cache
+local e a promise só resolve quando o servidor responde. Depois de ~5s a
+tela emite o aviso "sem conexão, será gravado depois" (ADR 0008).
+
 O comportamento de sincronização em volta do formato — gravação
-agregada relativamente rápida, aviso apenas na falha (IDR 0017: o
-sucesso não avisa, a data/hora do título atualiza), flush ao fechar a
-página — está nos
+agregada relativamente rápida, aviso flutuante na borda inferior a cada
+resultado (IDR 0029: sucesso e aviso somem em 5s, a falha fica), o
+`updatedAt` exibido no título, flush ao fechar a página — está nos
 [IDRs 0002/0003](idr/0003-gravacao-agrega-ajustes.md); a garantia de
 flush fica no ADR do schema.
 
@@ -124,9 +145,13 @@ O que muda com o produto novo:
 - `hasOnly(["teamName"])` não vale mais: contagens e `updatedAt` exigem
   schema novo — e as regras precisam subir antes ou junto com o código
   que escreve os campos (acoplamento schema × regras, ADR 0007)
-- Validação do formato (seção "Formato dos dados"): `contagens` é map
-  com int ≥ 1, `updatedAt` é timestamp; teto por contagem e padrão das
-  chaves (regex × allow-list dos 994 códigos) ficam no TDR das regras
+- Validação do formato (seção "Formato dos dados"): tamanho do mapa,
+  valores por `values().hasOnly([1…99])`, `updatedAt == request.time`.
+  **A linguagem de regras não itera**: não há como aplicar um regex a
+  cada chave nem uma condição a cada valor — só comparação de conjunto
+  contra listas escritas à mão. O que isso permite, o que não permite e
+  o teto de abuso que sobra (1 MiB por conta) estão no
+  [TDR 0009](tdr/0009-validacao-do-mapa-nas-regras.md)
 - `delete` segue negado — "apagar meus dados" saiu do MVP (requisito
   futuro em requisitos.md; quando voltar, exigirá re-autenticação e
   autorização nova nas regras)
@@ -150,6 +175,7 @@ ADR 0007 (abuso de cota ou migração para o Blaze).
 | Atestação de menores | 1 escrita na vida da conta |
 | Import JSON | 1 escrita (substitui `contagens` + `updatedAt`) |
 | Export JSON, texto WhatsApp, desfazer | 0 — leem o estado em memória |
+| Trocar ordenação, disposição ou filtro | 0 — preferência de vista vai para o `localStorage` (IDR 0026) |
 | Migração do `teamName` | 1 escrita única por usuário da era do botão |
 
 - Teto estimado: um usuário pesado (1 h/dia registrando sem parar) ≈

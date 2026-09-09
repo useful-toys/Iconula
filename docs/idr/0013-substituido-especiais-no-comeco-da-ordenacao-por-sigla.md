@@ -4,7 +4,12 @@
 
 ## Status
 
-Aceito.
+**Substituído pelo
+[IDR 0028](0028-fwc-abre-e-coca-cola-fecha-o-catalogo.md)**: os
+especiais deixam de vir juntos no começo — o FWC abre o catálogo e a
+Coca-Cola o fecha, nas duas ordenações. Mantido na íntegra por registrar
+o diagnóstico da alfabética literal (COC entre CIV e COD, FWC entre FRA
+e GER), que segue válido como motivo para não intercalar.
 
 ## Contexto
 

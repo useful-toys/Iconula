@@ -4,7 +4,13 @@
 
 ## Status
 
-Aceito.
+Aceito. O escopo da disposição álbum ("apenas para as 48 seleções") foi
+detalhado pelo
+[IDR 0009](0009-disposicao-como-no-album-reproduz-a-pagina-fisica.md) e
+depois ampliado pelo
+[IDR 0023](0023-coca-cola-no-modo-album-fwc-sempre-lista.md): a
+Coca-Cola também tem disposição álbum; só os Extras FIFA seguem sempre
+em lista.
 
 ## Contexto
 

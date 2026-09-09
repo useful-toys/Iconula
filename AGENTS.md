@@ -53,7 +53,7 @@ acontece, o código neste repositório ainda é o descrito acima.
 | `src/data/teams.js` | Os 48 times (nome + emoji de bandeira), em ordem alfabética. Única fonte de dados dos times. |
 | `src/components/TeamButton.jsx` | Componente apresentacional do botão; converte o emoji em imagem via Twemoji. |
 | `src/App.jsx` | Estado do time atual (`useState`) e lógica de avanço com wrap-around; estado do usuário autenticado (`useState` + `onAuthStateChanged`), repassado por prop para `AuthStatus` — sem Context (ver [ADR 0006](docs/adr/0006-login-google-sdk-modular.md)). Carrega o time salvo ao entrar e grava a cada clique de usuário logado (ver [ADR 0007](docs/adr/0007-persistencia-do-time-no-firestore.md)). |
-| `src/App.css` | Estilo do app (minimalista, responsivo, suporte a dark mode via `prefers-color-scheme`). |
+| `src/App.css` | Estilo do app (minimalista, responsivo, suporte a dark mode via `prefers-color-scheme`). No produto novo dá lugar ao tema escuro único e à paleta de [docs/interface.md](docs/interface.md) (ver [IDR 0022](docs/idr/0022-tema-escuro-unico-paleta-do-prototipo.md)). |
 | `src/App.test.jsx` | Testes: estado inicial, avanço ao clicar, wrap-around, login/logout e persistência (mocka `src/lib/firebase.js` e `src/lib/userPreferences.js`). |
 | `src/lib/firebase.js` | Inicializa o SDK do Firebase (API modular — ver ADR 0006) a partir das variáveis `VITE_FIREBASE_*`; exporta `auth`, `app` (ambos `null` se a config estiver incompleta — login e persistência ficam indisponíveis, mas o resto do app funciona) e `signInWithGoogle()`. **Não** importa `firebase/firestore`: quem faz isso é `userPreferences.js`, sob demanda. |
 | `src/lib/userPreferences.js` | Lê e grava o time do usuário em `users/{uid}` no Firestore, carregando o SDK com `import()` dinâmico. Nunca lança: falha de persistência vira log e não altera a tela (ver [ADR 0007](docs/adr/0007-persistencia-do-time-no-firestore.md)). |
@@ -64,7 +64,7 @@ acontece, o código neste repositório ainda é o descrito acima.
 | `firebase.json`, `.firebaserc` | Configuração do Firebase Hosting (aponta para `dist/`), das regras do Firestore e do emulador. |
 | `.github/workflows/` | Workflows de deploy (produção em merge na `main`, preview em PRs). |
 | `docs/requisitos.md` | Requisitos do produto (o que é, diferenciais, MVP, futuros, fora de escopo) — ler antes de propor funcionalidades. Descreve o produto para o qual o app atual será transformado. |
-| `docs/interface.md` | Decisões de interface (o "como" da UI: telas, faixas de tela, identidade visual, interações). Tela principal especificada; demais telas e faixas de tela pendentes; em conflito com requisitos, requisitos vence. |
+| `docs/interface.md` | Decisões de interface (o "como" da UI: telas, faixas de tela, identidade visual, interações). Telas principal e de login especificadas, com paleta e medidas; diálogos de export/import e faixas de tela pendentes; em conflito com requisitos, requisitos vence. |
 | `docs/persistencia.md` | Como os dados do usuário são gravados no Firestore — formato dos dados, regras, custos e o que muda com o controle de figurinhas. |
 | `docs/arquitetura.md` | Visão de conjunto da arquitetura — serviços, camadas, fluxo de dados e índice das decisões (ADRs/TDRs/IDRs). |
 | `docs/adr/` | Decisões de arquitetura (ADRs) — leia antes de propor mudanças estruturais. |

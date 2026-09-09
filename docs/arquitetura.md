@@ -63,9 +63,9 @@ regras do Firestore, avaliadas no servidor contra o ID token.
 
 | Camada | Hoje (botão) | Alvo (figurinhas) |
 |---|---|---|
-| `src/data/` | `teams.js` (48 times) | catálogo: seções, códigos, nomes, páginas, grupos da Copa (A–L), ordem do álbum — gerado do checklist (fonte pendente) |
-| `src/lib/` | `firebase.js`, `userPreferences.js` | + persistência da coleção, export/import JSON, texto WhatsApp |
-| `src/components/` | `TeamButton`, `AuthStatus`, `LoginButton` | tela de login, cabeçalho/placar, controles, grupo, figurinha, avisos |
+| `src/data/` | `teams.js` (48 times) | catálogo: 50 seções e 994 códigos, com nome, grupo da Copa (A–L), páginas do spread e layout — grupos e páginas já resolvidos (IDR 0019 + Anexo de requisitos.md); do checklist falta só o que degrada |
+| `src/lib/` | `firebase.js`, `userPreferences.js` | + persistência da coleção, preferências de vista no `localStorage` (IDR 0026), export/import JSON, texto WhatsApp |
+| `src/components/` | `TeamButton`, `AuthStatus`, `LoginButton` | tela de login, cabeçalho/placar, controles, menu de ações (IDR 0024), faixa de salto, super-grupo, grupo, figurinha, avisos |
 | `App.jsx` | estado do time + usuário | estado da coleção + usuário; tela de login como guarda |
 
 Convenção vigente (AGENTS.md): nada de router nem estado global até a
@@ -85,13 +85,17 @@ Dois mundos, nunca misturados:
 Fluxos:
 
 1. **Carga**: login → Auth emite o usuário → leitura de `users/{uid}`
-   → estado da coleção → tela; evento "carregado" notificado
+   → estado da coleção → tela; aviso efêmero de "carregado" e o
+   `updatedAt` lido no cabeçalho (IDRs 0027/0029)
 2. **Ajuste**: toque → estado local muda na hora → o ajuste entra na
-   gravação agregada → Firestore → "gravado" notificado, `updatedAt`
-   atualiza o cabeçalho; em falha, a tela segue e a gravação seguinte
-   regrava o valor completo (IDRs 0002/0003)
+   gravação agregada → Firestore → aviso efêmero de "gravado" e relógio
+   do cabeçalho avançado; em falha, a tela segue, o aviso vermelho fica
+   e a gravação seguinte regrava as chaves alteradas (IDRs
+   0002/0003/0029)
 3. **Portabilidade**: export JSON lê o estado; import substitui a
-   coleção com confirmação
+   coleção com confirmação e descarta o histórico de desfazer
+4. **Preferência de vista**: alternador → `localStorage`, sem tocar o
+   Firestore (IDR 0026)
 
 ## Build, deploy e qualidade
 
@@ -114,17 +118,20 @@ Fluxos:
 | Bandeiras Twemoji vendadas | [ADR 0002](adr/0002-bandeiras-emoji-unicode.md) |
 | Deploy Hosting + Actions | [ADR 0003](adr/0003-deploy-firebase-hosting-github-actions.md) |
 | Preview como required check | [ADR 0004](adr/0004-branch-protection-preview-required.md) |
-| Login Google | [ADR 0005](adr/0005-autenticacao-google-firebase-auth.md) → [0006](adr/0006-login-google-sdk-modular.md) |
+| Login Google | [ADR 0005](adr/0005-substituido-autenticacao-google-firebase-auth.md) → [0006](adr/0006-login-google-sdk-modular.md) |
 | Persistência Firestore | [ADR 0007](adr/0007-persistencia-do-time-no-firestore.md) + [persistencia.md](persistencia.md) |
 | CSP para Auth/Firestore | [TDR 0005](tdr/0005-csp-firebase-auth-google-oauth.md), [TDR 0007](tdr/0007-csp-para-o-firestore.md) |
 | Regras: deploy e teste | [TDR 0008](tdr/0008-deploy-e-teste-das-regras-do-firestore.md) |
-| Interface (disposições, estados, sync, scroll…) | [IDR 0001–0020](idr/) + [interface.md](interface.md) |
+| Regras: o que dá para validar no mapa | [TDR 0009](tdr/0009-validacao-do-mapa-nas-regras.md) |
+| Interface (disposições, estados, sync, scroll…) | [IDR 0001–0029](idr/) + [interface.md](interface.md) |
+| Aparência (tema, paleta, medidas) | [IDR 0022](idr/0022-tema-escuro-unico-paleta-do-prototipo.md) + [interface.md](interface.md) |
 | Schema da coleção | [ADR 0008](adr/0008-schema-da-colecao-mapa-esparso.md) + [persistencia.md](persistencia.md) |
 
 ## Pontos em aberto (fase de implementação)
 
 - **Aceite do ADR 0008**: redigido — revisar os valores numéricos
-  (debounce, teto de espera, teto por contagem) antes de implementar
+  (debounce, teto de espera) antes de implementar; o teto por contagem
+  foi removido
 - **Router**: tela de privacidade como rota ou vista interna — decidir
   quando as telas existirem
 - **Estado global**: a coleção consumida por várias telas pode exigir

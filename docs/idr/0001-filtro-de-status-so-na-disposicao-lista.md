@@ -4,7 +4,12 @@
 
 ## Status
 
-Aceito.
+Aceito, com dois pontos revistos depois: a decisão "sem seletor de
+seção" foi **revogada** pelos [IDR 0014](0014-salto-direto-para-secao.md)
+e [IDR 0016](0016-salto-pela-faixa-de-bandeiras.md) — o salto direto
+voltou, pela faixa de bandeiras, e continua não sendo filtro. O
+comportamento do filtro sobre seções sem resultado foi completado pelo
+[IDR 0025](0025-filtro-oculta-secoes-vazias.md): elas somem da vista.
 
 ## Contexto
 
@@ -29,7 +34,7 @@ real é navegação — pular direto a um grupo.
 - A disposição álbum — que imita a página física — **nunca é
   filtrada**: espelhar o álbum real é o propósito dessa disposição
 - Sem seletor de seção: o percurso é só rolagem — o "ir para" do
-  [IDR 0004](0004-ir-para-secao-e-salto-de-navegacao.md) acabou
+  [IDR 0004](0004-rejeitado-ir-para-secao-e-salto-de-navegacao.md) acabou
   rejeitado
 
 ## Consequências

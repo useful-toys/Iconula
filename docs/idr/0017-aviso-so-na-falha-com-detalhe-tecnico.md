@@ -6,7 +6,16 @@
 
 Aceito — resolve a pendência de desenho da área de avisos de
 interface.md, refinando o
-[IDR 0002](0002-avisos-de-sincronizacao-visiveis.md).
+[IDR 0002](0002-avisos-de-sincronizacao-visiveis.md). Um ponto do
+raciocínio foi corrigido pelo
+[IDR 0027](0027-relogio-do-titulo-e-o-updatedat-do-documento.md): o
+relógio do título é o `updatedAt` do documento, então ele ticka na
+gravação, **não** na carga — o feedback de sucesso continua sendo só
+ele, mas cobre a escrita, não a leitura. E a decisão central — "só a
+falha avisa" — foi **revertida** pelo
+[IDR 0029](0029-avisos-flutuantes-com-tres-severidades.md): sucesso e
+aviso voltam, flutuantes na borda inferior, sumindo em 5s; a falha
+persiste, com o detalhe técnico ao toque, como decidido aqui.
 
 ## Contexto
 

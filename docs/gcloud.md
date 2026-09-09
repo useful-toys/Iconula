@@ -25,7 +25,7 @@ Habilitadas explicitamente por este projeto:
 
 | API | Motivo |
 |---|---|
-| `identitytoolkit.googleapis.com` (Identity Toolkit API) | Usada pelo Firebase Auth (login com Google — ver [ADR 0005](adr/0005-autenticacao-google-firebase-auth.md) e [docs/firebase.md](firebase.md#firebase-authentication)); também é a API por trás do Identity Platform Admin API, usada para automatizar authorized domains via `curl` + token do `gcloud` (mesmo padrão da Firebase Hosting REST API já usado para o domínio customizado). |
+| `identitytoolkit.googleapis.com` (Identity Toolkit API) | Usada pelo Firebase Auth (login com Google — ver [ADR 0005](adr/0005-substituido-autenticacao-google-firebase-auth.md) e [docs/firebase.md](firebase.md#firebase-authentication)); também é a API por trás do Identity Platform Admin API, usada para automatizar authorized domains via `curl` + token do `gcloud` (mesmo padrão da Firebase Hosting REST API já usado para o domínio customizado). |
 | `firestore.googleapis.com` (Cloud Firestore API) | Persistência do time visível por usuário — ver [ADR 0007](adr/0007-persistencia-do-time-no-firestore.md) e a seção "Cloud Firestore" abaixo. Sem ela, qualquer `gcloud firestore ...` falha com `SERVICE_DISABLED`. |
 
 Habilitadas com:

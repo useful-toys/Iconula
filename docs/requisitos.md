@@ -56,7 +56,9 @@ usuário é um contador de unidades por figurinha. Os estados "colada no
 - **Colada**: figurinha com contagem ≥ 1 — presunção de que a primeira
   unidade está no álbum
 - **Repetida**: unidade além da primeira de uma figurinha com contagem
-  ≥ 2; sobra disponível para troca
+  ≥ 2; sobra disponível para troca — é esse número (contagem − 1) que o
+  selo `×N` do cartão e o texto de troca mostram (ver
+  [IDR 0021](idr/0021-selo-conta-unidades-sobrando.md))
 
 ## Requisitos Funcionais
 
@@ -79,6 +81,10 @@ Questões recorrentes são marcadas como "Nota".*
   - Nota: a tela de login expõe o link para a política de privacidade
     antes de qualquer autenticação
 - Sair da conta
+  - Comando no menu de ações do cabeçalho (ver
+    [IDR 0024](idr/0024-acoes-raras-em-menu-do-cabecalho.md))
+  - Grava o que estiver pendente antes de sair: depois do logout as
+    regras negam a escrita, e ajustes recentes se perderiam
   - Volta à tela de login; a coleção permanece gravada no Firestore e é
     recarregada no próximo login
 ### Catálogo
@@ -91,6 +97,8 @@ Questões recorrentes são marcadas como "Nota".*
     como grupos nomeados, iguais a uma seleção
   - Nomes em português ("Alemanha", "Estados Unidos")
   - Bandeiras via Twemoji, incluindo Inglaterra e Escócia (ver ADR 0002)
+  - Os especiais têm ícone temático no lugar da bandeira: 🏆 (Extras
+    FIFA) e 🥤 (Coca-Cola)
 - Pular direto para uma seção
   - Salta a tela até a seção pedida — o catálogo permanece inteiro,
     antes e depois do salto; nunca filtra a vista (ver
@@ -101,20 +109,26 @@ Questões recorrentes são marcadas como "Nota".*
   - O salto expande super-grupo e seção colapsados no caminho até o
     alvo (ver IDRs 0019 e 0020)
 - Apresentar o catálogo em duas ordenações de seções
-  - Ordem alfabética pela sigla da seção (ARG, AUS, AUT, …), com os
-    especiais antes da primeira seleção — entre si, COC e FWC (ver
-    [IDR 0013](idr/0013-especiais-no-comeco-da-ordenacao-por-sigla.md));
-    sem super-grupos
-  - Ordem igual à do álbum físico, agrupada em super-grupos colapsáveis
-    — "Especiais" e os 12 grupos da Copa A–L — com nome e progresso
-    agregado no título; abertos por padrão (ver
-    [IDR 0019](idr/0019-ordem-do-album-agrupada-e-colapsavel.md))
+  - Em ambas, os Extras FIFA (FWC) são a primeira seção e a Coca-Cola
+    (COC) é a última — a moldura do catálogo não muda com a ordenação
+    (ver [IDR 0028](idr/0028-fwc-abre-e-coca-cola-fecha-o-catalogo.md))
+  - Ordem alfabética pela sigla da seção (ARG, AUS, AUT, …) entre os
+    dois especiais; sem super-grupos
+  - Ordem igual à do álbum físico, com as 48 seleções agrupadas em 12
+    super-grupos colapsáveis — os grupos da Copa A–L —, cada um com nome
+    e progresso agregado no título; abertos por padrão (ver
+    [IDR 0019](idr/0019-ordem-do-album-agrupada-e-colapsavel.md)); FWC e
+    Coca-Cola ficam fora dos super-grupos, nas pontas (IDR 0028)
 - Apresentar cada seção em duas disposições
-  - Lista: figurinhas em sequência (01 a N) — disposição única dos
-    especiais (FWC e Coca-Cola)
-  - Álbum: reproduz a página física, apenas para as 48 seleções —
-    facilita comparar com o álbum real ("qual eu já tenho?") (ver
-    [IDR 0009](idr/0009-disposicao-como-no-album-reproduz-a-pagina-fisica.md))
+  - Lista: figurinhas em sequência (01 a N) — vale para toda seção
+  - Álbum: reproduz a página física — as 48 seleções (spread de duas
+    páginas, 20 espaços) e a Coca-Cola (duas páginas, 6 + 8); facilita
+    comparar com o álbum real ("qual eu já tenho?") (ver
+    [IDR 0009](idr/0009-disposicao-como-no-album-reproduz-a-pagina-fisica.md)
+    e [IDR 0023](idr/0023-coca-cola-no-modo-album-fwc-sempre-lista.md))
+  - Os Extras FIFA (FWC) aparecem em lista contínua também na disposição
+    álbum — e sem filtro, porque a disposição escolhida é álbum
+    (IDR 0023)
   - Álbum responsivo: as duas páginas do spread lado a lado quando cabem
     na largura da tela, empilhadas (uma abaixo da outra) quando não
     cabem — nunca cai para a lista (ver
@@ -133,6 +147,12 @@ Questões recorrentes são marcadas como "Nota".*
 - Ajustar a contagem de uma figurinha: incrementar e decrementar
   - Sem ação dedicada de zerar: chegar a 0 é decrementar até 0
   - A contagem nunca fica negativa (decremento para em 0)
+  - A contagem vai até 99: o incremento para em 99, como o decremento
+    para em 0. O teto não é preferência de produto — é o que permite às
+    regras do Firestore validarem os valores gravados (ver
+    [TDR 0009](tdr/0009-validacao-do-mapa-nas-regras.md)); na prática
+    ninguém passa de dezenas, e o selo do cartão já reserva dois dígitos
+    (ver [IDR 0021](idr/0021-selo-conta-unidades-sobrando.md))
   - O ajuste é aplicado na hora na tela e entra na gravação seguinte —
     sem ação do usuário (ver Estado da sincronização)
   - Falha de persistência não bloqueia o ajuste: a tela reflete a
@@ -150,15 +170,21 @@ Questões recorrentes são marcadas como "Nota".*
   salvar; a gravação é relativamente rápida, sem precisar acontecer a
   cada ajuste — agregar mudanças é aceitável (debounce de ~2s com teto
   de espera e flush ao fechar a página — ver ADR 0008)
-- Notificar falhas de persistência claramente ao usuário
-  - Sucesso não gera aviso: a data/hora no título (última transação
-    bem-sucedida) atualiza — esse é o feedback
-  - Falha avisa em caixa junto à borda inferior: fica até dispensada
-    ou até a gravação seguinte ter sucesso, e revela a mensagem
-    técnica ao ser tocada (ver
+- Notificar o usuário em caixa flutuante colada à borda inferior, com
+  três severidades (ver
+  [IDR 0029](idr/0029-avisos-flutuantes-com-tres-severidades.md))
+  - Sucesso (gravado, carregado, lista copiada, exportado, importado):
+    some sozinho após 5 segundos
+  - Aviso (recusa esperada, nada quebrado — arquivo de importação
+    inválido, área de transferência indisponível, gravação sem rede que
+    ficou enfileirada): some após 5 segundos
+  - Falha (gravação ou carga que deveria ter funcionado): fica até
+    dispensada ou até a operação seguinte do mesmo tipo ter sucesso, e
+    revela a mensagem técnica ao ser tocada (ver
     [IDR 0017](idr/0017-aviso-so-na-falha-com-detalhe-tecnico.md))
-- Exibir data/hora da última transação bem-sucedida — leitura ou
-  escrita
+- Exibir a data/hora da última gravação bem-sucedida — o `updatedAt` do
+  documento, carimbado pelo servidor; a carga apenas o traz, não o move
+  (ver [IDR 0027](idr/0027-relogio-do-titulo-e-o-updatedat-do-documento.md))
 - Nota: sessões simultâneas do mesmo usuário não são tratadas no MVP —
   vence a última gravação e ajustes da outra sessão podem ser perdidos
   (decisão consciente; ver Requisitos futuros)
@@ -167,6 +193,10 @@ Questões recorrentes são marcadas como "Nota".*
 - Exibir progresso da coleção: total, coladas, faltantes e repetidas
   - Repetidas conta códigos distintos com contagem ≥ 2; as unidades
     sobrando (contagem − 1) aparecem por figurinha na lista de repetidas
+  - Nota: o `×` tem duas leituras, ambas declaradas — nos títulos
+    (placar, super-grupo, seção) conta **códigos distintos** com
+    contagem ≥ 2; no selo do cartão e no texto de troca conta
+    **unidades sobrando** (IDR 0021)
   - Geral: sobre as 994 do catálogo — todas as figurinhas contam,
     inclusive especiais e Coca-Cola
   - Por seção: os mesmos números sobre o total da seção
@@ -181,7 +211,8 @@ Questões recorrentes são marcadas como "Nota".*
   - Repetidas indicam as unidades sobrando por número (ex.: `5×2`)
   - Faltantes e repetidas geram textos separados
   - Entrega por copiar para a área de transferência — sem abrir o
-    WhatsApp
+    WhatsApp; os dois comandos ficam no menu de ações do cabeçalho (ver
+    [IDR 0024](idr/0024-acoes-raras-em-menu-do-cabecalho.md))
   - Nota: a lista de troca é apenas saída; portabilidade usa JSON
 
 ### Portabilidade (sem lock-in)
@@ -191,9 +222,14 @@ Questões recorrentes são marcadas como "Nota".*
   - Formato: `{ "versao": 1, "geradoEm": <ISO 8601>, "contagens": {
     "BRA05": 3 } }` — versionado, sem dados pessoais; a importação
     valida a versão
-  - Disponível sempre, sem etapas adicionais
+  - Disponível sempre, sem etapas adicionais: o comando fica no menu de
+    ações do cabeçalho, a dois toques de qualquer ponto da tela
+    (IDR 0024)
 - Importar coleção a partir de arquivo JSON
   - A importação substitui a coleção inteira, após confirmação explícita
+  - Comando no mesmo menu de ações do cabeçalho (IDR 0024)
+  - A importação descarta o histórico de desfazer: o estado anterior
+    deixou de existir, e reverter para ele seria incoerente
   - Arquivo inválido ou incompleto é rejeitado sem alterar a coleção atual
   - Formato garantido: o exportado pelo próprio app
 
@@ -259,9 +295,16 @@ Questões recorrentes são marcadas como "Nota".*
 - Navegação por rolagem da tela inteira: as seções fluem uma abaixo da
   outra, sem interrupções; um salto direto à seção desejada complementa
   a rolagem (ver [IDR 0014](idr/0014-salto-direto-para-secao.md), que
-  retoma o [IDR 0004](idr/0004-ir-para-secao-e-salto-de-navegacao.md))
+  retoma o [IDR 0004](idr/0004-rejeitado-ir-para-secao-e-salto-de-navegacao.md))
 - Filtro de status (todas/faltantes/repetidas) existe apenas na
-  disposição lista; a disposição álbum nunca é filtrada
+  disposição lista; a disposição álbum nunca é filtrada — nem a lista do
+  FWC exibida dentro dela (IDR 0023)
+- Ao filtrar, seções (e super-grupos) sem nenhuma figurinha no estado
+  filtrado somem da vista — o filtro não deixa cabeçalhos vazios para
+  trás (ver [IDR 0025](idr/0025-filtro-oculta-secoes-vazias.md))
+- Ordenação, disposição e filtro persistem no navegador e são
+  restaurados na abertura seguinte; o colapso de seções, não (ver
+  [IDR 0026](idr/0026-preferencias-de-vista-persistidas-no-navegador.md))
 - Jamais scroll dentro de scroll: cada tela é uma única página
   scrollável; nenhum componente tem rolagem própria (ver
   [IDR 0008](idr/0008-uma-unica-pagina-scrollavel.md))
@@ -272,14 +315,19 @@ Questões recorrentes são marcadas como "Nota".*
   (corrige o `lang="en"` atual)
 - **Acessibilidade**: operável por teclado, contraste adequado, semântica
   legível por leitores de tela — preservar a base atual (bandeira
-  `aria-hidden`, botões com texto)
+  `aria-hidden`, botões com texto); a cor nunca é o único sinal de
+  estado, e os nomes acessíveis escrevem por extenso o que a notação
+  compacta abrevia (IDR 0018)
 - **Navegadores**: evergreen — últimas duas versões de Chrome, Edge,
   Firefox e Safari, desktop e mobile
 - **Performance**: catálogo com ~1000 figurinhas renderiza e filtra sem
   travar; virtualizar listas longas se necessário
 - **Responsividade**: o app funciona bem em navegador, celular e tablet;
-  a apresentação do catálogo se adapta ao tamanho da tela — preservar a
-  base atual (`App.css` responsivo com dark mode)
+  a apresentação do catálogo se adapta ao tamanho da tela
+- **Aparência**: tema escuro único (verde-gramado com dourado), sem
+  seguir `prefers-color-scheme` e sem tema claro — paleta, tipografia e
+  medidas em [interface.md](interface.md) (ver
+  [IDR 0022](idr/0022-tema-escuro-unico-paleta-do-prototipo.md))
 - **Compartilhamento do site**: `title`, `description` e Open Graph
   básicos em PT-BR
 - **Deploy**: Firebase Hosting — produção em merge na `main`, preview por
@@ -326,10 +374,20 @@ especificação própria antes de implementar.*
 
 ### Decisões Pendentes
 - **Fonte do checklist**: nomes das figurinhas de cada seção (jogadores
-  e especiais), páginas do FWC, grupo da Copa (A–L) de cada seleção e
-  verificação das posições fixas — as 48 seleções (código, nome,
-  página) e as páginas da Coca-Cola já estão no Anexo; tudo vira
-  `src/data/`
+  e especiais), página do FWC, verificação das posições fixas e marcação
+  das figurinhas metalizadas além da 01 (a estrelinha do cartão precisa
+  desse dado) — as 48 seleções (código, nome, grupo, páginas) e as
+  páginas da Coca-Cola já estão no Anexo; nada disso bloqueia a
+  implementação: os nomes das figurinhas não são exibidos pela interface
+  especificada, e os dois outros degradam (número da página omitido,
+  metalizada só na posição 01)
+- **Política de privacidade depois de autenticado**: a política é
+  exigida antes do login; se e onde ela reaparece na tela principal
+  (menu de ações do IDR 0024, rodapé) é decisão de interface — ver
+  [interface.md](interface.md)
+- **Falha ao gravar a atestação de menores**: se a escrita de
+  `atestadoEm` falhar no primeiro login, o app libera assim mesmo (e
+  regrava depois) ou retém o usuário na atestação
 
 ## Fora de Escopo
 
@@ -345,65 +403,74 @@ especificação própria antes de implementar.*
 
 ## Anexo: seções do catálogo
 
-As 48 seleções — código, nome como impresso no álbum (PT-BR) e página
-no álbum físico, que define a ordem do álbum (ver
+As 48 seleções — código, nome como impresso no álbum (PT-BR), grupo da
+Copa e as duas páginas que a seção ocupa no álbum físico, que definem a
+ordem do álbum (ver
 [IDR 0005](idr/0005-ordenacoes-disposicoes-e-percurso-do-catalogo.md)).
-Páginas do FWC, grupos da Copa (A–L) de cada seleção e nomes das
-figurinhas de cada seção seguem como pendência do checklist. A Coca-Cola é a última seção do álbum, nas
-páginas 112–113: 6 figurinhas na página 112 (2 linhas × 3 colunas) e 8
-na página 113 (3 figurinhas nas linhas 1 e 2, 2 na linha 3).
 
-Observações para verificação na fonte do checklist: as páginas das
-seleções são todas pares (cada seleção ocupa um spread), com a página
-56 ausente; as páginas 1–7 e 106–111 devem cobrir capa e extras FWC.
+Cada seleção ocupa um **spread**: a página par traz as figurinhas 01–10
+e a ímpar seguinte, as 11–20 — México em 8 e 9, Brasil em 24 e 25, e
+assim por diante. O bloco 56–57 não pertence a nenhuma seleção. As
+páginas 1–7 e 106–111 cobrem capa e extras FIFA (a página exata do FWC
+segue pendente do checklist, e só afeta o número exibido no cabeçalho
+daquela seção).
 
-| Código | Seção | Página |
-|---|---|---|
-| ALG | Argélia | 84 |
-| ARG | Argentina | 82 |
-| AUS | Austrália | 36 |
-| AUT | Áustria | 86 |
-| BEL | Bélgica | 58 |
-| BIH | Bósnia-Herzegovina | 18 |
-| BRA | Brasil | 24 |
-| CAN | Canadá | 16 |
-| CIV | Costa do Marfim | 44 |
-| COD | Congo DR | 92 |
-| COL | Colômbia | 96 |
-| CPV | Cabo Verde | 68 |
-| CRO | Croácia | 100 |
-| CUW | Curaçao | 42 |
-| CZE | Chéquia | 14 |
-| ECU | Equador | 46 |
-| EGY | Egito | 60 |
-| ENG | Inglaterra | 98 |
-| ESP | Espanha | 66 |
-| FRA | França | 74 |
-| GER | Alemanha | 40 |
-| GHA | Gana | 102 |
-| HAI | Haiti | 28 |
-| IRN | Irã | 62 |
-| IRQ | Iraque | 78 |
-| JOR | Jordânia | 88 |
-| JPN | Japão | 50 |
-| KOR | Coreia do Sul | 12 |
-| KSA | Arábia Saudita | 70 |
-| MAR | Marrocos | 26 |
-| MEX | México | 8 |
-| NED | Países Baixos | 48 |
-| NOR | Noruega | 80 |
-| NZL | Nova Zelândia | 64 |
-| PAN | Panamá | 104 |
-| PAR | Paraguai | 34 |
-| POR | Portugal | 90 |
-| QAT | Catar | 20 |
-| RSA | África do Sul | 10 |
-| SCO | Escócia | 30 |
-| SEN | Senegal | 76 |
-| SUI | Suíça | 22 |
-| SWE | Suécia | 52 |
-| TUN | Tunísia | 54 |
-| TUR | Turquia | 38 |
-| URU | Uruguai | 72 |
-| USA | Estados Unidos | 32 |
-| UZB | Uzbequistão | 94 |
+O **grupo da Copa** sai da própria ordem do álbum — cada quatro páginas
+pares consecutivas são um grupo, do A ao L —, verificado contra o
+sorteio de dezembro de 2025; a tabela por grupo e o raciocínio estão no
+[IDR 0019](idr/0019-ordem-do-album-agrupada-e-colapsavel.md).
+
+A Coca-Cola é a última seção do álbum, nas páginas 112–113: 6 figurinhas
+na página 112 (2 linhas × 3 colunas) e 8 na página 113 (3 figurinhas nas
+linhas 1 e 2, 2 na linha 3).
+
+| Código | Seção | Grupo | Páginas |
+|---|---|---|---|
+| ALG | Argélia | J | 84–85 |
+| ARG | Argentina | J | 82–83 |
+| AUS | Austrália | D | 36–37 |
+| AUT | Áustria | J | 86–87 |
+| BEL | Bélgica | G | 58–59 |
+| BIH | Bósnia-Herzegovina | B | 18–19 |
+| BRA | Brasil | C | 24–25 |
+| CAN | Canadá | B | 16–17 |
+| CIV | Costa do Marfim | E | 44–45 |
+| COD | Congo DR | K | 92–93 |
+| COL | Colômbia | K | 96–97 |
+| CPV | Cabo Verde | H | 68–69 |
+| CRO | Croácia | L | 100–101 |
+| CUW | Curaçao | E | 42–43 |
+| CZE | Chéquia | A | 14–15 |
+| ECU | Equador | E | 46–47 |
+| EGY | Egito | G | 60–61 |
+| ENG | Inglaterra | L | 98–99 |
+| ESP | Espanha | H | 66–67 |
+| FRA | França | I | 74–75 |
+| GER | Alemanha | E | 40–41 |
+| GHA | Gana | L | 102–103 |
+| HAI | Haiti | C | 28–29 |
+| IRN | Irã | G | 62–63 |
+| IRQ | Iraque | I | 78–79 |
+| JOR | Jordânia | J | 88–89 |
+| JPN | Japão | F | 50–51 |
+| KOR | Coreia do Sul | A | 12–13 |
+| KSA | Arábia Saudita | H | 70–71 |
+| MAR | Marrocos | C | 26–27 |
+| MEX | México | A | 8–9 |
+| NED | Países Baixos | F | 48–49 |
+| NOR | Noruega | I | 80–81 |
+| NZL | Nova Zelândia | G | 64–65 |
+| PAN | Panamá | L | 104–105 |
+| PAR | Paraguai | D | 34–35 |
+| POR | Portugal | K | 90–91 |
+| QAT | Catar | B | 20–21 |
+| RSA | África do Sul | A | 10–11 |
+| SCO | Escócia | C | 30–31 |
+| SEN | Senegal | I | 76–77 |
+| SUI | Suíça | B | 22–23 |
+| SWE | Suécia | F | 52–53 |
+| TUN | Tunísia | F | 54–55 |
+| TUR | Turquia | D | 38–39 |
+| URU | Uruguai | H | 72–73 |
+| USA | Estados Unidos | D | 32–33 |
+| UZB | Uzbequistão | K | 94–95 |

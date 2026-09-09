@@ -4,7 +4,10 @@
 
 ## Status
 
-Aceito.
+Aceito. O último campo do título — descrito aqui como "data/hora da
+última transação bem-sucedida (leitura ou escrita)" — foi precisado
+pelo [IDR 0027](0027-relogio-do-titulo-e-o-updatedat-do-documento.md):
+é o `updatedAt` do documento, a última **escrita** bem-sucedida.
 
 ## Contexto
 

@@ -4,9 +4,18 @@
 
 ## Status
 
-Aceito — valores numéricos (debounce, teto de espera, teto por
-contagem) são pontos de partida, ajustáveis na implementação sem novo
-ADR.
+Aceito — os valores numéricos (debounce, teto de espera) são pontos de
+partida, ajustáveis na implementação sem novo ADR. Dois pontos foram
+revistos desde a redação:
+
+- O **teto por contagem** saiu e voltou. A decisão original dizia 1–99;
+  foi removida a pedido ("tantas quantas a arquitetura suportar") e
+  restabelecida em 99 pelo
+  [TDR 0009](../tdr/0009-validacao-do-mapa-nas-regras.md), que mostrou
+  ser o teto a única forma de as regras validarem os valores do mapa
+- O `updatedAt` exibido no cabeçalho é o carimbo do documento, não um
+  relógio de evento local
+  ([IDR 0027](../idr/0027-relogio-do-titulo-e-o-updatedat-do-documento.md))
 
 ## Contexto
 
@@ -29,10 +38,16 @@ O usuário confirmou: mapa.
 ## Decisão
 
 - **Mapa esparso no documento `users/{uid}`** — campos `contagens`
-  (`map<string, int 1–99>`), `updatedAt` e `atestadoEm`, timestamps com
+  (`map<string, int ≥ 1>`), `updatedAt` e `atestadoEm`, timestamps com
   carimbo do servidor:
   - chave = código do catálogo; chave ausente = contagem 0; zeros nunca
     gravados; contagem chegando a 0 apaga a chave
+  - **teto de 99 por contagem**, imposto pelas regras e respeitado pela
+    interface (o incremento para em 99, como o decremento para em 0) —
+    é o que torna os valores validáveis no servidor
+    ([TDR 0009](../tdr/0009-validacao-do-mapa-nas-regras.md)); dois
+    dígitos é o que o selo já reserva
+    ([IDR 0021](../idr/0021-selo-conta-unidades-sobrando.md))
   - `atestadoEm`: gravado uma única vez, na atestação de menores do
     primeiro login — sem `updatedAt` junto (o carimbo da coleção segue
     significando alteração de contagens)
@@ -43,10 +58,22 @@ O usuário confirmou: mapa.
   acumulados — valor absoluto ou `deleteField` — numa única operação de
   escrita por agregação; idempotente (regravar o valor completo após
   falha é seguro); `increment()` descartado
-- **Flush garantido por persistência local**: cache IndexedDB do SDK
-  (`persistentLocalCache`) — escritas pendentes sobrevivem ao
-  fechamento e completam na carga seguinte; é também a primeira pedra
-  do futuro "consulta sem rede"
+- **Flush garantido por persistência local**: cache IndexedDB do SDK,
+  `persistentLocalCache` com `persistentMultipleTabManager()` — o
+  gerenciador multi-aba não é opcional: no modo padrão (aba única) a
+  segunda aba não obtém o lease do IndexedDB e perde o cache, e com ele
+  a garantia de flush. Escritas pendentes sobrevivem ao fechamento e
+  completam na carga seguinte; é também a primeira pedra do futuro
+  "consulta sem rede"
+- **Sem rede, a escrita não resolve**: com cache local, a promise de
+  `updateDoc` só resolve quando o servidor confirma — offline ela fica
+  pendente para sempre, sem sucesso nem falha. Um tempo-limite de ~5s
+  emite o **aviso** "sem conexão, será gravado depois"
+  ([IDR 0029](../idr/0029-avisos-flutuantes-com-tres-severidades.md)),
+  que é a verdade: a escrita está enfileirada no IndexedDB
+- **Sair da conta dá flush antes**: depois do `signOut` o ID token some
+  e as regras negam a escrita — a gravação pendente precisa ir embora
+  primeiro, senão o logout descarta ajustes
 - **Política de erro visível** (revê o ADR 0007): falha notificada na
   tela (IDR 0017), a interface segue utilizável, a gravação seguinte
   regrava o valor completo
@@ -64,12 +91,16 @@ O usuário confirmou: mapa.
   agregação, independente do número de figurinhas alteradas; +1
   escrita única de atestação por conta; import = 1 escrita — folga
   grande na cota do Spark
-- Regras novas (TDR das regras): `hasOnly` os três campos; `contagens`
-  map com int 1–99; chaves = códigos do catálogo (regex × allow-list);
-  `updatedAt`/`atestadoEm` timestamps; `delete` segue negado
+- Regras novas: `hasOnly` os três campos; `contagens` map de tamanho
+  ≤ 994 com valores validados por `values().hasOnly([1…99])`;
+  `updatedAt == request.time`; `delete` e `list` negados. A allow-list
+  dos 994 códigos entra se couber no orçamento de expressões — o que a
+  linguagem permite e o que não permite está no
+  [TDR 0009](../tdr/0009-validacao-do-mapa-nas-regras.md), inclusive o
+  teto de abuso de 1 MiB por conta que nenhum desenho de mapa fecha
 - `updatedAt` passa a existir — reverte o "sem updatedAt" do ADR 0007;
-  carimbo da última escrita no documento (o cabeçalho exibe a última
-  transação bem-sucedida, leitura ou escrita — requisitos.md)
+  carimbo da última escrita no documento, e é esse valor que o cabeçalho
+  exibe (IDR 0027) — a carga apenas o traz, não o atualiza
 - Dado local (IndexedDB) espelha o documento — novo componente no
   cliente, já exigido pelo SDK; sem backend, sem mudança de deploy
 - Sincronização ao vivo (futuro) trocará o modelo de leitura — gatilho
