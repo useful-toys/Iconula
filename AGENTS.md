@@ -67,6 +67,7 @@ acontece, o código neste repositório ainda é o descrito acima.
 | `docs/interface.md` | Decisões de interface (o "como" da UI: telas, faixas de tela, identidade visual, interações). Telas principal e de login especificadas, com paleta e medidas; diálogos de export/import e faixas de tela pendentes; em conflito com requisitos, requisitos vence. |
 | `docs/persistencia.md` | Como os dados do usuário são gravados no Firestore — formato dos dados, regras, custos e o que muda com o controle de figurinhas. |
 | `docs/arquitetura.md` | Visão de conjunto da arquitetura — serviços, camadas, fluxo de dados e índice das decisões (ADRs/TDRs/IDRs). |
+| `docs/plano/` | Plano de implementação em fases e tarefas rumo ao controle de figurinhas do álbum; `docs/plano/README.md` é o índice e o mapa de status. |
 | `docs/adr/` | Decisões de arquitetura (ADRs) — leia antes de propor mudanças estruturais. |
 | `docs/tdr/` | Decisões técnicas pontuais (TDRs). |
 | `docs/idr/` | Decisões de interface significantes (IDRs) — apresentação, interação, navegação; mesmo formato dos ADRs/TDRs. |
