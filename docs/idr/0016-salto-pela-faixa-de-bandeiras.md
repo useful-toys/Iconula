@@ -5,7 +5,12 @@
 ## Status
 
 Aceito — resolve a pendência de mecanismo do
-[IDR 0014](0014-salto-direto-para-secao.md).
+[IDR 0014](0014-salto-direto-para-secao.md). Os ícones dos especiais
+ficaram definidos: 🏆 (Extras FIFA) e 🥤 (Coca-Cola) — ver
+interface.md. Com o
+[IDR 0025](0025-filtro-oculta-secoes-vazias.md), o salto para uma seção
+oculta pelo filtro virou pendência de desenho (a faixa lista sempre as
+50 seções).
 
 ## Contexto
 
@@ -32,7 +37,9 @@ aninhado.
 - A faixa rola horizontalmente quando não cabe; tocar em um ícone
   salta até a seção correspondente
 - A ordem dos ícones acompanha a ordenação vigente (página do álbum ×
-  sigla, com especiais conforme IDRs 0013/0019)
+  sigla, com especiais conforme IDRs 0013/0019 — hoje o
+  [IDR 0028](0028-fwc-abre-e-coca-cola-fecha-o-catalogo.md): 🏆 no
+  início, 🥤 no fim)
 - Cada ícone é um botão com nome acessível (o nome da seção)
 
 ## Consequências

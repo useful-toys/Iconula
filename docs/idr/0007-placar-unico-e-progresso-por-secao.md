@@ -4,9 +4,14 @@
 
 ## Status
 
-Aceito. Ampliado pelo
+Aceito quanto ao placar único de 994 e ao progresso por seção.
+Ampliado pelo
 [IDR 0011](0011-faltantes-por-secao-no-cabecalho-do-grupo.md): o
-cabeçalho de grupo também exibe os faltantes da seção.
+cabeçalho de grupo também exibe os faltantes da seção. A **forma** do
+placar foi substituída pelo
+[IDR 0018](0018-usuario-especialista-e-minimalismo.md): não há mais
+placar de estádio com barra de progresso nem cartões de estatísticas —
+tudo cabe na linha única do título, em notação compacta.
 
 ## Contexto
 

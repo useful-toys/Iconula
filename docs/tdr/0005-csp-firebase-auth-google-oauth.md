@@ -43,7 +43,7 @@ específicas do FirebaseUI, leia como histórico.
 
 A CSP restrita do `firebase.json` (ver [TDR 0002](0002-headers-de-seguranca-hosting.md))
 bloqueia, por padrão, tudo que não seja `'self'`. O login com Google via
-Firebase Auth ([ADR 0005](../adr/0005-autenticacao-google-firebase-auth.md))
+Firebase Auth ([ADR 0005](../adr/0005-substituido-autenticacao-google-firebase-auth.md))
 precisa de algumas origens externas específicas.
 
 **`npm run dev` (Vite) não valida CSP** — os headers do `firebase.json`
@@ -122,7 +122,7 @@ conteúdo sem aviso, quebrando o hash silenciosamente em produção (ao
 contrário do FirebaseUI, onde um bump de versão nosso seria pego no
 preview deploy do próprio PR antes do merge). Risco aceito conscientemente
 por não haver alternativa dentro do Firebase Auth nativo — ver
-"Gatilho de revisão futura" no [ADR 0005](../adr/0005-autenticacao-google-firebase-auth.md)
+"Gatilho de revisão futura" no [ADR 0005](../adr/0005-substituido-autenticacao-google-firebase-auth.md)
 pra quando reavaliar migrar para Google Identity Services (que não
 depende do gapi/resolver do Firebase).
 

@@ -12,7 +12,7 @@ Até aqui o login com Google ([ADR 0006](0006-login-google-sdk-modular.md))
 não servia para nada: o app autenticava o usuário e não guardava nenhum
 dado dele. O time visível vivia só em `useState` no `App.jsx`, então
 recarregar a página sempre voltava para o primeiro time em ordem
-alfabética. O [ADR 0005](0005-autenticacao-google-firebase-auth.md) já
+alfabética. O [ADR 0005](0005-substituido-autenticacao-google-firebase-auth.md) já
 registrava a persistência como passo futuro ("sem persistir nenhum dado
 de usuário ainda").
 

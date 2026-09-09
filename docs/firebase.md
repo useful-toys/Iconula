@@ -127,7 +127,7 @@ firebase deploy --only hosting
 
 Configurado para login com **Google** (único provedor — ver
 [ADR 0006](adr/0006-login-google-sdk-modular.md), que substitui o
-[ADR 0005](adr/0005-autenticacao-google-firebase-auth.md)), usado pelo
+[ADR 0005](adr/0005-substituido-autenticacao-google-firebase-auth.md)), usado pelo
 componente `LoginButton.jsx` (botão próprio, SDK modular) em conjunto com
 `src/lib/firebase.js`.
 
@@ -200,7 +200,7 @@ o app continua deslogado, sem erro nenhum. Por isso o projeto usa
 `signInFlow: "popup"`, que é imune a esse mecanismo. Diagnóstico
 completo em [docs/tdr/0005](tdr/0005-csp-firebase-auth-google-oauth.md);
 o que seria necessário para voltar ao redirect está no
-[ADR 0005](adr/0005-autenticacao-google-firebase-auth.md), seção
+[ADR 0005](adr/0005-substituido-autenticacao-google-firebase-auth.md), seção
 "Gatilho de revisão futura".
 
 ### CSP e COOP

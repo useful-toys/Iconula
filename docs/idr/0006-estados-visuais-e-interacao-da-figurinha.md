@@ -8,6 +8,19 @@ Aceito. A pendência de reforço não-cromático foi resolvida: faltante =
 cartão esvaziado (opacidade reduzida, borda tracejada), colada =
 preenchido — registrado em interface.md.
 
+Três pontos foram revistos depois:
+
+- O selo `×N` conta as **unidades sobrando** (contagem − 1), não a
+  contagem — [IDR 0021](0021-selo-conta-unidades-sobrando.md); a
+  consequência abaixo que fala em "N−1 sobrando" lê-se com N = contagem
+- A pendência "zerar contagem ainda não tem gesto definido" deixou de
+  existir: não há ação de zerar, só incremento e decremento
+  (requisitos.md); o desfazer cobre o engano
+  ([IDR 0010](0010-desfazer-ajustes-em-vez-de-confirmacoes.md))
+- As cores exatas dos três estados são as da paleta do
+  [IDR 0022](0022-tema-escuro-unico-paleta-do-prototipo.md), em
+  interface.md
+
 ## Contexto
 
 O coração do produto é registrar contagens por figurinha. O modelo de

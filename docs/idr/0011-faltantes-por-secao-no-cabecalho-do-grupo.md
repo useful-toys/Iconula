@@ -4,7 +4,11 @@
 
 ## Status
 
-Aceito.
+Aceito quanto ao conteúdo — os faltantes da seção aparecem no cabeçalho
+do grupo. A **notação** por extenso deste registro
+("12/20 · 8 faltantes · 3 repetidas") foi substituída pela compacta do
+[IDR 0018](0018-usuario-especialista-e-minimalismo.md):
+`Brasil BRA 24 · 12/20 · 60% · ▢8 · ×3`.
 
 ## Contexto
 

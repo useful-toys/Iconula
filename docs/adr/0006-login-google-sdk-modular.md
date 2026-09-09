@@ -4,11 +4,11 @@
 
 ## Status
 
-Aceito — substitui o [ADR 0005](0005-autenticacao-google-firebase-auth.md).
+Aceito — substitui o [ADR 0005](0005-substituido-autenticacao-google-firebase-auth.md).
 
 ## Contexto
 
-O [ADR 0005](0005-autenticacao-google-firebase-auth.md) escolheu o widget
+O [ADR 0005](0005-substituido-autenticacao-google-firebase-auth.md) escolheu o widget
 pronto do **FirebaseUI**, a pedido explícito do usuário, e aceitou como
 dívida conhecida a dependência da API **compat** (estilo v8) do Firebase.
 Aquela decisão previa um gatilho de revisão: *"reavaliar migração para a

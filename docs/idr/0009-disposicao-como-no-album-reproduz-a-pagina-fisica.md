@@ -5,7 +5,10 @@
 ## Status
 
 Aceito. Refina o [IDR 0005](0005-ordenacoes-disposicoes-e-percurso-do-catalogo.md)
-(disposições).
+(disposições). O escopo "apenas as 48 seleções" foi ampliado pelo
+[IDR 0023](0023-coca-cola-no-modo-album-fwc-sempre-lista.md): a
+Coca-Cola, cujo arranjo físico ficou conhecido, também ganha disposição
+álbum; só os Extras FIFA seguem sempre em lista.
 
 ## Contexto
 
