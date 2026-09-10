@@ -13,9 +13,11 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // Preferências do usuário: um documento por conta, com o uid no
-    // caminho. Isso torna a autorização uma comparação direta, sem
-    // consulta e sem índice.
+    // Coleção do usuário: um documento por conta, com o uid no caminho.
+    // Isso torna a autorização uma comparação direta, sem consulta e sem
+    // índice. O schema do documento é o mapa esparso do ADR 0008; o que
+    // as regras conseguem (e o que não conseguem) validar nele está no
+    // TDR 0009.
     match /users/{userId} {
 
       // `get`, e não `read`: `read` abrangeria também `list`, fazendo
@@ -34,12 +36,63 @@ service cloud.firestore {
       // livre. `hasOnly` acopla schema a deploy de regras — um campo
       // novo exige que estas regras subam antes ou junto com o código
       // que o escreve (ver TDR 0008).
+      //
+      // Os únicos campos do schema novo são `contagens`, `updatedAt` e
+      // `atestadoEm` (ADR 0008). O `teamName` da era do botão fica de
+      // fora sem cláusula especial: um update com `deleteField` o remove
+      // do documento, e o `hasOnly` passa porque o campo já não está em
+      // `request.resource.data`.
       allow create, update: if request.auth != null
         && request.auth.uid == userId
-        && request.resource.data.keys().hasOnly(["teamName"])
-        && request.resource.data.teamName is string
-        && request.resource.data.teamName.size() > 0
-        && request.resource.data.teamName.size() <= 64;
+        && request.resource.data.keys().hasOnly([
+          "contagens",
+          "updatedAt",
+          "atestadoEm",
+        ])
+        // Guarda de campo ausente (TDR 0009): a gravação da atestação
+        // cria o documento só com `atestadoEm`, sem `contagens` e sem
+        // `updatedAt`. Toda cláusula sobre `contagens` fica sob
+        // `!("contagens" in …)`, senão a regra erra em vez de negar.
+        && (!("contagens" in request.resource.data) || (
+          request.resource.data.contagens is map
+          && request.resource.data.contagens.size() <= 994
+          // O teto de 99 é o que torna os valores validáveis: a
+          // linguagem de regras não itera, e `values().hasOnly([1…99])`
+          // valida todos os valores do mapa numa única comparação de
+          // conjunto contra uma lista escrita à mão. Sem o teto não
+          // haveria segunda lista para comparar, e os valores ficariam
+          // sem validação alguma (TDR 0009). A validação de chaves é
+          // limitada pelo mesmo motivo — não há laço nem regex por
+          // chave —, então as chaves só se limitam em quantidade
+          // (`size() <= 994`), nunca em conteúdo; a allow-list dos 994
+          // códigos é avaliada à parte (tarefa 0005-0002).
+          && request.resource.data.contagens.values().hasOnly([
+            1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+            11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+            21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+            31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
+            41, 42, 43, 44, 45, 46, 47, 48, 49, 50,
+            51, 52, 53, 54, 55, 56, 57, 58, 59, 60,
+            61, 62, 63, 64, 65, 66, 67, 68, 69, 70,
+            71, 72, 73, 74, 75, 76, 77, 78, 79, 80,
+            81, 82, 83, 84, 85, 86, 87, 88, 89, 90,
+            91, 92, 93, 94, 95, 96, 97, 98, 99,
+          ])
+          // Sempre que `contagens` é escrito, `updatedAt` acompanha: é o
+          // que garante que o relógio do título nunca fica parado com a
+          // coleção mudando.
+          && "updatedAt" in request.resource.data
+        ))
+        // `updatedAt` é carimbo do servidor (`serverTimestamp()`), nunca
+        // o relógio do cliente: por isso é validado como igual a
+        // `request.time` (ADR 0008).
+        && (!("updatedAt" in request.resource.data)
+          || request.resource.data.updatedAt == request.time)
+        // `atestadoEm` é gravado uma única vez, na atestação de menores
+        // do primeiro login — sozinho, sem `updatedAt` junto (ADR 0008).
+        // Basta exigir que seja timestamp.
+        && (!("atestadoEm" in request.resource.data)
+          || request.resource.data.atestadoEm is timestamp);
     }
 
     // Qualquer outro caminho já é negado por padrão pelo Firestore. Não
