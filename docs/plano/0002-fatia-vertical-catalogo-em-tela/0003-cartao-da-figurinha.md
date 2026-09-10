@@ -3,7 +3,7 @@
 # Tarefa [0002-0003]: cartão da figurinha
 
 ## Status
-Pendente
+Concluída
 
 ## Documentos de referência (ler antes de implementar)
 - `docs/idr/0006-estados-visuais-e-interacao-da-figurinha.md` § Decisão e § Consequências — os três estados, o toque que soma, o ícone de menos, e a exigência de reforço não-cromático
