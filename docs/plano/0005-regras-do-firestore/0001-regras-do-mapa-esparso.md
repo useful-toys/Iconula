@@ -3,7 +3,7 @@
 # Tarefa [0005-0001]: regras do Firestore para o mapa esparso
 
 ## Status
-Pendente
+Concluída
 
 ## Documentos de referência (ler antes de implementar)
 - `docs/tdr/0009-validacao-do-mapa-nas-regras.md` § Decisão e § Consequências — o que dá e o que não dá para validar, o teto de 99, a guarda de campo ausente e o limite de abuso que sobra
