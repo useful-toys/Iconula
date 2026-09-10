@@ -3,7 +3,7 @@
 # Tarefa [0002-0001]: tema escuro único e tokens da paleta
 
 ## Status
-Pendente
+Concluída
 
 ## Documentos de referência (ler antes de implementar)
 - `docs/idr/0022-tema-escuro-unico-paleta-do-prototipo.md` § Decisão e § Consequências — tema escuro único, sem `prefers-color-scheme`, cores como tokens
