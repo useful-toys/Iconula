@@ -1,0 +1,163 @@
+/* Copyright (c) 2026 Daniel Felix Ferber */
+
+.figurinha {
+  position: relative;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.figurinha--lista {
+  width: 52px;
+  height: 66px;
+}
+
+.figurinha--album {
+  width: 52px;
+  height: 52px;
+}
+
+.figurinha__corpo {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  font-family: 'Poppins', system-ui, sans-serif;
+  border: 2px solid transparent;
+  border-radius: 5px;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.figurinha__codigo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.1;
+}
+
+.figurinha--lista .figurinha__sigla {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.figurinha--lista .figurinha__numero {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.figurinha--album .figurinha__sigla {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.figurinha--album .figurinha__numero {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* Estados */
+.figurinha--faltante .figurinha__corpo {
+  color: var(--muted);
+  background: var(--panel);
+  border: 2px dashed var(--muted);
+  opacity: 0.6;
+}
+
+.figurinha--colada .figurinha__corpo {
+  color: var(--ink-on-light);
+  background: var(--green-card);
+  border: 2px solid var(--green-card);
+  opacity: 1;
+}
+
+.figurinha--repetida .figurinha__corpo {
+  color: var(--ink-on-light);
+  background: var(--orange-card);
+  border: 2px solid var(--orange-card);
+  opacity: 1;
+}
+
+/* Marca de metalizada */
+.figurinha__metalizada {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--gold);
+}
+
+.figurinha--album .figurinha__metalizada {
+  top: 2px;
+  right: 2px;
+  width: 5px;
+  height: 5px;
+}
+
+/* Selo de unidades sobrando */
+.figurinha__selo {
+  position: absolute;
+  right: -6px;
+  bottom: -6px;
+  min-width: 28px;
+  padding: 1px 4px;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  color: var(--orange-card);
+  background: var(--turf-deep);
+  border: 1px solid var(--orange-card);
+  border-radius: 8px;
+}
+
+.figurinha--album .figurinha__selo {
+  right: -5px;
+  bottom: -5px;
+  min-width: 24px;
+  padding: 1px 3px;
+  font-size: 9px;
+  border-radius: 7px;
+}
+
+/* Controle de menos */
+.figurinha__menos {
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--gold);
+  background: var(--turf-deep);
+  border: 1px solid var(--gold);
+  border-radius: 50%;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.08s ease;
+}
+
+.figurinha:hover .figurinha__menos,
+.figurinha:focus-within .figurinha__menos,
+.figurinha__menos:focus {
+  opacity: 1;
+}
+
+@media (hover: none) {
+  .figurinha__menos {
+    opacity: 1;
+  }
+}
