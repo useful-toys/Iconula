@@ -103,7 +103,7 @@ mas não guarda nada — estado transitório, não regressão silenciosa.
 | 0002 | [Coca-Cola no álbum e FWC em lista](0004-disposicao-album-filtro-e-preferencias/0002-coca-cola-no-album-e-fwc-em-lista.md) | Duas páginas de 3 trilhas para a COC; FWC em lista contínua também na disposição álbum, e sem filtro. | Concluída |
 | 0003 | [Empilhamento das páginas](0004-disposicao-album-filtro-e-preferencias/0003-empilhamento-das-paginas.md) | Páginas lado a lado quando cabem, empilhadas quando não cabem, sem cair para a lista. | Concluída |
 | 0004 | [Filtro de status e seções vazias](0004-disposicao-album-filtro-e-preferencias/0004-filtro-de-status-e-secoes-vazias.md) | Todas/faltantes/repetidas só na disposição lista; seção e super-grupo sem resultado somem inteiros. | Concluída |
-| 0005 | [Preferências de vista no localStorage](0004-disposicao-album-filtro-e-preferencias/0005-preferencias-de-vista-no-localstorage.md) | Ordenação, disposição e filtro restaurados na abertura seguinte, com degradação segura. | Pendente |
+| 0005 | [Preferências de vista no localStorage](0004-disposicao-album-filtro-e-preferencias/0005-preferencias-de-vista-no-localstorage.md) | Ordenação, disposição e filtro restaurados na abertura seguinte, com degradação segura. | Concluída |
 
 ## Fase 5 — Regras do Firestore para o schema novo
 

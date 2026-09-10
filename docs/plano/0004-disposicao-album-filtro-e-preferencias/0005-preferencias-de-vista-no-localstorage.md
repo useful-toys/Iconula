@@ -3,7 +3,7 @@
 # Tarefa [0004-0005]: preferências de vista no `localStorage`
 
 ## Status
-Pendente
+Concluída
 
 ## Documentos de referência (ler antes de implementar)
 - `docs/idr/0026-preferencias-de-vista-persistidas-no-navegador.md` § Decisão e § Consequências — o que persiste, onde, e o que fazer quando o storage falha

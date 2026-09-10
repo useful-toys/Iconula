@@ -11,21 +11,35 @@ import { Catalogo } from "./components/Catalogo.jsx";
 import { auth } from "./lib/firebase";
 import { ajustarContagem } from "./lib/colecao.js";
 import { calcularPlacar } from "./lib/progresso.js";
+import { lerPreferenciasDeVista, gravarPreferenciasDeVista } from "./lib/preferenciasDeVista.js";
 
 const codigosTodasFigurinhas = figurinhas.map((f) => f.codigo);
 
 export default function App() {
   const [user, setUser] = useState(null);
   const [contagens, setContagens] = useState({});
-  const [ordenacao, setOrdenacao] = useState('pagina');
-  const [disposicao, setDisposicao] = useState('lista');
-  const [filtro, setFiltro] = useState('todas');
+  // Preferências de vista lidas uma vez na abertura (IDR 0026)
+  const [inicial] = useState(() => lerPreferenciasDeVista());
+  const [ordenacao, setOrdenacao] = useState(inicial.ordenacao);
+  const [disposicao, setDisposicao] = useState(inicial.disposicao);
+  const [filtro, setFiltro] = useState(inicial.filtro);
   const catalogoRef = useRef(null);
 
   useEffect(() => {
     if (!auth) return;
     return onAuthStateChanged(auth, setUser);
   }, []);
+
+  // Grava a preferência ao trocar alternador — a preferência é o próprio
+  // último uso (IDR 0026). O colapso de seções não persiste (IDR 0020).
+  const primeiraRender = useRef(true);
+  useEffect(() => {
+    if (primeiraRender.current) {
+      primeiraRender.current = false;
+      return;
+    }
+    gravarPreferenciasDeVista({ ordenacao, disposicao, filtro });
+  }, [ordenacao, disposicao, filtro]);
 
   function handleAjustar(codigo, delta) {
     setContagens((anterior) => ajustarContagem(anterior, codigo, delta));
