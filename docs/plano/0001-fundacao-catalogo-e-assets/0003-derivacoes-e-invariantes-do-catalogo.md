@@ -3,7 +3,7 @@
 # Tarefa [0001-0003]: derivações e invariantes do catálogo
 
 ## Status
-Pendente
+Concluída
 
 ## Documentos de referência (ler antes de implementar)
 - `docs/idr/0028-fwc-abre-e-coca-cola-fecha-o-catalogo.md` § Decisão — FWC primeiro e COC última nas duas ordenações
@@ -87,14 +87,14 @@ decisão sobre qual ordenação é a padrão na primeira abertura (Tarefa 0009-0
 - `src/data/catalogo.test.js` — criar
 
 ## Critérios de aceite
-- [ ] As duas ordenações devolvem as 50 seções, com FWC na primeira posição e COC na última
-- [ ] A ordenação por página agrupa as 48 seleções nos 12 grupos A–L, na ordem das páginas
-- [ ] O layout de seleção coloca 01–02 nas trilhas 3–4, a 13 em paisagem nas trilhas 3–4 e 18–20 nas trilhas 2–4
-- [ ] O layout da Coca-Cola tem 6 na primeira página e 8 na segunda, com 13 e 14 nas duas primeiras posições da linha 3
-- [ ] O FWC devolve "sem layout de álbum"
-- [ ] Os testes de invariantes cobrem os oito itens do passo 6 e passam
-- [ ] Registros ADR/TDR/IDR criados para as decisões tomadas
-- [ ] `docs/plano/0001-fundacao-catalogo-e-assets/logs/0003-log-derivacoes-e-invariantes-do-catalogo.md` gerado
+- [x] As duas ordenações devolvem as 50 seções, com FWC na primeira posição e COC na última
+- [x] A ordenação por página agrupa as 48 seleções nos 12 grupos A–L, na ordem das páginas
+- [x] O layout de seleção coloca 01–02 nas trilhas 3–4, a 13 em paisagem nas trilhas 3–4 e 18–20 nas trilhas 2–4
+- [x] O layout da Coca-Cola tem 6 na primeira página e 8 na segunda, com 13 e 14 nas duas primeiras posições da linha 3
+- [x] O FWC devolve "sem layout de álbum"
+- [x] Os testes de invariantes cobrem os oito itens do passo 6 e passam
+- [x] Registros ADR/TDR/IDR criados para as decisões tomadas
+- [x] `docs/plano/0001-fundacao-catalogo-e-assets/logs/0003-log-derivacoes-e-invariantes-do-catalogo.md` gerado
 
 ## Validação
 `npm run lint && npm run test && npm run build`.
