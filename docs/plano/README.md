@@ -90,7 +90,7 @@ mas não guarda nada — estado transitório, não regressão silenciosa.
 
 | # | Tarefa | Objetivo | Status |
 |---|---|---|---|
-| 0001 | [Alternador de ordenação e moldura](0003-percurso-ordenacoes-e-salto/0001-alternador-de-ordenacao-e-moldura.md) | Página do álbum × sigla da seção, com FWC abrindo e Coca-Cola fechando nas duas ordenações. | Pendente |
+| 0001 | [Alternador de ordenação e moldura](0003-percurso-ordenacoes-e-salto/0001-alternador-de-ordenacao-e-moldura.md) | Página do álbum × sigla da seção, com FWC abrindo e Coca-Cola fechando nas duas ordenações. | Concluída |
 | 0002 | [Super-grupos A–L colapsáveis](0003-percurso-ordenacoes-e-salto/0002-super-grupos-a-l-colapsaveis.md) | Os 12 grupos da Copa com progresso agregado, abertos por padrão, FWC e COC fora deles. | Pendente |
 | 0003 | [Colapso de seções](0003-percurso-ordenacoes-e-salto/0003-colapso-de-secoes.md) | Título abre/fecha o corpo da seção mantendo o resumo; estado volátil, sem persistir. | Pendente |
 | 0004 | [Faixa de bandeiras e salto](0003-percurso-ordenacoes-e-salto/0004-faixa-de-bandeiras-e-salto.md) | Linha rolável com as 50 seções; tocar salta e expande super-grupo e seção no caminho. | Pendente |

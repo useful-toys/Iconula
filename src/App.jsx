@@ -5,6 +5,7 @@ import { onAuthStateChanged, signOut } from "firebase/auth";
 import { figurinhas, secoes } from "./data/catalogo.js";
 import AuthStatus from "./components/AuthStatus";
 import { Cabecalho } from "./components/Cabecalho.jsx";
+import { Controles } from "./components/Controles.jsx";
 import { Catalogo } from "./components/Catalogo.jsx";
 import { auth } from "./lib/firebase";
 import { ajustarContagem } from "./lib/colecao.js";
@@ -15,6 +16,7 @@ const codigosTodasFigurinhas = figurinhas.map((f) => f.codigo);
 export default function App() {
   const [user, setUser] = useState(null);
   const [contagens, setContagens] = useState({});
+  const [ordenacao, setOrdenacao] = useState('pagina');
 
   useEffect(() => {
     if (!auth) return;
@@ -40,11 +42,13 @@ export default function App() {
         repetidas={placar.repetidas}
         percentual={placar.percentual}
       />
+      <Controles ordenacao={ordenacao} onTrocarOrdenacao={setOrdenacao} />
       <Catalogo
         secoes={secoes}
         figurinhas={figurinhas}
         contagens={contagens}
         onAjustar={handleAjustar}
+        ordenacao={ordenacao}
       />
     </div>
   );

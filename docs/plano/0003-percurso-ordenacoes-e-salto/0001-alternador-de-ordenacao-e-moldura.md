@@ -3,7 +3,7 @@
 # Tarefa [0003-0001]: alternador de ordenação e a moldura do catálogo
 
 ## Status
-Pendente
+Concluída
 
 ## Documentos de referência (ler antes de implementar)
 - `docs/idr/0005-ordenacoes-disposicoes-e-percurso-do-catalogo.md` § Decisão — as duas ordenações de seções
