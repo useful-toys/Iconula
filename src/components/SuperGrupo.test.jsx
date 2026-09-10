@@ -15,6 +15,7 @@ const figurinhasGrupoC = figurinhas.filter((f) =>
 // Mocks padrão para as props de colapso de seção
 const isExpandidaMock = vi.fn(() => true);
 const onToggleSecaoMock = vi.fn();
+const setSecaoRefMock = vi.fn();
 
 describe('SuperGrupo', () => {
   it('renderiza o título com nome, progresso agregado e chevron', () => {
@@ -27,6 +28,7 @@ describe('SuperGrupo', () => {
         onAjustar={vi.fn()}
         isExpandida={isExpandidaMock}
         onToggleSecao={onToggleSecaoMock}
+        setSecaoRef={setSecaoRefMock}
       />,
     );
 
@@ -47,6 +49,7 @@ describe('SuperGrupo', () => {
         onAjustar={vi.fn()}
         isExpandida={isExpandidaMock}
         onToggleSecao={onToggleSecaoMock}
+        setSecaoRef={setSecaoRefMock}
       />,
     );
 
@@ -65,6 +68,7 @@ describe('SuperGrupo', () => {
         onAjustar={vi.fn()}
         isExpandida={isExpandidaMock}
         onToggleSecao={onToggleSecaoMock}
+        setSecaoRef={setSecaoRefMock}
       />,
     );
 
@@ -88,6 +92,7 @@ describe('SuperGrupo', () => {
         onAjustar={vi.fn()}
         isExpandida={isExpandidaMock}
         onToggleSecao={onToggleSecaoMock}
+        setSecaoRef={setSecaoRefMock}
       />,
     );
 
@@ -116,6 +121,7 @@ describe('SuperGrupo', () => {
         onAjustar={vi.fn()}
         isExpandida={isExpandidaMock}
         onToggleSecao={onToggleSecaoMock}
+        setSecaoRef={setSecaoRefMock}
       />,
     );
 
@@ -137,6 +143,7 @@ describe('SuperGrupo', () => {
         onAjustar={vi.fn()}
         isExpandida={isExpandidaMock}
         onToggleSecao={onToggleSecaoMock}
+        setSecaoRef={setSecaoRefMock}
       />,
     );
 

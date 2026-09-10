@@ -1,10 +1,10 @@
 // Copyright (c) 2026 Daniel Felix Ferber
 
+import { FaixaDeSecoes } from './FaixaDeSecoes.jsx';
 import './Cabecalho.css';
 
 /**
- * Cabeçalho principal do app: uma linha com o nome, o placar geral das 994
- * figurinhas e o relógio da última gravação.
+ * Cabeçalho principal do app: placar geral, relógio e faixa de bandeiras para salto.
  *
  * A notação compacta é visível (`412/994 · 41% · ▢582 · ×37 · —`). O nome
  * acessível escreve os números por extenso, para que o leitor de tela não
@@ -18,8 +18,18 @@ import './Cabecalho.css';
  * @param {string|null} [props.atualizadoEm] - `updatedAt` do documento, quando
  *   disponível. Nesta fase o componente ainda exibe `—`; a prop existe para a
  *   Tarefa 0006-0002.
+ * @param {Array<object>} props.secoes - seções na ordem vigente para a faixa.
+ * @param {(sigla: string) => void} props.onSaltar - callback para saltar até uma seção.
  */
-export function Cabecalho({ coladas, faltantes, repetidas, percentual, atualizadoEm }) {
+export function Cabecalho({
+  coladas,
+  faltantes,
+  repetidas,
+  percentual,
+  atualizadoEm,
+  secoes,
+  onSaltar,
+}) {
   const relogio = atualizadoEm ?? '—';
 
   const nomeAcessivel = [
@@ -57,6 +67,7 @@ export function Cabecalho({ coladas, faltantes, repetidas, percentual, atualizad
         </span>
         <span className="cabecalho__relogio">{relogio}</span>
       </h1>
+      <FaixaDeSecoes secoes={secoes} onSaltar={onSaltar} />
     </header>
   );
 }

@@ -3,7 +3,7 @@
 # Tarefa [0003-0004]: faixa de bandeiras e salto para seção
 
 ## Status
-Pendente
+Concluída
 
 ## Documentos de referência (ler antes de implementar)
 - `docs/idr/0016-salto-pela-faixa-de-bandeiras.md` § Decisão e § Consequências — a faixa com as 50 seções, a rolagem horizontal e o nome acessível de cada ícone

@@ -1,6 +1,6 @@
 // Copyright (c) 2026 Daniel Felix Ferber
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef, useImperativeHandle, forwardRef } from 'react';
 import { ordenarPorSigla, ordenarPorPagina } from '../data/catalogoOrdenacoes.js';
 import { Secao } from './Secao.jsx';
 import { SuperGrupo } from './SuperGrupo.jsx';
@@ -21,8 +21,12 @@ import './Catalogo.css';
  * @param {Record<string, number>} props.contagens - mapa esparso de contagens.
  * @param {(codigo: string, delta: number) => void} props.onAjustar - callback de ajuste.
  * @param {'pagina'|'sigla'} props.ordenacao - ordenação vigente.
+ * @param {import('react').Ref<{ saltarPara: (sigla: string) => void }>} [props.ref] - ref para saltar para uma seção.
  */
-export function Catalogo({ secoes, figurinhas, contagens, onAjustar, ordenacao }) {
+export const Catalogo = forwardRef(function Catalogo(
+  { secoes, figurinhas, contagens, onAjustar, ordenacao },
+  ref,
+) {
   const estruturada = ordenacao === 'pagina' ? ordenarPorPagina(secoes) : ordenarPorSigla(secoes);
   const figurinhasPorSecao = new Map();
 
@@ -36,6 +40,10 @@ export function Catalogo({ secoes, figurinhas, contagens, onAjustar, ordenacao }
   // Padrão: todas expandidas (ausentes do Set)
   const [colapsadas, setColapsadas] = useState(new Set());
 
+  // Refs para seções e super-grupos
+  const secaoRefs = useRef(new Map());
+  const superGrupoRefs = useRef(new Map());
+
   const toggleSecao = useCallback((sigla) => {
     setColapsadas((prev) => {
       const next = new Set(prev);
@@ -48,10 +56,68 @@ export function Catalogo({ secoes, figurinhas, contagens, onAjustar, ordenacao }
     });
   }, []);
 
+  const expandirSecao = useCallback((sigla) => {
+    setColapsadas((prev) => {
+      if (!prev.has(sigla)) return prev;
+      const next = new Set(prev);
+      next.delete(sigla);
+      return next;
+    });
+  }, []);
+
   const isExpandida = useCallback(
     (sigla) => !colapsadas.has(sigla),
     [colapsadas],
   );
+
+  // Expõe método para saltar para uma seção
+  useImperativeHandle(ref, () => ({
+    saltarPara(sigla) {
+      // Encontra qual super-grupo contém a seção (se houver)
+      const superGrupoComSecao = estruturada.find(
+        (item) => item.tipo === 'super-grupo' && item.secoes.some((s) => s.sigla === sigla),
+      );
+
+      // Expande o super-grupo se estiver colapsado
+      if (superGrupoComSecao) {
+        const superGrupoRef = superGrupoRefs.current.get(superGrupoComSecao.grupo);
+        if (superGrupoRef) {
+          superGrupoRef.expandir();
+        }
+      }
+
+      // Expande a seção se estiver colapsada
+      expandirSecao(sigla);
+
+      // Rola até a seção após um pequeno delay para permitir a expansão
+      setTimeout(() => {
+        const secaoRef = secaoRefs.current.get(sigla);
+        if (secaoRef) {
+          const header = document.querySelector('.cabecalho');
+          const headerHeight = header ? header.offsetHeight : 0;
+          const elementTop = secaoRef.getBoundingClientRect().top + window.scrollY;
+          const offsetTop = elementTop - headerHeight - 10;
+          window.scrollTo({ top: offsetTop, behavior: 'smooth' });
+        }
+      }, 50);
+    },
+  }), [estruturada, expandirSecao]);
+
+  const setSecaoRef = useCallback((sigla, element) => {
+    if (element) {
+      secaoRefs.current.set(sigla, element);
+    } else {
+      secaoRefs.current.delete(sigla);
+    }
+  }, []);
+
+  const setSuperGrupoRef = useCallback((grupo, refValue) => {
+    if (refValue) {
+      superGrupoRefs.current.set(grupo, refValue);
+    } else {
+      superGrupoRefs.current.delete(grupo);
+    }
+  }, []);
 
   return (
     <main className="catalogo">
@@ -63,15 +129,19 @@ export function Catalogo({ secoes, figurinhas, contagens, onAjustar, ordenacao }
 
         if (isSecao) {
           return (
-            <Secao
+            <div
               key={secao.sigla}
-              secao={secao}
-              figurinhas={figurinhasPorSecao.get(secao.sigla) ?? []}
-              contagens={contagens}
-              onAjustar={onAjustar}
-              expandida={isExpandida(secao.sigla)}
-              onToggle={() => toggleSecao(secao.sigla)}
-            />
+              ref={(el) => setSecaoRef(secao.sigla, el)}
+            >
+              <Secao
+                secao={secao}
+                figurinhas={figurinhasPorSecao.get(secao.sigla) ?? []}
+                contagens={contagens}
+                onAjustar={onAjustar}
+                expandida={isExpandida(secao.sigla)}
+                onToggle={() => toggleSecao(secao.sigla)}
+              />
+            </div>
           );
         }
         if (item.tipo === 'super-grupo') {
@@ -81,6 +151,7 @@ export function Catalogo({ secoes, figurinhas, contagens, onAjustar, ordenacao }
           return (
             <SuperGrupo
               key={item.grupo}
+              ref={(refValue) => setSuperGrupoRef(item.grupo, refValue)}
               grupo={item.grupo}
               secoes={item.secoes}
               figurinhas={figurinhasDoGrupo}
@@ -88,6 +159,8 @@ export function Catalogo({ secoes, figurinhas, contagens, onAjustar, ordenacao }
               onAjustar={onAjustar}
               isExpandida={isExpandida}
               onToggleSecao={toggleSecao}
+              secaoRefs={secaoRefs}
+              setSecaoRef={setSecaoRef}
             />
           );
         }
@@ -95,4 +168,4 @@ export function Catalogo({ secoes, figurinhas, contagens, onAjustar, ordenacao }
       })}
     </main>
   );
-}
+});
