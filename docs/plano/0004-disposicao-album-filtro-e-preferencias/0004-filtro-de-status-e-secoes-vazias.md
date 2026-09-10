@@ -3,7 +3,7 @@
 # Tarefa [0004-0004]: filtro de status e ocultação de seções vazias
 
 ## Status
-Pendente
+Concluída
 
 ## Documentos de referência (ler antes de implementar)
 - `docs/idr/0001-filtro-de-status-so-na-disposicao-lista.md` § Decisão — o filtro existe apenas na disposição lista; a álbum nunca é filtrada

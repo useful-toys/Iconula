@@ -41,3 +41,17 @@ export function ajustarContagem(colecao, codigo, delta) {
 
   return { ...colecao, [codigo]: nova };
 }
+
+/**
+ * Predicado de estado de uma figurinha para o filtro de status.
+ *
+ * @param {Record<string, number>} colecao
+ * @param {string} codigo
+ * @param {'todas'|'faltantes'|'repetidas'} filtro
+ * @returns {boolean} true se a figurinha deve aparecer com o filtro vigente.
+ */
+export function filtraFigurinha(colecao, codigo, filtro) {
+  if (filtro === 'faltantes') return obterContagem(colecao, codigo) === 0;
+  if (filtro === 'repetidas') return obterContagem(colecao, codigo) >= 2;
+  return true;
+}

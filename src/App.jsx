@@ -19,6 +19,7 @@ export default function App() {
   const [contagens, setContagens] = useState({});
   const [ordenacao, setOrdenacao] = useState('pagina');
   const [disposicao, setDisposicao] = useState('lista');
+  const [filtro, setFiltro] = useState('todas');
   const catalogoRef = useRef(null);
 
   useEffect(() => {
@@ -34,6 +35,10 @@ export default function App() {
     if (catalogoRef.current) {
       catalogoRef.current.saltarPara(sigla);
     }
+  }
+
+  function handleTrocarFiltro(novoFiltro) {
+    setFiltro(novoFiltro);
   }
 
   // Calcula as seções na ordem vigente para a faixa de bandeiras
@@ -64,6 +69,8 @@ export default function App() {
         onTrocarOrdenacao={setOrdenacao}
         disposicao={disposicao}
         onTrocarDisposicao={setDisposicao}
+        filtro={filtro}
+        onTrocarFiltro={handleTrocarFiltro}
       />
       <Catalogo
         ref={catalogoRef}
@@ -73,6 +80,8 @@ export default function App() {
         onAjustar={handleAjustar}
         ordenacao={ordenacao}
         disposicao={disposicao}
+        filtro={filtro}
+        onLimparFiltro={() => setFiltro('todas')}
       />
     </div>
   );

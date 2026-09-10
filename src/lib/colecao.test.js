@@ -1,7 +1,7 @@
 // Copyright (c) 2026 Daniel Felix Ferber
 
 import { describe, expect, it } from 'vitest';
-import { ajustarContagem, obterContagem } from './colecao.js';
+import { ajustarContagem, obterContagem, filtraFigurinha } from './colecao.js';
 
 describe('obterContagem', () => {
   it('retorna 0 para chave ausente', () => {
@@ -39,5 +39,26 @@ describe('ajustarContagem', () => {
     const nova = ajustarContagem(original, 'BRA01', 1);
     expect(original).toEqual({ BRA01: 1 });
     expect(nova).toEqual({ BRA01: 2 });
+  });
+});
+
+describe('filtraFigurinha', () => {
+  it('com "todas" retorna true para qualquer contagem', () => {
+    expect(filtraFigurinha({}, 'BRA01', 'todas')).toBe(true);
+    expect(filtraFigurinha({ BRA01: 1 }, 'BRA01', 'todas')).toBe(true);
+    expect(filtraFigurinha({ BRA01: 3 }, 'BRA01', 'todas')).toBe(true);
+  });
+
+  it('com "faltantes" retorna true apenas para contagem 0', () => {
+    expect(filtraFigurinha({}, 'BRA01', 'faltantes')).toBe(true);
+    expect(filtraFigurinha({ BRA01: 1 }, 'BRA01', 'faltantes')).toBe(false);
+    expect(filtraFigurinha({ BRA01: 3 }, 'BRA01', 'faltantes')).toBe(false);
+  });
+
+  it('com "repetidas" retorna true apenas para contagem >= 2', () => {
+    expect(filtraFigurinha({}, 'BRA01', 'repetidas')).toBe(false);
+    expect(filtraFigurinha({ BRA01: 1 }, 'BRA01', 'repetidas')).toBe(false);
+    expect(filtraFigurinha({ BRA01: 2 }, 'BRA01', 'repetidas')).toBe(true);
+    expect(filtraFigurinha({ BRA01: 3 }, 'BRA01', 'repetidas')).toBe(true);
   });
 });

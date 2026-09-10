@@ -94,4 +94,77 @@ describe('Controles', () => {
     await user.click(screen.getByRole('button', { name: 'disposição como no álbum' }));
     expect(onTrocar).toHaveBeenCalledWith('album');
   });
+
+  it('renderiza o grupo de filtro quando a disposição é lista', () => {
+    render(
+      <Controles
+        ordenacao="pagina"
+        onTrocarOrdenacao={vi.fn()}
+        disposicao="lista"
+        onTrocarDisposicao={vi.fn()}
+        filtro="todas"
+        onTrocarFiltro={vi.fn()}
+      />
+    );
+
+    expect(screen.getByRole('button', { name: 'mostrar todas as figurinhas' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'mostrar apenas as figurinhas faltantes' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'mostrar apenas as figurinhas repetidas' })).toBeInTheDocument();
+  });
+
+  it('não renderiza o grupo de filtro quando a disposição é álbum', () => {
+    render(
+      <Controles
+        ordenacao="pagina"
+        onTrocarOrdenacao={vi.fn()}
+        disposicao="album"
+        onTrocarDisposicao={vi.fn()}
+        filtro="todas"
+        onTrocarFiltro={vi.fn()}
+      />
+    );
+
+    expect(screen.queryByRole('button', { name: 'mostrar todas as figurinhas' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'mostrar apenas as figurinhas faltantes' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'mostrar apenas as figurinhas repetidas' })).not.toBeInTheDocument();
+  });
+
+  it('marca o filtro ativo com aria-pressed', () => {
+    render(
+      <Controles
+        ordenacao="pagina"
+        onTrocarOrdenacao={vi.fn()}
+        disposicao="lista"
+        onTrocarDisposicao={vi.fn()}
+        filtro="faltantes"
+        onTrocarFiltro={vi.fn()}
+      />
+    );
+
+    const todas = screen.getByRole('button', { name: 'mostrar todas as figurinhas' });
+    const faltantes = screen.getByRole('button', { name: 'mostrar apenas as figurinhas faltantes' });
+    const repetidas = screen.getByRole('button', { name: 'mostrar apenas as figurinhas repetidas' });
+
+    expect(todas).toHaveAttribute('aria-pressed', 'false');
+    expect(faltantes).toHaveAttribute('aria-pressed', 'true');
+    expect(repetidas).toHaveAttribute('aria-pressed', 'false');
+  });
+
+  it('chama onTrocarFiltro ao clicar em uma opção de filtro', async () => {
+    const user = userEvent.setup();
+    const onTrocar = vi.fn();
+    render(
+      <Controles
+        ordenacao="pagina"
+        onTrocarOrdenacao={vi.fn()}
+        disposicao="lista"
+        onTrocarDisposicao={vi.fn()}
+        filtro="todas"
+        onTrocarFiltro={onTrocar}
+      />
+    );
+
+    await user.click(screen.getByRole('button', { name: 'mostrar apenas as figurinhas repetidas' }));
+    expect(onTrocar).toHaveBeenCalledWith('repetidas');
+  });
 });

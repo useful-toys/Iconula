@@ -2,6 +2,7 @@
 
 import { useState, useImperativeHandle, forwardRef, useMemo } from 'react';
 import { calcularPlacar } from '../lib/progresso.js';
+import { filtraFigurinha } from '../lib/colecao.js';
 import { Secao } from './Secao.jsx';
 import './SuperGrupo.css';
 
@@ -20,10 +21,11 @@ import './SuperGrupo.css';
  * @param {import('react').RefObject<Map>} props.secaoRefs - mapa de refs das seções.
  * @param {(sigla: string, element: Element|null) => void} props.setSecaoRef - callback para registrar ref de uma seção.
  * @param {'lista'|'album'} [props.disposicao='lista'] - disposição vigente.
+ * @param {'todas'|'faltantes'|'repetidas'} [props.filtro='todas'] - filtro vigente.
  * @param {import('react').Ref<{ expandir: () => void }>} [props.ref] - ref para abrir programaticamente.
  */
 export const SuperGrupo = forwardRef(function SuperGrupo(
-  { grupo, secoes, figurinhas, contagens, onAjustar, isExpandida, onToggleSecao, setSecaoRef, disposicao = 'lista' },
+  { grupo, secoes, figurinhas, contagens, onAjustar, isExpandida, onToggleSecao, setSecaoRef, disposicao = 'lista', filtro = 'todas' },
   ref,
 ) {
   const [expandido, setExpandido] = useState(true);
@@ -56,6 +58,14 @@ export const SuperGrupo = forwardRef(function SuperGrupo(
     `${placar.repetidas} repetidas`,
     expandido ? 'expandido' : 'colapsado',
   ].join(', ');
+
+  // Filtra as seções visíveis: na lista, só as que têm alguma figurinha no estado filtrado
+  const secoesVisiveis = disposicao === 'lista' && filtro !== 'todas'
+    ? secoes.filter((secao) => {
+        const secaoFigurinhas = figurinhasPorSecao.get(secao.sigla) ?? [];
+        return secaoFigurinhas.some((f) => filtraFigurinha(contagens, f.codigo, filtro));
+      })
+    : secoes;
 
   return (
     <div className="super-grupo">
@@ -93,7 +103,7 @@ export const SuperGrupo = forwardRef(function SuperGrupo(
       </button>
       {expandido && (
         <div className="super-grupo__corpo">
-          {secoes.map((secao) => (
+          {secoesVisiveis.map((secao) => (
             <div
               key={secao.sigla}
               ref={(el) => setSecaoRef(secao.sigla, el)}
@@ -106,6 +116,7 @@ export const SuperGrupo = forwardRef(function SuperGrupo(
                 expandida={isExpandida(secao.sigla)}
                 onToggle={() => onToggleSecao(secao.sigla)}
                 disposicao={disposicao}
+                filtro={filtro}
               />
             </div>
           ))}

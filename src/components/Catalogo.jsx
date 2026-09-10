@@ -1,7 +1,8 @@
 // Copyright (c) 2026 Daniel Felix Ferber
 
-import { useState, useCallback, useRef, useImperativeHandle, forwardRef } from 'react';
+import { useState, useCallback, useRef, useImperativeHandle, forwardRef, useMemo } from 'react';
 import { ordenarPorSigla, ordenarPorPagina } from '../data/catalogoOrdenacoes.js';
+import { filtraFigurinha } from '../lib/colecao.js';
 import { Secao } from './Secao.jsx';
 import { SuperGrupo } from './SuperGrupo.jsx';
 import './Catalogo.css';
@@ -22,20 +23,24 @@ import './Catalogo.css';
  * @param {(codigo: string, delta: number) => void} props.onAjustar - callback de ajuste.
  * @param {'pagina'|'sigla'} props.ordenacao - ordenação vigente.
  * @param {'lista'|'album'} [props.disposicao='lista'] - disposição vigente.
+ * @param {'todas'|'faltantes'|'repetidas'} [props.filtro='todas'] - filtro vigente.
+ * @param {() => void} [props.onLimparFiltro] - callback para voltar o filtro para "todas".
  * @param {import('react').Ref<{ saltarPara: (sigla: string) => void }>} [props.ref] - ref para saltar para uma seção.
  */
 export const Catalogo = forwardRef(function Catalogo(
-  { secoes, figurinhas, contagens, onAjustar, ordenacao, disposicao = 'lista' },
+  { secoes, figurinhas, contagens, onAjustar, ordenacao, disposicao = 'lista', filtro = 'todas', onLimparFiltro },
   ref,
 ) {
   const estruturada = ordenacao === 'pagina' ? ordenarPorPagina(secoes) : ordenarPorSigla(secoes);
-  const figurinhasPorSecao = new Map();
-
-  for (const figurinha of figurinhas) {
-    const lista = figurinhasPorSecao.get(figurinha.secao) ?? [];
-    lista.push(figurinha);
-    figurinhasPorSecao.set(figurinha.secao, lista);
-  }
+  const figurinhasPorSecao = useMemo(() => {
+    const map = new Map();
+    for (const figurinha of figurinhas) {
+      const lista = map.get(figurinha.secao) ?? [];
+      lista.push(figurinha);
+      map.set(figurinha.secao, lista);
+    }
+    return map;
+  }, [figurinhas]);
 
   // Estado de colapso por sigla: Set de siglas colapsadas
   // Padrão: todas expandidas (ausentes do Set)
@@ -71,13 +76,33 @@ export const Catalogo = forwardRef(function Catalogo(
     [colapsadas],
   );
 
-  // Expõe método para saltar para uma seção
+  // Determina se uma seção tem alguma figurinha visível com o filtro vigente.
+  // Na disposição álbum, o filtro é ignorado (IDR 0001).
+  const secaoTemVisivel = useCallback(
+    (sec) => {
+      if (disposicao !== 'lista' || filtro === 'todas') return true;
+      const secaoFigurinhas = figurinhasPorSecao.get(sec.sigla) ?? [];
+      return secaoFigurinhas.some((f) => filtraFigurinha(contagens, f.codigo, filtro));
+    },
+    [disposicao, filtro, contagens, figurinhasPorSecao],
+  );
+
+  // Exposição do método saltarPara: se a seção alvo está oculta pelo filtro,
+  // limpa o filtro para "todas" antes de rolar (IDR 0031).
   useImperativeHandle(ref, () => ({
     saltarPara(sigla) {
       // Encontra qual super-grupo contém a seção (se houver)
       const superGrupoComSecao = estruturada.find(
         (item) => item.tipo === 'super-grupo' && item.secoes.some((s) => s.sigla === sigla),
       );
+
+      // Se a seção está oculta pelo filtro, precisa limpar o filtro antes.
+      const secaoFigurinhas = figurinhasPorSecao.get(sigla) ?? [];
+      const ocultaPeloFiltro = disposicao === 'lista' && filtro !== 'todas'
+        && !secaoFigurinhas.some((f) => filtraFigurinha(contagens, f.codigo, filtro));
+      if (ocultaPeloFiltro && onLimparFiltro) {
+        onLimparFiltro();
+      }
 
       // Expande o super-grupo se estiver colapsado
       if (superGrupoComSecao) {
@@ -91,6 +116,7 @@ export const Catalogo = forwardRef(function Catalogo(
       expandirSecao(sigla);
 
       // Rola até a seção após um pequeno delay para permitir a expansão
+      // (e a re-renderização após limpar o filtro)
       setTimeout(() => {
         const secaoRef = secaoRefs.current.get(sigla);
         if (secaoRef) {
@@ -102,7 +128,7 @@ export const Catalogo = forwardRef(function Catalogo(
         }
       }, 50);
     },
-  }), [estruturada, expandirSecao]);
+  }), [estruturada, expandirSecao, disposicao, filtro, contagens, onLimparFiltro, figurinhasPorSecao]);
 
   const setSecaoRef = useCallback((sigla, element) => {
     if (element) {
@@ -129,6 +155,8 @@ export const Catalogo = forwardRef(function Catalogo(
         const secao = item.tipo === 'secao' ? item.secao : item;
 
         if (isSecao) {
+          // Oculta a seção inteira se o filtro não deixa nenhuma figurinha (IDR 0025)
+          if (!secaoTemVisivel(secao)) return null;
           return (
             <div
               key={secao.sigla}
@@ -142,6 +170,7 @@ export const Catalogo = forwardRef(function Catalogo(
                 expandida={isExpandida(secao.sigla)}
                 onToggle={() => toggleSecao(secao.sigla)}
                 disposicao={disposicao}
+                filtro={filtro}
               />
             </div>
           );
@@ -150,6 +179,9 @@ export const Catalogo = forwardRef(function Catalogo(
           const figurinhasDoGrupo = item.secoes.flatMap(
             (s) => figurinhasPorSecao.get(s.sigla) ?? [],
           );
+          // Oculta o super-grupo se nenhuma seção dele sobra com o filtro (IDR 0025)
+          const secoesVisiveis = item.secoes.filter((s) => secaoTemVisivel(s));
+          if (secoesVisiveis.length === 0) return null;
           return (
             <SuperGrupo
               key={item.grupo}
@@ -164,6 +196,7 @@ export const Catalogo = forwardRef(function Catalogo(
               secaoRefs={secaoRefs}
               setSecaoRef={setSecaoRef}
               disposicao={disposicao}
+              filtro={filtro}
             />
           );
         }
