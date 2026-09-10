@@ -3,7 +3,7 @@
 # Tarefa [0004-0003]: empilhamento das páginas em tela estreita
 
 ## Status
-Pendente
+Concluída
 
 ## Documentos de referência (ler antes de implementar)
 - `docs/idr/0015-paginas-do-album-empilham-em-tela-estreita.md` § Decisão e § Consequências — lado a lado quando cabem, empilhadas quando não cabem, e nunca cair para a lista

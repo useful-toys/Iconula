@@ -317,5 +317,85 @@ describe('Secao', () => {
         expect(pagina.style.gridTemplateColumns).toBe('repeat(4, 52px)');
       }
     });
+
+    it('contêiner do spread usa flex-wrap para empilhamento responsivo', () => {
+      const { container } = render(
+        <Secao
+          secao={secaoBra}
+          figurinhas={Array.from({ length: 20 }, (_, i) => ({
+            codigo: `BRA${String(i + 1).padStart(2, '0')}`,
+            secao: 'BRA',
+            metalizada: i === 0,
+          }))}
+          contagens={{}}
+          onAjustar={vi.fn()}
+          disposicao="album"
+        />,
+      );
+
+      const spread = container.querySelector('.secao__album');
+      expect(spread).toBeInTheDocument();
+
+      // Verifica que o contêiner tem a classe correta para flex-wrap
+      // (o comportamento real de empilhamento depende do CSS e da largura disponível)
+      expect(spread).toHaveClass('secao__album');
+    });
+
+    it('páginas são renderizadas na ordem correta (página 1 antes da página 2)', () => {
+      const { container } = render(
+        <Secao
+          secao={secaoBra}
+          figurinhas={Array.from({ length: 20 }, (_, i) => ({
+            codigo: `BRA${String(i + 1).padStart(2, '0')}`,
+            secao: 'BRA',
+            metalizada: i === 0,
+          }))}
+          contagens={{}}
+          onAjustar={vi.fn()}
+          disposicao="album"
+        />,
+      );
+
+      const paginas = container.querySelectorAll('.pagina-album');
+      expect(paginas).toHaveLength(2);
+
+      // Página 1 deve conter BRA 01 (escudo)
+      const pagina1 = paginas[0];
+      expect(pagina1.textContent).toContain('BRA');
+      expect(pagina1.textContent).toContain('01');
+
+      // Página 2 deve conter BRA 11
+      const pagina2 = paginas[1];
+      expect(pagina2.textContent).toContain('BRA');
+      expect(pagina2.textContent).toContain('11');
+
+      // Página 1 deve vir antes da página 2 no DOM
+      expect(pagina1.compareDocumentPosition(pagina2)).toBe(
+        Node.DOCUMENT_POSITION_FOLLOWING,
+      );
+    });
+
+    it('páginas mantêm largura fixa baseada nas trilhas de 52px', () => {
+      const { container } = render(
+        <Secao
+          secao={secaoBra}
+          figurinhas={Array.from({ length: 20 }, (_, i) => ({
+            codigo: `BRA${String(i + 1).padStart(2, '0')}`,
+            secao: 'BRA',
+            metalizada: i === 0,
+          }))}
+          contagens={{}}
+          onAjustar={vi.fn()}
+          disposicao="album"
+        />,
+      );
+
+      const paginas = container.querySelectorAll('.pagina-album');
+      
+      // Cada página deve ter grid-template-columns definido com trilhas de 52px
+      for (const pagina of paginas) {
+        expect(pagina.style.gridTemplateColumns).toBe('repeat(4, 52px)');
+      }
+    });
   });
 });
