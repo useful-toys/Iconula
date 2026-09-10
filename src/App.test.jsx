@@ -53,6 +53,13 @@ vi.mock("./lib/userPreferences", () => ({
   saveCurrentTeam: saveCurrentTeamMock,
 }));
 
+// O catálogo completo (994 figurinhas) deixa os testes do botão muito
+// lentos no jsdom. Os testes de App focam no botão e na auth; o catálogo
+// é coberto pelos testes de Catalogo e Secao.
+vi.mock("./components/Catalogo.jsx", () => ({
+  Catalogo: () => <div data-testid="catalogo-mock" />,
+}));
+
 import App from "./App";
 
 const UID = "uid-do-usuario";
