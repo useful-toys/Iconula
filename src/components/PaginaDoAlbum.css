@@ -4,6 +4,7 @@
   display: grid;
   grid-template-rows: repeat(3, 52px);
   gap: 6px;
+  flex-shrink: 0;
 }
 
 .pagina-album__celula {
