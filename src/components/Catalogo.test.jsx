@@ -25,6 +25,25 @@ describe('Catalogo', () => {
         figurinhas={figurinhasParcial}
         contagens={{}}
         onAjustar={vi.fn()}
+        ordenacao="sigla"
+      />,
+    );
+
+    const secoesRenderizadas = screen.getAllByRole('heading', { level: 2 });
+    expect(secoesRenderizadas).toHaveLength(3);
+    expect(secoesRenderizadas[0].textContent).toContain('Extras FIFA');
+    expect(secoesRenderizadas[1].textContent).toContain('Brasil');
+    expect(secoesRenderizadas[2].textContent).toContain('Coca-Cola');
+  });
+
+  it('renderiza as seções na ordem por página, com FWC primeiro e COC por último', () => {
+    render(
+      <Catalogo
+        secoes={secoesParcial}
+        figurinhas={figurinhasParcial}
+        contagens={{}}
+        onAjustar={vi.fn()}
+        ordenacao="pagina"
       />,
     );
 
@@ -43,6 +62,7 @@ describe('Catalogo', () => {
         figurinhas={figurinhasParcial}
         contagens={{}}
         onAjustar={vi.fn()}
+        ordenacao="sigla"
       />,
     );
 
