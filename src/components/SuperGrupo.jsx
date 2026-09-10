@@ -15,10 +15,12 @@ import './SuperGrupo.css';
  * @param {Array<{codigo: string; secao: string; metalizada: boolean}>} props.figurinhas - figurinhas das seções do grupo.
  * @param {Record<string, number>} props.contagens - mapa esparso de contagens.
  * @param {(codigo: string, delta: number) => void} props.onAjustar - callback de ajuste.
+ * @param {(sigla: string) => boolean} props.isExpandida - função que retorna se uma seção está expandida.
+ * @param {(sigla: string) => void} props.onToggleSecao - callback para alternar colapso de uma seção.
  * @param {import('react').Ref<{ expandir: () => void }>} [props.ref] - ref para abrir programaticamente.
  */
 export const SuperGrupo = forwardRef(function SuperGrupo(
-  { grupo, secoes, figurinhas, contagens, onAjustar },
+  { grupo, secoes, figurinhas, contagens, onAjustar, isExpandida, onToggleSecao },
   ref,
 ) {
   const [expandido, setExpandido] = useState(true);
@@ -95,6 +97,8 @@ export const SuperGrupo = forwardRef(function SuperGrupo(
               figurinhas={figurinhasPorSecao.get(secao.sigla) ?? []}
               contagens={contagens}
               onAjustar={onAjustar}
+              expandida={isExpandida(secao.sigla)}
+              onToggle={() => onToggleSecao(secao.sigla)}
             />
           ))}
         </div>

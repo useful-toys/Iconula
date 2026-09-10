@@ -1,5 +1,6 @@
 // Copyright (c) 2026 Daniel Felix Ferber
 
+import { useState, useCallback } from 'react';
 import { ordenarPorSigla, ordenarPorPagina } from '../data/catalogoOrdenacoes.js';
 import { Secao } from './Secao.jsx';
 import { SuperGrupo } from './SuperGrupo.jsx';
@@ -11,6 +12,8 @@ import './Catalogo.css';
  *
  * Na ordenação por página, as 48 seleções são agrupadas em 12 super-grupos
  * A–L (IDR 0019). Na ordenação por sigla, as seções ficam no mesmo nível.
+ *
+ * Gerencia o estado de colapso de cada seção por sigla (IDR 0020).
  *
  * @param {object} props
  * @param {Array<object>} props.secoes - seções do catálogo.
@@ -29,6 +32,27 @@ export function Catalogo({ secoes, figurinhas, contagens, onAjustar, ordenacao }
     figurinhasPorSecao.set(figurinha.secao, lista);
   }
 
+  // Estado de colapso por sigla: Set de siglas colapsadas
+  // Padrão: todas expandidas (ausentes do Set)
+  const [colapsadas, setColapsadas] = useState(new Set());
+
+  const toggleSecao = useCallback((sigla) => {
+    setColapsadas((prev) => {
+      const next = new Set(prev);
+      if (next.has(sigla)) {
+        next.delete(sigla);
+      } else {
+        next.add(sigla);
+      }
+      return next;
+    });
+  }, []);
+
+  const isExpandida = useCallback(
+    (sigla) => !colapsadas.has(sigla),
+    [colapsadas],
+  );
+
   return (
     <main className="catalogo">
       {estruturada.map((item) => {
@@ -45,6 +69,8 @@ export function Catalogo({ secoes, figurinhas, contagens, onAjustar, ordenacao }
               figurinhas={figurinhasPorSecao.get(secao.sigla) ?? []}
               contagens={contagens}
               onAjustar={onAjustar}
+              expandida={isExpandida(secao.sigla)}
+              onToggle={() => toggleSecao(secao.sigla)}
             />
           );
         }
@@ -60,6 +86,8 @@ export function Catalogo({ secoes, figurinhas, contagens, onAjustar, ordenacao }
               figurinhas={figurinhasDoGrupo}
               contagens={contagens}
               onAjustar={onAjustar}
+              isExpandida={isExpandida}
+              onToggleSecao={toggleSecao}
             />
           );
         }

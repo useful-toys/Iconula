@@ -15,6 +15,18 @@
   background: var(--panel);
   border: 1px solid var(--border);
   border-radius: 12px;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+}
+
+.secao__chevron {
+  flex-shrink: 0;
+  width: 1em;
+  font-size: 14px;
+  color: var(--muted);
 }
 
 .secao__icone {
