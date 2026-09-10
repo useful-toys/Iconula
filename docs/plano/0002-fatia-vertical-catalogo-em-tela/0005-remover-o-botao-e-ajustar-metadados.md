@@ -3,7 +3,7 @@
 # Tarefa [0002-0005]: remover o Iconula Button e ajustar os metadados do site
 
 ## Status
-Pendente
+Concluída
 
 ## Documentos de referência (ler antes de implementar)
 - `docs/requisitos.md` § Fora de Escopo — "o botão de seleções atual removido no PR de implementação desta especificação; o histórico permanece no git"
