@@ -19,10 +19,11 @@ import './SuperGrupo.css';
  * @param {(sigla: string) => void} props.onToggleSecao - callback para alternar colapso de uma seção.
  * @param {import('react').RefObject<Map>} props.secaoRefs - mapa de refs das seções.
  * @param {(sigla: string, element: Element|null) => void} props.setSecaoRef - callback para registrar ref de uma seção.
+ * @param {'lista'|'album'} [props.disposicao='lista'] - disposição vigente.
  * @param {import('react').Ref<{ expandir: () => void }>} [props.ref] - ref para abrir programaticamente.
  */
 export const SuperGrupo = forwardRef(function SuperGrupo(
-  { grupo, secoes, figurinhas, contagens, onAjustar, isExpandida, onToggleSecao, setSecaoRef },
+  { grupo, secoes, figurinhas, contagens, onAjustar, isExpandida, onToggleSecao, setSecaoRef, disposicao = 'lista' },
   ref,
 ) {
   const [expandido, setExpandido] = useState(true);
@@ -104,6 +105,7 @@ export const SuperGrupo = forwardRef(function SuperGrupo(
                 onAjustar={onAjustar}
                 expandida={isExpandida(secao.sigla)}
                 onToggle={() => onToggleSecao(secao.sigla)}
+                disposicao={disposicao}
               />
             </div>
           ))}

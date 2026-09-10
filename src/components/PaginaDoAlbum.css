@@ -1,0 +1,17 @@
+/* Copyright (c) 2026 Daniel Felix Ferber */
+
+.pagina-album {
+  display: grid;
+  grid-template-rows: repeat(3, 52px);
+  gap: 6px;
+}
+
+.pagina-album__celula {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pagina-album__celula--paisagem {
+  width: 100%;
+}

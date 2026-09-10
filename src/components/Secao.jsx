@@ -3,7 +3,9 @@
 import { useState, useId } from 'react';
 import { calcularPlacar } from '../lib/progresso.js';
 import { urlDoIcone } from '../lib/bandeira.js';
+import { layoutDeSecao } from '../data/catalogoLayout.js';
 import { Figurinha } from './Figurinha.jsx';
+import { PaginaDoAlbum } from './PaginaDoAlbum.jsx';
 import './Secao.css';
 
 /**
@@ -84,7 +86,8 @@ function CabecalhoSecao({ secao, codigos, contagens, expandida, onToggle, corpoI
 }
 
 /**
- * Seção do catálogo: cabeçalho com resumo e grade de figurinhas em lista.
+ * Seção do catálogo: cabeçalho com resumo e grade de figurinhas em lista
+ * ou disposição álbum, conforme a disposição vigente.
  *
  * @param {object} props
  * @param {object} props.secao - objeto da seção (catálogo.js).
@@ -93,6 +96,7 @@ function CabecalhoSecao({ secao, codigos, contagens, expandida, onToggle, corpoI
  * @param {(codigo: string, delta: number) => void} props.onAjustar - callback de ajuste.
  * @param {boolean} [props.expandida] - se a seção está expandida (controlado); se omitido, usa estado interno.
  * @param {() => void} [props.onToggle] - callback para alternar colapso (controlado).
+ * @param {'lista'|'album'} [props.disposicao='lista'] - disposição vigente.
  */
 export function Secao({
   secao,
@@ -101,6 +105,7 @@ export function Secao({
   onAjustar,
   expandida: expandidaProp,
   onToggle: onToggleProp,
+  disposicao = 'lista',
 }) {
   const corpoId = useId();
   const codigos = figurinhas.map((f) => f.codigo);
@@ -110,6 +115,10 @@ export function Secao({
   const isControlado = expandidaProp !== undefined;
   const expandida = isControlado ? expandidaProp : expandidaInterna;
   const onToggle = isControlado ? onToggleProp : () => setExpandidaInterna((e) => !e);
+
+  // FWC sempre em lista (IDR 0023)
+  const layout = disposicao === 'album' ? layoutDeSecao(secao) : null;
+  const usaAlbum = layout !== null;
 
   return (
     <section className="secao">
@@ -122,20 +131,63 @@ export function Secao({
         corpoId={corpoId}
       />
       {expandida && (
-        <div className="secao__grade" id={corpoId}>
-          {figurinhas.map((figurinha) => (
-            <Figurinha
-              key={figurinha.codigo}
-              codigo={figurinha.codigo}
-              contagem={contagens[figurinha.codigo] ?? 0}
-              metalizada={figurinha.metalizada}
-              variante="lista"
-              onIncrementar={() => onAjustar(figurinha.codigo, 1)}
-              onDecrementar={() => onAjustar(figurinha.codigo, -1)}
+        <div className="secao__corpo" id={corpoId}>
+          {usaAlbum ? (
+            <CorpoAlbum
+              secao={secao}
+              figurinhas={figurinhas}
+              layout={layout}
+              contagens={contagens}
+              onAjustar={onAjustar}
             />
-          ))}
+          ) : (
+            <div className="secao__grade">
+              {figurinhas.map((figurinha) => (
+                <Figurinha
+                  key={figurinha.codigo}
+                  codigo={figurinha.codigo}
+                  contagem={contagens[figurinha.codigo] ?? 0}
+                  metalizada={figurinha.metalizada}
+                  variante="lista"
+                  onIncrementar={() => onAjustar(figurinha.codigo, 1)}
+                  onDecrementar={() => onAjustar(figurinha.codigo, -1)}
+                />
+              ))}
+            </div>
+          )}
         </div>
       )}
     </section>
+  );
+}
+
+/**
+ * Corpo da seção na disposição álbum: agrupa as figurinhas em páginas
+ * conforme o layout e renderiza cada página com o componente PaginaDoAlbum.
+ */
+function CorpoAlbum({ secao, figurinhas, layout, contagens, onAjustar }) {
+  // Agrupa posições por página
+  const posicoesPorPagina = new Map();
+  for (const pos of layout) {
+    const lista = posicoesPorPagina.get(pos.pagina) ?? [];
+    lista.push(pos);
+    posicoesPorPagina.set(pos.pagina, lista);
+  }
+
+  const paginas = Array.from(posicoesPorPagina.entries()).sort((a, b) => a[0] - b[0]);
+
+  return (
+    <div className="secao__album">
+      {paginas.map(([numPagina, posicoes]) => (
+        <PaginaDoAlbum
+          key={numPagina}
+          secao={secao}
+          figurinhas={figurinhas}
+          posicoes={posicoes}
+          contagens={contagens}
+          onAjustar={onAjustar}
+        />
+      ))}
+    </div>
   );
 }

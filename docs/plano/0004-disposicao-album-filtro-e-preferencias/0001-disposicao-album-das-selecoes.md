@@ -3,7 +3,7 @@
 # Tarefa [0004-0001]: disposição álbum das 48 seleções
 
 ## Status
-Pendente
+Concluída
 
 ## Documentos de referência (ler antes de implementar)
 - `docs/idr/0009-disposicao-como-no-album-reproduz-a-pagina-fisica.md` § Decisão — posições explícitas num grid de 4 trilhas fixas, nunca grade uniforme responsiva
