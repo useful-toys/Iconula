@@ -3,7 +3,7 @@
 # Tarefa [0004-0002]: Coca-Cola no álbum e Extras FIFA sempre em lista
 
 ## Status
-Pendente
+Concluída
 
 ## Documentos de referência (ler antes de implementar)
 - `docs/idr/0023-coca-cola-no-modo-album-fwc-sempre-lista.md` § Decisão e § Consequências — o arranjo da Coca-Cola, o FWC em lista e a regra do filtro por disposição escolhida

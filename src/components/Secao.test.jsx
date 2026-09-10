@@ -203,4 +203,119 @@ describe('Secao', () => {
     expect(cabecalho).toHaveAttribute('aria-expanded', 'false');
     expect(screen.queryByLabelText('BRA 01, faltante')).not.toBeInTheDocument();
   });
+
+  describe('disposição álbum', () => {
+    const secaoCoc = {
+      sigla: 'COC',
+      nome: 'Coca-Cola',
+      icone: '🥤',
+      paginas: [112, 113],
+      total: 14,
+    };
+
+    const figurinhasCoc = Array.from({ length: 14 }, (_, i) => ({
+      codigo: `COC${String(i + 1).padStart(2, '0')}`,
+      secao: 'COC',
+      metalizada: false,
+    }));
+
+    const secaoFwc = {
+      sigla: 'FWC',
+      nome: 'Extras FIFA',
+      icone: '🏆',
+      paginas: null,
+      total: 20,
+    };
+
+    const figurinhasFwc = Array.from({ length: 20 }, (_, i) => ({
+      codigo: `FWC${String(i + 1).padStart(2, '0')}`,
+      secao: 'FWC',
+      metalizada: false,
+    }));
+
+    it('Coca-Cola usa disposição álbum com 3 trilhas por página', () => {
+      const { container } = render(
+        <Secao
+          secao={secaoCoc}
+          figurinhas={figurinhasCoc}
+          contagens={{}}
+          onAjustar={vi.fn()}
+          disposicao="album"
+        />,
+      );
+
+      const paginas = container.querySelectorAll('.pagina-album');
+      expect(paginas).toHaveLength(2);
+
+      // Página 1: 6 figurinhas (01-06) em 2 linhas de 3
+      const pagina1 = paginas[0];
+      expect(pagina1.style.gridTemplateColumns).toBe('repeat(3, 52px)');
+      const celulasPagina1 = pagina1.querySelectorAll('.pagina-album__celula');
+      expect(celulasPagina1).toHaveLength(6);
+
+      // Página 2: 8 figurinhas (07-14)
+      const pagina2 = paginas[1];
+      expect(pagina2.style.gridTemplateColumns).toBe('repeat(3, 52px)');
+      const celulasPagina2 = pagina2.querySelectorAll('.pagina-album__celula');
+      expect(celulasPagina2).toHaveLength(8);
+
+      // 13 e 14 nas duas primeiras posições da linha 3
+      const celula13 = celulasPagina2[6]; // 7º elemento (índice 6)
+      const celula14 = celulasPagina2[7]; // 8º elemento (índice 7)
+      expect(celula13.style.gridColumn).toBe('1 / span 1');
+      expect(celula13.style.gridRow).toBe('3');
+      expect(celula14.style.gridColumn).toBe('2 / span 1');
+      expect(celula14.style.gridRow).toBe('3');
+    });
+
+    it('FWC sempre usa lista contínua, mesmo na disposição álbum', () => {
+      const { container } = render(
+        <Secao
+          secao={secaoFwc}
+          figurinhas={figurinhasFwc}
+          contagens={{}}
+          onAjustar={vi.fn()}
+          disposicao="album"
+        />,
+      );
+
+      // FWC não deve ter páginas do álbum
+      const paginas = container.querySelectorAll('.pagina-album');
+      expect(paginas).toHaveLength(0);
+
+      // FWC deve ter a grade de lista
+      const grade = container.querySelector('.secao__grade');
+      expect(grade).toBeInTheDocument();
+
+      // Todas as 20 figurinhas devem estar presentes
+      for (let i = 1; i <= 20; i++) {
+        const numero = String(i).padStart(2, '0');
+        expect(screen.getByRole('button', { name: `FWC ${numero}, faltante` })).toBeInTheDocument();
+      }
+    });
+
+    it('seleções usam disposição álbum com 4 trilhas por página', () => {
+      const { container } = render(
+        <Secao
+          secao={secaoBra}
+          figurinhas={Array.from({ length: 20 }, (_, i) => ({
+            codigo: `BRA${String(i + 1).padStart(2, '0')}`,
+            secao: 'BRA',
+            metalizada: i === 0,
+          }))}
+          contagens={{}}
+          onAjustar={vi.fn()}
+          disposicao="album"
+        />,
+      );
+
+      const paginas = container.querySelectorAll('.pagina-album');
+      expect(paginas).toHaveLength(2);
+
+      // Ambas as páginas devem ter 4 trilhas
+      for (const pagina of paginas) {
+        expect(pagina.style.gridTemplateColumns).toBe('repeat(4, 52px)');
+      }
+    });
+  });
 });
