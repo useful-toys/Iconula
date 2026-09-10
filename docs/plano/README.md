@@ -84,7 +84,7 @@ mas não guarda nada — estado transitório, não regressão silenciosa.
 | 0002 | [Cabeçalho e placar em linha única](0002-fatia-vertical-catalogo-em-tela/0002-cabecalho-e-placar-em-linha-unica.md) | Placar em notação compacta com nome acessível por extenso. | Concluída |
 | 0003 | [Cartão da figurinha](0002-fatia-vertical-catalogo-em-tela/0003-cartao-da-figurinha.md) | Três estados com reforço não-cromático, selo `×N` de unidades sobrando, marca de metalizada, tocar soma e ícone de menos remove. | Concluída |
 | 0004 | [Seção em lista e contagem em memória](0002-fatia-vertical-catalogo-em-tela/0004-secao-em-lista-e-contagem-em-memoria.md) | Cabeçalho de seção com progresso compacto, grade que flui e quebra, incremento parando em 99 e decremento em 0. | Concluída |
-| 0005 | [Remover o botão e ajustar metadados](0002-fatia-vertical-catalogo-em-tela/0005-remover-o-botao-e-ajustar-metadados.md) | Apagar botão, dados, estilos, testes e a persistência do time; `<html lang="pt-BR">`, `title`, `description` e Open Graph em PT-BR. | Pendente |
+| 0005 | [Remover o botão e ajustar metadados](0002-fatia-vertical-catalogo-em-tela/0005-remover-o-botao-e-ajustar-metadados.md) | Apagar botão, dados, estilos, testes e a persistência do time; `<html lang="pt-BR">`, `title`, `description` e Open Graph em PT-BR. | Concluída |
 
 ## Fase 3 — Percurso: ordenações, agrupamento e salto
 

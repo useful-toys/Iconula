@@ -6,34 +6,29 @@ Guia para agentes de IA (e humanos) trabalhando neste repositório.
 
 ## O que é este projeto
 
-**Iconula Button**: uma Single Page Application minimalista com um único
-botão. O botão mostra o nome e a bandeira de uma das 48 seleções
-classificadas para a Copa do Mundo FIFA 2026. A cada clique, avança para
-o próximo time em ordem alfabética, voltando ao primeiro depois do
-último (wrap-around).
+**Iconula 2026**: uma Single Page Application para colecionadores do álbum
+de figurinhas oficial Panini da Copa do Mundo FIFA 2026. O app permite
+registrar quantas unidades de cada figurinha você tem, acompanhar o
+progresso do álbum (coladas, faltantes e repetidas) e organizar trocas.
 
-Para quem está autenticado, a bandeira visível é gravada no Cloud
-Firestore a cada clique e restaurada no próximo login. Deslogado, o app
-começa no primeiro time e não guarda nada.
+O catálogo inteiro — 994 figurinhas em 50 seções — é exibido na tela
+principal, com contagens ajustáveis em memória. A autenticação com Google
+(Firebase Auth) está disponível, mas ainda não persiste a coleção; a
+persistência no Cloud Firestore chega na Fase 6.
 
-Este é o ponto de partida de uma SPA que deve crescer no futuro — a
-estrutura de pastas já é organizada para isso, mas hoje o escopo é
-deliberadamente mínimo (sem router, sem gerenciador de estado global).
-
-**Mudança de rumo decidida**: o produto foi especificado para se tornar
-o controle de figurinhas do álbum Panini da Copa 2026, substituindo o
-botão — ver [docs/requisitos.md](docs/requisitos.md), a fonte da verdade
-de escopo (MVP, futuros, fora de escopo). Enquanto a implementação não
-acontece, o código neste repositório ainda é o descrito acima.
+A SPA cresce por fases: catálogo em tela, ordenações e agrupamento,
+disposição como no álbum físico, persistência, acesso e atestação,
+portabilidade, e acabamento. Router e gerenciador de estado global só
+entram quando a árvore realmente exigir.
 
 ## Stack
 
 - [Vite](https://vitejs.dev/) + [React](https://react.dev/) 19
-- Bandeiras: emoji Unicode em `src/data/teams.js`, renderizado como `<img>`
+- Bandeiras: emoji Unicode das seções do catálogo, renderizado como `<img>`
   a partir de SVGs [Twemoji](https://github.com/jdecked/twemoji)
   vendorizados em `src/assets/flags/` (nome do arquivo = code point
-  Unicode, calculado via `@twemoji/api`) em `TeamButton.jsx` (necessário
-  porque o Windows não renderiza emoji de bandeira nativamente — ver
+  Unicode, calculado via `@twemoji/api`) — necessário porque o Windows
+  não renderiza emoji de bandeira nativamente (ver
   [docs/adr/0002](docs/adr/0002-bandeiras-emoji-unicode.md))
 - Testes: [Vitest](https://vitest.dev/) + [React Testing Library](https://testing-library.com/react)
 - Deploy: Firebase Hosting via GitHub Actions (repositório na organização
@@ -50,13 +45,23 @@ acontece, o código neste repositório ainda é o descrito acima.
 
 | Caminho | Conteúdo |
 |---|---|
-| `src/data/teams.js` | Os 48 times (nome + emoji de bandeira), em ordem alfabética. Única fonte de dados dos times. |
-| `src/components/TeamButton.jsx` | Componente apresentacional do botão; converte o emoji em imagem via Twemoji. |
-| `src/App.jsx` | Estado do time atual (`useState`) e lógica de avanço com wrap-around; estado do usuário autenticado (`useState` + `onAuthStateChanged`), repassado por prop para `AuthStatus` — sem Context (ver [ADR 0006](docs/adr/0006-login-google-sdk-modular.md)). Carrega o time salvo ao entrar e grava a cada clique de usuário logado (ver [ADR 0007](docs/adr/0007-persistencia-do-time-no-firestore.md)). |
-| `src/App.css` | Estilo do app (minimalista, responsivo, suporte a dark mode via `prefers-color-scheme`). No produto novo dá lugar ao tema escuro único e à paleta de [docs/interface.md](docs/interface.md) (ver [IDR 0022](docs/idr/0022-tema-escuro-unico-paleta-do-prototipo.md)). |
-| `src/App.test.jsx` | Testes: estado inicial, avanço ao clicar, wrap-around, login/logout e persistência (mocka `src/lib/firebase.js` e `src/lib/userPreferences.js`). |
-| `src/lib/firebase.js` | Inicializa o SDK do Firebase (API modular — ver ADR 0006) a partir das variáveis `VITE_FIREBASE_*`; exporta `auth`, `app` (ambos `null` se a config estiver incompleta — login e persistência ficam indisponíveis, mas o resto do app funciona) e `signInWithGoogle()`. **Não** importa `firebase/firestore`: quem faz isso é `userPreferences.js`, sob demanda. |
-| `src/lib/userPreferences.js` | Lê e grava o time do usuário em `users/{uid}` no Firestore, carregando o SDK com `import()` dinâmico. Nunca lança: falha de persistência vira log e não altera a tela (ver [ADR 0007](docs/adr/0007-persistencia-do-time-no-firestore.md)). |
+| `src/data/catalogo.js` | O catálogo do álbum: 50 seções e 994 códigos, com nome, grupo da Copa e páginas do spread. Única fonte desse dado. |
+| `src/data/catalogoOrdenacoes.js` | Derivações puras de ordenação e agrupamento do catálogo (ordem alfabética por sigla, ordem do álbum com super-grupos A–L). |
+| `src/data/catalogoLayout.js` | Layout de álbum por seção: posições de página, linha e trilha de cada figurinha. |
+| `src/components/Cabecalho.jsx` | Cabeçalho sticky com o placar geral em notação compacta e relógio. |
+| `src/components/Catalogo.jsx` | Corpo da tela principal: renderiza as seções na ordenação vigente. |
+| `src/components/Secao.jsx` | Cabeçalho de seção com progresso compacto e grade de figurinhas em lista. |
+| `src/components/Figurinha.jsx` | Cartão da figurinha com três estados, selo `×N` e marca de metalizada. |
+| `src/components/AuthStatus.jsx` | Mostra `LoginButton` (deslogado) ou nome/avatar/botão "Sair" (logado); puramente controlado por props. |
+| `src/components/LoginButton.jsx` | Botão "Entrar com Google" (`signInWithPopup`), com mensagem de erro para falhas que não sejam o usuário fechar o popup. |
+| `src/App.jsx` | Estado da coleção (`useState`, mapa esparso de contagens) e estado do usuário autenticado (`useState` + `onAuthStateChanged`), repassado por prop para `AuthStatus` — sem Context (ver [ADR 0006](docs/adr/0006-login-google-sdk-modular.md)). Repassa a função de ajuste para o catálogo (ver [TDR 0014](docs/tdr/0014-estado-da-colecao-sem-context.md)). |
+| `src/App.css` | Estilo do app (tema escuro único, responsivo). |
+| `src/App.test.jsx` | Testes de login/logout e renderização do cabeçalho/catálogo (mocka `src/lib/firebase.js` e `src/components/Catalogo.jsx`). |
+| `src/App.auth-unavailable.test.jsx` | Teste do comportamento quando o Firebase Auth não está configurado. |
+| `src/lib/firebase.js` | Inicializa o SDK do Firebase (API modular — ver ADR 0006) a partir das variáveis `VITE_FIREBASE_*`; exporta `auth`, `app` (ambos `null` se a config estiver incompleta — login fica indisponível, mas o resto do app funciona) e `signInWithGoogle()`. Não importa `firebase/firestore`: a persistência será carregada sob demanda na Fase 6. |
+| `src/lib/colecao.js` | Funções puras para o mapa esparso de contagens: obter contagem e ajustar com teto de 99 e piso de 0. |
+| `src/lib/progresso.js` | Calcula coladas, faltantes, repetidas e percentual sobre um conjunto de códigos. |
+| `src/lib/bandeira.js` | Converte emoji de bandeira/ícone em URL do SVG Twemoji vendorizado. |
 | `firestore.rules` | Regras de segurança do Firestore — a única garantia de que um usuário não acessa os dados de outro. |
 | `firestore.rules.test.js` | Testes das regras contra o emulador (`npm run test:rules`, config em `vitest.rules.config.js`); rodam no CI a cada PR (ver [TDR 0008](docs/tdr/0008-deploy-e-teste-das-regras-do-firestore.md)). |
 | `src/components/AuthStatus.jsx` | Mostra `LoginButton` (deslogado) ou nome/avatar/botão "Sair" (logado); puramente controlado por props. |
