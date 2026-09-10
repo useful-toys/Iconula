@@ -3,7 +3,7 @@
 # Tarefa [0001-0004]: vendorizar os ícones dos especiais e a tipografia
 
 ## Status
-Pendente
+Concluída
 
 ## Documentos de referência (ler antes de implementar)
 - `docs/adr/0002-bandeiras-emoji-unicode.md` § Decisão e § Consequências — SVGs Twemoji vendorizados em `src/assets/flags/`, nome do arquivo = code point, resolução por `import.meta.glob`

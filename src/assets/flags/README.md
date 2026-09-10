@@ -1,15 +1,16 @@
 <!-- Copyright (c) 2026 Daniel Felix Ferber -->
 
-# Bandeiras (Twemoji, vendorizadas)
+# Bandeiras e ícones temáticos (Twemoji, vendorizados)
 
-Os 48 arquivos SVG desta pasta são gráficos do
+Os arquivos SVG desta pasta são gráficos do
 [Twemoji](https://github.com/jdecked/twemoji) (fork mantido do Twemoji
 original do Twitter/X), licenciados sob
 [CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/).
 Copyright dos gráficos: Twitter, Inc e outros contribuidores.
 
-Baixados uma única vez (não são gerados em build nem em runtime) da tag
-`v17.0.3`, para eliminar a dependência de CDN externo em runtime — ver
+São 48 bandeiras de seleções e 2 ícones temáticos dos especiais
+(🏆 Extras FIFA e 🥤 Coca-Cola), todos baixados uma única vez da tag
+`v17.0.3` para eliminar a dependência de CDN externo em runtime — ver
 [ADR 0002](../../../docs/adr/0002-bandeiras-emoji-unicode.md) e o item de
 segurança correspondente em
 [docs/tdr/0002](../../../docs/tdr/0002-headers-de-seguranca-hosting.md).
