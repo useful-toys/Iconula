@@ -40,4 +40,58 @@ describe('Controles', () => {
     const { container } = render(<Controles ordenacao="pagina" onTrocarOrdenacao={vi.fn()} />);
     expect(container.querySelector('.controles__direita')).toBeInTheDocument();
   });
+
+  it('renderiza o grupo segmentado de disposição quando onTrocarDisposicao é fornecido', () => {
+    render(
+      <Controles
+        ordenacao="pagina"
+        onTrocarOrdenacao={vi.fn()}
+        disposicao="lista"
+        onTrocarDisposicao={vi.fn()}
+      />
+    );
+
+    expect(screen.getByRole('button', { name: 'disposição em lista contínua' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'disposição como no álbum' })).toBeInTheDocument();
+  });
+
+  it('não renderiza o grupo de disposição quando onTrocarDisposicao não é fornecido', () => {
+    render(<Controles ordenacao="pagina" onTrocarOrdenacao={vi.fn()} />);
+
+    expect(screen.queryByRole('button', { name: 'disposição em lista contínua' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'disposição como no álbum' })).not.toBeInTheDocument();
+  });
+
+  it('marca a disposição ativa com aria-pressed', () => {
+    render(
+      <Controles
+        ordenacao="pagina"
+        onTrocarOrdenacao={vi.fn()}
+        disposicao="album"
+        onTrocarDisposicao={vi.fn()}
+      />
+    );
+
+    const lista = screen.getByRole('button', { name: 'disposição em lista contínua' });
+    const album = screen.getByRole('button', { name: 'disposição como no álbum' });
+
+    expect(lista).toHaveAttribute('aria-pressed', 'false');
+    expect(album).toHaveAttribute('aria-pressed', 'true');
+  });
+
+  it('chama onTrocarDisposicao ao clicar na opção de disposição inativa', async () => {
+    const user = userEvent.setup();
+    const onTrocar = vi.fn();
+    render(
+      <Controles
+        ordenacao="pagina"
+        onTrocarOrdenacao={vi.fn()}
+        disposicao="lista"
+        onTrocarDisposicao={onTrocar}
+      />
+    );
+
+    await user.click(screen.getByRole('button', { name: 'disposição como no álbum' }));
+    expect(onTrocar).toHaveBeenCalledWith('album');
+  });
 });

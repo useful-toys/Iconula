@@ -18,6 +18,7 @@ export default function App() {
   const [user, setUser] = useState(null);
   const [contagens, setContagens] = useState({});
   const [ordenacao, setOrdenacao] = useState('pagina');
+  const [disposicao, setDisposicao] = useState('lista');
   const catalogoRef = useRef(null);
 
   useEffect(() => {
@@ -58,7 +59,12 @@ export default function App() {
         secoes={secoesOrdenadas}
         onSaltar={handleSaltar}
       />
-      <Controles ordenacao={ordenacao} onTrocarOrdenacao={setOrdenacao} />
+      <Controles
+        ordenacao={ordenacao}
+        onTrocarOrdenacao={setOrdenacao}
+        disposicao={disposicao}
+        onTrocarDisposicao={setDisposicao}
+      />
       <Catalogo
         ref={catalogoRef}
         secoes={secoes}
@@ -66,6 +72,7 @@ export default function App() {
         contagens={contagens}
         onAjustar={handleAjustar}
         ordenacao={ordenacao}
+        disposicao={disposicao}
       />
     </div>
   );

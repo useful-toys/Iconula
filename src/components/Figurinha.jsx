@@ -14,6 +14,7 @@ import './Figurinha.css';
  * @param {number} props.contagem - unidades registradas (0 a 99).
  * @param {boolean} [props.metalizada] - indica figurinha metalizada/especial.
  * @param {'lista' | 'album'} [props.variante='lista'] - tamanho do cartão.
+ * @param {boolean} [props.paisagem=false] - figurinha em paisagem (ocupa 2 trilhas).
  * @param {() => void} props.onIncrementar - chamado ao tocar no cartão.
  * @param {() => void} props.onDecrementar - chamado ao tocar no controle de menos.
  */
@@ -22,6 +23,7 @@ export function Figurinha({
   contagem,
   metalizada = false,
   variante = 'lista',
+  paisagem = false,
   onIncrementar,
   onDecrementar,
 }) {
@@ -39,8 +41,15 @@ export function Figurinha({
     estadoLabel = `colada, ${sobrando} sobrando`;
   }
 
+  const classes = [
+    'figurinha',
+    `figurinha--${variante}`,
+    paisagem ? 'figurinha--paisagem' : '',
+    estadoClasse,
+  ].filter(Boolean).join(' ');
+
   return (
-    <div className={`figurinha figurinha--${variante} ${estadoClasse}`}>
+    <div className={classes}>
       <button
         type="button"
         className="figurinha__corpo"

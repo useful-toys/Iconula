@@ -67,3 +67,15 @@
   flex-wrap: wrap;
   gap: var(--card-gap-list);
 }
+
+.secao__corpo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--section-body-gap);
+}
+
+.secao__album {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--album-page-gap);
+}

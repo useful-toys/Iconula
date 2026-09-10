@@ -21,10 +21,11 @@ import './Catalogo.css';
  * @param {Record<string, number>} props.contagens - mapa esparso de contagens.
  * @param {(codigo: string, delta: number) => void} props.onAjustar - callback de ajuste.
  * @param {'pagina'|'sigla'} props.ordenacao - ordenação vigente.
+ * @param {'lista'|'album'} [props.disposicao='lista'] - disposição vigente.
  * @param {import('react').Ref<{ saltarPara: (sigla: string) => void }>} [props.ref] - ref para saltar para uma seção.
  */
 export const Catalogo = forwardRef(function Catalogo(
-  { secoes, figurinhas, contagens, onAjustar, ordenacao },
+  { secoes, figurinhas, contagens, onAjustar, ordenacao, disposicao = 'lista' },
   ref,
 ) {
   const estruturada = ordenacao === 'pagina' ? ordenarPorPagina(secoes) : ordenarPorSigla(secoes);
@@ -140,6 +141,7 @@ export const Catalogo = forwardRef(function Catalogo(
                 onAjustar={onAjustar}
                 expandida={isExpandida(secao.sigla)}
                 onToggle={() => toggleSecao(secao.sigla)}
+                disposicao={disposicao}
               />
             </div>
           );
@@ -161,6 +163,7 @@ export const Catalogo = forwardRef(function Catalogo(
               onToggleSecao={toggleSecao}
               secaoRefs={secaoRefs}
               setSecaoRef={setSecaoRef}
+              disposicao={disposicao}
             />
           );
         }

@@ -15,16 +15,32 @@ const ORDENACOES = [
   },
 ];
 
+const DISPOSICOES = [
+  {
+    valor: 'lista',
+    rotulo: 'Lista',
+    nomeAcessivel: 'disposi\u00e7\u00e3o em lista cont\u00ednua',
+  },
+  {
+    valor: 'album',
+    rotulo: '\u00c1lbum',
+    nomeAcessivel: 'disposi\u00e7\u00e3o como no \u00e1lbum',
+  },
+];
+
 /**
  * Linha de controles logo abaixo do t\u00edtulo: grupo segmentado de ordena\u00e7\u00e3o
- * (P\u00e1gina | Sigla) e \u00e1rea reservada \u00e0 direita para os comandos que chegam
- * na Fase 8 (desfazer e menu).
+ * (P\u00e1gina | Sigla), grupo segmentado de disposi\u00e7\u00e3o (Lista | \u00c1lbum) e
+ * \u00e1rea reservada \u00e0 direita para os comandos que chegam na Fase 8 (desfazer
+ * e menu).
  *
  * @param {object} props
  * @param {'pagina'|'sigla'} props.ordenacao - ordena\u00e7\u00e3o vigente.
  * @param {(ordenacao: 'pagina'|'sigla') => void} props.onTrocarOrdenacao - callback de troca.
+ * @param {'lista'|'album'} [props.disposicao='lista'] - disposi\u00e7\u00e3o vigente.
+ * @param {(disposicao: 'lista'|'album') => void} [props.onTrocarDisposicao] - callback de troca.
  */
-export function Controles({ ordenacao, onTrocarOrdenacao }) {
+export function Controles({ ordenacao, onTrocarOrdenacao, disposicao = 'lista', onTrocarDisposicao }) {
   return (
     <div className="controles">
       <div className="controles__segmentado" role="group" aria-label="Ordena\u00e7\u00e3o do cat\u00e1logo">
@@ -44,6 +60,25 @@ export function Controles({ ordenacao, onTrocarOrdenacao }) {
           );
         })}
       </div>
+      {onTrocarDisposicao && (
+        <div className="controles__segmentado" role="group" aria-label="Disposi\u00e7\u00e3o do cat\u00e1logo">
+          {DISPOSICOES.map((opcao) => {
+            const ativa = opcao.valor === disposicao;
+            return (
+              <button
+                key={opcao.valor}
+                type="button"
+                className={`controles__opcao${ativa ? ' controles__opcao--ativa' : ''}`}
+                aria-pressed={ativa}
+                aria-label={opcao.nomeAcessivel}
+                onClick={() => onTrocarDisposicao(opcao.valor)}
+              >
+                {opcao.rotulo}
+              </button>
+            );
+          })}
+        </div>
+      )}
       <div className="controles__direita" aria-hidden="true" />
     </div>
   );
