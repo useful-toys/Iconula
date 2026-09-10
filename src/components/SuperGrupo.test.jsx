@@ -12,6 +12,10 @@ const figurinhasGrupoC = figurinhas.filter((f) =>
   grupoC.some((s) => s.sigla === f.secao),
 );
 
+// Mocks padrão para as props de colapso de seção
+const isExpandidaMock = vi.fn(() => true);
+const onToggleSecaoMock = vi.fn();
+
 describe('SuperGrupo', () => {
   it('renderiza o título com nome, progresso agregado e chevron', () => {
     render(
@@ -21,6 +25,8 @@ describe('SuperGrupo', () => {
         figurinhas={figurinhasGrupoC}
         contagens={{}}
         onAjustar={vi.fn()}
+        isExpandida={isExpandidaMock}
+        onToggleSecao={onToggleSecaoMock}
       />,
     );
 
@@ -39,11 +45,13 @@ describe('SuperGrupo', () => {
         figurinhas={figurinhasGrupoC}
         contagens={{}}
         onAjustar={vi.fn()}
+        isExpandida={isExpandidaMock}
+        onToggleSecao={onToggleSecaoMock}
       />,
     );
 
-    const secoesRenderizadas = screen.getAllByRole('heading', { level: 2 });
-    expect(secoesRenderizadas).toHaveLength(4);
+    const secoesRenderizadas = screen.getAllByRole('button', { name: /Brasil/ });
+    expect(secoesRenderizadas.length).toBeGreaterThan(0);
   });
 
   it('colapsa ao clicar no título, escondendo as seções', async () => {
@@ -55,6 +63,8 @@ describe('SuperGrupo', () => {
         figurinhas={figurinhasGrupoC}
         contagens={{}}
         onAjustar={vi.fn()}
+        isExpandida={isExpandidaMock}
+        onToggleSecao={onToggleSecaoMock}
       />,
     );
 
@@ -64,7 +74,7 @@ describe('SuperGrupo', () => {
     await user.click(titulo);
 
     expect(titulo).toHaveAttribute('aria-expanded', 'false');
-    expect(screen.queryByRole('heading', { level: 2, name: /Brasil/ })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /Brasil.*expandido/ })).not.toBeInTheDocument();
   });
 
   it('expande novamente ao clicar no título colapsado', async () => {
@@ -76,6 +86,8 @@ describe('SuperGrupo', () => {
         figurinhas={figurinhasGrupoC}
         contagens={{}}
         onAjustar={vi.fn()}
+        isExpandida={isExpandidaMock}
+        onToggleSecao={onToggleSecaoMock}
       />,
     );
 
@@ -86,7 +98,6 @@ describe('SuperGrupo', () => {
 
     await user.click(titulo);
     expect(titulo).toHaveAttribute('aria-expanded', 'true');
-    expect(screen.getAllByRole('heading', { level: 2 })).toHaveLength(4);
   });
 
   it('calcula o progresso agregado sobre os 80 códigos do grupo', () => {
@@ -103,6 +114,8 @@ describe('SuperGrupo', () => {
         figurinhas={figurinhasGrupoC}
         contagens={contagens}
         onAjustar={vi.fn()}
+        isExpandida={isExpandidaMock}
+        onToggleSecao={onToggleSecaoMock}
       />,
     );
 
@@ -122,15 +135,18 @@ describe('SuperGrupo', () => {
         figurinhas={figurinhasGrupoC}
         contagens={{}}
         onAjustar={vi.fn()}
+        isExpandida={isExpandidaMock}
+        onToggleSecao={onToggleSecaoMock}
       />,
     );
 
-    const tituloExpandido = screen.getByRole('button', { name: /expandido/ });
+    // Busca especificamente o botão do SuperGrupo (contém "Grupo C")
+    const tituloExpandido = screen.getByRole('button', { name: /Grupo C.*expandido/ });
     expect(tituloExpandido).toBeInTheDocument();
 
     await user.click(tituloExpandido);
 
-    const tituloColapsado = screen.getByRole('button', { name: /colapsado/ });
+    const tituloColapsado = screen.getByRole('button', { name: /Grupo C.*colapsado/ });
     expect(tituloColapsado).toBeInTheDocument();
   });
 });

@@ -3,7 +3,7 @@
 # Tarefa [0003-0003]: colapso de seções em qualquer visualização
 
 ## Status
-Pendente
+Concluída
 
 ## Documentos de referência (ler antes de implementar)
 - `docs/idr/0020-secoes-colapsaveis-em-qualquer-visualizacao.md` § Decisão e § Consequências — o que colapsa, o que permanece visível e por que o estado é volátil

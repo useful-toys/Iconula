@@ -29,7 +29,7 @@ describe('Catalogo', () => {
       />,
     );
 
-    const secoesRenderizadas = screen.getAllByRole('heading', { level: 2 });
+    const secoesRenderizadas = screen.getAllByRole('button', { name: /Extras FIFA|Brasil|Coca-Cola/ });
     expect(secoesRenderizadas).toHaveLength(3);
     expect(secoesRenderizadas[0].textContent).toContain('Extras FIFA');
     expect(secoesRenderizadas[1].textContent).toContain('Brasil');
@@ -47,7 +47,7 @@ describe('Catalogo', () => {
       />,
     );
 
-    const secoesRenderizadas = screen.getAllByRole('heading', { level: 2 });
+    const secoesRenderizadas = screen.getAllByRole('button', { name: /Extras FIFA|Brasil|Coca-Cola/ });
     expect(secoesRenderizadas).toHaveLength(3);
     expect(secoesRenderizadas[0].textContent).toContain('Extras FIFA');
     expect(secoesRenderizadas[1].textContent).toContain('Brasil');
@@ -74,5 +74,61 @@ describe('Catalogo', () => {
 
     // O callback foi chamado; a tela reflete a contagem passada via props.
     expect(container.textContent).toContain('0/20');
+  });
+
+  it('colapsa uma seção ao clicar no cabeçalho', async () => {
+    const user = userEvent.setup();
+    render(
+      <Catalogo
+        secoes={secoesParcial}
+        figurinhas={figurinhasParcial}
+        contagens={{}}
+        onAjustar={vi.fn()}
+        ordenacao="sigla"
+      />,
+    );
+
+    const brasilCabecalho = screen.getByRole('button', { name: /Brasil/ });
+    expect(brasilCabecalho).toHaveAttribute('aria-expanded', 'true');
+    expect(screen.getByLabelText('BRA 01, faltante')).toBeInTheDocument();
+
+    await user.click(brasilCabecalho);
+
+    expect(brasilCabecalho).toHaveAttribute('aria-expanded', 'false');
+    expect(screen.queryByLabelText('BRA 01, faltante')).not.toBeInTheDocument();
+  });
+
+  it('preserva o colapso da seção ao trocar de ordenação', async () => {
+    const user = userEvent.setup();
+    const { rerender } = render(
+      <Catalogo
+        secoes={secoesParcial}
+        figurinhas={figurinhasParcial}
+        contagens={{}}
+        onAjustar={vi.fn()}
+        ordenacao="sigla"
+      />,
+    );
+
+    // Colapsa Brasil
+    const brasilCabecalho = screen.getByRole('button', { name: /Brasil/ });
+    await user.click(brasilCabecalho);
+    expect(brasilCabecalho).toHaveAttribute('aria-expanded', 'false');
+
+    // Troca para ordenação por página
+    rerender(
+      <Catalogo
+        secoes={secoesParcial}
+        figurinhas={figurinhasParcial}
+        contagens={{}}
+        onAjustar={vi.fn()}
+        ordenacao="pagina"
+      />,
+    );
+
+    // Brasil continua colapsado
+    const brasilCabecalhoAposTroca = screen.getByRole('button', { name: /Brasil/ });
+    expect(brasilCabecalhoAposTroca).toHaveAttribute('aria-expanded', 'false');
+    expect(screen.queryByLabelText('BRA 01, faltante')).not.toBeInTheDocument();
   });
 });

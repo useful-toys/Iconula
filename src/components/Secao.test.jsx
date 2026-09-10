@@ -78,7 +78,7 @@ describe('Secao', () => {
     expect(document.body.textContent).toContain('Extras FIFA FWC');
   });
 
-  it('renderiza a grade de figurinhas', () => {
+  it('renderiza a grade de figurinhas quando expandida', () => {
     render(
       <Secao
         secao={secaoBra}
@@ -108,5 +108,99 @@ describe('Secao', () => {
 
     await user.click(screen.getByLabelText('BRA 01, faltante'));
     expect(onAjustar).toHaveBeenCalledWith('BRA01', 1);
+  });
+
+  it('exibe chevron e estado expandido no cabeçalho', () => {
+    render(
+      <Secao
+        secao={secaoBra}
+        figurinhas={figurinhasBra}
+        contagens={{}}
+        onAjustar={vi.fn()}
+      />,
+    );
+
+    const cabecalho = screen.getByRole('button', { name: /Brasil/ });
+    expect(cabecalho).toHaveAttribute('aria-expanded', 'true');
+    expect(cabecalho.textContent).toContain('▾');
+  });
+
+  it('colapsa ao clicar no cabeçalho, escondendo a grade', async () => {
+    const user = userEvent.setup();
+    render(
+      <Secao
+        secao={secaoBra}
+        figurinhas={figurinhasBra}
+        contagens={{}}
+        onAjustar={vi.fn()}
+      />,
+    );
+
+    const cabecalho = screen.getByRole('button', { name: /Brasil/ });
+    expect(cabecalho).toHaveAttribute('aria-expanded', 'true');
+    expect(screen.getByLabelText('BRA 01, faltante')).toBeInTheDocument();
+
+    await user.click(cabecalho);
+
+    expect(cabecalho).toHaveAttribute('aria-expanded', 'false');
+    expect(cabecalho.textContent).toContain('▸');
+    expect(screen.queryByLabelText('BRA 01, faltante')).not.toBeInTheDocument();
+  });
+
+  it('mantém o resumo visível quando colapsada', async () => {
+    const user = userEvent.setup();
+    render(
+      <Secao
+        secao={secaoBra}
+        figurinhas={figurinhasBra}
+        contagens={{}}
+        onAjustar={vi.fn()}
+      />,
+    );
+
+    const cabecalho = screen.getByRole('button', { name: /Brasil/ });
+    await user.click(cabecalho);
+
+    expect(cabecalho.textContent).toContain('Brasil');
+    expect(cabecalho.textContent).toContain('BRA');
+    expect(cabecalho.textContent).toContain('0/3');
+    expect(cabecalho.textContent).toContain('▢3');
+  });
+
+  it('inclui o estado de colapso no nome acessível', async () => {
+    const user = userEvent.setup();
+    render(
+      <Secao
+        secao={secaoBra}
+        figurinhas={figurinhasBra}
+        contagens={{}}
+        onAjustar={vi.fn()}
+      />,
+    );
+
+    const cabecalhoExpandido = screen.getByRole('button', { name: /expandido/ });
+    expect(cabecalhoExpandido).toBeInTheDocument();
+
+    await user.click(cabecalhoExpandido);
+
+    const cabecalhoColapsado = screen.getByRole('button', { name: /colapsado/ });
+    expect(cabecalhoColapsado).toBeInTheDocument();
+  });
+
+  it('respeita a prop expandida quando controlada', () => {
+    render(
+      <Secao
+        secao={secaoBra}
+        figurinhas={figurinhasBra}
+        contagens={{}}
+        onAjustar={vi.fn()}
+        expandida={false}
+        onToggle={vi.fn()}
+      />,
+    );
+
+    const cabecalho = screen.getByRole('button', { name: /Brasil/ });
+    expect(cabecalho).toHaveAttribute('aria-expanded', 'false');
+    expect(screen.queryByLabelText('BRA 01, faltante')).not.toBeInTheDocument();
   });
 });
