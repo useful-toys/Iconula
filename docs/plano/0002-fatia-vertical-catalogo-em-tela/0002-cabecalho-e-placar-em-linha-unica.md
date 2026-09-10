@@ -3,7 +3,7 @@
 # Tarefa [0002-0002]: cabeçalho com o título e o placar em linha única
 
 ## Status
-Pendente
+Concluída
 
 ## Documentos de referência (ler antes de implementar)
 - `docs/idr/0018-usuario-especialista-e-minimalismo.md` § Decisão — o formato exato do título, os glifos `▢` e `×`, e a regra do nome acessível por extenso
