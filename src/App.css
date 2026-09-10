@@ -11,6 +11,10 @@
   box-sizing: border-box;
 }
 
+.app__conteudo {
+  width: 100%;
+}
+
 .app__auth {
   display: flex;
   justify-content: center;

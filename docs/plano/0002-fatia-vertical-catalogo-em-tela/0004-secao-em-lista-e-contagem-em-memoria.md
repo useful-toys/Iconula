@@ -3,7 +3,7 @@
 # Tarefa [0002-0004]: seção em lista e contagem em memória
 
 ## Status
-Pendente
+Concluída
 
 ## Documentos de referência (ler antes de implementar)
 - `docs/interface.md` § Corpo — cabeçalho de grupo em uma linha, dois pesos, e a grade de figurinhas

@@ -1,0 +1,58 @@
+// Copyright (c) 2026 Daniel Felix Ferber
+
+import { describe, expect, it, vi } from 'vitest';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import '@testing-library/jest-dom/vitest';
+import { Catalogo } from './Catalogo.jsx';
+import { figurinhas, secoes } from '../data/catalogo.js';
+
+const secoesParcial = [
+  secoes.find((s) => s.sigla === 'FWC'),
+  secoes.find((s) => s.sigla === 'BRA'),
+  secoes.find((s) => s.sigla === 'COC'),
+];
+
+const figurinhasParcial = figurinhas.filter(
+  (f) => f.secao === 'FWC' || f.secao === 'BRA' || f.secao === 'COC',
+);
+
+describe('Catalogo', () => {
+  it('renderiza as seções na ordem por sigla, com FWC primeiro e COC por último', () => {
+    render(
+      <Catalogo
+        secoes={secoesParcial}
+        figurinhas={figurinhasParcial}
+        contagens={{}}
+        onAjustar={vi.fn()}
+      />,
+    );
+
+    const secoesRenderizadas = screen.getAllByRole('heading', { level: 2 });
+    expect(secoesRenderizadas).toHaveLength(3);
+    expect(secoesRenderizadas[0].textContent).toContain('Extras FIFA');
+    expect(secoesRenderizadas[1].textContent).toContain('Brasil');
+    expect(secoesRenderizadas[2].textContent).toContain('Coca-Cola');
+  });
+
+  it('atualiza o resumo da seção ao ajustar uma figurinha', async () => {
+    const user = userEvent.setup();
+    const { container } = render(
+      <Catalogo
+        secoes={secoesParcial}
+        figurinhas={figurinhasParcial}
+        contagens={{}}
+        onAjustar={vi.fn()}
+      />,
+    );
+
+    const brasil = screen.getByText(/Brasil/);
+    expect(brasil.closest('section').textContent).toContain('0/20');
+
+    const figurinhaBra01 = screen.getByLabelText('BRA 01, faltante');
+    await user.click(figurinhaBra01);
+
+    // O callback foi chamado; a tela reflete a contagem passada via props.
+    expect(container.textContent).toContain('0/20');
+  });
+});

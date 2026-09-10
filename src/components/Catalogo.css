@@ -1,0 +1,8 @@
+/* Copyright (c) 2026 Daniel Felix Ferber */
+
+.catalogo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--section-gap);
+  padding: var(--body-padding);
+}
