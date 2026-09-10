@@ -3,7 +3,7 @@
 # Tarefa [0001-0002]: escrever o catálogo do álbum em `src/data/`
 
 ## Status
-Pendente
+Concluída
 
 ## Documentos de referência (ler antes de implementar)
 - `docs/requisitos.md` § Anexo: seções do catálogo — a tabela das 48 seleções (código, nome PT-BR, grupo, páginas) e o arranjo da Coca-Cola
@@ -98,18 +98,18 @@ remover `src/data/teams.js`, que ainda serve o botão até a Tarefa 0002-0005.
 
 ## Arquivos impactados
 - `src/data/catalogo.js` — criar
-- `docs/tdr/0010-*.md` — criar (forma do dado, degradação do checklist, ausência de pipeline)
+- `docs/tdr/0010-forma-do-catalogo-degradacao-do-checklist-e-sem-pipeline.md` — criar (forma do dado, degradação do checklist, ausência de pipeline)
 
 ## Critérios de aceite
-- [ ] O catálogo tem exatamente 50 seções e 994 códigos
-- [ ] As 48 seleções batem, linha a linha, com o Anexo de `docs/requisitos.md`
+- [x] O catálogo tem exatamente 50 seções e 994 códigos
+- [x] As 48 seleções batem, linha a linha, com o Anexo de `docs/requisitos.md`
       (código, nome PT-BR, grupo, páginas)
-- [ ] Os grupos batem com a tabela do IDR 0019, seleção por seleção
-- [ ] FWC tem 20 figurinhas e `paginas` nulo; COC tem 14
-- [ ] Toda seleção tem `01` marcada como metalizada e `13` marcada como paisagem
-- [ ] Nenhum nome de figurinha e nenhuma referência a imagem de cromo no dado
-- [ ] Registros ADR/TDR/IDR criados para as decisões tomadas
-- [ ] `docs/plano/0001-fundacao-catalogo-e-assets/logs/0002-log-escrever-o-catalogo-do-album.md` gerado
+- [x] Os grupos batem com a tabela do IDR 0019, seleção por seleção
+- [x] FWC tem 20 figurinhas e `paginas` nulo; COC tem 14
+- [x] Toda seleção tem `01` marcada como metalizada e `13` marcada como paisagem
+- [x] Nenhum nome de figurinha e nenhuma referência a imagem de cromo no dado
+- [x] Registros ADR/TDR/IDR criados para as decisões tomadas
+- [x] `docs/plano/0001-fundacao-catalogo-e-assets/logs/0002-log-escrever-o-catalogo-do-album.md` gerado
 
 ## Validação
 `npm run lint && npm run test && npm run build`.

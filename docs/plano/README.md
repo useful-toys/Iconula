@@ -60,7 +60,7 @@ deliberadamente — é o que mantém o PR da tela pequeno e revisável.
 | # | Tarefa | Objetivo | Status |
 |---|---|---|---|
 | 0001 | [Registrar o plano no AGENTS.md](0001-fundacao-catalogo-e-assets/0001-registrar-o-plano-no-agents.md) | Acrescentar a linha de `docs/plano/` à tabela "Onde fica cada coisa" do `AGENTS.md`. | Concluída |
-| 0002 | [Escrever o catálogo do álbum](0001-fundacao-catalogo-e-assets/0002-escrever-o-catalogo-do-album.md) | 50 seções e 994 códigos com sigla, nome PT-BR, ícone, grupo da Copa e páginas do álbum, transcritos do Anexo de `requisitos.md` e do IDR 0019. | Pendente |
+| 0002 | [Escrever o catálogo do álbum](0001-fundacao-catalogo-e-assets/0002-escrever-o-catalogo-do-album.md) | 50 seções e 994 códigos com sigla, nome PT-BR, ícone, grupo da Copa e páginas do álbum, transcritos do Anexo de `requisitos.md` e do IDR 0019. | Concluída |
 | 0003 | [Derivações e invariantes do catálogo](0001-fundacao-catalogo-e-assets/0003-derivacoes-e-invariantes-do-catalogo.md) | Funções puras de ordenação, agrupamento A–L e layout de página, com testes que travam 994 códigos, 50 seções e 20 por seleção. | Pendente |
 | 0004 | [Vendorizar ícones e tipografia](0001-fundacao-catalogo-e-assets/0004-vendorizar-icones-e-tipografia.md) | SVGs Twemoji de 🏆 e 🥤 e os arquivos da fonte Poppins, servidos pelo próprio Hosting, sem CDN em runtime. | Pendente |
 
