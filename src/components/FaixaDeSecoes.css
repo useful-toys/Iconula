@@ -1,0 +1,54 @@
+/* Copyright (c) 2026 Daniel Felix Ferber */
+
+.faixa-de-secoes {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 8px var(--page-gutter);
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+.faixa-de-secoes::-webkit-scrollbar {
+  height: 6px;
+}
+
+.faixa-de-secoes::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.faixa-de-secoes::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+
+.faixa-de-secoes__botao {
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: none;
+  border-radius: 8px;
+  background: var(--panel);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.15s;
+}
+
+.faixa-de-secoes__botao:hover {
+  background: var(--border);
+}
+
+.faixa-de-secoes__botao:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+.faixa-de-secoes__icone {
+  width: 15px;
+  height: 15px;
+  pointer-events: none;
+}

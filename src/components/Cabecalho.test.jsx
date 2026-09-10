@@ -1,9 +1,10 @@
 // Copyright (c) 2026 Daniel Felix Ferber
 
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/vitest';
 import { Cabecalho } from './Cabecalho.jsx';
+import { secoes } from '../data/catalogo.js';
 
 function textoDaTela() {
   return document.body.textContent;
@@ -17,6 +18,8 @@ describe('Cabecalho', () => {
         faltantes={582}
         repetidas={37}
         percentual={41}
+        secoes={secoes}
+        onSaltar={vi.fn()}
       />,
     );
 
@@ -37,6 +40,8 @@ describe('Cabecalho', () => {
         faltantes={582}
         repetidas={37}
         percentual={41}
+        secoes={secoes}
+        onSaltar={vi.fn()}
       />,
     );
 
@@ -54,6 +59,8 @@ describe('Cabecalho', () => {
         faltantes={994}
         repetidas={0}
         percentual={0}
+        secoes={secoes}
+        onSaltar={vi.fn()}
       />,
     );
 
@@ -71,10 +78,29 @@ describe('Cabecalho', () => {
         faltantes={984}
         repetidas={0}
         percentual={1}
+        secoes={secoes}
+        onSaltar={vi.fn()}
       />,
     );
 
     expect(document.querySelector('progress')).not.toBeInTheDocument();
     expect(document.querySelectorAll('.cartao-estatistica')).toHaveLength(0);
+  });
+
+  it('renderiza a faixa de bandeiras com as 50 seções', () => {
+    render(
+      <Cabecalho
+        coladas={0}
+        faltantes={994}
+        repetidas={0}
+        percentual={0}
+        secoes={secoes}
+        onSaltar={vi.fn()}
+      />,
+    );
+
+    expect(screen.getByRole('navigation', { name: 'Saltar para seção' })).toBeInTheDocument();
+    const botoes = screen.getAllByRole('button');
+    expect(botoes.length).toBeGreaterThanOrEqual(50);
   });
 });

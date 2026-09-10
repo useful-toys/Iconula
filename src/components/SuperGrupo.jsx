@@ -17,10 +17,12 @@ import './SuperGrupo.css';
  * @param {(codigo: string, delta: number) => void} props.onAjustar - callback de ajuste.
  * @param {(sigla: string) => boolean} props.isExpandida - função que retorna se uma seção está expandida.
  * @param {(sigla: string) => void} props.onToggleSecao - callback para alternar colapso de uma seção.
+ * @param {import('react').RefObject<Map>} props.secaoRefs - mapa de refs das seções.
+ * @param {(sigla: string, element: Element|null) => void} props.setSecaoRef - callback para registrar ref de uma seção.
  * @param {import('react').Ref<{ expandir: () => void }>} [props.ref] - ref para abrir programaticamente.
  */
 export const SuperGrupo = forwardRef(function SuperGrupo(
-  { grupo, secoes, figurinhas, contagens, onAjustar, isExpandida, onToggleSecao },
+  { grupo, secoes, figurinhas, contagens, onAjustar, isExpandida, onToggleSecao, setSecaoRef },
   ref,
 ) {
   const [expandido, setExpandido] = useState(true);
@@ -91,15 +93,19 @@ export const SuperGrupo = forwardRef(function SuperGrupo(
       {expandido && (
         <div className="super-grupo__corpo">
           {secoes.map((secao) => (
-            <Secao
+            <div
               key={secao.sigla}
-              secao={secao}
-              figurinhas={figurinhasPorSecao.get(secao.sigla) ?? []}
-              contagens={contagens}
-              onAjustar={onAjustar}
-              expandida={isExpandida(secao.sigla)}
-              onToggle={() => onToggleSecao(secao.sigla)}
-            />
+              ref={(el) => setSecaoRef(secao.sigla, el)}
+            >
+              <Secao
+                secao={secao}
+                figurinhas={figurinhasPorSecao.get(secao.sigla) ?? []}
+                contagens={contagens}
+                onAjustar={onAjustar}
+                expandida={isExpandida(secao.sigla)}
+                onToggle={() => onToggleSecao(secao.sigla)}
+              />
+            </div>
           ))}
         </div>
       )}
