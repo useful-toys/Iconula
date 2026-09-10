@@ -1,12 +1,16 @@
 // Copyright (c) 2026 Daniel Felix Ferber
 
-import { ordenarPorSigla, ordenarPorPagina, extrairSecoes } from '../data/catalogoOrdenacoes.js';
+import { ordenarPorSigla, ordenarPorPagina } from '../data/catalogoOrdenacoes.js';
 import { Secao } from './Secao.jsx';
+import { SuperGrupo } from './SuperGrupo.jsx';
 import './Catalogo.css';
 
 /**
  * Corpo da tela principal: lista as 50 seções do catálogo na ordenação
  * vigente, com FWC abrindo e Coca-Cola fechando (IDR 0028).
+ *
+ * Na ordenação por página, as 48 seleções são agrupadas em 12 super-grupos
+ * A–L (IDR 0019). Na ordenação por sigla, as seções ficam no mesmo nível.
  *
  * @param {object} props
  * @param {Array<object>} props.secoes - seções do catálogo.
@@ -17,7 +21,6 @@ import './Catalogo.css';
  */
 export function Catalogo({ secoes, figurinhas, contagens, onAjustar, ordenacao }) {
   const estruturada = ordenacao === 'pagina' ? ordenarPorPagina(secoes) : ordenarPorSigla(secoes);
-  const ordenadas = extrairSecoes(estruturada);
   const figurinhasPorSecao = new Map();
 
   for (const figurinha of figurinhas) {
@@ -28,15 +31,40 @@ export function Catalogo({ secoes, figurinhas, contagens, onAjustar, ordenacao }
 
   return (
     <main className="catalogo">
-      {ordenadas.map((secao) => (
-        <Secao
-          key={secao.sigla}
-          secao={secao}
-          figurinhas={figurinhasPorSecao.get(secao.sigla) ?? []}
-          contagens={contagens}
-          onAjustar={onAjustar}
-        />
-      ))}
+      {estruturada.map((item) => {
+        // ordenarPorPagina retorna { tipo: 'secao', secao } ou { tipo: 'super-grupo', grupo, secoes }
+        // ordenarPorSigla retorna objetos de seção diretamente
+        const isSecao = item.tipo === 'secao' || item.sigla;
+        const secao = item.tipo === 'secao' ? item.secao : item;
+
+        if (isSecao) {
+          return (
+            <Secao
+              key={secao.sigla}
+              secao={secao}
+              figurinhas={figurinhasPorSecao.get(secao.sigla) ?? []}
+              contagens={contagens}
+              onAjustar={onAjustar}
+            />
+          );
+        }
+        if (item.tipo === 'super-grupo') {
+          const figurinhasDoGrupo = item.secoes.flatMap(
+            (s) => figurinhasPorSecao.get(s.sigla) ?? [],
+          );
+          return (
+            <SuperGrupo
+              key={item.grupo}
+              grupo={item.grupo}
+              secoes={item.secoes}
+              figurinhas={figurinhasDoGrupo}
+              contagens={contagens}
+              onAjustar={onAjustar}
+            />
+          );
+        }
+        return null;
+      })}
     </main>
   );
 }

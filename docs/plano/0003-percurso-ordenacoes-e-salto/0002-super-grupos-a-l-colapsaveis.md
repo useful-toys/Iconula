@@ -3,7 +3,7 @@
 # Tarefa [0003-0002]: super-grupos A–L colapsáveis
 
 ## Status
-Pendente
+Concluída
 
 ## Documentos de referência (ler antes de implementar)
 - `docs/idr/0019-ordem-do-album-agrupada-e-colapsavel.md` § Decisão e § A composição dos grupos — os 12 super-grupos, o título com progresso agregado e o padrão expandido
