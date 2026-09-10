@@ -4,6 +4,7 @@ import { useState, useId } from 'react';
 import { calcularPlacar } from '../lib/progresso.js';
 import { urlDoIcone } from '../lib/bandeira.js';
 import { layoutDeSecao } from '../data/catalogoLayout.js';
+import { filtraFigurinha } from '../lib/colecao.js';
 import { Figurinha } from './Figurinha.jsx';
 import { PaginaDoAlbum } from './PaginaDoAlbum.jsx';
 import './Secao.css';
@@ -97,6 +98,7 @@ function CabecalhoSecao({ secao, codigos, contagens, expandida, onToggle, corpoI
  * @param {boolean} [props.expandida] - se a seção está expandida (controlado); se omitido, usa estado interno.
  * @param {() => void} [props.onToggle] - callback para alternar colapso (controlado).
  * @param {'lista'|'album'} [props.disposicao='lista'] - disposição vigente.
+ * @param {'todas'|'faltantes'|'repetidas'} [props.filtro='todas'] - filtro vigente (só aplica na lista).
  */
 export function Secao({
   secao,
@@ -106,6 +108,7 @@ export function Secao({
   expandida: expandidaProp,
   onToggle: onToggleProp,
   disposicao = 'lista',
+  filtro = 'todas',
 }) {
   const corpoId = useId();
   const codigos = figurinhas.map((f) => f.codigo);
@@ -119,6 +122,11 @@ export function Secao({
   // FWC sempre em lista (IDR 0023)
   const layout = disposicao === 'album' ? layoutDeSecao(secao) : null;
   const usaAlbum = layout !== null;
+
+  // Na lista, aplica o filtro de status (IDR 0001, IDR 0025)
+  const listaFiltrada = usaAlbum
+    ? figurinhas
+    : figurinhas.filter((f) => filtraFigurinha(contagens, f.codigo, filtro));
 
   return (
     <section className="secao">
@@ -142,7 +150,7 @@ export function Secao({
             />
           ) : (
             <div className="secao__grade">
-              {figurinhas.map((figurinha) => (
+              {listaFiltrada.map((figurinha) => (
                 <Figurinha
                   key={figurinha.codigo}
                   codigo={figurinha.codigo}
