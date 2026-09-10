@@ -1,0 +1,45 @@
+/* Copyright (c) 2026 Daniel Felix Ferber */
+
+.cabecalho {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  padding: var(--header-padding);
+  color: var(--cream);
+  background: var(--turf);
+  border-bottom: 1px solid var(--border);
+}
+
+.cabecalho__titulo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35em;
+  margin: 0;
+  font-family: 'Poppins', system-ui, sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.cabecalho__nome {
+  color: var(--gold);
+  letter-spacing: 0.02em;
+}
+
+.cabecalho__numero {
+  font-variant-numeric: tabular-nums;
+  color: var(--cream);
+}
+
+.cabecalho__sep {
+  color: var(--muted);
+  font-weight: 400;
+}
+
+.cabecalho__relogio {
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+  font-weight: 400;
+}
