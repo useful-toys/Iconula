@@ -1,10 +1,23 @@
 // Copyright (c) 2026 Daniel Felix Ferber
 
+import { useState } from 'react';
 import { describe, expect, it, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom/vitest';
 import { Figurinha } from './Figurinha.jsx';
+
+function FigurinhaControlada({ inicial = 0 }) {
+  const [contagem, setContagem] = useState(inicial);
+  return (
+    <Figurinha
+      codigo="BRA05"
+      contagem={contagem}
+      onIncrementar={() => setContagem((atual) => Math.min(99, atual + 1))}
+      onDecrementar={() => setContagem((atual) => Math.max(0, atual - 1))}
+    />
+  );
+}
 
 describe('Figurinha', () => {
   it('renderiza código em duas linhas', () => {
@@ -142,9 +155,8 @@ describe('Figurinha', () => {
     expect(container.textContent).toBe(textoAntes);
   });
 
-  it('não muda a tela ao decrementar em 0 (controle do componente pai)', async () => {
-    const user = userEvent.setup();
-    const { container } = render(
+  it('não renderiza o controle de menos com contagem 0', () => {
+    render(
       <Figurinha
         codigo="BRA05"
         contagem={0}
@@ -153,10 +165,49 @@ describe('Figurinha', () => {
       />,
     );
 
-    const textoAntes = container.textContent;
-    const botaoMenos = screen.getByRole('button', { name: /remover uma unidade de BRA 05/ });
-    await user.click(botaoMenos);
-    expect(container.textContent).toBe(textoAntes);
+    expect(
+      screen.queryByRole('button', { name: /remover uma unidade de BRA 05/ }),
+    ).not.toBeInTheDocument();
+  });
+
+  it('renderiza o controle de menos a partir da contagem 1', () => {
+    const { rerender } = render(
+      <Figurinha
+        codigo="BRA05"
+        contagem={1}
+        onIncrementar={vi.fn()}
+        onDecrementar={vi.fn()}
+      />,
+    );
+    expect(
+      screen.getByRole('button', { name: /remover uma unidade de BRA 05/ }),
+    ).toBeInTheDocument();
+
+    rerender(
+      <Figurinha
+        codigo="BRA05"
+        contagem={2}
+        onIncrementar={vi.fn()}
+        onDecrementar={vi.fn()}
+      />,
+    );
+    expect(
+      screen.getByRole('button', { name: /remover uma unidade de BRA 05/ }),
+    ).toBeInTheDocument();
+  });
+
+  it('remove o controle ao decrementar de 1 para 0 e devolve o foco ao cartão', async () => {
+    const user = userEvent.setup();
+    render(<FigurinhaControlada inicial={1} />);
+
+    await user.click(
+      screen.getByRole('button', { name: /remover uma unidade de BRA 05/ }),
+    );
+
+    expect(
+      screen.queryByRole('button', { name: /remover uma unidade de BRA 05/ }),
+    ).not.toBeInTheDocument();
+    expect(screen.getByLabelText('BRA 05, faltante')).toHaveFocus();
   });
 
   it('descreve o estado por extenso no nome acessível', () => {
