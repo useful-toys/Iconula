@@ -6,9 +6,9 @@ import "@testing-library/jest-dom/vitest";
 
 // Cobre o caso de VITE_FIREBASE_* ausentes (ex.: .env.local não
 // configurado): src/lib/firebase.js detecta a config incompleta e exporta
-// `auth: null` e `app: null` — App.jsx deve renderizar o catálogo sem a
-// área de login e sem persistência, em vez de travar (ver ADR 0005 e
-// ADR 0007).
+// `auth: null` e `app: null`. É modo não suportado (requisitos.md § Dados e
+// isolamento): a tela de login aparece sem botão funcional, e o catálogo
+// nunca fica acessível (Tarefa 0008-0001).
 vi.mock("firebase/auth", () => ({
   onAuthStateChanged: vi.fn(),
   signOut: vi.fn(),
@@ -28,12 +28,11 @@ vi.mock("./components/Catalogo.jsx", () => ({
 import App from "./App";
 
 describe("App com Firebase Auth indisponível", () => {
-  it("renderiza o cabeçalho e o catálogo, sem a área de login", () => {
+  it("mostra a tela de login indisponível, sem botão funcional e sem catálogo", () => {
     render(<App />);
 
-    expect(
-      screen.getByLabelText(/0 de 994, 0 por cento, 994 faltantes, 0 repetidas/),
-    ).toBeInTheDocument();
-    expect(document.querySelector(".app__auth")).not.toBeInTheDocument();
+    expect(screen.queryByTestId("catalogo-mock")).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: /entrar com google/i })).not.toBeInTheDocument();
+    expect(screen.getByText(/login indisponível/i)).toBeInTheDocument();
   });
 });

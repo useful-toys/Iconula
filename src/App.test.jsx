@@ -10,15 +10,18 @@ const {
   signOutMock,
   signInWithGoogleMock,
 } = vi.hoisted(() => ({
-  authState: { user: null, callback: null },
+  authState: { callback: null },
   signOutMock: vi.fn(),
   signInWithGoogleMock: vi.fn(),
 }));
 
+// A emissão não é automática (ao contrário de versões anteriores deste
+// mock): a guarda de login (Tarefa 0008-0001) depende do intervalo entre o
+// primeiro render e a primeira emissão de `onAuthStateChanged` — os testes
+// desse intervalo precisam controlar quando ele chega (ver IDR 0035).
 vi.mock("firebase/auth", () => ({
   onAuthStateChanged: (_auth, callback) => {
     authState.callback = callback;
-    callback(authState.user);
     return () => {
       authState.callback = null;
     };
@@ -51,6 +54,11 @@ vi.mock("./components/Catalogo.jsx", () => ({
 import App from "./App";
 
 const UID = "uid-do-usuario";
+const USUARIO_LOGADO = {
+  uid: UID,
+  displayName: "Daniel Ferber",
+  photoURL: "https://lh3.googleusercontent.com/avatar.jpg",
+};
 
 const CHAVE_PREFERENCIAS = "iconula.preferencias-vista.v1";
 
@@ -61,8 +69,15 @@ async function emitirAuth(user) {
   });
 }
 
+function possuiTelaPrincipal() {
+  return document.querySelector(".app__auth") !== null && screen.queryByTestId("catalogo-mock") !== null;
+}
+
+function possuiBotaoDeLogin() {
+  return screen.queryByRole("button", { name: /entrar com google/i }) !== null;
+}
+
 beforeEach(() => {
-  authState.user = null;
   authState.callback = null;
   localStorage.clear();
 });
@@ -71,29 +86,41 @@ afterEach(() => {
   vi.clearAllMocks();
 });
 
-describe("App", () => {
-  it("renderiza o cabeçalho com a coleção vazia", () => {
+describe("App — guarda de login", () => {
+  it("não mostra login nem catálogo enquanto a sessão ainda não resolveu", () => {
     render(<App />);
 
+    expect(possuiBotaoDeLogin()).toBe(false);
+    expect(possuiTelaPrincipal()).toBe(false);
+    expect(document.querySelector(".app__auth")).not.toBeInTheDocument();
+  });
+
+  it("mostra só a tela de login quando a sessão resolve sem usuário", async () => {
+    render(<App />);
+
+    await emitirAuth(null);
+
+    expect(possuiBotaoDeLogin()).toBe(true);
+    expect(screen.queryByTestId("catalogo-mock")).not.toBeInTheDocument();
+  });
+
+  it("mostra a tela principal quando a sessão resolve com usuário", async () => {
+    render(<App />);
+
+    await emitirAuth(USUARIO_LOGADO);
+
+    expect(possuiTelaPrincipal()).toBe(true);
+    expect(possuiBotaoDeLogin()).toBe(false);
     expect(
       screen.getByLabelText(/0 de 994, 0 por cento, 994 faltantes, 0 repetidas/),
     ).toBeInTheDocument();
   });
 
-  it("mostra a área de login quando não há usuário autenticado", () => {
-    render(<App />);
-    expect(document.querySelector(".app__auth")).toBeInTheDocument();
-  });
-
   it("mostra o nome do usuário e permite sair quando autenticado", async () => {
     const user = userEvent.setup();
-    authState.user = {
-      uid: UID,
-      displayName: "Daniel Ferber",
-      photoURL: "https://lh3.googleusercontent.com/avatar.jpg",
-    };
-
     render(<App />);
+
+    await emitirAuth(USUARIO_LOGADO);
 
     expect(screen.getByText("Daniel Ferber")).toBeInTheDocument();
 
@@ -102,26 +129,26 @@ describe("App", () => {
     expect(signOutMock).toHaveBeenCalledTimes(1);
   });
 
-  it("atualiza a tela ao fazer login e logout", async () => {
+  it("troca da tela principal para a de login ao sair", async () => {
     const user = userEvent.setup();
     render(<App />);
 
-    await emitirAuth({
-      uid: UID,
-      displayName: "Daniel Ferber",
-      photoURL: "https://lh3.googleusercontent.com/avatar.jpg",
-    });
-
-    expect(screen.getByText("Daniel Ferber")).toBeInTheDocument();
+    await emitirAuth(USUARIO_LOGADO);
+    expect(possuiTelaPrincipal()).toBe(true);
 
     await user.click(screen.getByRole("button", { name: "Sair" }));
+    await emitirAuth(null);
 
-    expect(signOutMock).toHaveBeenCalledTimes(1);
+    expect(possuiTelaPrincipal()).toBe(false);
+    expect(possuiBotaoDeLogin()).toBe(true);
   });
+});
 
+describe("App — tela principal", () => {
   it("trocar a ordenação grava a preferência no localStorage", async () => {
     const user = userEvent.setup();
     render(<App />);
+    await emitirAuth(USUARIO_LOGADO);
 
     await user.click(screen.getByRole("button", { name: "ordenar pela sigla da seção" }));
 
@@ -132,13 +159,14 @@ describe("App", () => {
     });
   });
 
-  it("abre com as preferências guardadas na sessão anterior", () => {
+  it("abre com as preferências guardadas na sessão anterior", async () => {
     localStorage.setItem(
       CHAVE_PREFERENCIAS,
       JSON.stringify({ ordenacao: "sigla", disposicao: "lista", filtro: "repetidas" }),
     );
 
     render(<App />);
+    await emitirAuth(USUARIO_LOGADO);
 
     expect(screen.getByRole("button", { name: "ordenar pela sigla da seção" })).toHaveAttribute(
       "aria-pressed",
@@ -157,6 +185,7 @@ describe("App", () => {
   it("o placar do título não muda ao filtrar por coladas", async () => {
     const user = userEvent.setup();
     render(<App />);
+    await emitirAuth(USUARIO_LOGADO);
 
     const placar = () =>
       screen.getByLabelText(/0 de 994, 0 por cento, 994 faltantes, 0 repetidas/);

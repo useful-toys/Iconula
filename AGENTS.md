@@ -168,9 +168,11 @@ npm run preview    # serve o build de produção localmente
 `npm run test:rules` sobe o emulador do Firestore, que roda na JVM: com um
 JDK anterior ao 21 no `PATH`, ele falha por ambiente, não por regra.
 
-`npm run dev` funciona sem nenhuma credencial — sem um `.env.local` com as
-variáveis `VITE_FIREBASE_*` (ver [docs/firebase.md](docs/firebase.md#firebase-authentication)),
-o app roda normalmente, só a área de login não aparece.
+`npm run dev` exige um `.env.local` com as variáveis `VITE_FIREBASE_*` (ver
+[docs/firebase.md](docs/firebase.md#firebase-authentication)): o login é a
+guarda do app (`requisitos.md` § Acesso), e sem essas variáveis a tela de
+login aparece sem botão funcional — modo não suportado, sem caminho para o
+catálogo (ver Tarefa 0008-0001).
 
 ## Como funciona o deploy
 

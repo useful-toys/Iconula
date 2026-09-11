@@ -3,7 +3,7 @@
 # Tarefa [0008-0001]: login como guarda do app
 
 ## Status
-Pendente
+Concluída
 
 ## Documentos de referência (ler antes de implementar)
 - `docs/requisitos.md` § Acesso — "visitante deslogado vê apenas a tela de login — catálogo e coleção não são acessíveis sem autenticar"
@@ -83,14 +83,14 @@ comando de sair, que continua onde está até a Fase 9.
 - `AGENTS.md` — modificar (§ Como rodar)
 
 ## Critérios de aceite
-- [ ] Sem sessão, o catálogo não é renderizado nem acessível por nenhum caminho
-- [ ] Com sessão, a tela principal aparece
-- [ ] Não há piscar da tela de login para quem já está autenticado
-- [ ] Sem `VITE_FIREBASE_*`, o app mostra a tela de login sem oferecer o catálogo
-- [ ] `AGENTS.md` § Como rodar diz que o desenvolvimento exige `.env.local`
-- [ ] Nenhum router e nenhum Context foram introduzidos
-- [ ] Registros ADR/TDR/IDR criados para as decisões tomadas
-- [ ] `docs/plano/0008-acesso-atestacao-e-privacidade/logs/0001-log-login-como-guarda-do-app.md` gerado
+- [x] Sem sessão, o catálogo não é renderizado nem acessível por nenhum caminho
+- [x] Com sessão, a tela principal aparece
+- [x] Não há piscar da tela de login para quem já está autenticado
+- [x] Sem `VITE_FIREBASE_*`, o app mostra a tela de login sem oferecer o catálogo
+- [x] `AGENTS.md` § Como rodar diz que o desenvolvimento exige `.env.local`
+- [x] Nenhum router e nenhum Context foram introduzidos
+- [x] Registros ADR/TDR/IDR criados para as decisões tomadas
+- [x] `docs/plano/0008-acesso-atestacao-e-privacidade/logs/0001-log-login-como-guarda-do-app.md` gerado
 
 ## Validação
 `npm run lint && npm run test && npm run build`.
