@@ -2,7 +2,7 @@
 
 .faixa-de-secoes {
   display: flex;
-  gap: 8px;
+  gap: 4px;
   overflow-x: auto;
   overflow-y: hidden;
   padding: 8px var(--page-gutter);
