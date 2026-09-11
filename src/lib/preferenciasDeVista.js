@@ -22,7 +22,7 @@ const CHAVE = 'iconula.preferencias-vista.v1';
 const DOMINIOS = {
   ordenacao: ['pagina', 'sigla'],
   disposicao: ['lista', 'album'],
-  filtro: ['todas', 'faltantes', 'repetidas'],
+  filtro: ['todas', 'faltantes', 'coladas', 'repetidas'],
 };
 
 const PADROES = {

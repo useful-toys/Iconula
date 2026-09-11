@@ -21,7 +21,7 @@ import './SuperGrupo.css';
  * @param {import('react').RefObject<Map>} props.secaoRefs - mapa de refs das seções.
  * @param {(sigla: string, element: Element|null) => void} props.setSecaoRef - callback para registrar ref de uma seção.
  * @param {'lista'|'album'} [props.disposicao='lista'] - disposição vigente.
- * @param {'todas'|'faltantes'|'repetidas'} [props.filtro='todas'] - filtro vigente.
+ * @param {'todas'|'faltantes'|'coladas'|'repetidas'} [props.filtro='todas'] - filtro vigente.
  * @param {import('react').Ref<{ expandir: () => void }>} [props.ref] - ref para abrir programaticamente.
  */
 export const SuperGrupo = forwardRef(function SuperGrupo(

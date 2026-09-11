@@ -132,7 +132,7 @@ acabamento.
 | # | Tarefa | Objetivo | Status |
 |---|---|---|---|
 | 0001 | [Controle de menos condicionado](0006-ajuste-de-rota/0001-controle-de-menos-condicionado.md) | O menos só existe a partir da contagem 1 e vai para dentro do cartão, no canto inferior esquerdo. | Concluída |
-| 0002 | [Filtro de coladas](0006-ajuste-de-rota/0002-filtro-de-coladas.md) | Quarto valor do filtro de status — contagem ≥ 1 —, entre faltantes e repetidas. | Pendente |
+| 0002 | [Filtro de coladas](0006-ajuste-de-rota/0002-filtro-de-coladas.md) | Quarto valor do filtro de status — contagem ≥ 1 —, entre faltantes e repetidas. | Concluída |
 | 0003 | [Faixa de bandeiras mais compacta](0006-ajuste-de-rota/0003-faixa-de-bandeiras-mais-compacta.md) | Espaçamento entre bandeiras de 8px para 4px, para caber mais seções sem rolar. | Pendente |
 
 ## Fase 7 — Persistência da coleção e avisos

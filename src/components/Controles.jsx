@@ -40,6 +40,11 @@ const FILTROS = [
     nomeAcessivel: 'mostrar apenas as figurinhas faltantes',
   },
   {
+    valor: 'coladas',
+    rotulo: 'Col.',
+    nomeAcessivel: 'mostrar apenas as figurinhas coladas',
+  },
+  {
     valor: 'repetidas',
     rotulo: 'Rep.',
     nomeAcessivel: 'mostrar apenas as figurinhas repetidas',
@@ -48,7 +53,7 @@ const FILTROS = [
 
 /**
  * Linha de controles logo abaixo do t\u00edtulo: grupos segmentados de ordena\u00e7\u00e3o
- * (P\u00e1gina | Sigla), disposi\u00e7\u00e3o (Lista | \u00c1lbum) e filtro (Todas | Falt. |
+ * (P\u00e1gina | Sigla), disposi\u00e7\u00e3o (Lista | \u00c1lbum) e filtro (Todas | Falt. | Col. |
  * Rep.), mais \u00e1rea reservada \u00e0 direita para os comandos que chegam na Fase 9
  * (desfazer e menu).
  *
@@ -59,8 +64,8 @@ const FILTROS = [
  * @param {(ordenacao: 'pagina'|'sigla') => void} props.onTrocarOrdenacao - callback de troca.
  * @param {'lista'|'album'} [props.disposicao='lista'] - disposi\u00e7\u00e3o vigente.
  * @param {(disposicao: 'lista'|'album') => void} [props.onTrocarDisposicao] - callback de troca.
- * @param {'todas'|'faltantes'|'repetidas'} [props.filtro='todas'] - filtro vigente.
- * @param {(filtro: 'todas'|'faltantes'|'repetidas') => void} [props.onTrocarFiltro] - callback de troca de filtro.
+ * @param {'todas'|'faltantes'|'coladas'|'repetidas'} [props.filtro='todas'] - filtro vigente.
+ * @param {(filtro: 'todas'|'faltantes'|'coladas'|'repetidas') => void} [props.onTrocarFiltro] - callback de troca de filtro.
  */
 export function Controles({ ordenacao, onTrocarOrdenacao, disposicao = 'lista', onTrocarDisposicao, filtro = 'todas', onTrocarFiltro }) {
   return (

@@ -47,11 +47,12 @@ export function ajustarContagem(colecao, codigo, delta) {
  *
  * @param {Record<string, number>} colecao
  * @param {string} codigo
- * @param {'todas'|'faltantes'|'repetidas'} filtro
+ * @param {'todas'|'faltantes'|'coladas'|'repetidas'} filtro
  * @returns {boolean} true se a figurinha deve aparecer com o filtro vigente.
  */
 export function filtraFigurinha(colecao, codigo, filtro) {
   if (filtro === 'faltantes') return obterContagem(colecao, codigo) === 0;
+  if (filtro === 'coladas') return obterContagem(colecao, codigo) >= 1;
   if (filtro === 'repetidas') return obterContagem(colecao, codigo) >= 2;
   return true;
 }

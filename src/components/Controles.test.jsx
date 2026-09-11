@@ -109,6 +109,7 @@ describe('Controles', () => {
 
     expect(screen.getByRole('button', { name: 'mostrar todas as figurinhas' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'mostrar apenas as figurinhas faltantes' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'mostrar apenas as figurinhas coladas' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'mostrar apenas as figurinhas repetidas' })).toBeInTheDocument();
   });
 
@@ -126,6 +127,7 @@ describe('Controles', () => {
 
     expect(screen.queryByRole('button', { name: 'mostrar todas as figurinhas' })).not.toBeInTheDocument();
     expect(screen.queryByRole('button', { name: 'mostrar apenas as figurinhas faltantes' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'mostrar apenas as figurinhas coladas' })).not.toBeInTheDocument();
     expect(screen.queryByRole('button', { name: 'mostrar apenas as figurinhas repetidas' })).not.toBeInTheDocument();
   });
 
@@ -136,18 +138,38 @@ describe('Controles', () => {
         onTrocarOrdenacao={vi.fn()}
         disposicao="lista"
         onTrocarDisposicao={vi.fn()}
-        filtro="faltantes"
+        filtro="coladas"
         onTrocarFiltro={vi.fn()}
       />
     );
 
     const todas = screen.getByRole('button', { name: 'mostrar todas as figurinhas' });
     const faltantes = screen.getByRole('button', { name: 'mostrar apenas as figurinhas faltantes' });
+    const coladas = screen.getByRole('button', { name: 'mostrar apenas as figurinhas coladas' });
     const repetidas = screen.getByRole('button', { name: 'mostrar apenas as figurinhas repetidas' });
 
     expect(todas).toHaveAttribute('aria-pressed', 'false');
-    expect(faltantes).toHaveAttribute('aria-pressed', 'true');
+    expect(faltantes).toHaveAttribute('aria-pressed', 'false');
+    expect(coladas).toHaveAttribute('aria-pressed', 'true');
     expect(repetidas).toHaveAttribute('aria-pressed', 'false');
+  });
+
+  it('chama onTrocarFiltro com "coladas" ao clicar em Col.', async () => {
+    const user = userEvent.setup();
+    const onTrocar = vi.fn();
+    render(
+      <Controles
+        ordenacao="pagina"
+        onTrocarOrdenacao={vi.fn()}
+        disposicao="lista"
+        onTrocarDisposicao={vi.fn()}
+        filtro="todas"
+        onTrocarFiltro={onTrocar}
+      />
+    );
+
+    await user.click(screen.getByRole('button', { name: 'mostrar apenas as figurinhas coladas' }));
+    expect(onTrocar).toHaveBeenCalledWith('coladas');
   });
 
   it('chama onTrocarFiltro ao clicar em uma opção de filtro', async () => {

@@ -23,7 +23,7 @@ import './Catalogo.css';
  * @param {(codigo: string, delta: number) => void} props.onAjustar - callback de ajuste.
  * @param {'pagina'|'sigla'} props.ordenacao - ordenação vigente.
  * @param {'lista'|'album'} [props.disposicao='lista'] - disposição vigente.
- * @param {'todas'|'faltantes'|'repetidas'} [props.filtro='todas'] - filtro vigente.
+ * @param {'todas'|'faltantes'|'coladas'|'repetidas'} [props.filtro='todas'] - filtro vigente.
  * @param {() => void} [props.onLimparFiltro] - callback para voltar o filtro para "todas".
  * @param {import('react').Ref<{ saltarPara: (sigla: string) => void }>} [props.ref] - ref para saltar para uma seção.
  */

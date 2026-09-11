@@ -36,6 +36,16 @@ describe('preferenciasDeVista', () => {
     });
   });
 
+  it('restaura o filtro "coladas" na abertura seguinte', () => {
+    gravarPreferenciasDeVista({
+      ordenacao: 'pagina',
+      disposicao: 'lista',
+      filtro: 'coladas',
+    });
+
+    expect(lerPreferenciasDeVista().filtro).toBe('coladas');
+  });
+
   it('grava apenas um subconjunto e restaura os padrões no resto', () => {
     gravarPreferenciasDeVista({ ordenacao: 'sigla', disposicao: 'lista', filtro: 'todas' });
 
