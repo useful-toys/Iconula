@@ -21,15 +21,19 @@ import {
   carregarColecao,
   gravarAlteracoes,
   gravarAtestacao,
+  gravarImportacao,
   formatarCarimbo,
   mensagemDeErro,
 } from "./lib/colecaoRemota.js";
 import { criarGravacaoAgregada } from "./lib/gravacaoAgregada.js";
 import { gerarTextoFaltantes, gerarTextoRepetidas } from "./lib/textoDeTroca.js";
-import { gerarExportacao, nomeDoArquivoExportado } from "./lib/portabilidade.js";
+import { gerarExportacao, nomeDoArquivoExportado, validarImportacao } from "./lib/portabilidade.js";
 import { emitirAviso, SEVERIDADE } from "./lib/avisos.js";
 
 const codigosTodasFigurinhas = figurinhas.map((f) => f.codigo);
+// Conjunto dos códigos válidos, para a importação descartar o que não
+// pertence ao catálogo atual (Tarefa 0009-0005, IDR 0041).
+const codigosValidos = new Set(codigosTodasFigurinhas);
 // Ordem fixa do álbum (FWC abre, COC fecha) para os textos de troca —
 // sempre a mesma, independente da ordenação vigente na tela, para que a
 // lista colada seja comparável entre pessoas (IDR 0039).
@@ -70,6 +74,9 @@ export default function App() {
   // se o usuário ajustar contagens enquanto a leitura está em voo, a resposta do
   // servidor é descartada.
   const ajustesRef = useRef(0);
+  // Input de arquivo oculto que abre o seletor nativo para "Importar"
+  // (Tarefa 0009-0005) — sem tela própria (IDR 0041).
+  const arquivoImportacaoRef = useRef(null);
 
   // Gravação agregada (ADR 0008, IDR 0003): uma instância por sessão de App,
   // criada uma única vez (inicializador preguiçoso do useState, como
@@ -322,6 +329,79 @@ export default function App() {
     }
   }
 
+  // Importar coleção de JSON (Tarefa 0009-0005): abre o seletor nativo de
+  // arquivo — sem tela própria (IDR 0041). O processamento de fato
+  // acontece em `handleArquivoEscolhido`, ao trocar o input.
+  function handleImportar() {
+    arquivoImportacaoRef.current?.click();
+  }
+
+  // Valida antes de qualquer efeito; só um arquivo válido chega a
+  // perguntar (confirmação mínima, `window.confirm`, IDR 0041). Aplica
+  // substituindo `contagens` por inteiro, descarta o histórico de
+  // desfazer (a coleção anterior deixou de existir) e grava numa única
+  // escrita dedicada (`gravarImportacao`) — o pendente da gravação
+  // agregada é descartado antes, para uma escrita antiga não reintroduzir
+  // o que a importação apagou.
+  async function handleArquivoEscolhido(evento) {
+    const arquivo = evento.target.files?.[0];
+    evento.target.value = ''; // permite escolher o mesmo arquivo de novo depois
+    if (!arquivo) return;
+
+    const texto = await arquivo.text();
+    const resultado = validarImportacao(texto, codigosValidos);
+
+    if (resultado.status === 'invalido') {
+      emitirAviso({
+        severidade: SEVERIDADE.AVISO,
+        mensagem: `Arquivo inválido — ${resultado.motivo}`,
+        tipo: 'importar',
+      });
+      return;
+    }
+
+    const confirmado = window.confirm(
+      'Importar este arquivo substitui toda a coleção atual e não pode ser desfeito. Continuar?',
+    );
+    if (!confirmado) return;
+
+    ajustesRef.current += 1;
+    gravacaoAgregada.descartarPendencias();
+    setContagens(resultado.contagens);
+    setHistorico([]);
+
+    if (resultado.descartadas > 0) {
+      emitirAviso({
+        severidade: SEVERIDADE.AVISO,
+        mensagem: `${resultado.descartadas} figurinha(s) do arquivo não existem no catálogo atual e foram descartadas`,
+        tipo: 'importar',
+      });
+    }
+
+    const escrita = await gravarImportacao(uid, resultado.contagens, {
+      aoEsperar: () => {
+        emitirAviso({
+          severidade: SEVERIDADE.AVISO,
+          mensagem: 'Conexão instável — sincronizando quando possível',
+          tipo: 'importar',
+        });
+      },
+    });
+
+    if (escrita.status === 'erro') {
+      emitirAviso({
+        severidade: SEVERIDADE.FALHA,
+        mensagem: 'Falha ao gravar a importação — toque para detalhes',
+        detalhe: mensagemDeErro(escrita.erro),
+        tipo: 'importar',
+      });
+      return;
+    }
+
+    setAtualizadoEm(formatarCarimbo(escrita.atualizadoEm));
+    emitirAviso({ severidade: SEVERIDADE.SUCESSO, mensagem: 'Coleção importada', tipo: 'importar' });
+  }
+
   function handleSaltar(sigla) {
     if (catalogoRef.current) {
       catalogoRef.current.saltarPara(sigla);
@@ -407,6 +487,14 @@ export default function App() {
         onCopiarFaltantes={handleCopiarFaltantes}
         onCopiarRepetidas={handleCopiarRepetidas}
         onExportar={handleExportar}
+        onImportar={handleImportar}
+      />
+      <input
+        ref={arquivoImportacaoRef}
+        type="file"
+        accept="application/json"
+        hidden
+        onChange={handleArquivoEscolhido}
       />
       <Catalogo
         ref={catalogoRef}

@@ -260,4 +260,51 @@ describe('criarGravacaoAgregada', () => {
       expect(aoConcluir).toHaveBeenCalledTimes(1);
     });
   });
+
+  describe('descartarPendencias (Tarefa 0009-0005)', () => {
+    it('esvazia a fila: um flush seguinte não grava nada', async () => {
+      instancia.registrarAjuste('u1', 'BRA01', 1);
+
+      instancia.descartarPendencias();
+      await instancia.flush();
+
+      expect(gravar).not.toHaveBeenCalled();
+      expect(instancia.temPendencia()).toBe(false);
+    });
+
+    it('cancela o debounce e o teto agendados', async () => {
+      instancia.registrarAjuste('u1', 'BRA01', 1);
+      instancia.descartarPendencias();
+
+      await vi.advanceTimersByTimeAsync(15000);
+
+      expect(gravar).not.toHaveBeenCalled();
+    });
+
+    it('descarta também a marca de apagar teamName', async () => {
+      instancia.marcarTeamNameParaApagar('u1');
+      instancia.registrarAjuste('u1', 'BRA01', 1);
+
+      instancia.descartarPendencias();
+      await instancia.flush();
+
+      expect(gravar).not.toHaveBeenCalled();
+    });
+
+    it('sem nenhuma pendência, não faz nada de mais', () => {
+      expect(() => instancia.descartarPendencias()).not.toThrow();
+      expect(instancia.temPendencia()).toBe(false);
+    });
+
+    it('uma rajada de ajustes depois do descarte agenda debounce e teto de novo', async () => {
+      instancia.registrarAjuste('u1', 'BRA01', 1);
+      instancia.descartarPendencias();
+
+      instancia.registrarAjuste('u1', 'FWC01', 1);
+      await vi.advanceTimersByTimeAsync(2000);
+
+      expect(gravar).toHaveBeenCalledTimes(1);
+      expect(gravar).toHaveBeenCalledWith('u1', { FWC01: 1 });
+    });
+  });
 });

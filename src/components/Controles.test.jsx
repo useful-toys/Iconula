@@ -265,4 +265,25 @@ describe('Controles', () => {
     await user.click(screen.getByRole('button', { name: /menu de ações/ }));
     expect(screen.getByRole('menuitem', { name: 'Exportar coleção (JSON)' })).toBeDisabled();
   });
+
+  it('repassa onImportar ao menu de ações', async () => {
+    const user = userEvent.setup();
+    const onImportar = vi.fn();
+    render(<Controles ordenacao="pagina" onTrocarOrdenacao={vi.fn()} onSignOut={vi.fn()} onImportar={onImportar} />);
+
+    await user.click(screen.getByRole('button', { name: /menu de ações/ }));
+    const item = screen.getByRole('menuitem', { name: 'Importar coleção (JSON)' });
+    expect(item).toBeEnabled();
+
+    await user.click(item);
+    expect(onImportar).toHaveBeenCalledTimes(1);
+  });
+
+  it('sem onImportar, o item de importar fica desabilitado', async () => {
+    const user = userEvent.setup();
+    render(<Controles ordenacao="pagina" onTrocarOrdenacao={vi.fn()} onSignOut={vi.fn()} />);
+
+    await user.click(screen.getByRole('button', { name: /menu de ações/ }));
+    expect(screen.getByRole('menuitem', { name: 'Importar coleção (JSON)' })).toBeDisabled();
+  });
 });

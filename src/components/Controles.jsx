@@ -73,6 +73,7 @@ const FILTROS = [
  * @param {() => void} [props.onCopiarFaltantes] - copia o texto de troca das faltantes (Tarefa 0009-0003); sem ele, o item do menu fica desabilitado.
  * @param {() => void} [props.onCopiarRepetidas] - copia o texto de troca das repetidas (Tarefa 0009-0003); sem ele, o item do menu fica desabilitado.
  * @param {() => void} [props.onExportar] - exporta a coleção em JSON (Tarefa 0009-0004); sem ele, o item do menu fica desabilitado.
+ * @param {() => void} [props.onImportar] - importa a coleção de um arquivo JSON (Tarefa 0009-0005); sem ele, o item do menu fica desabilitado.
  */
 export function Controles({
   ordenacao,
@@ -87,6 +88,7 @@ export function Controles({
   onCopiarFaltantes,
   onCopiarRepetidas,
   onExportar,
+  onImportar,
 }) {
   return (
     <div className="controles">
@@ -163,6 +165,7 @@ export function Controles({
             onCopiarFaltantes={onCopiarFaltantes}
             onCopiarRepetidas={onCopiarRepetidas}
             onExportar={onExportar}
+            onImportar={onImportar}
           />
         )}
       </div>
