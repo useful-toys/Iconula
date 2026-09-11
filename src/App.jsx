@@ -10,10 +10,11 @@ import { Controles } from "./components/Controles.jsx";
 import { Catalogo } from "./components/Catalogo.jsx";
 import { Avisos } from "./components/Avisos.jsx";
 import { auth, app } from "./lib/firebase";
-import { ajustarContagem } from "./lib/colecao.js";
+import { ajustarContagem, obterContagem } from "./lib/colecao.js";
 import { calcularPlacar } from "./lib/progresso.js";
 import { lerPreferenciasDeVista, gravarPreferenciasDeVista } from "./lib/preferenciasDeVista.js";
-import { carregarColecao, formatarCarimbo, mensagemDeErro } from "./lib/colecaoRemota.js";
+import { carregarColecao, gravarAlteracoes, formatarCarimbo, mensagemDeErro } from "./lib/colecaoRemota.js";
+import { criarGravacaoAgregada } from "./lib/gravacaoAgregada.js";
 import { emitirAviso, SEVERIDADE } from "./lib/avisos.js";
 
 const codigosTodasFigurinhas = figurinhas.map((f) => f.codigo);
@@ -35,6 +36,38 @@ export default function App() {
   // Marca da era do botão: documento ainda tem `teamName`? Consumida pela
   // primeira gravação do schema novo (Tarefa 0007-0004).
   const temTeamNameRef = useRef(false);
+
+  // Gravação agregada (ADR 0008, IDR 0003): uma instância por sessão de App,
+  // criada uma única vez (inicializador preguiçoso do useState, como
+  // `inicial` acima — nunca chamamos o setter). Fica em `App.jsx`, não em
+  // Context: continua sendo o único ponto que lê e escreve a coleção
+  // (TDR 0014, revisitado nesta tarefa).
+  const [gravacaoAgregada] = useState(() =>
+    criarGravacaoAgregada({
+      gravar: gravarAlteracoes,
+      aoConcluir: (resultado) => {
+        setAtualizadoEm(formatarCarimbo(resultado.atualizadoEm));
+        emitirAviso({ severidade: SEVERIDADE.SUCESSO, mensagem: 'Coleção gravada', tipo: 'gravacao' });
+      },
+    }),
+  );
+
+  // Flush garantido ao ocultar/fechar a página (ADR 0008): a escrita fica
+  // enfileirada no cache local do SDK e sobrevive ao fechamento da aba.
+  useEffect(() => {
+    function flush() {
+      gravacaoAgregada.flush();
+    }
+    function flushSeOculta() {
+      if (document.visibilityState === 'hidden') flush();
+    }
+    window.addEventListener('pagehide', flush);
+    document.addEventListener('visibilitychange', flushSeOculta);
+    return () => {
+      window.removeEventListener('pagehide', flush);
+      document.removeEventListener('visibilitychange', flushSeOculta);
+    };
+  }, [gravacaoAgregada]);
 
   useEffect(() => {
     if (!auth) return;
@@ -98,7 +131,21 @@ export default function App() {
 
   function handleAjustar(codigo, delta) {
     ajustesRef.current += 1;
-    setContagens((anterior) => ajustarContagem(anterior, codigo, delta));
+    setContagens((anterior) => {
+      const nova = ajustarContagem(anterior, codigo, delta);
+      if (uid) {
+        gravacaoAgregada.registrarAjuste(uid, codigo, obterContagem(nova, codigo));
+      }
+      return nova;
+    });
+  }
+
+  // Sair da conta dá flush antes do `signOut`: depois dele o ID token some e
+  // as regras negam a escrita — a gravação pendente precisa ir embora
+  // primeiro, senão o logout descarta ajustes (ADR 0008).
+  async function handleSignOut() {
+    await gravacaoAgregada.flush();
+    await signOut(auth);
   }
 
   function handleSaltar(sigla) {
@@ -123,7 +170,7 @@ export default function App() {
     <div className="app">
       {auth && (
         <div className="app__auth">
-          <AuthStatus user={user} onSignOut={() => signOut(auth)} />
+          <AuthStatus user={user} onSignOut={handleSignOut} />
         </div>
       )}
       <Cabecalho

@@ -141,7 +141,7 @@ acabamento.
 |---|---|---|---|
 | 0001 | [Área de avisos com três severidades](0007-persistencia-da-colecao-e-avisos/0001-area-de-avisos-com-tres-severidades.md) | Faixa flutuante na borda inferior; sucesso e aviso somem em 5s, falha persiste e revela o detalhe técnico. | Concluída |
 | 0002 | [Carga no login e relógio do título](0007-persistencia-da-colecao-e-avisos/0002-carga-no-login-e-relogio-do-titulo.md) | Uma leitura por login; o `updatedAt` do documento vai para o título, exibindo `—` quando não existe. | Concluída |
-| 0003 | [Gravação agregada com flush](0007-persistencia-da-colecao-e-avisos/0003-gravacao-agregada-com-flush.md) | Debounce, teto de espera, escrita por chaves alteradas, cache IndexedDB e flush ao fechar a página. | Pendente |
+| 0003 | [Gravação agregada com flush](0007-persistencia-da-colecao-e-avisos/0003-gravacao-agregada-com-flush.md) | Debounce, teto de espera, escrita por chaves alteradas, cache IndexedDB e flush ao fechar a página. | Concluída |
 | 0004 | [Migração do teamName](0007-persistencia-da-colecao-e-avisos/0004-migracao-do-teamname.md) | A primeira gravação do schema novo apaga o campo com `deleteField`, sem tela nem aviso próprios. | Pendente |
 | 0005 | [Política de erro visível](0007-persistencia-da-colecao-e-avisos/0005-politica-de-erro-visivel.md) | Falha não trava a interface; sem rede, aviso "será gravado depois" após ~5s. | Pendente |
 

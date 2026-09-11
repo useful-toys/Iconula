@@ -3,7 +3,7 @@
 # Tarefa [0007-0003]: gravação agregada com flush garantido
 
 ## Status
-Pendente
+Concluída
 
 ## Documentos de referência (ler antes de implementar)
 - `docs/adr/0008-schema-da-colecao-mapa-esparso.md` § Decisão — debounce ~2s, teto ~10s, escrita por chaves alteradas, `deleteField`, flush em `pagehide`/`visibilitychange`, flush antes do `signOut`, `increment()` descartado
@@ -97,15 +97,15 @@ chega na Fase 9 — aqui basta a garantia de flush estar disponível para ele.
 - `docs/tdr/00NN-estado-da-colecao-sem-context.md` — modificar (revisão do passo 7)
 
 ## Critérios de aceite
-- [ ] Uma rajada de ajustes gera uma única escrita, comprovado por teste
-- [ ] Atividade contínua grava ao atingir o teto de espera, sem esperar a rajada acabar
-- [ ] A escrita contém apenas as chaves alteradas, com `deleteField` para as zeradas
-- [ ] `updatedAt` vai como `serverTimestamp()` e é aceito pelas regras
-- [ ] `pagehide` e `visibilitychange` forçam a gravação pendente
-- [ ] O flush acontece antes do `signOut`, nunca depois
-- [ ] Gravação bem-sucedida move o relógio e emite aviso de sucesso
-- [ ] Registros ADR/TDR/IDR criados ou atualizados para as decisões tomadas
-- [ ] `docs/plano/0007-persistencia-da-colecao-e-avisos/logs/0003-log-gravacao-agregada-com-flush.md` gerado
+- [x] Uma rajada de ajustes gera uma única escrita, comprovado por teste
+- [x] Atividade contínua grava ao atingir o teto de espera, sem esperar a rajada acabar
+- [x] A escrita contém apenas as chaves alteradas, com `deleteField` para as zeradas
+- [x] `updatedAt` vai como `serverTimestamp()` e é aceito pelas regras
+- [x] `pagehide` e `visibilitychange` forçam a gravação pendente
+- [x] O flush acontece antes do `signOut`, nunca depois
+- [x] Gravação bem-sucedida move o relógio e emite aviso de sucesso
+- [x] Registros ADR/TDR/IDR criados ou atualizados para as decisões tomadas
+- [x] `docs/plano/0007-persistencia-da-colecao-e-avisos/logs/0003-log-gravacao-agregada-com-flush.md` gerado
 
 ## Validação
 `npm run lint && npm run test && npm run build`.

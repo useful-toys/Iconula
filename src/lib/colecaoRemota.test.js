@@ -1,7 +1,7 @@
 // Copyright (c) 2026 Daniel Felix Ferber
 
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { carregarColecao, formatarCarimbo, mensagemDeErro } from './colecaoRemota.js';
+import { carregarColecao, gravarAlteracoes, formatarCarimbo, mensagemDeErro } from './colecaoRemota.js';
 
 const state = vi.hoisted(() => ({ app: {} }));
 
@@ -11,12 +11,18 @@ vi.mock('./firebase.js', () => ({
   },
 }));
 
+const CAMPO_APAGAR = Symbol('deleteField');
+const CARIMBO_SERVIDOR = Symbol('serverTimestamp');
+
 const firestore = vi.hoisted(() => ({
   initializeFirestore: vi.fn(),
   persistentLocalCache: vi.fn(),
   persistentMultipleTabManager: vi.fn(),
   doc: vi.fn(),
   getDoc: vi.fn(),
+  setDoc: vi.fn(),
+  deleteField: vi.fn(),
+  serverTimestamp: vi.fn(),
 }));
 
 vi.mock('firebase/firestore', () => ({
@@ -25,6 +31,9 @@ vi.mock('firebase/firestore', () => ({
   persistentMultipleTabManager: firestore.persistentMultipleTabManager,
   doc: firestore.doc,
   getDoc: firestore.getDoc,
+  setDoc: firestore.setDoc,
+  deleteField: firestore.deleteField,
+  serverTimestamp: firestore.serverTimestamp,
 }));
 
 beforeEach(() => {
@@ -32,6 +41,12 @@ beforeEach(() => {
   firestore.doc.mockReset();
   firestore.getDoc.mockReset();
   firestore.doc.mockReturnValue({});
+  firestore.setDoc.mockReset();
+  firestore.setDoc.mockResolvedValue(undefined);
+  firestore.deleteField.mockReset();
+  firestore.deleteField.mockReturnValue(CAMPO_APAGAR);
+  firestore.serverTimestamp.mockReset();
+  firestore.serverTimestamp.mockReturnValue(CARIMBO_SERVIDOR);
 });
 
 describe('carregarColecao', () => {
@@ -115,6 +130,64 @@ describe('carregarColecao', () => {
     expect(resultado.status).toBe('encontrado');
     expect(resultado.contagens).toEqual({});
     expect(resultado.temTeamName).toBe(false);
+  });
+});
+
+describe('gravarAlteracoes', () => {
+  it('grava valores absolutos e updatedAt como serverTimestamp, com merge:true', async () => {
+    const resultado = await gravarAlteracoes('u1', { BRA01: 3 });
+
+    expect(firestore.setDoc).toHaveBeenCalledTimes(1);
+    expect(firestore.setDoc).toHaveBeenCalledWith(
+      {},
+      { contagens: { BRA01: 3 }, updatedAt: CARIMBO_SERVIDOR },
+      { merge: true },
+    );
+    expect(resultado.status).toBe('sucesso');
+    expect(resultado.atualizadoEm).toBeInstanceOf(Date);
+  });
+
+  it('usa deleteField para a chave que chegou a zero', async () => {
+    await gravarAlteracoes('u1', { BRA01: 3, FWC01: 0 });
+
+    expect(firestore.deleteField).toHaveBeenCalledTimes(1);
+    expect(firestore.setDoc).toHaveBeenCalledWith(
+      {},
+      { contagens: { BRA01: 3, FWC01: CAMPO_APAGAR }, updatedAt: CARIMBO_SERVIDOR },
+      { merge: true },
+    );
+  });
+
+  it('grava só as chaves alteradas, nunca o mapa inteiro', async () => {
+    await gravarAlteracoes('u1', { BRA05: 1 });
+
+    const [, dados] = firestore.setDoc.mock.calls[0];
+    expect(Object.keys(dados.contagens)).toEqual(['BRA05']);
+  });
+
+  it('não escreve nada quando não há alterações', async () => {
+    const resultado = await gravarAlteracoes('u1', {});
+
+    expect(firestore.setDoc).not.toHaveBeenCalled();
+    expect(resultado.status).toBe('sucesso');
+  });
+
+  it('devolve erro quando a escrita falha', async () => {
+    firestore.setDoc.mockRejectedValue(new Error('unavailable'));
+
+    const resultado = await gravarAlteracoes('u1', { BRA01: 1 });
+
+    expect(resultado.status).toBe('erro');
+    expect(resultado.erro).toBeInstanceOf(Error);
+  });
+
+  it('devolve indisponível quando não há app configurado', async () => {
+    state.app = null;
+
+    const resultado = await gravarAlteracoes('u1', { BRA01: 1 });
+
+    expect(resultado).toEqual({ status: 'indisponivel' });
+    expect(firestore.setDoc).not.toHaveBeenCalled();
   });
 });
 

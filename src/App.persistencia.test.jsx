@@ -28,12 +28,14 @@ vi.mock("./lib/firebase", () => ({
 
 const colecao = vi.hoisted(() => ({
   carregarColecao: vi.fn(),
+  gravarAlteracoes: vi.fn(),
   formatarCarimbo: vi.fn(),
   mensagemDeErro: vi.fn(),
 }));
 
 vi.mock("./lib/colecaoRemota.js", () => ({
   carregarColecao: colecao.carregarColecao,
+  gravarAlteracoes: colecao.gravarAlteracoes,
   formatarCarimbo: colecao.formatarCarimbo,
   mensagemDeErro: colecao.mensagemDeErro,
 }));
@@ -59,6 +61,8 @@ beforeEach(() => {
   authState.callback = null;
   catalogo.props = null;
   colecao.carregarColecao.mockReset();
+  colecao.gravarAlteracoes.mockReset();
+  colecao.gravarAlteracoes.mockResolvedValue({ status: "sucesso", atualizadoEm: new Date() });
   colecao.formatarCarimbo.mockImplementation((d) => (d ? "14:05" : "—"));
   colecao.mensagemDeErro.mockImplementation((e) => e?.message ?? "erro");
   limparAvisos();
