@@ -1,0 +1,86 @@
+/* Copyright (c) 2026 Daniel Felix Ferber */
+
+/*
+ * Ordem de empilhamento (docs/interface.md § Camadas):
+ *   1. cabeçalho sticky — z-index 10 (Cabecalho.css)
+ *   2. área de avisos   — z-index 20 (este arquivo)
+ *   3. menu de ações    — z-index 30 (chega na Fase 9; deve vir acima daqui)
+ */
+.avisos {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+}
+
+.avisos__faixa {
+  display: flex;
+  align-items: center;
+  padding: 12px var(--page-gutter);
+  border-top: 2px solid;
+  box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.4);
+  color: var(--cream);
+}
+
+.avisos__faixa--sucesso {
+  background: oklch(0.32 0.1 150);
+  border-color: var(--green-card);
+}
+
+.avisos__faixa--aviso {
+  background: oklch(0.34 0.13 80);
+  border-color: var(--gold);
+}
+
+.avisos__faixa--falha {
+  background: oklch(0.3 0.15 25);
+  border-color: var(--notif-red);
+}
+
+.avisos__mensagem {
+  flex: 1;
+  min-width: 0;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.avisos__mensagem--botao {
+  appearance: none;
+  background: none;
+  border: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  padding: 0;
+  cursor: pointer;
+}
+
+.avisos__texto {
+  display: block;
+}
+
+.avisos__detalhe {
+  display: block;
+  margin-top: 4px;
+  font-family: ui-monospace, 'Cascadia Mono', 'Segoe UI Mono', Consolas, monospace;
+  font-size: 11px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  opacity: 0.85;
+}
+
+.avisos__dispensar {
+  flex: none;
+  margin-left: 12px;
+  padding: 4px;
+  background: none;
+  border: none;
+  color: var(--cream);
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0.8;
+}

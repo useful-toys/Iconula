@@ -8,6 +8,7 @@ import AuthStatus from "./components/AuthStatus";
 import { Cabecalho } from "./components/Cabecalho.jsx";
 import { Controles } from "./components/Controles.jsx";
 import { Catalogo } from "./components/Catalogo.jsx";
+import { Avisos } from "./components/Avisos.jsx";
 import { auth } from "./lib/firebase";
 import { ajustarContagem } from "./lib/colecao.js";
 import { calcularPlacar } from "./lib/progresso.js";
@@ -97,6 +98,7 @@ export default function App() {
         filtro={filtro}
         onLimparFiltro={() => setFiltro('todas')}
       />
+      <Avisos />
     </div>
   );
 }

@@ -3,7 +3,7 @@
 # Tarefa [0007-0001]: área de avisos com três severidades
 
 ## Status
-Pendente
+Concluída
 
 ## Documentos de referência (ler antes de implementar)
 - `docs/idr/0029-avisos-flutuantes-com-tres-severidades.md` § Decisão e § Consequências — flutuante na borda inferior, sucesso e aviso em 5s, falha persistente, nunca log com scroll
@@ -95,14 +95,14 @@ diante); avisos das ações do menu (Fase 9).
 - `docs/idr/00NN-limite-de-empilhamento-dos-avisos.md` — criar (próximo número livre)
 
 ## Critérios de aceite
-- [ ] As três severidades renderizam com as cores e medidas de `docs/interface.md` § Avisos
-- [ ] Sucesso e aviso somem em 5s; a falha permanece
-- [ ] A falha some quando a operação seguinte do mesmo tipo tem sucesso
-- [ ] Tocar na falha expande o detalhe técnico; o `×` fica isolado e não é acionado por engano
-- [ ] Nenhuma faixa tem rolagem própria e o empilhamento tem limite
-- [ ] A faixa passa por cima do cabeçalho sticky e não empurra o layout
-- [ ] Registros ADR/TDR/IDR criados para as decisões tomadas
-- [ ] `docs/plano/0007-persistencia-da-colecao-e-avisos/logs/0001-log-area-de-avisos-com-tres-severidades.md` gerado
+- [x] As três severidades renderizam com as cores e medidas de `docs/interface.md` § Avisos
+- [x] Sucesso e aviso somem em 5s; a falha permanece
+- [x] A falha some quando a operação seguinte do mesmo tipo tem sucesso
+- [x] Tocar na falha expande o detalhe técnico; o `×` fica isolado e não é acionado por engano
+- [x] Nenhuma faixa tem rolagem própria e o empilhamento tem limite
+- [x] A faixa passa por cima do cabeçalho sticky e não empurra o layout
+- [x] Registros ADR/TDR/IDR criados para as decisões tomadas
+- [x] `docs/plano/0007-persistencia-da-colecao-e-avisos/logs/0001-log-area-de-avisos-com-tres-severidades.md` gerado
 
 ## Validação
 `npm run lint && npm run test && npm run build`.
