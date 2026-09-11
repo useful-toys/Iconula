@@ -25,9 +25,14 @@ import {
   mensagemDeErro,
 } from "./lib/colecaoRemota.js";
 import { criarGravacaoAgregada } from "./lib/gravacaoAgregada.js";
+import { gerarTextoFaltantes, gerarTextoRepetidas } from "./lib/textoDeTroca.js";
 import { emitirAviso, SEVERIDADE } from "./lib/avisos.js";
 
 const codigosTodasFigurinhas = figurinhas.map((f) => f.codigo);
+// Ordem fixa do álbum (FWC abre, COC fecha) para os textos de troca —
+// sempre a mesma, independente da ordenação vigente na tela, para que a
+// lista colada seja comparável entre pessoas (IDR 0039).
+const secoesNaOrdemDoAlbum = extrairSecoes(ordenarPorPagina(secoes));
 
 export default function App() {
   const [user, setUser] = useState(null);
@@ -260,6 +265,35 @@ export default function App() {
     await signOut(auth);
   }
 
+  // Copia um texto de troca para a área de transferência (Tarefa 0009-0003).
+  // Sucesso avisa "Lista copiada"; indisponível ou negada é aviso dourado,
+  // nunca falha (IDR 0029) — e o texto não se perde: aparece num
+  // `window.prompt()` pronto para copiar manualmente (IDR 0039).
+  async function copiarParaAreaDeTransferencia(texto, tipo) {
+    try {
+      if (!navigator.clipboard) throw new Error('Área de transferência indisponível');
+      await navigator.clipboard.writeText(texto);
+      emitirAviso({ severidade: SEVERIDADE.SUCESSO, mensagem: 'Lista copiada', tipo });
+    } catch {
+      emitirAviso({
+        severidade: SEVERIDADE.AVISO,
+        mensagem: 'Área de transferência indisponível — copie o texto que apareceu na tela',
+        tipo,
+      });
+      window.prompt('Copie o texto (Ctrl+C ou Cmd+C):', texto);
+    }
+  }
+
+  function handleCopiarFaltantes() {
+    const texto = gerarTextoFaltantes(contagens, secoesNaOrdemDoAlbum, figurinhas);
+    copiarParaAreaDeTransferencia(texto, 'copiar-faltantes');
+  }
+
+  function handleCopiarRepetidas() {
+    const texto = gerarTextoRepetidas(contagens, secoesNaOrdemDoAlbum, figurinhas);
+    copiarParaAreaDeTransferencia(texto, 'copiar-repetidas');
+  }
+
   function handleSaltar(sigla) {
     if (catalogoRef.current) {
       catalogoRef.current.saltarPara(sigla);
@@ -342,6 +376,8 @@ export default function App() {
         podeDesfazer={historico.length > 0}
         onDesfazer={handleDesfazer}
         onSignOut={handleSignOut}
+        onCopiarFaltantes={handleCopiarFaltantes}
+        onCopiarRepetidas={handleCopiarRepetidas}
       />
       <Catalogo
         ref={catalogoRef}

@@ -70,6 +70,8 @@ const FILTROS = [
  * @param {boolean} [props.podeDesfazer=false] - h\u00e1 hist\u00f3rico para desfazer? (IDR 0012)
  * @param {() => void} [props.onDesfazer] - callback do bot\u00e3o de desfazer; sem ele, o bot\u00e3o n\u00e3o aparece.
  * @param {() => void} [props.onSignOut] - grava o pendente e sai da conta (Tarefa 0009-0002); sem ele, o menu de a\u00e7\u00f5es n\u00e3o aparece.
+ * @param {() => void} [props.onCopiarFaltantes] - copia o texto de troca das faltantes (Tarefa 0009-0003); sem ele, o item do menu fica desabilitado.
+ * @param {() => void} [props.onCopiarRepetidas] - copia o texto de troca das repetidas (Tarefa 0009-0003); sem ele, o item do menu fica desabilitado.
  */
 export function Controles({
   ordenacao,
@@ -81,6 +83,8 @@ export function Controles({
   podeDesfazer = false,
   onDesfazer,
   onSignOut,
+  onCopiarFaltantes,
+  onCopiarRepetidas,
 }) {
   return (
     <div className="controles">
@@ -151,7 +155,13 @@ export function Controles({
             ↺
           </button>
         )}
-        {onSignOut && <MenuDeAcoes onSignOut={onSignOut} />}
+        {onSignOut && (
+          <MenuDeAcoes
+            onSignOut={onSignOut}
+            onCopiarFaltantes={onCopiarFaltantes}
+            onCopiarRepetidas={onCopiarRepetidas}
+          />
+        )}
       </div>
     </div>
   );
