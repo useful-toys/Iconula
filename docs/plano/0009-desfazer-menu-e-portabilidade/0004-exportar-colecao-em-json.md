@@ -3,7 +3,7 @@
 # Tarefa [0009-0004]: exportar a coleção em JSON
 
 ## Status
-Pendente
+Concluída
 
 ## Documentos de referência (ler antes de implementar)
 - `docs/requisitos.md` § Portabilidade (sem lock-in) — o formato `{ "versao": 1, "geradoEm": <ISO 8601>, "contagens": { "BRA05": 3 } }`, lossless, versionado, sem dados pessoais
@@ -79,14 +79,14 @@ incluir estatísticas ou listas de troca no arquivo.
 - `src/App.jsx` — modificar
 
 ## Critérios de aceite
-- [ ] O arquivo tem exatamente `versao`, `geradoEm` (ISO 8601) e `contagens`
-- [ ] Contagens zeradas não aparecem no arquivo
-- [ ] Nenhum dado pessoal (uid, e-mail, nome, foto) está no arquivo
-- [ ] Exportar acontece em dois toques, sem diálogo nem etapa adicional
-- [ ] Sucesso emite aviso; falha emite faixa vermelha com detalhe
-- [ ] Nenhuma requisição ao Firestore é disparada por exportar
-- [ ] Registros ADR/TDR/IDR criados para as decisões tomadas
-- [ ] `docs/plano/0009-desfazer-menu-e-portabilidade/logs/0004-log-exportar-colecao-em-json.md` gerado
+- [x] O arquivo tem exatamente `versao`, `geradoEm` (ISO 8601) e `contagens`
+- [x] Contagens zeradas não aparecem no arquivo
+- [x] Nenhum dado pessoal (uid, e-mail, nome, foto) está no arquivo
+- [x] Exportar acontece em dois toques, sem diálogo nem etapa adicional
+- [x] Sucesso emite aviso; falha emite faixa vermelha com detalhe
+- [x] Nenhuma requisição ao Firestore é disparada por exportar
+- [x] Registros ADR/TDR/IDR criados para as decisões tomadas (IDR 0040)
+- [x] `docs/plano/0009-desfazer-menu-e-portabilidade/logs/0004-log-exportar-colecao-em-json.md` gerado
 
 ## Validação
 `npm run lint && npm run test && npm run build`.

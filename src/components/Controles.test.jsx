@@ -244,4 +244,25 @@ describe('Controles', () => {
     expect(screen.getByRole('menuitem', { name: 'Copiar lista de faltantes' })).toBeDisabled();
     expect(screen.getByRole('menuitem', { name: 'Copiar lista de repetidas' })).toBeDisabled();
   });
+
+  it('repassa onExportar ao menu de ações', async () => {
+    const user = userEvent.setup();
+    const onExportar = vi.fn();
+    render(<Controles ordenacao="pagina" onTrocarOrdenacao={vi.fn()} onSignOut={vi.fn()} onExportar={onExportar} />);
+
+    await user.click(screen.getByRole('button', { name: /menu de ações/ }));
+    const item = screen.getByRole('menuitem', { name: 'Exportar coleção (JSON)' });
+    expect(item).toBeEnabled();
+
+    await user.click(item);
+    expect(onExportar).toHaveBeenCalledTimes(1);
+  });
+
+  it('sem onExportar, o item de exportar fica desabilitado', async () => {
+    const user = userEvent.setup();
+    render(<Controles ordenacao="pagina" onTrocarOrdenacao={vi.fn()} onSignOut={vi.fn()} />);
+
+    await user.click(screen.getByRole('button', { name: /menu de ações/ }));
+    expect(screen.getByRole('menuitem', { name: 'Exportar coleção (JSON)' })).toBeDisabled();
+  });
 });

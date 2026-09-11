@@ -72,6 +72,7 @@ const FILTROS = [
  * @param {() => void} [props.onSignOut] - grava o pendente e sai da conta (Tarefa 0009-0002); sem ele, o menu de a\u00e7\u00f5es n\u00e3o aparece.
  * @param {() => void} [props.onCopiarFaltantes] - copia o texto de troca das faltantes (Tarefa 0009-0003); sem ele, o item do menu fica desabilitado.
  * @param {() => void} [props.onCopiarRepetidas] - copia o texto de troca das repetidas (Tarefa 0009-0003); sem ele, o item do menu fica desabilitado.
+ * @param {() => void} [props.onExportar] - exporta a coleção em JSON (Tarefa 0009-0004); sem ele, o item do menu fica desabilitado.
  */
 export function Controles({
   ordenacao,
@@ -85,6 +86,7 @@ export function Controles({
   onSignOut,
   onCopiarFaltantes,
   onCopiarRepetidas,
+  onExportar,
 }) {
   return (
     <div className="controles">
@@ -160,6 +162,7 @@ export function Controles({
             onSignOut={onSignOut}
             onCopiarFaltantes={onCopiarFaltantes}
             onCopiarRepetidas={onCopiarRepetidas}
+            onExportar={onExportar}
           />
         )}
       </div>
