@@ -3,7 +3,7 @@
 # Tarefa [0008-0004]: política de privacidade e rodapé de marcas
 
 ## Status
-Pendente
+Concluída
 
 ## Documentos de referência (ler antes de implementar)
 - `docs/requisitos.md` § Privacidade — o que a política precisa declarar: dados tratados, finalidade, retenção, direitos do titular, canal de contato e o tratamento de dados de menores
@@ -94,15 +94,15 @@ nova de dado; adicionar a política ao menu de ações da Fase 9.
 - `docs/idr/00NN-politica-no-rodape-depois-de-autenticado.md` — criar (próximo número livre)
 
 ## Critérios de aceite
-- [ ] A política é alcançável a partir da tela de login, sem sessão
-- [ ] A política é alcançável a partir do rodapé da tela principal
-- [ ] O conteúdo declara dados tratados, finalidade, retenção, direitos e canal de contato
-- [ ] O tratamento de dados de menores está declarado, ligado à atestação
-- [ ] Voltar retorna à tela de origem sem depender do histórico do navegador
-- [ ] Nenhum router foi introduzido
-- [ ] O rodapé de marcas aparece nas duas telas, com o filete só na principal
-- [ ] Registros ADR/TDR/IDR criados para as decisões tomadas
-- [ ] `docs/plano/0008-acesso-atestacao-e-privacidade/logs/0004-log-politica-de-privacidade-e-rodape.md` gerado
+- [x] A política é alcançável a partir da tela de login, sem sessão
+- [x] A política é alcançável a partir do rodapé da tela principal
+- [x] O conteúdo declara dados tratados, finalidade, retenção, direitos e canal de contato
+- [x] O tratamento de dados de menores está declarado, ligado à atestação
+- [x] Voltar retorna à tela de origem sem depender do histórico do navegador
+- [x] Nenhum router foi introduzido
+- [x] O rodapé de marcas aparece nas duas telas, com o filete só na principal
+- [x] Registros ADR/TDR/IDR criados para as decisões tomadas
+- [x] `docs/plano/0008-acesso-atestacao-e-privacidade/logs/0004-log-politica-de-privacidade-e-rodape.md` gerado
 
 ## Validação
 `npm run lint && npm run test && npm run build`.

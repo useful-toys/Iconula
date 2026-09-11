@@ -7,10 +7,12 @@ import { ordenarPorSigla, ordenarPorPagina, extrairSecoes } from "./data/catalog
 import AuthStatus from "./components/AuthStatus";
 import TelaDeLogin from "./components/TelaDeLogin.jsx";
 import Atestacao from "./components/Atestacao.jsx";
+import PoliticaDePrivacidade from "./components/PoliticaDePrivacidade.jsx";
 import { Cabecalho } from "./components/Cabecalho.jsx";
 import { Controles } from "./components/Controles.jsx";
 import { Catalogo } from "./components/Catalogo.jsx";
 import { Avisos } from "./components/Avisos.jsx";
+import { Rodape } from "./components/Rodape.jsx";
 import { auth, app } from "./lib/firebase";
 import { ajustarContagem, obterContagem } from "./lib/colecao.js";
 import { calcularPlacar } from "./lib/progresso.js";
@@ -42,6 +44,10 @@ export default function App() {
   // e atestação nunca disputam uma tela própria de espera, o mesmo
   // tratamento que a carga já dá às contagens.
   const [precisaAtestar, setPrecisaAtestar] = useState(false);
+  // Vista interna da política de privacidade (Tarefa 0008-0004, TDR 0020):
+  // sem router — checada antes de qualquer outro ramo de retorno, para
+  // voltar sempre cair na tela que o restante do estado já determinaria.
+  const [mostrarPolitica, setMostrarPolitica] = useState(false);
   // Preferências de vista lidas uma vez na abertura (IDR 0026)
   const [inicial] = useState(() => lerPreferenciasDeVista());
   const [ordenacao, setOrdenacao] = useState(inicial.ordenacao);
@@ -243,6 +249,13 @@ export default function App() {
 
   const placar = calcularPlacar(contagens, codigosTodasFigurinhas);
 
+  // Vista da política de privacidade (Tarefa 0008-0004, TDR 0020): checada
+  // antes de qualquer outro ramo — fechar (`onVoltar`) apenas desliga o
+  // estado e devolve para a tela que os ramos abaixo já mostrariam.
+  if (mostrarPolitica) {
+    return <PoliticaDePrivacidade onVoltar={() => setMostrarPolitica(false)} />;
+  }
+
   // Guarda de login (Tarefa 0008-0001, requisitos.md § Acesso): sem sessão,
   // só a tela de login existe — catálogo e coleção nunca ficam acessíveis
   // por nenhum caminho. Três telas, mutuamente exclusivas:
@@ -272,7 +285,7 @@ export default function App() {
   if (!user) {
     // Tela desenhada em docs/interface.md § Tela de login (Tarefa
     // 0008-0002) — não mais o AuthStatus genérico.
-    return <TelaDeLogin />;
+    return <TelaDeLogin onAbrirPolitica={() => setMostrarPolitica(true)} />;
   }
 
   if (precisaAtestar) {
@@ -313,6 +326,7 @@ export default function App() {
         onLimparFiltro={() => setFiltro('todas')}
       />
       <Avisos />
+      <Rodape onAbrirPolitica={() => setMostrarPolitica(true)} />
     </div>
   );
 }
