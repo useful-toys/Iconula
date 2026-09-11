@@ -3,7 +3,7 @@
 # Tarefa [0006-0003]: faixa de bandeiras mais compacta
 
 ## Status
-Pendente
+Concluída
 
 ## Documentos de referência (ler antes de implementar)
 - `docs/interface.md` § Medidas — faixa de bandeiras: ícones de 30×30px, raio 8px, **espaçamento 4px**, glifo de 15px
