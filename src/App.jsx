@@ -26,6 +26,7 @@ import {
 } from "./lib/colecaoRemota.js";
 import { criarGravacaoAgregada } from "./lib/gravacaoAgregada.js";
 import { gerarTextoFaltantes, gerarTextoRepetidas } from "./lib/textoDeTroca.js";
+import { gerarExportacao, nomeDoArquivoExportado } from "./lib/portabilidade.js";
 import { emitirAviso, SEVERIDADE } from "./lib/avisos.js";
 
 const codigosTodasFigurinhas = figurinhas.map((f) => f.codigo);
@@ -294,6 +295,33 @@ export default function App() {
     copiarParaAreaDeTransferencia(texto, 'copiar-repetidas');
   }
 
+  // Exporta a coleção em JSON (Tarefa 0009-0004): baixa direto, sem
+  // diálogo — "sem etapas adicionais" (requisitos.md, IDR 0040). Zero
+  // requisição: lê `contagens` em memória, nada do Firestore.
+  function handleExportar() {
+    try {
+      const exportacao = gerarExportacao(contagens);
+      const blob = new Blob([JSON.stringify(exportacao, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      try {
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = nomeDoArquivoExportado();
+        link.click();
+      } finally {
+        URL.revokeObjectURL(url);
+      }
+      emitirAviso({ severidade: SEVERIDADE.SUCESSO, mensagem: 'Coleção exportada', tipo: 'exportar' });
+    } catch (erro) {
+      emitirAviso({
+        severidade: SEVERIDADE.FALHA,
+        mensagem: 'Falha ao exportar — toque para detalhes',
+        detalhe: mensagemDeErro(erro),
+        tipo: 'exportar',
+      });
+    }
+  }
+
   function handleSaltar(sigla) {
     if (catalogoRef.current) {
       catalogoRef.current.saltarPara(sigla);
@@ -378,6 +406,7 @@ export default function App() {
         onSignOut={handleSignOut}
         onCopiarFaltantes={handleCopiarFaltantes}
         onCopiarRepetidas={handleCopiarRepetidas}
+        onExportar={handleExportar}
       />
       <Catalogo
         ref={catalogoRef}

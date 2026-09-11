@@ -8,10 +8,10 @@ import './MenuDeAcoes.css';
  * cópias para a área de transferência, exportar/importar e sair da conta,
  * em três blocos separados por filete.
  *
- * Copiar faltantes/repetidas (Tarefa 0009-0003) e "sair da conta" (Tarefa
- * 0009-0002) têm ação real; exportar/importar chegam nas Tarefas 0009-0004
- * e 0009-0005 — sem o callback correspondente, o item fica presente e
- * desabilitado, nunca aparentando funcionar.
+ * Copiar faltantes/repetidas (Tarefa 0009-0003), exportar (Tarefa
+ * 0009-0004) e "sair da conta" (Tarefa 0009-0002) têm ação real; importar
+ * chega na Tarefa 0009-0005 — sem o callback correspondente, o item fica
+ * presente e desabilitado, nunca aparentando funcionar.
  *
  * Fecha ao escolher um item, ao tocar fora do popup ou com `Esc`. Ao abrir,
  * o foco entra no primeiro item *habilitado* (um item sem callback nunca
