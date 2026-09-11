@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { signInWithGoogle } from "../lib/firebase";
 import googleLogo from "../assets/google-logo.svg";
+import "./LoginButton.css";
 
 // Botão próprio, com o SDK modular — o widget do FirebaseUI foi removido
 // (ver ADR 0005). Para um único provedor e um único botão, o widget

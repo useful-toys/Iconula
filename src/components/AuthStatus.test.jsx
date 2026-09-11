@@ -5,22 +5,12 @@ import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 import "@testing-library/jest-dom/vitest";
 
-// AuthStatus é testado isolado do Firebase: LoginButton (o
-// único componente que toca o SDK) é substituído por um stub.
-vi.mock("./LoginButton", () => ({
-  default: () => <div data-testid="login-button" />,
-}));
-
 import AuthStatus from "./AuthStatus";
 
+// Desde a Tarefa 0008-0002, AuthStatus só é usado na tela principal, sempre
+// com um usuário autenticado — o caso deslogado é TelaDeLogin.jsx.
 describe("AuthStatus", () => {
-  it("mostra o botão de login quando não há usuário", () => {
-    render(<AuthStatus user={null} onSignOut={vi.fn()} />);
-
-    expect(screen.getByTestId("login-button")).toBeInTheDocument();
-  });
-
-  it("mostra nome, avatar e botão de sair quando há usuário", async () => {
+  it("mostra nome, avatar e botão de sair", async () => {
     const user = userEvent.setup();
     const onSignOut = vi.fn();
     const authenticatedUser = {

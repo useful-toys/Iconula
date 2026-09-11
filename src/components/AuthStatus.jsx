@@ -1,15 +1,11 @@
 // Copyright (c) 2026 Daniel Felix Ferber
 
-import LoginButton from "./LoginButton";
-
 // Componente puramente controlado por props, sem import direto do
-// Firebase — mantém os testes simples (ver AuthStatus.test.jsx) e deixa
-// LoginButton.jsx isolado como o único ponto que toca o SDK do Firebase.
+// Firebase. Desde a Tarefa 0008-0002, só é usado na tela principal — a tela
+// de login é `TelaDeLogin.jsx`, que usa `LoginButton.jsx` diretamente (o
+// único ponto que toca o SDK do Firebase) — por isso `AuthStatus` sempre
+// recebe um usuário autenticado, sem ramo para o caso deslogado.
 export default function AuthStatus({ user, onSignOut }) {
-  if (!user) {
-    return <LoginButton />;
-  }
-
   return (
     <div className="auth-status">
       <img
