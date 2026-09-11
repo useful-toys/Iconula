@@ -153,6 +153,7 @@ acabamento.
 | 0002 | [Tela de login](0008-acesso-atestacao-e-privacidade/0002-tela-de-login.md) | Cartão centrado, botão do Google, textos exatos e link da política acessível antes de autenticar. | Concluída |
 | 0003 | [Atestação de menores](0008-acesso-atestacao-e-privacidade/0003-atestacao-de-menores.md) | Um clique por conta, gravado uma única vez e sem mexer no `updatedAt`. | Concluída |
 | 0004 | [Política de privacidade e rodapé](0008-acesso-atestacao-e-privacidade/0004-politica-de-privacidade-e-rodape.md) | Conteúdo LGPD como vista interna, sem router, e o aviso de independência no rodapé das duas telas. | Concluída |
+| 0005 | [Corrige regras de atestação sobre documento existente](0008-acesso-atestacao-e-privacidade/0005-corrige-regras-de-atestacao-sobre-documento-existente.md) | Achado em uso no preview do PR #24: `allow update` validava o documento resultante inteiro, não a operação — corrigido com `diff().affectedKeys()`. | Concluída |
 
 ## Fase 9 — Desfazer, menu de ações e portabilidade
 

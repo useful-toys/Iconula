@@ -42,7 +42,24 @@ service cloud.firestore {
       // fora sem cláusula especial: um update com `deleteField` o remove
       // do documento, e o `hasOnly` passa porque o campo já não está em
       // `request.resource.data`.
-      allow create, update: if request.auth != null
+      //
+      // `create` e `update` viraram duas regras separadas (Tarefa
+      // 0008-0005 — achado em uso: `auth/insufficient-permissions` ao
+      // gravar a atestação numa conta que já tinha `contagens` e
+      // `updatedAt`). O motivo: num `update` com `merge: true` (como a
+      // gravação da atestação, ADR 0008), `request.resource.data` é o
+      // documento **resultante inteiro**, não só os campos escritos nesta
+      // operação — os campos antigos preservados pelo merge aparecem
+      // junto. A validação original checava `"X" in request.resource.data`
+      // (está no resultado?), quando o que importa é `"X" in
+      // request.resource.data.diff(resource.data).affectedKeys()` (foi
+      // *esta* operação que escreveu X?). Sem essa distinção, gravar só
+      // `atestadoEm` sobre um documento com `updatedAt` antigo (preservado
+      // pelo merge, não reescrito) falhava a checagem `updatedAt ==
+      // request.time` — o valor antigo nunca é `request.time`. Num
+      // `create` a distinção não existe (`request.resource.data` já É só
+      // o que está sendo escrito), por isso essa regra continua simples.
+      allow create: if request.auth != null
         && request.auth.uid == userId
         && request.resource.data.keys().hasOnly([
           "contagens",
@@ -92,6 +109,42 @@ service cloud.firestore {
         // do primeiro login — sozinho, sem `updatedAt` junto (ADR 0008).
         // Basta exigir que seja timestamp.
         && (!("atestadoEm" in request.resource.data)
+          || request.resource.data.atestadoEm is timestamp);
+
+      // Mesmas regras do `create` acima, mas cada cláusula pergunta "esta
+      // operação escreveu este campo?" (`diff(resource.data)
+      // .affectedKeys()`), não "este campo está no documento resultante?"
+      // — é essa troca que resolve a Tarefa 0008-0005. `hasOnly` continua
+      // sobre o documento inteiro: nenhum campo estranho (ex.: `teamName`
+      // remanescente) pode sobreviver a um `update`, escrito nesta
+      // operação ou não.
+      allow update: if request.auth != null
+        && request.auth.uid == userId
+        && request.resource.data.keys().hasOnly([
+          "contagens",
+          "updatedAt",
+          "atestadoEm",
+        ])
+        && (!("contagens" in request.resource.data.diff(resource.data).affectedKeys()) || (
+          request.resource.data.contagens is map
+          && request.resource.data.contagens.size() <= 994
+          && request.resource.data.contagens.values().hasOnly([
+            1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+            11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+            21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+            31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
+            41, 42, 43, 44, 45, 46, 47, 48, 49, 50,
+            51, 52, 53, 54, 55, 56, 57, 58, 59, 60,
+            61, 62, 63, 64, 65, 66, 67, 68, 69, 70,
+            71, 72, 73, 74, 75, 76, 77, 78, 79, 80,
+            81, 82, 83, 84, 85, 86, 87, 88, 89, 90,
+            91, 92, 93, 94, 95, 96, 97, 98, 99,
+          ])
+          && "updatedAt" in request.resource.data.diff(resource.data).affectedKeys()
+        ))
+        && (!("updatedAt" in request.resource.data.diff(resource.data).affectedKeys())
+          || request.resource.data.updatedAt == request.time)
+        && (!("atestadoEm" in request.resource.data.diff(resource.data).affectedKeys())
           || request.resource.data.atestadoEm is timestamp);
     }
 
