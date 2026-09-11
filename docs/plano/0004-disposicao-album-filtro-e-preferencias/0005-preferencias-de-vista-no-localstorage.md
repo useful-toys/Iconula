@@ -47,7 +47,7 @@ nenhuma requisição ao Firestore e sem quebrar quando o storage não existe.
    inválido cai no padrão.
 
 **Fora do escopo**: definir quais são os padrões por faixa de tela — isso é a
-Tarefa 0009-0003; aqui os padrões são os provisórios já em uso.
+Tarefa 0010-0003; aqui os padrões são os provisórios já em uso.
 
 ## Decisões já tomadas (não reabrir)
 - Preferências de vista no `localStorage`, por dispositivo — ver `docs/idr/0026-preferencias-de-vista-persistidas-no-navegador.md`

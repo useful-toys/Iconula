@@ -8,7 +8,7 @@ Aceito. A pendência de reforço não-cromático foi resolvida: faltante =
 cartão esvaziado (opacidade reduzida, borda tracejada), colada =
 preenchido — registrado em interface.md.
 
-Três pontos foram revistos depois:
+Quatro pontos foram revistos depois:
 
 - O selo `×N` conta as **unidades sobrando** (contagem − 1), não a
   contagem — [IDR 0021](0021-selo-conta-unidades-sobrando.md); a
@@ -20,6 +20,9 @@ Três pontos foram revistos depois:
 - As cores exatas dos três estados são as da paleta do
   [IDR 0022](0022-tema-escuro-unico-paleta-do-prototipo.md), em
   interface.md
+- O "ícone de menos que surge no canto" ganhou condição e lugar
+  definidos — só existe com contagem ≥ 1 e fica dentro do cartão, no
+  canto inferior esquerdo ([IDR 0032](0032-controle-de-menos-so-com-unidade-e-dentro-do-cartao.md))
 
 ## Contexto
 

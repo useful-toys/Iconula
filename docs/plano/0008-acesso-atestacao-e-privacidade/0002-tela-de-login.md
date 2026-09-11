@@ -1,6 +1,6 @@
 <!-- Copyright (c) 2026 Daniel Felix Ferber -->
 
-# Tarefa [0007-0002]: tela de login conforme `interface.md`
+# Tarefa [0008-0002]: tela de login conforme `interface.md`
 
 ## Status
 Pendente
@@ -44,17 +44,17 @@ política acessível sem autenticar.
    `interface.md`; preservar o tratamento de erro e as exceções de cancelamento
    que o ADR 0006 estabeleceu.
 4. Rodapé com o aviso de independência e marcas, sem filete superior.
-5. O link da política aponta para a vista da Tarefa 0007-0004 e funciona sem
+5. O link da política aponta para a vista da Tarefa 0008-0004 e funciona sem
    sessão — é requisito, não conveniência.
 6. Nesta tarefa a frase da atestação é **texto informativo** junto ao botão, como
-   no protótipo; o passo explícito de atestação é a Tarefa 0007-0003, que decide o
+   no protótipo; o passo explícito de atestação é a Tarefa 0008-0003, que decide o
    fluxo. Não implementar o clique de atestação aqui.
 7. Testes: os textos exatos estão na tela; o link da política é acionável sem
    sessão; falha de login mostra alerta; popup fechado pelo usuário não mostra
    nada.
 
 **Fora do escopo**: o passo de atestação e a gravação de `atestadoEm`
-(Tarefa 0007-0003); o conteúdo da política (Tarefa 0007-0004); qualquer provedor
+(Tarefa 0008-0003); o conteúdo da política (Tarefa 0008-0004); qualquer provedor
 de login além do Google.
 
 ## Decisões já tomadas (não reabrir)
@@ -96,7 +96,7 @@ de login além do Google.
 - [ ] Falha de login mostra mensagem em `role="alert"`; fechar o popup não mostra nada
 - [ ] O rodapé de marcas aparece na tela de login, sem filete superior
 - [ ] Registros ADR/TDR/IDR criados para as decisões tomadas
-- [ ] `docs/plano/0007-acesso-atestacao-e-privacidade/logs/0002-log-tela-de-login.md` gerado
+- [ ] `docs/plano/0008-acesso-atestacao-e-privacidade/logs/0002-log-tela-de-login.md` gerado
 
 ## Validação
 `npm run lint && npm run test && npm run build`.

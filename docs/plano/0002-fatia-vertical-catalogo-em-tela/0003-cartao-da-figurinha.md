@@ -5,6 +5,11 @@
 ## Status
 Concluída
 
+Revista pela Tarefa 0006-0001: o controle de menos passou a existir só a
+partir da contagem 1 e mudou para dentro do cartão, no canto inferior
+esquerdo (IDR 0032). O que está escrito abaixo sobre o menos é o estado
+anterior.
+
 ## Documentos de referência (ler antes de implementar)
 - `docs/idr/0006-estados-visuais-e-interacao-da-figurinha.md` § Decisão e § Consequências — os três estados, o toque que soma, o ícone de menos, e a exigência de reforço não-cromático
 - `docs/idr/0021-selo-conta-unidades-sobrando.md` § Decisão — `×N` são as unidades sobrando (contagem − 1), a partir da contagem 2, com caixa fixa de dois dígitos
@@ -57,9 +62,9 @@ código, contagem e os dois callbacks, e não conhece a coleção.
    callbacks e recebe a contagem já limitada. Cobrir com teste que, em 99, um
    toque não muda a tela, e que em 0 o menos não muda nada.
 
-**Fora do escopo**: a fonte da contagem (Tarefa 0002-0004); desfazer (Fase 8); a
+**Fora do escopo**: a fonte da contagem (Tarefa 0002-0004); desfazer (Fase 9); a
 disposição álbum e o tamanho paisagem da figurinha 13 (Fase 4); estados de foco e
-hover refinados (Tarefa 0009-0001).
+hover refinados (Tarefa 0010-0001).
 
 ## Decisões já tomadas (não reabrir)
 - Três estados por cor mais reforço não-cromático — ver `docs/idr/0006-estados-visuais-e-interacao-da-figurinha.md`

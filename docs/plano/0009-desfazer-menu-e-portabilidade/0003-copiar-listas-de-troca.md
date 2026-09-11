@@ -1,6 +1,6 @@
 <!-- Copyright (c) 2026 Daniel Felix Ferber -->
 
-# Tarefa [0008-0003]: copiar listas de faltantes e de repetidas
+# Tarefa [0009-0003]: copiar listas de faltantes e de repetidas
 
 ## Status
 Pendente
@@ -41,7 +41,7 @@ do menu.
    figurinhas com contagem ≥ 2.
 4. Seções sem nada a listar não aparecem no texto — uma linha vazia por seção
    seria ruído num grupo de troca.
-5. Ligar os dois comandos do menu (Tarefa 0008-0002) à cópia para a área de
+5. Ligar os dois comandos do menu (Tarefa 0009-0002) à cópia para a área de
    transferência, com aviso de sucesso "lista copiada".
 6. Área de transferência indisponível ou negada: aviso dourado, e o texto
    continua obtenível — no mínimo, sem perder o trabalho do usuário.
@@ -50,7 +50,7 @@ do menu.
    cópia indisponível emite aviso, não falha; nenhuma requisição é disparada.
 
 **Fora do escopo**: importar lista colada do WhatsApp, que é requisito futuro;
-export/import JSON (Tarefas 0008-0004 e 0008-0005); abrir o WhatsApp.
+export/import JSON (Tarefas 0009-0004 e 0009-0005); abrir o WhatsApp.
 
 ## Decisões já tomadas (não reabrir)
 - Entrega por copiar, sem abrir o WhatsApp — ver `docs/requisitos.md` § Compartilhamento
@@ -93,7 +93,7 @@ export/import JSON (Tarefas 0008-0004 e 0008-0005); abrir o WhatsApp.
 - [ ] Copiar emite aviso de sucesso; área de transferência indisponível emite aviso dourado
 - [ ] Nenhuma requisição ao Firestore é disparada por copiar
 - [ ] Registros ADR/TDR/IDR criados para as decisões tomadas
-- [ ] `docs/plano/0008-desfazer-menu-e-portabilidade/logs/0003-log-copiar-listas-de-troca.md` gerado
+- [ ] `docs/plano/0009-desfazer-menu-e-portabilidade/logs/0003-log-copiar-listas-de-troca.md` gerado
 
 ## Validação
 `npm run lint && npm run test && npm run build`.

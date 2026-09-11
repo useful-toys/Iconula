@@ -5,6 +5,10 @@
 ## Status
 Concluída
 
+Revista pela Tarefa 0006-0002: o filtro ganhou um quarto valor, coladas
+(contagem ≥ 1), entre faltantes e repetidas (IDR 0033). Os rótulos e os
+critérios abaixo descrevem os três valores originais.
+
 ## Documentos de referência (ler antes de implementar)
 - `docs/idr/0001-filtro-de-status-so-na-disposicao-lista.md` § Decisão — o filtro existe apenas na disposição lista; a álbum nunca é filtrada
 - `docs/idr/0025-filtro-oculta-secoes-vazias.md` § Decisão e § Consequências — seção e super-grupo sem resultado somem inteiros; ocultar não é colapsar; o placar não muda
@@ -52,7 +56,7 @@ realiza em tela as listas de faltantes e de repetidas exigidas por
    placar do título não muda ao filtrar; saltar para seção oculta limpa o filtro.
 
 **Fora do escopo**: persistir a escolha do filtro (Tarefa 0004-0005); os textos
-de troca para WhatsApp, que são outra saída (Tarefa 0008-0003).
+de troca para WhatsApp, que são outra saída (Tarefa 0009-0003).
 
 ## Decisões já tomadas (não reabrir)
 - Filtro só na disposição lista — ver `docs/idr/0001-filtro-de-status-so-na-disposicao-lista.md`

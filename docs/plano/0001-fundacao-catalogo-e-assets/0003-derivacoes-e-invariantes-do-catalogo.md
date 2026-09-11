@@ -57,7 +57,7 @@ um erro de transcrição no dado apareça como teste vermelho, não como tela to
    cada layout de álbum cobrindo todas as posições da seção uma única vez.
 
 **Fora do escopo**: renderização (Fases 2 a 4); filtro e colapso; qualquer
-decisão sobre qual ordenação é a padrão na primeira abertura (Tarefa 0009-0003).
+decisão sobre qual ordenação é a padrão na primeira abertura (Tarefa 0010-0003).
 
 ## Decisões já tomadas (não reabrir)
 - Duas ordenações e duas disposições — ver `docs/idr/0005-ordenacoes-disposicoes-e-percurso-do-catalogo.md`

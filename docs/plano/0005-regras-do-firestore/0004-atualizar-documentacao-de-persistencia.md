@@ -46,13 +46,13 @@ mesmo PR — inclusive o desfecho da medição da allow-list, que só se sabe ag
    está correta; se estiver, registrar no log que nada era necessário.
 4. `docs/arquitetura.md`: conferir se § Decisões-chave e onde vivem e § Pontos em
    aberto ainda descrevem a realidade depois desta fase — em especial o item
-   "Aceite do ADR 0008", que continua aberto até a Fase 6.
+   "Aceite do ADR 0008", que continua aberto até a Fase 7.
 5. Não tocar em `docs/gcloud.md` nem em `docs/github.md`: esta fase não muda IAM,
    secrets, workflows nem branch protection. Se tiver mudado, é sinal de que a
    fase saiu do escopo — PARE.
 
 **Fora do escopo**: qualquer mudança em `firestore.rules` (Tarefas 0005-0001 e
-0005-0002); documentação da gravação agregada, que só existe na Fase 6.
+0005-0002); documentação da gravação agregada, que só existe na Fase 7.
 
 ## Decisões já tomadas (não reabrir)
 - A documentação de ambiente acompanha a mudança no mesmo PR — ver `AGENTS.md` § Convenções

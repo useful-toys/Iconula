@@ -27,7 +27,7 @@ testes e a persistência do time; entram os metadados do site em português.
   realidade depois da remoção, no mesmo PR — `AGENTS.md` § Convenções
 - Não abrir exceção de CSP por causa de metadado: imagem de Open Graph, se
   houver, é servida pelo próprio Hosting — `docs/tdr/0002-*` § Consequências
-- O `teamName` **não** é apagado do Firestore aqui: isso é a Tarefa 0006-0004 —
+- O `teamName` **não** é apagado do Firestore aqui: isso é a Tarefa 0007-0004 —
   `docs/adr/0008-*` § Decisão
 - Todo texto visível e todo metadado em PT-BR — `docs/requisitos.md` § Requisitos
   Não Funcionais
@@ -56,7 +56,7 @@ testes e a persistência do time; entram os metadados do site em português.
    o nome descreve o produto que deixou de existir.
 
 **Fora do escopo**: apagar o campo `teamName` dos documentos do Firestore
-(Tarefa 0006-0004); mudar as regras (Fase 5); tocar em workflows ou em
+(Tarefa 0007-0004); mudar as regras (Fase 5); tocar em workflows ou em
 `firebase.json`.
 
 ## Decisões já tomadas (não reabrir)

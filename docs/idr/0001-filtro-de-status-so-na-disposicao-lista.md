@@ -4,12 +4,17 @@
 
 ## Status
 
-Aceito, com dois pontos revistos depois: a decisão "sem seletor de
+Aceito, com três pontos revistos depois: a decisão "sem seletor de
 seção" foi **revogada** pelos [IDR 0014](0014-salto-direto-para-secao.md)
 e [IDR 0016](0016-salto-pela-faixa-de-bandeiras.md) — o salto direto
 voltou, pela faixa de bandeiras, e continua não sendo filtro. O
 comportamento do filtro sobre seções sem resultado foi completado pelo
 [IDR 0025](0025-filtro-oculta-secoes-vazias.md): elas somem da vista.
+
+O conjunto de valores do filtro foi ampliado pelo
+[IDR 0033](0033-filtro-de-coladas.md): entrou coladas (contagem ≥ 1)
+entre faltantes e repetidas; a regra de o filtro existir só na
+disposição lista não mudou.
 
 ## Contexto
 

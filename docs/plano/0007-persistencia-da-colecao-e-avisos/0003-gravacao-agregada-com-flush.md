@@ -1,6 +1,6 @@
 <!-- Copyright (c) 2026 Daniel Felix Ferber -->
 
-# Tarefa [0006-0003]: gravação agregada com flush garantido
+# Tarefa [0007-0003]: gravação agregada com flush garantido
 
 ## Status
 Pendente
@@ -45,7 +45,7 @@ perde ao fechar a página ou ao sair da conta.
    absoluto para contagem ≥ 1 e `deleteField` para a que chegou a 0, mais
    `updatedAt: serverTimestamp()`, numa única operação.
 4. A escrita é idempotente: regravar o valor completo depois de uma falha é
-   seguro, e é o que a Tarefa 0006-0005 faz.
+   seguro, e é o que a Tarefa 0007-0005 faz.
 5. Flush imediato em `pagehide` e `visibilitychange`, e antes do `signOut` — o
    logout não pode descartar ajustes pendentes.
 6. Ao gravar com sucesso: mover o relógio do título e emitir o aviso de sucesso.
@@ -58,9 +58,9 @@ perde ao fechar a página ou ao sair da conta.
    alteradas; chave zerada vai como `deleteField`; `pagehide` força a gravação
    pendente; `signOut` não acontece antes do flush.
 
-**Fora do escopo**: a migração do `teamName` (Tarefa 0006-0004); o comportamento
-sem rede e a política de erro (Tarefa 0006-0005); o comando de sair no menu, que
-chega na Fase 8 — aqui basta a garantia de flush estar disponível para ele.
+**Fora do escopo**: a migração do `teamName` (Tarefa 0007-0004); o comportamento
+sem rede e a política de erro (Tarefa 0007-0005); o comando de sair no menu, que
+chega na Fase 9 — aqui basta a garantia de flush estar disponível para ele.
 
 ## Decisões já tomadas (não reabrir)
 - Gravação agregada, sem escrita por clique — ver `docs/idr/0003-gravacao-agrega-ajustes.md`
@@ -105,7 +105,7 @@ chega na Fase 8 — aqui basta a garantia de flush estar disponível para ele.
 - [ ] O flush acontece antes do `signOut`, nunca depois
 - [ ] Gravação bem-sucedida move o relógio e emite aviso de sucesso
 - [ ] Registros ADR/TDR/IDR criados ou atualizados para as decisões tomadas
-- [ ] `docs/plano/0006-persistencia-da-colecao-e-avisos/logs/0003-log-gravacao-agregada-com-flush.md` gerado
+- [ ] `docs/plano/0007-persistencia-da-colecao-e-avisos/logs/0003-log-gravacao-agregada-com-flush.md` gerado
 
 ## Validação
 `npm run lint && npm run test && npm run build`.

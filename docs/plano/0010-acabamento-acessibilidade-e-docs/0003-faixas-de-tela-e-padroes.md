@@ -1,6 +1,6 @@
 <!-- Copyright (c) 2026 Daniel Felix Ferber -->
 
-# Tarefa [0009-0003]: faixas de tela e padrões de primeira abertura
+# Tarefa [0010-0003]: faixas de tela e padrões de primeira abertura
 
 ## Status
 Pendente
@@ -92,7 +92,7 @@ do que os IDRs 0015 e 0009 já decidiram.
 - [ ] Os limites de faixa são os mesmos que o spread já usa, sem segunda noção de "estreito"
 - [ ] `docs/interface.md` deixa de listar essa pendência
 - [ ] Registros ADR/TDR/IDR criados para as decisões tomadas
-- [ ] `docs/plano/0009-acabamento-acessibilidade-e-docs/logs/0003-log-faixas-de-tela-e-padroes.md` gerado
+- [ ] `docs/plano/0010-acabamento-acessibilidade-e-docs/logs/0003-log-faixas-de-tela-e-padroes.md` gerado
 
 ## Validação
 `npm run lint && npm run test && npm run build`.

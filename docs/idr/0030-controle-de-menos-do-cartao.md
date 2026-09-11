@@ -8,6 +8,11 @@ Aceito — desbloqueia a Tarefa 0002-0003, que deixava em aberto como o
 controle de menos "surge ao tocar" num dispositivo sem toque (mouse e
 teclado).
 
+Revisto pelo [IDR 0032](0032-controle-de-menos-so-com-unidade-e-dentro-do-cartao.md):
+o controle só existe a partir da contagem 1 e fica dentro do cartão, no
+canto inferior esquerdo. O que esta decisão diz sobre *quando* revelá-lo
+continua valendo — agora só nos cartões que o têm.
+
 ## Contexto
 
 O IDR 0006 decide que a figurinha soma uma unidade ao tocar e que um

@@ -47,7 +47,7 @@ trilhas de 52px intactas nos dois casos.
    a seção passa a renderizar a lista.
 
 **Fora do escopo**: definir qual disposição é a padrão em cada faixa de tela
-(Tarefa 0009-0003); mudar o tamanho do cartão.
+(Tarefa 0010-0003); mudar o tamanho do cartão.
 
 ## Decisões já tomadas (não reabrir)
 - Empilhar em vez de cair para a lista — ver `docs/idr/0015-paginas-do-album-empilham-em-tela-estreita.md`

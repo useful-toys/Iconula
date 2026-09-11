@@ -35,7 +35,7 @@ muda é o miolo das 48 seleções.
 1. Criar o componente da linha de controles em `src/components/`, logo abaixo do
    título, com o primeiro grupo segmentado: `Página` | `Sigla`.
 2. Reservar, já nesta tarefa, o espaço à direita da linha para os dois comandos
-   (desfazer e menu), que chegam na Fase 8 — para que a Fase 8 não precise
+   (desfazer e menu), que chegam na Fase 9 — para que a Fase 9 não precise
    redesenhar a linha. Enquanto não existem, a área fica vazia.
 3. Ligar o alternador às derivações da Tarefa 0001-0003: a ordenação vigente
    escolhe a sequência de seções que o corpo percorre.
@@ -48,7 +48,7 @@ muda é o miolo das 48 seleções.
    preferência é a Tarefa 0004-0005.
 
 **Fora do escopo**: super-grupos (Tarefa 0003-0002); alternador de disposição e
-filtro (Fase 4); desfazer e menu (Fase 8); persistir a escolha (Tarefa 0004-0005).
+filtro (Fase 4); desfazer e menu (Fase 9); persistir a escolha (Tarefa 0004-0005).
 
 ## Decisões já tomadas (não reabrir)
 - Duas ordenações: página do álbum e sigla da seção — ver `docs/idr/0005-ordenacoes-disposicoes-e-percurso-do-catalogo.md`
@@ -59,7 +59,7 @@ filtro (Fase 4); desfazer e menu (Fase 8); persistir a escolha (Tarefa 0004-0005
 ## Decisões em aberto nesta tarefa
 - Qual ordenação é a inicial antes de existir preferência guardada —
   encaminhamento: usar a ordem do álbum provisoriamente e deixar a escolha
-  definitiva para a Tarefa 0009-0003, que decide por faixa de tela; registrar a
+  definitiva para a Tarefa 0010-0003, que decide por faixa de tela; registrar a
   provisoriedade no log
 
 ## Impedimentos

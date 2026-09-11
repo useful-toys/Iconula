@@ -22,7 +22,7 @@ Nesta fase a árvore é rasa: `App.jsx` detém o estado e passa para
 
 - Manter a coleção no estado local de `App.jsx` e usar **prop-drilling**
   enquanto a profundidade for de até três níveis.
-- Reavaliar na Tarefa 0006-0003 (gravação agregada com flush), quando a
+- Reavaliar na Tarefa 0007-0003 (gravação agregada com flush), quando a
   persistência e o histórico de desfazer podem exigir que mais componentes
   acessem ou modifiquem a coleção sem que a prop atravesse novos ramos.
 - Se a profundidade ultrapassar três níveis ou se o mesmo estado precisar

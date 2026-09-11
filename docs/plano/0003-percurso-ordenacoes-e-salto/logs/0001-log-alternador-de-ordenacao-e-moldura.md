@@ -9,7 +9,7 @@
 Criada a linha de controles logo abaixo do cabeçalho, com o primeiro grupo
 segmentado (`Página` | `Sigla`) que alterna entre as duas ordenações do
 catálogo. A área à direita da linha foi reservada para os comandos de
-desfazer e menu que chegam na Fase 8 — enquanto não existem, o espaço fica
+desfazer e menu que chegam na Fase 9 — enquanto não existem, o espaço fica
 vazio, sem empurrar os alternadores.
 
 O `Catalogo.jsx` passou a receber a ordenação vigente por prop e usa as
@@ -25,7 +25,7 @@ da preferência no `localStorage` fica para a Tarefa 0004-0005.
 ## Decisões tomadas
 - **Ordenação padrão provisória**: ordem do álbum (`'pagina'`), registrada
   em [TDR 0015](../../../tdr/0015-ordenacao-padrao-provisoria-ordem-do-album.md).
-  A escolha definitiva é a Tarefa 0009-0003, por faixa de tela.
+  A escolha definitiva é a Tarefa 0010-0003, por faixa de tela.
 - **Super-grupos fora do escopo**: na ordenação por página, as seções são
   extraídas com `extrairSecoes` e renderizadas sem os cabeçalhos de
   super-grupo — a Tarefa 0003-0002 cuida disso.

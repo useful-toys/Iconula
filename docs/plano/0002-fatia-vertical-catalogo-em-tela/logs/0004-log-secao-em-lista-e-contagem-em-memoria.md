@@ -43,7 +43,7 @@ Modificados:
 
 Registrado TDR 0014 sobre prop-drilling versus Context para o estado da
 coleção: mantido por prop-drilling nesta fase, com reavaliação na
-Tarefa 0006-0003 se a profundidade passar de três níveis.
+Tarefa 0007-0003 se a profundidade passar de três níveis.
 
 ## Decisões tomadas
 - TDR 0014: estado da coleção sem Context por enquanto (prop-drilling).
@@ -63,7 +63,7 @@ npm run lint && npm run test && npm run build
 Verificação visual em `npm run dev`: rolar do topo ao fim passa pelas 50
 seções sem barra de rolagem interna; ajustar figurinhas do Brasil atualiza
 o resumo da seção e o placar do cabeçalho; recarregar a página zera a
-coleção — comportamento esperado até a Fase 6.
+coleção — comportamento esperado até a Fase 7.
 
 ## Arquivos alterados
 - `src/lib/colecao.js` — criado

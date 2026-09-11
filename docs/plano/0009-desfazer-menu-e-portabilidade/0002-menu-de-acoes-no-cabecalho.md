@@ -1,6 +1,6 @@
 <!-- Copyright (c) 2026 Daniel Felix Ferber -->
 
-# Tarefa [0008-0002]: menu de ações no cabeçalho
+# Tarefa [0009-0002]: menu de ações no cabeçalho
 
 ## Status
 Pendente
@@ -39,11 +39,11 @@ conteúdo entram nas tarefas seguintes desta fase.
 3. Os cinco itens nos três blocos: copiar faltantes / copiar repetidas — filete —
    exportar / importar — filete — sair da conta.
 4. Nesta tarefa, os quatro primeiros ficam presentes e desabilitados ou ligados a
-   uma ação vazia declarada; eles são implementados nas Tarefas 0008-0003 a
-   0008-0005 do mesmo PR. Não deixar item que aparente funcionar e não faça nada
+   uma ação vazia declarada; eles são implementados nas Tarefas 0009-0003 a
+   0009-0005 do mesmo PR. Não deixar item que aparente funcionar e não faça nada
    ao fim da fase.
 5. Implementar "sair da conta": dar **flush** da gravação pendente (Tarefa
-   0006-0003) e só então `signOut`. O logout não pode descartar ajustes.
+   0007-0003) e só então `signOut`. O logout não pode descartar ajustes.
 6. Aposentar a área de login provisória da tela principal (`AuthStatus`), cuja
    única função ali era o botão de sair — limpando imports, estilos e testes
    órfãos.
@@ -53,9 +53,9 @@ conteúdo entram nas tarefas seguintes desta fase.
    `signOut`, comprovado pela ordem das chamadas; o menu não tem contêiner
    rolável; o foco volta ao botão ao fechar.
 
-**Fora do escopo**: os quatro comandos de conteúdo (Tarefas 0008-0003 a
-0008-0005); acrescentar a política de privacidade ao menu — ela ficou no rodapé
-(Tarefa 0007-0004).
+**Fora do escopo**: os quatro comandos de conteúdo (Tarefas 0009-0003 a
+0009-0005); acrescentar a política de privacidade ao menu — ela ficou no rodapé
+(Tarefa 0008-0004).
 
 ## Decisões já tomadas (não reabrir)
 - Cinco comandos em popup do cabeçalho — ver `docs/idr/0024-acoes-raras-em-menu-do-cabecalho.md`
@@ -97,7 +97,7 @@ conteúdo entram nas tarefas seguintes desta fase.
 - [ ] O `AuthStatus` foi removido sem deixar import, estilo ou teste órfão
 - [ ] O foco entra no menu ao abrir e volta ao botão ao fechar
 - [ ] Registros ADR/TDR/IDR criados para as decisões tomadas
-- [ ] `docs/plano/0008-desfazer-menu-e-portabilidade/logs/0002-log-menu-de-acoes-no-cabecalho.md` gerado
+- [ ] `docs/plano/0009-desfazer-menu-e-portabilidade/logs/0002-log-menu-de-acoes-no-cabecalho.md` gerado
 
 ## Validação
 `npm run lint && npm run test && npm run build`.

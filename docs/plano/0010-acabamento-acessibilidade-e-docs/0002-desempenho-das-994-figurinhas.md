@@ -1,6 +1,6 @@
 <!-- Copyright (c) 2026 Daniel Felix Ferber -->
 
-# Tarefa [0009-0002]: desempenho das 994 figurinhas
+# Tarefa [0010-0002]: desempenho das 994 figurinhas
 
 ## Status
 Pendente
@@ -27,7 +27,7 @@ trazer dependência que não se pague.
 - Dependência nova é decisão de arquitetura e exige **ADR**, não TDR —
   `AGENTS.md` § Convenções
 - Nenhuma otimização pode quebrar acessibilidade nem o realce de foco da
-  Tarefa 0009-0001 — `docs/requisitos.md` § Requisitos Não Funcionais
+  Tarefa 0010-0001 — `docs/requisitos.md` § Requisitos Não Funcionais
 
 ## Escopo e instruções de implementação
 1. Medir primeiro, no aparelho mais fraco disponível: tempo de primeira
@@ -89,7 +89,7 @@ catálogo; adiar dados por rede, que contraria o catálogo embutido.
 - [ ] Ajustar uma contagem não rerrenderiza o catálogo inteiro
 - [ ] A medição depois da mudança está no log, comparável com a linha de base
 - [ ] Registros ADR/TDR/IDR criados para as decisões tomadas
-- [ ] `docs/plano/0009-acabamento-acessibilidade-e-docs/logs/0002-log-desempenho-das-994-figurinhas.md` gerado
+- [ ] `docs/plano/0010-acabamento-acessibilidade-e-docs/logs/0002-log-desempenho-das-994-figurinhas.md` gerado
 
 ## Validação
 `npm run lint && npm run test && npm run build`.
