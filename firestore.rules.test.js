@@ -1,12 +1,14 @@
 // Copyright (c) 2026 Daniel Felix Ferber
 
-// Prova executável de que um usuário não acessa os dados de outro.
+// Prova executável de que um usuário não acessa os dados de outro e de
+// que o schema do documento é o aceito pelas regras.
 //
-// Esta é a garantia real de isolamento (ver ADR 0007 e TDR 0008): o
-// bundle do app é público e qualquer requisição pode ser forjada, então
-// nenhum teste do lado do cliente prova coisa alguma sobre autorização —
-// só a avaliação de firestore.rules no servidor prova. Aqui as regras
-// rodam no emulador, que é o mesmo motor de avaliação da produção.
+// Esta é a garantia real de isolamento (ver ADR 0007 e TDR 0008) e de
+// validação do formato (ver ADR 0008 e TDR 0009): o bundle do app é
+// público e qualquer requisição pode ser forjada, então nenhum teste do
+// lado do cliente prova coisa alguma sobre autorização ou formato — só a
+// avaliação de firestore.rules no servidor prova. Aqui as regras rodam
+// no emulador, que é o mesmo motor de avaliação da produção.
 //
 // Roda no CI a cada PR (`npm run test:rules`): uma regressão em
 // firestore.rules quebra o build.
@@ -20,10 +22,14 @@ import {
 import {
   collection,
   deleteDoc,
+  deleteField,
   doc,
   getDoc,
   getDocs,
+  serverTimestamp,
   setDoc,
+  Timestamp,
+  updateDoc,
 } from "firebase/firestore";
 import { afterAll, afterEach, beforeAll, describe, it } from "vitest";
 
@@ -58,9 +64,18 @@ afterEach(async () => {
 
 // Cria o documento do dono ignorando as regras, para os casos que
 // precisam de um documento preexistente.
-async function semearDocumentoDoDono(teamName = "Brazil") {
+async function semearDocumentoDoDono(dados = { contagens: { BRA05: 3 } }) {
   await testEnv.withSecurityRulesDisabled(async (context) => {
-    await setDoc(doc(context.firestore(), "users", DONO), { teamName });
+    await setDoc(doc(context.firestore(), "users", DONO), dados);
+  });
+}
+
+// Documento da era do botão, para os casos de migração do `teamName`.
+async function semearDocumentoComTeamName() {
+  await testEnv.withSecurityRulesDisabled(async (context) => {
+    await setDoc(doc(context.firestore(), "users", DONO), {
+      teamName: "Brazil",
+    });
   });
 }
 
@@ -74,6 +89,17 @@ function comoIntruso() {
 
 function comoAnonimo() {
   return testEnv.unauthenticatedContext().firestore();
+}
+
+// Mapa esparso com `n` chaves e valores válidos, para os casos de limite
+// de tamanho. As chaves são arbitrárias: sem a allow-list (que não coube
+// — Tarefa 0005-0002), as chaves só se limitam em quantidade.
+function montaMapa(n) {
+  const mapa = {};
+  for (let i = 1; i <= n; i += 1) {
+    mapa[`K${String(i).padStart(4, "0")}`] = 1;
+  }
+  return mapa;
 }
 
 describe("firestore.rules — isolamento entre usuários", () => {
@@ -97,13 +123,19 @@ describe("firestore.rules — isolamento entre usuários", () => {
 
   it("nega a gravação no documento de outro usuário", async () => {
     await assertFails(
-      setDoc(doc(comoIntruso(), "users", DONO), { teamName: "Brazil" }),
+      setDoc(doc(comoIntruso(), "users", DONO), {
+        contagens: { BRA05: 3 },
+        updatedAt: serverTimestamp(),
+      }),
     );
   });
 
   it("nega a gravação a quem não está autenticado", async () => {
     await assertFails(
-      setDoc(doc(comoAnonimo(), "users", DONO), { teamName: "Brazil" }),
+      setDoc(doc(comoAnonimo(), "users", DONO), {
+        contagens: { BRA05: 3 },
+        updatedAt: serverTimestamp(),
+      }),
     );
   });
 
@@ -115,56 +147,149 @@ describe("firestore.rules — isolamento entre usuários", () => {
     await assertFails(getDocs(collection(comoDono(), "users")));
     await assertFails(getDocs(collection(comoIntruso(), "users")));
   });
-});
-
-describe("firestore.rules — validação de formato na escrita", () => {
-  it("o dono grava o próprio time", async () => {
-    await assertSucceeds(
-      setDoc(doc(comoDono(), "users", DONO), { teamName: "Brazil" }),
-    );
-  });
-
-  it("o dono atualiza o próprio time", async () => {
-    await semearDocumentoDoDono("Brazil");
-
-    await assertSucceeds(
-      setDoc(
-        doc(comoDono(), "users", DONO),
-        { teamName: "Argentina" },
-        { merge: true },
-      ),
-    );
-  });
-
-  it("nega campo extra além de teamName", async () => {
-    await assertFails(
-      setDoc(doc(comoDono(), "users", DONO), {
-        teamName: "Brazil",
-        admin: true,
-      }),
-    );
-  });
-
-  it("nega teamName que não seja string", async () => {
-    await assertFails(
-      setDoc(doc(comoDono(), "users", DONO), { teamName: 42 }),
-    );
-  });
-
-  it("nega teamName vazio", async () => {
-    await assertFails(setDoc(doc(comoDono(), "users", DONO), { teamName: "" }));
-  });
-
-  it("nega teamName acima de 64 caracteres", async () => {
-    await assertFails(
-      setDoc(doc(comoDono(), "users", DONO), { teamName: "x".repeat(65) }),
-    );
-  });
 
   it("nega apagar o próprio documento", async () => {
     await semearDocumentoDoDono();
 
     await assertFails(deleteDoc(doc(comoDono(), "users", DONO)));
+  });
+});
+
+describe("firestore.rules — validação de valores nas contagens", () => {
+  it("aceita os extremos 1 e 99", async () => {
+    await assertSucceeds(
+      setDoc(doc(comoDono(), "users", DONO), {
+        contagens: { BRA05: 1, FWC12: 99 },
+        updatedAt: serverTimestamp(),
+      }),
+    );
+  });
+
+  it("nega valor 0", async () => {
+    await assertFails(
+      setDoc(doc(comoDono(), "users", DONO), {
+        contagens: { BRA05: 0 },
+        updatedAt: serverTimestamp(),
+      }),
+    );
+  });
+
+  it("nega valor negativo", async () => {
+    await assertFails(
+      setDoc(doc(comoDono(), "users", DONO), {
+        contagens: { BRA05: -1 },
+        updatedAt: serverTimestamp(),
+      }),
+    );
+  });
+
+  it("nega valor 100", async () => {
+    await assertFails(
+      setDoc(doc(comoDono(), "users", DONO), {
+        contagens: { BRA05: 100 },
+        updatedAt: serverTimestamp(),
+      }),
+    );
+  });
+
+  it("nega valor não-inteiro", async () => {
+    await assertFails(
+      setDoc(doc(comoDono(), "users", DONO), {
+        contagens: { BRA05: 1.5 },
+        updatedAt: serverTimestamp(),
+      }),
+    );
+  });
+
+  it("nega valor string", async () => {
+    await assertFails(
+      setDoc(doc(comoDono(), "users", DONO), {
+        contagens: { BRA05: "3" },
+        updatedAt: serverTimestamp(),
+      }),
+    );
+  });
+});
+
+describe("firestore.rules — validação de campos e timestamps", () => {
+  it("nega campo extra além dos três", async () => {
+    await assertFails(
+      setDoc(doc(comoDono(), "users", DONO), {
+        contagens: { BRA05: 3 },
+        updatedAt: serverTimestamp(),
+        extra: true,
+      }),
+    );
+  });
+
+  it("nega updatedAt forjado (diferente de request.time)", async () => {
+    await assertFails(
+      setDoc(doc(comoDono(), "users", DONO), {
+        contagens: { BRA05: 3 },
+        updatedAt: Timestamp.fromMillis(0),
+      }),
+    );
+  });
+
+  it("nega contagens sem updatedAt", async () => {
+    await assertFails(
+      setDoc(doc(comoDono(), "users", DONO), {
+        contagens: { BRA05: 3 },
+      }),
+    );
+  });
+
+  it("aceita documento só com atestadoEm, sem contagens", async () => {
+    await assertSucceeds(
+      setDoc(doc(comoDono(), "users", DONO), {
+        atestadoEm: serverTimestamp(),
+      }),
+    );
+  });
+});
+
+describe("firestore.rules — migração do teamName", () => {
+  it("aceita o update que apaga o teamName junto da primeira gravação", async () => {
+    await semearDocumentoComTeamName();
+
+    await assertSucceeds(
+      updateDoc(doc(comoDono(), "users", DONO), {
+        contagens: { BRA05: 3 },
+        updatedAt: serverTimestamp(),
+        teamName: deleteField(),
+      }),
+    );
+  });
+
+  it("nega o update que mantém o teamName junto de contagens", async () => {
+    await semearDocumentoComTeamName();
+
+    await assertFails(
+      updateDoc(doc(comoDono(), "users", DONO), {
+        contagens: { BRA05: 3 },
+        updatedAt: serverTimestamp(),
+      }),
+    );
+  });
+});
+
+describe("firestore.rules — limite do mapa", () => {
+  it("aceita 994 chaves", async () => {
+    await assertSucceeds(
+      setDoc(doc(comoDono(), "users", DONO), {
+        contagens: montaMapa(994),
+        updatedAt: serverTimestamp(),
+      }),
+    );
+  });
+
+  it("nega 995 chaves", async () => {
+    await assertFails(
+      setDoc(doc(comoDono(), "users", DONO), {
+        contagens: montaMapa(995),
+        updatedAt: serverTimestamp(),
+      }),
+    );
   });
 });
 
