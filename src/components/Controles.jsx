@@ -54,8 +54,8 @@ const FILTROS = [
 /**
  * Linha de controles logo abaixo do t\u00edtulo: grupos segmentados de ordena\u00e7\u00e3o
  * (P\u00e1gina | Sigla), disposi\u00e7\u00e3o (Lista | \u00c1lbum) e filtro (Todas | Falt. | Col. |
- * Rep.), mais \u00e1rea reservada \u00e0 direita para os comandos que chegam na Fase 9
- * (desfazer e menu).
+ * Rep.), mais os comandos \u00e0 direita: desfazer (esta tarefa) e o menu de
+ * a\u00e7\u00f5es que chega na Tarefa 0009-0002.
  *
  * O grupo de filtro s\u00f3 aparece quando a disposi\u00e7\u00e3o \u00e9 lista (IDR 0001, IDR 0023).
  *
@@ -66,8 +66,19 @@ const FILTROS = [
  * @param {(disposicao: 'lista'|'album') => void} [props.onTrocarDisposicao] - callback de troca.
  * @param {'todas'|'faltantes'|'coladas'|'repetidas'} [props.filtro='todas'] - filtro vigente.
  * @param {(filtro: 'todas'|'faltantes'|'coladas'|'repetidas') => void} [props.onTrocarFiltro] - callback de troca de filtro.
+ * @param {boolean} [props.podeDesfazer=false] - h\u00e1 hist\u00f3rico para desfazer? (IDR 0012)
+ * @param {() => void} [props.onDesfazer] - callback do bot\u00e3o de desfazer; sem ele, o bot\u00e3o n\u00e3o aparece.
  */
-export function Controles({ ordenacao, onTrocarOrdenacao, disposicao = 'lista', onTrocarDisposicao, filtro = 'todas', onTrocarFiltro }) {
+export function Controles({
+  ordenacao,
+  onTrocarOrdenacao,
+  disposicao = 'lista',
+  onTrocarDisposicao,
+  filtro = 'todas',
+  onTrocarFiltro,
+  podeDesfazer = false,
+  onDesfazer,
+}) {
   return (
     <div className="controles">
       <div className="controles__segmentado" role="group" aria-label="Ordena\u00e7\u00e3o do cat\u00e1logo">
@@ -125,7 +136,19 @@ export function Controles({ ordenacao, onTrocarOrdenacao, disposicao = 'lista', 
           })}
         </div>
       )}
-      <div className="controles__direita" aria-hidden="true" />
+      <div className="controles__direita" aria-hidden={onDesfazer ? undefined : true}>
+        {onDesfazer && (
+          <button
+            type="button"
+            className="controles__desfazer"
+            onClick={onDesfazer}
+            disabled={!podeDesfazer}
+            aria-label="desfazer a última alteração"
+          >
+            ↺
+          </button>
+        )}
+      </div>
     </div>
   );
 }
