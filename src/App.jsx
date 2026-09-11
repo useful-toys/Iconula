@@ -15,6 +15,7 @@ import { Avisos } from "./components/Avisos.jsx";
 import { Rodape } from "./components/Rodape.jsx";
 import { auth, app } from "./lib/firebase";
 import { ajustarContagem, obterContagem } from "./lib/colecao.js";
+import { registrarAjuste, retirarUltimoAjuste } from "./lib/historico.js";
 import { calcularPlacar } from "./lib/progresso.js";
 import { lerPreferenciasDeVista, gravarPreferenciasDeVista } from "./lib/preferenciasDeVista.js";
 import {
@@ -38,6 +39,12 @@ export default function App() {
   const [authResolvido, setAuthResolvido] = useState(false);
   const [contagens, setContagens] = useState({});
   const [atualizadoEm, setAtualizadoEm] = useState(null);
+  // Histórico de desfazer (Tarefa 0009-0001, IDR 0012): pilha das últimas 10
+  // alterações, em memória — recarregar a página o descarta, como o resto do
+  // estado deste `useState`. Fica em `App.jsx`, não escondido num hook
+  // próprio, para que a importação (Tarefa 0009-0005) possa zerá-lo com um
+  // simples `setHistorico([])`.
+  const [historico, setHistorico] = useState([]);
   // Precisa atestar? (Tarefa 0008-0003, IDR 0036). Começa `false`
   // (otimista, como `contagens`) e a carga da coleção — a mesma leitura da
   // Tarefa 0007-0002, sem leitura extra — decide assim que chega: catálogo
@@ -212,7 +219,10 @@ export default function App() {
     gravarPreferenciasDeVista({ ordenacao, disposicao, filtro });
   }, [ordenacao, disposicao, filtro]);
 
-  function handleAjustar(codigo, delta) {
+  // Aplica um delta à contagem e registra a alteração para a gravação
+  // agregada — caminho comum ao toque no cartão e ao desfazer (IDR 0010,
+  // IDR 0003): a gravação seguinte leva a reversão sem caso especial.
+  function aplicarAjuste(codigo, delta) {
     ajustesRef.current += 1;
     setContagens((anterior) => {
       const nova = ajustarContagem(anterior, codigo, delta);
@@ -221,6 +231,22 @@ export default function App() {
       }
       return nova;
     });
+  }
+
+  function handleAjustar(codigo, delta) {
+    setHistorico((anterior) => registrarAjuste(anterior, codigo, obterContagem(contagens, codigo)));
+    aplicarAjuste(codigo, delta);
+  }
+
+  // Desfazer (Tarefa 0009-0001, IDR 0012): retira o topo do histórico e
+  // reaplica a contagem anterior como um ajuste comum — a reversão em si
+  // não entra no próprio histórico. Sem histórico, não faz nada (o botão já
+  // fica desabilitado nesse caso).
+  function handleDesfazer() {
+    const { entrada, restante } = retirarUltimoAjuste(historico);
+    if (!entrada) return;
+    setHistorico(restante);
+    aplicarAjuste(entrada.codigo, entrada.contagemAnterior - obterContagem(contagens, entrada.codigo));
   }
 
   // Sair da conta dá flush antes do `signOut`: depois dele o ID token some e
@@ -313,6 +339,8 @@ export default function App() {
         onTrocarDisposicao={setDisposicao}
         filtro={filtro}
         onTrocarFiltro={handleTrocarFiltro}
+        podeDesfazer={historico.length > 0}
+        onDesfazer={handleDesfazer}
       />
       <Catalogo
         ref={catalogoRef}

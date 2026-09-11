@@ -3,7 +3,7 @@
 # Tarefa [0009-0001]: desfazer com histórico das últimas 10
 
 ## Status
-Pendente
+Concluída
 
 ## Documentos de referência (ler antes de implementar)
 - `docs/idr/0012-desfazer-no-cabecalho-historico-de-10.md` § Decisão e § Consequências — botão no cabeçalho, sempre visível quando há histórico, últimas 10 em memória, descartado ao recarregar
@@ -79,15 +79,15 @@ menu de ações (Tarefa 0009-0002).
 - `src/App.jsx` — modificar
 
 ## Critérios de aceite
-- [ ] O botão `↺` aparece na linha de controles e fica desabilitado sem histórico
-- [ ] Dez ajustes seguidos de dez desfazer voltam ao estado inicial
-- [ ] O décimo primeiro desfazer não altera nada
-- [ ] Desfazer não entra no próprio histórico
-- [ ] A reversão é gravada pela agregação, sem escrita própria
-- [ ] Recarregar a página limpa o histórico
-- [ ] Nome acessível por extenso e estado desabilitado exposto
-- [ ] Registros ADR/TDR/IDR criados para as decisões tomadas
-- [ ] `docs/plano/0009-desfazer-menu-e-portabilidade/logs/0001-log-desfazer-com-historico-de-10.md` gerado
+- [x] O botão `↺` aparece na linha de controles e fica desabilitado sem histórico
+- [x] Dez ajustes seguidos de dez desfazer voltam ao estado inicial
+- [x] O décimo primeiro desfazer não altera nada
+- [x] Desfazer não entra no próprio histórico
+- [x] A reversão é gravada pela agregação, sem escrita própria
+- [x] Recarregar a página limpa o histórico
+- [x] Nome acessível por extenso e estado desabilitado exposto
+- [x] Registros ADR/TDR/IDR criados para as decisões tomadas (nenhum esperado — desenho já fechado pelo IDR 0010/IDR 0012)
+- [x] `docs/plano/0009-desfazer-menu-e-portabilidade/logs/0001-log-desfazer-com-historico-de-10.md` gerado
 
 ## Validação
 `npm run lint && npm run test && npm run build`.

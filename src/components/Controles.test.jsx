@@ -189,4 +189,28 @@ describe('Controles', () => {
     await user.click(screen.getByRole('button', { name: 'mostrar apenas as figurinhas repetidas' }));
     expect(onTrocar).toHaveBeenCalledWith('repetidas');
   });
+
+  it('não renderiza o botão de desfazer sem onDesfazer', () => {
+    render(<Controles ordenacao="pagina" onTrocarOrdenacao={vi.fn()} />);
+    expect(screen.queryByRole('button', { name: 'desfazer a última alteração' })).not.toBeInTheDocument();
+  });
+
+  it('renderiza o botão de desfazer desabilitado quando não há histórico', () => {
+    render(<Controles ordenacao="pagina" onTrocarOrdenacao={vi.fn()} onDesfazer={vi.fn()} podeDesfazer={false} />);
+    expect(screen.getByRole('button', { name: 'desfazer a última alteração' })).toBeDisabled();
+  });
+
+  it('renderiza o botão de desfazer habilitado quando há histórico', () => {
+    render(<Controles ordenacao="pagina" onTrocarOrdenacao={vi.fn()} onDesfazer={vi.fn()} podeDesfazer={true} />);
+    expect(screen.getByRole('button', { name: 'desfazer a última alteração' })).toBeEnabled();
+  });
+
+  it('chama onDesfazer ao clicar no botão de desfazer', async () => {
+    const user = userEvent.setup();
+    const onDesfazer = vi.fn();
+    render(<Controles ordenacao="pagina" onTrocarOrdenacao={vi.fn()} onDesfazer={onDesfazer} podeDesfazer={true} />);
+
+    await user.click(screen.getByRole('button', { name: 'desfazer a última alteração' }));
+    expect(onDesfazer).toHaveBeenCalledTimes(1);
+  });
 });
