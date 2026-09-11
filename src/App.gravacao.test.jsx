@@ -67,7 +67,16 @@ beforeEach(() => {
   authState.callback = null;
   catalogo.props = null;
   colecao.carregarColecao.mockReset();
-  colecao.carregarColecao.mockResolvedValue({ status: "vazio" });
+  // "encontrado" com atestadoEm já gravado: estes testes cobrem a gravação
+  // agregada, não a atestação (Tarefa 0008-0003) — conta já atestada, sem
+  // o passo extra, para não interferir nos temporizadores falsos.
+  colecao.carregarColecao.mockResolvedValue({
+    status: "encontrado",
+    contagens: {},
+    atualizadoEm: null,
+    temTeamName: false,
+    atestadoEm: true,
+  });
   colecao.gravarAlteracoes.mockReset();
   colecao.gravarAlteracoes.mockResolvedValue({
     status: "sucesso",
@@ -234,6 +243,7 @@ describe("App — gravação agregada", () => {
       contagens: {},
       atualizadoEm: new Date("2026-09-10T14:05:00"),
       temTeamName: true,
+      atestadoEm: true,
     });
 
     await montarLogado();

@@ -4,6 +4,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import {
   carregarColecao,
   gravarAlteracoes,
+  gravarAtestacao,
   formatarCarimbo,
   mensagemDeErro,
   MARCA_APAGAR_TEAM_NAME,
@@ -88,7 +89,23 @@ describe('carregarColecao', () => {
       contagens: { BRA01: 3, FWC01: 1 },
       atualizadoEm: carimbo,
       temTeamName: true,
+      atestadoEm: false,
     });
+  });
+
+  it('reporta atestadoEm quando o documento já tem o carimbo (Tarefa 0008-0003)', async () => {
+    firestore.getDoc.mockResolvedValue({
+      exists: () => true,
+      data: () => ({
+        contagens: {},
+        updatedAt: { toDate: () => new Date('2026-09-10T14:05:00') },
+        atestadoEm: { toDate: () => new Date('2026-09-01T10:00:00') },
+      }),
+    });
+
+    const resultado = await carregarColecao('u1');
+
+    expect(resultado.atestadoEm).toBe(true);
   });
 
   it('trata documento ausente como vazio, não como erro', async () => {
@@ -272,6 +289,38 @@ describe('gravarAlteracoes', () => {
     const [, dados] = firestore.setDoc.mock.calls[0];
     expect(dados).not.toHaveProperty('contagens');
     expect(resultado.status).toBe('sucesso');
+  });
+});
+
+describe('gravarAtestacao', () => {
+  it('grava atestadoEm como serverTimestamp, com merge:true, sem updatedAt', async () => {
+    const resultado = await gravarAtestacao('u1');
+
+    expect(firestore.setDoc).toHaveBeenCalledTimes(1);
+    expect(firestore.setDoc).toHaveBeenCalledWith(
+      {},
+      { atestadoEm: CARIMBO_SERVIDOR },
+      { merge: true },
+    );
+    expect(resultado).toEqual({ status: 'sucesso' });
+  });
+
+  it('devolve erro quando a escrita falha', async () => {
+    firestore.setDoc.mockRejectedValue(new Error('unavailable'));
+
+    const resultado = await gravarAtestacao('u1');
+
+    expect(resultado.status).toBe('erro');
+    expect(resultado.erro).toBeInstanceOf(Error);
+  });
+
+  it('devolve indisponível quando não há app configurado', async () => {
+    state.app = null;
+
+    const resultado = await gravarAtestacao('u1');
+
+    expect(resultado).toEqual({ status: 'indisponivel' });
+    expect(firestore.setDoc).not.toHaveBeenCalled();
   });
 });
 

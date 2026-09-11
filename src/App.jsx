@@ -6,6 +6,7 @@ import { figurinhas, secoes } from "./data/catalogo.js";
 import { ordenarPorSigla, ordenarPorPagina, extrairSecoes } from "./data/catalogoOrdenacoes.js";
 import AuthStatus from "./components/AuthStatus";
 import TelaDeLogin from "./components/TelaDeLogin.jsx";
+import Atestacao from "./components/Atestacao.jsx";
 import { Cabecalho } from "./components/Cabecalho.jsx";
 import { Controles } from "./components/Controles.jsx";
 import { Catalogo } from "./components/Catalogo.jsx";
@@ -14,7 +15,13 @@ import { auth, app } from "./lib/firebase";
 import { ajustarContagem, obterContagem } from "./lib/colecao.js";
 import { calcularPlacar } from "./lib/progresso.js";
 import { lerPreferenciasDeVista, gravarPreferenciasDeVista } from "./lib/preferenciasDeVista.js";
-import { carregarColecao, gravarAlteracoes, formatarCarimbo, mensagemDeErro } from "./lib/colecaoRemota.js";
+import {
+  carregarColecao,
+  gravarAlteracoes,
+  gravarAtestacao,
+  formatarCarimbo,
+  mensagemDeErro,
+} from "./lib/colecaoRemota.js";
 import { criarGravacaoAgregada } from "./lib/gravacaoAgregada.js";
 import { emitirAviso, SEVERIDADE } from "./lib/avisos.js";
 
@@ -29,6 +36,12 @@ export default function App() {
   const [authResolvido, setAuthResolvido] = useState(false);
   const [contagens, setContagens] = useState({});
   const [atualizadoEm, setAtualizadoEm] = useState(null);
+  // Precisa atestar? (Tarefa 0008-0003, IDR 0036). Começa `false`
+  // (otimista, como `contagens`) e a carga da coleção — a mesma leitura da
+  // Tarefa 0007-0002, sem leitura extra — decide assim que chega: catálogo
+  // e atestação nunca disputam uma tela própria de espera, o mesmo
+  // tratamento que a carga já dá às contagens.
+  const [precisaAtestar, setPrecisaAtestar] = useState(false);
   // Preferências de vista lidas uma vez na abertura (IDR 0026)
   const [inicial] = useState(() => lerPreferenciasDeVista());
   const [ordenacao, setOrdenacao] = useState(inicial.ordenacao);
@@ -142,6 +155,7 @@ export default function App() {
       if (resultado.status === 'encontrado') {
         setContagens(resultado.contagens);
         setAtualizadoEm(formatarCarimbo(resultado.atualizadoEm));
+        setPrecisaAtestar(!resultado.atestadoEm);
         // Documento ainda com `teamName` da era do botão: a próxima gravação
         // agregada o apaga junto das contagens, sem escrita à parte (ADR 0008,
         // Tarefa 0007-0004).
@@ -149,8 +163,11 @@ export default function App() {
           gravacaoAgregada.marcarTeamNameParaApagar(uid);
         }
       } else {
+        // Documento inexistente ("vazio"): primeiro login desta conta, que
+        // nunca atestou.
         setContagens({});
         setAtualizadoEm('—');
+        setPrecisaAtestar(true);
       }
       emitirAviso({ severidade: SEVERIDADE.SUCESSO, mensagem: 'Coleção carregada', tipo: 'carga' });
     });
@@ -159,6 +176,24 @@ export default function App() {
       cancelado = true;
     };
   }, [uid, gravacaoAgregada]);
+
+  // Confirmar a atestação (Tarefa 0008-0003, IDR 0036): grava e libera o
+  // app de qualquer jeito, mesmo em falha — o ato já foi praticado pelo
+  // usuário, e a falha de rede não deve retê-lo. A falha só avisa; o campo
+  // segue ausente no documento e a atestação é tentada de novo se esta
+  // conta logar de novo sem `atestadoEm`.
+  async function handleConfirmarAtestacao() {
+    const resultado = await gravarAtestacao(uid);
+    if (resultado.status !== 'sucesso') {
+      emitirAviso({
+        severidade: SEVERIDADE.FALHA,
+        mensagem: 'Falha ao gravar a atestação — toque para detalhes',
+        detalhe: mensagemDeErro(resultado.erro),
+        tipo: 'atestacao',
+      });
+    }
+    setPrecisaAtestar(false);
+  }
 
   // Grava a preferência ao trocar alternador — a preferência é o próprio
   // último uso (IDR 0026). O colapso de seções não persiste (IDR 0020).
@@ -238,6 +273,10 @@ export default function App() {
     // Tela desenhada em docs/interface.md § Tela de login (Tarefa
     // 0008-0002) — não mais o AuthStatus genérico.
     return <TelaDeLogin />;
+  }
+
+  if (precisaAtestar) {
+    return <Atestacao onConfirmar={handleConfirmarAtestacao} />;
   }
 
   return (

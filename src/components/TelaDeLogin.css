@@ -67,6 +67,27 @@
   cursor: pointer;
 }
 
+/* Reaproveitado por Atestacao.jsx (Tarefa 0008-0003), que segue o desenho
+   desta tela — mesmo cartão, mesmos tokens, sem layout novo. Distinto do
+   botão do Google: dourado/controle-ativo, não branco — o branco continua
+   exclusivo do provedor (IDR 0022). */
+.tela-de-login__confirmar {
+  width: 100%;
+  border: none;
+  border-radius: 10px;
+  padding: 12px;
+  background: var(--gold);
+  color: var(--turf-deep);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.tela-de-login__confirmar:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
 .tela-de-login__rodape {
   margin: 0;
   padding: 16px var(--page-gutter) 24px;

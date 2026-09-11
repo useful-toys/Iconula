@@ -1,6 +1,7 @@
 // Copyright (c) 2026 Daniel Felix Ferber
 
 import { act, render, screen, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import "@testing-library/jest-dom/vitest";
 
@@ -29,6 +30,7 @@ vi.mock("./lib/firebase", () => ({
 const colecao = vi.hoisted(() => ({
   carregarColecao: vi.fn(),
   gravarAlteracoes: vi.fn(),
+  gravarAtestacao: vi.fn(),
   formatarCarimbo: vi.fn(),
   mensagemDeErro: vi.fn(),
 }));
@@ -36,6 +38,7 @@ const colecao = vi.hoisted(() => ({
 vi.mock("./lib/colecaoRemota.js", () => ({
   carregarColecao: colecao.carregarColecao,
   gravarAlteracoes: colecao.gravarAlteracoes,
+  gravarAtestacao: colecao.gravarAtestacao,
   formatarCarimbo: colecao.formatarCarimbo,
   mensagemDeErro: colecao.mensagemDeErro,
 }));
@@ -63,6 +66,8 @@ beforeEach(() => {
   colecao.carregarColecao.mockReset();
   colecao.gravarAlteracoes.mockReset();
   colecao.gravarAlteracoes.mockResolvedValue({ status: "sucesso", atualizadoEm: new Date() });
+  colecao.gravarAtestacao.mockReset();
+  colecao.gravarAtestacao.mockResolvedValue({ status: "sucesso" });
   colecao.formatarCarimbo.mockImplementation((d) => (d ? "14:05" : "—"));
   colecao.mensagemDeErro.mockImplementation((e) => e?.message ?? "erro");
   limparAvisos();
@@ -76,6 +81,7 @@ describe("App — carga no login", () => {
       contagens: { BRA01: 3, FWC01: 1 },
       atualizadoEm: new Date("2026-09-10T14:05:00"),
       temTeamName: false,
+      atestadoEm: true,
     });
     authState.user = USUARIO;
 
@@ -92,11 +98,16 @@ describe("App — carga no login", () => {
     expect(screen.getByText("14:05")).toBeInTheDocument();
   });
 
-  it("documento vazio exibe travessão no relógio e não gera falha", async () => {
+  it("documento vazio exibe travessão no relógio e não gera falha, depois de atestar", async () => {
+    const user = userEvent.setup();
     colecao.carregarColecao.mockResolvedValue({ status: "vazio" });
     authState.user = USUARIO;
 
     render(<App />);
+
+    // Documento inexistente = conta nunca atestou (Tarefa 0008-0003): o
+    // passo de atestação aparece antes do catálogo.
+    await user.click(await screen.findByRole("button", { name: "Confirmar" }));
 
     await waitFor(() => {
       expect(screen.getByText("—")).toBeInTheDocument();

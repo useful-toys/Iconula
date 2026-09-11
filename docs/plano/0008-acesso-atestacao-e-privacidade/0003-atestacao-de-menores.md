@@ -3,7 +3,7 @@
 # Tarefa [0008-0003]: atestação de menores e `atestadoEm`
 
 ## Status
-Pendente
+Concluída
 
 ## Documentos de referência (ler antes de implementar)
 - `docs/requisitos.md` § Acesso — "um clique atestando ter 12 anos ou mais ou estar autorizado pelos responsáveis, antes de liberar o app — uma única vez por conta, gravada em `atestadoEm`"
@@ -96,14 +96,14 @@ nascimento ou qualquer outro dado pessoal.
 - `docs/idr/00NN-atestacao-passo-explicito-e-falha-de-gravacao.md` — criar (próximo número livre)
 
 ## Critérios de aceite
-- [ ] Conta sem `atestadoEm` vê o passo antes de acessar o catálogo
-- [ ] Conta com `atestadoEm` vai direto ao catálogo, sem passo e sem leitura extra
-- [ ] Confirmar grava `atestadoEm` uma vez, sem `updatedAt`, e o relógio não se move
-- [ ] Falha ao gravar libera o app, emite aviso e deixa a gravação pendente
-- [ ] O texto exibido é o exato de `docs/interface.md` § Tela de login
-- [ ] Nenhum dado pessoal além do carimbo é gravado
-- [ ] Registros ADR/TDR/IDR criados para as decisões tomadas
-- [ ] `docs/plano/0008-acesso-atestacao-e-privacidade/logs/0003-log-atestacao-de-menores.md` gerado
+- [x] Conta sem `atestadoEm` vê o passo antes de acessar o catálogo
+- [x] Conta com `atestadoEm` vai direto ao catálogo, sem passo e sem leitura extra
+- [x] Confirmar grava `atestadoEm` uma vez, sem `updatedAt`, e o relógio não se move
+- [x] Falha ao gravar libera o app, emite aviso e deixa a gravação pendente
+- [x] O texto exibido é o exato de `docs/interface.md` § Tela de login
+- [x] Nenhum dado pessoal além do carimbo é gravado
+- [x] Registros ADR/TDR/IDR criados para as decisões tomadas
+- [x] `docs/plano/0008-acesso-atestacao-e-privacidade/logs/0003-log-atestacao-de-menores.md` gerado
 
 ## Validação
 `npm run lint && npm run test && npm run build`.
