@@ -1,0 +1,37 @@
+/* Copyright (c) 2026 Daniel Felix Ferber */
+
+/* O botão do Google é o único elemento claro do produto, de propósito —
+   fora do tema, reconhecível como botão do provedor (docs/interface.md §
+   Tela de login, docs/idr/0022-tema-escuro-unico-paleta-do-prototipo.md). */
+.login {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.login__button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  border: none;
+  border-radius: 10px;
+  padding: 12px;
+  background: #fff;
+  color: #3c4043;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.login__logo {
+  width: 18px;
+  height: 18px;
+}
+
+.login__error {
+  margin: 0;
+  font-size: 12px;
+  color: var(--notif-red);
+}

@@ -5,6 +5,7 @@ import { onAuthStateChanged, signOut } from "firebase/auth";
 import { figurinhas, secoes } from "./data/catalogo.js";
 import { ordenarPorSigla, ordenarPorPagina, extrairSecoes } from "./data/catalogoOrdenacoes.js";
 import AuthStatus from "./components/AuthStatus";
+import TelaDeLogin from "./components/TelaDeLogin.jsx";
 import { Cabecalho } from "./components/Cabecalho.jsx";
 import { Controles } from "./components/Controles.jsx";
 import { Catalogo } from "./components/Catalogo.jsx";
@@ -234,13 +235,9 @@ export default function App() {
   }
 
   if (!user) {
-    return (
-      <div className="app">
-        <div className="app__auth">
-          <AuthStatus user={null} onSignOut={handleSignOut} />
-        </div>
-      </div>
-    );
+    // Tela desenhada em docs/interface.md § Tela de login (Tarefa
+    // 0008-0002) — não mais o AuthStatus genérico.
+    return <TelaDeLogin />;
   }
 
   return (

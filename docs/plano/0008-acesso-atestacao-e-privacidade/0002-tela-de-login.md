@@ -3,7 +3,7 @@
 # Tarefa [0008-0002]: tela de login conforme `interface.md`
 
 ## Status
-Pendente
+Concluída
 
 ## Documentos de referência (ler antes de implementar)
 - `docs/interface.md` § Tela de login — o wireframe, os textos exatos e as medidas (cartão ~360px, raio 20px, `padding: 36px 28px`, título Poppins 700 de 26px)
@@ -90,13 +90,14 @@ de login além do Google.
 - `src/App.jsx` — modificar
 
 ## Critérios de aceite
-- [ ] Os quatro textos exatos de `docs/interface.md` § Tela de login estão na tela
-- [ ] O cartão tem as medidas especificadas e o botão do Google é o único elemento claro
-- [ ] O link "Política de privacidade" é acionável sem autenticar
-- [ ] Falha de login mostra mensagem em `role="alert"`; fechar o popup não mostra nada
-- [ ] O rodapé de marcas aparece na tela de login, sem filete superior
-- [ ] Registros ADR/TDR/IDR criados para as decisões tomadas
-- [ ] `docs/plano/0008-acesso-atestacao-e-privacidade/logs/0002-log-tela-de-login.md` gerado
+- [x] Os quatro textos exatos de `docs/interface.md` § Tela de login estão na tela
+- [x] O cartão tem as medidas especificadas e o botão do Google é o único elemento claro
+- [x] O link "Política de privacidade" é acionável sem autenticar
+- [x] Falha de login mostra mensagem em `role="alert"`; fechar o popup não mostra nada
+- [x] O rodapé de marcas aparece na tela de login, sem filete superior
+- [x] Registros ADR/TDR/IDR criados para as decisões tomadas — nenhuma decisão de
+      nível 1 nesta tarefa (ver Log § Decisões tomadas)
+- [x] `docs/plano/0008-acesso-atestacao-e-privacidade/logs/0002-log-tela-de-login.md` gerado
 
 ## Validação
 `npm run lint && npm run test && npm run build`.
