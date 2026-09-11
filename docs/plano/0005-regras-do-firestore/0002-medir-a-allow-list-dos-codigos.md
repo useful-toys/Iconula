@@ -3,7 +3,7 @@
 # Tarefa [0005-0002]: medir a allow-list dos 994 códigos
 
 ## Status
-Pendente
+Concluída
 
 ## Documentos de referência (ler antes de implementar)
 - `docs/tdr/0009-validacao-do-mapa-nas-regras.md` § Decisão — "a allow-list entra se couber": gerar, medir o ruleset e exercitar no emulador; os dois desfechos já estão decididos
