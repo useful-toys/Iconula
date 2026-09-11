@@ -1,6 +1,6 @@
 <!-- Copyright (c) 2026 Daniel Felix Ferber -->
 
-# Tarefa [0006-0004]: migração do `teamName`
+# Tarefa [0007-0004]: migração do `teamName`
 
 ## Status
 Pendente
@@ -27,18 +27,18 @@ com o resto. Uma escrita, uma vez na vida da conta.
 - O documento resultante tem só os três campos; um update que mantenha
   `teamName` é negado pelas regras — `docs/tdr/0009-*` § Decisão
 - Nada de reintroduzir leitura extra para descobrir se há `teamName`: a carga da
-  Tarefa 0006-0002 já traz o documento inteiro — `docs/requisitos.md` § Requisitos
+  Tarefa 0007-0002 já traz o documento inteiro — `docs/requisitos.md` § Requisitos
   Não Funcionais
 
 ## Escopo e instruções de implementação
-1. Na carga (Tarefa 0006-0002), observar se o documento traz `teamName` e guardar
+1. Na carga (Tarefa 0007-0002), observar se o documento traz `teamName` e guardar
    essa marca no estado — sem leitura adicional.
 2. Na primeira gravação agregada depois disso, incluir `teamName: deleteField()`
    junto das chaves alteradas e do `updatedAt`. Uma operação só.
 3. Depois de a gravação ter sucesso, limpar a marca: as gravações seguintes não
    repetem o `deleteField`.
 4. Se a gravação falhar, a marca permanece e a gravação seguinte tenta de novo —
-   é o mesmo caminho de regravação da Tarefa 0006-0005, sem caso especial.
+   é o mesmo caminho de regravação da Tarefa 0007-0005, sem caso especial.
 5. Não criar comando, rotina, script nem tela de migração; não migrar em massa.
 6. Testes: documento com `teamName` produz uma gravação com `deleteField` junto
    das contagens; documento sem `teamName` não inclui o campo; depois de gravado
@@ -86,7 +86,7 @@ comportamento do botão.
 - [ ] Falha de gravação mantém a marca para a tentativa seguinte
 - [ ] Nenhuma tela, aviso ou comando de migração foi criado
 - [ ] Registros ADR/TDR/IDR criados para as decisões tomadas
-- [ ] `docs/plano/0006-persistencia-da-colecao-e-avisos/logs/0004-log-migracao-do-teamname.md` gerado
+- [ ] `docs/plano/0007-persistencia-da-colecao-e-avisos/logs/0004-log-migracao-do-teamname.md` gerado
 
 ## Validação
 `npm run lint && npm run test && npm run build`.

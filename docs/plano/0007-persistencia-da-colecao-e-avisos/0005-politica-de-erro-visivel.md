@@ -1,6 +1,6 @@
 <!-- Copyright (c) 2026 Daniel Felix Ferber -->
 
-# Tarefa [0006-0005]: política de erro visível ponta a ponta
+# Tarefa [0007-0005]: política de erro visível ponta a ponta
 
 ## Status
 Pendente
@@ -38,7 +38,7 @@ conserta sozinha. Sem rede não é falha — é espera.
 1. Classificar os desfechos da gravação e da carga: sucesso, falha (erro do
    servidor, permissão negada, cota esgotada, falha ao baixar o chunk do SDK) e
    espera (promessa pendente além de ~5s, sem rede).
-2. Emitir a severidade correspondente pela área da Tarefa 0006-0001, com a
+2. Emitir a severidade correspondente pela área da Tarefa 0007-0001, com a
    mensagem em PT-BR na voz do usuário — "Alterações salvas", "Falha ao gravar —
    toque para detalhes", "Conexão instável — sincronizando quando possível" — e o
    erro original guardado no detalhe.
@@ -98,7 +98,7 @@ não como feature offline.
 - [ ] Ajustar continua funcionando durante e depois de qualquer falha
 - [ ] Nenhum log de console contém uid ou conteúdo da coleção
 - [ ] Registros ADR/TDR/IDR criados para as decisões tomadas
-- [ ] `docs/plano/0006-persistencia-da-colecao-e-avisos/logs/0005-log-politica-de-erro-visivel.md` gerado
+- [ ] `docs/plano/0007-persistencia-da-colecao-e-avisos/logs/0005-log-politica-de-erro-visivel.md` gerado
 
 ## Validação
 `npm run lint && npm run test && npm run build`.

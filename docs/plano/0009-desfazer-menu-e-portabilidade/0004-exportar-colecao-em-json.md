@@ -1,6 +1,6 @@
 <!-- Copyright (c) 2026 Daniel Felix Ferber -->
 
-# Tarefa [0008-0004]: exportar a coleção em JSON
+# Tarefa [0009-0004]: exportar a coleção em JSON
 
 ## Status
 Pendente
@@ -44,10 +44,10 @@ versionado e sem dados pessoais, obtido em dois toques a partir do menu.
 5. Emitir sucesso ao concluir; falha ao gerar ou baixar emite falha vermelha com
    detalhe.
 6. Testes: o objeto gerado tem exatamente os três campos; contagens zeradas não
-   aparecem; o arquivo de uma coleção conhecida reimportado pela Tarefa 0008-0005
+   aparecem; o arquivo de uma coleção conhecida reimportado pela Tarefa 0009-0005
    reproduz a coleção idêntica (teste de ida e volta).
 
-**Fora do escopo**: importar (Tarefa 0008-0005); exportar em outros formatos;
+**Fora do escopo**: importar (Tarefa 0009-0005); exportar em outros formatos;
 incluir estatísticas ou listas de troca no arquivo.
 
 ## Decisões já tomadas (não reabrir)
@@ -86,7 +86,7 @@ incluir estatísticas ou listas de troca no arquivo.
 - [ ] Sucesso emite aviso; falha emite faixa vermelha com detalhe
 - [ ] Nenhuma requisição ao Firestore é disparada por exportar
 - [ ] Registros ADR/TDR/IDR criados para as decisões tomadas
-- [ ] `docs/plano/0008-desfazer-menu-e-portabilidade/logs/0004-log-exportar-colecao-em-json.md` gerado
+- [ ] `docs/plano/0009-desfazer-menu-e-portabilidade/logs/0004-log-exportar-colecao-em-json.md` gerado
 
 ## Validação
 `npm run lint && npm run test && npm run build`.

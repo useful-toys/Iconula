@@ -18,7 +18,7 @@ Concluída
 Entregar o cabeçalho da tela principal: uma linha só com o nome, o placar das 994
 e o relógio, em notação compacta, com nome acessível que escreve tudo por extenso.
 Nesta fase o relógio exibe sempre o travessão — o `updatedAt` só existe a partir
-da Fase 6.
+da Fase 7.
 
 ## Padrões e convenções aplicáveis
 - Componente novo em `src/components/`, sem router e sem estado global —
@@ -46,7 +46,7 @@ da Fase 6.
    percentual arredondado para inteiro. Cobrir com teste, incluindo a coleção
    vazia (`0/994 · 0% · ▢994 · ×0`).
 4. Relógio: nesta fase, sempre `—`. Deixar a prop existindo e documentada para a
-   Tarefa 0006-0002 preencher com o `updatedAt`; nada de relógio local do
+   Tarefa 0007-0002 preencher com o `updatedAt`; nada de relógio local do
    navegador, que é justamente o que o IDR 0027 rejeitou.
 5. Nome acessível na linha inteira, escrevendo os números por extenso; os glifos
    `▢` e `×` não podem ser a única forma de o leitor de tela entender o valor.
@@ -56,8 +56,8 @@ da Fase 6.
 7. Sem estado vazio especial: a coleção zerada mostra a tela normal.
 
 **Fora do escopo**: a linha de controles (Fase 3), o botão de desfazer e o menu
-de ações (Fase 8), a faixa de bandeiras (Tarefa 0003-0004) e o `updatedAt` real
-(Tarefa 0006-0002).
+de ações (Fase 9), a faixa de bandeiras (Tarefa 0003-0004) e o `updatedAt` real
+(Tarefa 0007-0002).
 
 ## Decisões já tomadas (não reabrir)
 - Título em linha única, sem barra de progresso nem cartões — ver `docs/idr/0018-usuario-especialista-e-minimalismo.md`

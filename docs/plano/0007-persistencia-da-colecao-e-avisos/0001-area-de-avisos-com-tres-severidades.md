@@ -1,6 +1,6 @@
 <!-- Copyright (c) 2026 Daniel Felix Ferber -->
 
-# Tarefa [0006-0001]: área de avisos com três severidades
+# Tarefa [0007-0001]: área de avisos com três severidades
 
 ## Status
 Pendente
@@ -15,8 +15,8 @@ Pendente
 
 ## Objetivo
 Construir o canal de retorno do app antes de existir o que notificar: a faixa
-flutuante com as três severidades, que a persistência (Tarefas 0006-0002 a
-0006-0005) e o menu de ações (Fase 8) vão usar.
+flutuante com as três severidades, que a persistência (Tarefas 0007-0002 a
+0007-0005) e o menu de ações (Fase 9) vão usar.
 
 ## Padrões e convenções aplicáveis
 - Sucesso e aviso somem sozinhos em **5s**; falha persiste até ser dispensada ou
@@ -52,14 +52,14 @@ flutuante com as três severidades, que a persistência (Tarefas 0006-0002 a
    que exige atenção, com `role="alert"` — a política do ADR 0007 de não usar
    `role="alert"` valia para o botão e foi revista pelos IDRs 0002 e 0029.
 7. Camadas: a faixa passa por cima do cabeçalho sticky. O menu de ações, que
-   chega na Fase 8, precisa ficar acima dela — deixar a ordem de empilhamento
+   chega na Fase 9, precisa ficar acima dela — deixar a ordem de empilhamento
    documentada no CSS.
 8. Testes com temporizador falso: sucesso e aviso somem em 5s; a falha permanece
    depois de 5s; dispensar remove; a falha some quando a operação seguinte do
    mesmo tipo reporta sucesso.
 
-**Fora do escopo**: qualquer evento real de persistência (Tarefas 0006-0002 em
-diante); avisos das ações do menu (Fase 8).
+**Fora do escopo**: qualquer evento real de persistência (Tarefas 0007-0002 em
+diante); avisos das ações do menu (Fase 9).
 
 ## Decisões já tomadas (não reabrir)
 - Três severidades, com sucesso e aviso efêmeros de 5s — ver `docs/idr/0029-avisos-flutuantes-com-tres-severidades.md`
@@ -102,7 +102,7 @@ diante); avisos das ações do menu (Fase 8).
 - [ ] Nenhuma faixa tem rolagem própria e o empilhamento tem limite
 - [ ] A faixa passa por cima do cabeçalho sticky e não empurra o layout
 - [ ] Registros ADR/TDR/IDR criados para as decisões tomadas
-- [ ] `docs/plano/0006-persistencia-da-colecao-e-avisos/logs/0001-log-area-de-avisos-com-tres-severidades.md` gerado
+- [ ] `docs/plano/0007-persistencia-da-colecao-e-avisos/logs/0001-log-area-de-avisos-com-tres-severidades.md` gerado
 
 ## Validação
 `npm run lint && npm run test && npm run build`.

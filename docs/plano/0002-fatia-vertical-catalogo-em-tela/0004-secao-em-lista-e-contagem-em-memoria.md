@@ -17,7 +17,7 @@ Concluída
 ## Objetivo
 Fechar a fatia vertical: o catálogo inteiro em tela, seção por seção na disposição
 lista, com a contagem ajustável e o progresso por seção e no placar reagindo na
-hora. Nesta fase a coleção vive só em memória — a persistência chega na Fase 6.
+hora. Nesta fase a coleção vive só em memória — a persistência chega na Fase 7.
 
 ## Padrões e convenções aplicáveis
 - Componentes novos em `src/components/`; **sem router e sem estado global nesta
@@ -53,13 +53,13 @@ hora. Nesta fase a coleção vive só em memória — a persistência chega na F
 6. **Ponto em aberto do `arquitetura.md`: Context × prop-drilling** — resolver
    aqui por prop-drilling, e só considerar Context se a coleção precisar
    atravessar mais de três níveis de componente. Registrar a decisão como **TDR**,
-   com o critério de reavaliação explícito (revisto na Tarefa 0006-0003).
+   com o critério de reavaliação explícito (revisto na Tarefa 0007-0003).
 7. Testes: ajustar uma figurinha muda o cartão, o resumo da seção e o placar na
    mesma renderização; incrementar em 99 e decrementar em 0 não mudam nada; a
    chave some do mapa ao chegar a 0.
 
 **Fora do escopo**: ordenações e super-grupos (Fase 3); colapso (Fase 3); filtro
-(Fase 4); disposição álbum (Fase 4); desfazer (Fase 8); qualquer gravação.
+(Fase 4); disposição álbum (Fase 4); desfazer (Fase 9); qualquer gravação.
 
 ## Decisões já tomadas (não reabrir)
 - Faltantes no cabeçalho da seção, em notação compacta — ver `docs/idr/0011-*` e `docs/idr/0018-*`
@@ -111,4 +111,4 @@ hora. Nesta fase a coleção vive só em memória — a persistência chega na F
 Verificação visual em `npm run dev`: rolar do topo ao fim passa pelas 50 seções
 sem nenhuma barra de rolagem interna; ajustar figurinhas do Brasil muda o resumo
 do Brasil e o placar do título; recarregar a página zera a coleção — comportamento
-esperado até a Fase 6.
+esperado até a Fase 7.

@@ -1,6 +1,6 @@
 <!-- Copyright (c) 2026 Daniel Felix Ferber -->
 
-# Tarefa [0007-0003]: atestação de menores e `atestadoEm`
+# Tarefa [0008-0003]: atestação de menores e `atestadoEm`
 
 ## Status
 Pendente
@@ -41,7 +41,7 @@ o usuário atesta ter 12 anos ou mais ou estar autorizado, e isso fica gravado u
    texto exato e um botão de confirmação → grava `atestadoEm` → libera o app.
    Autenticado e com `atestadoEm` → vai direto para o catálogo.
 3. Descobrir se há `atestadoEm` **sem leitura adicional**: a carga da
-   Tarefa 0006-0002 já traz o documento inteiro. Ordenar o fluxo de modo que a
+   Tarefa 0007-0002 já traz o documento inteiro. Ordenar o fluxo de modo que a
    carga aconteça antes da decisão, ou que a decisão use o que ela trouxe.
 4. A gravação é `atestadoEm: serverTimestamp()` sozinho, com `updateDoc`/`setDoc`
    conforme o documento exista ou não — e é o caso que as regras aceitam pela
@@ -58,7 +58,7 @@ o usuário atesta ter 12 anos ou mais ou estar autorizado, e isso fica gravado u
    aviso, e a marca fica pendente para regravar; a gravação não inclui
    `updatedAt` e o relógio do título não se move.
 
-**Fora do escopo**: mudar a política de privacidade (Tarefa 0007-0004); qualquer
+**Fora do escopo**: mudar a política de privacidade (Tarefa 0008-0004); qualquer
 verificação de idade de verdade — é atestação, não verificação; guardar data de
 nascimento ou qualquer outro dado pessoal.
 
@@ -103,7 +103,7 @@ nascimento ou qualquer outro dado pessoal.
 - [ ] O texto exibido é o exato de `docs/interface.md` § Tela de login
 - [ ] Nenhum dado pessoal além do carimbo é gravado
 - [ ] Registros ADR/TDR/IDR criados para as decisões tomadas
-- [ ] `docs/plano/0007-acesso-atestacao-e-privacidade/logs/0003-log-atestacao-de-menores.md` gerado
+- [ ] `docs/plano/0008-acesso-atestacao-e-privacidade/logs/0003-log-atestacao-de-menores.md` gerado
 
 ## Validação
 `npm run lint && npm run test && npm run build`.

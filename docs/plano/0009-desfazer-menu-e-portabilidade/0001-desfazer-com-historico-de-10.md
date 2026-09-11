@@ -1,6 +1,6 @@
 <!-- Copyright (c) 2026 Daniel Felix Ferber -->
 
-# Tarefa [0008-0001]: desfazer com histórico das últimas 10
+# Tarefa [0009-0001]: desfazer com histórico das últimas 10
 
 ## Status
 Pendente
@@ -41,14 +41,14 @@ ruído a cada toque.
    reservado na Tarefa 0003-0001; desabilitado quando o histórico está vazio, com
    nome acessível por extenso ("desfazer a última alteração").
 5. O histórico é descartado ao recarregar — nada de `localStorage`.
-6. Deixar preparado o descarte do histórico pela importação (Tarefa 0008-0005),
+6. Deixar preparado o descarte do histórico pela importação (Tarefa 0009-0005),
    que exige zerá-lo.
 7. Testes: dez ajustes e dez desfazer voltam ao estado inicial; o décimo primeiro
    desfazer não faz nada; o botão fica desabilitado sem histórico; a reversão
    entra na gravação agregada; recarregar limpa o histórico.
 
 **Fora do escopo**: refazer, que nenhum registro pede; persistir o histórico; o
-menu de ações (Tarefa 0008-0002).
+menu de ações (Tarefa 0009-0002).
 
 ## Decisões já tomadas (não reabrir)
 - Botão no cabeçalho, histórico de 10, em memória — ver `docs/idr/0012-desfazer-no-cabecalho-historico-de-10.md`
@@ -87,7 +87,7 @@ menu de ações (Tarefa 0008-0002).
 - [ ] Recarregar a página limpa o histórico
 - [ ] Nome acessível por extenso e estado desabilitado exposto
 - [ ] Registros ADR/TDR/IDR criados para as decisões tomadas
-- [ ] `docs/plano/0008-desfazer-menu-e-portabilidade/logs/0001-log-desfazer-com-historico-de-10.md` gerado
+- [ ] `docs/plano/0009-desfazer-menu-e-portabilidade/logs/0001-log-desfazer-com-historico-de-10.md` gerado
 
 ## Validação
 `npm run lint && npm run test && npm run build`.

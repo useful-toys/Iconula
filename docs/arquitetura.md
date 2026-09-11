@@ -123,7 +123,7 @@ Fluxos:
 | CSP para Auth/Firestore | [TDR 0005](tdr/0005-csp-firebase-auth-google-oauth.md), [TDR 0007](tdr/0007-csp-para-o-firestore.md) |
 | Regras: deploy e teste | [TDR 0008](tdr/0008-deploy-e-teste-das-regras-do-firestore.md) |
 | Regras: o que dá para validar no mapa | [TDR 0009](tdr/0009-validacao-do-mapa-nas-regras.md) |
-| Interface (disposições, estados, sync, scroll…) | [IDR 0001–0029](idr/) + [interface.md](interface.md) |
+| Interface (disposições, estados, sync, scroll…) | [IDR 0001–0033](idr/) + [interface.md](interface.md) |
 | Aparência (tema, paleta, medidas) | [IDR 0022](idr/0022-tema-escuro-unico-paleta-do-prototipo.md) + [interface.md](interface.md) |
 | Schema da coleção | [ADR 0008](adr/0008-schema-da-colecao-mapa-esparso.md) + [persistencia.md](persistencia.md) |
 
@@ -133,7 +133,7 @@ Fluxos:
   três campos, teto de 99 — TDR 0009); restam por aceitar os valores
   numéricos (debounce ~2s, teto de espera ~10s, timeout ~5s sem rede),
   pontos de partida ajustáveis sem novo ADR — aceitos em uso real na
-  Fase 6
+  Fase 7
 - **Router**: tela de privacidade como rota ou vista interna — decidir
   quando as telas existirem
 - **Estado global**: a coleção consumida por várias telas pode exigir

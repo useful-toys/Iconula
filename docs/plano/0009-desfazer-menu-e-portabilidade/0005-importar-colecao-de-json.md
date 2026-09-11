@@ -1,6 +1,6 @@
 <!-- Copyright (c) 2026 Daniel Felix Ferber -->
 
-# Tarefa [0008-0005]: importar coleção de arquivo JSON
+# Tarefa [0009-0005]: importar coleção de arquivo JSON
 
 ## Status
 Pendente
@@ -43,7 +43,7 @@ válido.
    resolver por confirmação mínima, sem tela própria, coerente com o minimalismo
    do IDR 0018. Registrar como **IDR**.
 4. Aplicar: substituir o estado em memória, descartar o histórico de desfazer
-   (Tarefa 0008-0001) e gravar em **uma** escrita que substitui `contagens` e
+   (Tarefa 0009-0001) e gravar em **uma** escrita que substitui `contagens` e
    move `updatedAt`.
 5. Retorno: sucesso "coleção importada"; arquivo inválido ou de versão
    desconhecida, aviso dourado; falha ao gravar, falha vermelha com detalhe — e,
@@ -52,7 +52,7 @@ válido.
 6. Testes: arquivo válido substitui a coleção e zera o histórico; arquivo com
    versão desconhecida não altera nada e emite aviso; JSON malformado idem;
    valor 100 ou negativo é recusado; a gravação é uma só; ida e volta com o
-   arquivo da Tarefa 0008-0004 reproduz a coleção idêntica.
+   arquivo da Tarefa 0009-0004 reproduz a coleção idêntica.
 
 **Fora do escopo**: importar lista colada do WhatsApp, requisito futuro; merge de
 coleções; usar a importação como mecanismo de salvamento.
@@ -100,7 +100,7 @@ coleções; usar a importação como mecanismo de salvamento.
 - [ ] A gravação é uma única escrita que substitui `contagens` e move `updatedAt`
 - [ ] Exportar e reimportar reproduz a coleção idêntica
 - [ ] Registros ADR/TDR/IDR criados para as decisões tomadas
-- [ ] `docs/plano/0008-desfazer-menu-e-portabilidade/logs/0005-log-importar-colecao-de-json.md` gerado
+- [ ] `docs/plano/0009-desfazer-menu-e-portabilidade/logs/0005-log-importar-colecao-de-json.md` gerado
 
 ## Validação
 `npm run lint && npm run test && npm run build`.

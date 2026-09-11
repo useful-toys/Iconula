@@ -201,6 +201,9 @@ Questões recorrentes são marcadas como "Nota".*
     inclusive especiais e Coca-Cola
   - Por seção: os mesmos números sobre o total da seção
 - Exibir lista de faltantes: figurinhas com contagem 0
+- Exibir lista de coladas: figurinhas com contagem ≥ 1 — a conferência
+  contra o álbum físico; é vista em tela (filtro), sem texto de troca
+  correspondente
 - Exibir lista de repetidas: figurinhas com contagem ≥ 2, com as
   unidades sobrando (contagem − 1)
 
@@ -296,9 +299,11 @@ Questões recorrentes são marcadas como "Nota".*
   outra, sem interrupções; um salto direto à seção desejada complementa
   a rolagem (ver [IDR 0014](idr/0014-salto-direto-para-secao.md), que
   retoma o [IDR 0004](idr/0004-rejeitado-ir-para-secao-e-salto-de-navegacao.md))
-- Filtro de status (todas/faltantes/repetidas) existe apenas na
+- Filtro de status (todas/faltantes/coladas/repetidas) existe apenas na
   disposição lista; a disposição álbum nunca é filtrada — nem a lista do
-  FWC exibida dentro dela (IDR 0023)
+  FWC exibida dentro dela (IDR 0023). Coladas (contagem ≥ 1) e repetidas
+  (contagem ≥ 2) se sobrepõem de propósito (ver
+  [IDR 0033](idr/0033-filtro-de-coladas.md))
 - Ao filtrar, seções (e super-grupos) sem nenhuma figurinha no estado
   filtrado somem da vista — o filtro não deixa cabeçalhos vazios para
   trás (ver [IDR 0025](idr/0025-filtro-oculta-secoes-vazias.md))

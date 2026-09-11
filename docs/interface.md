@@ -60,13 +60,18 @@ demonstrar avisos) é andaime da prévia, não faz parte do produto.*
   em ambas, os Extras FIFA abrem o catálogo e a Coca-Cola o fecha (ver
   [IDR 0028](idr/0028-fwc-abre-e-coca-cola-fecha-o-catalogo.md))
 - Alternador de disposição: lista contínua × layout da página física
-- Filtro de status (todas/faltantes/repetidas): apenas na disposição
-  lista — na disposição álbum o alternador de filtro nem aparece,
-  inclusive para as seções que ali se exibem em lista (IDR 0023)
+- Filtro de status (todas/faltantes/coladas/repetidas): apenas na
+  disposição lista — na disposição álbum o alternador de filtro nem
+  aparece, inclusive para as seções que ali se exibem em lista (IDR 0023)
+- Coladas é contagem ≥ 1 e repetidas é contagem ≥ 2: os dois conjuntos
+  se sobrepõem de propósito — toda repetida é colada — e a tela não
+  sinaliza a sobreposição (ver
+  [IDR 0033](idr/0033-filtro-de-coladas.md))
 - Rótulos curtos, como no protótipo: `Página` | `Sigla`, `Lista` |
-  `Álbum`, `Todas` | `Falt.` | `Rep.` — abreviados para os três grupos
-  caberem numa linha de celular; a forma por extenso vive só no nome
-  acessível, como manda a notação compacta do IDR 0018
+  `Álbum`, `Todas` | `Falt.` | `Col.` | `Rep.` — abreviados para os três
+  grupos caberem numa linha de celular, que com o quarto segmento do
+  filtro passa a depender da quebra descrita abaixo; a forma por extenso
+  vive só no nome acessível, como manda a notação compacta do IDR 0018
 - Os grupos segmentados fluem da esquerda para a direita e quebram para
   a linha seguinte quando não cabem na largura; os dois botões de
   comando ficam sempre colados à direita, separados dos alternadores
@@ -203,10 +208,17 @@ Páginas 112–113 do álbum (requisitos.md, Anexo):
   reduzida, borda tracejada); colada = cartão preenchido — além da cor,
   nunca no lugar dela
 - Marca no canto superior direito para figurinhas metalizadas/especiais
+- Controle de menos no canto inferior esquerdo, dentro do retângulo do
+  cartão — não transborda, ao contrário do selo `×N`; só existe a
+  partir da contagem 1, então a figurinha faltante não o exibe (ver
+  [IDR 0032](idr/0032-controle-de-menos-so-com-unidade-e-dentro-do-cartao.md));
+  oculto por padrão, aparece no hover e no foco, e fica sempre visível
+  em tela sem hover (ver [IDR 0030](idr/0030-controle-de-menos-do-cartao.md))
 
 ### Interações
 - Tocar na figurinha soma uma unidade — sem efeito ao chegar em 99
-- Ícone de menos que surge ao tocar remove uma unidade — sem efeito em 0
+- Controle de menos remove uma unidade; como ele só existe a partir da
+  contagem 1, não há decremento em 0 para absorver (IDR 0032)
 - Comando desfazer, no cabeçalho, reverte a última alteração; repetível
   para as últimas 10 (ver
   [IDR 0010](idr/0010-desfazer-ajustes-em-vez-de-confirmacoes.md) e
@@ -313,11 +325,11 @@ Esquemático em texto; cores indicadas são as do
 ```
 
 Cards fluem e quebram de linha conforme a largura da tela; o filtro de
-status atua aqui (todas/faltantes/repetidas) e leva junto as seções sem
-resultado (IDR 0025). No cabeçalho do grupo, notação compacta (IDR
-0018): 12/20 = coladas do total, ▢8 = faltantes, ×3 = repetidas — aqui
-o × conta **códigos distintos** com contagem ≥ 2, enquanto no cartão
-conta **unidades sobrando** (IDR 0021).
+status atua aqui (todas/faltantes/coladas/repetidas) e leva junto as
+seções sem resultado (IDR 0025). No cabeçalho do grupo, notação
+compacta (IDR 0018): 12/20 = coladas do total, ▢8 = faltantes, ×3 =
+repetidas — aqui o × conta **códigos distintos** com contagem ≥ 2,
+enquanto no cartão conta **unidades sobrando** (IDR 0021).
 
 ### Grupo na disposição álbum — seleção
 
@@ -488,8 +500,10 @@ estádio. O app não segue `prefers-color-scheme` e não tem tema claro
 - Desfazer e menu de ações: botões de 30×30px, raio 8px, borda e texto
   em `--gold`, alinhados à direita da linha
 - Faixa de bandeiras: ícones de 30×30px, raio 8px, fundo `--panel`
-  (`--gold` no destaque), espaçamento 8px, rolagem horizontal; o glifo
-  da bandeira em 15px, centralizado no quadrado
+  (`--gold` no destaque), espaçamento 4px, rolagem horizontal; o glifo
+  da bandeira em 15px, centralizado no quadrado — o espaçamento é o
+  mais apertado que ainda separa duas bandeiras vizinhas, para caber o
+  máximo de seções na largura antes de precisar rolar
 - Corpo: `padding: 20px clamp(16px, 4vw, 40px) 60px`, 16px entre
   super-grupos
 - Sem largura máxima de conteúdo: a página ocupa toda a largura
@@ -521,6 +535,10 @@ estádio. O app não segue `prefers-color-scheme` e não tem tema claro
 - Marca de metalizada: ponto de 6px em `--gold` no canto superior
   direito (5px no álbum), com 3px de recuo das bordas na lista e 2px no
   álbum — dentro do cartão, nunca transbordando como o selo
+- Controle de menos: círculo de 18px no canto inferior esquerdo (16px no
+  álbum), com o mesmo recuo da marca de metalizada — 3px na lista, 2px
+  no álbum —, fundo `--turf-deep`, borda de 1px e sinal `−` em
+  `--gold`, 13px/700 (12px no álbum); nunca transborda o cartão
 - Área de avisos: flutuante (`position: fixed`) colada à borda
   inferior, `padding: 12px clamp(16px, 4vw, 40px)` e sombra
   `0 -6px 20px` para cima; borda superior de 2px na cor da severidade
@@ -552,7 +570,8 @@ estádio. O app não segue `prefers-color-scheme` e não tem tema claro
   cursor — falta decidir o realce de foco visível (indispensável para
   navegação por teclado) e o retorno imediato do toque no cartão, que
   hoje só se manifesta pela mudança de cor do estado
-- Se os alvos de 30×30px (desfazer, menu de ações, ícones da faixa de
-  bandeiras) ganham área de toque ampliada em tela sensível — os
+- Se os alvos pequenos — 30×30px (desfazer, menu de ações, ícones da
+  faixa de bandeiras) e o controle de menos do cartão (18px na lista,
+  16px no álbum) — ganham área de toque ampliada em tela sensível; os
   cartões, de 52×66px, já estão folgados
 - Diálogos de exportação e importação

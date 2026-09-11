@@ -49,7 +49,7 @@ const FILTROS = [
 /**
  * Linha de controles logo abaixo do t\u00edtulo: grupos segmentados de ordena\u00e7\u00e3o
  * (P\u00e1gina | Sigla), disposi\u00e7\u00e3o (Lista | \u00c1lbum) e filtro (Todas | Falt. |
- * Rep.), mais \u00e1rea reservada \u00e0 direita para os comandos que chegam na Fase 8
+ * Rep.), mais \u00e1rea reservada \u00e0 direita para os comandos que chegam na Fase 9
  * (desfazer e menu).
  *
  * O grupo de filtro s\u00f3 aparece quando a disposi\u00e7\u00e3o \u00e9 lista (IDR 0001, IDR 0023).

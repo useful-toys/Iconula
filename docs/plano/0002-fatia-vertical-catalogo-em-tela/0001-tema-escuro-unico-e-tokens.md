@@ -53,7 +53,7 @@ das fases seguintes consomem. Uma cor literal fora dos tokens é regressão.
    sobre `--turf`, e o texto `--ink-on-light` sobre os cartões coloridos.
 
 **Fora do escopo**: qualquer componente (Tarefas 0002-0002 a 0002-0004); estados
-de foco e hover (Tarefa 0009-0001); as medidas específicas da disposição álbum
+de foco e hover (Tarefa 0010-0001); as medidas específicas da disposição álbum
 (Fase 4).
 
 ## Decisões já tomadas (não reabrir)

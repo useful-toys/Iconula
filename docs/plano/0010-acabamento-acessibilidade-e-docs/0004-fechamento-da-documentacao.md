@@ -1,6 +1,6 @@
 <!-- Copyright (c) 2026 Daniel Felix Ferber -->
 
-# Tarefa [0009-0004]: fechamento da documentação
+# Tarefa [0010-0004]: fechamento da documentação
 
 ## Status
 Pendente
@@ -100,7 +100,7 @@ tivessem sido feitos.
 - [ ] O `README.md` do plano tem os status corretos
 - [ ] O log lista o que permanece aberto, com o motivo
 - [ ] Registros ADR/TDR/IDR criados para as decisões tomadas (nenhum esperado)
-- [ ] `docs/plano/0009-acabamento-acessibilidade-e-docs/logs/0004-log-fechamento-da-documentacao.md` gerado
+- [ ] `docs/plano/0010-acabamento-acessibilidade-e-docs/logs/0004-log-fechamento-da-documentacao.md` gerado
 
 ## Validação
 `npm run lint && npm run test && npm run build`.

@@ -36,7 +36,7 @@ que ele existe.
    plano (por exemplo, a descrição de `docs/requisitos.md` como fonte de escopo
    continua correta e não deve mudar).
 4. Não alterar nenhuma outra seção do `AGENTS.md` nesta tarefa — em especial
-   § Como rodar, que só muda na Tarefa 0007-0001.
+   § Como rodar, que só muda na Tarefa 0008-0001.
 
 **Fora do escopo**: qualquer alteração em `src/`, em configuração, ou nas demais
 seções do `AGENTS.md`; a criação dos arquivos do plano, que já existe.

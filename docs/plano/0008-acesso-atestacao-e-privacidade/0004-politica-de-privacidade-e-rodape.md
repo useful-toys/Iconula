@@ -1,6 +1,6 @@
 <!-- Copyright (c) 2026 Daniel Felix Ferber -->
 
-# Tarefa [0007-0004]: política de privacidade e rodapé de marcas
+# Tarefa [0008-0004]: política de privacidade e rodapé de marcas
 
 ## Status
 Pendente
@@ -55,7 +55,7 @@ autenticar, e fechar o aviso de independência e marcas no rodapé das duas tela
    origem; o texto cobre os itens exigidos.
 
 **Fora do escopo**: "apagar meus dados", que é requisito futuro; qualquer coleta
-nova de dado; adicionar a política ao menu de ações da Fase 8.
+nova de dado; adicionar a política ao menu de ações da Fase 9.
 
 ## Decisões já tomadas (não reabrir)
 - A política é exigida antes do login — ver `docs/requisitos.md` § Acesso
@@ -102,7 +102,7 @@ nova de dado; adicionar a política ao menu de ações da Fase 8.
 - [ ] Nenhum router foi introduzido
 - [ ] O rodapé de marcas aparece nas duas telas, com o filete só na principal
 - [ ] Registros ADR/TDR/IDR criados para as decisões tomadas
-- [ ] `docs/plano/0007-acesso-atestacao-e-privacidade/logs/0004-log-politica-de-privacidade-e-rodape.md` gerado
+- [ ] `docs/plano/0008-acesso-atestacao-e-privacidade/logs/0004-log-politica-de-privacidade-e-rodape.md` gerado
 
 ## Validação
 `npm run lint && npm run test && npm run build`.

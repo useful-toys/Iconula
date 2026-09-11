@@ -55,7 +55,7 @@ catálogo permanece inteiro antes e depois do salto — salto não é filtro.
 
 **Fora do escopo**: o filtro em si (Tarefa 0004-0004); destacar o ícone da seção
 visível durante a rolagem — não é pedido por nenhum registro; a área de toque
-ampliada dos ícones (Tarefa 0009-0001).
+ampliada dos ícones (Tarefa 0010-0001).
 
 ## Decisões já tomadas (não reabrir)
 - O mecanismo do salto é a faixa de bandeiras, e não combobox ou busca — ver `docs/idr/0016-salto-pela-faixa-de-bandeiras.md`

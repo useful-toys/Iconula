@@ -14,7 +14,7 @@ progresso do álbum (coladas, faltantes e repetidas) e organizar trocas.
 O catálogo inteiro — 994 figurinhas em 50 seções — é exibido na tela
 principal, com contagens ajustáveis em memória. A autenticação com Google
 (Firebase Auth) está disponível, mas ainda não persiste a coleção; a
-persistência no Cloud Firestore chega na Fase 6.
+persistência no Cloud Firestore chega na Fase 7.
 
 A SPA cresce por fases: catálogo em tela, ordenações e agrupamento,
 disposição como no álbum físico, persistência, acesso e atestação,
@@ -58,7 +58,7 @@ entram quando a árvore realmente exigir.
 | `src/App.css` | Estilo do app (tema escuro único, responsivo). |
 | `src/App.test.jsx` | Testes de login/logout e renderização do cabeçalho/catálogo (mocka `src/lib/firebase.js` e `src/components/Catalogo.jsx`). |
 | `src/App.auth-unavailable.test.jsx` | Teste do comportamento quando o Firebase Auth não está configurado. |
-| `src/lib/firebase.js` | Inicializa o SDK do Firebase (API modular — ver ADR 0006) a partir das variáveis `VITE_FIREBASE_*`; exporta `auth`, `app` (ambos `null` se a config estiver incompleta — login fica indisponível, mas o resto do app funciona) e `signInWithGoogle()`. Não importa `firebase/firestore`: a persistência será carregada sob demanda na Fase 6. |
+| `src/lib/firebase.js` | Inicializa o SDK do Firebase (API modular — ver ADR 0006) a partir das variáveis `VITE_FIREBASE_*`; exporta `auth`, `app` (ambos `null` se a config estiver incompleta — login fica indisponível, mas o resto do app funciona) e `signInWithGoogle()`. Não importa `firebase/firestore`: a persistência será carregada sob demanda na Fase 7. |
 | `src/lib/colecao.js` | Funções puras para o mapa esparso de contagens: obter contagem e ajustar com teto de 99 e piso de 0. |
 | `src/lib/progresso.js` | Calcula coladas, faltantes, repetidas e percentual sobre um conjunto de códigos. |
 | `src/lib/bandeira.js` | Converte emoji de bandeira/ícone em URL do SVG Twemoji vendorizado. |

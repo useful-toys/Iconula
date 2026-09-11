@@ -1,6 +1,6 @@
 <!-- Copyright (c) 2026 Daniel Felix Ferber -->
 
-# Tarefa [0006-0002]: carga no login e relógio do título
+# Tarefa [0007-0002]: carga no login e relógio do título
 
 ## Status
 Pendente
@@ -37,7 +37,7 @@ gravado no documento.
    `userPreferences.js` removido na Fase 2, com `import()` dinâmico memoizado do
    `firebase/firestore` e `getFirestore(app)` por dentro.
 2. Inicializar o Firestore com `persistentLocalCache` e
-   `persistentMultipleTabManager()` — é o que sustenta o flush da Tarefa 0006-0003
+   `persistentMultipleTabManager()` — é o que sustenta o flush da Tarefa 0007-0003
    e a segunda aba.
 3. Carregar `users/{uid}` uma vez por login, devolvendo um resultado discriminado
    (encontrado / vazio / erro / indisponível) — o módulo **nunca lança**.
@@ -47,7 +47,7 @@ gravado no documento.
    IDR 0027: hora sozinha no mesmo dia, data junto quando não for de hoje,
    travessão quando não houver carimbo.
 6. Emitir aviso de sucesso "carregado" e, em falha de leitura, aviso de falha com
-   o detalhe técnico — usando a área da Tarefa 0006-0001.
+   o detalhe técnico — usando a área da Tarefa 0007-0001.
 7. Repetir a proteção de corrida do ADR 0007 adaptada ao produto novo: se o
    usuário já ajustou contagens enquanto a leitura estava em voo, a resposta do
    servidor não pode sobrescrever o que ele acabou de fazer.
@@ -55,8 +55,8 @@ gravado no documento.
    carga popula a coleção e o relógio; documento vazio não é erro; falha de
    leitura mantém a tela utilizável e emite a falha.
 
-**Fora do escopo**: qualquer escrita (Tarefas 0006-0003 e 0006-0004); a guarda de
-login (Fase 7); sincronização ao vivo, que é requisito futuro.
+**Fora do escopo**: qualquer escrita (Tarefas 0007-0003 e 0007-0004); a guarda de
+login (Fase 8); sincronização ao vivo, que é requisito futuro.
 
 ## Decisões já tomadas (não reabrir)
 - Uma leitura por login; `onSnapshot` é futuro e mudaria o modelo — ver `docs/persistencia.md` § Futuro
@@ -99,7 +99,7 @@ login (Fase 7); sincronização ao vivo, que é requisito futuro.
 - [ ] Documento vazio não gera falha; falha de leitura gera aviso vermelho com detalhe
 - [ ] Ajuste feito durante a leitura não é sobrescrito pela resposta do servidor
 - [ ] Registros ADR/TDR/IDR criados para as decisões tomadas
-- [ ] `docs/plano/0006-persistencia-da-colecao-e-avisos/logs/0002-log-carga-no-login-e-relogio-do-titulo.md` gerado
+- [ ] `docs/plano/0007-persistencia-da-colecao-e-avisos/logs/0002-log-carga-no-login-e-relogio-do-titulo.md` gerado
 
 ## Validação
 `npm run lint && npm run test && npm run build`.

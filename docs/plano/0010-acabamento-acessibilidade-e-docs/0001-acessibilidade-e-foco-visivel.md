@@ -1,6 +1,6 @@
 <!-- Copyright (c) 2026 Daniel Felix Ferber -->
 
-# Tarefa [0009-0001]: acessibilidade e foco visível
+# Tarefa [0010-0001]: acessibilidade e foco visível
 
 ## Status
 Pendente
@@ -38,9 +38,10 @@ nomes acessíveis por extenso vale em toda a interface.
    realce de foco visível e consistente, em `--gold`, para todo elemento
    focável, e o retorno imediato de toque no cartão, que hoje só se manifesta
    pela mudança de cor do estado. Registrar como **IDR**.
-2. **Pendência de interface: área de toque dos alvos de 30×30px** — ampliar a
-   área acionável de desfazer, menu de ações e ícones da faixa de bandeiras em
-   tela sensível, mantendo o desenho de 30×30px. Registrar no mesmo IDR ou em
+2. **Pendência de interface: área de toque dos alvos pequenos** — ampliar a
+   área acionável de desfazer, menu de ações, ícones da faixa de bandeiras
+   (30×30px) e do controle de menos do cartão (18px na lista, 16px no álbum —
+   IDR 0032) em tela sensível, mantendo o desenho. Registrar no mesmo IDR ou em
    outro.
 3. Varrimento de nomes acessíveis: placar, cabeçalho de seção, cabeçalho de
    super-grupo, cartão, alternadores, faixa de salto, desfazer e itens do menu —
@@ -94,13 +95,14 @@ acessível, não em texto visível novo.
 ## Critérios de aceite
 - [ ] Todo elemento focável tem realce de foco visível, consistente e dentro da paleta
 - [ ] O cartão dá retorno imediato ao toque, além da mudança de cor do estado
-- [ ] Desfazer, menu e ícones da faixa têm área de toque ampliada sem mudar o desenho
+- [ ] Desfazer, menu, ícones da faixa e o controle de menos do cartão têm área
+      de toque ampliada sem mudar o desenho
 - [ ] O app inteiro é percorrível e operável só por teclado
 - [ ] Todo nome acessível escreve por extenso a notação compacta
 - [ ] Os três estados do cartão são distinguíveis em escala de cinza
 - [ ] As medições de contraste dos pares críticos estão no log
 - [ ] Registros ADR/TDR/IDR criados para as decisões tomadas
-- [ ] `docs/plano/0009-acabamento-acessibilidade-e-docs/logs/0001-log-acessibilidade-e-foco-visivel.md` gerado
+- [ ] `docs/plano/0010-acabamento-acessibilidade-e-docs/logs/0001-log-acessibilidade-e-foco-visivel.md` gerado
 
 ## Validação
 `npm run lint && npm run test && npm run build`.

@@ -25,7 +25,7 @@ Documentação alinhada ao `firestore.rules` publicado (tarefas 0005-0001 a
   - § Pronto × falta: "Regras novas (schema, `updatedAt`, `atestadoEm`)"
     saiu de "falta" e entrou em "pronto"; "Revisar/aceitar o ADR 0008
     (redigido)" virou "Aceitar os números do ADR 0008 (debounce, teto de
-    espera, timeout)", que continua em "falta" (Fase 6).
+    espera, timeout)", que continua em "falta" (Fase 7).
 - **`docs/firebase.md`**
   - § Regras de segurança: os bullets de resumo deixaram de falar em
     `teamName` e agora descrevem o schema novo (`hasOnly` dos três campos,
@@ -45,7 +45,7 @@ Documentação alinhada ao `firestore.rules` publicado (tarefas 0005-0001 a
     por contagem foi removido" estava desatualizado (o ADR está **aceito**
     e o teto voltou a 99). Reescrito para "Aceite dos números do ADR
     0008", deixando explícito que só os números operacionais seguem em
-    aberto até a Fase 6.
+    aberto até a Fase 7.
 
 ## Decisões tomadas
 Nenhuma decisão nova; nenhum ADR/TDR/IDR criado (o esperado pela tarefa).
@@ -60,8 +60,8 @@ Nenhum.
 - `docs/firebase.md` § Cloud Firestore ainda diz que a coleção tem "um
   único campo `teamName`" e que o Firestore "guarda a preferência de
   bandeira". Isso descreve o **dado** ainda em produção (nada escreve
-  `contagens` até a Fase 6); a descrição do dado deve migrar junto com a
-  Fase 6, não aqui.
+  `contagens` até a Fase 7); a descrição do dado deve migrar junto com a
+  Fase 7, não aqui.
 - `docs/arquitetura.md` (abertura e "Camadas no cliente") ainda mencionam
   "o app do botão" e `teams.js` — resíduos da Fase 2, fora do escopo desta
   tarefa de regras.

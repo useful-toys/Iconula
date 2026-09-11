@@ -1,6 +1,6 @@
 <!-- Copyright (c) 2026 Daniel Felix Ferber -->
 
-# Tarefa [0007-0001]: login como guarda do app
+# Tarefa [0008-0001]: login como guarda do app
 
 ## Status
 Pendente
@@ -50,9 +50,9 @@ login existe. A consequência prática — desenvolver passa a exigir `.env.loca
 6. Testes: sem usuário, o catálogo não está no documento; com usuário, está; sem
    config, a tela de login aparece sem caminho para o catálogo.
 
-**Fora do escopo**: o desenho definitivo da tela de login (Tarefa 0007-0002); a
-atestação (Tarefa 0007-0003); a política de privacidade (Tarefa 0007-0004); o
-comando de sair, que continua onde está até a Fase 8.
+**Fora do escopo**: o desenho definitivo da tela de login (Tarefa 0008-0002); a
+atestação (Tarefa 0008-0003); a política de privacidade (Tarefa 0008-0004); o
+comando de sair, que continua onde está até a Fase 9.
 
 ## Decisões já tomadas (não reabrir)
 - Login obrigatório; sem ele não há contador — ver `docs/requisitos.md` § Fora de Escopo
@@ -90,7 +90,7 @@ comando de sair, que continua onde está até a Fase 8.
 - [ ] `AGENTS.md` § Como rodar diz que o desenvolvimento exige `.env.local`
 - [ ] Nenhum router e nenhum Context foram introduzidos
 - [ ] Registros ADR/TDR/IDR criados para as decisões tomadas
-- [ ] `docs/plano/0007-acesso-atestacao-e-privacidade/logs/0001-log-login-como-guarda-do-app.md` gerado
+- [ ] `docs/plano/0008-acesso-atestacao-e-privacidade/logs/0001-log-login-como-guarda-do-app.md` gerado
 
 ## Validação
 `npm run lint && npm run test && npm run build`.

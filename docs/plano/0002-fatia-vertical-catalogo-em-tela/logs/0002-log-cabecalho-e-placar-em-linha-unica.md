@@ -17,7 +17,7 @@ O nome acessível escreve os números por extenso, deixando os glifos `▢` e `�
 apenas para leitura visual.
 
 O relógio exibe `—` nesta fase; a prop `atualizadoEm` existe e está
-documentada para ser preenchida pela Tarefa 0006-0002, conforme o IDR 0027.
+documentada para ser preenchida pela Tarefa 0007-0002, conforme o IDR 0027.
 A quebra em telas estreitas segue o encaminhamento da tarefa
 (`flex-wrap: wrap`), preservando a ordem e sem cortar o placar; como não
 mudou a forma do título, não nasceu IDR.
