@@ -31,7 +31,7 @@ import {
   Timestamp,
   updateDoc,
 } from "firebase/firestore";
-import { afterAll, afterEach, beforeAll, describe, it } from "vitest";
+import { afterAll, afterEach, beforeAll, describe, expect, it } from "vitest";
 
 // O prefixo `demo-` faz o emulador rodar totalmente offline, sem
 // credencial nenhuma — é o que permite estes testes rodarem no ci.yml,
@@ -304,6 +304,78 @@ describe("firestore.rules — caminhos não previstos", () => {
   it("nega escrita em subcoleção do próprio documento", async () => {
     await assertFails(
       setDoc(doc(comoDono(), "users", DONO, "segredos", "x"), { x: 1 }),
+    );
+  });
+});
+
+// Tarefa 0008-0005: em produção, gravar a atestação numa conta que já
+// tinha `contagens`/`updatedAt` (qualquer conta que já ajustou alguma
+// figurinha antes de atestar) falhava com "Missing or insufficient
+// permissions". Num `update` com `merge: true`, `request.resource.data` é
+// o documento resultante inteiro — os campos antigos preservados pelo
+// merge aparecem junto dos novos. A regra original checava só "o campo
+// está no resultado?", quando precisava checar "esta operação escreveu o
+// campo?" (`diff(resource.data).affectedKeys()`).
+describe("firestore.rules — atestação sobre documento já existente (Tarefa 0008-0005)", () => {
+  it("aceita atestadoEm via merge sobre documento com contagens e updatedAt preexistentes", async () => {
+    await semearDocumentoDoDono({
+      contagens: { BRA05: 3 },
+      updatedAt: Timestamp.fromMillis(1000),
+    });
+
+    await assertSucceeds(
+      setDoc(doc(comoDono(), "users", DONO), { atestadoEm: serverTimestamp() }, { merge: true }),
+    );
+  });
+
+  it("preserva contagens e updatedAt ao gravar só a atestação", async () => {
+    await semearDocumentoDoDono({
+      contagens: { BRA05: 3 },
+      updatedAt: Timestamp.fromMillis(1000),
+    });
+
+    await setDoc(doc(comoDono(), "users", DONO), { atestadoEm: serverTimestamp() }, { merge: true });
+
+    let snapshot;
+    await testEnv.withSecurityRulesDisabled(async (context) => {
+      snapshot = await getDoc(doc(context.firestore(), "users", DONO));
+    });
+    expect(snapshot.data().contagens).toEqual({ BRA05: 3 });
+    expect(snapshot.data().updatedAt.toMillis()).toBe(1000);
+  });
+
+  it("aceita gravação normal de contagens e updatedAt sobre documento já existente", async () => {
+    await semearDocumentoDoDono({
+      contagens: { BRA05: 3 },
+      updatedAt: Timestamp.fromMillis(1000),
+    });
+
+    await assertSucceeds(
+      updateDoc(doc(comoDono(), "users", DONO), {
+        contagens: { BRA05: 4 },
+        updatedAt: serverTimestamp(),
+      }),
+    );
+  });
+
+  it("nega updatedAt forjado num update que também grava contagens", async () => {
+    await semearDocumentoDoDono({ contagens: {}, updatedAt: Timestamp.fromMillis(1000) });
+
+    await assertFails(
+      updateDoc(doc(comoDono(), "users", DONO), {
+        contagens: { BRA05: 3 },
+        updatedAt: Timestamp.fromMillis(2000),
+      }),
+    );
+  });
+
+  it("nega contagens sem updatedAt também no update, não só no create", async () => {
+    await semearDocumentoDoDono({ contagens: {}, updatedAt: Timestamp.fromMillis(1000) });
+
+    await assertFails(
+      updateDoc(doc(comoDono(), "users", DONO), {
+        contagens: { BRA05: 3 },
+      }),
     );
   });
 });
