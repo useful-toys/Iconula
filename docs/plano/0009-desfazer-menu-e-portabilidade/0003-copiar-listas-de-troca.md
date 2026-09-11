@@ -3,7 +3,7 @@
 # Tarefa [0009-0003]: copiar listas de faltantes e de repetidas
 
 ## Status
-Pendente
+Concluída
 
 ## Documentos de referência (ler antes de implementar)
 - `docs/requisitos.md` § Compartilhamento — o formato de linha, `Brasil BRA: 5 8 12 19`, o `5×2` das repetidas, textos separados e entrega por área de transferência
@@ -86,14 +86,14 @@ export/import JSON (Tarefas 0009-0004 e 0009-0005); abrir o WhatsApp.
 - `src/App.jsx` — modificar
 
 ## Critérios de aceite
-- [ ] O texto de faltantes segue `Nome SIG: n n n`, uma linha por seção
-- [ ] O texto de repetidas usa `n×k` com k = contagem − 1
-- [ ] Seções sem itens no estado pedido não aparecem no texto
-- [ ] Os dois textos são gerados separadamente, por comandos distintos
-- [ ] Copiar emite aviso de sucesso; área de transferência indisponível emite aviso dourado
-- [ ] Nenhuma requisição ao Firestore é disparada por copiar
-- [ ] Registros ADR/TDR/IDR criados para as decisões tomadas
-- [ ] `docs/plano/0009-desfazer-menu-e-portabilidade/logs/0003-log-copiar-listas-de-troca.md` gerado
+- [x] O texto de faltantes segue `Nome SIG: n n n`, uma linha por seção
+- [x] O texto de repetidas usa `n×k` com k = contagem − 1
+- [x] Seções sem itens no estado pedido não aparecem no texto
+- [x] Os dois textos são gerados separadamente, por comandos distintos
+- [x] Copiar emite aviso de sucesso; área de transferência indisponível emite aviso dourado
+- [x] Nenhuma requisição ao Firestore é disparada por copiar
+- [x] Registros ADR/TDR/IDR criados para as decisões tomadas (IDR 0039)
+- [x] `docs/plano/0009-desfazer-menu-e-portabilidade/logs/0003-log-copiar-listas-de-troca.md` gerado
 
 ## Validação
 `npm run lint && npm run test && npm run build`.

@@ -213,4 +213,35 @@ describe('Controles', () => {
     await user.click(screen.getByRole('button', { name: 'desfazer a última alteração' }));
     expect(onDesfazer).toHaveBeenCalledTimes(1);
   });
+
+  it('repassa onCopiarFaltantes e onCopiarRepetidas ao menu de ações', async () => {
+    const user = userEvent.setup();
+    const onCopiarFaltantes = vi.fn();
+    const onCopiarRepetidas = vi.fn();
+    render(
+      <Controles
+        ordenacao="pagina"
+        onTrocarOrdenacao={vi.fn()}
+        onSignOut={vi.fn()}
+        onCopiarFaltantes={onCopiarFaltantes}
+        onCopiarRepetidas={onCopiarRepetidas}
+      />,
+    );
+
+    await user.click(screen.getByRole('button', { name: /menu de ações/ }));
+    expect(screen.getByRole('menuitem', { name: 'Copiar lista de faltantes' })).toBeEnabled();
+    expect(screen.getByRole('menuitem', { name: 'Copiar lista de repetidas' })).toBeEnabled();
+
+    await user.click(screen.getByRole('menuitem', { name: 'Copiar lista de faltantes' }));
+    expect(onCopiarFaltantes).toHaveBeenCalledTimes(1);
+  });
+
+  it('sem onCopiarFaltantes/onCopiarRepetidas, os itens do menu ficam desabilitados', async () => {
+    const user = userEvent.setup();
+    render(<Controles ordenacao="pagina" onTrocarOrdenacao={vi.fn()} onSignOut={vi.fn()} />);
+
+    await user.click(screen.getByRole('button', { name: /menu de ações/ }));
+    expect(screen.getByRole('menuitem', { name: 'Copiar lista de faltantes' })).toBeDisabled();
+    expect(screen.getByRole('menuitem', { name: 'Copiar lista de repetidas' })).toBeDisabled();
+  });
 });
