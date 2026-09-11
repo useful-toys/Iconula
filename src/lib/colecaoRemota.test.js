@@ -5,6 +5,7 @@ import {
   carregarColecao,
   gravarAlteracoes,
   gravarAtestacao,
+  gravarImportacao,
   formatarCarimbo,
   mensagemDeErro,
   MARCA_APAGAR_TEAM_NAME,
@@ -321,6 +322,92 @@ describe('gravarAtestacao', () => {
 
     expect(resultado).toEqual({ status: 'indisponivel' });
     expect(firestore.setDoc).not.toHaveBeenCalled();
+  });
+});
+
+describe('gravarImportacao', () => {
+  it('substitui contagens inteiro via mergeFields, sem merge por chave', async () => {
+    const resultado = await gravarImportacao('u1', { BRA05: 3, FWC01: 1 });
+
+    expect(firestore.setDoc).toHaveBeenCalledTimes(1);
+    expect(firestore.setDoc).toHaveBeenCalledWith(
+      {},
+      { contagens: { BRA05: 3, FWC01: 1 }, updatedAt: CARIMBO_SERVIDOR },
+      { mergeFields: ['contagens', 'updatedAt'] },
+    );
+    expect(resultado.status).toBe('sucesso');
+    expect(resultado.atualizadoEm).toBeInstanceOf(Date);
+  });
+
+  it('grava o mapa recebido tal como está, mesmo vazio (coleção zerada)', async () => {
+    await gravarImportacao('u1', {});
+
+    expect(firestore.setDoc).toHaveBeenCalledWith(
+      {},
+      { contagens: {}, updatedAt: CARIMBO_SERVIDOR },
+      { mergeFields: ['contagens', 'updatedAt'] },
+    );
+  });
+
+  it('nunca usa deleteField — mergeFields já substitui o mapa inteiro', async () => {
+    await gravarImportacao('u1', { BRA05: 3 });
+    expect(firestore.deleteField).not.toHaveBeenCalled();
+  });
+
+  it('devolve erro quando a escrita falha', async () => {
+    firestore.setDoc.mockRejectedValue(new Error('unavailable'));
+
+    const resultado = await gravarImportacao('u1', { BRA05: 3 });
+
+    expect(resultado.status).toBe('erro');
+    expect(resultado.erro).toBeInstanceOf(Error);
+  });
+
+  it('devolve indisponível quando não há app configurado', async () => {
+    state.app = null;
+
+    const resultado = await gravarImportacao('u1', { BRA05: 3 });
+
+    expect(resultado).toEqual({ status: 'indisponivel' });
+    expect(firestore.setDoc).not.toHaveBeenCalled();
+  });
+
+  describe('espera sem rede (Tarefa 0007-0005)', () => {
+    beforeEach(() => {
+      vi.useFakeTimers();
+    });
+
+    afterEach(() => {
+      vi.useRealTimers();
+    });
+
+    it('escrita pendente além de ~5s chama aoEsperar e continua aguardando', async () => {
+      let resolverSetDoc;
+      firestore.setDoc.mockReturnValue(
+        new Promise((resolve) => {
+          resolverSetDoc = resolve;
+        }),
+      );
+      const aoEsperar = vi.fn();
+
+      const promessa = gravarImportacao('u1', { BRA05: 3 }, { aoEsperar });
+      await vi.advanceTimersByTimeAsync(5000);
+
+      expect(aoEsperar).toHaveBeenCalledTimes(1);
+
+      resolverSetDoc(undefined);
+      const resultado = await promessa;
+
+      expect(resultado.status).toBe('sucesso');
+    });
+
+    it('resolvendo antes de ~5s nunca chama aoEsperar', async () => {
+      const aoEsperar = vi.fn();
+
+      await gravarImportacao('u1', { BRA05: 3 }, { aoEsperar });
+
+      expect(aoEsperar).not.toHaveBeenCalled();
+    });
   });
 });
 

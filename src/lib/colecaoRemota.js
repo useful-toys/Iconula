@@ -238,6 +238,61 @@ export async function gravarAlteracoes(uid, alteracoes) {
 }
 
 /**
+ * Substitui a coleção inteira pela importação (Tarefa 0009-0005): a única
+ * função deste módulo que **não** faz merge por chave — `mergeFields:
+ * ['contagens', 'updatedAt']` troca o mapa `contagens` inteiro pelo
+ * recebido (ao contrário de `gravarAlteracoes`, que só toca as chaves
+ * presentes em `alteracoes` e preserva as demais); `atestadoEm` fica de
+ * fora da lista e continua intocado. É por isso que a importação precisa
+ * desta função à parte, em vez de reaproveitar `gravarAlteracoes`: expressar
+ * "substituir tudo" como uma lista de chaves alteradas exigiria comparar
+ * com o estado anterior e gerar `deleteField()` para cada uma que não
+ * está mais no arquivo — mais uma fonte de bug para o mesmo resultado.
+ *
+ * `contagens` já deve chegar normalizado (`portabilidade.js`
+ * `validarImportacao`): sem zeros, sem chave fora do catálogo, valores
+ * 1–99. Esta função não valida nada — só grava o que recebe.
+ *
+ * Sem rede, a escrita não falha nem confirma — mesma política de espera de
+ * `carregarColecao` (Tarefa 0007-0005, ADR 0008), via `comAvisoDeEspera`.
+ *
+ * Nunca lança: devolve um resultado discriminado, como as demais funções
+ * deste módulo (`sucesso`, `erro` ou `indisponivel`).
+ *
+ * @param {string} uid
+ * @param {Record<string, number>} contagens - mapa completo e já normalizado.
+ * @param {object} [opcoes]
+ * @param {() => void} [opcoes.aoEsperar] - chamado se a escrita ultrapassar
+ *   ~5s sem resolver.
+ * @returns {Promise<object>}
+ */
+export async function gravarImportacao(uid, contagens, { aoEsperar } = {}) {
+  if (!app) {
+    return { status: 'indisponivel' };
+  }
+
+  const promessa = (async () => {
+    try {
+      const { doc, setDoc, serverTimestamp } = await import('firebase/firestore');
+      const db = await obterFirestore();
+      const ref = doc(db, CAMINHO_DOCUMENTO(uid));
+
+      await setDoc(
+        ref,
+        { contagens, updatedAt: serverTimestamp() },
+        { mergeFields: ['contagens', 'updatedAt'] },
+      );
+
+      return { status: 'sucesso', atualizadoEm: new Date() };
+    } catch (erro) {
+      return { status: 'erro', erro };
+    }
+  })();
+
+  return comAvisoDeEspera(promessa, aoEsperar);
+}
+
+/**
  * Grava a atestação de menores (LGPD art. 14, Tarefa 0008-0003) — uma escrita
  * na vida da conta, feita uma única vez no primeiro login sem `atestadoEm`.
  *

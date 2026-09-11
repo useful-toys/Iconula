@@ -172,5 +172,19 @@ export function criarGravacaoAgregada({ gravar, aoConcluir, aoFalhar, aoEsperar 
     temPendencia() {
       return Object.keys(alteracoes).length > 0 || apagarTeamNamePendente;
     },
+
+    /**
+     * Descarta qualquer alteração pendente (e a marca de apagar `teamName`),
+     * cancelando os temporizadores em aberto — sem gravar nada. Usado pela
+     * importação (Tarefa 0009-0005, `gravarImportacao`): ela substitui a
+     * coleção inteira e grava por conta própria, então uma escrita agendada
+     * de ajustes anteriores não pode disparar depois e reintroduzir dado que
+     * a importação já apagou.
+     */
+    descartarPendencias() {
+      cancelarTemporizadores();
+      alteracoes = {};
+      apagarTeamNamePendente = false;
+    },
   };
 }

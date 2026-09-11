@@ -3,7 +3,7 @@
 # Tarefa [0009-0005]: importar coleção de arquivo JSON
 
 ## Status
-Pendente
+Concluída
 
 ## Documentos de referência (ler antes de implementar)
 - `docs/requisitos.md` § Portabilidade (sem lock-in) — a importação substitui a coleção inteira após confirmação explícita, descarta o histórico de desfazer, valida a versão e rejeita arquivo inválido sem alterar nada
@@ -93,14 +93,14 @@ coleções; usar a importação como mecanismo de salvamento.
 - `src/App.jsx` — modificar
 
 ## Critérios de aceite
-- [ ] Arquivo válido substitui a coleção inteira, após confirmação explícita
-- [ ] O histórico de desfazer é descartado pela importação
-- [ ] Versão desconhecida, JSON malformado e valores fora de 1–99 são rejeitados sem alterar nada
-- [ ] Rejeição emite aviso dourado, não falha vermelha
-- [ ] A gravação é uma única escrita que substitui `contagens` e move `updatedAt`
-- [ ] Exportar e reimportar reproduz a coleção idêntica
-- [ ] Registros ADR/TDR/IDR criados para as decisões tomadas
-- [ ] `docs/plano/0009-desfazer-menu-e-portabilidade/logs/0005-log-importar-colecao-de-json.md` gerado
+- [x] Arquivo válido substitui a coleção inteira, após confirmação explícita
+- [x] O histórico de desfazer é descartado pela importação
+- [x] Versão desconhecida, JSON malformado e valores fora de 1–99 são rejeitados sem alterar nada
+- [x] Rejeição emite aviso dourado, não falha vermelha
+- [x] A gravação é uma única escrita que substitui `contagens` e move `updatedAt`
+- [x] Exportar e reimportar reproduz a coleção idêntica
+- [x] Registros ADR/TDR/IDR criados para as decisões tomadas (IDR 0041)
+- [x] `docs/plano/0009-desfazer-menu-e-portabilidade/logs/0005-log-importar-colecao-de-json.md` gerado
 
 ## Validação
 `npm run lint && npm run test && npm run build`.
