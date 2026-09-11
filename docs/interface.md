@@ -443,9 +443,28 @@ login não tem divisória alguma além da borda do cartão.
 
 ## Demais telas
 
-*A preencher quando desenhadas: diálogos de exportação e importação (o
-menu de ações define a porta de entrada, não o diálogo) e a política de
-privacidade.*
+*A preencher quando desenhados: os diálogos de exportação e importação (o
+menu de ações define a porta de entrada, não o diálogo).*
+
+### Política de privacidade
+
+Vista interna, sem router (TDR 0020): substitui o conteúdo da tela por
+inteiro, com um "← Voltar" no topo que devolve para a tela de origem — não
+depende do histórico do navegador. Alcançável de dois lugares (IDR 0037):
+o link no rodapé da tela de login, antes de autenticar, e o link no rodapé
+da tela principal, depois.
+
+Layout simples de leitura, sem o cartão da tela de login: corpo de largura
+máxima ~640px centrado, com o mesmo `--page-gutter` das demais telas.
+Título "Política de privacidade" em Poppins 700/22px dourado; seções com
+título 15px/600 e texto de corpo 14px em `--muted`, `line-height: 1.6`.
+
+Conteúdo: dados tratados (identidade Google e a coleção), finalidade, onde
+os dados ficam (Cloud Firestore, `southamerica-east1`), retenção, direitos
+do titular e o tratamento de dados de menores (ligado à atestação do
+primeiro login) — cada um exercido pelo canal de contato declarado no
+próprio texto (`docs/plano/.../0004-politica-de-privacidade-e-rodape.md`
+tem a pergunta e a resposta que fixou esse endereço).
 
 ## Apresentação por faixa de tela
 
