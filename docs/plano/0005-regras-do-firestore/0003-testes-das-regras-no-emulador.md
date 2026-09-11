@@ -3,7 +3,7 @@
 # Tarefa [0005-0003]: testes das regras no emulador
 
 ## Status
-Pendente
+Concluída
 
 ## Documentos de referência (ler antes de implementar)
 - `docs/tdr/0009-validacao-do-mapa-nas-regras.md` § Consequências — a lista dos casos a cobrir: valor 0, negativo, 100, não-inteiro, string; chave fora do catálogo; campo extra; `updatedAt` forjado; documento só com `atestadoEm`; acesso cruzado
