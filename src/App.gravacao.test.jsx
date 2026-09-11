@@ -1,6 +1,6 @@
 // Copyright (c) 2026 Daniel Felix Ferber
 
-import { act, fireEvent, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen, within } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import "@testing-library/jest-dom/vitest";
 
@@ -171,7 +171,7 @@ describe("App — gravação agregada", () => {
     });
 
     expect(screen.getByText("10:00")).toBeInTheDocument();
-    expect(screen.getByText("Coleção gravada")).toBeInTheDocument();
+    expect(screen.getByText("Alterações salvas")).toBeInTheDocument();
   });
 
   it("pagehide força a gravação pendente, sem esperar o debounce", async () => {
@@ -288,5 +288,136 @@ describe("App — gravação agregada", () => {
 
     expect(ordem).toEqual(["grava", "signOut"]);
     expect(signOutMock).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe("App — política de erro visível (Tarefa 0007-0005)", () => {
+  it("erro do servidor gera aviso vermelho persistente com detalhe técnico", async () => {
+    colecao.gravarAlteracoes.mockResolvedValue({
+      status: "erro",
+      erro: new Error("permission-denied"),
+    });
+
+    await montarLogado();
+
+    await act(async () => {
+      catalogo.props.onAjustar("BRA01", 1);
+    });
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(2000);
+    });
+
+    const alerta = screen.getByRole("alert");
+    expect(alerta).toHaveTextContent("Falha ao gravar — toque para detalhes");
+
+    fireEvent.click(within(alerta).getByRole("button", { name: /Falha ao gravar/ }));
+    expect(alerta).toHaveTextContent("permission-denied");
+  });
+
+  it("promessa pendente além de ~5s gera aviso dourado, não vermelho", async () => {
+    let resolverGravacao;
+    colecao.gravarAlteracoes.mockReturnValue(
+      new Promise((resolve) => {
+        resolverGravacao = resolve;
+      }),
+    );
+
+    await montarLogado();
+
+    await act(async () => {
+      catalogo.props.onAjustar("BRA01", 1);
+    });
+    // Debounce (2s) + tempo-limite de espera (5s).
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(7000);
+    });
+
+    expect(screen.getByText("Conexão instável — sincronizando quando possível")).toBeInTheDocument();
+    expect(screen.queryByRole("alert")).not.toBeInTheDocument();
+
+    await act(async () => {
+      resolverGravacao({ status: "sucesso", atualizadoEm: new Date() });
+      await Promise.resolve();
+      await Promise.resolve();
+    });
+
+    expect(screen.getByText("Alterações salvas")).toBeInTheDocument();
+  });
+
+  it("depois de uma falha, a gravação seguinte inclui as chaves da tentativa anterior", async () => {
+    colecao.gravarAlteracoes.mockResolvedValueOnce({
+      status: "erro",
+      erro: new Error("unavailable"),
+    });
+
+    await montarLogado();
+
+    await act(async () => {
+      catalogo.props.onAjustar("BRA01", 1);
+    });
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(2000);
+    });
+    expect(colecao.gravarAlteracoes).toHaveBeenCalledTimes(1);
+
+    await act(async () => {
+      catalogo.props.onAjustar("FWC01", 1);
+    });
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(2000);
+    });
+
+    expect(colecao.gravarAlteracoes).toHaveBeenLastCalledWith("uid1", { BRA01: 1, FWC01: 1 });
+  });
+
+  it("sucesso dispensa a falha de gravação que estiver na tela", async () => {
+    colecao.gravarAlteracoes.mockResolvedValueOnce({
+      status: "erro",
+      erro: new Error("unavailable"),
+    });
+
+    await montarLogado();
+
+    await act(async () => {
+      catalogo.props.onAjustar("BRA01", 1);
+    });
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(2000);
+    });
+    expect(screen.getByRole("alert")).toBeInTheDocument();
+
+    await act(async () => {
+      catalogo.props.onAjustar("FWC01", 1);
+    });
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(2000);
+    });
+
+    expect(screen.queryByRole("alert")).not.toBeInTheDocument();
+    expect(screen.getByText("Alterações salvas")).toBeInTheDocument();
+  });
+
+  it("ajustar continua funcionando durante e depois de uma falha", async () => {
+    colecao.gravarAlteracoes.mockResolvedValue({
+      status: "erro",
+      erro: new Error("unavailable"),
+    });
+
+    await montarLogado();
+
+    await act(async () => {
+      catalogo.props.onAjustar("BRA01", 1);
+    });
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(2000);
+    });
+    expect(screen.getByRole("alert")).toBeInTheDocument();
+    expect(catalogo.props.contagens).toEqual({ BRA01: 1 });
+
+    await act(async () => {
+      catalogo.props.onAjustar("BRA01", 1);
+    });
+
+    expect(catalogo.props.contagens).toEqual({ BRA01: 2 });
   });
 });

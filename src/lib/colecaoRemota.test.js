@@ -139,6 +139,54 @@ describe('carregarColecao', () => {
   });
 });
 
+describe('carregarColecao — espera sem rede (Tarefa 0007-0005)', () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  it('leitura pendente além de ~5s chama aoEsperar e continua aguardando', async () => {
+    let resolverGetDoc;
+    firestore.getDoc.mockReturnValue(
+      new Promise((resolve) => {
+        resolverGetDoc = resolve;
+      }),
+    );
+    const aoEsperar = vi.fn();
+
+    const promessa = carregarColecao('u1', { aoEsperar });
+    await vi.advanceTimersByTimeAsync(5000);
+
+    expect(aoEsperar).toHaveBeenCalledTimes(1);
+
+    resolverGetDoc({ exists: () => false });
+    const resultado = await promessa;
+
+    expect(resultado).toEqual({ status: 'vazio' });
+  });
+
+  it('resolvendo antes de ~5s nunca chama aoEsperar', async () => {
+    firestore.getDoc.mockResolvedValue({ exists: () => false });
+    const aoEsperar = vi.fn();
+
+    const resultado = await carregarColecao('u1', { aoEsperar });
+
+    expect(aoEsperar).not.toHaveBeenCalled();
+    expect(resultado).toEqual({ status: 'vazio' });
+  });
+
+  it('sem aoEsperar, a leitura não corre contra tempo-limite nenhum', async () => {
+    firestore.getDoc.mockResolvedValue({ exists: () => false });
+
+    const resultado = await carregarColecao('u1');
+
+    expect(resultado).toEqual({ status: 'vazio' });
+  });
+});
+
 describe('gravarAlteracoes', () => {
   it('grava valores absolutos e updatedAt como serverTimestamp, com merge:true', async () => {
     const resultado = await gravarAlteracoes('u1', { BRA01: 3 });

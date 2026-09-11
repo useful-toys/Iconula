@@ -86,7 +86,9 @@ describe("App — carga no login", () => {
     });
 
     expect(colecao.carregarColecao).toHaveBeenCalledTimes(1);
-    expect(colecao.carregarColecao).toHaveBeenCalledWith("uid1");
+    expect(colecao.carregarColecao).toHaveBeenCalledWith("uid1", {
+      aoEsperar: expect.any(Function),
+    });
     expect(screen.getByText("14:05")).toBeInTheDocument();
   });
 

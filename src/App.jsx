@@ -44,7 +44,29 @@ export default function App() {
       gravar: gravarAlteracoes,
       aoConcluir: (resultado) => {
         setAtualizadoEm(formatarCarimbo(resultado.atualizadoEm));
-        emitirAviso({ severidade: SEVERIDADE.SUCESSO, mensagem: 'Coleção gravada', tipo: 'gravacao' });
+        emitirAviso({ severidade: SEVERIDADE.SUCESSO, mensagem: 'Alterações salvas', tipo: 'gravacao' });
+      },
+      // Falha (vermelha): o que deveria ter funcionado e não funcionou —
+      // persiste até ser dispensada ou até a gravação seguinte ter sucesso
+      // (IDR 0029). A tela segue editável; a gravação seguinte regrava o
+      // valor completo (Tarefa 0007-0005, ADR 0008).
+      aoFalhar: (resultado) => {
+        emitirAviso({
+          severidade: SEVERIDADE.FALHA,
+          mensagem: 'Falha ao gravar — toque para detalhes',
+          detalhe: mensagemDeErro(resultado.erro),
+          tipo: 'gravacao',
+        });
+      },
+      // Espera (aviso dourado): sem rede, a escrita não falha nem confirma —
+      // fica enfileirada no cache local e o desfecho real ainda chega depois
+      // (ADR 0008, IDR 0029). Não é falha.
+      aoEsperar: () => {
+        emitirAviso({
+          severidade: SEVERIDADE.AVISO,
+          mensagem: 'Conexão instável — sincronizando quando possível',
+          tipo: 'gravacao',
+        });
       },
     }),
   );
@@ -81,7 +103,17 @@ export default function App() {
     const ajustesNoInicio = ajustesRef.current;
     let cancelado = false;
 
-    carregarColecao(uid).then((resultado) => {
+    carregarColecao(uid, {
+      // Espera (aviso dourado): a leitura não falhou nem confirmou — sem
+      // rede, ela só resolve quando o servidor responder (Tarefa 0007-0005).
+      aoEsperar: () => {
+        emitirAviso({
+          severidade: SEVERIDADE.AVISO,
+          mensagem: 'Conexão instável — sincronizando quando possível',
+          tipo: 'carga',
+        });
+      },
+    }).then((resultado) => {
       if (cancelado) return;
 
       if (resultado.status === 'erro') {

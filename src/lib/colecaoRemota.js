@@ -23,6 +23,33 @@ const CAMINHO_DOCUMENTO = (uid) => ['users', uid].join('/');
 // para os testes deste arquivo referenciarem o mesmo literal.
 export const MARCA_APAGAR_TEAM_NAME = '__apagarTeamName';
 
+// Política de erro (Tarefa 0007-0005, ADR 0008, IDR 0029): sem rede, a
+// promessa do SDK nunca rejeita — fica pendente até o servidor responder.
+// `comAvisoDeEspera` corre a operação contra um tempo-limite de ~5s: se ele
+// vencer primeiro, chama `aoEsperar()` (não é falha, é espera) e devolve a
+// mesma promessa, que resolve mais tarde com o desfecho real — sucesso ou
+// erro, sempre que ele chegar.
+const TIMEOUT_ESPERA_MS = 5000;
+const ESPERA = Symbol('espera');
+
+async function comAvisoDeEspera(promessa, aoEsperar) {
+  if (!aoEsperar) return promessa;
+
+  let idEspera;
+  const timeout = new Promise((resolve) => {
+    idEspera = setTimeout(() => resolve(ESPERA), TIMEOUT_ESPERA_MS);
+  });
+
+  const corrida = await Promise.race([promessa, timeout]);
+  clearTimeout(idEspera);
+
+  if (corrida === ESPERA) {
+    aoEsperar();
+    return promessa;
+  }
+  return corrida;
+}
+
 let dbPromise = null;
 
 /**
@@ -100,34 +127,46 @@ export function formatarCarimbo(data, agora = new Date()) {
  * - `erro` — leitura falhou; traz `erro` para o detalhe técnico.
  * - `indisponivel` — Firebase não configurado (`app === null`).
  *
+ * Sem rede, a leitura não falha nem confirma: fica pendente. Se `aoEsperar`
+ * for passado e ~5s se passarem sem resposta, ele é chamado (espera, não
+ * falha) e a função continua aguardando o desfecho real, que ainda chega
+ * mais tarde no mesmo resultado devolvido (Tarefa 0007-0005, ADR 0008).
+ *
  * @param {string} uid
+ * @param {object} [opcoes]
+ * @param {() => void} [opcoes.aoEsperar] - chamado se a leitura ultrapassar
+ *   ~5s sem resolver.
  * @returns {Promise<object>}
  */
-export async function carregarColecao(uid) {
+export async function carregarColecao(uid, { aoEsperar } = {}) {
   if (!app) {
     return { status: 'indisponivel' };
   }
 
-  try {
-    const { doc, getDoc } = await import('firebase/firestore');
-    const db = await obterFirestore();
-    const ref = doc(db, CAMINHO_DOCUMENTO(uid));
-    const snapshot = await getDoc(ref);
+  const promessa = (async () => {
+    try {
+      const { doc, getDoc } = await import('firebase/firestore');
+      const db = await obterFirestore();
+      const ref = doc(db, CAMINHO_DOCUMENTO(uid));
+      const snapshot = await getDoc(ref);
 
-    if (!snapshot.exists()) {
-      return { status: 'vazio' };
+      if (!snapshot.exists()) {
+        return { status: 'vazio' };
+      }
+
+      const dados = snapshot.data();
+      return {
+        status: 'encontrado',
+        contagens: dados.contagens ?? {},
+        atualizadoEm: dados.updatedAt?.toDate?.() ?? null,
+        temTeamName: Object.prototype.hasOwnProperty.call(dados, 'teamName'),
+      };
+    } catch (erro) {
+      return { status: 'erro', erro };
     }
+  })();
 
-    const dados = snapshot.data();
-    return {
-      status: 'encontrado',
-      contagens: dados.contagens ?? {},
-      atualizadoEm: dados.updatedAt?.toDate?.() ?? null,
-      temTeamName: Object.prototype.hasOwnProperty.call(dados, 'teamName'),
-    };
-  } catch (erro) {
-    return { status: 'erro', erro };
-  }
+  return comAvisoDeEspera(promessa, aoEsperar);
 }
 
 /**
