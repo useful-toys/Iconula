@@ -17,10 +17,17 @@
 const DEBOUNCE_MS = 2000;
 const TETO_MS = 10000;
 
+// Mesmo literal de `MARCA_APAGAR_TEAM_NAME` em `colecaoRemota.js` (Tarefa
+// 0007-0004) — definido de novo aqui, e não importado de lá, para que este
+// módulo continue testável sem tocar `firebase.js` (comentário espelhado no
+// outro arquivo).
+const MARCA_APAGAR_TEAM_NAME = '__apagarTeamName';
+
 /**
  * @param {object} opcoes
- * @param {(uid: string, alteracoes: Record<string, number>) => Promise<object>} opcoes.gravar
- *   - grava as chaves alteradas; nunca deve lançar (resultado discriminado,
+ * @param {(uid: string, alteracoes: Record<string, number|boolean>) => Promise<object>} opcoes.gravar
+ *   - grava as chaves alteradas (mais a marca reservada de apagar o
+ *   `teamName`, quando pendente); nunca deve lançar (resultado discriminado,
  *   como `gravarAlteracoes` de `colecaoRemota.js`).
  * @param {(resultado: object) => void} [opcoes.aoConcluir] - chamado após
  *   uma gravação bem-sucedida, com o resultado de `gravar`.
@@ -33,6 +40,11 @@ export function criarGravacaoAgregada({ gravar, aoConcluir, aoFalhar }) {
   let alteracoes = {};
   let idDebounce = null;
   let idTeto = null;
+  // Marca da era do botão pendente de apagar (Tarefa 0007-0004). Fica fora do
+  // mapa `alteracoes` de propósito: sozinha, nunca deve bastar para disparar
+  // uma escrita (a migração não pode virar escrita extra — ADR 0008) — só
+  // entra na próxima gravação que já ia acontecer por causa de um ajuste real.
+  let apagarTeamNamePendente = false;
 
   function cancelarTemporizadores() {
     clearTimeout(idDebounce);
@@ -47,18 +59,27 @@ export function criarGravacaoAgregada({ gravar, aoConcluir, aoFalhar }) {
 
     const uid = uidAtual;
     const paraGravar = alteracoes;
+    const apagarTeamNameNestaGravacao = apagarTeamNamePendente;
     alteracoes = {};
 
-    const resultado = await gravar(uid, paraGravar);
+    const envio = apagarTeamNameNestaGravacao
+      ? { ...paraGravar, [MARCA_APAGAR_TEAM_NAME]: true }
+      : paraGravar;
+
+    const resultado = await gravar(uid, envio);
 
     if (resultado.status === 'sucesso') {
+      // Migrado: as gravações seguintes não repetem o deleteField.
+      if (apagarTeamNameNestaGravacao) apagarTeamNamePendente = false;
       aoConcluir?.(resultado);
     } else {
-      // Falha: as chaves voltam para a fila para não se perderem. A política
-      // de retentativa/timeout e o aviso visível de falha ficam para a
-      // Tarefa 0007-0005; aqui só a garantia de que nada some da memória —
-      // a próxima gravação (ajuste seguinte ou novo flush) tenta de novo com
-      // o valor completo, o que é seguro (escrita idempotente, ADR 0008).
+      // Falha: as chaves voltam para a fila para não se perderem, e a marca
+      // de migração (se houver) permanece para a tentativa seguinte. A
+      // política de retentativa/timeout e o aviso visível de falha ficam
+      // para a Tarefa 0007-0005; aqui só a garantia de que nada some da
+      // memória — a próxima gravação (ajuste seguinte ou novo flush) tenta
+      // de novo com o valor completo, o que é seguro (escrita idempotente,
+      // ADR 0008).
       alteracoes = { ...paraGravar, ...alteracoes };
       aoFalhar?.(resultado);
     }
@@ -98,12 +119,27 @@ export function criarGravacaoAgregada({ gravar, aoConcluir, aoFalhar }) {
     },
 
     /**
-     * Há alguma alteração acumulada aguardando gravação? Só para teste.
+     * Marca que o documento carregado ainda tem `teamName` (era do botão):
+     * a próxima gravação agregada apaga o campo junto com as chaves
+     * alteradas, na mesma escrita (Tarefa 0007-0004, ADR 0008). Sozinha, não
+     * agenda nem força nenhuma escrita — sem um ajuste real, o campo fica
+     * onde está, inofensivo, até a primeira gravação de fato acontecer.
+     *
+     * @param {string} uid
+     */
+    marcarTeamNameParaApagar(uid) {
+      uidAtual = uid;
+      apagarTeamNamePendente = true;
+    },
+
+    /**
+     * Há alguma alteração acumulada, ou uma migração de `teamName` pendente,
+     * aguardando a próxima gravação? Só para teste.
      *
      * @returns {boolean}
      */
     temPendencia() {
-      return Object.keys(alteracoes).length > 0;
+      return Object.keys(alteracoes).length > 0 || apagarTeamNamePendente;
     },
   };
 }

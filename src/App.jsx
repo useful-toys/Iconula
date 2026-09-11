@@ -33,9 +33,6 @@ export default function App() {
   // se o usuário ajustar contagens enquanto a leitura está em voo, a resposta do
   // servidor é descartada.
   const ajustesRef = useRef(0);
-  // Marca da era do botão: documento ainda tem `teamName`? Consumida pela
-  // primeira gravação do schema novo (Tarefa 0007-0004).
-  const temTeamNameRef = useRef(false);
 
   // Gravação agregada (ADR 0008, IDR 0003): uma instância por sessão de App,
   // criada uma única vez (inicializador preguiçoso do useState, como
@@ -104,11 +101,15 @@ export default function App() {
       if (resultado.status === 'encontrado') {
         setContagens(resultado.contagens);
         setAtualizadoEm(formatarCarimbo(resultado.atualizadoEm));
-        temTeamNameRef.current = resultado.temTeamName;
+        // Documento ainda com `teamName` da era do botão: a próxima gravação
+        // agregada o apaga junto das contagens, sem escrita à parte (ADR 0008,
+        // Tarefa 0007-0004).
+        if (resultado.temTeamName) {
+          gravacaoAgregada.marcarTeamNameParaApagar(uid);
+        }
       } else {
         setContagens({});
         setAtualizadoEm('—');
-        temTeamNameRef.current = false;
       }
       emitirAviso({ severidade: SEVERIDADE.SUCESSO, mensagem: 'Coleção carregada', tipo: 'carga' });
     });
@@ -116,7 +117,7 @@ export default function App() {
     return () => {
       cancelado = true;
     };
-  }, [uid]);
+  }, [uid, gravacaoAgregada]);
 
   // Grava a preferência ao trocar alternador — a preferência é o próprio
   // último uso (IDR 0026). O colapso de seções não persiste (IDR 0020).

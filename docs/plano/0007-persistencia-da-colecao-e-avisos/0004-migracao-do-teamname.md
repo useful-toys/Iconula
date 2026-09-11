@@ -3,7 +3,7 @@
 # Tarefa [0007-0004]: migração do `teamName`
 
 ## Status
-Pendente
+Concluída
 
 ## Documentos de referência (ler antes de implementar)
 - `docs/adr/0008-schema-da-colecao-mapa-esparso.md` § Decisão — "ao carregar um documento que ainda o tenha, a primeira gravação do schema novo o apaga (`deleteField`) — regras estritas para sempre depois disso"
@@ -80,13 +80,13 @@ comportamento do botão.
 - `src/lib/colecaoRemota.test.js` — modificar
 
 ## Critérios de aceite
-- [ ] Documento com `teamName` é limpo pela primeira gravação, na mesma operação das contagens
-- [ ] Nenhuma leitura ou escrita extra é disparada por causa da migração
-- [ ] Depois de migrado, o `deleteField` não é repetido
-- [ ] Falha de gravação mantém a marca para a tentativa seguinte
-- [ ] Nenhuma tela, aviso ou comando de migração foi criado
-- [ ] Registros ADR/TDR/IDR criados para as decisões tomadas
-- [ ] `docs/plano/0007-persistencia-da-colecao-e-avisos/logs/0004-log-migracao-do-teamname.md` gerado
+- [x] Documento com `teamName` é limpo pela primeira gravação, na mesma operação das contagens
+- [x] Nenhuma leitura ou escrita extra é disparada por causa da migração
+- [x] Depois de migrado, o `deleteField` não é repetido
+- [x] Falha de gravação mantém a marca para a tentativa seguinte
+- [x] Nenhuma tela, aviso ou comando de migração foi criado
+- [x] Registros ADR/TDR/IDR criados para as decisões tomadas
+- [x] `docs/plano/0007-persistencia-da-colecao-e-avisos/logs/0004-log-migracao-do-teamname.md` gerado
 
 ## Validação
 `npm run lint && npm run test && npm run build`.

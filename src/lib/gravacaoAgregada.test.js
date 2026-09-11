@@ -118,4 +118,64 @@ describe('criarGravacaoAgregada', () => {
 
     expect(gravar).toHaveBeenLastCalledWith('u1', { BRA01: 1, FWC01: 5 });
   });
+
+  describe('migração do teamName (Tarefa 0007-0004)', () => {
+    it('documento com teamName produz uma gravação com a marca de apagar junto das contagens', async () => {
+      instancia.marcarTeamNameParaApagar('u1');
+      instancia.registrarAjuste('u1', 'BRA01', 1);
+
+      await instancia.flush();
+
+      expect(gravar).toHaveBeenCalledTimes(1);
+      expect(gravar).toHaveBeenCalledWith('u1', { BRA01: 1, __apagarTeamName: true });
+    });
+
+    it('documento sem teamName não inclui a marca na escrita', async () => {
+      instancia.registrarAjuste('u1', 'BRA01', 1);
+
+      await instancia.flush();
+
+      expect(gravar).toHaveBeenCalledWith('u1', { BRA01: 1 });
+    });
+
+    it('sozinha, marcarTeamNameParaApagar não agenda nem força nenhuma escrita', async () => {
+      instancia.marcarTeamNameParaApagar('u1');
+
+      await vi.advanceTimersByTimeAsync(15000);
+      await instancia.flush();
+
+      expect(gravar).not.toHaveBeenCalled();
+    });
+
+    it('depois de gravado com sucesso, a gravação seguinte não repete a marca', async () => {
+      instancia.marcarTeamNameParaApagar('u1');
+      instancia.registrarAjuste('u1', 'BRA01', 1);
+      await instancia.flush();
+
+      expect(gravar).toHaveBeenLastCalledWith('u1', { BRA01: 1, __apagarTeamName: true });
+
+      instancia.registrarAjuste('u1', 'FWC01', 1);
+      await instancia.flush();
+
+      expect(gravar).toHaveBeenLastCalledWith('u1', { FWC01: 1 });
+    });
+
+    it('falha na gravação mantém a marca para a tentativa seguinte', async () => {
+      gravar.mockResolvedValueOnce({ status: 'erro', erro: new Error('falhou') });
+      instancia.marcarTeamNameParaApagar('u1');
+      instancia.registrarAjuste('u1', 'BRA01', 1);
+
+      await instancia.flush();
+      expect(instancia.temPendencia()).toBe(true);
+
+      instancia.registrarAjuste('u1', 'FWC01', 2);
+      await instancia.flush();
+
+      expect(gravar).toHaveBeenLastCalledWith('u1', {
+        BRA01: 1,
+        FWC01: 2,
+        __apagarTeamName: true,
+      });
+    });
+  });
 });
