@@ -1,5 +1,6 @@
 // Copyright (c) 2026 Daniel Felix Ferber
 
+import { useRef } from 'react';
 import './Figurinha.css';
 
 /**
@@ -27,6 +28,7 @@ export function Figurinha({
   onIncrementar,
   onDecrementar,
 }) {
+  const corpoRef = useRef(null);
   const sigla = codigo.slice(0, 3);
   const numero = codigo.slice(3);
   const sobrando = Math.max(0, contagem - 1);
@@ -53,6 +55,7 @@ export function Figurinha({
       <button
         type="button"
         className="figurinha__corpo"
+        ref={corpoRef}
         aria-label={`${sigla} ${numero}, ${estadoLabel}`}
         onClick={onIncrementar}
       >
@@ -69,17 +72,22 @@ export function Figurinha({
           </span>
         )}
       </button>
-      <button
-        type="button"
-        className="figurinha__menos"
-        aria-label={`remover uma unidade de ${sigla} ${numero}`}
-        onClick={(event) => {
-          event.stopPropagation();
-          onDecrementar();
-        }}
-      >
-        −
-      </button>
+      {contagem >= 1 && (
+        <button
+          type="button"
+          className="figurinha__menos"
+          aria-label={`remover uma unidade de ${sigla} ${numero}`}
+          onClick={(event) => {
+            event.stopPropagation();
+            onDecrementar();
+            if (contagem === 1) {
+              corpoRef.current?.focus();
+            }
+          }}
+        >
+          −
+        </button>
+      )}
     </div>
   );
 }

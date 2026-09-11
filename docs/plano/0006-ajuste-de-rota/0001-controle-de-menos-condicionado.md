@@ -3,7 +3,7 @@
 # Tarefa [0006-0001]: controle de menos condicionado e no canto inferior esquerdo
 
 ## Status
-Pendente
+Concluída
 
 ## Documentos de referência (ler antes de implementar)
 - `docs/idr/0032-controle-de-menos-so-com-unidade-e-dentro-do-cartao.md` § Decisão e § Consequências — o controle só existe com contagem ≥ 1, fica dentro do cartão no canto inferior esquerdo e devolve o foco ao corpo do cartão ao desaparecer
