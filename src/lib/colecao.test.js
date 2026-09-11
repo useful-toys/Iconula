@@ -55,6 +55,13 @@ describe('filtraFigurinha', () => {
     expect(filtraFigurinha({ BRA01: 3 }, 'BRA01', 'faltantes')).toBe(false);
   });
 
+  it('com "coladas" retorna true apenas para contagem >= 1', () => {
+    expect(filtraFigurinha({}, 'BRA01', 'coladas')).toBe(false);
+    expect(filtraFigurinha({ BRA01: 1 }, 'BRA01', 'coladas')).toBe(true);
+    expect(filtraFigurinha({ BRA01: 2 }, 'BRA01', 'coladas')).toBe(true);
+    expect(filtraFigurinha({ BRA01: 3 }, 'BRA01', 'coladas')).toBe(true);
+  });
+
   it('com "repetidas" retorna true apenas para contagem >= 2', () => {
     expect(filtraFigurinha({}, 'BRA01', 'repetidas')).toBe(false);
     expect(filtraFigurinha({ BRA01: 1 }, 'BRA01', 'repetidas')).toBe(false);

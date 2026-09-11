@@ -144,4 +144,20 @@ describe("App", () => {
       "true",
     );
   });
+
+  it("o placar do título não muda ao filtrar por coladas", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    const placar = () =>
+      screen.getByLabelText(/0 de 994, 0 por cento, 994 faltantes, 0 repetidas/);
+
+    expect(placar()).toBeInTheDocument();
+
+    await user.click(
+      screen.getByRole("button", { name: "mostrar apenas as figurinhas coladas" }),
+    );
+
+    expect(placar()).toBeInTheDocument();
+  });
 });

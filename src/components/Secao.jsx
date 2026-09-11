@@ -98,7 +98,7 @@ function CabecalhoSecao({ secao, codigos, contagens, expandida, onToggle, corpoI
  * @param {boolean} [props.expandida] - se a seção está expandida (controlado); se omitido, usa estado interno.
  * @param {() => void} [props.onToggle] - callback para alternar colapso (controlado).
  * @param {'lista'|'album'} [props.disposicao='lista'] - disposição vigente.
- * @param {'todas'|'faltantes'|'repetidas'} [props.filtro='todas'] - filtro vigente (só aplica na lista).
+ * @param {'todas'|'faltantes'|'coladas'|'repetidas'} [props.filtro='todas'] - filtro vigente (só aplica na lista).
  */
 export function Secao({
   secao,

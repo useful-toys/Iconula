@@ -194,6 +194,113 @@ describe('Catalogo', () => {
       expect(screen.queryByLabelText('BRA 03, faltante')).not.toBeInTheDocument();
     });
 
+    it('com "coladas" mostra contagem >= 1 e esconde os 0', () => {
+      const contagensParciais = { BRA01: 1, BRA02: 3 };
+      render(
+        <Catalogo
+          secoes={secoesParcial}
+          figurinhas={figurinhasParcial}
+          contagens={contagensParciais}
+          onAjustar={vi.fn()}
+          ordenacao="sigla"
+          disposicao="lista"
+          filtro="coladas"
+        />,
+      );
+
+      expect(screen.getByLabelText('BRA 01, colada')).toBeInTheDocument();
+      expect(screen.getByLabelText('BRA 02, colada, 2 sobrando')).toBeInTheDocument();
+      expect(screen.queryByLabelText('BRA 03, faltante')).not.toBeInTheDocument();
+    });
+
+    it('com "repetidas" mostra subconjunto do que "coladas" mostrou', () => {
+      const contagensParciais = { BRA01: 1, BRA02: 3 };
+      render(
+        <Catalogo
+          secoes={secoesParcial}
+          figurinhas={figurinhasParcial}
+          contagens={contagensParciais}
+          onAjustar={vi.fn()}
+          ordenacao="sigla"
+          disposicao="lista"
+          filtro="repetidas"
+        />,
+      );
+
+      // BRA01 tem contagem 1: é colada, mas não repetida
+      expect(screen.queryByLabelText('BRA 01, colada')).not.toBeInTheDocument();
+      expect(screen.getByLabelText('BRA 02, colada, 2 sobrando')).toBeInTheDocument();
+    });
+
+    it('seção sem nenhuma colada some inteira com filtro "coladas"', () => {
+      const contagensParciais = { BRA01: 1 };
+      render(
+        <Catalogo
+          secoes={secoesParcial}
+          figurinhas={figurinhasParcial}
+          contagens={contagensParciais}
+          onAjustar={vi.fn()}
+          ordenacao="sigla"
+          disposicao="lista"
+          filtro="coladas"
+        />,
+      );
+
+      // FWC e Coca-Cola não têm nenhuma colada
+      expect(screen.queryByRole('button', { name: /Extras FIFA/ })).not.toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: /Coca-Cola/ })).not.toBeInTheDocument();
+      // Brasil tem BRA01 colada
+      expect(screen.getByRole('button', { name: /Brasil/ })).toBeInTheDocument();
+    });
+
+    it('o resumo numérico da seção não muda ao filtrar', () => {
+      const contagensParciais = { BRA01: 1, BRA02: 3 };
+      const props = {
+        secoes: secoesParcial,
+        figurinhas: figurinhasParcial,
+        contagens: contagensParciais,
+        onAjustar: vi.fn(),
+        ordenacao: 'sigla',
+        disposicao: 'lista',
+      };
+      const { rerender } = render(<Catalogo {...props} filtro="coladas" />);
+      expect(screen.getByText(/Brasil/).closest('section').textContent).toContain('2/20');
+
+      rerender(<Catalogo {...props} filtro="repetidas" />);
+      expect(screen.getByText(/Brasil/).closest('section').textContent).toContain('2/20');
+      expect(screen.getByText(/Brasil/).closest('section').textContent).toContain('10%');
+    });
+
+    it('super-grupo sem nenhuma colada some inteiro', () => {
+      const secaoFwc = secoes.find((s) => s.sigla === 'FWC');
+      const secaoCoc = secoes.find((s) => s.sigla === 'COC');
+      const secaoMEX = secoes.find((s) => s.sigla === 'MEX');
+      const secaoKOR = secoes.find((s) => s.sigla === 'KOR');
+      const secaoRSA = secoes.find((s) => s.sigla === 'RSA');
+      const secaoCZE = secoes.find((s) => s.sigla === 'CZE');
+
+      const secoesGrupoA = [secaoFwc, secaoMEX, secaoKOR, secaoRSA, secaoCZE, secaoCoc];
+      const figurinhasGrupoA = figurinhas.filter(
+        (f) => f.secao === 'MEX' || f.secao === 'KOR' || f.secao === 'RSA' || f.secao === 'CZE',
+      );
+
+      render(
+        <Catalogo
+          secoes={secoesGrupoA}
+          figurinhas={figurinhasGrupoA}
+          contagens={{}}
+          onAjustar={vi.fn()}
+          ordenacao="pagina"
+          disposicao="lista"
+          filtro="coladas"
+        />,
+      );
+
+      // Nenhuma figurinha colada: o super-grupo A some inteiro
+      expect(screen.queryByRole('button', { name: /Grupo A/ })).not.toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: /México/ })).not.toBeInTheDocument();
+    });
+
     it('seção completa some com filtro "faltantes"', () => {
       // FWC com todas as 20 figurinhas coladas: nenhuma faltante
       const contagensFwcCompletas = {};

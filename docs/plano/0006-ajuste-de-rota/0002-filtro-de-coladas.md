@@ -3,7 +3,7 @@
 # Tarefa [0006-0002]: filtro de coladas
 
 ## Status
-Pendente
+Concluída
 
 ## Documentos de referência (ler antes de implementar)
 - `docs/idr/0033-filtro-de-coladas.md` § Decisão e § Consequências — o quarto valor do filtro, a ordem dos segmentos e a sobreposição deliberada com repetidas
