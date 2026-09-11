@@ -73,6 +73,23 @@ describe('criarGravacaoAgregada', () => {
     expect(gravar).not.toHaveBeenCalled();
   });
 
+  describe('retorno do flush (Tarefa 0009-0002, IDR 0038)', () => {
+    it('sem pendência, devolve status "nada"', async () => {
+      await expect(instancia.flush()).resolves.toEqual({ status: 'nada' });
+    });
+
+    it('gravação bem-sucedida, devolve o resultado de sucesso', async () => {
+      instancia.registrarAjuste('u1', 'BRA01', 1);
+      await expect(instancia.flush()).resolves.toMatchObject({ status: 'sucesso' });
+    });
+
+    it('gravação com falha, devolve o resultado de erro', async () => {
+      gravar.mockResolvedValueOnce({ status: 'erro', erro: new Error('falhou') });
+      instancia.registrarAjuste('u1', 'BRA01', 1);
+      await expect(instancia.flush()).resolves.toMatchObject({ status: 'erro' });
+    });
+  });
+
   it('depois do flush, uma nova rajada agenda debounce e teto de novo', async () => {
     instancia.registrarAjuste('u1', 'BRA01', 1);
     await instancia.flush();

@@ -4,7 +4,6 @@ import { useEffect, useState, useRef, useMemo } from "react";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { figurinhas, secoes } from "./data/catalogo.js";
 import { ordenarPorSigla, ordenarPorPagina, extrairSecoes } from "./data/catalogoOrdenacoes.js";
-import AuthStatus from "./components/AuthStatus";
 import TelaDeLogin from "./components/TelaDeLogin.jsx";
 import Atestacao from "./components/Atestacao.jsx";
 import PoliticaDePrivacidade from "./components/PoliticaDePrivacidade.jsx";
@@ -251,9 +250,13 @@ export default function App() {
 
   // Sair da conta dá flush antes do `signOut`: depois dele o ID token some e
   // as regras negam a escrita — a gravação pendente precisa ir embora
-  // primeiro, senão o logout descarta ajustes (ADR 0008).
+  // primeiro, senão o logout descarta ajustes (ADR 0008). Se o flush falhar
+  // (`status: 'erro'`), o `signOut` não acontece: a conta permanece logada
+  // com o ajuste intacto na fila, e o `aoFalhar` da gravação agregada já
+  // avisou a falha (IDR 0038) — sair não é caso especial.
   async function handleSignOut() {
-    await gravacaoAgregada.flush();
+    const resultado = await gravacaoAgregada.flush();
+    if (resultado.status === 'erro') return;
     await signOut(auth);
   }
 
@@ -320,9 +323,6 @@ export default function App() {
 
   return (
     <div className="app">
-      <div className="app__auth">
-        <AuthStatus user={user} onSignOut={handleSignOut} />
-      </div>
       <Cabecalho
         coladas={placar.coladas}
         faltantes={placar.faltantes}
@@ -341,6 +341,7 @@ export default function App() {
         onTrocarFiltro={handleTrocarFiltro}
         podeDesfazer={historico.length > 0}
         onDesfazer={handleDesfazer}
+        onSignOut={handleSignOut}
       />
       <Catalogo
         ref={catalogoRef}

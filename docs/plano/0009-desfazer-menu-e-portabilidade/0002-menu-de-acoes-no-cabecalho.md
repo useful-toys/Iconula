@@ -3,7 +3,7 @@
 # Tarefa [0009-0002]: menu de ações no cabeçalho
 
 ## Status
-Pendente
+Concluída
 
 ## Documentos de referência (ler antes de implementar)
 - `docs/idr/0024-acoes-raras-em-menu-do-cabecalho.md` § Decisão e § Consequências — os cinco comandos, o fechamento por escolha/toque fora/`Esc`, e a ausência de rolagem própria
@@ -89,15 +89,17 @@ conteúdo entram nas tarefas seguintes desta fase.
 - `AGENTS.md` — modificar (tabela "Onde fica cada coisa")
 
 ## Critérios de aceite
-- [ ] O menu abre pelo botão do cabeçalho e traz os cinco itens em três blocos
-- [ ] Fecha ao escolher, ao tocar fora e com `Esc`
-- [ ] "Sair da conta" é o único item vermelho e fica isolado no fim
-- [ ] Sair dá flush antes do `signOut`, comprovado pela ordem das chamadas
-- [ ] O menu não tem rolagem própria e fica acima dos avisos e do cabeçalho
-- [ ] O `AuthStatus` foi removido sem deixar import, estilo ou teste órfão
-- [ ] O foco entra no menu ao abrir e volta ao botão ao fechar
-- [ ] Registros ADR/TDR/IDR criados para as decisões tomadas
-- [ ] `docs/plano/0009-desfazer-menu-e-portabilidade/logs/0002-log-menu-de-acoes-no-cabecalho.md` gerado
+- [x] O menu abre pelo botão do cabeçalho e traz os cinco itens em três blocos
+- [x] Fecha ao escolher, ao tocar fora e com `Esc`
+- [x] "Sair da conta" é o único item vermelho e fica isolado no fim
+- [x] Sair dá flush antes do `signOut`, comprovado pela ordem das chamadas
+- [x] O menu não tem rolagem própria e fica acima dos avisos e do cabeçalho
+- [x] O `AuthStatus` foi removido sem deixar import, estilo ou teste órfão
+- [x] O foco entra no menu ao abrir e volta ao botão ao fechar por `Esc` ou
+      por escolher um item — ao tocar fora, o foco segue o toque em vez de
+      ser roubado de volta ao botão (decisão de nível 2, ver log)
+- [x] Registros ADR/TDR/IDR criados para as decisões tomadas (IDR 0038)
+- [x] `docs/plano/0009-desfazer-menu-e-portabilidade/logs/0002-log-menu-de-acoes-no-cabecalho.md` gerado
 
 ## Validação
 `npm run lint && npm run test && npm run build`.

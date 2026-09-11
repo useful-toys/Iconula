@@ -67,7 +67,7 @@ export function criarGravacaoAgregada({ gravar, aoConcluir, aoFalhar, aoEsperar 
 
   async function gravarAgora() {
     cancelarTemporizadores();
-    if (!uidAtual || Object.keys(alteracoes).length === 0) return;
+    if (!uidAtual || Object.keys(alteracoes).length === 0) return { status: 'nada' };
 
     const uid = uidAtual;
     const paraGravar = alteracoes;
@@ -109,6 +109,8 @@ export function criarGravacaoAgregada({ gravar, aoConcluir, aoFalhar, aoEsperar 
       alteracoes = { ...paraGravar, ...alteracoes };
       aoFalhar?.(resultado);
     }
+
+    return resultado;
   }
 
   return {
@@ -134,11 +136,14 @@ export function criarGravacaoAgregada({ gravar, aoConcluir, aoFalhar, aoEsperar 
 
     /**
      * Grava imediatamente qualquer alteração pendente, cancelando os
-     * temporizadores em aberto. Sem pendência, não faz nada. Devolve a
-     * promise da gravação para quem precisa esperar o flush terminar antes
-     * de continuar (o `signOut`, que não pode acontecer antes).
+     * temporizadores em aberto. Sem pendência, não faz nada. Devolve o
+     * resultado discriminado da gravação (`{ status: 'sucesso'|'erro'|'nada' }`,
+     * o mesmo formato de `gravar` — `'nada'` quando não havia pendência) para
+     * quem precisa decidir com base no desfecho antes de continuar (o
+     * `signOut`, que não pode acontecer antes de uma gravação bem-sucedida —
+     * Tarefa 0009-0002, IDR 0038).
      *
-     * @returns {Promise<void>}
+     * @returns {Promise<{status: 'sucesso'|'erro'|'nada'}>}
      */
     flush() {
       return gravarAgora();
