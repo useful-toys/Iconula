@@ -7,6 +7,13 @@
 Aceito — desbloqueia a Tarefa 0002-0004 e responde ao ponto em aberto de
 `docs/arquitetura.md` § Pontos em aberto.
 
+**Revisitado na Tarefa 0007-0003** (gravação agregada), como esta decisão já
+previa: mantido. A gravação agregada (`gravacaoAgregada.js`) é criada e usada
+inteiramente dentro de `App.jsx` — nenhum componente novo passou a consumir
+ou modificar a coleção, e a profundidade de prop-drilling não mudou (`App →
+Catalogo → Secao → Figurinha`, três níveis). Não há motivo para Context
+ainda.
+
 ## Contexto
 
 A coleção de contagens precisa ser acessível pelo cabeçalho (placar geral),

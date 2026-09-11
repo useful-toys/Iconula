@@ -119,3 +119,51 @@ export async function carregarColecao(uid) {
     return { status: 'erro', erro };
   }
 }
+
+/**
+ * Grava as chaves alteradas da coleção numa única escrita (ADR 0008, IDR 0003).
+ *
+ * `alteracoes` é um mapa código → valor absoluto (contagem ≥ 1) ou `0` para
+ * indicar que a chave chegou a zero e deve ser apagada do mapa (`deleteField`).
+ * Usa `setDoc(..., { merge: true })`, não `updateDoc`: a mesma chamada cria o
+ * documento na primeira gravação da conta — as regras permitem `create` e
+ * `update` igualmente — sem leitura extra só para descobrir se ele já existe
+ * (TDR 0017). `deleteField()` funciona dentro do mapa aninhado tanto com
+ * `update()` quanto com `set(..., { merge: true })`.
+ *
+ * Nunca lança: devolve um resultado discriminado.
+ * - `sucesso` — escrita confirmada pelo servidor; `atualizadoEm` é o instante
+ *   local do cliente no momento da confirmação, aproximação do carimbo do
+ *   servidor sem gastar uma leitura extra (TDR 0017).
+ * - `erro` — a escrita falhou; traz `erro` para o detalhe técnico.
+ * - `indisponivel` — Firebase não configurado (`app === null`).
+ *
+ * @param {string} uid
+ * @param {Record<string, number>} alteracoes
+ * @returns {Promise<object>}
+ */
+export async function gravarAlteracoes(uid, alteracoes) {
+  if (!app) {
+    return { status: 'indisponivel' };
+  }
+  if (Object.keys(alteracoes).length === 0) {
+    return { status: 'sucesso', atualizadoEm: new Date() };
+  }
+
+  try {
+    const { doc, setDoc, deleteField, serverTimestamp } = await import('firebase/firestore');
+    const db = await obterFirestore();
+    const ref = doc(db, CAMINHO_DOCUMENTO(uid));
+
+    const contagens = {};
+    for (const [codigo, valor] of Object.entries(alteracoes)) {
+      contagens[codigo] = valor > 0 ? valor : deleteField();
+    }
+
+    await setDoc(ref, { contagens, updatedAt: serverTimestamp() }, { merge: true });
+
+    return { status: 'sucesso', atualizadoEm: new Date() };
+  } catch (erro) {
+    return { status: 'erro', erro };
+  }
+}

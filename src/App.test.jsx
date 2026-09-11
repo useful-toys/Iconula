@@ -36,6 +36,7 @@ vi.mock("./lib/firebase", () => ({
 // indisponível para os testes de auth ficarem focados e não tocarem o Firestore.
 vi.mock("./lib/colecaoRemota.js", () => ({
   carregarColecao: vi.fn(() => Promise.resolve({ status: "indisponivel" })),
+  gravarAlteracoes: vi.fn(() => Promise.resolve({ status: "indisponivel" })),
   formatarCarimbo: vi.fn(() => "—"),
   mensagemDeErro: vi.fn(() => "erro"),
 }));
