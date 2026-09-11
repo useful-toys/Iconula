@@ -21,6 +21,11 @@ const codigosTodasFigurinhas = figurinhas.map((f) => f.codigo);
 
 export default function App() {
   const [user, setUser] = useState(null);
+  // Torna-se `true` na primeira emissão de `onAuthStateChanged` (login
+  // restaurado ou não). Enquanto `false`, a tela fica neutra — nem login
+  // nem catálogo — para não piscar a tela de login para quem já tem sessão
+  // (ver IDR 0035).
+  const [authResolvido, setAuthResolvido] = useState(false);
   const [contagens, setContagens] = useState({});
   const [atualizadoEm, setAtualizadoEm] = useState(null);
   // Preferências de vista lidas uma vez na abertura (IDR 0026)
@@ -90,7 +95,10 @@ export default function App() {
 
   useEffect(() => {
     if (!auth) return;
-    return onAuthStateChanged(auth, setUser);
+    return onAuthStateChanged(auth, (novoUsuario) => {
+      setUser(novoUsuario);
+      setAuthResolvido(true);
+    });
   }, []);
 
   const uid = user?.uid ?? null;
@@ -199,13 +207,47 @@ export default function App() {
 
   const placar = calcularPlacar(contagens, codigosTodasFigurinhas);
 
+  // Guarda de login (Tarefa 0008-0001, requisitos.md § Acesso): sem sessão,
+  // só a tela de login existe — catálogo e coleção nunca ficam acessíveis
+  // por nenhum caminho. Três telas, mutuamente exclusivas:
+  if (!auth) {
+    // Sem VITE_FIREBASE_*: modo não suportado (requisitos.md § Dados e
+    // isolamento) — a tela de login aparece sem botão funcional, nunca como
+    // caminho alternativo para o catálogo.
+    return (
+      <div className="app">
+        <div className="app__auth">
+          <p className="app__login-indisponivel">
+            Login indisponível — configure as variáveis <code>VITE_FIREBASE_*</code>{" "}
+            para usar o app (ver <code>docs/firebase.md</code>).
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!authResolvido) {
+    // Estado neutro breve enquanto o Firebase Auth restaura a sessão
+    // (IDR 0035): nem login nem catálogo, para não piscar a tela de login
+    // para quem já está autenticado.
+    return <div className="app" />;
+  }
+
+  if (!user) {
+    return (
+      <div className="app">
+        <div className="app__auth">
+          <AuthStatus user={null} onSignOut={handleSignOut} />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="app">
-      {auth && (
-        <div className="app__auth">
-          <AuthStatus user={user} onSignOut={handleSignOut} />
-        </div>
-      )}
+      <div className="app__auth">
+        <AuthStatus user={user} onSignOut={handleSignOut} />
+      </div>
       <Cabecalho
         coladas={placar.coladas}
         faltantes={placar.faltantes}
