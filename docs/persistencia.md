@@ -37,7 +37,7 @@ sincronização do produto novo) e [requisitos.md](requisitos.md)
 
 ## Formato dos dados
 
-### Hoje (implementado): a bandeira do botão
+### Histórico: a bandeira do botão
 
 ```
 users/{uid}
@@ -54,7 +54,7 @@ users/{uid}
 - Falha de persistência invisível: vira `console.error`, nunca chega à
   tela
 
-### Alvo (especificado): a coleção de figurinhas
+### Vigente: a coleção de figurinhas
 
 ```
 users/{uid}
@@ -89,9 +89,11 @@ Regras do formato:
 - **Tipos**: `contagens` é `map<string, int 1–99>`; o teto de 99 existe
   para que as regras consigam validar os valores — é a única forma, e a
   interface para o incremento nele
-  ([TDR 0009](tdr/0009-validacao-do-mapa-nas-regras.md)); chaves =
-  códigos do catálogo
-  ([ADR 0008](adr/0008-schema-da-colecao-mapa-esparso.md))
+  ([TDR 0009](tdr/0009-validacao-do-mapa-nas-regras.md)). As **chaves** o
+  cliente escreve como códigos do catálogo, mas nas regras elas se limitam
+  só em quantidade (`size() <= 994`), não em conteúdo: a allow-list dos
+  994 códigos foi medida e **não coube** no orçamento de expressões
+  ([TDR 0009](tdr/0009-validacao-do-mapa-nas-regras.md))
 - **Tamanho**: no pior caso (coleção completa), ~994 chaves de ~5
   caracteres — poucos KB, muito abaixo do limite de 1 MiB por documento
 - **Nada além disso**: os únicos campos são `contagens`, `updatedAt` e
@@ -140,22 +142,37 @@ bundle é público e qualquer requisição pode ser forjada — a autorização
 emulador (`npm run test:rules`) rodando no CI a cada PR, e deploy pelo
 próprio `firebase deploy` (TDR 0008).
 
-O que muda com o produto novo:
+O que está publicado (schema novo):
 
-- `hasOnly(["teamName"])` não vale mais: contagens e `updatedAt` exigem
-  schema novo — e as regras precisam subir antes ou junto com o código
-  que escreve os campos (acoplamento schema × regras, ADR 0007)
-- Validação do formato (seção "Formato dos dados"): tamanho do mapa,
-  valores por `values().hasOnly([1…99])`, `updatedAt == request.time`.
-  **A linguagem de regras não itera**: não há como aplicar um regex a
-  cada chave nem uma condição a cada valor — só comparação de conjunto
-  contra listas escritas à mão. O que isso permite, o que não permite e
-  o teto de abuso que sobra (1 MiB por conta) estão no
-  [TDR 0009](tdr/0009-validacao-do-mapa-nas-regras.md)
+- `allow get` apenas do próprio documento (`request.auth.uid == userId`),
+  com `get` — nunca `read` — para que uma query na coleção `users` não
+  seja avaliada; `list` segue negado
+- `allow create, update` apenas do próprio documento, exigindo
+  `hasOnly(["contagens", "updatedAt", "atestadoEm"])`
+- `contagens` é `map` com `size() <= 994` e
+  `values().hasOnly([1…99])` — o teto de 99 é o que torna os valores
+  validáveis, e toda cláusula sobre `contagens` fica sob a guarda de
+  campo ausente (`!("contagens" in …) || …`), senão a regra erra em vez
+  de negar (TDR 0009)
+- `updatedAt == request.time` quando presente (e obrigatório sempre que
+  `contagens` é escrito); `atestadoEm is timestamp` quando presente — é o
+  que deixa a gravação da atestação criar o documento só com `atestadoEm`
+- **allow-list das chaves não entrou**: gerada a partir do catálogo e
+  medida, a cláusula `contagens.keys().hasOnly([994 códigos])` compila
+  (ruleset de ~14,7 KB, abaixo do limite de 256 KB), mas a avaliação
+  estoura o limite de 1.000 expressões por requisição — até para uma
+  chave única. As chaves seguem limitadas só em quantidade
+  (`size() <= 994`), não em conteúdo (TDR 0009)
 - `delete` segue negado — "apagar meus dados" saiu do MVP (requisito
   futuro em requisitos.md; quando voltar, exigirá re-autenticação e
   autorização nova nas regras)
-- `get` continua a única leitura; `list` segue negado
+- sem regra catch-all: o resto é negado por padrão
+
+**A linguagem de regras não itera**: não há como aplicar um regex a cada
+chave nem uma condição a cada valor — só comparação de conjunto contra
+listas escritas à mão. O que isso permite, o que não permite e o teto de
+abuso que sobra (1 MiB por conta) estão no
+[TDR 0009](tdr/0009-validacao-do-mapa-nas-regras.md).
 
 App Check segue de fora, com gatilho de revisão já registrado no
 ADR 0007 (abuso de cota ou migração para o Blaze).
@@ -200,10 +217,11 @@ ADR 0007 (abuso de cota ou migração para o Blaze).
 
 | Pronto (na main) | Falta (implementação do produto novo) |
 |---|---|
-| Banco criado (região, Spark) | Revisar/aceitar o ADR 0008 (redigido) |
-| `users/{uid}` + regras + testes no CI | Regras novas (schema, `updatedAt`, `atestadoEm`) |
-| SDK sob demanda + CSP (TDR 0007) | Escrita agregada, flush, `updatedAt`, `atestadoEm` |
-| Deploy das regras (TDR 0008) | Migração: apagar o `teamName` na primeira gravação |
+| Banco criado (região, Spark) | Aceitar os números do ADR 0008 (debounce, teto de espera, timeout) |
+| `users/{uid}` + regras + testes no CI | Escrita agregada, flush, `updatedAt`, `atestadoEm` |
+| Regras novas publicadas (schema, `updatedAt`, `atestadoEm`) | Migração: apagar o `teamName` na primeira gravação |
+| SDK sob demanda + CSP (TDR 0007) | |
+| Deploy das regras (TDR 0008) | |
 
 ## Futuro
 

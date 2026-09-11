@@ -3,7 +3,7 @@
 # Tarefa [0005-0004]: atualizar a documentação de persistência
 
 ## Status
-Pendente
+Concluída
 
 ## Documentos de referência (ler antes de implementar)
 - `AGENTS.md` § Convenções — mudança no ambiente Firebase é refletida no `docs/*.md` correspondente na mesma alteração/PR
