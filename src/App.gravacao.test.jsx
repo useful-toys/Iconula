@@ -282,8 +282,13 @@ describe("App — gravação agregada", () => {
       return Promise.resolve();
     });
 
+    // "Sair da conta" mora no menu de ações do cabeçalho (Tarefa 0009-0002);
+    // o item tem `role="menuitem"` explícito, não "button".
     act(() => {
-      fireEvent.click(screen.getByRole("button", { name: "Sair" }));
+      fireEvent.click(screen.getByRole("button", { name: /menu de ações/ }));
+    });
+    act(() => {
+      fireEvent.click(screen.getByRole("menuitem", { name: "Sair da conta" }));
     });
 
     // A gravação pendente ainda não terminou: signOut não pode ter acontecido.

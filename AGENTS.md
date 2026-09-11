@@ -52,9 +52,9 @@ entram quando a árvore realmente exigir.
 | `src/components/Catalogo.jsx` | Corpo da tela principal: renderiza as seções na ordenação vigente. |
 | `src/components/Secao.jsx` | Cabeçalho de seção com progresso compacto e grade de figurinhas em lista. |
 | `src/components/Figurinha.jsx` | Cartão da figurinha com três estados, selo `×N` e marca de metalizada. |
-| `src/components/AuthStatus.jsx` | Mostra `LoginButton` (deslogado) ou nome/avatar/botão "Sair" (logado); puramente controlado por props. |
+| `src/components/MenuDeAcoes.jsx` | Botão de ações no cabeçalho e o popup de comandos raros (copiar listas, exportar/importar, sair da conta); "sair" dá flush da gravação pendente antes do `signOut`. |
 | `src/components/LoginButton.jsx` | Botão "Entrar com Google" (`signInWithPopup`), com mensagem de erro para falhas que não sejam o usuário fechar o popup. |
-| `src/App.jsx` | Estado da coleção (`useState`, mapa esparso de contagens) e estado do usuário autenticado (`useState` + `onAuthStateChanged`), repassado por prop para `AuthStatus` — sem Context (ver [ADR 0006](docs/adr/0006-login-google-sdk-modular.md)). Repassa a função de ajuste para o catálogo (ver [TDR 0014](docs/tdr/0014-estado-da-colecao-sem-context.md)). |
+| `src/App.jsx` | Estado da coleção (`useState`, mapa esparso de contagens) e estado do usuário autenticado (`useState` + `onAuthStateChanged`) — sem Context (ver [ADR 0006](docs/adr/0006-login-google-sdk-modular.md)). Repassa a função de ajuste para o catálogo (ver [TDR 0014](docs/tdr/0014-estado-da-colecao-sem-context.md)) e `handleSignOut` (flush antes do `signOut`) para o menu de ações. |
 | `src/App.css` | Estilo do app (tema escuro único, responsivo). |
 | `src/App.test.jsx` | Testes de login/logout e renderização do cabeçalho/catálogo (mocka `src/lib/firebase.js` e `src/components/Catalogo.jsx`). |
 | `src/App.auth-unavailable.test.jsx` | Teste do comportamento quando o Firebase Auth não está configurado. |
@@ -64,7 +64,6 @@ entram quando a árvore realmente exigir.
 | `src/lib/bandeira.js` | Converte emoji de bandeira/ícone em URL do SVG Twemoji vendorizado. |
 | `firestore.rules` | Regras de segurança do Firestore — a única garantia de que um usuário não acessa os dados de outro. |
 | `firestore.rules.test.js` | Testes das regras contra o emulador (`npm run test:rules`, config em `vitest.rules.config.js`); rodam no CI a cada PR (ver [TDR 0008](docs/tdr/0008-deploy-e-teste-das-regras-do-firestore.md)). |
-| `src/components/AuthStatus.jsx` | Mostra `LoginButton` (deslogado) ou nome/avatar/botão "Sair" (logado); puramente controlado por props. |
 | `src/components/LoginButton.jsx` | Botão "Entrar com Google" (`signInWithPopup`), com mensagem de erro para falhas que não sejam o usuário fechar o popup. |
 | `firebase.json`, `.firebaserc` | Configuração do Firebase Hosting (aponta para `dist/`), das regras do Firestore e do emulador. |
 | `.github/workflows/` | Workflows de deploy (produção em merge na `main`, preview em PRs). |

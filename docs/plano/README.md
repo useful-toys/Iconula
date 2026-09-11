@@ -160,7 +160,7 @@ acabamento.
 | # | Tarefa | Objetivo | Status |
 |---|---|---|---|
 | 0001 | [Desfazer com histórico de 10](0009-desfazer-menu-e-portabilidade/0001-desfazer-com-historico-de-10.md) | Botão na linha de controles revertendo incrementos e decrementos em ordem inversa. | Concluída |
-| 0002 | [Menu de ações no cabeçalho](0009-desfazer-menu-e-portabilidade/0002-menu-de-acoes-no-cabecalho.md) | Popup com cinco comandos; "sair da conta" dá flush antes do `signOut` e aposenta a área de login provisória. | Pendente |
+| 0002 | [Menu de ações no cabeçalho](0009-desfazer-menu-e-portabilidade/0002-menu-de-acoes-no-cabecalho.md) | Popup com cinco comandos; "sair da conta" dá flush antes do `signOut` e aposenta a área de login provisória. | Concluída |
 | 0003 | [Copiar listas de troca](0009-desfazer-menu-e-portabilidade/0003-copiar-listas-de-troca.md) | Texto pronto para WhatsApp, uma linha por seção, com `5×2` para as unidades sobrando. | Pendente |
 | 0004 | [Exportar coleção em JSON](0009-desfazer-menu-e-portabilidade/0004-exportar-colecao-em-json.md) | Arquivo versionado, lossless e sem dados pessoais. | Pendente |
 | 0005 | [Importar coleção de JSON](0009-desfazer-menu-e-portabilidade/0005-importar-colecao-de-json.md) | Substituição da coleção inteira após confirmação, com validação e descarte do histórico de desfazer. | Pendente |

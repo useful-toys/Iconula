@@ -69,12 +69,26 @@ async function emitirAuth(user) {
   });
 }
 
+// O menu de ações (Tarefa 0009-0002) é um fixo da tela principal — melhor
+// marcador de "tela principal" do que `.app__auth`, que era só a casa
+// provisória do `AuthStatus`, agora aposentado.
 function possuiTelaPrincipal() {
-  return document.querySelector(".app__auth") !== null && screen.queryByTestId("catalogo-mock") !== null;
+  return (
+    screen.queryByRole("button", { name: /menu de ações/ }) !== null &&
+    screen.queryByTestId("catalogo-mock") !== null
+  );
 }
 
 function possuiBotaoDeLogin() {
   return screen.queryByRole("button", { name: /entrar com google/i }) !== null;
+}
+
+// "Sair da conta" mora no menu de ações do cabeçalho (Tarefa 0009-0002) —
+// não mais um botão "Sair" direto na tela, como na área de login provisória.
+// O item tem `role="menuitem"` explícito, não "button".
+async function sairDaConta(user) {
+  await user.click(screen.getByRole("button", { name: /menu de ações/ }));
+  await user.click(screen.getByRole("menuitem", { name: "Sair da conta" }));
 }
 
 beforeEach(() => {
@@ -116,15 +130,13 @@ describe("App — guarda de login", () => {
     ).toBeInTheDocument();
   });
 
-  it("mostra o nome do usuário e permite sair quando autenticado", async () => {
+  it("permite sair da conta pelo menu de ações quando autenticado", async () => {
     const user = userEvent.setup();
     render(<App />);
 
     await emitirAuth(USUARIO_LOGADO);
 
-    expect(screen.getByText("Daniel Ferber")).toBeInTheDocument();
-
-    await user.click(screen.getByRole("button", { name: "Sair" }));
+    await sairDaConta(user);
 
     expect(signOutMock).toHaveBeenCalledTimes(1);
   });
@@ -136,7 +148,7 @@ describe("App — guarda de login", () => {
     await emitirAuth(USUARIO_LOGADO);
     expect(possuiTelaPrincipal()).toBe(true);
 
-    await user.click(screen.getByRole("button", { name: "Sair" }));
+    await sairDaConta(user);
     await emitirAuth(null);
 
     expect(possuiTelaPrincipal()).toBe(false);

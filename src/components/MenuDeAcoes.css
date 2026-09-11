@@ -1,0 +1,86 @@
+/* Copyright (c) 2026 Daniel Felix Ferber */
+
+.menu-de-acoes {
+  position: relative;
+}
+
+/* 30x30px, raio 8px, borda e texto --gold — mesma medida do botão de
+   desfazer (docs/interface.md § Medidas). */
+.menu-de-acoes__botao {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  font-size: 16px;
+  line-height: 1;
+  color: var(--gold);
+  background: transparent;
+  border: 1px solid var(--gold);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.menu-de-acoes__botao:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+/* Ancorado ao botão, alinhado pela borda direita, logo abaixo da linha de
+   controles; z-index 30 — acima do cabeçalho (10) e da área de avisos (20),
+   docs/interface.md § Camadas. */
+.menu-de-acoes__painel {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  z-index: 30;
+  min-width: 230px;
+  display: flex;
+  flex-direction: column;
+  padding: 6px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.menu-de-acoes__item {
+  appearance: none;
+  width: 100%;
+  text-align: left;
+  padding: 9px 12px;
+  font-family: inherit;
+  font-size: 13px;
+  color: var(--cream);
+  background: transparent;
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+}
+
+.menu-de-acoes__item:hover:not(:disabled) {
+  background: var(--turf-deep);
+}
+
+.menu-de-acoes__item:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: -2px;
+}
+
+.menu-de-acoes__item:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* "Sair da conta": único item vermelho da tela, isolado no fim
+   (docs/interface.md § Menu de ações). */
+.menu-de-acoes__item--sair {
+  color: var(--notif-red);
+}
+
+.menu-de-acoes__filete {
+  height: 1px;
+  margin: 4px 6px;
+  background: var(--border);
+}
