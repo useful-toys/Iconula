@@ -3,7 +3,7 @@
 # Tarefa [0007-0005]: política de erro visível ponta a ponta
 
 ## Status
-Pendente
+Concluída
 
 ## Documentos de referência (ler antes de implementar)
 - `docs/idr/0002-avisos-de-sincronizacao-visiveis.md` § Decisão — a falha não trava a interface; a gravação seguinte regrava o valor completo
@@ -91,14 +91,14 @@ não como feature offline.
 - `src/App.jsx` — modificar
 
 ## Critérios de aceite
-- [ ] Erro de servidor gera aviso vermelho persistente, com detalhe técnico ao toque
-- [ ] Promessa pendente além de ~5s gera aviso dourado, não vermelho
-- [ ] Depois de uma falha, a gravação seguinte regrava as chaves da tentativa anterior
-- [ ] Sucesso dispensa a falha do mesmo tipo que estiver na tela
-- [ ] Ajustar continua funcionando durante e depois de qualquer falha
-- [ ] Nenhum log de console contém uid ou conteúdo da coleção
-- [ ] Registros ADR/TDR/IDR criados para as decisões tomadas
-- [ ] `docs/plano/0007-persistencia-da-colecao-e-avisos/logs/0005-log-politica-de-erro-visivel.md` gerado
+- [x] Erro de servidor gera aviso vermelho persistente, com detalhe técnico ao toque
+- [x] Promessa pendente além de ~5s gera aviso dourado, não vermelho
+- [x] Depois de uma falha, a gravação seguinte regrava as chaves da tentativa anterior
+- [x] Sucesso dispensa a falha do mesmo tipo que estiver na tela
+- [x] Ajustar continua funcionando durante e depois de qualquer falha
+- [x] Nenhum log de console contém uid ou conteúdo da coleção
+- [x] Registros ADR/TDR/IDR criados para as decisões tomadas
+- [x] `docs/plano/0007-persistencia-da-colecao-e-avisos/logs/0005-log-politica-de-erro-visivel.md` gerado
 
 ## Validação
 `npm run lint && npm run test && npm run build`.

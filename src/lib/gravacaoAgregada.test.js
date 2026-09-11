@@ -7,6 +7,7 @@ describe('criarGravacaoAgregada', () => {
   let gravar;
   let aoConcluir;
   let aoFalhar;
+  let aoEsperar;
   let instancia;
 
   beforeEach(() => {
@@ -14,7 +15,8 @@ describe('criarGravacaoAgregada', () => {
     gravar = vi.fn().mockResolvedValue({ status: 'sucesso', atualizadoEm: new Date() });
     aoConcluir = vi.fn();
     aoFalhar = vi.fn();
-    instancia = criarGravacaoAgregada({ gravar, aoConcluir, aoFalhar });
+    aoEsperar = vi.fn();
+    instancia = criarGravacaoAgregada({ gravar, aoConcluir, aoFalhar, aoEsperar });
   });
 
   afterEach(() => {
@@ -176,6 +178,69 @@ describe('criarGravacaoAgregada', () => {
         FWC01: 2,
         __apagarTeamName: true,
       });
+    });
+  });
+
+  describe('espera sem rede (Tarefa 0007-0005)', () => {
+    it('promessa pendente além de ~5s chama aoEsperar, não aoFalhar', async () => {
+      let resolver;
+      gravar.mockReturnValueOnce(
+        new Promise((resolve) => {
+          resolver = resolve;
+        }),
+      );
+      instancia.registrarAjuste('u1', 'BRA01', 1);
+
+      const flush = instancia.flush();
+      await vi.advanceTimersByTimeAsync(5000);
+
+      expect(aoEsperar).toHaveBeenCalledTimes(1);
+      expect(aoFalhar).not.toHaveBeenCalled();
+      expect(aoConcluir).not.toHaveBeenCalled();
+
+      resolver({ status: 'sucesso', atualizadoEm: new Date() });
+      await flush;
+
+      expect(aoConcluir).toHaveBeenCalledTimes(1);
+    });
+
+    it('resolvendo antes de ~5s nunca chama aoEsperar', async () => {
+      instancia.registrarAjuste('u1', 'BRA01', 1);
+
+      await instancia.flush();
+
+      expect(aoEsperar).not.toHaveBeenCalled();
+      expect(aoConcluir).toHaveBeenCalledTimes(1);
+    });
+
+    it('depois de esperar, uma falha real ainda chama aoFalhar', async () => {
+      let resolver;
+      gravar.mockReturnValueOnce(
+        new Promise((resolve) => {
+          resolver = resolve;
+        }),
+      );
+      instancia.registrarAjuste('u1', 'BRA01', 1);
+
+      const flush = instancia.flush();
+      await vi.advanceTimersByTimeAsync(5000);
+      expect(aoEsperar).toHaveBeenCalledTimes(1);
+
+      resolver({ status: 'erro', erro: new Error('permission-denied') });
+      await flush;
+
+      expect(aoFalhar).toHaveBeenCalledTimes(1);
+      expect(aoConcluir).not.toHaveBeenCalled();
+      expect(instancia.temPendencia()).toBe(true);
+    });
+
+    it('sem aoEsperar injetado, a espera não quebra a gravação', async () => {
+      const semEspera = criarGravacaoAgregada({ gravar, aoConcluir, aoFalhar });
+      semEspera.registrarAjuste('u1', 'BRA01', 1);
+
+      await semEspera.flush();
+
+      expect(aoConcluir).toHaveBeenCalledTimes(1);
     });
   });
 });
