@@ -13,6 +13,16 @@ import { app } from './firebase.js';
 
 const CAMINHO_DOCUMENTO = (uid) => ['users', uid].join('/');
 
+// Chave reservada dentro do mapa `alteracoes` de `gravarAlteracoes` — nunca
+// colide com um código de catálogo real (três letras + dois dígitos) — que
+// sinaliza que esta mesma escrita deve apagar o `teamName` residual da era
+// do botão (Tarefa 0007-0004, ADR 0008). O mesmo literal existe em
+// `gravacaoAgregada.js`, que a define de novo em vez de importar daqui: as
+// duas pontas do contrato ficam desacopladas, e `gravacaoAgregada.test.js`
+// continua sem tocar em `firebase.js` (ver o comentário lá). Exportada só
+// para os testes deste arquivo referenciarem o mesmo literal.
+export const MARCA_APAGAR_TEAM_NAME = '__apagarTeamName';
+
 let dbPromise = null;
 
 /**
@@ -125,6 +135,10 @@ export async function carregarColecao(uid) {
  *
  * `alteracoes` é um mapa código → valor absoluto (contagem ≥ 1) ou `0` para
  * indicar que a chave chegou a zero e deve ser apagada do mapa (`deleteField`).
+ * A chave reservada `MARCA_APAGAR_TEAM_NAME`, se presente e verdadeira, soma
+ * `teamName: deleteField()` à mesma escrita — a migração da Tarefa 0007-0004,
+ * que não pode virar uma escrita à parte (ADR 0008).
+ *
  * Usa `setDoc(..., { merge: true })`, não `updateDoc`: a mesma chamada cria o
  * documento na primeira gravação da conta — as regras permitem `create` e
  * `update` igualmente — sem leitura extra só para descobrir se ele já existe
@@ -139,14 +153,20 @@ export async function carregarColecao(uid) {
  * - `indisponivel` — Firebase não configurado (`app === null`).
  *
  * @param {string} uid
- * @param {Record<string, number>} alteracoes
+ * @param {Record<string, number|boolean>} alteracoes
  * @returns {Promise<object>}
  */
 export async function gravarAlteracoes(uid, alteracoes) {
   if (!app) {
     return { status: 'indisponivel' };
   }
-  if (Object.keys(alteracoes).length === 0) {
+
+  const apagarTeamName = Boolean(alteracoes[MARCA_APAGAR_TEAM_NAME]);
+  const chaves = Object.entries(alteracoes).filter(
+    ([codigo]) => codigo !== MARCA_APAGAR_TEAM_NAME,
+  );
+
+  if (chaves.length === 0 && !apagarTeamName) {
     return { status: 'sucesso', atualizadoEm: new Date() };
   }
 
@@ -155,12 +175,19 @@ export async function gravarAlteracoes(uid, alteracoes) {
     const db = await obterFirestore();
     const ref = doc(db, CAMINHO_DOCUMENTO(uid));
 
-    const contagens = {};
-    for (const [codigo, valor] of Object.entries(alteracoes)) {
-      contagens[codigo] = valor > 0 ? valor : deleteField();
+    const dados = { updatedAt: serverTimestamp() };
+    if (chaves.length > 0) {
+      const contagens = {};
+      for (const [codigo, valor] of chaves) {
+        contagens[codigo] = valor > 0 ? valor : deleteField();
+      }
+      dados.contagens = contagens;
+    }
+    if (apagarTeamName) {
+      dados.teamName = deleteField();
     }
 
-    await setDoc(ref, { contagens, updatedAt: serverTimestamp() }, { merge: true });
+    await setDoc(ref, dados, { merge: true });
 
     return { status: 'sucesso', atualizadoEm: new Date() };
   } catch (erro) {

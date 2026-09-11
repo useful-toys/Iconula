@@ -1,7 +1,13 @@
 // Copyright (c) 2026 Daniel Felix Ferber
 
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { carregarColecao, gravarAlteracoes, formatarCarimbo, mensagemDeErro } from './colecaoRemota.js';
+import {
+  carregarColecao,
+  gravarAlteracoes,
+  formatarCarimbo,
+  mensagemDeErro,
+  MARCA_APAGAR_TEAM_NAME,
+} from './colecaoRemota.js';
 
 const state = vi.hoisted(() => ({ app: {} }));
 
@@ -188,6 +194,36 @@ describe('gravarAlteracoes', () => {
 
     expect(resultado).toEqual({ status: 'indisponivel' });
     expect(firestore.setDoc).not.toHaveBeenCalled();
+  });
+
+  it('inclui teamName: deleteField() junto das contagens quando a marca está presente', async () => {
+    await gravarAlteracoes('u1', { BRA01: 1, [MARCA_APAGAR_TEAM_NAME]: true });
+
+    expect(firestore.setDoc).toHaveBeenCalledWith(
+      {},
+      { contagens: { BRA01: 1 }, updatedAt: CARIMBO_SERVIDOR, teamName: CAMPO_APAGAR },
+      { merge: true },
+    );
+  });
+
+  it('não inclui teamName quando a marca não está presente', async () => {
+    await gravarAlteracoes('u1', { BRA01: 1 });
+
+    const [, dados] = firestore.setDoc.mock.calls[0];
+    expect(dados).not.toHaveProperty('teamName');
+  });
+
+  it('grava só o teamName quando não há chaves de contagem alteradas', async () => {
+    const resultado = await gravarAlteracoes('u1', { [MARCA_APAGAR_TEAM_NAME]: true });
+
+    expect(firestore.setDoc).toHaveBeenCalledWith(
+      {},
+      { updatedAt: CARIMBO_SERVIDOR, teamName: CAMPO_APAGAR },
+      { merge: true },
+    );
+    const [, dados] = firestore.setDoc.mock.calls[0];
+    expect(dados).not.toHaveProperty('contagens');
+    expect(resultado.status).toBe('sucesso');
   });
 });
 

@@ -228,6 +228,29 @@ describe("App — gravação agregada", () => {
     expect(colecao.gravarAlteracoes).not.toHaveBeenCalled();
   });
 
+  it("documento com teamName: a primeira gravação depois do login o apaga junto das contagens", async () => {
+    colecao.carregarColecao.mockResolvedValue({
+      status: "encontrado",
+      contagens: {},
+      atualizadoEm: new Date("2026-09-10T14:05:00"),
+      temTeamName: true,
+    });
+
+    await montarLogado();
+
+    await act(async () => {
+      catalogo.props.onAjustar("BRA01", 1);
+    });
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(2000);
+    });
+
+    expect(colecao.gravarAlteracoes).toHaveBeenCalledWith("uid1", {
+      BRA01: 1,
+      __apagarTeamName: true,
+    });
+  });
+
   it("o flush acontece antes do signOut, nunca depois", async () => {
     await montarLogado();
 
