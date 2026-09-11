@@ -32,6 +32,14 @@ vi.mock("./lib/firebase", () => ({
   signInWithGoogle: signInWithGoogleMock,
 }));
 
+// A persistência é exercitada em App.persistencia.test.jsx; aqui a carga fica
+// indisponível para os testes de auth ficarem focados e não tocarem o Firestore.
+vi.mock("./lib/colecaoRemota.js", () => ({
+  carregarColecao: vi.fn(() => Promise.resolve({ status: "indisponivel" })),
+  formatarCarimbo: vi.fn(() => "—"),
+  mensagemDeErro: vi.fn(() => "erro"),
+}));
+
 // O catálogo completo (994 figurinhas) deixa os testes de auth lentos no
 // jsdom. Os testes de App focam em login/logout; o catálogo é coberto pelos
 // testes de Catalogo e Secao.

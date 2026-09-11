@@ -3,7 +3,7 @@
 # Tarefa [0007-0002]: carga no login e relógio do título
 
 ## Status
-Pendente
+Concluída
 
 ## Documentos de referência (ler antes de implementar)
 - `docs/adr/0008-schema-da-colecao-mapa-esparso.md` § Decisão — o mapa esparso, o cache local e o que a carga traz
@@ -91,15 +91,15 @@ login (Fase 8); sincronização ao vivo, que é requisito futuro.
 - `src/App.jsx` — modificar
 
 ## Critérios de aceite
-- [ ] Entrar dispara exatamente uma leitura de `users/{uid}`
-- [ ] O bundle principal não passa a importar `firebase/firestore` estaticamente
-- [ ] A coleção lida aparece na tela e no placar
-- [ ] O relógio exibe o `updatedAt` do documento; sem carimbo, exibe `—`
-- [ ] Uma carga bem-sucedida não altera o valor do relógio para "agora"
-- [ ] Documento vazio não gera falha; falha de leitura gera aviso vermelho com detalhe
-- [ ] Ajuste feito durante a leitura não é sobrescrito pela resposta do servidor
-- [ ] Registros ADR/TDR/IDR criados para as decisões tomadas
-- [ ] `docs/plano/0007-persistencia-da-colecao-e-avisos/logs/0002-log-carga-no-login-e-relogio-do-titulo.md` gerado
+- [x] Entrar dispara exatamente uma leitura de `users/{uid}`
+- [x] O bundle principal não passa a importar `firebase/firestore` estaticamente
+- [x] A coleção lida aparece na tela e no placar
+- [x] O relógio exibe o `updatedAt` do documento; sem carimbo, exibe `—`
+- [x] Uma carga bem-sucedida não altera o valor do relógio para "agora"
+- [x] Documento vazio não gera falha; falha de leitura gera aviso vermelho com detalhe
+- [x] Ajuste feito durante a leitura não é sobrescrito pela resposta do servidor
+- [x] Registros ADR/TDR/IDR criados para as decisões tomadas
+- [x] `docs/plano/0007-persistencia-da-colecao-e-avisos/logs/0002-log-carga-no-login-e-relogio-do-titulo.md` gerado
 
 ## Validação
 `npm run lint && npm run test && npm run build`.

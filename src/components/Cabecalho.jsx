@@ -15,9 +15,8 @@ import './Cabecalho.css';
  * @param {number} props.faltantes - 994 − coladas.
  * @param {number} props.repetidas - códigos distintos com contagem ≥ 2.
  * @param {number} props.percentual - percentual arredondado.
- * @param {string|null} [props.atualizadoEm] - `updatedAt` do documento, quando
- *   disponível. Nesta fase o componente ainda exibe `—`; a prop existe para a
- *   Tarefa 0006-0002.
+ * @param {string|null} [props.atualizadoEm] - `updatedAt` do documento, já
+ *   formatado para o relógio (IDR 0027); `null` exibe `—`.
  * @param {Array<object>} props.secoes - seções na ordem vigente para a faixa.
  * @param {(sigla: string) => void} props.onSaltar - callback para saltar até uma seção.
  */
