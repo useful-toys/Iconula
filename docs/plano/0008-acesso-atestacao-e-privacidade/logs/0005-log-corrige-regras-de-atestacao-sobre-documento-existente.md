@@ -84,12 +84,17 @@ Antes da correção, o teste de reprodução (removido depois, substituído
 pelos permanentes acima) falhava com exatamente o erro relatado:
 `FirebaseError: 7 PERMISSION_DENIED`.
 
-**Não realizado**: deploy manual das regras corrigidas para produção — o
-usuário optou por deixar a correção seguir o fluxo normal (merge do PR
-#24), não um hotfix. Até lá, uma conta com `contagens`/`updatedAt`
-existentes continua vendo a falha ao tentar atestar no preview deploy —
-o app permanece usável (a falha libera o app mesmo assim, IDR 0036), só a
-atestação não persiste e tenta de novo no login seguinte.
+**Atualização pós-commit**: o usuário testou o preview do PR #24 antes do
+merge e bateu de novo na falha — esperado, já que regras não fazem parte
+do canal de preview do Hosting (TDR 0008) e a correção só tinha ido para o
+commit, não para produção. Perguntado se valia publicar como hotfix fora
+do fluxo normal; confirmado que sim. Publicado via `firebase deploy --only
+firestore:rules` em 2026-09-11 (ruleset ativo passou de
+`143a875f-f59f-41e1-a7df-a9c014f83f1e` para
+`0e32524d-b5f4-45f6-a8ca-9cac2d4ad27f`, confirmado pela API
+`firebaserules.googleapis.com/v1/projects/iconula/releases`). Produção e o
+PR #24 já refletem a correção; nenhuma ação adicional pendente além do
+merge normal do PR quando as demais tarefas da fase estiverem prontas.
 
 ## Arquivos alterados
 - `firestore.rules` — regra combinada dividida em `create`/`update`; `update` usa `diff().affectedKeys()`
