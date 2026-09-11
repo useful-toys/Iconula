@@ -129,9 +129,11 @@ Fluxos:
 
 ## Pontos em aberto (fase de implementação)
 
-- **Aceite do ADR 0008**: redigido — revisar os valores numéricos
-  (debounce, teto de espera) antes de implementar; o teto por contagem
-  foi removido
+- **Aceite dos números do ADR 0008**: o schema está aceito (mapa esparso,
+  três campos, teto de 99 — TDR 0009); restam por aceitar os valores
+  numéricos (debounce ~2s, teto de espera ~10s, timeout ~5s sem rede),
+  pontos de partida ajustáveis sem novo ADR — aceitos em uso real na
+  Fase 6
 - **Router**: tela de privacidade como rota ou vista interna — decidir
   quando as telas existirem
 - **Estado global**: a coleção consumida por várias telas pode exigir

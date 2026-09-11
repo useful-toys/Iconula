@@ -254,8 +254,10 @@ Em resumo, o que as regras permitem em `users/{uid}`:
 
 - `get` apenas do próprio documento (`request.auth.uid == uid`);
   deliberadamente **não** `list`, para que ninguém possa varrer a coleção
-- `create`/`update` apenas do próprio documento, validando que o payload
-  tem só `teamName`, string, entre 1 e 64 caracteres
+- `create`/`update` apenas do próprio documento, validando o schema novo:
+  `hasOnly(["contagens", "updatedAt", "atestadoEm"])`, `contagens` como
+  map com `size() <= 994` e valores `1–99`, `updatedAt == request.time` e
+  `atestadoEm` como timestamp
 - **sem `delete`**
 - todo o resto é negado por padrão
 
