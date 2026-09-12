@@ -3,7 +3,9 @@
 # Tarefa [0010-0002]: desempenho das 994 figurinhas
 
 ## Status
-Pendente
+Concluída — ver log em
+`docs/plano/0010-acabamento-acessibilidade-e-docs/logs/0002-log-desempenho-das-994-figurinhas.md`
+e decisão em `docs/tdr/0021-desempenho-do-catalogo.md`.
 
 ## Documentos de referência (ler antes de implementar)
 - `docs/requisitos.md` § Requisitos Não Funcionais — "catálogo com ~1000 figurinhas renderiza e filtra sem travar; virtualizar listas longas se necessário"

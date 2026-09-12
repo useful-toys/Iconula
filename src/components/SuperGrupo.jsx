@@ -1,14 +1,50 @@
 // Copyright (c) 2026 Daniel Felix Ferber
 
-import { useState, useImperativeHandle, forwardRef, useMemo } from 'react';
+import { useState, useImperativeHandle, forwardRef, useMemo, memo } from 'react';
 import { calcularPlacar } from '../lib/progresso.js';
 import { filtraFigurinha } from '../lib/colecao.js';
 import { Secao } from './Secao.jsx';
 import './SuperGrupo.css';
 
 /**
+ * Compara props para `memo`, no mesmo espírito do comparador de `Secao.jsx`
+ * (Tarefa 0010-0002, TDR 0021): `contagens` troca de identidade a cada
+ * ajuste em qualquer figurinha do catálogo, então só reprova a igualdade se
+ * alguma das ~80 figurinhas deste super-grupo mudou de valor. `isExpandida`
+ * entra na comparação por referência — muda ao colapsar/expandir qualquer
+ * seção, o que aceita re-renderizar todos os super-grupos nesse caso (não é
+ * o caminho que esta tarefa precisa otimizar).
+ *
+ * @param {object} anterior
+ * @param {object} seguinte
+ * @returns {boolean} true se o super-grupo pode pular a re-renderização.
+ */
+function propsEquivalentes(anterior, seguinte) {
+  if (
+    anterior.grupo !== seguinte.grupo ||
+    anterior.secoes !== seguinte.secoes ||
+    anterior.figurinhas !== seguinte.figurinhas ||
+    anterior.onAjustar !== seguinte.onAjustar ||
+    anterior.isExpandida !== seguinte.isExpandida ||
+    anterior.getToggleHandler !== seguinte.getToggleHandler ||
+    anterior.setSecaoRef !== seguinte.setSecaoRef ||
+    anterior.disposicao !== seguinte.disposicao ||
+    anterior.filtro !== seguinte.filtro
+  ) {
+    return false;
+  }
+  if (anterior.contagens === seguinte.contagens) return true;
+  return seguinte.figurinhas.every(
+    (f) => (anterior.contagens[f.codigo] ?? 0) === (seguinte.contagens[f.codigo] ?? 0),
+  );
+}
+
+/**
  * Super-grupo colapsável da ordenação por página do álbum: título com chevron,
  * nome (Grupo A…L) e progresso agregado das 4 seleções.
+ *
+ * Memoizado (Tarefa 0010-0002, TDR 0021): ajustar uma figurinha de outro
+ * super-grupo não pode re-renderizar este — ver `propsEquivalentes`.
  *
  * @param {object} props
  * @param {string} props.grupo - letra do grupo (A–L).
@@ -17,15 +53,15 @@ import './SuperGrupo.css';
  * @param {Record<string, number>} props.contagens - mapa esparso de contagens.
  * @param {(codigo: string, delta: number) => void} props.onAjustar - callback de ajuste.
  * @param {(sigla: string) => boolean} props.isExpandida - função que retorna se uma seção está expandida.
- * @param {(sigla: string) => void} props.onToggleSecao - callback para alternar colapso de uma seção.
+ * @param {(sigla: string) => (() => void)} props.getToggleHandler - retorna o callback estável de alternar colapso de uma seção.
  * @param {import('react').RefObject<Map>} props.secaoRefs - mapa de refs das seções.
  * @param {(sigla: string, element: Element|null) => void} props.setSecaoRef - callback para registrar ref de uma seção.
  * @param {'lista'|'album'} [props.disposicao='lista'] - disposição vigente.
  * @param {'todas'|'faltantes'|'coladas'|'repetidas'} [props.filtro='todas'] - filtro vigente.
  * @param {import('react').Ref<{ expandir: () => void }>} [props.ref] - ref para abrir programaticamente.
  */
-export const SuperGrupo = forwardRef(function SuperGrupo(
-  { grupo, secoes, figurinhas, contagens, onAjustar, isExpandida, onToggleSecao, setSecaoRef, disposicao = 'lista', filtro = 'todas' },
+export const SuperGrupo = memo(forwardRef(function SuperGrupo(
+  { grupo, secoes, figurinhas, contagens, onAjustar, isExpandida, getToggleHandler, setSecaoRef, disposicao = 'lista', filtro = 'todas' },
   ref,
 ) {
   const [expandido, setExpandido] = useState(true);
@@ -114,7 +150,7 @@ export const SuperGrupo = forwardRef(function SuperGrupo(
                 contagens={contagens}
                 onAjustar={onAjustar}
                 expandida={isExpandida(secao.sigla)}
-                onToggle={() => onToggleSecao(secao.sigla)}
+                onToggle={getToggleHandler(secao.sigla)}
                 disposicao={disposicao}
                 filtro={filtro}
               />
@@ -124,4 +160,4 @@ export const SuperGrupo = forwardRef(function SuperGrupo(
       )}
     </div>
   );
-});
+}), propsEquivalentes);

@@ -25,6 +25,13 @@
   --section-body-gap: 10px;
   --card-gap-list: 8px;
   --album-page-gap: 20px;
+
+  /* Altura estimada de uma seção (cabeçalho + grade), usada como
+   * `contain-intrinsic-size` do `content-visibility: auto` das seções
+   * (Tarefa 0010-0002, TDR 0021): só o placeholder antes da primeira
+   * medição real — o modificador `auto` faz o navegador lembrar a altura
+   * de fato renderizada e reusá-la depois, então não precisa ser exata. */
+  --secao-altura-estimada: 360px;
 }
 
 /* Padrões de página */
