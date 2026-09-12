@@ -49,7 +49,10 @@ registro; não o substitui.
 | 8 | [Acesso, atestação e privacidade](0008-acesso-atestacao-e-privacidade/) | Login como guarda do app, atestação de menores e política de privacidade | 7 | `feat: guarda de login, atestação de menores e política de privacidade` | Pendente |
 | 9 | [Desfazer, menu de ações e portabilidade](0009-desfazer-menu-e-portabilidade/) | Desfazer, popup de comandos raros, listas de troca e export/import JSON | 7, 8 | `feat: desfazer, menu de ações, listas de troca e export/import` | Pendente |
 | 10 | [Acabamento: acessibilidade, desempenho e docs](0010-acabamento-acessibilidade-e-docs/) | Fechar acessibilidade, desempenho das 994, faixas de tela e a documentação | 9 | `chore: acessibilidade, desempenho e fechamento da documentação` | Pendente |
-| 14 | [Correção urgente: renumeração do FWC](0014-numeracao-dos-extras-fifa/) | Extras FIFA de `FWC00` a `FWC19` (hoje `FWC01`–`FWC20`, deslocado em um); total do catálogo continua 994 | 10 | `fix: renumera os Extras FIFA para FWC00–FWC19` | Pendente |
+| 11 | [Refinamento do cabeçalho](0011-refinamento-do-cabecalho/) | Agrupar visualmente os controles, tooltip nas opções, bandeiras mais compactas, e avaliar fundir título/controles numa linha e mostrar a identidade do usuário | 10 | `feat: refinamento do cabeçalho e dos controles` | Pendente |
+| 12 | [Redução de rolagem vertical](0012-reducao-de-rolagem-vertical/) | Colapsar por padrão o que já está completo, com colapso manual persistido, e apertar os espaçamentos repetidos do catálogo | 10 | `feat: colapso inteligente e catálogo mais compacto` | Pendente |
+| 13 | [Interação por pressão longa](0013-interacao-por-pressao-longa/) | Segurar o cartão decrementa uma unidade no mobile, sem precisar mirar no botão de menos | 10 | `feat: pressão longa decrementa no mobile` | Pendente |
+| 14 | [Correção urgente: renumeração do FWC](0014-numeracao-dos-extras-fifa/) | Extras FIFA de `FWC00` a `FWC19` (hoje `FWC01`–`FWC20`, deslocado em um); total do catálogo continua 994 | 10 | `fix: renumera os Extras FIFA para FWC00–FWC19` | Concluída |
 
 ---
 
@@ -208,6 +211,56 @@ seção.
 |---|---|---|---|
 | 0001 | [FWC renumerado de FWC00 a FWC19](0014-numeracao-dos-extras-fifa/0001-fwc-renumerado-de-00-a-19.md) | `expandirFigurinhas` aceita seção que começa em zero; FWC com `inicio: 0`, `total: 20` inalterado; invariantes ajustadas. | Concluída |
 | 0002 | [O número zero nos textos de troca](0014-numeracao-dos-extras-fifa/0002-o-numero-zero-nos-textos-de-troca.md) | Um `0` solto numa lista de WhatsApp lê como erro: o número passa a sair com dois dígitos, como no cartão. | Concluída |
+
+## Fase 11 — Refinamento do cabeçalho
+
+Proposta feita após o primeiro uso real do app (achados de UX, não de bug):
+os três grupos de controles não se leem como grupos, as opções não explicam a
+si mesmas ao passar o mouse, a faixa de bandeiras ainda pode ficar mais
+compacta, e há espaço para economizar altura de tela e mostrar a identidade de
+quem está logado. As duas primeiras tarefas e a de bandeiras são refinamentos
+de baixo risco sobre decisões já tomadas; as duas últimas revisam
+explicitamente o IDR 0018 e o IDR 0024 e cada uma abre seu próprio IDR antes
+de mudar código.
+
+| # | Tarefa | Objetivo | Status |
+|---|---|---|---|
+| 0001 | [Grupos de controles como toggle visível](0011-refinamento-do-cabecalho/0001-grupos-de-controles-como-toggle-visivel.md) | Contorno nos três grupos segmentados, para que se leiam como grupos de alternância. | Pendente |
+| 0002 | [Tooltip nas opções de controle](0011-refinamento-do-cabecalho/0002-tooltip-nas-opcoes-de-controle.md) | Explicação da opção ao passar o mouse ou focar por teclado, reaproveitando o `nomeAcessivel` já existente. | Pendente |
+| 0003 | [Bandeiras mais compactas](0011-refinamento-do-cabecalho/0003-bandeiras-mais-compactas.md) | Reduzir ainda mais o espaçamento entre bandeiras, ajustando a área de toque ampliada do IDR 0042 na mesma proporção. | Pendente |
+| 0004 | [Título e controles em uma única linha](0011-refinamento-do-cabecalho/0004-titulo-e-controles-em-uma-linha.md) | Avaliar e, se aprovado, fundir as duas linhas com quebra condicional pela largura — revisa o IDR 0018. | Pendente |
+| 0005 | [Avatar do usuário no título](0011-refinamento-do-cabecalho/0005-avatar-do-usuario-no-titulo.md) | Foto de perfil do Google no cabeçalho, decidindo a relação com o menu de ações e o fallback sem foto — revisa o IDR 0018/0024. | Pendente |
+
+## Fase 12 — Redução de rolagem vertical
+
+Proposta feita depois de mapear para onde vai a altura da tela: o cabeçalho
+sticky reduz a área útil o tempo todo, e cada seção/super-grupo carrega
+respiro fixo que se repete até 50 vezes. A maior alavanca, porém, não é
+nenhuma medida isolada — é que seções já 100% completas continuam abertas por
+padrão, ocupando tela mesmo quando não sobra nada a fazer nelas. A Tarefa
+0001 ataca isso e revisa o IDR 0026; as Tarefas 0002-0004 são ajustes finos de
+medida já registrada em `docs/interface.md`, mesmo precedente da Fase 6
+Tarefa 3, sem IDR novo.
+
+| # | Tarefa | Objetivo | Status |
+|---|---|---|---|
+| 0001 | [Colapso automático de completas e persistência manual](0012-reducao-de-rolagem-vertical/0001-colapso-automatico-de-completas-e-persistencia-manual.md) | Seção/super-grupo 100% completos abrem colapsados; o toque manual do usuário passa a ser lembrado entre sessões — revisa o IDR 0026. | Pendente |
+| 0002 | [Cabeçalho de seção mais compacto](0012-reducao-de-rolagem-vertical/0002-cabecalho-de-secao-mais-compacto.md) | Reduzir o padding do cabeçalho de seção, repetido 50 vezes no catálogo. | Pendente |
+| 0003 | [Gaps entre seções e super-grupos reduzidos](0012-reducao-de-rolagem-vertical/0003-gaps-entre-secoes-e-super-grupos-reduzidos.md) | Apertar os tokens de espaçamento entre blocos do catálogo, sem tocar no espaçamento dentro do conteúdo. | Pendente |
+| 0004 | [Margem inferior do corpo sob medida](0012-reducao-de-rolagem-vertical/0004-margem-inferior-do-corpo-sob-medida.md) | Calibrar a margem reservada à faixa de avisos pela altura real dela, em vez de um valor fixo maior que o necessário. | Pendente |
+
+## Fase 13 — Interação por pressão longa
+
+Proposta avaliada nesta conversa: duplo clique, clique direito e clique do
+botão do meio no desktop foram todos descartados — ou atrasam o clique
+simples (o gesto mais comum) pra desambiguar de um duplo clique, ou dependem
+de um botão de mouse nem sempre acessível. Pressão longa no mobile não tem
+esse problema (toque curto e pressão longa já são gestos distintos por
+tempo) e segue sozinha.
+
+| # | Tarefa | Objetivo | Status |
+|---|---|---|---|
+| 0001 | [Pressão longa decrementa no mobile](0013-interacao-por-pressao-longa/0001-pressao-longa-decrementa-no-mobile.md) | Segurar o cartão além de um limiar decrementa uma unidade, com retorno visual durante a espera e uma única entrada no histórico de desfazer. | Pendente |
 
 ---
 
