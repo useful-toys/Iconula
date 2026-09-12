@@ -7,11 +7,11 @@ Concluída
 
 ## Documentos de referência (ler antes de implementar)
 - `docs/requisitos.md` § Portabilidade (sem lock-in) — a importação substitui a coleção inteira após confirmação explícita, descarta o histórico de desfazer, valida a versão e rejeita arquivo inválido sem alterar nada
-- `docs/persistencia.md` § Operações sobre o formato — importar **substitui** o campo `contagens` inteiro, sem merge, normalizado, mais `updatedAt`; custa 1 escrita
+- `docs/modelo-firebase.md` § Operações sobre o formato — importar **substitui** o campo `contagens` inteiro, sem merge, normalizado, mais `updatedAt`; custa 1 escrita
 - `docs/idr/0029-avisos-flutuantes-com-tres-severidades.md` § Decisão — arquivo inválido ou de versão desconhecida é **aviso**, não falha
 - `docs/idr/0024-acoes-raras-em-menu-do-cabecalho.md` § Decisão — o comando fica no menu e a importação segue pedindo confirmação explícita
 - `docs/idr/0012-desfazer-no-cabecalho-historico-de-10.md` § Decisão — o histórico que a importação descarta
-- `docs/persistencia.md` § Custos e cotas — import é substituição rara, não gravação; usá-lo como "salvar" é risco de cota registrado
+- `docs/modelo-firebase.md` § Custos e cotas — import é substituição rara, não gravação; usá-lo como "salvar" é risco de cota registrado
 
 ## Objetivo
 Fechar a portabilidade: trazer de volta uma coleção exportada, substituindo a
@@ -20,16 +20,16 @@ válido.
 
 ## Padrões e convenções aplicáveis
 - A importação **substitui** a coleção inteira; não faz merge —
-  `docs/requisitos.md` § Portabilidade e `docs/persistencia.md`
+  `docs/requisitos.md` § Portabilidade e `docs/modelo-firebase.md`
 - Exige **confirmação explícita** antes de aplicar — `docs/requisitos.md` § Portabilidade
 - Descarta o histórico de desfazer: o estado anterior deixou de existir —
   `docs/requisitos.md` § Portabilidade
 - Arquivo inválido, incompleto ou de versão desconhecida é rejeitado **sem
   alterar a coleção atual**, com **aviso** dourado — `docs/requisitos.md` e `docs/idr/0029-*`
 - Custa **1 escrita**: substitui `contagens` e `updatedAt` de uma vez —
-  `docs/persistencia.md` § Operações sobre o formato
+  `docs/modelo-firebase.md` § Operações sobre o formato
 - Normalizar na entrada: zeros viram chave ausente, e o teto de 99 vale —
-  `docs/persistencia.md` e `docs/tdr/0009-*`
+  `docs/modelo-firebase.md` e `docs/tdr/0009-*`
 
 ## Escopo e instruções de implementação
 1. Ler o arquivo escolhido pelo usuário e validar antes de qualquer efeito:
@@ -62,7 +62,7 @@ coleções; usar a importação como mecanismo de salvamento.
 - O histórico de desfazer é descartado — ver `docs/requisitos.md` § Portabilidade
 - Arquivo inválido não altera a coleção atual — ver `docs/requisitos.md` § Portabilidade
 - O formato garantido é o exportado pelo próprio app — ver `docs/requisitos.md` § Portabilidade
-- Import é 1 escrita e é operação rara — ver `docs/persistencia.md` § Custos e cotas
+- Import é 1 escrita e é operação rara — ver `docs/modelo-firebase.md` § Custos e cotas
 
 ## Decisões em aberto nesta tarefa
 - Diálogo de importação — encaminhamento no passo 3: confirmação mínima, sem tela

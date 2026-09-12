@@ -9,8 +9,8 @@ Concluída
 - `docs/tdr/0009-validacao-do-mapa-nas-regras.md` § Decisão e § Consequências — o que dá e o que não dá para validar, o teto de 99, a guarda de campo ausente e o limite de abuso que sobra
 - `docs/adr/0008-schema-da-colecao-mapa-esparso.md` § Decisão — os três campos, `updatedAt` de servidor, `atestadoEm` sem `updatedAt` junto
 - `docs/tdr/0008-deploy-e-teste-das-regras-do-firestore.md` § Decisão — `get` em vez de `read`, `create, update` sem `delete`, deny-by-default sem catch-all
-- `docs/persistencia.md` § Formato dos dados — o schema alvo e as regras de formato
-- `docs/persistencia.md` § Regras de segurança — o que muda com o produto novo
+- `docs/modelo-firebase.md` § Formato dos dados — o schema alvo e as regras de formato
+- `docs/modelo-firebase.md` § Regras de segurança — o que muda com o produto novo
 - `firestore.rules` — o arquivo atual, com `hasOnly(["teamName"])`
 
 ## Objetivo
@@ -22,14 +22,14 @@ recusa o antigo — e nada no cliente escreve, então a troca é inócua.
 - `allow get`, nunca `read`: `read` abrangeria `list` e faria uma query na
   coleção ser avaliada — `docs/tdr/0008-*` § Decisão
 - `create, update` apenas; `delete` e `list` seguem negados —
-  `docs/tdr/0008-*` § Decisão e `docs/persistencia.md` § Regras de segurança
+  `docs/tdr/0008-*` § Decisão e `docs/modelo-firebase.md` § Regras de segurança
 - Sem regra catch-all `if false`: deny-by-default já cobre —
   `docs/tdr/0008-*` § Decisão
 - **Guarda de campo ausente**: toda cláusula sobre `contagens` sob
   `!("contagens" in request.resource.data) || (…)`, senão a regra erra em vez de
   negar — `docs/tdr/0009-*` § Decisão
 - A linguagem de regras **não itera**: nada de regex por chave nem condição por
-  valor — só comparação de conjunto — `docs/persistencia.md` § Regras de segurança
+  valor — só comparação de conjunto — `docs/modelo-firebase.md` § Regras de segurança
 - O arquivo mantém o cabeçalho de copyright e o estilo de comentário que explica
   o porquê de cada cláusula — `AGENTS.md` § Convenções e o `firestore.rules` atual
 
@@ -61,7 +61,7 @@ código de cliente.
 ## Decisões já tomadas (não reabrir)
 - Mapa esparso com três campos, valores 1–99 — ver `docs/adr/0008-schema-da-colecao-mapa-esparso.md`
 - Teto de 99 é o que torna os valores validáveis — ver `docs/tdr/0009-validacao-do-mapa-nas-regras.md`
-- `delete` negado: "apagar meus dados" saiu do MVP — ver `docs/persistencia.md` § Regras de segurança
+- `delete` negado: "apagar meus dados" saiu do MVP — ver `docs/modelo-firebase.md` § Regras de segurança
 - App Check fica de fora por ora — ver `docs/adr/0007-persistencia-do-time-no-firestore.md`
 - O teto de abuso de 1 MiB por conta é limitação conhecida e aceita — ver `docs/tdr/0009-*` § Decisão
 

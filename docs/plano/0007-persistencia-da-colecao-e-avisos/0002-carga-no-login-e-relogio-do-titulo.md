@@ -8,7 +8,7 @@ Concluída
 ## Documentos de referência (ler antes de implementar)
 - `docs/adr/0008-schema-da-colecao-mapa-esparso.md` § Decisão — o mapa esparso, o cache local e o que a carga traz
 - `docs/idr/0027-relogio-do-titulo-e-o-updatedat-do-documento.md` § Decisão — a carga **não** move o relógio; documento sem carimbo exibe travessão; a data acompanha a hora quando o carimbo não é de hoje
-- `docs/persistencia.md` § Operações sobre o formato — carregar é 1 leitura de `users/{uid}`
+- `docs/modelo-firebase.md` § Operações sobre o formato — carregar é 1 leitura de `users/{uid}`
 - `docs/adr/0007-persistencia-do-time-no-firestore.md` § Decisão — o SDK do Firestore sob demanda e o desenho de estado no React (efeito por `uid`, não pelo objeto `user`)
 - `docs/requisitos.md` § Requisitos Não Funcionais — uma leitura por login, nenhuma requisição por figurinha
 - `docs/idr/0029-avisos-flutuantes-com-tres-severidades.md` § Decisão — "carregado" é aviso de sucesso
@@ -20,7 +20,7 @@ gravado no documento.
 
 ## Padrões e convenções aplicáveis
 - **Uma** leitura por login; nenhuma requisição por figurinha —
-  `docs/requisitos.md` § Requisitos Não Funcionais e `docs/persistencia.md`
+  `docs/requisitos.md` § Requisitos Não Funcionais e `docs/modelo-firebase.md`
 - O SDK do Firestore continua carregado sob demanda por `import()` dinâmico; o
   `firebase.js` **não** o importa — `docs/adr/0007-*` § Decisão
 - A carga roda num efeito que depende de **`uid`**, não do objeto `user`, que muda
@@ -59,7 +59,7 @@ gravado no documento.
 login (Fase 8); sincronização ao vivo, que é requisito futuro.
 
 ## Decisões já tomadas (não reabrir)
-- Uma leitura por login; `onSnapshot` é futuro e mudaria o modelo — ver `docs/persistencia.md` § Futuro
+- Uma leitura por login; `onSnapshot` é futuro e mudaria o modelo — ver `docs/modelo-firebase.md` § Futuro
 - O relógio é o `updatedAt` do documento e a carga não o move — ver `docs/idr/0027-relogio-do-titulo-e-o-updatedat-do-documento.md`
 - SDK sob demanda, para não pesar o bundle de quem não entra — ver `docs/adr/0007-persistencia-do-time-no-firestore.md`
 - Cache local com gerenciador multi-aba obrigatório — ver `docs/adr/0008-schema-da-colecao-mapa-esparso.md`

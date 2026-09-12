@@ -11,7 +11,7 @@ Concluída
 - `docs/idr/0029-avisos-flutuantes-com-tres-severidades.md` § Decisão — a gravação sem rede enfileirada é **aviso**, não falha; a falha é o que deveria ter funcionado
 - `docs/idr/0017-aviso-so-na-falha-com-detalhe-tecnico.md` § Decisão — o detalhe técnico ao toque
 - `docs/requisitos.md` § Contagem — falha de persistência não bloqueia o ajuste; a gravação seguinte regrava o valor completo
-- `docs/persistencia.md` § Operações sobre o formato — o parágrafo sobre a escrita enfileirada no cache local
+- `docs/modelo-firebase.md` § Operações sobre o formato — o parágrafo sobre a escrita enfileirada no cache local
 - `docs/adr/0007-persistencia-do-time-no-firestore.md` § Decisão — a política de erro antiga (falha invisível), que este produto revê
 
 ## Objetivo
@@ -63,7 +63,7 @@ não como feature offline.
 - Falha informada e interface utilizável — ver `docs/idr/0002-avisos-de-sincronizacao-visiveis.md`
 - Sem rede é aviso, não falha — ver `docs/adr/0008-schema-da-colecao-mapa-esparso.md` e `docs/idr/0029-*`
 - Sessões simultâneas: a última gravação vence — ver `docs/requisitos.md` § Estado da sincronização
-- Cota esgotada faz as requisições falharem até o dia seguinte, e o app continua utilizável — ver `docs/persistencia.md` § Custos e cotas
+- Cota esgotada faz as requisições falharem até o dia seguinte, e o app continua utilizável — ver `docs/modelo-firebase.md` § Custos e cotas
 
 ## Decisões em aberto nesta tarefa
 - Texto exato de cada mensagem — encaminhamento: usar os exemplos de

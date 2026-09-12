@@ -7,7 +7,7 @@
 Aceito — corrige o "última transação bem-sucedida (leitura ou escrita)"
 dos [IDRs 0017](0017-aviso-so-na-falha-com-detalhe-tecnico.md) e
 [0018](0018-usuario-especialista-e-minimalismo.md), que discordava do
-`updatedAt` descrito em persistencia.md.
+`updatedAt` descrito em modelo-firebase.md.
 
 ## Contexto
 
@@ -15,9 +15,9 @@ dos [IDRs 0017](0017-aviso-so-na-falha-com-detalhe-tecnico.md) e
   conviviam na especificação:
   - **relógio de evento local**: ticka a cada transação bem-sucedida,
     leitura ou escrita — a leitura dos IDRs 0017/0018
-  - **carimbo do documento**: o `updatedAt` gravado pelo servidor na
-    última escrita — a leitura de persistencia.md, ADR 0005 e
-    arquitetura.md
+   - **carimbo do documento**: o `updatedAt` gravado pelo servidor na
+     última escrita — a leitura de modelo-firebase.md, ADR 0005 e
+     arquitetura.md
 - São coisas diferentes: numa carga bem-sucedida o `updatedAt` do
   documento pode ser de dias atrás. O usuário decidiu: `updatedAt`, a
   última escrita do documento.

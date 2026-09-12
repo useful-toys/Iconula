@@ -14,7 +14,7 @@
  * (IDR 0021).
  *
  * Funções puras: leem `contagens` em memória, sem requisição nenhuma
- * (`docs/persistencia.md` § Custos e cotas). Sempre na ordem do álbum
+ * (`docs/modelo-firebase.md` § Custos e cotas). Sempre na ordem do álbum
  * (FWC abre, COC fecha), **independente** da ordenação vigente na tela —
  * para que o texto colado seja comparável entre pessoas (IDR 0039).
  *

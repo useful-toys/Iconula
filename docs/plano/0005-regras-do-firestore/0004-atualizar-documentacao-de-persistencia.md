@@ -7,8 +7,8 @@ Concluída
 
 ## Documentos de referência (ler antes de implementar)
 - `AGENTS.md` § Convenções — mudança no ambiente Firebase é refletida no `docs/*.md` correspondente na mesma alteração/PR
-- `docs/persistencia.md` § Regras de segurança — o texto que descreve o que muda com o produto novo
-- `docs/persistencia.md` § Pronto × falta — a tabela que precisa passar as regras novas para a coluna "pronto"
+- `docs/modelo-firebase.md` § Regras de segurança — o texto que descreve o que muda com o produto novo
+- `docs/modelo-firebase.md` § Pronto × falta — a tabela que precisa passar as regras novas para a coluna "pronto"
 - `docs/firebase.md` § Regras de segurança e § Deploy das regras — o que está documentado sobre o estado real do projeto
 - `docs/tdr/0009-validacao-do-mapa-nas-regras.md` § Consequências — "`requisitos.md` deixa de dizer 'sem teto de contagem'"
 - `docs/arquitetura.md` § Decisões-chave e onde vivem — o índice que aponta para as regras
@@ -21,18 +21,18 @@ mesmo PR — inclusive o desfecho da medição da allow-list, que só se sabe ag
 ## Padrões e convenções aplicáveis
 - Alteração no ambiente Firebase é refletida em `docs/firebase.md` **no mesmo
   PR**; divergência notada se corrige junto — `AGENTS.md` § Convenções
-- `docs/persistencia.md` descreve o formato real dos dados e das regras, não a
-  intenção — `docs/persistencia.md` § O que é este documento (abertura)
+- `docs/modelo-firebase.md` descreve o formato real dos dados e das regras, não a
+  intenção — `docs/modelo-firebase.md` § O que é este documento (abertura)
 - O texto do "Alvo (especificado)" passa a ser o implementado: a seção "Hoje
   (implementado): a bandeira do botão" deixa de descrever a realidade —
-  `docs/persistencia.md` § Formato dos dados
+  `docs/modelo-firebase.md` § Formato dos dados
 - Registro existente não se reescreve: o ADR 0005 e o TDR 0009 continuam como
   estão; o que muda é a documentação de estado — `AGENTS.md` § Convenções
 - Documento de repositório em PT-BR, com o cabeçalho de copyright já presente —
   `AGENTS.md` § Convenções
 
 ## Escopo e instruções de implementação
-1. `docs/persistencia.md`:
+1. `docs/modelo-firebase.md`:
    - trocar a seção do formato para refletir que o schema novo é o vigente e que
      o do botão é histórico
    - atualizar § Regras de segurança com as cláusulas realmente publicadas,
@@ -75,21 +75,21 @@ mesmo PR — inclusive o desfecho da medição da allow-list, que só se sabe ag
    prós e contras.
 
 ## Arquivos impactados
-- `docs/persistencia.md` — modificar
+- `docs/modelo-firebase.md` — modificar
 - `docs/firebase.md` — modificar
 - `docs/requisitos.md` — modificar (só se o texto ainda disser "sem teto")
 - `docs/arquitetura.md` — modificar (se algum item ficou desatualizado)
 
 ## Critérios de aceite
-- [ ] `docs/persistencia.md` descreve as regras realmente publicadas, com o desfecho da allow-list
+- [ ] `docs/modelo-firebase.md` descreve as regras realmente publicadas, com o desfecho da allow-list
 - [ ] A tabela Pronto × falta não lista mais as regras novas como pendentes
 - [ ] `docs/firebase.md` mostra o ruleset real, não o da era do botão
 - [ ] `docs/requisitos.md` não afirma ausência de teto de contagem
 - [ ] `docs/gcloud.md` e `docs/github.md` não foram alterados
 - [ ] Registros ADR/TDR/IDR criados para as decisões tomadas (nenhum esperado)
-- [ ] `docs/plano/0005-regras-do-firestore/logs/0004-log-atualizar-documentacao-de-persistencia.md` gerado
+- [ ] `docs/plano/0005-regras-do-firestore/logs/0004-log-atualizar-documentacao-de-modelo-firebase.md` gerado
 
 ## Validação
 `npm run lint && npm run test && npm run build`.
 Conferência documental: comparar, trecho a trecho, o `firestore.rules` do
-repositório com o que `docs/persistencia.md` e `docs/firebase.md` afirmam.
+repositório com o que `docs/modelo-firebase.md` e `docs/firebase.md` afirmam.

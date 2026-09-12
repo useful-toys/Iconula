@@ -8,7 +8,7 @@ Concluída
 ## Documentos de referência (ler antes de implementar)
 - `docs/idr/0026-preferencias-de-vista-persistidas-no-navegador.md` § Decisão e § Consequências — o que persiste, onde, e o que fazer quando o storage falha
 - `docs/idr/0020-secoes-colapsaveis-em-qualquer-visualizacao.md` § Decisão — o colapso **não** persiste
-- `docs/persistencia.md` § O que **não** vai para o Firestore — preferências de vista custam zero requisição
+- `docs/modelo-firebase.md` § O que **não** vai para o Firestore — preferências de vista custam zero requisição
 - `docs/requisitos.md` § UX — ordenação, disposição e filtro persistem no navegador; o colapso, não
 - `docs/requisitos.md` § Requisitos Não Funcionais — economia de requisições
 
@@ -21,7 +21,7 @@ nenhuma requisição ao Firestore e sem quebrar quando o storage não existe.
 - Só ordenação, disposição e filtro persistem; o colapso de seções e
   super-grupos continua volátil — `docs/idr/0026-*` § Decisão e `docs/idr/0020-*`
 - Nada disso vai para o Firestore: zero requisição, e a preferência é do
-  dispositivo — `docs/idr/0026-*` § Decisão e `docs/persistencia.md`
+  dispositivo — `docs/idr/0026-*` § Decisão e `docs/modelo-firebase.md`
 - Storage ausente ou bloqueado (navegação privada, storage desabilitado) **não
   pode quebrar o app**: falha de leitura ou de escrita cai nos padrões e segue —
   `docs/idr/0026-*` § Consequências
@@ -52,7 +52,7 @@ Tarefa 0010-0003; aqui os padrões são os provisórios já em uso.
 ## Decisões já tomadas (não reabrir)
 - Preferências de vista no `localStorage`, por dispositivo — ver `docs/idr/0026-preferencias-de-vista-persistidas-no-navegador.md`
 - O colapso é estado de momento e não persiste — ver `docs/idr/0020-secoes-colapsaveis-em-qualquer-visualizacao.md`
-- Gravar preferência no Firestore está descartado por custo de requisição — ver `docs/idr/0026-*` § Contexto e `docs/persistencia.md`
+- Gravar preferência no Firestore está descartado por custo de requisição — ver `docs/idr/0026-*` § Contexto e `docs/modelo-firebase.md`
 
 ## Decisões em aberto nesta tarefa
 - Uma chave com um objeto × três chaves separadas — encaminhamento: uma chave

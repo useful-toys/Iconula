@@ -10,7 +10,7 @@ Concluída
 - `docs/idr/0021-selo-conta-unidades-sobrando.md` § Decisão — no texto de troca, `×` conta **unidades sobrando**, igual ao selo do cartão
 - `docs/idr/0024-acoes-raras-em-menu-do-cabecalho.md` § Decisão — os dois comandos ficam no menu
 - `docs/idr/0029-avisos-flutuantes-com-tres-severidades.md` § Decisão — "lista copiada" é sucesso; área de transferência indisponível é **aviso**, não falha
-- `docs/persistencia.md` § Custos e cotas — texto de troca custa 0 operações: lê o estado em memória
+- `docs/modelo-firebase.md` § Custos e cotas — texto de troca custa 0 operações: lê o estado em memória
 - `docs/requisitos.md` § Progresso e listas — a lista de troca é apenas saída; portabilidade usa JSON
 
 ## Objetivo
@@ -29,7 +29,7 @@ do menu.
   `docs/requisitos.md` § Compartilhamento
 - Área de transferência indisponível é **aviso** dourado, não falha vermelha —
   `docs/idr/0029-*` § Decisão
-- Custa **zero** requisição: lê o estado em memória — `docs/persistencia.md` § Custos e cotas
+- Custa **zero** requisição: lê o estado em memória — `docs/modelo-firebase.md` § Custos e cotas
 
 ## Escopo e instruções de implementação
 1. Criar em `src/lib/` a geração dos dois textos, pura e testável, a partir do

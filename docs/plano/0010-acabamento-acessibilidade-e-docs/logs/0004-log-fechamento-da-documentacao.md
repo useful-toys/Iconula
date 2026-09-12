@@ -10,7 +10,7 @@ Tarefa só de documentação: nenhum código em `src/` foi tocado. Percorridas,
 item a item, as quatro listas indicadas pela tarefa
 (`docs/interface.md` § Pendências de interface, `docs/arquitetura.md` §
 Pontos em aberto, `docs/requisitos.md` § Decisões Pendentes,
-`docs/persistencia.md` § Pronto × falta), a tabela de alocação de
+`docs/modelo-firebase.md` § Pronto × falta), a tabela de alocação de
 pendências e a tabela § Onde fica cada coisa/§ Stack do `AGENTS.md`.
 
 ### Pendências fechadas, com o registro que as resolveu
@@ -59,7 +59,7 @@ direta dos módulos e componentes que existem em `src/data/`, `src/lib/`,
 implementado é o app do botão...") também foi corrigido — o botão foi
 removido, o produto novo é o que está em produção.
 
-**`docs/persistencia.md` § Pronto × falta**: reescrita para refletir o
+**`docs/modelo-firebase.md` § Pronto × falta**: reescrita para refletir o
 produto implementado por completo (persistência, atestação, migração,
 export/import); o único item que continua do lado "falta" é a confirmação
 em uso real dos números do ADR 0005 (mesmo motivo do ponto em aberto de
@@ -111,7 +111,7 @@ para não parecer um item esquecido.
   esteve disponível durante a execução automatizada deste plano (mesmo
   limite já registrado no log da Tarefa 0007-0002/0007-0003). Continua
   listada em `docs/arquitetura.md` § Pontos em aberto e em
-  `docs/persistencia.md` § Pronto × falta, com o motivo explícito — não
+  `docs/modelo-firebase.md` § Pronto × falta, com o motivo explícito — não
   bloqueia nada, é um acompanhamento operacional pós-deploy.
 - **Fonte completa do checklist** (nomes de figurinha, página do FWC,
   metalizadas além da 01): a *decisão* sobre como lidar com a ausência
@@ -190,7 +190,7 @@ inteiro (`find src -type f`) e comparado contra a tabela do `AGENTS.md` —
 todo arquivo de produção tem linha própria ou está coberto pela linha
 genérica de teste do seu par; nenhuma linha da tabela aponta para um
 arquivo inexistente. Percorridas as quatro listas de pendências
-(`requisitos.md`, `interface.md`, `arquitetura.md`, `persistencia.md`) e
+(`requisitos.md`, `interface.md`, `arquitetura.md`, `modelo-firebase.md`) e
 conferido que cada item removido tem, de fato, um registro (ADR/TDR/IDR)
 que o resolve, citado no próprio texto.
 
@@ -201,7 +201,7 @@ que o resolve, citado no próprio texto.
       registro apontado (três fechados com registro; um — aceite dos
       números do ADR 0005 — justificado como aberto, com motivo)
 - [x] § Decisões Pendentes de `requisitos.md` não lista as três resolvidas
-- [x] `docs/persistencia.md` § Pronto × falta reflete o produto implementado
+- [x] `docs/modelo-firebase.md` § Pronto × falta reflete o produto implementado
 - [x] A tabela § Onde fica cada coisa do `AGENTS.md` bate arquivo por
       arquivo com `src/`
 - [x] § Stack do `AGENTS.md` descreve o produto atual, não o botão
@@ -222,7 +222,7 @@ que o resolve, citado no próprio texto.
 - `docs/arquitetura.md` — § Pontos em aberto reduzida a um item
   justificado; § Decisões-chave e onde vivem ampliada; § Camadas no
   cliente reescrita; parágrafo de abertura corrigido
-- `docs/persistencia.md` — § Pronto × falta reescrita
+- `docs/modelo-firebase.md` — § Pronto × falta reescrita
 - `AGENTS.md` — parágrafo de abertura e § Stack corrigidos; § Onde fica
   cada coisa reescrita arquivo por arquivo
 - `docs/plano/README.md` — status da Tarefa 0010-0004 (só essa linha,

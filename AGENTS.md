@@ -106,7 +106,6 @@ aberto e § Camadas no cliente).
 | `.github/workflows/` | Workflows de deploy (produção em merge na `main`, preview em PRs). |
 | `docs/requisitos.md` | Requisitos do produto (o que é, diferenciais, MVP, futuros, fora de escopo) — ler antes de propor funcionalidades. Descreve o produto implementado; § Requisitos futuros lista o que ainda não foi comprometido. |
 | `docs/interface.md` | Decisões de interface (o "como" da UI: telas, faixas de tela, identidade visual, interações) — todas as telas do produto especificadas e implementadas, sem pendências abertas; em conflito com requisitos, requisitos vence. |
-| `docs/persistencia.md` | Como os dados do usuário são gravados e lidos no Firestore — formato dos dados, regras, custos e o que ainda falta (§ Pronto × falta). |
 | `docs/arquitetura.md` | Visão de conjunto da arquitetura — serviços, camadas, fluxo de dados e índice das decisões (ADRs/TDRs/IDRs/MDRs/DDRs). |
 | `docs/devops.md` | Panorama de DevOps: estado atual de CI/CD, deploy, workflows, ferramentas de validação local e segurança — referenciando os DDRs. Atualize sempre que mudar workflows, build, deploy, pipeline ou ferramentas de validação. |
 | `docs/modelo-firebase.md` | Modelo de dados da persistência no Firestore — estado atual do schema em produção, referenciando os MDRs. |

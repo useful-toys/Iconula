@@ -25,7 +25,7 @@ o usuário atesta ter 12 anos ou mais ou estar autorizado, e isso fica gravado u
 - `atestadoEm` é gravado **sem** `updatedAt` junto, e não move o relógio do
   título — `docs/adr/0008-*` § Decisão e `docs/idr/0027-*` § Consequências
 - Custa **1 escrita na vida da conta**; não pode virar escrita por login —
-  `docs/persistencia.md` § Custos e cotas
+  `docs/modelo-firebase.md` § Custos e cotas
 - Texto exato da atestação, o de `docs/interface.md` § Tela de login: "Ao
   continuar, você confirma ter 12 anos ou mais, ou estar autorizado pelos
   responsáveis."

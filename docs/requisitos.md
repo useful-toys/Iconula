@@ -340,7 +340,7 @@ Questões recorrentes são marcadas como "Nota".*
 - **Economia de requisições**: operar dentro da cota gratuita do plano
   Spark exige ser econômico nas requisições ao Firestore — uma leitura
   por login, escritas agregadas (IDR 0003), mapa esparso (zeros nunca
-  gravados — ver [persistencia.md](persistencia.md)); nenhuma
+  gravados — ver [modelo-firebase.md](modelo-firebase.md)); nenhuma
   requisição por figurinha; cada feature nova contabiliza seu custo em
   leituras/escritas antes de entrar (o sync ao vivo, em futuros, é o
   primeiro candidato a pesar)

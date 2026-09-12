@@ -5,8 +5,7 @@
 Visão de conjunto do sistema — serviços, camadas, dados e fluxo — e
 índice de onde cada decisão vive. As decisões individuais estão nos
 registros (ADR/TDR/IDR/MDR/DDR) e nos docs de referência
-([persistencia.md](persistencia.md),
-[modelo-firebase.md](modelo-firebase.md),
+([modelo-firebase.md](modelo-firebase.md),
 [modelo-intercambio.md](modelo-intercambio.md),
 [modelo-memoria.md](modelo-memoria.md),
 [interface.md](interface.md), [requisitos.md](requisitos.md),
@@ -20,8 +19,8 @@ registro está em [adr/README.md](adr/README.md), [tdr/README.md](tdr/README.md)
 O produto especificado em [requisitos.md](requisitos.md) — o controle de
 figurinhas do álbum da Copa 2026 — está implementado nesta arquitetura; o
 "Iconula Button" (o app de um único botão que a precedeu) foi removido do
-código, e as menções a ele neste documento e em [persistencia.md](persistencia.md)
-são histórico de como o schema evoluiu, não o estado atual.
+código, e as menções a ele neste documento são histórico de como o schema
+evoluiu, não o estado atual.
 
 ## Visão geral
 
@@ -66,8 +65,8 @@ regras do Firestore, avaliadas no servidor contra o ID token.
 - **Auth**: único provedor Google, popup, botão próprio, SDK modular
   ([ADR 0004](adr/0004-login-google-sdk-modular.md))
 - **Firestore**: banco `(default)`, região `southamerica-east1`, um
-  documento por usuário — detalhes, custos e o que muda com o produto
-  novo em [persistencia.md](persistencia.md)
+  documento por usuário — detalhes, custos e mecanismo de gravação em
+  [modelo-firebase.md](modelo-firebase.md)
 
 ## Camadas no cliente
 
@@ -143,7 +142,7 @@ Fluxos:
 | Stack Vite + React | [ADR 0002](adr/0002-stack-vite-react.md) |
 | Firebase Hosting | [ADR 0003](adr/0003-firebase-hosting.md) |
 | Login Google | [ADR 0004](adr/0004-login-google-sdk-modular.md) |
-| Persistência Firestore | [ADR 0005](adr/0005-persistencia-no-firestore.md) + [persistencia.md](persistencia.md) |
+| Persistência Firestore | [ADR 0005](adr/0005-persistencia-no-firestore.md) + [modelo-firebase.md](modelo-firebase.md) |
 | Bandeiras Twemoji vendadas | [ADR 0006](adr/0006-bandeiras-emoji-unicode.md) |
 | Estrutura de pastas | [ADR 0007](adr/0007-estrutura-de-pastas-e-separacao-de-responsabilidades.md) |
 | CSS modular por componente | [ADR 0008](adr/0008-css-modular-por-componente.md) |
@@ -172,7 +171,7 @@ Fluxos:
 | Acessibilidade: foco visível, área de toque | [IDR 0042](idr/0042-foco-visivel-e-area-de-toque.md) |
 | Padrões de primeira abertura por faixa de tela | [IDR 0043](idr/0043-padroes-de-primeira-abertura-por-faixa-de-tela.md) |
 | Localização do documento no Firestore | [MDR 0001](mdr/0001-localizacao-do-documento-no-firestore.md) |
-| Schema da coleção (mapa esparso) | [MDR 0002](mdr/0002-schema-do-documento-da-colecao.md) + [persistencia.md](persistencia.md) |
+| Schema da coleção (mapa esparso) | [MDR 0002](mdr/0002-schema-do-documento-da-colecao.md) + [modelo-firebase.md](modelo-firebase.md) |
 | Gravação agregada da coleção | [MDR 0003](mdr/0003-gravacao-agregada-da-colecao.md) |
 | Formato de intercâmbio (export/import JSON) | [MDR 0004](mdr/0004-formato-de-intercambio-da-colecao.md) |
 | Representação em memória na SPA | [MDR 0005](mdr/0005-representacao-em-memoria-na-spa.md) |

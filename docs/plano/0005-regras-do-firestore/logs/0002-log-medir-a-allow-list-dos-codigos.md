@@ -58,7 +58,7 @@ TDR 0009 ("se o deploy ou a avaliação esbarrar no limite, ela fica de fora");
 a medição apenas apontou qual valeu. O encaminhamento "um teste que compara
 a lista das regras com os códigos do catálogo" só se aplicava se a lista
 entrasse — como não entrou, **não nasce TDR**. A medição numérica fica
-registrada aqui e será refletida em `docs/persistencia.md` pela Tarefa
+registrada aqui e será refletida em `docs/modelo-firebase.md` pela Tarefa
 0005-0004.
 
 ## Impedimentos
