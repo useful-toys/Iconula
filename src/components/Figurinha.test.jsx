@@ -255,4 +255,18 @@ describe('Figurinha', () => {
 
     expect(container.querySelector('.figurinha__metalizada')).toBeInTheDocument();
   });
+
+  it('descreve metalizada por extenso no nome acessível, sem depender só da marca visual', () => {
+    render(
+      <Figurinha
+        codigo="BRA05"
+        contagem={1}
+        metalizada
+        onIncrementar={vi.fn()}
+        onDecrementar={vi.fn()}
+      />,
+    );
+
+    expect(screen.getByLabelText('BRA 05, colada, metalizada')).toBeInTheDocument();
+  });
 });

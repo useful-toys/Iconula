@@ -509,6 +509,9 @@ estádio. O app não segue `prefers-color-scheme` e não tem tema claro
 
 ### Medidas
 
+- Foco visível: contorno de 2px em `--gold`, afastado 2px da borda, em
+  todo elemento focável — só por teclado (`:focus-visible`), sem acender em
+  clique de mouse ou toque (IDR 0042)
 - Cabeçalho sticky, `padding: 12px clamp(16px, 4vw, 40px) 10px`, borda
   inferior `--border`; título 15px, com os números em `--cream`, os
   separadores `·` em `--muted` peso 400 e o relógio um ponto menor
@@ -517,12 +520,15 @@ estádio. O app não segue `prefers-color-scheme` e não tem tema claro
   `5px 12px` em 12px/600 — ativo com fundo `--gold` e texto
   `--turf-deep`, inativo transparente em `--muted`
 - Desfazer e menu de ações: botões de 30×30px, raio 8px, borda e texto
-  em `--gold`, alinhados à direita da linha
+  em `--gold`, alinhados à direita da linha; em tela sensível, área de
+  toque ampliada até a metade do espaçamento entre os dois, sem crescer
+  visualmente (IDR 0042)
 - Faixa de bandeiras: ícones de 30×30px, raio 8px, fundo `--panel`
   (`--gold` no destaque), espaçamento 4px, rolagem horizontal; o glifo
   da bandeira em 15px, centralizado no quadrado — o espaçamento é o
   mais apertado que ainda separa duas bandeiras vizinhas, para caber o
-  máximo de seções na largura antes de precisar rolar
+  máximo de seções na largura antes de precisar rolar; em tela sensível,
+  área de toque ampliada até a metade desse espaçamento (IDR 0042)
 - Corpo: `padding: 20px clamp(16px, 4vw, 40px) 60px`, 16px entre
   super-grupos
 - Sem largura máxima de conteúdo: a página ocupa toda a largura
@@ -547,6 +553,8 @@ estádio. O app não segue `prefers-color-scheme` e não tem tema claro
   `--muted`, opacidade 0.6 — o "cartão esvaziado" do IDR 0006
 - Colada e repetida: fundo e borda sólidos na cor do estado, texto
   `--ink-on-light`, opacidade 1
+- Toque no cartão: além da mudança de cor do estado, encolhe e volta
+  (`scale(0.92)`, 60ms) no instante do toque/clique (IDR 0042)
 - Selo `×N`: canto inferior direito, transbordando ~6px do cartão;
   fundo `--turf-deep`, borda e texto `--orange-card`, 10px/700, raio
   8px, largura fixa para dois dígitos; no álbum acompanha o cartão
@@ -557,7 +565,9 @@ estádio. O app não segue `prefers-color-scheme` e não tem tema claro
 - Controle de menos: círculo de 18px no canto inferior esquerdo (16px no
   álbum), com o mesmo recuo da marca de metalizada — 3px na lista, 2px
   no álbum —, fundo `--turf-deep`, borda de 1px e sinal `−` em
-  `--gold`, 13px/700 (12px no álbum); nunca transborda o cartão
+  `--gold`, 13px/700 (12px no álbum); nunca transborda o cartão; em tela
+  sensível, área de toque ampliada para 26px (22px no álbum), contida no
+  cartão (IDR 0042)
 - Área de avisos: flutuante (`position: fixed`) colada à borda
   inferior, `padding: 12px clamp(16px, 4vw, 40px)` e sombra
   `0 -6px 20px` para cima; borda superior de 2px na cor da severidade
@@ -585,12 +595,4 @@ estádio. O app não segue `prefers-color-scheme` e não tem tema claro
   protótipo, que a exibe a cada login — ou um passo explícito só na
   primeira vez; requisitos.md pede "um clique atestando… uma única vez
   por conta"
-- Estados de foco, hover e pressionado: o protótipo apenas troca o
-  cursor — falta decidir o realce de foco visível (indispensável para
-  navegação por teclado) e o retorno imediato do toque no cartão, que
-  hoje só se manifesta pela mudança de cor do estado
-- Se os alvos pequenos — 30×30px (desfazer, menu de ações, ícones da
-  faixa de bandeiras) e o controle de menos do cartão (18px na lista,
-  16px no álbum) — ganham área de toque ampliada em tela sensível; os
-  cartões, de 52×66px, já estão folgados
 - Diálogos de exportação e importação

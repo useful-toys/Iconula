@@ -158,6 +158,25 @@ describe('MenuDeAcoes', () => {
     expect(botaoDoMenu()).toHaveFocus();
   });
 
+  it('fecha ao tabular para fora do popup, sem roubar o foco de volta', async () => {
+    const user = userEvent.setup();
+    render(
+      <div>
+        <MenuDeAcoes onSignOut={vi.fn()} />
+        <button type="button">depois</button>
+      </div>,
+    );
+    await user.click(botaoDoMenu());
+    expect(screen.getByRole('menu')).toBeInTheDocument();
+
+    // Único item habilitado ("Sair da conta") já tem o foco ao abrir;
+    // Tab a partir dele sai do popup sem escolher nada.
+    await user.tab();
+
+    expect(screen.queryByRole('menu')).not.toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'depois' })).toHaveFocus();
+  });
+
   it('o painel não declara rolagem própria', async () => {
     const user = userEvent.setup();
     renderizar();

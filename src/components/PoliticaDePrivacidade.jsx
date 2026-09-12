@@ -12,7 +12,7 @@ export default function PoliticaDePrivacidade({ onVoltar }) {
     <div className="politica">
       <div className="politica__corpo">
         <button type="button" className="politica__voltar" onClick={onVoltar}>
-          ← Voltar
+          <span aria-hidden="true">←</span> Voltar
         </button>
 
         <h1 className="politica__titulo">Política de privacidade</h1>

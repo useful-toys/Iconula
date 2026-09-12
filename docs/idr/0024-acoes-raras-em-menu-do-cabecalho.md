@@ -7,6 +7,14 @@
 Aceito — preenche a lacuna de interface das ações de compartilhamento e
 portabilidade, exigidas por requisitos.md e sem lugar na tela até aqui.
 
+O varrimento de teclado da Tarefa 0010-0001 achou uma lacuna: "fecha ao
+tocar fora" só ouvia `mousedown`, então tabular para fora do último item do
+popup (`Tab` sem escolher nada) deixava o popup visivelmente aberto com o
+foco já em outro elemento da tela. Corrigido com um `onBlur` no container
+que fecha o popup quando o foco sai dele — mesmo comportamento do clique
+fora, só que disparado por perda de foco em vez de clique (ver
+[IDR 0042](0042-foco-visivel-e-area-de-toque.md)).
+
 ## Contexto
 
 requisitos.md exige quatro saídas para a coleção — texto de faltantes

@@ -3,7 +3,7 @@
 # Tarefa [0010-0001]: acessibilidade e foco visível
 
 ## Status
-Pendente
+Concluída
 
 ## Documentos de referência (ler antes de implementar)
 - `docs/requisitos.md` § Requisitos Não Funcionais — operável por teclado, contraste adequado, semântica legível; a cor nunca é o único sinal; nomes acessíveis escrevem por extenso a notação compacta

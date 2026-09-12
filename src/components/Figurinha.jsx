@@ -42,6 +42,11 @@ export function Figurinha({
     estadoClasse = 'figurinha--repetida';
     estadoLabel = `colada, ${sobrando} sobrando`;
   }
+  // A marca de metalizada (ponto dourado, aria-hidden) só é visual — o nome
+  // acessível precisa dizer por extenso o mesmo estado (IDR 0042).
+  if (metalizada) {
+    estadoLabel += ', metalizada';
+  }
 
   const classes = [
     'figurinha',

@@ -7,6 +7,7 @@
 /* 30x30px, raio 8px, borda e texto --gold — mesma medida do botão de
    desfazer (docs/interface.md § Medidas). */
 .menu-de-acoes__botao {
+  position: relative;
   width: 30px;
   height: 30px;
   display: flex;
@@ -25,6 +26,18 @@
 .menu-de-acoes__botao:focus-visible {
   outline: 2px solid var(--gold);
   outline-offset: 2px;
+}
+
+/* Área de toque ampliada em tela sensível (docs/interface.md § Pendências de
+ * interface, IDR 0042) — o botão visível continua 30×30px; um `::before`
+ * invisível estende a zona clicável até a metade do espaçamento de 8px que
+ * o separa do botão de desfazer, sem sobrepor a área dele. */
+@media (pointer: coarse) {
+  .menu-de-acoes__botao::before {
+    content: '';
+    position: absolute;
+    inset: -4px;
+  }
 }
 
 /* Ancorado ao botão, alinhado pela borda direita, logo abaixo da linha de

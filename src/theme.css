@@ -57,3 +57,21 @@ body {
 .font-tabular {
   font-variant-numeric: tabular-nums;
 }
+
+/* Realce de foco visível — IDR 0042.
+ * Um único realce, em --gold, para todo elemento focável do app: contorno de
+ * 2px, afastado 2px da borda, com contraste ≥ 8:1 sobre --turf e --panel
+ * (medido na Tarefa 0010-0001). `:focus-visible` só marca foco alcançado
+ * por teclado (ou revelado pela plataforma) — clique de mouse/toque não
+ * dispara o contorno, preservando o minimalismo do IDR 0018 sem abrir mão
+ * do requisito de navegação por teclado. Regras mais específicas por
+ * componente (ex.: itens do menu de ações, com contorno para dentro) podem
+ * sobrepor este padrão quando o encaixe do próprio elemento exigir. */
+:focus {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}

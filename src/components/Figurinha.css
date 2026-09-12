@@ -34,6 +34,13 @@
   cursor: pointer;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
+  transition: transform 0.06s ease;
+}
+
+/* Retorno imediato ao toque/clique, além da mudança de cor do estado
+   (IDR 0042) — encolhe e volta, percebido antes mesmo de soltar o dedo. */
+.figurinha__corpo:active {
+  transform: scale(0.92);
 }
 
 .figurinha__codigo {
@@ -171,5 +178,25 @@
 @media (hover: none) {
   .figurinha__menos {
     opacity: 1;
+  }
+}
+
+/* Área de toque ampliada em tela sensível (docs/interface.md § Pendências de
+ * interface, IDR 0042) — o círculo visível continua 18px/16px (não muda o
+ * desenho nem as medidas): um `::before` invisível estende só a zona
+ * clicável. O avanço fica contido dentro do cartão (52×66px na lista,
+ * 52×52px no álbum), evitando disputar toque com o cartão vizinho.
+ */
+@media (pointer: coarse) {
+  .figurinha--lista .figurinha__menos::before {
+    content: '';
+    position: absolute;
+    inset: -4px;
+  }
+
+  .figurinha--album .figurinha__menos::before {
+    content: '';
+    position: absolute;
+    inset: -3px;
   }
 }
