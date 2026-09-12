@@ -12,20 +12,18 @@ requisitos.md); o desfazer reverte incrementos e decrementos.
 
 ## Contexto
 
-Tocar-para-somar ([IDR 0006](0006-estados-visuais-e-interacao-da-figurinha.md))
-é rápido mas propenso a toques acidentais — inclusive zerar uma
-contagem por engano. As saídas clássicas para isso são confirmação
-antes de ações destrutivas (atrito em **todo** uso) ou um comando
-desfazer (atrito só quando há erro).
-
-O usuário pediu explicitamente: um comando que desfaz a última
-alteração e, repetido, desfaz as N últimas — aumentar ou diminuir a
-quantidade de uma figurinha. A velocidade do fluxo essencial de
-cadastrar fica preservada, e o erro vira recuperável.
-
-Interação com a gravação agregada ([IDR 0003](0003-gravacao-agrega-ajustes.md)):
-desfazer é um ajuste como qualquer outro — a correção entra na gravação
-seguinte, sem caso especial.
+- Tocar-para-somar ([IDR 0006](0006-estados-visuais-e-interacao-da-figurinha.md))
+  é rápido mas propenso a toques acidentais — inclusive zerar uma
+  contagem por engano.
+- Saídas clássicas: confirmação antes de ações destrutivas (atrito em
+  **todo** uso) ou um comando desfazer (atrito só quando há erro).
+- O usuário pediu explicitamente: um comando que desfaz a última
+  alteração e, repetido, desfaz as N últimas — aumentar ou diminuir a
+  quantidade de uma figurinha. A velocidade do fluxo essencial de
+  cadastrar fica preservada, e o erro vira recuperável.
+- Interação com a gravação agregada ([IDR 0003](0003-gravacao-agrega-ajustes.md)):
+  desfazer é um ajuste como qualquer outro — a correção entra na
+  gravação seguinte, sem caso especial.
 
 ## Decisão
 

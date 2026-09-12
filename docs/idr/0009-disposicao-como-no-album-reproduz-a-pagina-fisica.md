@@ -12,23 +12,22 @@ Coca-Cola, cujo arranjo físico ficou conhecido, também ganha disposição
 
 ## Contexto
 
-A disposição álbum existia como ideia — "grade que reproduz a página
-física" — mas sem layout exato nem escopo definido. A descrição da
-página impressa trouxe os dois:
-
-- **Layout exato**: duas colunas lado a lado, cada uma um grid de 4
-  trilhas de largura fixa, com posições explícitas de linha/coluna por
-  figurinha — incluindo o alinhamento à direita das linhas incompletas,
-  que é posição no grid, não um "empurrar para a direita" solto
-- **Escopo**: só as 48 seleções têm o layout físico de 20 espaços
-  (escudo, 18 jogadores, foto do time) em spread de duas páginas; os
-  especiais (FWC, 20 cromos) e a Coca-Cola (14, página especial) têm
-  arranjos físicos diferentes — e enquanto seus layouts não forem
-  conhecidos, reproduzi-los por analogia seria invenção
-
-A alternativa implícita — uma grade uniforme que se ajusta à largura da
-tela — trairia a forma da página impressa, e a fidelidade ao recorte
-físico é justamente o propósito da disposição.
+- A disposição álbum existia como ideia — "grade que reproduz a página
+  física" — mas sem layout exato nem escopo definido.
+- A descrição da página impressa trouxe os dois:
+  - **Layout exato**: duas colunas lado a lado, cada uma um grid de 4
+    trilhas de largura fixa, com posições explícitas de linha/coluna
+    por figurinha — incluindo o alinhamento à direita das linhas
+    incompletas, que é posição no grid, não um "empurrar para a
+    direita" solto
+  - **Escopo**: só as 48 seleções têm o layout físico de 20 espaços
+    (escudo, 18 jogadores, foto do time) em spread de duas páginas; os
+    especiais (FWC, 20 cromos) e a Coca-Cola (14, página especial) têm
+    arranjos físicos diferentes — e enquanto seus layouts não forem
+    conhecidos, reproduzi-los por analogia seria invenção
+- A alternativa implícita — uma grade uniforme que se ajusta à largura
+  da tela — trairia a forma da página impressa, e a fidelidade ao
+  recorte físico é justamente o propósito da disposição.
 
 ## Decisão
 

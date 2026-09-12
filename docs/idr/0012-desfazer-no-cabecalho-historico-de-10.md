@@ -8,13 +8,14 @@ Aceito.
 
 ## Contexto
 
-O [IDR 0010](0010-desfazer-ajustes-em-vez-de-confirmacoes.md) definiu o
-comando desfazer — reverter a última alteração, repetível para as N
-últimas — mas deixou como pendência o lugar na tela e a profundidade do
-histórico. Candidatos de lugar: botão fixo no cabeçalho, barra flutuante
-estilo toast após cada ajuste, ou botão junto ao último cartão ajustado.
-O registro em rajada (abrir envelope e lançar 7 números) é o caso de uso
-dominante e descarta designs que reajam a cada toque.
+- O [IDR 0010](0010-desfazer-ajustes-em-vez-de-confirmacoes.md) definiu
+  o comando desfazer — reverter a última alteração, repetível para as N
+  últimas — mas deixou como pendência o lugar na tela e a profundidade
+  do histórico.
+- Candidatos de lugar: botão fixo no cabeçalho, barra flutuante estilo
+  toast após cada ajuste, ou botão junto ao último cartão ajustado.
+- O registro em rajada (abrir envelope e lançar 7 números) é o caso de
+  uso dominante e descarta designs que reajam a cada toque.
 
 ## Decisão
 

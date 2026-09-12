@@ -14,19 +14,18 @@ em lista.
 
 ## Contexto
 
-Dois jobs distintos competem pela organização do catálogo: **consultar
-por código** (abri um envelope, quero marcar BRA05 rápido) e **conferir
-contra o álbum físico** (percorrer como o álbum, página a página, vendo
-qual já tenho). Uma única organização serviria mal um dos dois.
-
-A POC mostrou a solução em alternadores: ordem (página do álbum ×
-sigla) e disposição (lista contínua × layout da página física, com duas
-colunas e a figurinha paisagem da foto da seleção). Na POC, a página de
-cada grupo era editável pelo usuário — um contorno para ela não ter os
-dados do catálogo; aqui a ordem do álbum é dado embutido em `src/data/`.
-
-Regra de UX previamente decidida pelo usuário: o percurso é por rolagem
-da tela inteira, **jamais scroll dentro de scroll**.
+- Dois jobs distintos competem pela organização do catálogo:
+  **consultar por código** (abri um envelope, quero marcar BRA05
+  rápido) e **conferir contra o álbum físico** (percorrer como o
+  álbum, página a página, vendo qual já tenho). Uma única organização
+  serviria mal um dos dois.
+- POC mostrou a solução em alternadores: ordem (página do álbum ×
+  sigla) e disposição (lista contínua × layout da página física, com
+  duas colunas e a figurinha paisagem da foto da seleção). Na POC, a
+  página de cada grupo era editável pelo usuário — aqui a ordem do
+  álbum é dado embutido em `src/data/`.
+- Regra de UX já decidida: o percurso é por rolagem da tela inteira,
+  **jamais scroll dentro de scroll**.
 
 ## Decisão
 

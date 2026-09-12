@@ -26,17 +26,16 @@ Quatro pontos foram revistos depois:
 
 ## Contexto
 
-O coração do produto é registrar contagens por figurinha. O modelo de
-domínio (`requisitos.md`) deriva três estados da contagem: faltante (0),
-colada (1) e repetida (≥ 2, com n−1 sobrando). A figurinha em tela
-precisa comunicar o estado de imediato — o fluxo essencial de consultar
-é olhar a página e ver o que falta — e aceitar registro num toque — o
-fluxo essencial de cadastrar.
-
-A POC apresentou a linguagem: cartões com o código em duas linhas (como
-impresso no cromo físico), bordas perfuradas (efeito selo), três cores
-bem diferenciadas por estado, tocar soma uma unidade e um ícone de
-menos surge no canto para remover.
+- O coração do produto é registrar contagens por figurinha. O modelo
+  de domínio (`requisitos.md`) deriva três estados da contagem:
+  faltante (0), colada (1) e repetida (≥ 2, com n−1 sobrando).
+- A figurinha em tela precisa comunicar o estado de imediato (fluxo
+  essencial de consultar: olhar a página e ver o que falta) e aceitar
+  registro num toque (fluxo essencial de cadastrar).
+- A POC apresentou a linguagem: cartões com o código em duas linhas
+  (como impresso no cromo físico), bordas perfuradas (efeito selo),
+  três cores bem diferenciadas por estado, tocar soma uma unidade e um
+  ícone de menos surge no canto para remover.
 
 ## Decisão
 

@@ -11,17 +11,16 @@ como pendência do ADR do schema.
 
 ## Contexto
 
-O ADR 0007 decidiu escrita sem debounce — um `setDoc` por clique —
-fiel ao pedido da época e simples de testar; para o botão, era a escolha
-certa.
-
-No produto novo, cada ajuste de contagem dispararia uma escrita **e**
-uma notificação de "gravado" (ver [IDR 0002](0002-avisos-de-sincronizacao-visiveis.md)).
-Em sessões de registro em rajada — abrir envelopes e lançar 7 números,
-conferir o álbum página a página — isso vira centenas de escritas e
-notificações. O pedido do usuário: salvamento relativamente rápido, mas
-não a cada alteração; persistência transparente, sem botões de
-ler/salvar.
+- ADR 0007 decidiu escrita sem debounce — um `setDoc` por clique —
+  fiel ao pedido da época; certa para o botão.
+- No produto novo, cada ajuste de contagem dispararia uma escrita **e**
+  uma notificação de "gravado" (ver
+  [IDR 0002](0002-avisos-de-sincronizacao-visiveis.md)). Em sessões de
+  registro em rajada — abrir envelopes e lançar 7 números, conferir o
+  álbum página a página — isso vira centenas de escritas e
+  notificações.
+- Pedido do usuário: salvamento relativamente rápido, mas não a cada
+  alteração; persistência transparente, sem botões de ler/salvar.
 
 ## Decisão
 

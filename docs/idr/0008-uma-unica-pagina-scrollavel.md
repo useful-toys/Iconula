@@ -13,16 +13,15 @@ não compete com a rolagem vertical da página.
 
 ## Contexto
 
-Regra declarada pelo usuário durante a especificação de UX ("jamais
-scroll dentro de scroll — isso já é especificação de UX") e reforçada
-depois: tudo será sempre uma página scrollável; nenhum componente terá
-scroll próprio.
-
-O risco em SPAs com catálogo grande e cabeçalho informativo é cair no
-padrão dashboard: painel lateral fixo, grade de seção com scrollbar
-própria, área de avisos como log rolável. Cada scroll aninhado quebra o
-modelo mental de percurso único e, em touch, causa scroll trapping — o
-dedo "preso" no painel em vez de rolar a página.
+- Regra declarada pelo usuário durante a especificação de UX ("jamais
+  scroll dentro de scroll — isso já é especificação de UX") e
+  reforçada depois: tudo será sempre uma página scrollável; nenhum
+  componente terá scroll próprio.
+- Risco em SPAs com catálogo grande e cabeçalho informativo: cair no
+  padrão dashboard (painel lateral fixo, grade de seção com scrollbar
+  própria, área de avisos como log rolável). Cada scroll aninhado
+  quebra o modelo mental de percurso único e, em touch, causa scroll
+  trapping — o dedo "preso" no painel em vez de rolar a página.
 
 ## Decisão
 

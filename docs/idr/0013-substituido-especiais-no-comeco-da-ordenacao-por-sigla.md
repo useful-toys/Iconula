@@ -13,14 +13,14 @@ e GER), que segue válido como motivo para não intercalar.
 
 ## Contexto
 
-O [IDR 0005](0005-ordenacoes-disposicoes-e-percurso-do-catalogo.md)
-definiu as duas ordenações de seções, mas não disse onde os especiais
-(COC e FWC) entram na alfabética por sigla. Na ordem do álbum, a
-Coca-Cola é a última seção (páginas 112–113) e a posição do FWC segue
-pendente do checklist. A interpretação literal — alfabética pura —
-intercalaria COC entre CIV e COD e FWC entre FRA e GER.
-
-O usuário decidiu explicitamente: especiais no começo.
+- O [IDR 0005](0005-ordenacoes-disposicoes-e-percurso-do-catalogo.md)
+  definiu as duas ordenações de seções, mas não disse onde os especiais
+  (COC e FWC) entram na alfabética por sigla.
+- Na ordem do álbum, a Coca-Cola é a última seção (páginas 112–113) e a
+  posição do FWC segue pendente do checklist.
+- A interpretação literal — alfabética pura — intercalaria COC entre
+  CIV e COD e FWC entre FRA e GER.
+- O usuário decidiu explicitamente: especiais no começo.
 
 ## Decisão
 
