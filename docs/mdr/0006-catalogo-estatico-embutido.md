@@ -1,0 +1,43 @@
+<!-- Copyright (c) 2026 Daniel Felix Ferber -->
+
+# MDR 0006: Catálogo estático embutido
+
+## Status
+
+Aceito.
+
+## Contexto
+
+- A aplicação precisa exibir as 994 figurinhas do álbum Panini da Copa 2026, organizadas em 50 seções.
+- O catálogo é a mesma fonte para todos os usuários — nunca toca o Firestore.
+- A identidade da figurinha é o código (ex.: `BRA05`), imutável.
+
+## Decisão
+
+- **Catálogo embutido no bundle**, em `src/data/catalogo.js` — única fonte desse dado.
+- **50 seções** (`secoes`): 48 seleções + Extras FIFA (`FWC`) + Coca-Cola (`COC`). FWC abre e COC fecha o array.
+- **994 figurinhas** (`figurinhas`): expandidas por função pura `expandirFigurinhas(secoes)`, não escritas como literais.
+- **Código da figurinha**: `SIG` + número com dois dígitos (`BRA05`, `FWC00`, `COC14`).
+- **Numeração por seção**:
+  - Seleções: `inicio: 1`, `total: 20` → `SIG01`…`SIG20` (48 × 20 = 960)
+  - FWC: `inicio: 0`, `total: 20` → `FWC00`…`FWC19` (20)
+  - COC: `inicio: 1`, `total: 14` → `COC01`…`COC14` (14)
+  - Total: 960 + 20 + 14 = 994
+- **Posições fixas** (seleções): `01` é metalizada; `13` é paisagem (cromo horizontal).
+- **Estrutura de cada seção**: `sigla`, `nome`, `tipo` (`selecao` | `especial`), `icone` (emoji Unicode), `grupo` (A–L ou `null`), `paginas` (spread ou `null`), `total`, `inicio` (opcional, padrão 1).
+- **Estrutura de cada figurinha**: `codigo`, `secao` (sigla), `posicao` (inteiro), `metalizada` (booleano), `paisagem` (booleano).
+- **Derivações de tela** (agrupar, ordenar, dispor) ficam em `src/data/catalogoOrdenacoes.js` e `src/data/catalogoLayout.js` — funções puras, sem efeito colateral.
+- **Layout de álbum** (`catalogoLayout.js`): posições explícitas de `pagina`, `linha`, `trilha`, `trilhas` para cada figurinha, reproduzindo a página física do álbum.
+
+## Consequências
+
+- O catálogo é imutável e igual para todos os usuários.
+- A expansão por função pura evita escrever 994 códigos como literais — a expansão é conferível pelo teste de invariantes.
+- O FWC usa `inicio: 0` porque a numeração oficial vai de `FWC00` a `FWC19` (renumeração do TDR 0022).
+- A ausência de pipeline de geração significa que lacunas da fonte degradam campo a campo (TDR 0010).
+
+## Alternativas consideradas
+
+- **Escrever os 994 códigos como literais**: mais verboso, sem vantagem sobre a expansão por função pura. Descartado.
+- **Pipeline de geração a partir de fonte externa**: não existe fonte estruturada confiável; a degradação da fonte é tratada campo a campo (TDR 0010). Descartado.
+- **Catálogo carregado do Firestore**: seria o mesmo para todos, gastaria leitura à toa. Descartado.
