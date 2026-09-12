@@ -269,4 +269,28 @@ describe('Figurinha', () => {
 
     expect(screen.getByLabelText('BRA 05, colada, metalizada')).toBeInTheDocument();
   });
+
+  it('lê o número zero com dois dígitos no nome acessível (FWC 00)', () => {
+    const { rerender } = render(
+      <Figurinha
+        codigo="FWC00"
+        contagem={0}
+        onIncrementar={vi.fn()}
+        onDecrementar={vi.fn()}
+      />,
+    );
+    expect(screen.getByLabelText('FWC 00, faltante')).toBeInTheDocument();
+
+    rerender(
+      <Figurinha
+        codigo="FWC00"
+        contagem={1}
+        onIncrementar={vi.fn()}
+        onDecrementar={vi.fn()}
+      />,
+    );
+    expect(
+      screen.getByRole('button', { name: 'remover uma unidade de FWC 00' }),
+    ).toBeInTheDocument();
+  });
 });

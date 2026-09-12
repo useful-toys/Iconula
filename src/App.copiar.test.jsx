@@ -167,7 +167,7 @@ describe("App — copiar listas de troca", () => {
     await abrirMenu();
     await clicarItem("Copiar lista de repetidas");
 
-    expect(escrever).toHaveBeenCalledWith("Brasil BRA: 5×2");
+    expect(escrever).toHaveBeenCalledWith("Brasil BRA: 05×2");
     expect(screen.getByText("Lista copiada")).toBeInTheDocument();
   });
 

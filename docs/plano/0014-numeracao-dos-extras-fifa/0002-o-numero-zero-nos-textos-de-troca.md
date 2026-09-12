@@ -3,7 +3,7 @@
 # Tarefa [0014-0002]: o número zero nos textos de troca
 
 ## Status
-Pendente
+Concluída
 
 ## Documentos de referência (ler antes de implementar)
 - `docs/requisitos.md` § Compartilhamento — uma linha por seção, números em ordem crescente, repetidas como `5×2`
