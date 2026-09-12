@@ -49,6 +49,7 @@ registro; não o substitui.
 | 8 | [Acesso, atestação e privacidade](0008-acesso-atestacao-e-privacidade/) | Login como guarda do app, atestação de menores e política de privacidade | 7 | `feat: guarda de login, atestação de menores e política de privacidade` | Pendente |
 | 9 | [Desfazer, menu de ações e portabilidade](0009-desfazer-menu-e-portabilidade/) | Desfazer, popup de comandos raros, listas de troca e export/import JSON | 7, 8 | `feat: desfazer, menu de ações, listas de troca e export/import` | Pendente |
 | 10 | [Acabamento: acessibilidade, desempenho e docs](0010-acabamento-acessibilidade-e-docs/) | Fechar acessibilidade, desempenho das 994, faixas de tela e a documentação | 9 | `chore: acessibilidade, desempenho e fechamento da documentação` | Pendente |
+| 14 | [Correção urgente: renumeração do FWC](0014-numeracao-dos-extras-fifa/) | Extras FIFA de `FWC00` a `FWC19` (hoje `FWC01`–`FWC20`, deslocado em um); total do catálogo continua 994 | 10 | `fix: renumera os Extras FIFA para FWC00–FWC19` | Pendente |
 
 ---
 
@@ -176,6 +177,40 @@ acabamento.
 
 ---
 
+## Fase 14 — Correção urgente: renumeração do FWC
+
+Fase fora da progressão, aberta por correção de dado. A seção "Extras FIFA"
+entrou no catálogo com os códigos `FWC01`–`FWC20`; a numeração oficial dos 20
+especiais do álbum 2026 vai de **`FWC00` a `FWC19`** (indexada a partir de
+zero) — logo da Panini (00), emblema oficial em duas partes (1–2), mascotes
+(3), slogan (4), bola oficial Trionda (5), três cartões de países-sede (6–8) e
+onze campeãs históricas do FIFA Museum (9–19), de Itália 1934 a Argentina
+2022. Confirmado por múltiplas fontes independentes depois que a primeira
+leitura desta pendência citou por engano dados do álbum do Catar 2022.
+
+O número da fase é ordem de registro, não de execução: esta entra **antes**
+das Fases 11, 12 e 13, que são refinamentos de interface e podem esperar.
+
+**Ao contrário de uma expansão, é um deslocamento**: a quantidade de
+figurinhas do FWC não muda (continuam 20), e o catálogo inteiro continua com
+**994** — não há mudança no teto das regras do Firestore nem nos documentos
+que citam esse total. O que muda é só o código: `FWC01` de hoje passa a
+significar o que hoje é `FWC02`, e assim sucessivamente; `FWC00` passa a
+existir; `FWC20` deixa de existir. **Confirmado com o humano que não há uso
+real em produção ainda**, então esta fase segue sem tarefa de migração de
+dado — decisão registrada na Tarefa 0014-0001.
+
+Fica **fora** desta fase, à espera da fonte do checklist: os nomes das
+figurinhas do FWC (a interface não os exibe) e a página do FWC no cabeçalho da
+seção.
+
+| # | Tarefa | Objetivo | Status |
+|---|---|---|---|
+| 0001 | [FWC renumerado de FWC00 a FWC19](0014-numeracao-dos-extras-fifa/0001-fwc-renumerado-de-00-a-19.md) | `expandirFigurinhas` aceita seção que começa em zero; FWC com `inicio: 0`, `total: 20` inalterado; invariantes ajustadas. | Pendente |
+| 0002 | [O número zero nos textos de troca](0014-numeracao-dos-extras-fifa/0002-o-numero-zero-nos-textos-de-troca.md) | Um `0` solto numa lista de WhatsApp lê como erro: o número passa a sair com dois dígitos, como no cartão. | Pendente |
+
+---
+
 ## Onde cada pendência conhecida foi alocada
 
 | Pendência | Origem | Fase.Tarefa | Resolução proposta | Registro que nasce |
@@ -199,6 +234,7 @@ acabamento.
 | Falta a vista das coladas (contagem ≥ 1), que não são as repetidas (≥ 2) | Achado de uso: filtro de status × `requisitos.md` § Progresso e listas | 6.2 | Acrescentar `coladas` como quarto valor do filtro, sem tocar em nenhuma outra regra do filtro | IDR 0033 (já registrado) |
 | Faixa de bandeiras larga demais: poucas seções cabem sem rolar | Achado de uso: faixa de salto × `interface.md` § Medidas | 6.3 | Baixar o espaçamento entre ícones de 8px para 4px, mantendo o ícone de 30×30px e a rolagem horizontal | — (medida em `interface.md`) |
 | `npm run dev` deixa de funcionar sem credenciais quando o login vira guarda | Achado da leitura: `requisitos.md` § Dados e isolamento × `AGENTS.md` § Como rodar | 8.1 | `requisitos.md` vence (modo não suportado); `AGENTS.md` passa a dizer que o desenvolvimento exige `.env.local` | — (correção de doc no mesmo PR) |
+| Extras FIFA numerados de `FWC01` a `FWC20`, quando a numeração oficial do álbum 2026 vai de `FWC00` a `FWC19` | Achado de uso: catálogo × numeração real do FWC (confirmada por múltiplas fontes após uma primeira leitura errada, com dados do Catar 2022) | 14.1 | Deslocar a seção para começar em zero (`inicio: 0`, `total: 20` inalterado), sem migração de dado por não haver uso real em produção ainda | TDR |
 
 ## Regras que valem em toda tarefa
 
