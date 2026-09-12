@@ -4,8 +4,12 @@
 
 ## Status
 
-Provisório. A escolha definitiva de qual ordenação (e disposição) abre o app
-na primeira sessão é a Tarefa 0010-0003, que decide por faixa de tela.
+**Substituído pelo
+[IDR 0043](../idr/0043-padroes-de-primeira-abertura-por-faixa-de-tela.md)**:
+a ordenação (e a disposição) da primeira abertura passa a depender da
+faixa de tela, em vez de um valor único fixo. Mantido na íntegra por
+registrar por que a Fase 3 precisava de um valor provisório antes dessa
+decisão existir.
 
 ## Contexto
 

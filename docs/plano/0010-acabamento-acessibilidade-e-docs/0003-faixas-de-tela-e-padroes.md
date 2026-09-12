@@ -3,7 +3,7 @@
 # Tarefa [0010-0003]: faixas de tela e padrões de primeira abertura
 
 ## Status
-Pendente
+Concluída
 
 ## Documentos de referência (ler antes de implementar)
 - `docs/interface.md` § Apresentação por faixa de tela — o que já está decidido e o que ficou pendente
@@ -86,13 +86,13 @@ do que os IDRs 0015 e 0009 já decidiram.
 - `docs/idr/00NN-padroes-de-primeira-abertura-por-faixa.md` — criar (próximo número livre)
 
 ## Critérios de aceite
-- [ ] Sem preferência guardada, cada faixa abre com o par decidido no IDR
-- [ ] Com preferência guardada, a faixa de tela é ignorada
-- [ ] Redimensionar a janela não altera ordenação nem disposição da sessão corrente
-- [ ] Os limites de faixa são os mesmos que o spread já usa, sem segunda noção de "estreito"
-- [ ] `docs/interface.md` deixa de listar essa pendência
-- [ ] Registros ADR/TDR/IDR criados para as decisões tomadas
-- [ ] `docs/plano/0010-acabamento-acessibilidade-e-docs/logs/0003-log-faixas-de-tela-e-padroes.md` gerado
+- [x] Sem preferência guardada, cada faixa abre com o par decidido no IDR
+- [x] Com preferência guardada, a faixa de tela é ignorada
+- [x] Redimensionar a janela não altera ordenação nem disposição da sessão corrente
+- [x] Os limites de faixa são os mesmos que o spread já usa, sem segunda noção de "estreito" (derivado das medidas do spread — ver IDR 0043)
+- [x] `docs/interface.md` deixa de listar essa pendência
+- [x] Registros ADR/TDR/IDR criados para as decisões tomadas (IDR 0043; TDR 0015 substituído)
+- [x] `docs/plano/0010-acabamento-acessibilidade-e-docs/logs/0003-log-faixas-de-tela-e-padroes.md` gerado
 
 ## Validação
 `npm run lint && npm run test && npm run build`.

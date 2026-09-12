@@ -474,9 +474,19 @@ Decidido até aqui, válido em qualquer faixa:
 - Álbum (seleções e Coca-Cola): páginas lado a lado quando cabem na
   largura, empilhadas quando não cabem (IDR 0015)
 
-Pendente: qual ordenação e disposição são pré-selecionadas na primeira
-abertura em cada faixa (celular, tablet, navegador) — a partir daí vale
-o que ficou guardado (IDR 0026).
+Padrão da primeira abertura, sem preferência guardada — a partir daí vale
+o que ficou guardado (IDR 0026):
+
+- Celular (até 512px de largura) e tablet (513–1024px): ordenação pela
+  página do álbum, disposição álbum — aparelhos portáteis, onde comparar
+  com a página física é o valor
+- Navegador (acima de 1024px): ordenação por sigla, disposição em lista —
+  janela larga favorece a visão geral
+
+Os limites reaproveitam o único ponto de quebra que o próprio spread do
+álbum já produz de forma fluida (sem media query): a largura em que as
+duas páginas (472px de conteúdo) deixam de caber ao lado da margem lateral
+mínima do app (IDR 0043).
 
 ## Identidade visual
 
@@ -585,8 +595,6 @@ estádio. O app não segue `prefers-color-scheme` e não tem tema claro
 
 ## Pendências de interface
 
-- Qual ordenação e disposição são pré-selecionadas na primeira abertura
-  em cada faixa de tela (celular, tablet, navegador)
 - Se e onde o link da política de privacidade reaparece depois de
   autenticado — o menu de ações (IDR 0024) é o candidato natural
 - O que acontece ao saltar (faixa de bandeiras) para uma seção que o

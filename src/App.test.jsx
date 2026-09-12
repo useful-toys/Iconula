@@ -94,6 +94,11 @@ async function sairDaConta(user) {
 beforeEach(() => {
   authState.callback = null;
   localStorage.clear();
+  // Largura de navegador (IDR 0043): mantém o comportamento que os testes
+  // abaixo já assumiam (disposição em lista, ordenação por sigla) sem
+  // preferência guardada. Os testes da faixa de tela ficam no describe
+  // dedicado mais abaixo, que define a própria largura em cada caso.
+  window.innerWidth = 1280;
 });
 
 afterEach(() => {
@@ -162,10 +167,13 @@ describe("App — tela principal", () => {
     render(<App />);
     await emitirAuth(USUARIO_LOGADO);
 
-    await user.click(screen.getByRole("button", { name: "ordenar pela sigla da seção" }));
+    // Largura de navegador (`beforeEach`): sem preferência guardada, abre
+    // por sigla/lista (IDR 0043) — troca para página do álbum para
+    // exercitar a gravação de uma mudança real.
+    await user.click(screen.getByRole("button", { name: "ordenar pela página do álbum" }));
 
     expect(JSON.parse(localStorage.getItem(CHAVE_PREFERENCIAS))).toEqual({
-      ordenacao: "sigla",
+      ordenacao: "pagina",
       disposicao: "lista",
       filtro: "todas",
     });
@@ -209,5 +217,93 @@ describe("App — tela principal", () => {
     );
 
     expect(placar()).toBeInTheDocument();
+  });
+});
+
+// Tarefa 0010-0003, IDR 0043: padrões de primeira abertura por faixa de
+// tela. `window.innerWidth` é lido uma única vez, na inicialização
+// preguiçosa do `useState` de `App.jsx` — cada teste define a largura
+// antes de `render`.
+describe("App — padrões de primeira abertura por faixa de tela (IDR 0043)", () => {
+  function botaoDeOrdenacao(nome) {
+    return screen.getByRole("button", { name: nome });
+  }
+
+  it("sem preferência guardada, celular abre com página do álbum e disposição álbum", async () => {
+    window.innerWidth = 360;
+    render(<App />);
+    await emitirAuth(USUARIO_LOGADO);
+
+    expect(botaoDeOrdenacao("ordenar pela página do álbum")).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
+    expect(botaoDeOrdenacao("disposição como no álbum")).toHaveAttribute("aria-pressed", "true");
+  });
+
+  it("sem preferência guardada, tablet abre com página do álbum e disposição álbum", async () => {
+    window.innerWidth = 800;
+    render(<App />);
+    await emitirAuth(USUARIO_LOGADO);
+
+    expect(botaoDeOrdenacao("ordenar pela página do álbum")).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
+    expect(botaoDeOrdenacao("disposição como no álbum")).toHaveAttribute("aria-pressed", "true");
+  });
+
+  it("sem preferência guardada, navegador abre com sigla e disposição em lista", async () => {
+    window.innerWidth = 1280;
+    render(<App />);
+    await emitirAuth(USUARIO_LOGADO);
+
+    expect(botaoDeOrdenacao("ordenar pela sigla da seção")).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
+    expect(botaoDeOrdenacao("disposição em lista contínua")).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
+  });
+
+  it("com preferência guardada, a faixa de tela (celular) é ignorada", async () => {
+    window.innerWidth = 360;
+    localStorage.setItem(
+      CHAVE_PREFERENCIAS,
+      JSON.stringify({ ordenacao: "sigla", disposicao: "lista", filtro: "todas" }),
+    );
+
+    render(<App />);
+    await emitirAuth(USUARIO_LOGADO);
+
+    expect(botaoDeOrdenacao("ordenar pela sigla da seção")).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
+    expect(botaoDeOrdenacao("disposição em lista contínua")).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
+  });
+
+  it("redimensionar a janela não altera a ordenação nem a disposição da sessão corrente", async () => {
+    window.innerWidth = 360;
+    render(<App />);
+    await emitirAuth(USUARIO_LOGADO);
+
+    expect(botaoDeOrdenacao("disposição como no álbum")).toHaveAttribute("aria-pressed", "true");
+
+    // Alarga a janela para o tamanho de navegador e dispara um `resize` —
+    // a faixa só é lida na abertura, então nada muda na sessão corrente.
+    window.innerWidth = 1280;
+    window.dispatchEvent(new Event("resize"));
+
+    expect(botaoDeOrdenacao("ordenar pela página do álbum")).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
+    expect(botaoDeOrdenacao("disposição como no álbum")).toHaveAttribute("aria-pressed", "true");
   });
 });
