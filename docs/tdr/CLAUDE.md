@@ -2,13 +2,15 @@
 
 # TDR — Technical Decision Record
 
-Decisões **técnicas de implementação interna**: segurança (CSP, headers,
-regras do Firestore), build/CI, estrutura de dados e de estado em runtime,
-desempenho, convenções de código. Se a decisão é sobre *stack, infra ou
-integração externa*, é [ADR](../adr/CLAUDE.md); se é sobre *comportamento
-visível ao usuário*, é [IDR](../idr/CLAUDE.md); se é sobre *modelagem de
-dados* (schema, formato de documentos, transformações e validações), é
-[MDR](../mdr/CLAUDE.md).
+Decisões **técnicas de implementação interna**: segurança (regras do
+Firestore), estrutura de dados e de estado em runtime, desempenho,
+convenções de código. Se a decisão é sobre *stack, infra ou integração
+externa*, é [ADR](../adr/CLAUDE.md); se é sobre *comportamento visível
+ao usuário*, é [IDR](../idr/CLAUDE.md); se é sobre *modelagem de dados*
+(schema, formato de documentos, transformações e validações), é
+[MDR](../mdr/CLAUDE.md); se é sobre *DevOps* (CI/CD, pipelines, deploy,
+branch protection, ferramentas de segurança), é
+[DDR](../devops-dr/CLAUDE.md).
 
 ## Arquivo
 
@@ -28,7 +30,7 @@ dados* (schema, formato de documentos, transformações e validações), é
 
 ## Status
 
-Aceito | Rejeitado | **Substituído pelo [ADR/TDR/IDR/MDR NNNN](caminho)**: motivo.
+Aceito | Rejeitado | **Substituído pelo [ADR/TDR/IDR/MDR/DDR NNNN](caminho)**: motivo.
 
 ## Contexto
 

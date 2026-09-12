@@ -98,7 +98,7 @@ não-interativo. A alternativa foi configurar cada peça manualmente com
    ```
 
    E, para publicar as regras de segurança do Firestore no workflow de
-   merge (ver [TDR 0008](tdr/0008-deploy-e-teste-das-regras-do-firestore.md)):
+   merge (ver [DDR 0004](devops-dr/0004-deploy-e-teste-das-regras-do-firestore.md)):
 
    ```bash
    gcloud projects add-iam-policy-binding iconula \
@@ -198,7 +198,7 @@ sem volta, mas passa a ter custo real assim que houver usuários.
 
 As regras de segurança e como elas são publicadas ficam em
 [docs/firebase.md](firebase.md#cloud-firestore) e no
-[TDR 0008](tdr/0008-deploy-e-teste-das-regras-do-firestore.md).
+[DDR 0004](devops-dr/0004-deploy-e-teste-das-regras-do-firestore.md).
 
 ## Reproduzindo do zero (resumo)
 

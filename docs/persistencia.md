@@ -31,7 +31,7 @@ As decisões de modelagem estão nos MDRs:
 
 ## Regras de segurança
 
-`firestore.rules` é a única garantia de isolamento entre usuários: o bundle é público e qualquer requisição pode ser forjada — a autorização é avaliada no servidor, contra o ID token. Cobertura por testes no emulador (`npm run test:rules`) rodando no CI a cada PR, e deploy pelo próprio `firebase deploy` (TDR 0008).
+`firestore.rules` é a única garantia de isolamento entre usuários: o bundle é público e qualquer requisição pode ser forjada — a autorização é avaliada no servidor, contra o ID token. Cobertura por testes no emulador (`npm run test:rules`) rodando no CI a cada PR, e deploy pelo próprio `firebase deploy` (DDR 0004).
 
 O que está publicado:
 
@@ -72,8 +72,8 @@ App Check segue de fora, com gatilho de revisão já registrado no ADR 0005 (abu
 | Pronto (na main) | Falta |
 |---|---|
 | Banco criado (região, Spark), `users/{uid}` + regras + testes no CI | Confirmar em uso real os números do MDR 0003 (debounce ~2s, teto ~10s, timeout ~5s sem rede) — aceitos como ponto de partida, sem deploy com usuários reais disponível durante o plano (ver `arquitetura.md` § Pontos em aberto) |
-| Regras publicadas (schema, `updatedAt`, `atestadoEm` — TDR 0008/0009) | — |
-| SDK sob demanda + CSP (ADR 0005, TDR 0007) | — |
+| Regras publicadas (schema, `updatedAt`, `atestadoEm` — DDR 0004/TDR 0009) | — |
+| SDK sob demanda + CSP (ADR 0005, DDR 0001) | — |
 | Escrita agregada, flush, `updatedAt`, `atestadoEm` (MDR 0003, Fase 7) | — |
 | Carga no login, atestação de menores e política de erro visível (Fase 7/8) | — |
 | Export/import JSON, sem tocar o Firestore para export (Fase 9) | — |

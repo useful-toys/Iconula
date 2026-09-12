@@ -113,7 +113,7 @@ mas não guarda nada — estado transitório, não regressão silenciosa.
 ## Fase 5 — Regras do Firestore para o schema novo
 
 Vem **antes** de qualquer código que escreva o schema novo, porque regras só
-sobem no merge e não têm canal de preview (TDR 0008): um preview de PR roda o
+sobem no merge e não têm canal de preview (DDR 0004): um preview de PR roda o
 cliente novo contra as regras antigas. Ao fim desta fase as regras de produção
 já aceitam `contagens`/`updatedAt`/`atestadoEm` e recusam `teamName` — e nada
 no cliente escreve no Firestore ainda, então a troca é inócua.
@@ -282,7 +282,7 @@ tempo) e segue sozinha.
 | Área de toque ampliada nos alvos de 30×30px | `interface.md` § Pendências de interface | 10.1 | Ampliar a área de toque sem mudar o desenho, mantendo as medidas de `interface.md` | IDR |
 | Ordenação e disposição pré-selecionadas por faixa de tela | `interface.md` § Pendências de interface | 10.3 | Definir na fase de acabamento, com a preferência guardada vencendo a partir da segunda abertura | IDR |
 | Diálogos de exportação e importação | `interface.md` § Demais telas | 9.4, 9.5 | Exportação sem diálogo (baixa direto e avisa); importação com confirmação explícita mínima, sem tela própria | IDR |
-| Poppins por webfont colide com `style-src 'self'` e `font-src 'self'` | Achado da leitura: `interface.md` § Tipografia × TDR 0002/0005 e ADR 0005 | 1.4 | Vendorizar os arquivos da fonte e servi-los pelo próprio Hosting, como os SVGs de bandeira e o logo do Google — a CSP não se abre | TDR |
+| Poppins por webfont colide com `style-src 'self'` e `font-src 'self'` | Achado da leitura: `interface.md` § Tipografia × DDR 0001 e ADR 0005 | 1.4 | Vendorizar os arquivos da fonte e servi-los pelo próprio Hosting, como os SVGs de bandeira e o logo do Google — a CSP não se abre | TDR |
 | Controle de menos na figurinha faltante e transbordando o canto superior esquerdo | Achado de uso: app com as 994 em tela × `interface.md` § Figurinha | 6.1 | Renderizar o controle só a partir da contagem 1 e movê-lo para dentro do cartão, no canto inferior esquerdo | IDR 0032 (já registrado) |
 | Falta a vista das coladas (contagem ≥ 1), que não são as repetidas (≥ 2) | Achado de uso: filtro de status × `requisitos.md` § Progresso e listas | 6.2 | Acrescentar `coladas` como quarto valor do filtro, sem tocar em nenhuma outra regra do filtro | IDR 0033 (já registrado) |
 | Faixa de bandeiras larga demais: poucas seções cabem sem rolar | Achado de uso: faixa de salto × `interface.md` § Medidas | 6.3 | Baixar o espaçamento entre ícones de 8px para 4px, mantendo o ícone de 30×30px e a rolagem horizontal | — (medida em `interface.md`) |

@@ -1,22 +1,19 @@
 <!-- Copyright (c) 2026 Daniel Felix Ferber -->
 
-# MDR — Model Decision Record
+# DDR — DevOps Decision Record
 
-Decisões de **modelagem de dados**: schema de persistência, estrutura de
-documentos no banco, formato de dados em trânsito (export/import),
-transformações e validações de dados, convenções de nomenclatura de
-campos e chaves. Se a decisão é sobre *stack, infra ou integração
-externa*, é [ADR](../adr/CLAUDE.md); se é sobre *implementação interna
-de código* (segurança, build/CI, desempenho, convenções), é
-[TDR](../tdr/CLAUDE.md); se é sobre *comportamento visível ao usuário*,
-é [IDR](../idr/CLAUDE.md); se é sobre *DevOps* (CI/CD, pipelines, deploy,
-branch protection, ferramentas de segurança), é
-[DDR](../devops-dr/CLAUDE.md).
+Decisões de **DevOps**: CI/CD, pipelines, deploy, branch protection,
+ferramentas de segurança do repositório, gestão de secrets, ambientes de
+homologação e produção. Se a decisão é sobre *arquitetura de software*
+(stack, integrações externas), é [ADR](../adr/CLAUDE.md); se é sobre
+*implementação interna de código* (CSP, lint, testes), é
+[TDR](../tdr/CLAUDE.md); se é sobre *modelagem de dados*, é
+[MDR](../mdr/CLAUDE.md).
 
 ## Arquivo
 
-- Caminho: `docs/mdr/NNNN-slug-em-kebab-case.md`.
-- `NNNN`: sequencial próprio do MDR, 4 dígitos com zero à esquerda,
+- Caminho: `docs/devops-dr/NNNN-slug-em-kebab-case.md`.
+- `NNNN`: sequencial próprio do DDR, 4 dígitos com zero à esquerda,
   nunca reaproveitado.
 - Slug: resumo da decisão em poucas palavras. Se o status final for
   rejeitado ou substituído, inclua isso no slug.
@@ -26,7 +23,7 @@ branch protection, ferramentas de segurança), é
 ```markdown
 <!-- Copyright (c) 2026 Daniel Felix Ferber -->
 
-# MDR NNNN: Título
+# DDR NNNN: Título
 
 ## Status
 
@@ -43,12 +40,12 @@ Aceito | Rejeitado | **Substituído pelo [ADR/TDR/IDR/MDR/DDR NNNN](caminho)**: 
 
 - `Alternativas consideradas` é opcional só quando não houve alternativa
   real a registrar; na prática está presente na quase totalidade dos
-  MDRs.
-- Um MDR substituído **nunca é apagado ou reescrito** — o Status aponta
-  para quem o substitui, e o conteúdo original fica intacto como
+  DDRs.
+- Um DDR substituído **nunca é apagado ou reescrito** — o Status
+  aponta para quem o substitui, e o conteúdo original fica intacto como
   registro histórico.
 - Referencie outras decisões com link relativo:
-  `[MDR 0001](0001-slug.md)`, `[ADR 0005](../adr/0005-persistencia-no-firestore.md)`.
+  `[DDR 0001](0001-slug.md)`, `[ADR 0003](../adr/0003-slug.md)`.
 
 ## Estilo de prosa
 
@@ -72,9 +69,9 @@ Objetivo e sucinto, não narrativo:
 
 ## Índice (README.md)
 
-`docs/mdr/README.md` lista todo MDR numa tabela `Nº | Título | Status |
-Tags | Resumo` — é a única fonte de tags e resumo (sem front-matter nos
-arquivos). Ao criar um MDR ou mudar seu `## Status`, atualize a linha
-correspondente **no mesmo commit** (mesmo padrão do
-`docs/plano/README.md`). Reaproveite tags já usadas na tabela em vez de
-criar sinônimos.
+`docs/devops-dr/README.md` lista todo DDR numa tabela `Nº | Título |
+Status | Tags | Resumo` — é a única fonte de tags e resumo (sem
+front-matter nos arquivos). Ao criar um DDR ou mudar seu
+`## Status`, atualize a linha correspondente **no mesmo commit** (mesmo
+padrão do `docs/plano/README.md`). Reaproveite tags já usadas na tabela
+em vez de criar sinônimos.

@@ -9,7 +9,9 @@ decisão é sobre *stack, infra ou integração externa*, é
 build/CI, estrutura de dados/estado, desempenho), é
 [TDR](../tdr/CLAUDE.md); se é sobre *modelagem de dados* (schema, formato
 de documentos, transformações e validações), é
-[MDR](../mdr/CLAUDE.md).
+[MDR](../mdr/CLAUDE.md); se é sobre *DevOps* (CI/CD, pipelines, deploy,
+branch protection, ferramentas de segurança), é
+[DDR](../devops-dr/CLAUDE.md).
 
 ## Arquivo
 
@@ -29,7 +31,7 @@ de documentos, transformações e validações), é
 
 ## Status
 
-Aceito | Rejeitado | **Substituído pelo [ADR/TDR/IDR/MDR NNNN](caminho)**: motivo.
+Aceito | Rejeitado | **Substituído pelo [ADR/TDR/IDR/MDR/DDR NNNN](caminho)**: motivo.
 
 ## Contexto
 

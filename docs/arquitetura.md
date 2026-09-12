@@ -4,13 +4,14 @@
 
 Visão de conjunto do sistema — serviços, camadas, dados e fluxo — e
 índice de onde cada decisão vive. As decisões individuais estão nos
-registros (ADR/TDR/IDR/MDR) e nos docs de referência
+registros (ADR/TDR/IDR/MDR/DDR) e nos docs de referência
 ([persistencia.md](persistencia.md),
 [interface.md](interface.md), [requisitos.md](requisitos.md)); este
 documento monta o quebra-cabeça. A seção "Decisões-chave" abaixo é um
 resumo curado por tema — o índice completo e filtrável por tags de cada
 registro está em [adr/README.md](adr/README.md), [tdr/README.md](tdr/README.md),
-[idr/README.md](idr/README.md) e [mdr/README.md](mdr/README.md).
+[idr/README.md](idr/README.md), [mdr/README.md](mdr/README.md) e
+[devops-dr/README.md](devops-dr/README.md).
 
 O produto especificado em [requisitos.md](requisitos.md) — o controle de
 figurinhas do álbum da Copa 2026 — está implementado nesta arquitetura; o
@@ -115,7 +116,7 @@ Fluxos:
 - Bandeiras Twemoji vendadas em `src/assets/flags/` (ADR 0002)
 - Testes: Vitest + React Testing Library (unitários) e regras do
   Firestore no emulador (`npm run test:rules`, JDK 21+), ambos no CI
-  (TDR 0004/0008); actions pinadas por SHA (TDR 0006)
+  (DDR 0002/0004); actions pinadas por SHA (DDR 0003)
 - Configuração dos ambientes: [firebase.md](firebase.md),
   [gcloud.md](gcloud.md), [github.md](github.md),
   [registrobr.md](registrobr.md)
@@ -130,8 +131,12 @@ Fluxos:
 | Preview como required check | [ADR 0004](adr/0004-branch-protection-preview-required.md) |
 | Login Google | [ADR 0005](adr/0005-login-google-sdk-modular.md) |
 | Persistência Firestore | [ADR 0005](adr/0005-persistencia-no-firestore.md) + [persistencia.md](persistencia.md) |
-| CSP para Auth/Firestore | [TDR 0005](tdr/0005-csp-firebase-auth-google-oauth.md), [TDR 0007](tdr/0007-csp-para-o-firestore.md) |
-| Regras: deploy e teste | [TDR 0008](tdr/0008-deploy-e-teste-das-regras-do-firestore.md) |
+| CSP, headers e cache no Hosting | [DDR 0001](devops-dr/0001-csp-headers-e-configuracao-de-hosting.md) |
+| CI separado (lint, testes, build) | [DDR 0002](devops-dr/0002-workflow-de-ci-separado.md) |
+| Pinning de actions por SHA | [DDR 0003](devops-dr/0003-pinning-de-actions-por-sha.md) |
+| Regras: deploy e teste | [DDR 0004](devops-dr/0004-deploy-e-teste-das-regras-do-firestore.md) |
+| Proteção da branch main | [DDR 0005](devops-dr/0005-protecao-da-branch-main.md) |
+| Ferramentas de segurança do repositório | [DDR 0006](devops-dr/0006-ferramentas-de-seguranca-do-repositorio.md) |
 | Regras: o que dá para validar no mapa | [TDR 0009](tdr/0009-validacao-do-mapa-nas-regras.md) |
 | Interface (disposições, estados, sync, scroll, acessibilidade…) | [IDR 0001–0043](idr/) + [interface.md](interface.md) |
 | Aparência (tema, paleta, medidas) | [IDR 0022](idr/0022-tema-escuro-unico-paleta-do-prototipo.md) + [interface.md](interface.md) |

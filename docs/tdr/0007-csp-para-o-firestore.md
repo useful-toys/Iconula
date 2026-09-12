@@ -4,7 +4,7 @@
 
 ## Status
 
-Aceito.
+**Substituído pelo [DDR 0001](../devops-dr/0001-csp-headers-e-configuracao-de-hosting.md)**: CSP, headers e cache consolidados num único DDR.
 
 ## Contexto
 
