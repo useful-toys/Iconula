@@ -59,7 +59,7 @@ regras do Firestore, avaliadas no servidor contra o ID token.
   segurança; produção em merge na `main`, preview por PR — workflow é
   required check (ADR 0003/0004)
 - **Auth**: único provedor Google, popup, botão próprio, SDK modular
-  (ADR 0005 → 0006)
+  (ADR 0005)
 - **Firestore**: banco `(default)`, região `southamerica-east1`, um
   documento por usuário — detalhes, custos e o que muda com o produto
   novo em [persistencia.md](persistencia.md)
@@ -128,7 +128,7 @@ Fluxos:
 | Bandeiras Twemoji vendadas | [ADR 0002](adr/0002-bandeiras-emoji-unicode.md) |
 | Deploy Hosting + Actions | [ADR 0003](adr/0003-deploy-firebase-hosting-github-actions.md) |
 | Preview como required check | [ADR 0004](adr/0004-branch-protection-preview-required.md) |
-| Login Google | [ADR 0005](adr/0005-substituido-autenticacao-google-firebase-auth.md) → [0006](adr/0006-login-google-sdk-modular.md) |
+| Login Google | [ADR 0005](adr/0005-login-google-sdk-modular.md) |
 | Persistência Firestore | [ADR 0007](adr/0007-persistencia-do-time-no-firestore.md) + [persistencia.md](persistencia.md) |
 | CSP para Auth/Firestore | [TDR 0005](tdr/0005-csp-firebase-auth-google-oauth.md), [TDR 0007](tdr/0007-csp-para-o-firestore.md) |
 | Regras: deploy e teste | [TDR 0008](tdr/0008-deploy-e-teste-das-regras-do-firestore.md) |

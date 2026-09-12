@@ -12,7 +12,7 @@ Pendente
   `https://lh3.googleusercontent.com` em `img-src`
 - `docs/tdr/0005-csp-firebase-auth-google-oauth.md` § Decisão — a liberação de
   `lh3.googleusercontent.com` foi feita "para a foto de perfil do usuário
-  autenticado"; sobrou do FirebaseUI removido (ADR 0006), mas continua válida
+   autenticado"; sobrou do FirebaseUI removido (ADR 0005), mas continua válida
   e cobre este caso — **não deve ser preciso reabrir este TDR**
 - `docs/idr/0018-usuario-especialista-e-minimalismo.md` § Decisão —
   minimalismo como regra de ouro; esta tarefa introduz um elemento novo no
@@ -70,7 +70,7 @@ e o comportamento para contas sem foto.
 o e-mail ou qualquer outro dado da conta além da foto.
 
 ## Decisões já tomadas (não reabrir)
-- Login via Google/Firebase Auth, sem FirebaseUI — ver `docs/adr/0006-*`
+- Login via Google/Firebase Auth, sem FirebaseUI — ver `docs/adr/0005-*`
 - CSP já libera a origem da foto — ver `docs/tdr/0005-*`
 - "Sair da conta" vive no menu de ações, não na linha de comando — ver
   `docs/idr/0024-*` (revisitada apenas quanto ao *gatilho* do menu, não quanto

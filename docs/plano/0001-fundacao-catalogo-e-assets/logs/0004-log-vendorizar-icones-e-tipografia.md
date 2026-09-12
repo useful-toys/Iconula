@@ -38,7 +38,7 @@ servidos pelo próprio Hosting sem CDN em runtime.
 - **Vendorizar Poppins × trocar por `system-ui`** (TDR 0013): vendorizar,
   porque `docs/interface.md` especifica Poppins 600/700 no título,
   códigos e nomes de seção, e a CSP proíbe CDN de fonte. A propriedade
-  de não entregar IP/UA a terceiros (ADR 0006) se estende à tipografia.
+   de não entregar IP/UA a terceiros (ADR 0005) se estende à tipografia.
 - **Subsets latin e latin-ext**: suficientes para PT-BR e para os nomes
   das seções do catálogo (ASCII estendido latino). Devanagari e outros
   subsets ficaram de fora — o app não os usa.

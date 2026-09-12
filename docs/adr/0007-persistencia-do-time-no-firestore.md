@@ -8,11 +8,10 @@ Aceito.
 
 ## Contexto
 
-- Login com Google ([ADR 0006](0006-login-google-sdk-modular.md)) não
+- Login com Google ([ADR 0005](0005-login-google-sdk-modular.md)) não
   servia pra nada: autenticava, mas não guardava dado algum. Time visível
   vivia só em `useState`; recarregar a página sempre voltava ao primeiro
-  time em ordem alfabética. [ADR 0005](0005-substituido-autenticacao-google-firebase-auth.md)
-  já previa a persistência como passo futuro.
+  time em ordem alfabética.
 - Pedido: **gravar a seleção favorita sempre que o usuário logado a
   alterar, e mostrar a última seleção dele ao fazer login**. Deslogado,
   comportamento não muda — primeira seleção, não grava nada.
@@ -57,7 +56,7 @@ anticorrupção — um nome desconhecido (time removido ou renomeado em
 
 ### Persistência é feature opcional
 
-Estende para o Firestore a propriedade que o ADR 0006 estabeleceu para o
+Estende para o Firestore a propriedade que o ADR 0005 estabeleceu para o
 Auth: sem as `VITE_FIREBASE_*`, `src/lib/firebase.js` exporta `app = null`
 e a persistência simplesmente não acontece — o app continua funcionando.
 Nenhuma variável de ambiente nova é necessária; o Firestore reusa a
@@ -71,11 +70,9 @@ memoizado, e é ele que chama `getFirestore(app)`.
 
 Esta decisão foi tomada durante a implementação, ao medir: com o import
 estático, o bundle principal saltava de **363 KB para 794 KB** — mais que
-o dobro, e **maior que os 633 KB da era FirebaseUI** que o
-[ADR 0006](0006-login-google-sdk-modular.md) tinha acabado de reduzir.
-Servir 430 KB a mais para *todo* visitante, quando só quem faz login
-grava alguma coisa, contradiz diretamente o que aquele ADR estabeleceu
-como valor do projeto.
+o dobro. Servir 430 KB a mais para *todo* visitante, quando só quem faz
+login grava alguma coisa, contradiz diretamente o que o ADR 0005
+estabeleceu como valor do projeto.
 
 Com o carregamento tardio, o bundle principal fica em **366,70 KB**
 (+3,6 KB, +1% sobre a base) e o Firestore vai para um chunk separado de
@@ -208,7 +205,7 @@ para o Blaze (quando abuso de cota vira custo real), reavaliar.
 ## Consequências
 
 - **O login passa a ter utilidade concreta.** Era a lacuna aberta pelo
-  ADR 0005.
+  ADR 0005 (login sem persistência).
 - **O bundle principal praticamente não cresce**, graças ao carregamento
   tardio: 363,09 KB → **366,70 KB** (+1%). O chunk do Firestore
   (554,85 KB / 161,91 KB gzip) só é baixado por quem faz login. Medido
@@ -219,7 +216,7 @@ para o Blaze (quando abuso de cota vira custo real), reavaliar.
   | Bundle principal | 363,09 KB | 794,42 KB | **366,70 KB** |
   | Chunk sob demanda | — | — | 554,85 KB |
 
-  A propriedade que o ADR 0006 defendeu — não penalizar quem só quer ver
+  A propriedade que o ADR 0005 defendeu — não penalizar quem só quer ver
   a bandeira — fica preservada.
 - **`db` não é mais um `export` síncrono.** `src/lib/firebase.js` exporta
   `app`, e quem precisa do Firestore resolve a instância por dentro do

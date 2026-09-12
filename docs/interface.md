@@ -419,7 +419,7 @@ qualquer autenticação:
 - Cartão centrado (largura máxima ~360px) em `--panel` sobre o fundo
   gramado, título em dourado
 - Botão próprio do Google (fundo branco, disco colorido), login por
-  popup (ADR 0006)
+  popup (ADR 0005)
 - A atestação de menores acompanha o botão; o link da política de
   privacidade fica abaixo, acessível sem autenticar
 - O aviso de independência e marcas repete-se no rodapé
