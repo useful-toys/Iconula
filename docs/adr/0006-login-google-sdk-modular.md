@@ -8,11 +8,11 @@ Aceito — substitui o [ADR 0005](0005-substituido-autenticacao-google-firebase-
 
 ## Contexto
 
-O [ADR 0005](0005-substituido-autenticacao-google-firebase-auth.md) escolheu o widget
-pronto do **FirebaseUI**, a pedido explícito do usuário, e aceitou como
-dívida conhecida a dependência da API **compat** (estilo v8) do Firebase.
-Aquela decisão previa um gatilho de revisão: *"reavaliar migração para a
-API modular quando `firebaseui` 7 (modular) sair GA"*.
+[ADR 0005](0005-substituido-autenticacao-google-firebase-auth.md) escolheu
+o widget pronto do **FirebaseUI** (pedido explícito do usuário) e aceitou
+como dívida conhecida a API **compat** (estilo v8). Gatilho de revisão
+previsto: *"reavaliar migração para a API modular quando `firebaseui` 7
+(modular) sair GA"*.
 
 **O gatilho não vai disparar.** Verificado no registro do npm:
 
@@ -24,15 +24,14 @@ API modular quando `firebaseui` 7 (modular) sair GA"*.
 - `react-firebaseui` está pior: trava `react: ">=15 <=17"`, incompatível
   com o React 19 já em uso.
 
-Ou seja: manter o widget significava **congelar o `firebase` na 10.x
-indefinidamente**. Isso deixou de ser dívida técnica administrável e
-virou bloqueio de correção de segurança — o `npm audit` acusava 10
-vulnerabilidades (1 alta) herdadas do `undici` via `@firebase/*`, e a
-correção exige `firebase@12`, incompatível com o FirebaseUI.
-
-Decisão de escopo do usuário: **não iniciar/manter o projeto sobre
-versões velhas de bibliotecas**, o que torna a manutenção do widget
-inaceitável.
+- Manter o widget significava **congelar o `firebase` na 10.x
+  indefinidamente** — deixou de ser dívida administrável e virou bloqueio
+  de correção de segurança: `npm audit` acusava 10 vulnerabilidades
+  (1 alta) herdadas do `undici` via `@firebase/*`, e a correção exige
+  `firebase@12`, incompatível com o FirebaseUI.
+- Decisão de escopo do usuário: **não iniciar/manter o projeto sobre
+  versões velhas de bibliotecas** — torna a manutenção do widget
+  inaceitável.
 
 ## Decisão
 

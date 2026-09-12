@@ -8,22 +8,17 @@ Aceito.
 
 ## Contexto
 
-Até aqui o login com Google ([ADR 0006](0006-login-google-sdk-modular.md))
-não servia para nada: o app autenticava o usuário e não guardava nenhum
-dado dele. O time visível vivia só em `useState` no `App.jsx`, então
-recarregar a página sempre voltava para o primeiro time em ordem
-alfabética. O [ADR 0005](0005-substituido-autenticacao-google-firebase-auth.md) já
-registrava a persistência como passo futuro ("sem persistir nenhum dado
-de usuário ainda").
-
-O pedido: **gravar a bandeira visível sempre que o usuário logado clicar
-no botão, e mostrar a última bandeira dele ao fazer login**. Deslogado, o
-comportamento atual não muda — começa no primeiro time, avança a cada
-clique, não grava nada.
-
-O projeto não tinha nenhum banco de dados: nem Firestore, nem Realtime
-Database. `firestore.googleapis.com` estava desabilitada e o
-`firebase.json` só tinha o bloco `hosting`.
+- Login com Google ([ADR 0006](0006-login-google-sdk-modular.md)) não
+  servia pra nada: autenticava, mas não guardava dado algum. Time visível
+  vivia só em `useState`; recarregar a página sempre voltava ao primeiro
+  time em ordem alfabética. [ADR 0005](0005-substituido-autenticacao-google-firebase-auth.md)
+  já previa a persistência como passo futuro.
+- Pedido: **gravar a bandeira visível a cada clique do usuário logado, e
+  mostrar a última ao fazer login**. Deslogado, comportamento não muda —
+  primeiro time, avança a cada clique, não grava nada.
+- Projeto sem banco de dados algum, nem Firestore nem Realtime Database —
+  `firestore.googleapis.com` desabilitada, `firebase.json` só com
+  `hosting`.
 
 ## Decisão
 

@@ -16,29 +16,26 @@ válidos e são referenciados pelo ADR 0006.
 
 ## Contexto
 
-O app não tinha, até aqui, nenhum conceito de usuário — o Firebase era
-usado só para Hosting. A intenção é preparar a base para personalizar a
-experiência no futuro (ex.: salvar a seleção favorita por usuário), sem
-implementar essa persistência agora. Para isso, é preciso um mecanismo de
-login.
-
-Decisões de escopo já fechadas com o usuário:
-- Único provedor: **Google** (OAuth) — sem email/senha, telefone, ou
-  login anônimo.
-- UI de login: o widget pronto do **FirebaseUI**, não um formulário
-  customizado.
-- Esta entrega cobre só login/logout e exibir o usuário autenticado — sem
-  Firestore, sem persistir nenhum dado de usuário ainda.
-
-**Descoberta durante a implementação**: sem as variáveis `VITE_FIREBASE_*`
-configuradas (ex.: `.env.local` ausente ao rodar `npm run dev` localmente
-pela primeira vez), `firebase.auth()` lança uma exceção síncrona
-(`auth/invalid-api-key`) — como `App.jsx` importa `src/lib/firebase.js`
-estaticamente, isso derrubava a aplicação inteira (tela branca), inclusive
-para quem só quer ver o botão de times sem mexer em login. `src/lib/firebase.js`
-agora captura esse erro e exporta `auth: null` nesse caso; `App.jsx` trata
-`auth === null` como "login indisponível" e simplesmente não renderiza a
-área de autenticação, mantendo o resto do app funcional.
+- App não tinha conceito de usuário — Firebase só para Hosting. Objetivo:
+  preparar a base para personalizar a experiência no futuro (ex.: salvar
+  seleção favorita por usuário), sem implementar a persistência agora —
+  exige um mecanismo de login.
+- Escopo já fechado com o usuário:
+  - Único provedor: **Google** (OAuth) — sem email/senha, telefone, login
+    anônimo.
+  - UI de login: widget pronto do **FirebaseUI**, não formulário
+    customizado.
+  - Esta entrega cobre só login/logout e exibir o usuário autenticado —
+    sem Firestore, sem persistir nenhum dado ainda.
+- **Descoberta na implementação**: sem `VITE_FIREBASE_*` configuradas
+  (ex.: `.env.local` ausente no primeiro `npm run dev` local),
+  `firebase.auth()` lança exceção síncrona (`auth/invalid-api-key`) — como
+  `App.jsx` importa `src/lib/firebase.js` estaticamente, isso derrubava o
+  app inteiro (tela branca), mesmo para quem só quer ver o botão sem
+  login. Correção: `src/lib/firebase.js` captura o erro e exporta
+  `auth: null`; `App.jsx` trata `auth === null` como "login indisponível"
+  e não renderiza a área de autenticação — o resto do app continua
+  funcional.
 
 ## Decisão
 

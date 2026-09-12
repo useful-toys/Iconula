@@ -30,18 +30,14 @@ esse workflow passar.
 
 ## Atualização (2026-09-07): a garantia original era menor do que o texto sugeria
 
-O texto acima descreve a garantia como maior do que ela era. A regra
-original barrava **merges de PR**, mas não o caminho que realmente leva a
-produção: com `enforce_admins: false` e um único administrador, um
-`git push origin main` publicava no domínio de produção sem passar por PR,
-sem check e sem revisão. Um controle com um contorno trivial e não
-registrado não é um controle — é uma convenção. Isso foi levantado no item
-4 de `.findings/2026-09-07-opus.md`.
-
-A regra foi então substituída por uma que exige PR **e** vale para o admin.
-O truque, num repositório de um desenvolvedor só, é exigir pull request com
-**zero** aprovações necessárias: força o fluxo de PR (e portanto os checks)
-sem exigir um revisor que não existe.
+- O texto original superestimava a garantia: barrava **merges de PR**, mas
+  não `git push origin main` direto — com `enforce_admins: false` e um
+  único admin, isso publicava em produção sem PR, sem check, sem revisão.
+  Um controle com contorno trivial não registrado é convenção, não
+  controle (item 4 de `.findings/2026-09-07-opus.md`).
+- Regra substituída por uma que exige PR **e** vale para o admin, com
+  **zero** aprovações necessárias (repositório de um desenvolvedor só) —
+  força o fluxo de PR e os checks sem exigir um revisor que não existe.
 
 Estado em vigor, verificado contra a API:
 
