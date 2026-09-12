@@ -31,15 +31,37 @@ Três workflows no `.github/workflows/`:
 - **Secrets**: `FIREBASE_SERVICE_ACCOUNT_ICONULA` (chave JSON da service
   account), usada em `$RUNNER_TEMP` e apagada em step `if: always()`
 
+## Validação local
+
+Os mesmos scripts rodam local e no CI — qualquer falha de CI é
+reproduzível localmente sem depender de push
+([DDR 0002](devops-dr/0002-workflow-de-ci-separado.md)):
+
+| Script | Ferramenta | O que valida |
+|---|---|---|
+| `npm run lint` | **oxlint** | Regras estáticas: `react/no-danger` (XSS), `react/rules-of-hooks`, etc. |
+| `npm test` | **Vitest** + **jsdom** + **React Testing Library** | Testes de unidade e integração dos componentes React |
+| `npm run test:rules` | **Vitest** + **@firebase/rules-unit-testing** + **emulador Firestore** | Regras de segurança do Firestore (exige JDK 21+) |
+| `npm run build` | **Vite** | Build de produção em `dist/` |
+
+- **Configs separadas**: `vite.config.js` (testes de componentes,
+  `environment: "jsdom"`) e `vitest.rules.config.js` (testes de regras,
+  `environment: "node"`, timeouts maiores para o emulador)
+- **Node 22** obrigatório (`engines.node` no `package.json`): `jsdom` v30
+  exige `"node": "^22.22.2 || ^24.15.0 || >=26.0.0"`
+
 ## Deploy
 
 - **Produção**: merge na `main` → `firebase-hosting-merge.yml` →
   Firebase Hosting (canal `live`) + regras do Firestore
 - **Preview**: PR → `firebase-hosting-pull-request.yml` → canal
   `pr<número>` com expiração de 3 dias; cleanup automático ao fechar o PR
+  ([DDR 0007](devops-dr/0007-ciclo-de-vida-dos-canais-de-preview.md))
 - **Regras do Firestore**: deploy só no merge (são globais do projeto,
   sem canal de preview) — ver
   [DDR 0004](devops-dr/0004-deploy-e-teste-das-regras-do-firestore.md)
+- **PRs de fork**: não têm preview deploy (protege secrets), mas
+  continuam tendo lint/testes via `ci.yml`
 
 ## Segurança
 
