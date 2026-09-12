@@ -24,6 +24,7 @@
 }
 
 .faixa-de-secoes__botao {
+  position: relative;
   flex-shrink: 0;
   width: 30px;
   height: 30px;
@@ -36,6 +37,19 @@
   align-items: center;
   justify-content: center;
   transition: background-color 0.15s;
+}
+
+/* Área de toque ampliada em tela sensível (docs/interface.md § Pendências de
+ * interface, IDR 0042) — o ícone visível continua 30×30px; um `::before`
+ * invisível estende a zona clicável até a metade do espaçamento de 4px que
+ * separa duas bandeiras vizinhas, sem sobrepor a área da vizinha (a mesma
+ * folga que o IDR 0042 mede como o mais apertado que ainda cabe). */
+@media (pointer: coarse) {
+  .faixa-de-secoes__botao::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+  }
 }
 
 .faixa-de-secoes__botao:hover {

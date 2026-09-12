@@ -14,10 +14,13 @@ import './MenuDeAcoes.css';
  * correspondente, um item de conteúdo fica presente e desabilitado, nunca
  * aparentando funcionar — só "sair da conta" nunca fica sem ação.
  *
- * Fecha ao escolher um item, ao tocar fora do popup ou com `Esc`. Ao abrir,
- * o foco entra no primeiro item *habilitado* (um item sem callback nunca
- * recebe foco); ao fechar por `Esc` ou por escolher um item, o foco volta
- * ao botão — tocar fora deixa o foco seguir o toque, sem roubá-lo de volta.
+ * Fecha ao escolher um item, ao tocar fora do popup, com `Esc` ou ao sair do
+ * popup pelo teclado (`Tab` saindo do último item — Tarefa 0010-0001,
+ * varrimento de teclado: sem isso, o popup ficava visualmente aberto com o
+ * foco já em outro lugar da tela). Ao abrir, o foco entra no primeiro item
+ * *habilitado* (um item sem callback nunca recebe foco); ao fechar por
+ * `Esc` ou por escolher um item, o foco volta ao botão — tocar fora ou
+ * tabular para fora deixa o foco seguir, sem roubá-lo de volta.
  *
  * @param {object} props
  * @param {() => void} props.onSignOut - grava o pendente e sai da conta (Tarefa 0007-0003, IDR 0038).
@@ -74,8 +77,19 @@ export function MenuDeAcoes({ onSignOut, onCopiarFaltantes, onCopiarRepetidas, o
     };
   }
 
+  // Tabular para fora do popup (ex.: `Tab` no último item) move o foco para
+  // fora do container sem escolher nada e sem apertar `Esc` — sem este
+  // fechamento, o popup ficaria visível com o foco já em outro elemento da
+  // tela. `relatedTarget` é quem vai receber o foco; dentro do container,
+  // não fecha (é só a troca de foco entre botão e itens ao abrir).
+  function aoSairDoFoco(evento) {
+    if (containerRef.current && !containerRef.current.contains(evento.relatedTarget)) {
+      setAberto(false);
+    }
+  }
+
   return (
-    <div className="menu-de-acoes" ref={containerRef}>
+    <div className="menu-de-acoes" ref={containerRef} onBlur={aoSairDoFoco}>
       <button
         ref={botaoRef}
         type="button"

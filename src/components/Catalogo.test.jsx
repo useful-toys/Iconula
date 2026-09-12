@@ -69,7 +69,7 @@ describe('Catalogo', () => {
     const brasil = screen.getByText(/Brasil/);
     expect(brasil.closest('section').textContent).toContain('0/20');
 
-    const figurinhaBra01 = screen.getByLabelText('BRA 01, faltante');
+    const figurinhaBra01 = screen.getByLabelText('BRA 01, faltante, metalizada');
     await user.click(figurinhaBra01);
 
     // O callback foi chamado; a tela reflete a contagem passada via props.
@@ -90,12 +90,12 @@ describe('Catalogo', () => {
 
     const brasilCabecalho = screen.getByRole('button', { name: /Brasil/ });
     expect(brasilCabecalho).toHaveAttribute('aria-expanded', 'true');
-    expect(screen.getByLabelText('BRA 01, faltante')).toBeInTheDocument();
+    expect(screen.getByLabelText('BRA 01, faltante, metalizada')).toBeInTheDocument();
 
     await user.click(brasilCabecalho);
 
     expect(brasilCabecalho).toHaveAttribute('aria-expanded', 'false');
-    expect(screen.queryByLabelText('BRA 01, faltante')).not.toBeInTheDocument();
+    expect(screen.queryByLabelText('BRA 01, faltante, metalizada')).not.toBeInTheDocument();
   });
 
   it('preserva o colapso da seção ao trocar de ordenação', async () => {
@@ -129,7 +129,7 @@ describe('Catalogo', () => {
     // Brasil continua colapsado
     const brasilCabecalhoAposTroca = screen.getByRole('button', { name: /Brasil/ });
     expect(brasilCabecalhoAposTroca).toHaveAttribute('aria-expanded', 'false');
-    expect(screen.queryByLabelText('BRA 01, faltante')).not.toBeInTheDocument();
+    expect(screen.queryByLabelText('BRA 01, faltante, metalizada')).not.toBeInTheDocument();
   });
 
   describe('filtro de status', () => {
@@ -146,7 +146,7 @@ describe('Catalogo', () => {
         />,
       );
 
-      expect(screen.getByLabelText('BRA 01, faltante')).toBeInTheDocument();
+      expect(screen.getByLabelText('BRA 01, faltante, metalizada')).toBeInTheDocument();
       expect(screen.getByLabelText('FWC 01, faltante')).toBeInTheDocument();
     });
 
@@ -166,7 +166,7 @@ describe('Catalogo', () => {
       );
 
       // BRA01 e BRA02 não devem aparecer (são coladas)
-      expect(screen.queryByLabelText('BRA 01, faltante')).not.toBeInTheDocument();
+      expect(screen.queryByLabelText('BRA 01, faltante, metalizada')).not.toBeInTheDocument();
       expect(screen.queryByLabelText('BRA 02, colada')).not.toBeInTheDocument();
 
       // BRA03 deve aparecer (é faltante)
@@ -187,7 +187,7 @@ describe('Catalogo', () => {
         />,
       );
 
-      expect(screen.getByLabelText('BRA 01, colada, 1 sobrando')).toBeInTheDocument();
+      expect(screen.getByLabelText('BRA 01, colada, 1 sobrando, metalizada')).toBeInTheDocument();
       expect(screen.getByLabelText('BRA 02, colada, 2 sobrando')).toBeInTheDocument();
 
       // BRA03 é faltante (contagem 0), não deve aparecer
@@ -208,7 +208,7 @@ describe('Catalogo', () => {
         />,
       );
 
-      expect(screen.getByLabelText('BRA 01, colada')).toBeInTheDocument();
+      expect(screen.getByLabelText('BRA 01, colada, metalizada')).toBeInTheDocument();
       expect(screen.getByLabelText('BRA 02, colada, 2 sobrando')).toBeInTheDocument();
       expect(screen.queryByLabelText('BRA 03, faltante')).not.toBeInTheDocument();
     });
@@ -228,7 +228,7 @@ describe('Catalogo', () => {
       );
 
       // BRA01 tem contagem 1: é colada, mas não repetida
-      expect(screen.queryByLabelText('BRA 01, colada')).not.toBeInTheDocument();
+      expect(screen.queryByLabelText('BRA 01, colada, metalizada')).not.toBeInTheDocument();
       expect(screen.getByLabelText('BRA 02, colada, 2 sobrando')).toBeInTheDocument();
     });
 
@@ -342,7 +342,7 @@ describe('Catalogo', () => {
       );
 
       // Com "repetidas", apenas BRA 01 e BRA 02 aparecem
-      expect(screen.getByLabelText('BRA 01, colada, 1 sobrando')).toBeInTheDocument();
+      expect(screen.getByLabelText('BRA 01, colada, 1 sobrando, metalizada')).toBeInTheDocument();
 
       // Volta para "todas"
       rerender(
@@ -358,7 +358,7 @@ describe('Catalogo', () => {
       );
 
       // Tudo volta
-      expect(screen.getByLabelText('BRA 01, colada, 1 sobrando')).toBeInTheDocument();
+      expect(screen.getByLabelText('BRA 01, colada, 1 sobrando, metalizada')).toBeInTheDocument();
       expect(screen.getByLabelText('BRA 03, faltante')).toBeInTheDocument();
     });
 

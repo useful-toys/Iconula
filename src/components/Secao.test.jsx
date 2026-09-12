@@ -88,7 +88,7 @@ describe('Secao', () => {
       />,
     );
 
-    expect(screen.getByLabelText('BRA 01, faltante')).toBeInTheDocument();
+    expect(screen.getByLabelText('BRA 01, faltante, metalizada')).toBeInTheDocument();
     expect(screen.getByLabelText('BRA 02, faltante')).toBeInTheDocument();
     expect(screen.getByLabelText('BRA 03, faltante')).toBeInTheDocument();
   });
@@ -106,7 +106,7 @@ describe('Secao', () => {
       />,
     );
 
-    await user.click(screen.getByLabelText('BRA 01, faltante'));
+    await user.click(screen.getByLabelText('BRA 01, faltante, metalizada'));
     expect(onAjustar).toHaveBeenCalledWith('BRA01', 1);
   });
 
@@ -138,13 +138,13 @@ describe('Secao', () => {
 
     const cabecalho = screen.getByRole('button', { name: /Brasil/ });
     expect(cabecalho).toHaveAttribute('aria-expanded', 'true');
-    expect(screen.getByLabelText('BRA 01, faltante')).toBeInTheDocument();
+    expect(screen.getByLabelText('BRA 01, faltante, metalizada')).toBeInTheDocument();
 
     await user.click(cabecalho);
 
     expect(cabecalho).toHaveAttribute('aria-expanded', 'false');
     expect(cabecalho.textContent).toContain('▸');
-    expect(screen.queryByLabelText('BRA 01, faltante')).not.toBeInTheDocument();
+    expect(screen.queryByLabelText('BRA 01, faltante, metalizada')).not.toBeInTheDocument();
   });
 
   it('mantém o resumo visível quando colapsada', async () => {
@@ -201,7 +201,7 @@ describe('Secao', () => {
 
     const cabecalho = screen.getByRole('button', { name: /Brasil/ });
     expect(cabecalho).toHaveAttribute('aria-expanded', 'false');
-    expect(screen.queryByLabelText('BRA 01, faltante')).not.toBeInTheDocument();
+    expect(screen.queryByLabelText('BRA 01, faltante, metalizada')).not.toBeInTheDocument();
   });
 
   describe('disposição álbum', () => {

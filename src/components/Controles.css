@@ -43,6 +43,7 @@
 /* Desfazer e (na Tarefa 0009-0002) menu de ações: 30x30px, raio 8px, borda
    e texto em --gold (docs/interface.md § Medidas). */
 .controles__desfazer {
+  position: relative;
   width: 30px;
   height: 30px;
   display: flex;
@@ -61,4 +62,16 @@
 .controles__desfazer:disabled {
   opacity: 0.6;
   cursor: default;
+}
+
+/* Área de toque ampliada em tela sensível (docs/interface.md § Pendências de
+ * interface, IDR 0042) — o botão visível continua 30×30px; um `::before`
+ * invisível estende a zona clicável até a metade do espaçamento de 8px que
+ * o separa do menu de ações, sem sobrepor a área dele. */
+@media (pointer: coarse) {
+  .controles__desfazer::before {
+    content: '';
+    position: absolute;
+    inset: -4px;
+  }
 }

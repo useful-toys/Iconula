@@ -169,7 +169,7 @@ acabamento.
 
 | # | Tarefa | Objetivo | Status |
 |---|---|---|---|
-| 0001 | [Acessibilidade e foco visível](0010-acabamento-acessibilidade-e-docs/0001-acessibilidade-e-foco-visivel.md) | Operação por teclado, realce de foco, contraste e nomes acessíveis por extenso. | Pendente |
+| 0001 | [Acessibilidade e foco visível](0010-acabamento-acessibilidade-e-docs/0001-acessibilidade-e-foco-visivel.md) | Operação por teclado, realce de foco, contraste e nomes acessíveis por extenso. | Concluída |
 | 0002 | [Desempenho das 994 figurinhas](0010-acabamento-acessibilidade-e-docs/0002-desempenho-das-994-figurinhas.md) | Medir e, se necessário, adotar a técnica mais barata que não crie rolagem própria. | Pendente |
 | 0003 | [Faixas de tela e padrões](0010-acabamento-acessibilidade-e-docs/0003-faixas-de-tela-e-padroes.md) | Definir ordenação e disposição pré-selecionadas em celular, tablet e navegador. | Pendente |
 | 0004 | [Fechamento da documentação](0010-acabamento-acessibilidade-e-docs/0004-fechamento-da-documentacao.md) | Zerar pendências de `interface.md` e pontos em aberto de `arquitetura.md`; ajustar `requisitos.md`. | Pendente |
