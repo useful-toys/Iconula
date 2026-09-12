@@ -21,13 +21,12 @@ nenhuma tem resposta no código cliente:
    deploy, só cobre Hosting. Sem um caminho de deploy, o `firestore.rules`
    do repositório seria decorativo.
 
-Havia ainda um problema pré-existente que este TDR aproveita para
-corrigir: o job `cleanup_preview` do
-`firebase-hosting-pull-request.yml` roda
-`npx --yes firebase-tools@latest` **com a chave da service account no
-ambiente**. Uma tag móvel executando com credencial de deploy é
-exatamente o risco de cadeia de suprimentos que o
-[TDR 0006](0006-pinning-actions-por-sha.md) fechou para as actions.
+- Problema pré-existente que este TDR aproveita para corrigir: o job
+  `cleanup_preview` do `firebase-hosting-pull-request.yml` roda
+  `npx --yes firebase-tools@latest` **com a chave da service account no
+  ambiente**. Uma tag móvel executando com credencial de deploy é
+  exatamente o risco de cadeia de suprimentos que o
+  [TDR 0006](0006-pinning-actions-por-sha.md) fechou para as actions.
 
 ## Decisão
 
@@ -63,11 +62,12 @@ match /users/{userId} {
 
 ### A garantia é executável: testes de regras no emulador
 
-Regras corretas hoje não são regras corretas amanhã. `firestore.rules.test.js`
-usa `@firebase/rules-unit-testing` contra o emulador do Firestore e cobre
-o isolamento explicitamente: dono lê o próprio documento; **outro uid é
-negado**; anônimo é negado; `list` na coleção é negado; campo extra,
-tipo errado e string longa demais são negados; `delete` é negado.
+- Regras corretas hoje não são regras corretas amanhã: `firestore.rules.test.js`
+  usa `@firebase/rules-unit-testing` contra o emulador do Firestore e
+  cobre o isolamento explicitamente — dono lê o próprio documento;
+  **outro uid é negado**; anônimo é negado; `list` na coleção é negado;
+  campo extra, tipo errado e string longa demais são negados; `delete` é
+  negado.
 
 Detalhes de implementação que importam:
 
@@ -84,10 +84,10 @@ Detalhes de implementação que importam:
 
 ### Deploy das regras: step próprio no merge, antes do Hosting
 
-O padrão já existe no repositório — é o mesmo que o `cleanup_preview`
-usa: chave em `$RUNNER_TEMP`, `GOOGLE_APPLICATION_CREDENTIALS`,
-`npx firebase-tools`. Reusado literalmente para não haver dois idiomas
-para a mesma coisa.
+- Padrão já existente no repositório, reusado literalmente para não
+  haver dois idiomas para a mesma coisa — é o mesmo que o
+  `cleanup_preview` usa: chave em `$RUNNER_TEMP`,
+  `GOOGLE_APPLICATION_CREDENTIALS`, `npx firebase-tools`.
 
 - **Antes do deploy de Hosting.** Se as regras falharem, o cliente novo
   nem chega a subir. Na direção contrária, estas regras são puramente
@@ -107,12 +107,12 @@ para a mesma coisa.
 
 ### IAM: `roles/firebaserules.admin`, e só
 
-Verificado com `gcloud iam roles describe`: essa role contém exatamente o
-que `firebase deploy --only firestore:rules` executa —
-`firebaserules.rulesets.create`, `firebaserules.releases.create/update`,
-mais `get/list/test` e `resourcemanager.projects.get`. O
-`roles/firebase.viewer` que a service account já tinha cobre o lado de
-leitura (`datastore.databases.get`, `firebase.projects.get`).
+- Verificado com `gcloud iam roles describe`: essa role contém
+  exatamente o que `firebase deploy --only firestore:rules` executa —
+  `firebaserules.rulesets.create`, `firebaserules.releases.create/update`,
+  mais `get/list/test` e `resourcemanager.projects.get`.
+- O `roles/firebase.viewer` que a service account já tinha cobre o lado
+  de leitura (`datastore.databases.get`, `firebase.projects.get`).
 
 **`roles/datastore.owner` foi descartado**: daria à conta de CI leitura e
 escrita sobre o documento de **todos os usuários**, para uma tarefa que

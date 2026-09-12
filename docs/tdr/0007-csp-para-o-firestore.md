@@ -8,17 +8,17 @@ Aceito.
 
 ## Contexto
 
-A CSP do `firebase.json` (ver [TDR 0002](0002-headers-de-seguranca-hosting.md)
-e [TDR 0005](0005-csp-firebase-auth-google-oauth.md)) bloqueia tudo que
-não seja `'self'` por padrão. A persistência do time visível no Firestore
-([ADR 0007](../adr/0007-persistencia-do-time-no-firestore.md)) introduz
-tráfego para uma origem nova.
-
-A dúvida concreta era se o SDK web do Firestore exige `wss:` no
-`connect-src`, além do endpoint HTTPS. A literatura na internet mistura
-os dois SDKs do Firebase nesse ponto, e adicionar `wss:` "por garantia"
-seria abrir a política sem necessidade — o oposto do que os TDRs 0002 e
-0005 vinham fazendo.
+- A CSP do `firebase.json` (ver
+  [TDR 0002](0002-headers-de-seguranca-hosting.md) e
+  [TDR 0005](0005-csp-firebase-auth-google-oauth.md)) bloqueia tudo que
+  não seja `'self'` por padrão. A persistência do time visível no
+  Firestore ([ADR 0007](../adr/0007-persistencia-do-time-no-firestore.md))
+  introduz tráfego para uma origem nova.
+- Dúvida concreta: o SDK web do Firestore exige `wss:` no `connect-src`,
+  além do endpoint HTTPS? A literatura na internet mistura os dois SDKs
+  do Firebase nesse ponto, e adicionar `wss:` "por garantia" abriria a
+  política sem necessidade — o oposto do que os TDRs 0002 e 0005 vinham
+  fazendo.
 
 ## Decisão
 
