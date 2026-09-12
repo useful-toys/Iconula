@@ -11,14 +11,13 @@ figurinha correspondente.
 
 ## Contexto
 
-Com o filtro em "faltantes", uma seção completa (20/20) não tem
-figurinha alguma a mostrar; com o filtro em "repetidas", a maioria das
-50 seções fica vazia no começo da coleção. As saídas eram três: manter
-o cabeçalho com o corpo vazio, manter o cabeçalho colapsado, ou remover
-a seção da vista.
-
-Manter ~45 cabeçalhos vazios entre os poucos resultados anula o ganho
-do filtro — a consulta "o que falta do Brasil" vira rolagem de novo.
+- Com o filtro em "faltantes", uma seção completa (20/20) não tem
+  figurinha alguma a mostrar; com o filtro em "repetidas", a maioria
+  das 50 seções fica vazia no começo da coleção.
+- As saídas eram três: manter o cabeçalho com o corpo vazio, manter o
+  cabeçalho colapsado, ou remover a seção da vista.
+- Manter ~45 cabeçalhos vazios entre os poucos resultados anula o ganho
+  do filtro — a consulta "o que falta do Brasil" vira rolagem de novo.
 
 ## Decisão
 

@@ -19,21 +19,20 @@ persiste, com o detalhe técnico ao toque, como decidido aqui.
 
 ## Contexto
 
-O IDR 0002 tornou os eventos de persistência visíveis (gravado,
-carregado, falha) — reação à falha invisível da era do botão (ADR
-0007) —, com o desenho da área em aberto: notificar sem virar ruído.
-Na época, "avisar só em erro" foi descartado: sem um estado normal
-visível, o erro sozinho não dizia se os dados estavam salvos.
-
-O quadro mudou com o título em linha única (IDR 0018): a data/hora
-passou a cobrir **toda transação bem-sucedida** (leitura ou escrita) —
-ticka a cada gravação e a cada carga. O sucesso ganhou feedback
-permanente e sem ruído; um aviso de "gravado" seria redundância. Ficou
-para o aviso só o que o título não cobre: a falha, que não ticka nada.
-
-Decisão intermediária desta sessão — sucessos efêmeros (~4s) na borda
-inferior — foi descartada pelo usuário por minimalismo: a data no
-título já basta.
+- O IDR 0002 tornou os eventos de persistência visíveis (gravado,
+  carregado, falha) — reação à falha invisível da era do botão
+  (ADR 0007) —, com o desenho da área em aberto: notificar sem virar
+  ruído. Na época, "avisar só em erro" foi descartado: sem um estado
+  normal visível, o erro sozinho não dizia se os dados estavam salvos.
+- O quadro mudou com o título em linha única (IDR 0018): a data/hora
+  passou a cobrir **toda transação bem-sucedida** (leitura ou escrita)
+  — ticka a cada gravação e a cada carga. O sucesso ganhou feedback
+  permanente e sem ruído; um aviso de "gravado" seria redundância.
+  Ficou para o aviso só o que o título não cobre: a falha, que não
+  ticka nada.
+- Decisão intermediária desta sessão — sucessos efêmeros (~4s) na borda
+  inferior — foi descartada pelo usuário por minimalismo: a data no
+  título já basta.
 
 ## Decisão
 

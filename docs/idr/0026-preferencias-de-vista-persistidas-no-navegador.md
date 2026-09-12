@@ -8,19 +8,19 @@ Aceito.
 
 ## Contexto
 
-Ordenação (página × sigla), disposição (lista × álbum) e filtro de
-status são escolhas de vista. Nada dizia se sobrevivem a um recarregar
-ou à próxima abertura do app. O
-[IDR 0020](0020-secoes-colapsaveis-em-qualquer-visualizacao.md) já
-decidiu que o estado aberto/fechado das seções **não** persiste (volta
-ao padrão aberto), mas ele é estado de momento, não preferência.
-
-Quem usa o app toda semana na feira de troca abre sempre no mesmo modo;
-reconfigurar a cada abertura é atrito repetido no fluxo essencial.
-
-Gravar no Firestore custaria escrita a cada troca de alternador —
-contra a RNF de economia de requisições — e misturaria preferência de
-dispositivo com a coleção do usuário.
+- Ordenação (página × sigla), disposição (lista × álbum) e filtro de
+  status são escolhas de vista. Nada dizia se sobrevivem a um
+  recarregar ou à próxima abertura do app. O
+  [IDR 0020](0020-secoes-colapsaveis-em-qualquer-visualizacao.md) já
+  decidiu que o estado aberto/fechado das seções **não** persiste
+  (volta ao padrão aberto), mas ele é estado de momento, não
+  preferência.
+- Quem usa o app toda semana na feira de troca abre sempre no mesmo
+  modo; reconfigurar a cada abertura é atrito repetido no fluxo
+  essencial.
+- Gravar no Firestore custaria escrita a cada troca de alternador —
+  contra a RNF de economia de requisições — e misturaria preferência de
+  dispositivo com a coleção do usuário.
 
 ## Decisão
 

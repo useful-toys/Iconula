@@ -12,19 +12,18 @@ dissolve o super-grupo "Especiais" do
 
 ## Contexto
 
-A posição dos especiais estava decidida só para a ordenação por sigla —
-COC e FWC antes da primeira seleção (IDR 0013) — e, para a ordem do
-álbum, dependia das páginas do FWC, ainda pendentes no checklist. O
-IDR 0019, ao criar os super-grupos, juntou os dois num super-grupo
-"Especiais" cuja posição ficou em aberto pelo mesmo motivo.
-
-A consolidação expôs o problema: o Anexo de requisitos.md indica os
-Extras FIFA nas páginas iniciais e a Coca-Cola nas páginas 112–113, o
-fim do álbum. Se for assim, os dois especiais não são contíguos, e um
-super-grupo "Especiais" único não tem onde caber na ordem física.
-
-O usuário decidiu por uma regra só, independente da ordenação: os
-Extras FIFA abrem o catálogo, a Coca-Cola o fecha.
+- A posição dos especiais estava decidida só para a ordenação por
+  sigla — COC e FWC antes da primeira seleção (IDR 0013) — e, para a
+  ordem do álbum, dependia das páginas do FWC, ainda pendentes no
+  checklist. O IDR 0019, ao criar os super-grupos, juntou os dois num
+  super-grupo "Especiais" cuja posição ficou em aberto pelo mesmo
+  motivo.
+- A consolidação expôs o problema: o Anexo de requisitos.md indica os
+  Extras FIFA nas páginas iniciais e a Coca-Cola nas páginas 112–113, o
+  fim do álbum. Se for assim, os dois especiais não são contíguos, e um
+  super-grupo "Especiais" único não tem onde caber na ordem física.
+- O usuário decidiu por uma regra só, independente da ordenação: os
+  Extras FIFA abrem o catálogo, a Coca-Cola o fecha.
 
 ## Decisão
 

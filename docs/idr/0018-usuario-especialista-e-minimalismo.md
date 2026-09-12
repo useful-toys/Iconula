@@ -11,14 +11,14 @@ pelo [IDR 0027](0027-relogio-do-titulo-e-o-updatedat-do-documento.md):
 
 ## Contexto
 
-O público do produto é o colecionador que usa o app toda semana na
-feira de troca — conhece o álbum, os códigos e a contagem. A interface
-vinha acumulando rótulos explicativos ("12/20 · 8 faltantes · 3
-repetidas"), placar em cartões, barra de progresso e espaço gasto com
-reforço para iniciantes.
-
-O usuário decidiu: assumir o usuário especialista, tratar minimalismo
-como regra de ouro — e comprimir o cabeçalho todo numa única linha.
+- O público do produto é o colecionador que usa o app toda semana na
+  feira de troca — conhece o álbum, os códigos e a contagem.
+- A interface vinha acumulando rótulos explicativos ("12/20 · 8
+  faltantes · 3 repetidas"), placar em cartões, barra de progresso e
+  espaço gasto com reforço para iniciantes.
+- O usuário decidiu: assumir o usuário especialista, tratar
+  minimalismo como regra de ouro — e comprimir o cabeçalho todo numa
+  única linha.
 
 ## Decisão
 
