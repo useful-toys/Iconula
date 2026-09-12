@@ -8,23 +8,21 @@ Aceito
 
 ## Contexto
 
-Um review de segurança apontou que `firebase.json` não tinha seção
-`headers`: a resposta de `https://iconula.web.app` trazia apenas o HSTS
-automático do Firebase, sem `Content-Security-Policy`,
-`X-Content-Type-Options`, `Referrer-Policy`,
-`X-Frame-Options`/`frame-ancestors` nem `Permissions-Policy`.
-
-Isoladamente nenhum desses headers corrige uma vulnerabilidade explorável
-hoje neste app minimalista (uma única tela, um único botão). A
-justificativa não é o risco atual, e sim:
-
-- o custo de adicionar é baixo (um bloco de JSON, sem build adicional);
-- a CSP é o que torna sobrevivível um eventual bug de injeção via
-  `dangerouslySetInnerHTML` em `TeamButton.jsx` (ver
-  [ADR 0002](../adr/0002-bandeiras-emoji-unicode.md)) — sem CSP, a
-  primeira falha de sanitização seria a única linha de defesa;
-- headers de segurança costumam ser adicionados só depois que o app
-  cresce, quando já é tarde para fazer isso "de graça".
+- Review de segurança: `firebase.json` não tinha seção `headers` — a
+  resposta de `https://iconula.web.app` trazia só o HSTS automático do
+  Firebase, sem `Content-Security-Policy`, `X-Content-Type-Options`,
+  `Referrer-Policy`, `X-Frame-Options`/`frame-ancestors` nem
+  `Permissions-Policy`.
+- Isoladamente, nenhum desses headers corrige uma vulnerabilidade
+  explorável hoje neste app minimalista (uma tela, um botão). A
+  justificativa não é o risco atual:
+  - custo de adicionar é baixo (um bloco de JSON, sem build adicional);
+  - a CSP torna sobrevivível um eventual bug de injeção via
+    `dangerouslySetInnerHTML` em `TeamButton.jsx` (ver
+    [ADR 0002](../adr/0002-bandeiras-emoji-unicode.md)) — sem CSP, a
+    primeira falha de sanitização seria a única defesa;
+  - headers de segurança costumam ser adicionados só depois que o app
+    cresce, quando já é tarde para fazer "de graça".
 
 ## Decisão
 
@@ -43,23 +41,20 @@ Adicionar `hosting.headers` ao `firebase.json`:
   câmera, microfone, pagamento, USB, `interest-cohort`).
 - `Cross-Origin-Opener-Policy: same-origin`.
 
-Aproveitado o mesmo bloco para corrigir `Cache-Control`: assets com hash
-(`/assets/**`) recebem `max-age=31536000, immutable`; `/index.html` e `/`
-recebem `no-cache`, para que um deploy fique visível imediatamente aos
-visitantes (isso não é segurança, é correção de cache — estava faltando
-e o custo de fazer junto era zero).
-
-**Correção (source casa antes do rewrite)**: a primeira versão só tinha
-`source: "/index.html"`. O casamento de `headers.source` no Firebase
-Hosting acontece contra o path **pedido**, antes de qualquer `rewrite`
-ser aplicado — então `GET /` (a URL que qualquer visitante realmente usa)
-nunca batia com `/index.html` e continuava recebendo o `max-age=3600`
-default, sem passar pelo `no-cache`. Corrigido adicionando um segundo
-bloco idêntico com `source: "/"`.
-
-Não foi necessário configurar HSTS: o Firebase Hosting já envia
-`Strict-Transport-Security: max-age=31556926; includeSubDomains; preload`
-por padrão.
+- `Cache-Control`, no mesmo bloco: assets com hash (`/assets/**`) recebem
+  `max-age=31536000, immutable`; `/index.html` e `/` recebem `no-cache`,
+  para que um deploy fique visível imediatamente aos visitantes — não é
+  segurança, é correção de cache que estava faltando, custo zero de
+  fazer junto.
+- **Correção (source casa antes do rewrite)**: a primeira versão só tinha
+  `source: "/index.html"`. O casamento de `headers.source` no Firebase
+  Hosting acontece contra o path **pedido**, antes de qualquer `rewrite`
+  — `GET /` (a URL que qualquer visitante realmente usa) nunca batia com
+  `/index.html` e continuava com o `max-age=3600` default. Corrigido com
+  um segundo bloco idêntico, `source: "/"`.
+- HSTS não precisou de configuração: o Firebase Hosting já envia
+  `Strict-Transport-Security: max-age=31556926; includeSubDomains; preload`
+  por padrão.
 
 ## Consequências
 

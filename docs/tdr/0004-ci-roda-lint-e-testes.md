@@ -8,13 +8,12 @@ Aceito
 
 ## Contexto
 
-Um review de segurança apontou que os workflows de CI
-(`.github/workflows/firebase-hosting-*.yml`) faziam só `npm ci && npm run
-build` — `npm test` (Vitest) e `npm run lint` (oxlint) existiam no
-projeto mas nunca rodavam em CI.
-
-Isso não é, em si, uma falha de segurança, mas tem duas consequências de
-segurança indiretas:
+- Review de segurança: os workflows de CI
+  (`.github/workflows/firebase-hosting-*.yml`) faziam só `npm ci && npm
+  run build` — `npm test` (Vitest) e `npm run lint` (oxlint) existiam no
+  projeto mas nunca rodavam em CI.
+- Isso não é, em si, uma falha de segurança, mas tem duas consequências
+  de segurança indiretas:
 
 - **É o veículo dos controles dos outros itens.** A regra
   `react/no-danger` ([TDR 0003](0003-lint-proibe-dangerously-set-inner-html.md))
@@ -60,7 +59,7 @@ jobs:
 ```
 
 Por que um job/workflow separado, e não só somar dois `run` ao job de
-deploy:
+deploy.
 
 - **Roda em PRs de fork.** `build_and_preview` tem
   `if: head.repo.full_name == github.repository` — de propósito, para
@@ -82,21 +81,23 @@ deploy:
   então desabilitá-los reduz a superfície de execução de código arbitrário
   durante `npm ci`.
 
-**Descoberta durante a implementação**: a primeira versão deste workflow
-usava `node-version: 20` (mesma versão já usada nos dois workflows de
-deploy) e o job passou em lint e build, mas **`npm test` falhou** com
-`TypeError: webidl.util.markAsUncloneable is not a function` dentro de
-`jsdom`. Investigando: `jsdom` (v30, via `vitest`) declara
-`"engines": { "node": "^22.22.2 || ^24.15.0 || >=26.0.0" }` — Node 20
-nunca foi suportado por essa versão. Isso não tinha sido notado antes
-porque os testes nunca rodavam em CI (exatamente o problema que este TDR
-resolve) e localmente o Node instalado já era >= 26. Corrigido subindo
-`node-version` para `22` nos **três** workflows
-(`ci.yml`, `firebase-hosting-merge.yml`,
-`firebase-hosting-pull-request.yml`, para não deixar os workflows de
-deploy discrepantes) e adicionando `engines.node` ao `package.json` com a
-mesma faixa de versão, para que a incompatibilidade apareça localmente
-(`npm install`/`npm ci` avisam) em vez de só em CI.
+**Descoberta durante a implementação**:
+
+- Primeira versão do workflow usava `node-version: 20` (mesma versão dos
+  dois workflows de deploy); lint e build passaram, mas `npm test`
+  falhou com `TypeError: webidl.util.markAsUncloneable is not a
+  function` dentro de `jsdom`.
+- Causa: `jsdom` (v30, via `vitest`) declara `"engines": { "node":
+  "^22.22.2 || ^24.15.0 || >=26.0.0" }` — Node 20 nunca foi suportado.
+  Não tinha sido notado antes porque os testes nunca rodavam em CI
+  (exatamente o problema que este TDR resolve) e localmente o Node
+  instalado já era >= 26.
+- Correção: `node-version: 22` nos **três** workflows (`ci.yml`,
+  `firebase-hosting-merge.yml`, `firebase-hosting-pull-request.yml`,
+  para não deixar os workflows de deploy discrepantes) e `engines.node`
+  adicionado ao `package.json` com a mesma faixa, para que a
+  incompatibilidade apareça localmente (`npm install`/`npm ci` avisam)
+  em vez de só em CI.
 
 ## Consequências
 

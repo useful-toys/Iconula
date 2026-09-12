@@ -28,11 +28,11 @@ As derivações do catálogo ficam em `src/data/`, não em `src/lib/`.
 - `src/data/catalogoLayout.js` — layout de álbum das seções.
 - `src/data/catalogo.test.js` — testes de invariantes.
 
-A razão é que essas funções são propriedades do dado: operam sobre
-`secoes` e `figurinhas`, não têm efeito colateral, não acessam rede, não
-dependem de contexto de execução. `src/lib/` é para utilitários de
-infraestrutura (Firebase, preferências, etc.); derivações de dado
-pertencem junto do dado que derivam.
+- Razão: essas funções são propriedades do dado — operam sobre `secoes`
+  e `figurinhas`, não têm efeito colateral, não acessam rede, não
+  dependem de contexto de execução. `src/lib/` é para utilitários de
+  infraestrutura (Firebase, preferências, etc.); derivações de dado
+  pertencem junto do dado que derivam.
 
 ## Consequências
 

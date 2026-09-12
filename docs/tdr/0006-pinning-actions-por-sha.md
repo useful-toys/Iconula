@@ -8,24 +8,21 @@ Aceito
 
 ## Contexto
 
-Um review de segurança apontou que os workflows de deploy
-(`firebase-hosting-merge.yml` e `firebase-hosting-pull-request.yml`)
-referenciavam as actions por tag móvel — `actions/checkout@v4`,
-`actions/setup-node@v4` e `FirebaseExtended/action-hosting-deploy@v0` —
-enquanto `ci.yml` já usava SHAs fixos (ver
-[TDR 0004](0004-ci-roda-lint-e-testes.md)).
-
-O elo crítico é `FirebaseExtended/action-hosting-deploy@v0`: é uma action
-**de terceiro** (não é da GitHub) referenciada por tag móvel, e roda no
-mesmo job que recebe o secret `FIREBASE_SERVICE_ACCOUNT_ICONULA` (a chave
-da service account com permissão de deploy). Quem conseguir mover a tag
-`v0` passa a executar código arbitrário com acesso a esse secret. As tags
-`@v4` de checkout/setup-node também são móveis, mas o risco é menor por
-serem mantidas pela própria GitHub.
-
-Além disso, a política do repositório estava com
-`allowed_actions: "all"` e `sha_pinning_required: false` — ou seja, nada
-impedia que um `@v4` solto voltasse a ser introduzido por descuido.
+- Review de segurança: os workflows de deploy (`firebase-hosting-merge.yml`
+  e `firebase-hosting-pull-request.yml`) referenciavam as actions por tag
+  móvel — `actions/checkout@v4`, `actions/setup-node@v4` e
+  `FirebaseExtended/action-hosting-deploy@v0` — enquanto `ci.yml` já
+  usava SHAs fixos (ver [TDR 0004](0004-ci-roda-lint-e-testes.md)).
+- Elo crítico: `FirebaseExtended/action-hosting-deploy@v0` é uma action
+  **de terceiro** (não é da GitHub) referenciada por tag móvel, e roda no
+  mesmo job que recebe o secret `FIREBASE_SERVICE_ACCOUNT_ICONULA` (a
+  chave da service account com permissão de deploy) — quem conseguir
+  mover a tag `v0` passa a executar código arbitrário com acesso a esse
+  secret. As tags `@v4` de checkout/setup-node também são móveis, mas o
+  risco é menor por serem mantidas pela própria GitHub.
+- A política do repositório estava com `allowed_actions: "all"` e
+  `sha_pinning_required: false` — nada impedia que um `@v4` solto
+  voltasse a ser introduzido por descuido.
 
 ## Decisão
 
