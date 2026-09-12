@@ -5,11 +5,11 @@
 ## Status
 
 Aceito — desbloqueia a Tarefa 0007-0003, que deixava duas decisões
-implícitas em aberto ao pé da letra do ADR 0008.
+ implícitas em aberto ao pé da letra do ADR 0005.
 
 ## Contexto
 
-O ADR 0008 descreve a gravação agregada como um `updateDoc` com os caminhos
+O ADR 0005 descreve a gravação agregada como um `updateDoc` com os caminhos
 aninhados das chaves alteradas. Ao implementar a Tarefa 0007-0003, duas
 lacunas de implementação apareceram:
 
@@ -18,7 +18,7 @@ lacunas de implementação apareceram:
    botão tem um documento (por causa do `teamName`), mas um usuário **novo**,
    que nunca gravou nada, ainda não tem `users/{uid}` na primeira vez que
    ajusta uma figurinha. As regras já previam isso (`allow create, update`
-   tratados igualmente — TDR 0009), mas o ADR 0008 não resolveu qual chamada
+   tratados igualmente — TDR 0009), mas o ADR 0005 não resolveu qual chamada
    do SDK cobre os dois casos numa escrita só.
 2. **Carimbo exibido após a gravação.** O IDR 0027 diz que o relógio mostra o
    `updatedAt` do servidor. `setDoc`/`updateDoc` com `serverTimestamp()` não
@@ -35,7 +35,7 @@ lacunas de implementação apareceram:
   do mapa aninhado, cada chave recebe o valor absoluto ou `deleteField()` — o
   SDK oficialmente suporta `deleteField()` tanto com `update()` quanto com
   `set(..., { merge: true })`, então o comportamento de "chave zerada apaga a
-  chave" (ADR 0008) continua igual.
+  chave" (ADR 0005) continua igual.
 - **`atualizadoEm` do resultado é `new Date()`** — o instante local do
   cliente no momento em que a promise de `setDoc` resolve (ou seja, depois de
   o servidor confirmar a escrita), não uma leitura do carimbo real. É uma
@@ -52,7 +52,7 @@ lacunas de implementação apareceram:
   real do servidor por um intervalo pequeno (o tempo de rede da própria
   escrita) — imperceptível na prática e nunca em sentido "no futuro", já que
   só é exibido depois de a escrita ser confirmada.
-- Se uma sincronização ao vivo (`onSnapshot`, gatilho de revisão do ADR 0008)
+- Se uma sincronização ao vivo (`onSnapshot`, gatilho de revisão do ADR 0005)
   entrar no futuro, o carimbo passa a vir do próprio servidor via listener, e
   esta aproximação local deixa de ser necessária.
 

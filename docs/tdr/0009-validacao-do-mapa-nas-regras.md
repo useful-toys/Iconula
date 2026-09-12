@@ -5,14 +5,14 @@
 ## Status
 
 Aceito — corrige o que o
-[ADR 0008](../adr/0008-schema-da-colecao-mapa-esparso.md) e
+[ADR 0005](../adr/0005-persistencia-no-firestore.md) e
 [persistencia.md](../persistencia.md) prometiam ("map com int ≥ 1",
 "chaves = códigos do catálogo (regex × allow-list)"), impossível como
 estava escrito.
 
 ## Contexto
 
-O ADR 0008 decidiu o mapa esparso em `users/{uid}` e delegou a este TDR
+O ADR 0005 decidiu o mapa esparso em `users/{uid}` e delegou a este TDR
 a validação nas regras: tipo dos valores e padrão das chaves, "regex ×
 allow-list". Ao desenhar as regras, a promessa não se sustentou.
 
@@ -61,8 +61,8 @@ total que o formato permite.
   gastar espaço em **nomes de chave** (o Firestore aceita nome de campo
   de até 1.500 bytes). O teto real de abuso é **1 MiB por conta** — o
   limite do documento. Fechar isso por completo exigiria a subcoleção,
-  descartada pelo ADR 0008 por custo de cota. O App Check, já registrado
-  no ADR 0007 como gatilho de revisão, é a resposta se houver abuso
+  descartada pelo ADR 0005 por custo de cota. O App Check, já registrado
+  no ADR 0005 como gatilho de revisão, é a resposta se houver abuso
 
 ## Consequências
 
@@ -92,5 +92,5 @@ total que o formato permite.
   regra transversal de que contagens são endereçadas por código
 - **Subcoleção `users/{uid}/contagens/{código}`**: cada documento com
   campos de nome conhecido, validação completa e sem enumerar nada — o
-  único desenho que fecha o abuso de verdade. Descartado pelo ADR 0008:
+  único desenho que fecha o abuso de verdade. Descartado pelo ADR 0005:
   uma escrita por figurinha em vez de uma por agregação

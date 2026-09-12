@@ -33,7 +33,7 @@ Aceito — fecha a pendência de desenho do
   (`role="alert"`), como exige a atenção que ela pede; sucesso e aviso
   são anunciados de forma não intrusiva (`role="status"`, que equivale
   a `aria-live="polite"`). A política antiga de não usar
-  `role="alert"` ([ADR 0007](../adr/0007-persistencia-do-time-no-firestore.md))
+  `role="alert"` ([ADR 0005](../adr/0005-persistencia-no-firestore.md))
   valia para o botão e foi revista pelo
   [IDR 0002](0002-avisos-de-sincronizacao-visiveis.md)
 

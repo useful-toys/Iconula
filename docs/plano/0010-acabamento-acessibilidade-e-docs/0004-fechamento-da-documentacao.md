@@ -36,7 +36,7 @@ cada decisão tomada durante a execução tem um registro apontado no lugar cert
    que foi desenhado (política de privacidade, confirmação de importação);
    atualizar § Apresentação por faixa de tela.
 2. `docs/arquitetura.md`: fechar os cinco pontos de § Pontos em aberto — aceite
-   do ADR 0008, router, Context, virtualização e pipeline do catálogo —,
+   do ADR 0005, router, Context, virtualização e pipeline do catálogo —,
    apontando o registro de cada um; atualizar § Camadas no cliente para descrever
    os módulos e componentes que passaram a existir; conferir § Decisões-chave e
    onde vivem com os registros novos.

@@ -28,7 +28,7 @@ conserta sozinha. Sem rede não é falha — é espera.
   `docs/idr/0029-*` § Decisão
 - A falha some quando a operação seguinte do mesmo tipo tem sucesso —
   `docs/idr/0029-*` § Decisão
-- A política "sem `role="alert"`" do ADR 0007 **não vale** para este produto —
+- A política "sem `role="alert"`" do ADR 0005 **não vale** para este produto —
   `docs/idr/0002-*` § Consequências
 - As mensagens falam na voz do usuário e cabem numa linha; o jargão fica no
   detalhe — `docs/interface.md` § Avisos

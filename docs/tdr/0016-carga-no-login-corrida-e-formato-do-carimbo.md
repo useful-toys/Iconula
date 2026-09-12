@@ -26,17 +26,17 @@ A Tarefa 0007-0002 traz a coleção do Firestore no login (uma leitura de
 
 - Um **contador de ajustes** (`useRef`) no `App.jsx` incrementa a cada ajuste de
   contagem, fora do updater do `setContagens` — pelo mesmo motivo do
-  [ADR 0007](../adr/0007-persistencia-do-time-no-firestore.md): o StrictMode
+  [ADR 0005](../adr/0005-persistencia-no-firestore.md): o StrictMode
   invoca updaters duas vezes em desenvolvimento, e o contador precisa avançar
   uma única vez por gesto do usuário.
 - A carga captura o valor do contador **no início da leitura** e, quando a
   promessa resolve, **descarta a resposta do servidor se o contador mudou** — o
-  ajuste local vence. É o mesmo desenho do contador do ADR 0007, adaptado do
+  ajuste local vence. É o mesmo desenho do contador do ADR 0005, adaptado do
   time do botão para o mapa de contagens.
 - O descarte vale para o resultado de sucesso (que sobrescreveria o estado) e
   não se aplica à falha, que não escreve nada e continua emitindo o aviso.
 - Contador, e não um booleano "já interagiu": um ajuste dado **antes** do login
-  não pode impedir a carga para sempre (mesma razão do ADR 0007).
+  não pode impedir a carga para sempre (mesma razão do ADR 0005).
 
 ### Formato do carimbo
 
@@ -59,7 +59,7 @@ A Tarefa 0007-0002 traz a coleção do Firestore no login (uma leitura de
 ## Alternativas consideradas
 
 - **Booleano "já interagiu"** em vez de contador: rejeitado — um ajuste antes do
-  login descartaria a carga para sempre (ADR 0007 já documenta o porquê).
+  login descartaria a carga para sempre (ADR 0005 já documenta o porquê).
 - **`Intl.DateTimeFormat` para a data**: mais correto por locale, mas depende do
   fuso e do locale do ambiente no teste; a formatação manual é determinística.
 - **Data com ano em quatro dígitos (`dd/mm/aaaa`)**: mais explícita, porém mais

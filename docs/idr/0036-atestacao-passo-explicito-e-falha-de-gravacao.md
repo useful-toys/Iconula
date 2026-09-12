@@ -78,12 +78,12 @@ ficaram em aberto até esta tarefa:
 - **Reter o usuário até a escrita de `atestadoEm` confirmar**: mais
   estrito com a garantia de que o campo existe, mas puniria uma falha de
   rede por um ato que o usuário já praticou — contra a política de erro
-  visível já adotada em toda a persistência (ADR 0008).
+  visível já adotada em toda a persistência (ADR 0005).
 - **Fila de retentativa dedicada** (ex.: piggyback na gravação agregada
   de contagens): resolveria o caso raro de falha persistente sem
   esperar o próximo login, mas gastaria uma escrita adicional com
   `updatedAt` junto de `atestadoEm` sempre que reaproveitada — o
-  ADR 0008 decidiu deliberadamente o oposto ("sem `updatedAt` junto").
+  ADR 0005 decidiu deliberadamente o oposto ("sem `updatedAt` junto").
   Descartada por complexidade não justificada pelo caso raro.
 - **Bloquear a tela até a carga da coleção resolver, sempre**: fecharia
   de vez a janela teórica acima, mas quebraria a proteção de corrida já

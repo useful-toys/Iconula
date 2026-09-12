@@ -26,7 +26,7 @@ Habilitadas explicitamente por este projeto:
 | API | Motivo |
 |---|---|
 | `identitytoolkit.googleapis.com` (Identity Toolkit API) | Usada pelo Firebase Auth (login com Google — ver [ADR 0005](adr/0005-login-google-sdk-modular.md) e [docs/firebase.md](firebase.md#firebase-authentication)); também é a API por trás do Identity Platform Admin API, usada para automatizar authorized domains via `curl` + token do `gcloud` (mesmo padrão da Firebase Hosting REST API já usado para o domínio customizado). |
-| `firestore.googleapis.com` (Cloud Firestore API) | Persistência do time visível por usuário — ver [ADR 0007](adr/0007-persistencia-do-time-no-firestore.md) e a seção "Cloud Firestore" abaixo. Sem ela, qualquer `gcloud firestore ...` falha com `SERVICE_DISABLED`. |
+| `firestore.googleapis.com` (Cloud Firestore API) | Persistência do time visível por usuário — ver [ADR 0005](adr/0005-persistencia-no-firestore.md) e a seção "Cloud Firestore" abaixo. Sem ela, qualquer `gcloud firestore ...` falha com `SERVICE_DISABLED`. |
 
 Habilitadas com:
 
@@ -188,7 +188,7 @@ Isso encerra a dúvida de que a cota gratuita do Firestore valeria só em
 `us-central1`/`us-east1`/`us-west1` — essa restrição é do Cloud Storage.
 O raciocínio completo e o gatilho de revisão (caso o projeto vá para o
 plano Blaze, onde São Paulo é mais caro por operação) estão no
-[ADR 0007](adr/0007-persistencia-do-time-no-firestore.md), seção "Região
+[ADR 0005](adr/0005-persistencia-no-firestore.md), seção "Região
 e faixa gratuita".
 
 **Trocar de região é possível**: bancos Firestore podem ser apagados

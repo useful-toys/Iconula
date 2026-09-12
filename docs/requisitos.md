@@ -77,7 +77,7 @@ Questões recorrentes são marcadas como "Nota".*
   - Atestação de menores no primeiro login (LGPD art. 14): um clique
     atestando ter 12 anos ou mais ou estar autorizado pelos
     responsáveis, antes de liberar o app — uma única vez por conta,
-    gravada em `atestadoEm` em `users/{uid}` (ver ADR 0008)
+    gravada em `atestadoEm` em `users/{uid}` (ver ADR 0005)
   - Nota: a tela de login expõe o link para a política de privacidade
     antes de qualquer autenticação
 - Sair da conta
@@ -169,7 +169,7 @@ Questões recorrentes são marcadas como "Nota".*
 - A persistência é automática e transparente: sem botões de ler ou
   salvar; a gravação é relativamente rápida, sem precisar acontecer a
   cada ajuste — agregar mudanças é aceitável (debounce de ~2s com teto
-  de espera e flush ao fechar a página — ver ADR 0008)
+  de espera e flush ao fechar a página — ver ADR 0005)
 - Notificar o usuário em caixa flutuante colada à borda inferior, com
   três severidades (ver
   [IDR 0029](idr/0029-avisos-flutuantes-com-tres-severidades.md))
@@ -264,15 +264,15 @@ Questões recorrentes são marcadas como "Nota".*
 ### Dados e isolamento
 - A coleção vive no Firestore em `users/{uid}`; o isolamento entre
   usuários é garantido pelas `firestore.rules` avaliadas no servidor
-  (ADR 0007) — nunca pelo cliente
+  (ADR 0005) — nunca pelo cliente
 - Falha de persistência não trava a interface, mas é informada
-  claramente ao usuário — revisa a política de erro do ADR 0007
+  claramente ao usuário — revisa a política de erro do ADR 0005
   (falha invisível, só log), que valia para o botão
 - Sem as variáveis `VITE_FIREBASE_*`, o login fica indisponível e o app
   não oferece funcionalidade — coerente com o login obrigatório; modo
   não suportado
 - Nota: o campo `teamName` da era do botão é removido na migração —
-  apagado pela primeira gravação do schema novo (ver ADR 0008)
+  apagado pela primeira gravação do schema novo (ver ADR 0005)
 - Nenhum dado além da identidade Google e da coleção é tratado; sem
   analytics no MVP
 
@@ -345,7 +345,7 @@ Questões recorrentes são marcadas como "Nota".*
   leituras/escritas antes de entrar (o sync ao vivo, em futuros, é o
   primeiro candidato a pesar)
 - **Custo**: plano Spark (gratuito); Firestore em `southamerica-east1`
-  com faixa gratuita (ADR 0007)
+  com faixa gratuita (ADR 0005)
 
 ## Requisitos futuros
 

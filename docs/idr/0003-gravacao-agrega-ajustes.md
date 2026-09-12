@@ -5,13 +5,13 @@
 ## Status
 
 Aceito — revê, para este produto, o fire-and-forget por clique do
-[ADR 0007](../adr/0007-persistencia-do-time-no-firestore.md) (um
+[ADR 0005](../adr/0005-persistencia-no-firestore.md) (um
 `setDoc` por clique, sem debounce). A revisão formal fica registrada
 como pendência do ADR do schema.
 
 ## Contexto
 
-- ADR 0007 decidiu escrita sem debounce — um `setDoc` por clique —
+- ADR 0005 decidiu escrita sem debounce — um `setDoc` por clique —
   fiel ao pedido da época; certa para o botão.
 - No produto novo, cada ajuste de contagem dispararia uma escrita **e**
   uma notificação de "gravado" (ver
@@ -41,7 +41,7 @@ como pendência do ADR do schema.
 
 ## Alternativas consideradas
 
-- **Escrita por clique** (ADR 0007 intacto): ruído de notificações e
+- **Escrita por clique** (ADR 0005 intacto): ruído de notificações e
   custo de escrita desnecessários em rajada
 - **Botão salvar**: violaria a transparência exigida — persistência
   nunca é ação do usuário

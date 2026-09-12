@@ -48,7 +48,7 @@ reabertos só por causa da assinatura, não por comportamento novo.
   assim a checagem "há algo para gravar?" (`Object.keys(alteracoes).length`)
   não conta a marca sozinha, e ela nunca dispara uma escrita própria — só
   entra no envio quando uma gravação por ajuste real já ia acontecer,
-  cumprindo "não pode virar escrita extra" (ADR 0008).
+  cumprindo "não pode virar escrita extra" (ADR 0005).
 
 ## Consequências
 

@@ -15,7 +15,7 @@ atestação, uma única vez.
   mesmo documento que a Tarefa 0007-0002 já lê. Nova função
   `gravarAtestacao(uid)`, que grava só `{ atestadoEm: serverTimestamp() }`
   com `setDoc(..., { merge: true })` — deliberadamente **sem** `updatedAt`
-  junto (ADR 0008), por isso não reaproveita `gravarAlteracoes`. Nunca
+  junto (ADR 0005), por isso não reaproveita `gravarAlteracoes`. Nunca
   lança; resultado discriminado igual às demais funções do módulo.
 - `src/components/Atestacao.jsx` (novo): tela com o texto exato de
   `interface.md` § Tela de login e um botão "Confirmar", reaproveitando o
@@ -26,7 +26,7 @@ atestação, uma única vez.
   `contagens`), corrigido pela carga da coleção assim que ela resolve —
   `encontrado` sem `atestadoEm` ou `vazio` (documento inexistente = nunca
   atestou) → `true`; `encontrado` com `atestadoEm`, `erro` ou
-  `indisponivel` → `false` (a política de erro visível do ADR 0008 não
+  `indisponivel` → `false` (a política de erro visível do ADR 0005 não
   também trava a guarda de atestação). Um novo ramo de retorno mostra
   `<Atestacao />` quando `precisaAtestar` é verdadeiro, entre a tela de
   login e a tela principal. `handleConfirmarAtestacao` chama

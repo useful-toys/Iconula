@@ -45,7 +45,7 @@ virtualização, já não aparecia mais nesta lista — ver "Achado" abaixo):**
 - Estado global (Context) → prop-drilling mantido — [TDR 0014](../../../tdr/0014-estado-da-colecao-sem-context.md)
 - Geração do catálogo (pipeline) → sem pipeline, escrito à mão + testes de
   invariantes — [TDR 0010](../../../tdr/0010-forma-do-catalogo-degradacao-do-checklist-e-sem-pipeline.md)
-- Aceite dos números do ADR 0008 → **fechado só parcialmente**, ver
+- Aceite dos números do ADR 0005 → **fechado só parcialmente**, ver
   "Pendências que permanecem abertas" abaixo.
 
 A tabela § Decisões-chave e onde vivem ganhou linhas novas para TDR 0010,
@@ -62,7 +62,7 @@ removido, o produto novo é o que está em produção.
 **`docs/persistencia.md` § Pronto × falta**: reescrita para refletir o
 produto implementado por completo (persistência, atestação, migração,
 export/import); o único item que continua do lado "falta" é a confirmação
-em uso real dos números do ADR 0008 (mesmo motivo do ponto em aberto de
+em uso real dos números do ADR 0005 (mesmo motivo do ponto em aberto de
 `arquitetura.md` acima).
 
 **`AGENTS.md`**: parágrafo de abertura ("O que é este projeto") corrigido —
@@ -93,7 +93,7 @@ foram removidos da tabela).
 ### Achado durante a conferência
 `docs/arquitetura.md` § Pontos em aberto, na versão anterior a esta
 tarefa, já não listava mais "Virtualização das listas" como item — só
-quatro bullets apareciam ali (aceite do ADR 0008, router, Context, geração
+quatro bullets apareciam ali (aceite do ADR 0005, router, Context, geração
 do catálogo), embora a tabela de alocação de pendências do
 `docs/plano/README.md` (e o texto desta própria tarefa) se referisse a
 "cinco pontos". Investigado: a Tarefa 0010-0002 já havia fechado a
@@ -104,7 +104,7 @@ vivem). Não há nada a remover agora — só confirmado e documentado aqui
 para não parecer um item esquecido.
 
 ## Pendências que permanecem abertas (não fechadas nesta tarefa)
-- **Aceite dos números do ADR 0008 em uso real** (debounce ~2s, teto ~10s,
+- **Aceite dos números do ADR 0005 em uso real** (debounce ~2s, teto ~10s,
   timeout ~5s sem rede): a *forma* está aceita e os *valores* foram
   aceitos como ponto de partida na Tarefa 0007-0003, mas a confirmação em
   uso real depende de um deploy de produção com usuários reais, que não
@@ -182,7 +182,7 @@ dist/assets/index.esm-_bVlNUiX.js                 505.90 kB │ gzip: 148.77 kB
 ```
 
 O warning de lint (`Catalogo.jsx:195`) e o aviso de chunk grande do build
-(SDK do Firestore, carregado sob demanda — ADR 0007) são pré-existentes e
+(SDK do Firestore, carregado sob demanda — ADR 0005) são pré-existentes e
 não relacionados a esta tarefa, que não alterou nenhum arquivo de `src/`.
 
 Conferência documental (manual, não é um comando): percorrido `src/`
@@ -199,7 +199,7 @@ que o resolve, citado no próprio texto.
       (fica vazia — nada continua aberto)
 - [x] § Pontos em aberto de `arquitetura.md` está vazio ou justificado, com
       registro apontado (três fechados com registro; um — aceite dos
-      números do ADR 0008 — justificado como aberto, com motivo)
+      números do ADR 0005 — justificado como aberto, com motivo)
 - [x] § Decisões Pendentes de `requisitos.md` não lista as três resolvidas
 - [x] `docs/persistencia.md` § Pronto × falta reflete o produto implementado
 - [x] A tabela § Onde fica cada coisa do `AGENTS.md` bate arquivo por

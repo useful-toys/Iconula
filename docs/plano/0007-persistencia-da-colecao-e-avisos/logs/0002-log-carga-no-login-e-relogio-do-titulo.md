@@ -12,14 +12,14 @@ título com o `updatedAt` gravado no documento.
 
 - `src/lib/colecaoRemota.js` — criado no lugar do `userPreferences.js` removido
   na Fase 2. Único módulo que toca o SDK do Firestore, carregado sob demanda por
-  `import()` dinâmico memoizado (`firebase.js` não o importa — ADR 0007).
+  `import()` dinâmico memoizado (`firebase.js` não o importa — ADR 0005).
   Inicializa o Firestore com `persistentLocalCache` +
-  `persistentMultipleTabManager()` (ADR 0008) e expõe `carregarColecao(uid)` com
+  `persistentMultipleTabManager()` (ADR 0005) e expõe `carregarColecao(uid)` com
   resultado discriminado `encontrado | vazio | erro | indisponivel`, que **nunca
   lança**. Traz também `formatarCarimbo(data, agora)` (IDR 0027) e
   `mensagemDeErro(erro)` para o detalhe técnico.
 - `src/App.jsx` — efeito de carga dependente de **`uid`** (não do objeto `user`,
-  que muda a cada refresh de token — ADR 0007). Documento vazio é o fluxo normal
+  que muda a cada refresh de token — ADR 0005). Documento vazio é o fluxo normal
   do primeiro login. A carga bem-sucedida **não** move o relógio para "agora":
   exibe o `updatedAt` gravado; sem carimbo, `—`. Proteção de corrida com
   contador de ajustes (`useRef`): ajuste feito durante a leitura descarta a
@@ -37,7 +37,7 @@ título com o `updatedAt` gravado no documento.
 - **TDR 0016** — duas decisões em aberto da tarefa, num registro só:
   1. **Corrida da leitura**: contador de ajustes (`useRef`) incrementado fora do
      updater (StrictMode), capturado no início da leitura; resposta do servidor
-     descartada se o contador mudou — o desenho do ADR 0007 adaptado ao mapa de
+     descartada se o contador mudou — o desenho do ADR 0005 adaptado ao mapa de
      contagens.
   2. **Formato do carimbo**: mesmo dia `HH:mm`; outro dia `dd/mm/aa HH:mm`
      (curto, PT-BR, sem segundos). A função `formatarCarimbo` aceita o instante

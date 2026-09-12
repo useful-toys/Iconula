@@ -46,7 +46,7 @@ Aceito | Rejeitado | **Substituído pelo [ADR/TDR/IDR/MDR NNNN](caminho)**: moti
   para quem o substitui, e o conteúdo original fica intacto como
   registro histórico.
 - Referencie outras decisões com link relativo:
-  `[MDR 0001](0001-slug.md)`, `[ADR 0008](../adr/0008-slug.md)`.
+  `[MDR 0001](0001-slug.md)`, `[ADR 0005](../adr/0005-persistencia-no-firestore.md)`.
 
 ## Estilo de prosa
 

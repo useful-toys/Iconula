@@ -7,7 +7,7 @@
 
 ## Resumo
 Reescrito `firestore.rules.test.js` para o schema novo (mapa esparso do
-ADR 0008), substituindo a suíte da era do botão. A suíte agora tem **23
+ADR 0005), substituindo a suíte da era do botão. A suíte agora tem **23
 testes, todos verdes** no `npm run test:rules`, cobrindo:
 
 - **Isolamento** (preservado): dono lê o próprio documento; outro uid

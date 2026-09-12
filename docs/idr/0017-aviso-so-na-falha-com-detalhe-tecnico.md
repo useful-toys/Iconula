@@ -21,7 +21,7 @@ persiste, com o detalhe técnico ao toque, como decidido aqui.
 
 - O IDR 0002 tornou os eventos de persistência visíveis (gravado,
   carregado, falha) — reação à falha invisível da era do botão
-  (ADR 0007) —, com o desenho da área em aberto: notificar sem virar
+  (ADR 0005) —, com o desenho da área em aberto: notificar sem virar
   ruído. Na época, "avisar só em erro" foi descartado: sem um estado
   normal visível, o erro sozinho não dizia se os dados estavam salvos.
 - O quadro mudou com o título em linha única (IDR 0018): a data/hora

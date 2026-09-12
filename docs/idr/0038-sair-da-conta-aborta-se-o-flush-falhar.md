@@ -10,13 +10,13 @@ Aceito.
 
 - A Tarefa 0009-0002 move "sair da conta" da área de login provisória
   para o menu de ações do cabeçalho, mantendo a garantia já
-  estabelecida na Tarefa 0007-0003 (ADR 0008): sair grava o que
+  estabelecida na Tarefa 0007-0003 (ADR 0005): sair grava o que
   estiver pendente **antes** do `signOut`, porque depois do logout as
   regras do Firestore negam a escrita (`docs/requisitos.md` § Acesso)
   — um ajuste recente ainda não gravado se perderia.
 - A tarefa deixou como pendência de desenho o que fazer quando esse
   flush final falha (erro real do servidor — não a espera sem rede, já
-  tratada pelo ADR 0008 com o aviso "sincronizando quando possível"):
+  tratada pelo ADR 0005 com o aviso "sincronizando quando possível"):
   sair mesmo assim descartaria o ajuste pendente sem avisar — a única
   perda de dado silenciosa do app inteiro.
 
@@ -25,7 +25,7 @@ Aceito.
 - Se o flush ao sair devolver `status: 'erro'`, o `signOut` **não**
   acontece: a conta permanece logada, com o ajuste pendente intacto na
   fila da gravação agregada (ela já devolve as chaves para a fila em
-  caso de falha — comportamento existente do ADR 0008).
+  caso de falha — comportamento existente do ADR 0005).
 - A falha é informada pelo mesmo canal já usado para qualquer falha de
   gravação (`avisos.js`, severidade falha, "Falha ao gravar — toque
   para detalhes") — sem mensagem nem `tipo` de aviso dedicados: para
@@ -44,7 +44,7 @@ Aceito.
 - Nenhuma perda silenciosa de ajustes ao sair: a única alternativa a
   uma falha de gravação é permanecer logado
 - Sem rede, o flush não chega a devolver `erro` (fica em espera até o
-  servidor responder — ADR 0008); sair nesse caso continua esperando a
+  servidor responder — ADR 0005); sair nesse caso continua esperando a
   resposta real antes de decidir, comportamento inalterado por esta
   decisão
 - `gravacaoAgregada.test.js` ganhou casos para o retorno de `flush()`

@@ -26,7 +26,7 @@ mesmo PR — inclusive o desfecho da medição da allow-list, que só se sabe ag
 - O texto do "Alvo (especificado)" passa a ser o implementado: a seção "Hoje
   (implementado): a bandeira do botão" deixa de descrever a realidade —
   `docs/persistencia.md` § Formato dos dados
-- Registro existente não se reescreve: o ADR 0008 e o TDR 0009 continuam como
+- Registro existente não se reescreve: o ADR 0005 e o TDR 0009 continuam como
   estão; o que muda é a documentação de estado — `AGENTS.md` § Convenções
 - Documento de repositório em PT-BR, com o cabeçalho de copyright já presente —
   `AGENTS.md` § Convenções
@@ -46,7 +46,7 @@ mesmo PR — inclusive o desfecho da medição da allow-list, que só se sabe ag
    está correta; se estiver, registrar no log que nada era necessário.
 4. `docs/arquitetura.md`: conferir se § Decisões-chave e onde vivem e § Pontos em
    aberto ainda descrevem a realidade depois desta fase — em especial o item
-   "Aceite do ADR 0008", que continua aberto até a Fase 7.
+   "Aceite do ADR 0005", que continua aberto até a Fase 7.
 5. Não tocar em `docs/gcloud.md` nem em `docs/github.md`: esta fase não muda IAM,
    secrets, workflows nem branch protection. Se tiver mudado, é sinal de que a
    fase saiu do escopo — PARE.

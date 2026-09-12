@@ -90,7 +90,7 @@ Dois mundos, nunca misturados:
   nunca toca o Firestore. Identidade da figurinha é o código
   (`BRA05`), imutável
 - **Coleção** — estado do usuário, contagens por código, vive em
-  `users/{uid}` (schema decidido — ADR 0008, ver persistencia.md)
+  `users/{uid}` (schema decidido — ADR 0005, ver persistencia.md)
 
 Fluxos:
 
@@ -111,7 +111,7 @@ Fluxos:
 
 - Vite gera estáticos em `dist/`; bundle principal enxuto — o SDK do
   Firestore (~555 KB) vira chunk sob demanda, baixado só por quem
-  entra (ADR 0007)
+  entra (ADR 0005)
 - Bandeiras Twemoji vendadas em `src/assets/flags/` (ADR 0002)
 - Testes: Vitest + React Testing Library (unitários) e regras do
   Firestore no emulador (`npm run test:rules`, JDK 21+), ambos no CI
@@ -129,7 +129,7 @@ Fluxos:
 | Deploy Hosting + Actions | [ADR 0003](adr/0003-deploy-firebase-hosting-github-actions.md) |
 | Preview como required check | [ADR 0004](adr/0004-branch-protection-preview-required.md) |
 | Login Google | [ADR 0005](adr/0005-login-google-sdk-modular.md) |
-| Persistência Firestore | [ADR 0007](adr/0007-persistencia-do-time-no-firestore.md) + [persistencia.md](persistencia.md) |
+| Persistência Firestore | [ADR 0005](adr/0005-persistencia-no-firestore.md) + [persistencia.md](persistencia.md) |
 | CSP para Auth/Firestore | [TDR 0005](tdr/0005-csp-firebase-auth-google-oauth.md), [TDR 0007](tdr/0007-csp-para-o-firestore.md) |
 | Regras: deploy e teste | [TDR 0008](tdr/0008-deploy-e-teste-das-regras-do-firestore.md) |
 | Regras: o que dá para validar no mapa | [TDR 0009](tdr/0009-validacao-do-mapa-nas-regras.md) |
@@ -149,12 +149,12 @@ Fluxos:
 
 ## Pontos em aberto (fase de implementação)
 
-- **Aceite dos números do ADR 0008 — parcialmente aberto**: o schema está
+- **Aceite dos números do ADR 0005 — parcialmente aberto**: o schema está
   aceito (mapa esparso, três campos, teto de 99 — TDR 0009) e os valores
   numéricos (debounce ~2s, teto de espera ~10s, timeout ~5s sem rede)
   foram aceitos como ponto de partida na Tarefa 0007-0003 (ver
   [log](plano/0007-persistencia-da-colecao-e-avisos/logs/0003-log-gravacao-agregada-com-flush.md)
-  § "Números do ADR 0008"). **Falta**: confirmá-los em uso real — não
+  § "Números do ADR 0005"). **Falta**: confirmá-los em uso real — não
   houve deploy de produção com usuários reais disponível durante a
   execução automatizada do plano. Ajustar os números quando isso
   acontecer é mudança de valor, não de forma, e não exige novo ADR.

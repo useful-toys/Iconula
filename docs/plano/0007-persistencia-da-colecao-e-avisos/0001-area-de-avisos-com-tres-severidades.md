@@ -49,7 +49,7 @@ flutuante com as três severidades, que a persistência (Tarefas 0007-0002 a
 5. Limite de empilhamento: poucas faixas ao mesmo tempo; ao estourar, as mais
    antigas saem. Nada de contêiner rolável.
 6. Acessibilidade: sucesso e aviso anunciados de forma não intrusiva; a falha,
-   que exige atenção, com `role="alert"` — a política do ADR 0007 de não usar
+   que exige atenção, com `role="alert"` — a política do ADR 0005 de não usar
    `role="alert"` valia para o botão e foi revista pelos IDRs 0002 e 0029.
 7. Camadas: a faixa passa por cima do cabeçalho sticky. O menu de ações, que
    chega na Fase 9, precisa ficar acima dela — deixar a ordem de empilhamento

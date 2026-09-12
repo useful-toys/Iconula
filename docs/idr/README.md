@@ -10,7 +10,7 @@ mesmo commit**.
 | Nº | Título | Status | Tags | Resumo |
 |---|---|---|---|---|
 | [IDR 0001](0001-filtro-de-status-so-na-disposicao-lista.md) | Filtro de status apenas na disposição lista | Aceito (revisado) | filtro, disposicao, catalogo | Filtro de status (todas/faltantes/repetidas) existe apenas na disposição lista; a disposição álbum nunca é filtrada. |
-| [IDR 0002](0002-avisos-de-sincronizacao-visiveis.md) | Avisos de sincronização visíveis | Aceito (refinado) | avisos, persistencia | Eventos de persistência (gravado, carregado, falha) ficam visíveis ao usuário, revendo a política de erro invisível do ADR 0007. |
+| [IDR 0002](0002-avisos-de-sincronizacao-visiveis.md) | Avisos de sincronização visíveis | Aceito (refinado) | avisos, persistencia | Eventos de persistência (gravado, carregado, falha) ficam visíveis ao usuário, revendo a política de erro invisível do ADR 0005. |
 | [IDR 0003](0003-gravacao-agrega-ajustes.md) | Gravação agrega ajustes, sem escrita por clique | Aceito | persistencia | Persistência é automática e transparente, sem botões de salvar, com gravações que agregam ajustes em vez de escrever a cada clique. |
 | [IDR 0004](0004-rejeitado-ir-para-secao-e-salto-de-navegacao.md) | "Ir para" seção é salto de navegação, não filtro | Rejeitado | navegacao, salto | "Ir para" seção seria salto de navegação, não filtro, mas o seletor foi removido — rolagem basta. |
 | [IDR 0005](0005-ordenacoes-disposicoes-e-percurso-do-catalogo.md) | Ordenações, disposições e percurso do catálogo | Aceito | catalogo, ordenacao, disposicao, navegacao | Duas ordenações (sigla/álbum) e duas disposições (lista/álbum) atendem consultar por código e conferir contra o álbum físico; percurso sempre por rolagem. |
