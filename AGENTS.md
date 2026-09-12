@@ -110,6 +110,7 @@ aberto e § Camadas no cliente).
 | `docs/adr/` | Decisões de arquitetura (ADRs) — leia antes de propor mudanças estruturais. |
 | `docs/tdr/` | Decisões técnicas pontuais (TDRs). |
 | `docs/idr/` | Decisões de interface significantes (IDRs) — apresentação, interação, navegação; mesmo formato dos ADRs/TDRs. |
+| `docs/mdr/` | Decisões de modelagem de dados (MDRs) — schema, formato de documentos, transformações e validações de dados; mesmo formato dos ADRs/TDRs/IDRs. |
 | `docs/firebase.md` | Tudo o que foi configurado no Firebase (projeto, Hosting, login) — como reproduzir. |
 | `docs/gcloud.md` | Tudo o que foi configurado no Google Cloud (APIs habilitadas, service account, IAM) — como reproduzir. |
 | `docs/github.md` | Tudo o que foi configurado no GitHub (repo, secrets, workflows, branch protection) — como reproduzir. |
@@ -121,8 +122,8 @@ aberto e § Camadas no cliente).
   `Copyright (c) 2026 Daniel Felix Ferber` (sintaxe de comentário do
   tipo de arquivo: `//` em JS/JSX, `/* */` em CSS, `<!-- -->` em HTML/MD,
   `#` em YAML).
-- Registrar um novo ADR/TDR/IDR em `docs/adr/`, `docs/tdr/` ou
-  `docs/idr/` **no momento em
+- Registrar um novo ADR/TDR/IDR/MDR em `docs/adr/`, `docs/tdr/`,
+  `docs/idr/` ou `docs/mdr/` **no momento em
   que a decisão é tomada**, não depois — inclusive decisões tomadas
   durante o planejamento (antes de qualquer código existir) e decisões
   tomadas automaticamente por um agente de IA durante a execução (ex.:
@@ -132,11 +133,13 @@ aberto e § Camadas no cliente).
   mesmo que o código funcione. Usar ADR para decisões de
   arquitetura/tecnologia (stack, forma de deploy, dependências
   estruturais), TDR para decisões técnicas mais pontuais de
-  implementação e IDR para decisões de interface significantes
+  implementação, IDR para decisões de interface significantes
   (apresentação, interação, navegação — detalhes puramente estéticos
-  não precisam de registro), seguindo a numeração sequencial e o formato
-  dos arquivos existentes (Status / Contexto / Decisão / Consequências /
-  Alternativas consideradas).
+  não precisam de registro) e MDR para decisões de modelagem de dados
+  (schema, formato de documentos, transformações e validações de dados),
+  seguindo a numeração sequencial e o formato dos arquivos existentes
+  (Status / Contexto / Decisão / Consequências / Alternativas
+  consideradas).
 - Descobertas relevantes feitas durante a implementação (ex.: uma
   limitação de plataforma, um comportamento inesperado de uma
   biblioteca) que motivaram uma decisão devem ser registradas na seção
