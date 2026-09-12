@@ -213,7 +213,7 @@ Páginas 112–113 do álbum (requisitos.md, Anexo):
   partir da contagem 1, então a figurinha faltante não o exibe (ver
   [IDR 0032](idr/0032-controle-de-menos-so-com-unidade-e-dentro-do-cartao.md));
   oculto por padrão, aparece no hover e no foco, e fica sempre visível
-  em tela sem hover (ver [IDR 0030](idr/0030-controle-de-menos-do-cartao.md))
+  em tela sem hover (IDR 0032)
 
 ### Interações
 - Tocar na figurinha soma uma unidade — sem efeito ao chegar em 99

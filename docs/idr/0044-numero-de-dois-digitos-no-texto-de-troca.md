@@ -4,7 +4,12 @@
 
 ## Status
 
-Aceito.
+Absorvido pelo
+[IDR 0039](0039-texto-de-troca-ordem-fixa-e-copia-manual-de-reserva.md).
+
+Este IDR decidiu que todo número nos textos de troca sai com dois
+dígitos. A decisão foi incorporada ao IDR 0039, que já tratava do texto
+de troca como um todo.
 
 ## Contexto
 

@@ -4,18 +4,19 @@
 
 ## Status
 
-Aceito — resolve a pendência de desenho da área de avisos de
-interface.md, refinando o
-[IDR 0002](0002-avisos-de-sincronizacao-visiveis.md). Um ponto do
-raciocínio foi corrigido pelo
+Aceito — decisão central revertida pelo
+[IDR 0029](0029-avisos-flutuantes-com-tres-severidades.md).
+
+Este IDR refinou o
+[IDR 0002](0002-avisos-de-sincronizacao-visiveis.md) ao decidir que
+apenas a falha geraria aviso, com sucesso e carregado cobertos pela
+data/hora do título. Um ponto do raciocínio foi corrigido pelo
 [IDR 0027](0027-relogio-do-titulo-e-o-updatedat-do-documento.md): o
 relógio do título é o `updatedAt` do documento, então ele ticka na
-gravação, **não** na carga — o feedback de sucesso continua sendo só
-ele, mas cobre a escrita, não a leitura. E a decisão central — "só a
-falha avisa" — foi **revertida** pelo
-[IDR 0029](0029-avisos-flutuantes-com-tres-severidades.md): sucesso e
-aviso voltam, flutuantes na borda inferior, sumindo em 5s; a falha
-persiste, com o detalhe técnico ao toque, como decidido aqui.
+gravação, **não** na carga. O IDR 0029 reverteu a decisão central —
+"só a falha avisa" — e restabeleceu os avisos de sucesso e aviso
+(efêmeros, 5s), preservando desta decisão o lugar (borda inferior), o
+detalhe técnico ao toque na falha e a proibição de log com scroll.
 
 ## Contexto
 
