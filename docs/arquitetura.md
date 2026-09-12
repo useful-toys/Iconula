@@ -135,7 +135,7 @@ Fluxos:
 | Regras: o que dá para validar no mapa | [TDR 0009](tdr/0009-validacao-do-mapa-nas-regras.md) |
 | Interface (disposições, estados, sync, scroll, acessibilidade…) | [IDR 0001–0043](idr/) + [interface.md](interface.md) |
 | Aparência (tema, paleta, medidas) | [IDR 0022](idr/0022-tema-escuro-unico-paleta-do-prototipo.md) + [interface.md](interface.md) |
-| Schema da coleção | [ADR 0008](adr/0008-schema-da-colecao-mapa-esparso.md) + [persistencia.md](persistencia.md) |
+| Schema da coleção | [MDR 0002](mdr/0002-schema-do-documento-da-colecao.md) + [persistencia.md](persistencia.md) |
 | Forma do catálogo, checklist incompleto e sem pipeline de geração | [TDR 0010](tdr/0010-forma-do-catalogo-degradacao-do-checklist-e-sem-pipeline.md) |
 | Derivações de ordenação/agrupamento em `src/data/` | [TDR 0012](tdr/0012-derivacoes-do-catalogo-em-src-data.md) |
 | Tipografia (Poppins) vendorizada | [TDR 0013](tdr/0013-tipografia-vendorizada.md) |
