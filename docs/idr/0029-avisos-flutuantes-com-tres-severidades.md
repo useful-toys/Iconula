@@ -12,26 +12,23 @@ ao toque e a proibição de log com scroll.
 
 ## Contexto
 
-O IDR 0017 tirou o aviso de sucesso do caminho: com o relógio no título
-cobrindo toda transação bem-sucedida, um "gravado" na tela seria
-redundância e ruído em rajada de registro. A decisão intermediária
-daquela sessão — sucessos efêmeros de ~4s na borda inferior — foi
-descartada por minimalismo.
-
-Dois fatos mudaram desde então:
-
-- O [IDR 0027](0027-relogio-do-titulo-e-o-updatedat-do-documento.md)
-  amarrou o relógio ao `updatedAt` do documento. Ele deixou de tickar na
-  carga, e mesmo na gravação o avanço de `12:34` para `12:35` é um sinal
-  discreto demais para servir de confirmação
-- O [IDR 0024](0024-acoes-raras-em-menu-do-cabecalho.md) trouxe ações
-  que **exigem** confirmação visível e não são persistência: copiar a
-  lista de faltantes para a área de transferência não muda nada na tela,
-  e sem retorno o usuário não sabe se funcionou
-
-O usuário decidiu: mensagens de erro, sucesso e aviso, todas flutuantes
-e grudadas na borda inferior; sucesso e aviso somem sozinhos em 5
-segundos.
+- O IDR 0017 tirou o aviso de sucesso do caminho: com o relógio no
+  título cobrindo toda transação bem-sucedida, um "gravado" na tela
+  seria redundância e ruído em rajada de registro. A decisão
+  intermediária daquela sessão — sucessos efêmeros de ~4s na borda
+  inferior — foi descartada por minimalismo.
+- Dois fatos mudaram desde então:
+  - O [IDR 0027](0027-relogio-do-titulo-e-o-updatedat-do-documento.md)
+    amarrou o relógio ao `updatedAt` do documento. Ele deixou de tickar
+    na carga, e mesmo na gravação o avanço de `12:34` para `12:35` é um
+    sinal discreto demais para servir de confirmação
+  - O [IDR 0024](0024-acoes-raras-em-menu-do-cabecalho.md) trouxe ações
+    que **exigem** confirmação visível e não são persistência: copiar a
+    lista de faltantes para a área de transferência não muda nada na
+    tela, e sem retorno o usuário não sabe se funcionou
+- O usuário decidiu: mensagens de erro, sucesso e aviso, todas
+  flutuantes e grudadas na borda inferior; sucesso e aviso somem
+  sozinhos em 5 segundos.
 
 ## Decisão
 

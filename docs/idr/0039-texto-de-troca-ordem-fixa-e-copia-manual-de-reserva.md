@@ -36,28 +36,28 @@ desenho:
 
 ## Consequências
 
-- `src/lib/textoDeTroca.js` não lê a ordenação vigente — recebe as seções
-  já ordenadas por quem chama (`App.jsx`), o que também o mantém uma
-  função pura e simples de testar
+- `src/lib/textoDeTroca.js` não lê a ordenação vigente — recebe as
+  seções já ordenadas por quem chama (`App.jsx`), o que também o mantém
+  uma função pura e simples de testar
 - O texto de troca pode diferir visualmente da disposição da tela no
-  momento (ex.: tela em "Sigla", texto sempre na ordem do álbum) — aceito
-  de propósito, é a comparabilidade que se busca
-- `window.prompt()` é síncrono e bloqueia a aba até ser dispensado — efeito
-  colateral aceitável para um caminho de exceção raro (só acontece quando a
-  API de área de transferência já falhou)
+  momento (ex.: tela em "Sigla", texto sempre na ordem do álbum) —
+  aceito de propósito, é a comparabilidade que se busca
+- `window.prompt()` é síncrono e bloqueia a aba até ser dispensado —
+  efeito colateral aceitável para um caminho de exceção raro (só
+  acontece quando a API de área de transferência já falhou)
 - Testes de `App.jsx` que exercitam a falha de cópia precisam stubar
   `window.prompt`, além de `navigator.clipboard`
 
 ## Alternativas consideradas
 
-- **Texto na ordenação vigente**: mais "o que você vê é o que copia", mas
-  duas pessoas com preferências de tela diferentes gerariam listas
+- **Texto na ordenação vigente**: mais "o que você vê é o que copia",
+  mas duas pessoas com preferências de tela diferentes gerariam listas
   difíceis de comparar — o objetivo prático de uma lista de troca
-- **Tela ou modal dedicado para cópia manual**: mais controle visual, mas
-  cria uma tela nova só para um caminho de exceção raro — contra a
+- **Tela ou modal dedicado para cópia manual**: mais controle visual,
+  mas cria uma tela nova só para um caminho de exceção raro — contra a
   simplicidade que o resto do app persegue (nenhuma tela cresce por
   contas de borda)
-- **Nenhuma saída para cópia manual, só o aviso**: o trabalho de gerar o
-  texto (que já rodou, é gratuito) se perderia sem alternativa — o
+- **Nenhuma saída para cópia manual, só o aviso**: o trabalho de gerar
+  o texto (que já rodou, é gratuito) se perderia sem alternativa — o
   usuário precisaria repetir a ação depois de resolver a permissão, sem
   garantia de que resolveria
