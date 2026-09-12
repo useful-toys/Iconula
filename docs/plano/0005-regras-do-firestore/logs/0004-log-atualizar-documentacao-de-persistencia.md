@@ -40,11 +40,11 @@ Documentação alinhada ao `firestore.rules` publicado (tarefas 0005-0001 a
   pedido pelo TDR 0009 já estava aplicado.
 - **`docs/arquitetura.md`**
   - § Decisões-chave e onde vivem: já apontava para TDR 0008, TDR 0009 e
-    ADR 0008 — nenhuma mudança necessária.
+    ADR 0005 — nenhuma mudanças necessária.
   - § Pontos em aberto: o item "Aceite do ADR 0005: redigido... o teto
     por contagem foi removido" estava desatualizado (o ADR está **aceito**
     e o teto voltou a 99). Reescrito para "Aceite dos números do ADR
-    0008", deixando explícito que só os números operacionais seguem em
+    0005", deixando explícito que só os números operacionais seguem em
     aberto até a Fase 7.
 
 ## Decisões tomadas

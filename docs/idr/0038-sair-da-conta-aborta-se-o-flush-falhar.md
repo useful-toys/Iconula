@@ -56,7 +56,7 @@ Aceito.
   chegaria a acontecer antes de as regras negarem a escrita — perda
   silenciosa, o problema que esta decisão existe para evitar
 - **Repetir o flush automaticamente até funcionar**: reintroduziria um
-  laço de retentativa próprio que a política de erro do ADR 0008
+  laço de retentativa próprio que a política de erro do ADR 0005
   deliberadamente evitou (a gravação seguinte já regrava o valor
   completo, de forma idempotente)
 - **Mensagem dedicada para a falha ao sair**: mais específico, mas cria
