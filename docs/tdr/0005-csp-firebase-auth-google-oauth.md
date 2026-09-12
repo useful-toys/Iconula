@@ -4,8 +4,7 @@
 
 ## Status
 
-Aceito — **atualizado** pela remoção do FirebaseUI
-([ADR 0005](../adr/0005-login-google-sdk-modular.md)).
+**Substituído pelo [DDR 0001](../devops-dr/0001-csp-headers-e-configuracao-de-hosting.md)**: CSP, headers e cache consolidados num único DDR.
 
 - Concessões que existiam **por causa do widget** foram removidas da
   CSP: `style-src https://fonts.googleapis.com`,

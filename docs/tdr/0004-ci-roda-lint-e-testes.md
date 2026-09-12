@@ -4,7 +4,7 @@
 
 ## Status
 
-Aceito
+**Substituído pelo [DDR 0002](../devops-dr/0002-workflow-de-ci-separado.md)**: decisões de CI/CD movidas para DevOps DRs.
 
 ## Contexto
 

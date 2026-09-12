@@ -262,7 +262,7 @@ Em resumo, o que as regras permitem em `users/{uid}`:
 
 Isso é verificado por testes automatizados contra o emulador
 (`npm run test:rules`), que rodam no CI a cada PR — ver
-[TDR 0008](tdr/0008-deploy-e-teste-das-regras-do-firestore.md).
+[DDR 0004](devops-dr/0004-deploy-e-teste-das-regras-do-firestore.md).
 
 ### Deploy das regras
 

@@ -57,7 +57,7 @@ demais subsets (devanagari, etc.) ficaram de fora — o app não os usa.
 
 - **Poppins via Google Fonts CDN (`fonts.googleapis.com` + `fonts.gstatic.com`)**:
   rejeitado — exigiria reabrir `font-src` e `style-src` na CSP,
-  revertendo decisão do ADR 0005 e do TDR 0005, e entregaria IP e
+  revertendo decisão do ADR 0005 e do DDR 0001, e entregaria IP e
   User-Agent de todo visitante ao Google.
 - **Trocar Poppins por `system-ui`**: rejeitado — `docs/interface.md`
   especifica Poppins 600/700 no título, códigos e nomes de seção; a
