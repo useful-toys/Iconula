@@ -58,9 +58,9 @@ regras do Firestore, avaliadas no servidor contra o ID token.
 
 - **Hosting**: serve `dist/` (build do Vite) com CSP e headers de
   segurança; produção em merge na `main`, preview por PR — workflow é
-  required check (ADR 0003/0004)
+  required check ([ADR 0003](adr/0003-firebase-hosting.md), [DDR 0005](devops-dr/0005-protecao-da-branch-main.md))
 - **Auth**: único provedor Google, popup, botão próprio, SDK modular
-  (ADR 0005)
+  ([ADR 0004](adr/0004-login-google-sdk-modular.md))
 - **Firestore**: banco `(default)`, região `southamerica-east1`, um
   documento por usuário — detalhes, custos e o que muda com o produto
   novo em [persistencia.md](persistencia.md)
@@ -91,7 +91,7 @@ Dois mundos, nunca misturados:
   nunca toca o Firestore. Identidade da figurinha é o código
   (`BRA05`), imutável
 - **Coleção** — estado do usuário, contagens por código, vive em
-  `users/{uid}` (schema decidido — ADR 0005, ver persistencia.md)
+  `users/{uid}` (schema decidido — [ADR 0005](adr/0005-persistencia-no-firestore.md), ver persistencia.md)
 
 Fluxos:
 
@@ -112,8 +112,8 @@ Fluxos:
 
 - Vite gera estáticos em `dist/`; bundle principal enxuto — o SDK do
   Firestore (~555 KB) vira chunk sob demanda, baixado só por quem
-  entra (ADR 0005)
-- Bandeiras Twemoji vendadas em `src/assets/flags/` (ADR 0002)
+  entra ([ADR 0005](adr/0005-persistencia-no-firestore.md))
+- Bandeiras Twemoji vendadas em `src/assets/flags/` ([ADR 0006](adr/0006-bandeiras-emoji-unicode.md))
 - Testes: Vitest + React Testing Library (unitários) e regras do
   Firestore no emulador (`npm run test:rules`, JDK 21+), ambos no CI
   (DDR 0002/0004); actions pinadas por SHA (DDR 0003)
@@ -125,12 +125,15 @@ Fluxos:
 
 | Área | Registro |
 |---|---|
-| Stack Vite + React | [ADR 0001](adr/0001-stack-vite-react.md) |
-| Bandeiras Twemoji vendadas | [ADR 0002](adr/0002-bandeiras-emoji-unicode.md) |
-| Deploy Hosting + Actions | [ADR 0003](adr/0003-deploy-firebase-hosting-github-actions.md) |
-| Preview como required check | [ADR 0004](adr/0004-branch-protection-preview-required.md) |
-| Login Google | [ADR 0005](adr/0005-login-google-sdk-modular.md) |
+| Aplicação SPA | [ADR 0001](adr/0001-aplicacao-spa.md) |
+| Stack Vite + React | [ADR 0002](adr/0002-stack-vite-react.md) |
+| Firebase Hosting | [ADR 0003](adr/0003-firebase-hosting.md) |
+| Login Google | [ADR 0004](adr/0004-login-google-sdk-modular.md) |
 | Persistência Firestore | [ADR 0005](adr/0005-persistencia-no-firestore.md) + [persistencia.md](persistencia.md) |
+| Bandeiras Twemoji vendadas | [ADR 0006](adr/0006-bandeiras-emoji-unicode.md) |
+| Estrutura de pastas | [ADR 0007](adr/0007-estrutura-de-pastas-e-separacao-de-responsabilidades.md) |
+| CSS modular por componente | [ADR 0008](adr/0008-css-modular-por-componente.md) |
+| Testes co-localizados | [ADR 0009](adr/0009-testes-co-localizados.md) |
 | CSP, headers e cache no Hosting | [DDR 0001](devops-dr/0001-csp-headers-e-configuracao-de-hosting.md) |
 | CI separado (lint, testes, build) | [DDR 0002](devops-dr/0002-workflow-de-ci-separado.md) |
 | Pinning de actions por SHA | [DDR 0003](devops-dr/0003-pinning-de-actions-por-sha.md) |
