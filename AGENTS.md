@@ -37,7 +37,7 @@ aberto e § Camadas no cliente).
   vendorizados em `src/assets/flags/` (nome do arquivo = code point
   Unicode, calculado via `@twemoji/api`) — necessário porque o Windows
   não renderiza emoji de bandeira nativamente (ver
-  [docs/adr/0002](docs/adr/0002-bandeiras-emoji-unicode.md))
+  [docs/adr/0006](docs/adr/0006-bandeiras-emoji-unicode.md))
 - Tipografia: Poppins (600/700, latin + latin-ext) vendorizada em
   `src/assets/fonts/` e servida pelo próprio Hosting — evita abrir a CSP
   (`style-src`/`font-src`) para uma fonte externa (ver
@@ -47,14 +47,14 @@ aberto e § Camadas no cliente).
   GitHub `useful-toys`, projeto Firebase `iconula`)
 - Login: Firebase Auth (SDK modular), único provedor Google, botão
   próprio — sem FirebaseUI (ver
-  [docs/adr/0005](docs/adr/0005-login-google-sdk-modular.md)); é a
+  [docs/adr/0004](docs/adr/0004-login-google-sdk-modular.md)); é a
   guarda do app — sem sessão só a tela de login existe (`docs/requisitos.md`
   § Acesso)
 - Persistência: Cloud Firestore, um documento por usuário
   (`users/{uid}`), com o SDK carregado sob demanda para não pesar no
   bundle de quem não faz login (ver
-  [docs/adr/0007](docs/adr/0007-persistencia-do-time-no-firestore.md) e
-  [docs/adr/0008](docs/adr/0008-schema-da-colecao-mapa-esparso.md))
+  [docs/adr/0005](docs/adr/0005-persistencia-no-firestore.md) e
+  [docs/mdr/0002](docs/mdr/0002-schema-do-documento-da-colecao.md))
 
 ## Onde fica cada coisa
 
@@ -86,7 +86,7 @@ aberto e § Camadas no cliente).
 | `src/components/Figurinha.jsx` | Cartão da figurinha com três estados, selo `×N`, controle de menos e marca de metalizada. |
 | `src/components/Avisos.jsx` | Área de avisos flutuantes com três severidades (sucesso, aviso, falha — ver [IDR 0029](docs/idr/0029-avisos-flutuantes-com-tres-severidades.md)). |
 | `src/components/*.test.jsx` | Um arquivo de teste por componente acima, ao lado do respectivo `.jsx`. |
-| `src/lib/firebase.js` | Inicializa o SDK do Firebase (API modular — ver ADR 0005) a partir das variáveis `VITE_FIREBASE_*`; exporta `auth`, `app` (ambos `null` se a config estiver incompleta — login fica indisponível, mas o resto do app funciona) e `signInWithGoogle()`. Não importa `firebase/firestore` (ADR 0005). |
+| `src/lib/firebase.js` | Inicializa o SDK do Firebase (API modular — ver [ADR 0004](docs/adr/0004-login-google-sdk-modular.md)) a partir das variáveis `VITE_FIREBASE_*`; exporta `auth`, `app` (ambos `null` se a config estiver incompleta — login fica indisponível, mas o resto do app funciona) e `signInWithGoogle()`. Não importa `firebase/firestore` ([ADR 0005](docs/adr/0005-persistencia-no-firestore.md)). |
 | `src/lib/colecao.js` | Funções puras para o mapa esparso de contagens: obter contagem, ajustar com teto de 99 e piso de 0, e filtrar por status. |
 | `src/lib/colecaoRemota.js` | Único módulo que toca o SDK do Firestore (carregado sob demanda): carregar a coleção no login, gravar alterações/atestação/importação em `users/{uid}` — nunca lança, sempre devolve um resultado discriminado (ver [ADR 0005](docs/adr/0005-persistencia-no-firestore.md)). |
 | `src/lib/gravacaoAgregada.js` | Acúmulo, debounce (~2s), teto de espera (~10s) e `flush()` da gravação agregada de contagens (ver [IDR 0003](docs/idr/0003-gravacao-agrega-ajustes.md)). |
@@ -101,11 +101,17 @@ aberto e § Camadas no cliente).
 | `firestore.rules` | Regras de segurança do Firestore — a única garantia de que um usuário não acessa os dados de outro. |
 | `firestore.rules.test.js` | Testes das regras contra o emulador (`npm run test:rules`, config em `vitest.rules.config.js`); rodam no CI a cada PR (ver [DDR 0004](docs/devops-dr/0004-deploy-e-teste-das-regras-do-firestore.md)). |
 | `firebase.json`, `.firebaserc` | Configuração do Firebase Hosting (aponta para `dist/`), das regras do Firestore e do emulador. |
+| `.oxlintrc.json` | Configuração do oxlint: plugins `react` e `oxc`, regras `react/rules-of-hooks` (erro), `react/no-danger` (erro) e `react/only-export-components` (aviso). |
+| `.env.example` | Template das variáveis `VITE_FIREBASE_*` necessárias para o login. |
 | `.github/workflows/` | Workflows de deploy (produção em merge na `main`, preview em PRs). |
 | `docs/requisitos.md` | Requisitos do produto (o que é, diferenciais, MVP, futuros, fora de escopo) — ler antes de propor funcionalidades. Descreve o produto implementado; § Requisitos futuros lista o que ainda não foi comprometido. |
 | `docs/interface.md` | Decisões de interface (o "como" da UI: telas, faixas de tela, identidade visual, interações) — todas as telas do produto especificadas e implementadas, sem pendências abertas; em conflito com requisitos, requisitos vence. |
 | `docs/persistencia.md` | Como os dados do usuário são gravados e lidos no Firestore — formato dos dados, regras, custos e o que ainda falta (§ Pronto × falta). |
-| `docs/arquitetura.md` | Visão de conjunto da arquitetura — serviços, camadas, fluxo de dados e índice das decisões (ADRs/TDRs/IDRs). |
+| `docs/arquitetura.md` | Visão de conjunto da arquitetura — serviços, camadas, fluxo de dados e índice das decisões (ADRs/TDRs/IDRs/MDRs/DDRs). |
+| `docs/devops.md` | Panorama de CI/CD, deploy e segurança — estado atual da infraestrutura, referenciando os DDRs. |
+| `docs/modelo-firebase.md` | Modelo de dados da persistência no Firestore — estado atual do schema em produção, referenciando os MDRs. |
+| `docs/modelo-intercambio.md` | Modelo de dados do formato de intercâmbio (export/import JSON). |
+| `docs/modelo-memoria.md` | Modelo de dados da representação em memória na SPA. |
 | `docs/plano/` | Plano de implementação em fases e tarefas rumo ao controle de figurinhas do álbum; `docs/plano/README.md` é o índice e o mapa de status. |
 | `docs/adr/` | Decisões de arquitetura (ADRs) — leia antes de propor mudanças estruturais. |
 | `docs/tdr/` | Decisões técnicas pontuais (TDRs). |
@@ -198,6 +204,7 @@ antes de executar, mesmo com a ferramenta disponível.
 ```bash
 npm install
 npm run dev        # desenvolvimento local
+npm run lint       # lint (oxlint)
 npm run test       # roda a suíte de testes (Vitest)
 npm run test:rules # regras do Firestore contra o emulador (precisa de JDK 21+)
 npm run build      # build de produção em dist/
@@ -215,12 +222,16 @@ catálogo (ver Tarefa 0008-0001).
 
 ## Como funciona o deploy
 
-- Push/merge na branch `main` → workflow `firebase-hosting-merge.yml` →
-  deploy em produção no Firebase Hosting.
-- Todo pull request → workflow `firebase-hosting-pull-request.yml` →
-  preview deploy temporário, comentado automaticamente no PR. Esse
-  workflow é um **required status check**: o PR só pode ser mesclado se
-  ele passar (ver [docs/adr/0004](docs/adr/0004-branch-protection-preview-required.md)).
+Três workflows no `.github/workflows/`:
+
+- `ci.yml` (PR + push na `main`) → lint, testes (Vitest + emulador
+  Firestore) e build
+- `firebase-hosting-merge.yml` (push na `main`) → deploy em produção
+  no Firebase Hosting
+- `firebase-hosting-pull-request.yml` (PR) → preview deploy
+  temporário, comentado automaticamente no PR. Esse workflow é um
+  **required status check**: o PR só pode ser mesclado se ele passar
+  (ver [docs/devops-dr/0005](docs/devops-dr/0005-protecao-da-branch-main.md))
 
 ## Cuidado
 

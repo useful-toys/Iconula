@@ -6,7 +6,11 @@ Visão de conjunto do sistema — serviços, camadas, dados e fluxo — e
 índice de onde cada decisão vive. As decisões individuais estão nos
 registros (ADR/TDR/IDR/MDR/DDR) e nos docs de referência
 ([persistencia.md](persistencia.md),
-[interface.md](interface.md), [requisitos.md](requisitos.md)); este
+[modelo-firebase.md](modelo-firebase.md),
+[modelo-intercambio.md](modelo-intercambio.md),
+[modelo-memoria.md](modelo-memoria.md),
+[interface.md](interface.md), [requisitos.md](requisitos.md),
+[devops.md](devops.md)); este
 documento monta o quebra-cabeça. A seção "Decisões-chave" abaixo é um
 resumo curado por tema — o índice completo e filtrável por tags de cada
 registro está em [adr/README.md](adr/README.md), [tdr/README.md](tdr/README.md),
@@ -70,7 +74,7 @@ regras do Firestore, avaliadas no servidor contra o ID token.
 | Camada | Conteúdo |
 |---|---|
 | `src/data/` | Catálogo estático (50 seções, 994 figurinhas — [TDR 0010](tdr/0010-forma-do-catalogo-degradacao-do-checklist-e-sem-pipeline.md)) e suas derivações puras: ordenações/agrupamento ([TDR 0012](tdr/0012-derivacoes-do-catalogo-em-src-data.md)) e layout de página do álbum |
-| `src/lib/` | Módulos sem React: estado da coleção em memória, persistência no Firestore (`colecaoRemota.js`, único módulo que toca o SDK), gravação agregada com debounce/flush, histórico de desfazer, preferências de vista no `localStorage`, portabilidade (export/import JSON), textos de troca, fila de avisos e conversão de bandeiras |
+| `src/lib/` | Módulos sem React: estado da coleção em memória, persistência no Firestore (`colecaoRemota.js`, único módulo que toca o SDK), gravação agregada com debounce/flush, histórico de desfazer, preferências de vista no `localStorage`, portabilidade (export/import JSON), textos de troca, fila de avisos, conversão de bandeiras e cálculo de progresso |
 | `src/components/` | Telas (login, atestação, política de privacidade) e árvore da tela principal: cabeçalho com placar e faixa de salto, controles (ordenação/disposição/filtro), menu de ações, catálogo (super-grupo → seção → figurinha ou página do álbum) e avisos flutuantes |
 | `src/App.jsx` | Único componente com estado: sessão (Firebase Auth), coleção, atestação, vista da política, preferências de vista e histórico de desfazer; decide qual tela mostrar (guarda de login) e concentra toda leitura/escrita da coleção |
 
@@ -91,7 +95,8 @@ Dois mundos, nunca misturados:
   nunca toca o Firestore. Identidade da figurinha é o código
   (`BRA05`), imutável
 - **Coleção** — estado do usuário, contagens por código, vive em
-  `users/{uid}` (schema decidido — [ADR 0005](adr/0005-persistencia-no-firestore.md), ver persistencia.md)
+  `users/{uid}` (schema decidido — [ADR 0005](adr/0005-persistencia-no-firestore.md),
+  detalhes em [modelo-firebase.md](modelo-firebase.md))
 
 Fluxos:
 
@@ -110,16 +115,25 @@ Fluxos:
 
 ## Build, deploy e qualidade
 
-- Vite gera estáticos em `dist/`; bundle principal enxuto — o SDK do
+- Vite 8 gera estáticos em `dist/`; bundle principal enxuto — o SDK do
   Firestore (~555 KB) vira chunk sob demanda, baixado só por quem
   entra ([ADR 0005](adr/0005-persistencia-no-firestore.md))
 - Bandeiras Twemoji vendadas em `src/assets/flags/` ([ADR 0006](adr/0006-bandeiras-emoji-unicode.md))
-- Testes: Vitest + React Testing Library (unitários) e regras do
+- Lint: oxlint com regras `react/rules-of-hooks` (erro),
+  `react/no-danger` (erro) e `react/only-export-components` (aviso) —
+  [TDR 0003](tdr/0003-lint-proibe-dangerously-set-inner-html.md)
+- Testes: Vitest 5 + React Testing Library (unitários) e regras do
   Firestore no emulador (`npm run test:rules`, JDK 21+), ambos no CI
-  (DDR 0002/0004); actions pinadas por SHA (DDR 0003)
+  ([DDR 0002](devops-dr/0002-workflow-de-ci-separado.md),
+  [DDR 0004](devops-dr/0004-deploy-e-teste-das-regras-do-firestore.md));
+  actions pinadas por SHA ([DDR 0003](devops-dr/0003-pinning-de-actions-por-sha.md))
+- Três workflows: `ci.yml` (lint + testes + build), `firebase-hosting-merge.yml`
+  (produção) e `firebase-hosting-pull-request.yml` (preview) —
+  [TDR 0023](tdr/0023-deploy-via-github-actions.md),
+  [DDR 0005](devops-dr/0005-protecao-da-branch-main.md)
 - Configuração dos ambientes: [firebase.md](firebase.md),
   [gcloud.md](gcloud.md), [github.md](github.md),
-  [registrobr.md](registrobr.md)
+  [registrobr.md](registrobr.md); panorama DevOps em [devops.md](devops.md)
 
 ## Decisões-chave e onde vivem
 
@@ -140,27 +154,37 @@ Fluxos:
 | Regras: deploy e teste | [DDR 0004](devops-dr/0004-deploy-e-teste-das-regras-do-firestore.md) |
 | Proteção da branch main | [DDR 0005](devops-dr/0005-protecao-da-branch-main.md) |
 | Ferramentas de segurança do repositório | [DDR 0006](devops-dr/0006-ferramentas-de-seguranca-do-repositorio.md) |
+| Lint (oxlint) | [TDR 0003](tdr/0003-lint-proibe-dangerously-set-inner-html.md), [TDR 0025](tdr/0025-oxlint-para-lint.md) |
 | Regras: o que dá para validar no mapa | [TDR 0009](tdr/0009-validacao-do-mapa-nas-regras.md) |
-| Interface (disposições, estados, sync, scroll, acessibilidade…) | [IDR 0001–0043](idr/) + [interface.md](interface.md) |
-| Aparência (tema, paleta, medidas) | [IDR 0022](idr/0022-tema-escuro-unico-paleta-do-prototipo.md) + [interface.md](interface.md) |
-| Schema da coleção | [MDR 0002](mdr/0002-schema-do-documento-da-colecao.md) + [persistencia.md](persistencia.md) |
 | Forma do catálogo, checklist incompleto e sem pipeline de geração | [TDR 0010](tdr/0010-forma-do-catalogo-degradacao-do-checklist-e-sem-pipeline.md) |
 | Derivações de ordenação/agrupamento em `src/data/` | [TDR 0012](tdr/0012-derivacoes-do-catalogo-em-src-data.md) |
 | Tipografia (Poppins) vendorizada | [TDR 0013](tdr/0013-tipografia-vendorizada.md) |
 | Estado da coleção sem Context (prop-drilling) | [TDR 0014](tdr/0014-estado-da-colecao-sem-context.md) |
+| Carga no login — proteção de corrida e carimbo | [TDR 0016](tdr/0016-carga-no-login-corrida-e-formato-do-carimbo.md) |
+| Escrita por `setDoc` com merge e carimbo local | [TDR 0017](tdr/0017-escrita-por-setdoc-merge-e-carimbo-local-pos-gravacao.md) |
+| Espera sem rede via corrida com tempo-limite | [TDR 0019](tdr/0019-espera-sem-rede-via-corrida-com-timeout-e-callback.md) |
 | Política de privacidade como vista interna, sem router | [TDR 0020](tdr/0020-privacidade-como-vista-interna.md) |
 | Desempenho do catálogo (994 figurinhas) | [TDR 0021](tdr/0021-desempenho-do-catalogo.md) |
-| Login como guarda do app, atestação de menores | Tarefas 0008-0001/0003 + [IDR 0036](idr/0036-atestacao-passo-explicito-e-falha-de-gravacao.md) |
-| Desfazer, menu de ações, listas de troca, export/import | Fase 9 + [IDR 0012](idr/0012-desfazer-no-cabecalho-historico-de-10.md), [0024](idr/0024-acoes-raras-em-menu-do-cabecalho.md), [0039](idr/0039-texto-de-troca-ordem-fixa-e-copia-manual-de-reserva.md), [0040](idr/0040-exportar-sem-dialogo-e-nome-de-arquivo-datado.md), [0041](idr/0041-importar-confirmacao-minima-e-descarte-de-chave-desconhecida.md) |
+| Deploy via GitHub Actions (três workflows) | [TDR 0023](tdr/0023-deploy-via-github-actions.md) |
+| Branch protection exigindo preview deploy | [TDR 0024](tdr/0024-branch-protection-preview-required.md) |
+| Interface (disposições, estados, sync, scroll, acessibilidade…) | [IDR 0001–0044](idr/) + [interface.md](interface.md) |
+| Aparência (tema, paleta, medidas) | [IDR 0022](idr/0022-tema-escuro-unico-paleta-do-prototipo.md) + [interface.md](interface.md) |
 | Acessibilidade: foco visível, área de toque | [IDR 0042](idr/0042-foco-visivel-e-area-de-toque.md) |
 | Padrões de primeira abertura por faixa de tela | [IDR 0043](idr/0043-padroes-de-primeira-abertura-por-faixa-de-tela.md) |
+| Localização do documento no Firestore | [MDR 0001](mdr/0001-localizacao-do-documento-no-firestore.md) |
+| Schema da coleção (mapa esparso) | [MDR 0002](mdr/0002-schema-do-documento-da-colecao.md) + [persistencia.md](persistencia.md) |
+| Gravação agregada da coleção | [MDR 0003](mdr/0003-gravacao-agregada-da-colecao.md) |
+| Formato de intercâmbio (export/import JSON) | [MDR 0004](mdr/0004-formato-de-intercambio-da-colecao.md) |
+| Representação em memória na SPA | [MDR 0005](mdr/0005-representacao-em-memoria-na-spa.md) |
+| Catálogo estático embutido | [MDR 0006](mdr/0006-catalogo-estatico-embutido.md) |
+| Persistência no armazenamento local | [MDR 0007](mdr/0007-persistencia-no-armazenamento-local.md) |
 
 ## Pontos em aberto (fase de implementação)
 
 - **Aceite dos números do ADR 0005 — parcialmente aberto**: o schema está
-  aceito (mapa esparso, três campos, teto de 99 — TDR 0009) e os valores
-  numéricos (debounce ~2s, teto de espera ~10s, timeout ~5s sem rede)
-  foram aceitos como ponto de partida na Tarefa 0007-0003 (ver
+  aceito (mapa esparso, três campos, teto de 99 — [MDR 0002](mdr/0002-schema-do-documento-da-colecao.md))
+  e os valores numéricos (debounce ~2s, teto de espera ~10s, timeout ~5s
+  sem rede) foram aceitos como ponto de partida na Tarefa 0007-0003 (ver
   [log](plano/0007-persistencia-da-colecao-e-avisos/logs/0003-log-gravacao-agregada-com-flush.md)
   § "Números do ADR 0005"). **Falta**: confirmá-los em uso real — não
   houve deploy de produção com usuários reais disponível durante a

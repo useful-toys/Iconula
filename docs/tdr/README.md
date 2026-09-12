@@ -33,3 +33,4 @@ commit**.
 | [TDR 0022](0022-renumeracao-do-fwc.md) | Renumeração da seção FWC para começar em zero | Aceito | catalogo, dados | Seção FWC renumerada de `FWC00` a `FWC19` (oficial), em vez de `FWC01` a `FWC20`. |
 | [TDR 0023](0023-deploy-via-github-actions.md) | Deploy via GitHub Actions | Aceito | ci, deploy | Deploy automatizado via GitHub Actions, com preview deploys em pull requests. |
 | [TDR 0024](0024-branch-protection-preview-required.md) | Branch protection exigindo o preview deploy antes do merge | Aceito | ci, seguranca | `main` exige PR com `build_and_preview` e `ci` verdes, inclusive para o admin (zero aprovações exigidas). |
+| [TDR 0025](0025-oxlint-para-lint.md) | oxlint para lint | Aceito | lint, seguranca | oxlint com regras `react/rules-of-hooks` (erro), `react/no-danger` (erro) e `react/only-export-components` (aviso). |
