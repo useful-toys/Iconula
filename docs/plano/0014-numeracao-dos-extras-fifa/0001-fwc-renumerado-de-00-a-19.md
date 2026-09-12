@@ -3,7 +3,7 @@
 # Tarefa [0014-0001]: FWC renumerado de FWC00 a FWC19
 
 ## Status
-Pendente
+Concluída
 
 ## Documentos de referência (ler antes de implementar)
 - `docs/tdr/0010-forma-do-catalogo-degradacao-do-checklist-e-sem-pipeline.md` — a forma do dado, a expansão `SIG01…SIG20`, `FWC01…FWC20`, `COC01…COC14` e a degradação da fonte do checklist

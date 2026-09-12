@@ -22,11 +22,15 @@ describe("invariantes do catálogo", () => {
     }
   });
 
-  it("FWC tem 20 figurinhas e COC tem 14", () => {
+  it("FWC tem 20 figurinhas de FWC00 a FWC19, sem buraco, e COC tem 14", () => {
     const fwc = figurinhas.filter((f) => f.secao === "FWC");
     const coc = figurinhas.filter((f) => f.secao === "COC");
     expect(fwc).toHaveLength(20);
     expect(coc).toHaveLength(14);
+    const codigosFwc = fwc.map((f) => f.codigo);
+    expect(codigosFwc).toEqual(
+      Array.from({ length: 20 }, (_, i) => `FWC${String(i).padStart(2, "0")}`),
+    );
   });
 
   it("nenhum código duplicado", () => {
@@ -218,6 +222,16 @@ describe("expandirFigurinhas", () => {
     expect(figs).toHaveLength(20);
     expect(figs[0].codigo).toBe("BRA01");
     expect(figs[19].codigo).toBe("BRA20");
+  });
+
+  it("numera a partir de `inicio` quando a seção não começa em 1", () => {
+    const fwc = secoes.find((s) => s.sigla === "FWC");
+    const figs = expandirFigurinhas([fwc]);
+    expect(figs).toHaveLength(20);
+    expect(figs[0].codigo).toBe("FWC00");
+    expect(figs[0].posicao).toBe(0);
+    expect(figs[19].codigo).toBe("FWC19");
+    expect(figs[19].posicao).toBe(19);
   });
 
   it("marca a posição 01 como metalizada e 13 como paisagem", () => {

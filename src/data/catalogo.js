@@ -95,6 +95,7 @@ const fwc = {
   icone: "🏆",
   grupo: null,
   paginas: null,
+  inicio: 0,
   total: 20,
 };
 
@@ -122,7 +123,7 @@ export const secoes = [fwc, ...selecoes, coc];
 
 /**
  * Expande as seções em figurinhas individuais: `SIG01`…`SIG20` para cada
- * seleção, `FWC01`…`FWC20`, `COC01`…`COC14`. Função pura — preferida a
+ * seleção, `FWC00`…`FWC19`, `COC01`…`COC14`. Função pura — preferida a
  * escrever os 994 códigos como literais (o dado que varia por seção é
  * pouco, e a expansão é conferível pelo teste de invariantes da Tarefa
  * 0001-0003).
@@ -134,12 +135,18 @@ export const secoes = [fwc, ...selecoes, coc];
  * seleção, e o campo `metalizada` já nasce pronto para recebê-las
  * (ver TDR 0010).
  *
+ * Cada seção usa `inicio` (opcional, padrão `1`) como número da primeira
+ * figurinha; `total` é sempre a quantidade, nunca o último número. O FWC
+ * usa `inicio: 0` porque a numeração oficial vai de `FWC00` a `FWC19`
+ * (ver TDR 0022).
+ *
  * @param {typeof secoes} secoesDoCatalogo
  */
 export function expandirFigurinhas(secoesDoCatalogo) {
   const figurinhas = [];
   for (const secao of secoesDoCatalogo) {
-    for (let posicao = 1; posicao <= secao.total; posicao += 1) {
+    const inicio = secao.inicio ?? 1;
+    for (let posicao = inicio; posicao < inicio + secao.total; posicao += 1) {
       const numero = String(posicao).padStart(2, "0");
       figurinhas.push({
         codigo: `${secao.sigla}${numero}`,

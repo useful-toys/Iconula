@@ -228,7 +228,7 @@ describe('Secao', () => {
     };
 
     const figurinhasFwc = Array.from({ length: 20 }, (_, i) => ({
-      codigo: `FWC${String(i + 1).padStart(2, '0')}`,
+      codigo: `FWC${String(i).padStart(2, '0')}`,
       secao: 'FWC',
       metalizada: false,
     }));
@@ -288,7 +288,7 @@ describe('Secao', () => {
       expect(grade).toBeInTheDocument();
 
       // Todas as 20 figurinhas devem estar presentes
-      for (let i = 1; i <= 20; i++) {
+      for (let i = 0; i <= 19; i++) {
         const numero = String(i).padStart(2, '0');
         expect(screen.getByRole('button', { name: `FWC ${numero}, faltante` })).toBeInTheDocument();
       }
