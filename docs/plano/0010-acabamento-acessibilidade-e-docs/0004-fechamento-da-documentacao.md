@@ -10,7 +10,7 @@ Concluída
 - `docs/interface.md` § Pendências de interface — a lista que precisa ficar vazia (ou justificada) ao fim do plano
 - `docs/arquitetura.md` § Pontos em aberto (fase de implementação) — os cinco pontos que o plano alocou
 - `docs/requisitos.md` § Decisões Pendentes — as três pendências que o plano alocou
-- `docs/persistencia.md` § Pronto × falta — a tabela que precisa refletir o produto implementado
+- `docs/modelo-firebase.md` § Pronto × falta — a tabela que precisa refletir o produto implementado
 - `docs/plano/README.md` — a tabela de alocação, que diz onde cada pendência foi resolvida
 
 ## Objetivo
@@ -44,7 +44,7 @@ cada decisão tomada durante a execução tem um registro apontado no lugar cert
    apontando os registros; conferir se algum item de § Requisitos futuros deixou
    de ser futuro (não deve ter acontecido) e se o § Fora de Escopo continua
    exato.
-4. `docs/persistencia.md`: atualizar § Pronto × falta para o produto implementado
+4. `docs/modelo-firebase.md`: atualizar § Pronto × falta para o produto implementado
    e conferir se § Operações sobre o formato bate com o que o código faz.
 5. `AGENTS.md`: conferir a tabela § Onde fica cada coisa contra `src/` de
    verdade — arquivo por arquivo — e a seção § Stack, que ainda descreve
@@ -86,7 +86,7 @@ tivessem sido feitos.
 - `docs/interface.md` — modificar
 - `docs/arquitetura.md` — modificar
 - `docs/requisitos.md` — modificar
-- `docs/persistencia.md` — modificar
+- `docs/modelo-firebase.md` — modificar
 - `AGENTS.md` — modificar
 - `docs/plano/README.md` — modificar
 
@@ -94,7 +94,7 @@ tivessem sido feitos.
 - [ ] § Pendências de interface só lista o que continua aberto, com motivo
 - [ ] § Pontos em aberto de `arquitetura.md` está vazio ou justificado, com registro apontado
 - [ ] § Decisões Pendentes de `requisitos.md` não lista as três resolvidas
-- [ ] `docs/persistencia.md` § Pronto × falta reflete o produto implementado
+- [ ] `docs/modelo-firebase.md` § Pronto × falta reflete o produto implementado
 - [ ] A tabela § Onde fica cada coisa do `AGENTS.md` bate arquivo por arquivo com `src/`
 - [ ] § Stack do `AGENTS.md` descreve o produto atual, não o botão
 - [ ] O `README.md` do plano tem os status corretos

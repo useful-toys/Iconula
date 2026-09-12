@@ -8,8 +8,8 @@ Concluída
 ## Documentos de referência (ler antes de implementar)
 - `docs/adr/0008-schema-da-colecao-mapa-esparso.md` § Decisão — "ao carregar um documento que ainda o tenha, a primeira gravação do schema novo o apaga (`deleteField`) — regras estritas para sempre depois disso"
 - `docs/requisitos.md` § Dados e isolamento — o `teamName` é removido na migração, apagado pela primeira gravação do schema novo
-- `docs/persistencia.md` § Custos e cotas — a migração custa 1 escrita única por usuário da era do botão
-- `docs/persistencia.md` § Formato dos dados — os únicos campos são `contagens`, `updatedAt` e `atestadoEm`
+- `docs/modelo-firebase.md` § Custos e cotas — a migração custa 1 escrita única por usuário da era do botão
+- `docs/modelo-firebase.md` § Formato dos dados — os únicos campos são `contagens`, `updatedAt` e `atestadoEm`
 - `docs/tdr/0009-validacao-do-mapa-nas-regras.md` § Decisão — o `hasOnly` dos três campos, que recusa um documento que mantenha `teamName`
 
 ## Objetivo
@@ -23,7 +23,7 @@ com o resto. Uma escrita, uma vez na vida da conta.
 - Sem tela, sem aviso e sem mensagem: é invisível ao usuário —
   `docs/requisitos.md` § Dados e isolamento
 - Custa **1 escrita**, e ela é a mesma da agregação: não pode virar escrita extra
-  — `docs/persistencia.md` § Custos e cotas
+  — `docs/modelo-firebase.md` § Custos e cotas
 - O documento resultante tem só os três campos; um update que mantenha
   `teamName` é negado pelas regras — `docs/tdr/0009-*` § Decisão
 - Nada de reintroduzir leitura extra para descobrir se há `teamName`: a carga da
@@ -53,7 +53,7 @@ comportamento do botão.
 - A migração é a primeira gravação do schema novo — ver `docs/adr/0008-schema-da-colecao-mapa-esparso.md`
 - O `teamName` não sobrevive: o `hasOnly` das regras o recusa — ver `docs/tdr/0009-validacao-do-mapa-nas-regras.md`
 - O botão e o seu código já saíram na Fase 2 — ver `docs/requisitos.md` § Fora de Escopo
-- Nenhuma requisição extra por causa da migração — ver `docs/persistencia.md` § Custos e cotas
+- Nenhuma requisição extra por causa da migração — ver `docs/modelo-firebase.md` § Custos e cotas
 
 ## Decisões em aberto nesta tarefa
 - O que fazer com um documento que tenha `teamName` e o usuário nunca ajuste nada

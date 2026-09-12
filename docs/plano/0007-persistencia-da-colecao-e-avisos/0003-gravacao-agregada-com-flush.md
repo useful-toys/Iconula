@@ -8,8 +8,8 @@ Concluída
 ## Documentos de referência (ler antes de implementar)
 - `docs/adr/0008-schema-da-colecao-mapa-esparso.md` § Decisão — debounce ~2s, teto ~10s, escrita por chaves alteradas, `deleteField`, flush em `pagehide`/`visibilitychange`, flush antes do `signOut`, `increment()` descartado
 - `docs/idr/0003-gravacao-agrega-ajustes.md` § Decisão — persistência automática e transparente, sem botões de ler ou salvar
-- `docs/persistencia.md` § Operações sobre o formato — o que cada operação custa em escrita
-- `docs/persistencia.md` § Custos e cotas — 1 escrita por agregação, no máximo 1 a cada ~10s de atividade contínua
+- `docs/modelo-firebase.md` § Operações sobre o formato — o que cada operação custa em escrita
+- `docs/modelo-firebase.md` § Custos e cotas — 1 escrita por agregação, no máximo 1 a cada ~10s de atividade contínua
 - `docs/idr/0027-relogio-do-titulo-e-o-updatedat-do-documento.md` § Decisão — uma gravação bem-sucedida move o relógio
 - `docs/arquitetura.md` § Pontos em aberto — "Aceite do ADR 0005: revisar os valores numéricos antes de implementar"
 - `docs/tdr/0009-validacao-do-mapa-nas-regras.md` § Decisão — a interface precisa parar em 99, senão o servidor recusa
@@ -25,7 +25,7 @@ perde ao fechar a página ou ao sair da conta.
 - Escrita por **chaves alteradas** com `updateDoc`, valor absoluto ou
   `deleteField`; `increment()` está descartado — `docs/adr/0008-*` § Decisão
 - Contagem que chega a 0 **apaga a chave**; zeros nunca são gravados —
-  `docs/persistencia.md` § Formato dos dados
+  `docs/modelo-firebase.md` § Formato dos dados
 - `updatedAt` é `serverTimestamp()`, e as regras exigem `updatedAt == request.time`
   — `docs/adr/0008-*` e `docs/tdr/0009-*`
 - Sair da conta dá **flush antes** do `signOut`: depois dele as regras negam a

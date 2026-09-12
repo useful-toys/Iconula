@@ -11,7 +11,7 @@ Concluída
 - `docs/idr/0024-acoes-raras-em-menu-do-cabecalho.md` § Decisão — o comando fica no menu, a dois toques
 - `docs/idr/0029-avisos-flutuantes-com-tres-severidades.md` § Decisão — "coleção exportada" é aviso de sucesso
 - `docs/interface.md` § Demais telas — diálogos de exportação e importação estão pendentes de desenho
-- `docs/persistencia.md` § Custos e cotas — export custa 0 operações
+- `docs/modelo-firebase.md` § Custos e cotas — export custa 0 operações
 
 ## Objetivo
 Garantir a propriedade da coleção pelo usuário: um arquivo JSON completo,
@@ -26,7 +26,7 @@ versionado e sem dados pessoais, obtido em dois toques a partir do menu.
   `docs/requisitos.md` § Portabilidade
 - Disponível sempre, sem etapas adicionais, a dois toques —
   `docs/requisitos.md` § Portabilidade e `docs/idr/0024-*`
-- Custa **zero** requisição: lê o estado em memória — `docs/persistencia.md` § Custos e cotas
+- Custa **zero** requisição: lê o estado em memória — `docs/modelo-firebase.md` § Custos e cotas
 - Retorno visível na área de avisos — `docs/idr/0029-*` § Decisão
 
 ## Escopo e instruções de implementação

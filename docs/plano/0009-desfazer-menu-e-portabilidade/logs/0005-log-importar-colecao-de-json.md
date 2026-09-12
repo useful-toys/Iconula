@@ -103,7 +103,7 @@ na aba Network que houve **uma** escrita, e tentar importar um arquivo
 com `versao: 2`.
 
 **Sobre as regras do Firestore**: não alteradas nem testadas com
-`test:rules` — a leitura de `firestore.rules` (`docs/persistencia.md` §
+`test:rules` — a leitura de `firestore.rules` (`docs/modelo-firebase.md` §
 Regras de segurança) mostra que `hasOnly(["contagens","updatedAt","atestadoEm"])`
 e as validações de `contagens` (`size() <= 994`, `values().hasOnly([1…99])`)
 já se aplicam a qualquer escrita que toque esses dois campos, e

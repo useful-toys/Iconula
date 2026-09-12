@@ -9,7 +9,7 @@
 Documentação alinhada ao `firestore.rules` publicado (tarefas 0005-0001 a
 0005-0003), incluindo o desfecho da medição da allow-list (não coube).
 
-- **`docs/persistencia.md`**
+- **`docs/modelo-firebase.md`**
   - § Formato dos dados: o schema novo passou a **Vigente** e o do botão
     a **Histórico** (títulos trocados); a bullet de tipos deixou de
     afirmar "chaves = códigos do catálogo" e agora diz que as regras
@@ -86,7 +86,7 @@ Test Files  16 passed (16)
 
 ### Conferência documental
 Comparado, cláusula a cláusula, o `firestore.rules` do repositório com o
-que `docs/persistencia.md` e `docs/firebase.md` afirmam: `allow get`
+que `docs/modelo-firebase.md` e `docs/firebase.md` afirmam: `allow get`
 (uid), `allow create, update` com `hasOnly(["contagens", "updatedAt",
 "atestadoEm"])`, `contagens is map` + `size() <= 994` +
 `values().hasOnly([1…99])`, `updatedAt == request.time`, `atestadoEm is
@@ -95,12 +95,12 @@ documentos, incluindo a guarda de campo ausente e o desfecho da
 allow-list.
 
 ## Arquivos alterados
-- `docs/persistencia.md` — formato, regras e tabela Pronto × falta atualizados
+- `docs/modelo-firebase.md` — formato, regras e tabela Pronto × falta atualizados
 - `docs/firebase.md` — § Regras de segurança atualizada (§ Deploy conferida, sem mudança)
 - `docs/arquitetura.md` — item "Aceite do ADR 0005" de § Pontos em aberto corrigido
-- `docs/plano/0005-regras-do-firestore/0004-atualizar-documentacao-de-persistencia.md` — status atualizado
+- `docs/plano/0005-regras-do-firestore/0004-atualizar-documentacao-de-modelo-firebase.md` — status atualizado
 - `docs/plano/README.md` — status da tarefa 0004 da Fase 5 atualizado
-- `docs/plano/0005-regras-do-firestore/logs/0004-log-atualizar-documentacao-de-persistencia.md` — este log
+- `docs/plano/0005-regras-do-firestore/logs/0004-log-atualizar-documentacao-de-modelo-firebase.md` — este log
 
 (`docs/requisitos.md`, `docs/gcloud.md` e `docs/github.md` inalterados —
 nenhum deles exigia mudança.)

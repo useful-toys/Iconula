@@ -29,7 +29,7 @@ Todo o estado da coleção vive em `App.jsx`, consumido por prop-drilling (sem C
 | Campo | Tipo | Descrição |
 |---|---|---|
 | `contagens` | `Record<string, number>` | A coleção em memória (mapa esparso) |
-| `atualizadoEm` | `string \| null` | Carimbo formatado da última gravação (não um `Date`) |
+| `atualizadoEm` | `string \| null` | Carimbo formatado da última gravação — aproximação local do instante de confirmação do servidor, não o `updatedAt` real ([TDR 0017](tdr/0017-escrita-por-setdoc-merge-e-carimbo-local-pos-gravacao.md)) |
 | `historico` | `Array<{codigo, contagemAnterior}>` | Últimas 10 alterações, em memória (volátil) |
 | `precisaAtestar` | `boolean` | Se a conta precisa atestar maiores de idade |
 | `mostrarPolitica` | `boolean` | Vista interna da política de privacidade |
@@ -78,8 +78,16 @@ Instância criada uma única vez por sessão (inicializador preguiçoso do `useS
 - **Teto de espera**: ~10s em rajada contínua
 - **Flush**: gravação imediata ao fechar a página (`pagehide`/`visibilitychange`) ou antes do `signOut`
 - **Persistência local**: cache IndexedDB do SDK (`persistentLocalCache` com `persistentMultipleTabManager()`) — escritas pendentes sobrevivem ao fechamento da aba
+- **`descartarPendencias()`**: limpa alterações acumuladas e temporizadores antes da importação — para não reintroduzir dado já substituído
+- **`marcarTeamNameParaApagar(uid)`**: agenda `deleteField()` do campo legado `teamName` piggyback na próxima gravação de contagens — sem escrita à parte ([TDR 0018](tdr/0018-marca-de-apagar-teamname-via-chave-reservada.md))
 
 Detalhes no [MDR 0003](mdr/0003-gravacao-agregada-da-colecao.md).
+
+## Proteção de corrida na carga
+
+- **`ajustesRef`** (contador em `App.jsx`): se o usuário ajusta contagens enquanto a leitura do Firestore está em voo, a resposta do servidor é descartada — o valor local, mais recente, prevalece
+- O ajuste local já foi registrado na gravação agregada e será gravado na próxima escrita
+- Sem essa proteção, o valor do servidor (mais antigo) sobrescreveria o ajuste local feito durante a carga
 
 ## Histórico de desfazer
 
@@ -173,3 +181,9 @@ Fila com limite de empilhamento (3), severidade, expiração.
 - **Preferências de vista**: no `localStorage`, por dispositivo (ver [MDR 0007](mdr/0007-persistencia-no-armazenamento-local.md))
 - **Atestação de menores**: no Firestore, uma única vez por conta
 - **Cache do Firestore**: no IndexedDB, multi-aba, escritas pendentes sobrevivem ao fechamento da aba (ver [MDR 0007](mdr/0007-persistencia-no-armazenamento-local.md))
+
+## O que é calculado sob demanda
+
+- **Progresso** (`calcularPlacar`): `{coladas, faltantes, repetidas, percentual}` — não armazenado
+- **Textos de troca** (`textoDeTroca.js`): uma linha por seção, ordem fixa do álbum — não armazenado
+- **`atualizadoEm`**: formatado por `formatarCarimbo` a partir do `Date` devolvido por `gravarAlteracoes`/`carregarColecao` — não é o `updatedAt` do servidor, é uma aproximação local do instante de confirmação ([TDR 0017](tdr/0017-escrita-por-setdoc-merge-e-carimbo-local-pos-gravacao.md))

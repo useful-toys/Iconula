@@ -6,7 +6,7 @@
 
 Aceito — corrige o que o
 [ADR 0005](../adr/0005-persistencia-no-firestore.md) e
-[persistencia.md](../persistencia.md) prometiam ("map com int ≥ 1",
+[modelo-firebase.md](../modelo-firebase.md) prometiam ("map com int ≥ 1",
 "chaves = códigos do catálogo (regex × allow-list)"), impossível como
 estava escrito.
 

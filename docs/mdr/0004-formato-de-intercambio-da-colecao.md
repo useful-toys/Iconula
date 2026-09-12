@@ -20,11 +20,18 @@ Aceito.
 - **Normalizações não recusam o arquivo**: valor exatamente `0` some silenciosamente (mapa esparso); código fora do catálogo atual (`codigosValidos`) some e entra na contagem de `descartadas`, avisada ao usuário.
 - **Nome de arquivo previsível e ordenável**: `iconula-AAAA-MM-DD.json`, na data local de quem exporta.
 
+## Fronteira de validação
+
+- **`validarImportacao`** (em `portabilidade.js`) é a única função que valida o conteúdo do arquivo — recusa ou normaliza antes de qualquer gravação.
+- **`gravarImportacao`** (em `colecaoRemota.js`) não valida nada — confia que o mapa já chega normalizado (sem zeros, sem códigos desconhecidos, valores 1–99). Se alguém chamar `gravarImportacao` diretamente sem passar por `validarImportacao`, dado inválido chega ao Firestore.
+- **`App.jsx`** é o ponto que conecta as duas: chama `validarImportacao` primeiro e, só se o resultado for `'valido'`, passa o mapa normalizado para `gravarImportacao`.
+
 ## Consequências
 
 - O formato é versionado (`versao`): uma mudança futura de formato troca a versão e o dado antigo é recusado em vez de mal interpretado.
 - O catálogo pode mudar sem quebrar a importação de arquivos antigos (códigos desconhecidos são descartados, não recusam o arquivo).
-- Zero requisição ao Firestore para exportar; 1 escrita para importar (substitui `contagens` + `updatedAt`).
+- Zero requisição ao Firestore para exportar; 1 escrita para importar (substitui `contagens` + `updatedAt` via `mergeFields`, ver [MDR 0003](0003-gravacao-agregada-da-colecao.md)).
+- A validação é responsabilidade do chamador — `gravarImportacao` grava o que recebe.
 
 ## Alternativas consideradas
 

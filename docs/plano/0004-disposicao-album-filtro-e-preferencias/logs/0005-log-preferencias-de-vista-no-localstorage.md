@@ -47,7 +47,7 @@ TDR novo, conforme o texto ("nasce um TDR se a escolha for outra").
 
 ## Decisões tomadas
 Nenhuma decisão de arquitetura, técnica ou de interface foi tomada — o
-comportamento já estava especificado nos IDRs 0020, 0026, em `persistencia.md`
+comportamento já estava especificado nos IDRs 0020, 0026, em `modelo-firebase.md`
 § O que não vai para o Firestore e em `requisitos.md` § UX. A escolha "uma
 chave com um objeto" seguiu o encaminhamento explícito da tarefa.
 

@@ -11,7 +11,7 @@ Concluída
 - `docs/requisitos.md` § Contagem — desfaz a última alteração e pode ser repetido para as últimas 10, na ordem inversa
 - `docs/interface.md` § Cabeçalho e § Medidas — botão de 30×30px na linha de controles, raio 8px, borda e texto em `--gold`
 - `docs/idr/0003-gravacao-agrega-ajustes.md` § Contexto — desfazer é um ajuste como qualquer outro: entra na gravação seguinte, sem caso especial
-- `docs/persistencia.md` § O que **não** vai para o Firestore — o histórico vive em memória
+- `docs/modelo-firebase.md` § O que **não** vai para o Firestore — o histórico vive em memória
 
 ## Objetivo
 Dar ao registro em rajada a sua rede de segurança: um botão que reverte a última
@@ -22,7 +22,7 @@ ruído a cada toque.
 - Botão fixo na linha de controles, **não** um toast que surge a cada ajuste —
   `docs/idr/0012-*` § Decisão
 - Histórico das **últimas 10**, em memória; recarregar descarta —
-  `docs/idr/0012-*` § Decisão e `docs/persistencia.md`
+  `docs/idr/0012-*` § Decisão e `docs/modelo-firebase.md`
 - Desfazer é ajuste comum: entra na gravação agregada seguinte, sem caminho
   próprio de escrita — `docs/idr/0003-*` § Contexto
 - Nenhum ajuste pede confirmação — `docs/idr/0010-*` § Decisão

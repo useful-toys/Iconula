@@ -9,7 +9,7 @@ Concluída
 - `docs/tdr/0009-validacao-do-mapa-nas-regras.md` § Decisão — "a allow-list entra se couber": gerar, medir o ruleset e exercitar no emulador; os dois desfechos já estão decididos
 - `docs/tdr/0009-validacao-do-mapa-nas-regras.md` § Consequências — a medição é tarefa do PR das regras, não pendência de desenho
 - `docs/adr/0008-schema-da-colecao-mapa-esparso.md` § Consequências — a allow-list entra "se couber no orçamento de expressões"
-- `docs/persistencia.md` § Regras de segurança — a linguagem não itera; só comparação de conjunto contra listas escritas à mão
+- `docs/modelo-firebase.md` § Regras de segurança — a linguagem não itera; só comparação de conjunto contra listas escritas à mão
 - `src/data/catalogo.js` — a fonte dos 994 códigos
 
 ## Objetivo
@@ -45,7 +45,7 @@ desfechos já foram decididos — esta tarefa apenas mede e registra qual valeu.
    - **não coube**: a cláusula fica de fora; as chaves seguem limitadas por
      `size() <= 994`, e o log registra os números que motivaram
 5. Registrar a medição — números, não impressões — no log da tarefa, e o desfecho
-   em `docs/persistencia.md` (Tarefa 0005-0004).
+   em `docs/modelo-firebase.md` (Tarefa 0005-0004).
 6. Se a lista entrar, deixar explícito como regenerá-la quando o catálogo mudar —
    um catálogo alterado sem a lista regenerada quebraria a gravação em produção.
 
@@ -59,7 +59,7 @@ alteração no cliente.
 
 ## Decisões em aberto nesta tarefa
 - Qual dos dois desfechos vale — resolvido pela medição, não por preferência; o
-  resultado é registrado no log e refletido em `docs/persistencia.md`
+  resultado é registrado no log e refletido em `docs/modelo-firebase.md`
 - Se a lista entrar, como mantê-la em sincronia com o catálogo — encaminhamento:
   um teste que compara a lista das regras com os códigos de `src/data/catalogo.js`
   e falha quando divergirem; nasce um **TDR**
