@@ -19,21 +19,18 @@ revistos desde a redação:
 
 ## Contexto
 
-O ADR 0007 definiu a infraestrutura de persistência para a era do botão
-(`users/{uid}`, regras, SDK sob demanda, falha invisível). O produto
-novo mudou o quadro: contagens de 994 figurinhas, gravação agregada
-(IDR 0003), avisos visíveis (IDRs 0002/0017), `updatedAt` exibido no
-cabeçalho, desfazer (IDRs 0010/0012), atestação de menores por conta
-(LGPD art. 14), campo `teamName` órfão a migrar e a pendência de que
-gravações pendentes não se percam ao fechar a página. Sessões
-simultâneas ficam deliberadamente sem tratamento (requisitos.md: a
-última gravação vence).
-
-Dois formatos físicos eram candidatos (persistencia.md): mapa no
-documento e subcoleção. Uma coleção completa são ~994 chaves de ~5
-caracteres — poucos KB, muito abaixo do limite de 1 MiB por documento.
-
-O usuário confirmou: mapa.
+- ADR 0007 definiu a infraestrutura de persistência da era do botão
+  (`users/{uid}`, regras, SDK sob demanda, falha invisível). O produto
+  novo muda o quadro: contagens de 994 figurinhas, gravação agregada
+  (IDR 0003), avisos visíveis (IDRs 0002/0017), `updatedAt` no cabeçalho,
+  desfazer (IDRs 0010/0012), atestação de menores por conta (LGPD
+  art. 14), campo `teamName` órfão a migrar, gravações pendentes que não
+  podem se perder ao fechar a página. Sessões simultâneas ficam sem
+  tratamento por decisão (requisitos.md: última gravação vence).
+- Dois formatos físicos candidatos (persistencia.md): mapa no documento
+  vs. subcoleção. Coleção completa: ~994 chaves de ~5 caracteres — poucos
+  KB, bem abaixo do limite de 1 MiB por documento.
+- Usuário confirmou: mapa.
 
 ## Decisão
 

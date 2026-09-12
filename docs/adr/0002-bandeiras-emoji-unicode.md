@@ -9,40 +9,35 @@ dependência de CDN em runtime)
 
 ## Contexto
 
-O botão precisa mostrar a bandeira de cada uma das 48 seleções. As opções
-avaliadas foram emoji Unicode nativo, um CDN de imagens de bandeira
-(ex.: flagcdn.com), ou arquivos SVG locais.
-
-Decisão inicial: usar emoji Unicode nativo (`"🇦🇷"` etc.), por não exigir
-nenhuma dependência externa nem assets no repositório.
-
-**Problema encontrado em teste manual**: no Windows, a fonte de emoji do
-sistema (Segoe UI Emoji) não possui glifos coloridos de bandeira — o
-navegador cai no fallback de mostrar as duas letras do código ISO como
-texto simples (ex.: "AR" em vez de 🇦🇷). Isso não é um caso isolado; afeta
-as 48 bandeiras para qualquer usuário Windows sem fonte de emoji colorida
-adicional instalada.
+- Bandeira de cada uma das 48 seleções — opções avaliadas: emoji Unicode
+  nativo, CDN de imagens (ex.: flagcdn.com), SVG locais.
+- Decisão inicial: emoji Unicode nativo (`"🇦🇷"` etc.) — sem dependência
+  externa nem assets no repositório.
+- **Problema em teste manual**: no Windows, a fonte de emoji do sistema
+  (Segoe UI Emoji) não tem glifos coloridos de bandeira — cai no fallback
+  de mostrar o código ISO como texto ("AR" em vez de 🇦🇷). Afeta as 48
+  bandeiras para qualquer usuário Windows sem fonte de emoji colorida
+  adicional, não é caso isolado.
 
 ## Decisão
 
-Manter os dados como emoji Unicode em `src/data/teams.js` (continua sendo
-a forma mais simples de representar e ler o dado), mas renderizar a
-bandeira no componente `TeamButton` convertendo o emoji em uma imagem SVG
-do [Twemoji](https://github.com/jdecked/twemoji) (fork mantido do Twemoji
-original do Twitter). Isso garante bandeiras visualmente consistentes em
-qualquer sistema operacional/navegador, incluindo as sequências "tag" de
-England e Scotland (que não têm código de país ISO próprio).
+- Dado continua emoji Unicode em `src/data/teams.js` — forma mais simples
+  de representar/ler.
+- `TeamButton` converte o emoji em SVG do
+  [Twemoji](https://github.com/jdecked/twemoji) (fork mantido do original
+  do Twitter) — bandeiras visualmente consistentes em qualquer
+  SO/navegador, incluindo as sequências "tag" de England/Scotland (sem
+  código ISO próprio).
 
-**Revisão (dependência de CDN externo removida)**: os 48 SVGs foram
-baixados uma única vez de `cdn.jsdelivr.net` e passaram a ser vendorizados
-em `src/assets/flags/`, nomeados pelo code point Unicode da bandeira
-(ex.: `1f1e6-1f1f7.svg` para Argentina). `TeamButton.jsx` resolve o
-arquivo correspondente via `import.meta.glob` do Vite e renderiza um
-`<img>` React normal — sem CDN em runtime e sem `dangerouslySetInnerHTML`
-(ver decisão relacionada sobre o item de segurança correspondente). A
-função `twemoji.convert.toCodePoint` (de `@twemoji/api`) continua em uso
-só para calcular o nome do arquivo a partir do emoji — não há mais
-`twemoji.parse()` nem geração de HTML.
+**Revisão — dependência de CDN externo removida**:
+- Os 48 SVGs foram baixados uma vez de `cdn.jsdelivr.net` e vendorizados
+  em `src/assets/flags/`, nomeados pelo code point Unicode (ex.:
+  `1f1e6-1f1f7.svg` para Argentina).
+- `TeamButton.jsx` resolve o arquivo via `import.meta.glob` do Vite e
+  renderiza um `<img>` normal — sem CDN em runtime, sem
+  `dangerouslySetInnerHTML`.
+- `twemoji.convert.toCodePoint` (`@twemoji/api`) segue em uso só para
+  calcular o nome do arquivo — sem `twemoji.parse()` nem geração de HTML.
 
 ## Consequências
 
