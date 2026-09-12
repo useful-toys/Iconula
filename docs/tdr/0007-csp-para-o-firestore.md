@@ -12,7 +12,7 @@ Aceito.
   [TDR 0002](0002-headers-de-seguranca-hosting.md) e
   [TDR 0005](0005-csp-firebase-auth-google-oauth.md)) bloqueia tudo que
   não seja `'self'` por padrão. A persistência do time visível no
-  Firestore ([ADR 0007](../adr/0007-persistencia-do-time-no-firestore.md))
+  Firestore ([ADR 0005](../adr/0005-persistencia-no-firestore.md))
   introduz tráfego para uma origem nova.
 - Dúvida concreta: o SDK web do Firestore exige `wss:` no `connect-src`,
   além do endpoint HTTPS? A literatura na internet mistura os dois SDKs
@@ -47,7 +47,7 @@ uma única vez no bundle, como `firestore.googleapis.com`.
 
 A confusão com `wss:` vem do **Realtime Database** (`firebase/database`,
 `wss://*.firebaseio.com`), que este projeto não usa e que foi descartado
-no ADR 0007 justamente entre outros motivos por isso.
+no ADR 0005 justamente entre outros motivos por isso.
 
 **Nada mais na política se mexe**: sem `script-src`, `frame-src`,
 `img-src` ou `worker-src` novos. O `getFirestore()` é usado sem
@@ -73,7 +73,7 @@ customizado e sem web worker, então não há superfície adicional.
   CSP) e a aba Network** (a requisição de escrita deve existir e
   completar).
 - **O sintoma de uma falha aqui é silencioso**: pela política de erro do
-  ADR 0007, uma requisição bloqueada pela CSP vira `console.error` e a
+  ADR 0005, uma requisição bloqueada pela CSP vira `console.error` e a
   preferência é perdida sem nada aparecer na tela. Não dá para descobrir
   isso "usando o app" — tem que olhar o DevTools.
 - Verificação após deploy, no mesmo padrão dos TDRs 0002 e 0005:
@@ -92,5 +92,5 @@ customizado e sem web worker, então não há superfície adicional.
   que também autorizaria dezenas de APIs que o app não usa —
   contraria a linha dos TDRs 0002/0005 de listar origens uma a uma.
 - **Realtime Database em vez de Firestore**: exigiria `wss:` e um
-  endpoint `*.firebaseio.com`. Descartado no ADR 0007 por motivos de
+  endpoint `*.firebaseio.com`. Descartado no ADR 0005 por motivos de
   modelo de dados; a CSP mais fechada é um bônus.

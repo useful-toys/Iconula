@@ -11,7 +11,7 @@ Concluída
 - `docs/persistencia.md` § Operações sobre o formato — o que cada operação custa em escrita
 - `docs/persistencia.md` § Custos e cotas — 1 escrita por agregação, no máximo 1 a cada ~10s de atividade contínua
 - `docs/idr/0027-relogio-do-titulo-e-o-updatedat-do-documento.md` § Decisão — uma gravação bem-sucedida move o relógio
-- `docs/arquitetura.md` § Pontos em aberto — "Aceite do ADR 0008: revisar os valores numéricos antes de implementar"
+- `docs/arquitetura.md` § Pontos em aberto — "Aceite do ADR 0005: revisar os valores numéricos antes de implementar"
 - `docs/tdr/0009-validacao-do-mapa-nas-regras.md` § Decisão — a interface precisa parar em 99, senão o servidor recusa
 
 ## Objetivo
@@ -37,9 +37,9 @@ perde ao fechar a página ou ao sair da conta.
 1. Acumular as chaves alteradas desde a última gravação e agendar a escrita:
    debounce de ~2s após o último ajuste, com teto de espera de ~10s em rajada
    contínua.
-2. **Ponto em aberto do `arquitetura.md`: aceite dos números do ADR 0008** —
+2. **Ponto em aberto do `arquitetura.md`: aceite dos números do ADR 0005** —
    resolver aceitando ~2s e ~10s como estão, medindo em uso real e registrando a
-   medição no log. O ADR 0008 § Status já permite ajustá-los sem novo ADR; se a
+   medição no log. O ADR 0005 § Status já permite ajustá-los sem novo ADR; se a
    **forma** mudar (por exemplo, deixar de haver teto), aí nasce um registro.
 3. Montar a escrita: `updateDoc` com os caminhos aninhados de `contagens`, valor
    absoluto para contagem ≥ 1 e `deleteField` para a que chegou a 0, mais
@@ -70,7 +70,7 @@ chega na Fase 9 — aqui basta a garantia de flush estar disponível para ele.
 - O teto de 99 é respeitado pela interface — ver `docs/tdr/0009-validacao-do-mapa-nas-regras.md`
 
 ## Decisões em aberto nesta tarefa
-- Aceite dos números do ADR 0008 (debounce, teto) — encaminhamento no passo 2;
+- Aceite dos números do ADR 0005 (debounce, teto) — encaminhamento no passo 2;
   medição registrada no log
 - Context × prop-drilling, revisto — encaminhamento no passo 7; atualiza o **TDR**
   criado na Tarefa 0002-0004

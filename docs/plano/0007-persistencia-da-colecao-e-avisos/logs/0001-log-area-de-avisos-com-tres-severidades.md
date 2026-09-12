@@ -37,7 +37,7 @@ persistência (Tarefas 0007-0002 a 0007-0005) e o menu de ações (Fase 9) vão 
   o número em aberto; a Tarefa 0007-0001 o aponta como decisão em aberto e pede
   o registro. O mesmo IDR registra o anúncio a leitores de tela: falha com
   `role="alert"`, sucesso e aviso com `role="status"` (a política antiga de não
-  usar `role="alert"` valia para o botão — ADR 0007 — e foi revista pelos IDRs
+  usar `role="alert"` valia para o botão — ADR 0005 — e foi revista pelos IDRs
   0002 e 0029).
 
 ## Impedimentos
@@ -57,7 +57,7 @@ npm run lint && npm run test && npm run build
   `role=alert`/`role=status`, dispensar pelo `×`, expansão do detalhe técnico,
   classe de severidade).
 - `vite build`: build de produção concluído com sucesso (387,67 KB de JS
-  principal, gzip 116,48 KB — crescimento natural desde a medição do ADR 0007;
+  principal, gzip 116,48 KB — crescimento natural desde a medição do ADR 0005;
   o Firestore continua carregado sob demanda e não entra no bundle principal).
 
 ### Verificação visual

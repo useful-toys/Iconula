@@ -9,7 +9,7 @@ Aceito.
 ## Contexto
 
 Com a persistência do time visível
-([ADR 0007](../adr/0007-persistencia-do-time-no-firestore.md)), o projeto
+([ADR 0005](../adr/0005-persistencia-no-firestore.md)), o projeto
 passa a guardar dados por usuário. Duas perguntas ficam em aberto, e
 nenhuma tem resposta no código cliente:
 
@@ -125,7 +125,7 @@ diferentes e devem continuar assim.
   um teste.** Uma regressão em `firestore.rules` quebra o CI.
 - **Regras não têm canal de preview.** Elas são globais do projeto e o
   deploy só ocorre no merge, então um preview de PR roda o **cliente novo
-  contra as regras antigas** — e, pela política de erro do ADR 0007, cada
+  contra as regras antigas** — e, pela política de erro do ADR 0005, cada
   escrita negada some em silêncio. Para validar um preview de ponta a
   ponta é preciso publicar as regras uma vez à mão antes
   (`firebase deploy --only firestore:rules --project iconula`,

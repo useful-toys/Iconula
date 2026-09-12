@@ -224,7 +224,7 @@ canal de preview, ~7 dias — não precisa ser removido manualmente depois).
 ## Cloud Firestore
 
 Guarda a preferência de bandeira de cada usuário autenticado — ver
-[ADR 0007](adr/0007-persistencia-do-time-no-firestore.md) para o modelo de
+[ADR 0005](adr/0005-persistencia-no-firestore.md) para o modelo de
 dados e o raciocínio.
 
 - **Banco**: `(default)`, edição `STANDARD`, modo **Native**
@@ -279,7 +279,7 @@ canal de preview. Um preview deploy de PR roda o cliente novo contra as
 regras que já estão publicadas — então, ao testar uma mudança que dependa
 de regras novas, é preciso publicá-las à mão antes (comando acima,
 idempotente), ou toda gravação falhará com `permission-denied`. E, pela
-política de erro do ADR 0007, essa falha é **silenciosa**: aparece no
+política de erro do ADR 0005, essa falha é **silenciosa**: aparece no
 console do navegador, não na tela.
 
 > Atenção: com o bloco `firestore` no `firebase.json`, um

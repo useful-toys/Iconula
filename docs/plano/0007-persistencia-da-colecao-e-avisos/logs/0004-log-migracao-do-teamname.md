@@ -21,7 +21,7 @@ depois disso o apaga (`deleteField`) na mesma operação das contagens.
   `apagarTeamNamePendente`, deliberadamente **fora** do mapa `alteracoes`:
   a checagem de "há algo para gravar" continua olhando só para `alteracoes`,
   então a marca sozinha nunca dispara nem agenda uma escrita (critério "não
-  pode virar escrita extra" do ADR 0008). Novo método
+  pode virar escrita extra" do ADR 0005). Novo método
   `marcarTeamNameParaApagar(uid)` liga a marca; ela só entra no envio de uma
   gravação que já ia acontecer por causa de um ajuste real (a chave reservada
   é somada ao mapa só nesse momento, dentro de `gravarAgora`). Sucesso limpa

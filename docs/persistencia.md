@@ -2,7 +2,7 @@
 
 # Persistência no Firebase
 
-Como os dados do usuário são gravados e lidos no Cloud Firestore — segurança, custos e estado atual. O modelo de dados está em [modelo-firebase.md](modelo-firebase.md); as decisões de modelagem estão nos [MDRs](mdr/). As decisões de infraestrutura vivem nos [ADR 0007](adr/0007-persistencia-do-time-no-firestore.md) e [ADR 0008](adr/0008-schema-da-colecao-mapa-esparso.md). O comportamento de sincronização está nos [IDR 0002](idr/0002-avisos-de-sincronizacao-visiveis.md) e [IDR 0003](idr/0003-gravacao-agrega-ajustes.md).
+Como os dados do usuário são gravados e lidos no Cloud Firestore — segurança, custos e estado atual. O modelo de dados está em [modelo-firebase.md](modelo-firebase.md); as decisões de modelagem estão nos [MDRs](mdr/). As decisões de infraestrutura vivem no [ADR 0005](adr/0005-persistencia-no-firestore.md). O comportamento de sincronização está nos [IDR 0002](idr/0002-avisos-de-sincronizacao-visiveis.md) e [IDR 0003](idr/0003-gravacao-agrega-ajustes.md).
 
 ## Onde os dados vivem
 
@@ -45,7 +45,7 @@ O que está publicado:
 
 **A linguagem de regras não itera**: não há como aplicar um regex a cada chave nem uma condição a cada valor — só comparação de conjunto contra listas escritas à mão. O que isso permite, o que não permite e o teto de abuso que sobra (1 MiB por conta) estão no [TDR 0009](tdr/0009-validacao-do-mapa-nas-regras.md).
 
-App Check segue de fora, com gatilho de revisão já registrado no ADR 0007 (abuso de cota ou migração para o Blaze).
+App Check segue de fora, com gatilho de revisão já registrado no ADR 0005 (abuso de cota ou migração para o Blaze).
 
 ## Custos e cotas
 
@@ -63,8 +63,8 @@ App Check segue de fora, com gatilho de revisão já registrado no ADR 0007 (abu
 | Trocar ordenação, disposição ou filtro | 0 — preferência de vista vai para o `localStorage` (IDR 0026) |
 
 - Teto estimado: um usuário pesado (1 h/dia registrando sem parar) ≈ 360 escritas/dia — a cota comporta dezenas de usuários pesados simultâneos; leituras (1 por login) são irrelevantes
-- O risco de cota vem dos futuros, não do MVP: sincronização ao vivo (`onSnapshot` — cada entrega cobrada como leitura, multiplicada por dispositivo) é o primeiro candidato; import usado como "salvar" é o segundo (import é substituição rara, não gravação) — gatilhos de revisão já no ADR 0007
-- Região: `southamerica-east1` tem faixa gratuita; no Blaze é mais cara por operação que `us-*` — gatilho de revisão se o projeto vincular faturamento (ADR 0007)
+- O risco de cota vem dos futuros, não do MVP: sincronização ao vivo (`onSnapshot` — cada entrega cobrada como leitura, multiplicada por dispositivo) é o primeiro candidato; import usado como "salvar" é o segundo (import é substituição rara, não gravação) — gatilhos de revisão já no ADR 0005
+- Região: `southamerica-east1` tem faixa gratuita; no Blaze é mais cara por operação que `us-*` — gatilho de revisão se o projeto vincular faturamento (ADR 0005)
 - O lado de requisito é a RNF de economia de requisições em [requisitos.md](requisitos.md): uma leitura por login, escritas agregadas, nenhuma requisição por figurinha
 
 ## Pronto × falta
@@ -73,7 +73,7 @@ App Check segue de fora, com gatilho de revisão já registrado no ADR 0007 (abu
 |---|---|
 | Banco criado (região, Spark), `users/{uid}` + regras + testes no CI | Confirmar em uso real os números do MDR 0003 (debounce ~2s, teto ~10s, timeout ~5s sem rede) — aceitos como ponto de partida, sem deploy com usuários reais disponível durante o plano (ver `arquitetura.md` § Pontos em aberto) |
 | Regras publicadas (schema, `updatedAt`, `atestadoEm` — TDR 0008/0009) | — |
-| SDK sob demanda + CSP (ADR 0007, TDR 0007) | — |
+| SDK sob demanda + CSP (ADR 0005, TDR 0007) | — |
 | Escrita agregada, flush, `updatedAt`, `atestadoEm` (MDR 0003, Fase 7) | — |
 | Carga no login, atestação de menores e política de erro visível (Fase 7/8) | — |
 | Export/import JSON, sem tocar o Firestore para export (Fase 9) | — |

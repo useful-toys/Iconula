@@ -23,8 +23,8 @@ Documentação alinhada ao `firestore.rules` publicado (tarefas 0005-0001 a
     entrou** (estouro de 1.000 expressões) e `delete`/`list` negados sem
     catch-all.
   - § Pronto × falta: "Regras novas (schema, `updatedAt`, `atestadoEm`)"
-    saiu de "falta" e entrou em "pronto"; "Revisar/aceitar o ADR 0008
-    (redigido)" virou "Aceitar os números do ADR 0008 (debounce, teto de
+    saiu de "falta" e entrou em "pronto"; "Revisar/aceitar o ADR 0005
+    (redigido)" virou "Aceitar os números do ADR 0005 (debounce, teto de
     espera, timeout)", que continua em "falta" (Fase 7).
 - **`docs/firebase.md`**
   - § Regras de segurança: os bullets de resumo deixaram de falar em
@@ -41,7 +41,7 @@ Documentação alinhada ao `firestore.rules` publicado (tarefas 0005-0001 a
 - **`docs/arquitetura.md`**
   - § Decisões-chave e onde vivem: já apontava para TDR 0008, TDR 0009 e
     ADR 0008 — nenhuma mudança necessária.
-  - § Pontos em aberto: o item "Aceite do ADR 0008: redigido... o teto
+  - § Pontos em aberto: o item "Aceite do ADR 0005: redigido... o teto
     por contagem foi removido" estava desatualizado (o ADR está **aceito**
     e o teto voltou a 99). Reescrito para "Aceite dos números do ADR
     0008", deixando explícito que só os números operacionais seguem em
@@ -97,7 +97,7 @@ allow-list.
 ## Arquivos alterados
 - `docs/persistencia.md` — formato, regras e tabela Pronto × falta atualizados
 - `docs/firebase.md` — § Regras de segurança atualizada (§ Deploy conferida, sem mudança)
-- `docs/arquitetura.md` — item "Aceite do ADR 0008" de § Pontos em aberto corrigido
+- `docs/arquitetura.md` — item "Aceite do ADR 0005" de § Pontos em aberto corrigido
 - `docs/plano/0005-regras-do-firestore/0004-atualizar-documentacao-de-persistencia.md` — status atualizado
 - `docs/plano/README.md` — status da tarefa 0004 da Fase 5 atualizado
 - `docs/plano/0005-regras-do-firestore/logs/0004-log-atualizar-documentacao-de-persistencia.md` — este log

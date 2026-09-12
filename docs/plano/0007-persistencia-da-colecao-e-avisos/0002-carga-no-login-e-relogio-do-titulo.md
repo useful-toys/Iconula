@@ -48,7 +48,7 @@ gravado no documento.
    travessão quando não houver carimbo.
 6. Emitir aviso de sucesso "carregado" e, em falha de leitura, aviso de falha com
    o detalhe técnico — usando a área da Tarefa 0007-0001.
-7. Repetir a proteção de corrida do ADR 0007 adaptada ao produto novo: se o
+7. Repetir a proteção de corrida do ADR 0005 adaptada ao produto novo: se o
    usuário já ajustou contagens enquanto a leitura estava em voo, a resposta do
    servidor não pode sobrescrever o que ele acabou de fazer.
 8. Testes mockando `firebase/firestore` (o `vi.mock` intercepta import dinâmico):
@@ -63,12 +63,12 @@ login (Fase 8); sincronização ao vivo, que é requisito futuro.
 - O relógio é o `updatedAt` do documento e a carga não o move — ver `docs/idr/0027-relogio-do-titulo-e-o-updatedat-do-documento.md`
 - SDK sob demanda, para não pesar o bundle de quem não entra — ver `docs/adr/0007-persistencia-do-time-no-firestore.md`
 - Cache local com gerenciador multi-aba obrigatório — ver `docs/adr/0008-schema-da-colecao-mapa-esparso.md`
-- A política de erro invisível do ADR 0007 foi revista: falha aparece na tela — ver `docs/idr/0002-*` e `docs/idr/0029-*`
+- A política de erro invisível do ADR 0005 foi revista: falha aparece na tela — ver `docs/idr/0002-*` e `docs/idr/0029-*`
 
 ## Decisões em aberto nesta tarefa
 - Como resolver a corrida entre a leitura em voo e ajustes já feitos —
   encaminhamento: descartar a resposta do servidor se houve ajuste depois do
-  início da leitura, na linha do contador do ADR 0007; nasce um **TDR**
+  início da leitura, na linha do contador do ADR 0005; nasce um **TDR**
 - Formato exato da data quando o carimbo não é de hoje — encaminhamento: forma
   curta em PT-BR, sem segundos; consta no mesmo TDR
 

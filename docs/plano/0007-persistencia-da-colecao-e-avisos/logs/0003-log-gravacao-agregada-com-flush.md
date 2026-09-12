@@ -59,7 +59,7 @@ página, ao ocultar a aba e antes de sair da conta.
   importados).
 
 ## Decisões tomadas
-- **TDR 0017** — duas lacunas de implementação que o ADR 0008 não resolvia ao
+- **TDR 0017** — duas lacunas de implementação que o ADR 0005 não resolvia ao
   pé da letra:
   1. `setDoc(..., { merge: true })` em vez de `updateDoc`: a mesma chamada
      cria o documento na primeira gravação de uma conta nova (que ainda não
@@ -81,7 +81,7 @@ página, ao ocultar a aba e antes de sair da conta.
 Nenhum nível 2 ou 3. As duas lacunas acima eram ambiguidades de nível 1,
 resolvidas pelo TDR 0017.
 
-## Números do ADR 0008 (debounce, teto)
+## Números do ADR 0005 (debounce, teto)
 Aceitos como estão: debounce de 2000ms, teto de 10000ms — a "forma" (debounce
 + teto) não mudou, só os valores continuam os mesmos, então não nasce ADR
 novo (README § "Onde cada pendência foi alocada"). **Medição em uso real**

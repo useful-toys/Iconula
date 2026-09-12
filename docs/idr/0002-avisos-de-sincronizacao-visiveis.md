@@ -5,7 +5,7 @@
 ## Status
 
 Aceito — revê, para este produto, a política de erro do
-[ADR 0007](../adr/0007-persistencia-do-time-no-firestore.md) (falha
+[ADR 0005](../adr/0005-persistencia-no-firestore.md) (falha
 invisível, só log). A revisão formal fica registrada como pendência do
 ADR do schema. Refinado pelo
 [IDR 0017](0017-aviso-so-na-falha-com-detalhe-tecnico.md): só a falha
@@ -21,7 +21,7 @@ com sucesso e aviso efêmeros (5s) e falha persistente.
 
 ## Contexto
 
-- ADR 0007: falha de persistência nunca chega à tela — vira
+- ADR 0005: falha de persistência nunca chega à tela — vira
   `console.error` e nada mais; válido para o botão de um clique (perda
   pequena, banner seria pior que perda silenciosa).
 - Produto novo: o usuário investe horas registrando ~994 contagens —
@@ -42,7 +42,7 @@ com sucesso e aviso efêmeros (5s) e falha persistente.
 
 ## Consequências
 
-- A política "sem `role="alert"`" do ADR 0007 deixa de valer para este
+- A política "sem `role="alert"`" do ADR 0005 deixa de valer para este
   produto; o ADR do schema (pendência em `requisitos.md`) deve assumir
   a revisão
 - A área de avisos entra no cabeçalho da tela principal
@@ -52,7 +52,7 @@ com sucesso e aviso efêmeros (5s) e falha persistente.
 
 ## Alternativas consideradas
 
-- **Manter invisível** (ADR 0007 intacto): descartado — o custo da
+- **Manter invisível** (ADR 0005 intacto): descartado — o custo da
   perda silenciosa mudou de escala com o volume de registro
 - **Avisar só em erro**: menos ruído, mas o usuário perde a confirmação
   de que gravou — e sem o estado normal visível, o erro sozinho não

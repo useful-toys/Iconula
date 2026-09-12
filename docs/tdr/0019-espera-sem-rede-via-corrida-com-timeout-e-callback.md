@@ -8,7 +8,7 @@ Aceito — desbloqueia a Tarefa 0007-0005.
 
 ## Contexto
 
-O ADR 0008 já previa que, sem rede, a promessa de escrita do Firestore não
+O ADR 0005 já previa que, sem rede, a promessa de escrita do Firestore não
 resolve nem rejeita — fica pendente até o servidor responder — e que um
 tempo-limite de ~5s deveria emitir o **aviso** "sem conexão, será gravado
 depois". A Tarefa 0007-0005 pediu o mesmo tratamento para a **carga**
@@ -70,7 +70,7 @@ anterior:
   (sucesso rápido, espera seguida de sucesso, espera seguida de falha) nos
   dois módulos e na integração via `App.jsx`.
 - Se o futuro `onSnapshot` (sincronização ao vivo, gatilho de revisão do
-  ADR 0008) mudar o modelo de leitura, o `aoEsperar` da carga deixa de fazer
+  ADR 0005) mudar o modelo de leitura, o `aoEsperar` da carga deixa de fazer
   sentido do jeito que está — outro gatilho de revisão para quando isso
   acontecer.
 

@@ -7,7 +7,7 @@
 
 ## Resumo
 Reescrito o bloco `match /users/{userId}` de `firestore.rules` para o schema
-novo (ADR 0008), substituindo o `hasOnly(["teamName"])` da era do botão:
+novo (ADR 0005), substituindo o `hasOnly(["teamName"])` da era do botão:
 
 - `allow get` inalterado (`request.auth != null && request.auth.uid == userId`),
   seguindo o TDR 0008 (`get`, nunca `read`).
@@ -44,7 +44,7 @@ Tarefa 0005-0002).
   própria tarefa só prevê TDR "se a implementação precisar afrouxar isso".
 
 Nenhum ADR/TDR/IDR novo foi necessário: as decisões de fundo já estão no
-ADR 0008 e nos TDR 0008/0009.
+ADR 0005 e nos TDR 0008/0009.
 
 ## Impedimentos
 Nenhum de nível 2 ou 3. Dois contratempos de ambiente, contornados sem

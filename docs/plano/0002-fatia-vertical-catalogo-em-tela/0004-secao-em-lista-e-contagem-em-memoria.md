@@ -46,7 +46,7 @@ hora. Nesta fase a coleção vive só em memória — a persistência chega na F
    uma só: a de sigla, com FWC abrindo e COC fechando) e renderiza as 50 seções.
 4. Estado da coleção no `App.jsx`: um mapa de código → contagem, **esparso**
    (chave ausente = 0), espelhando desde já o formato que o Firestore vai receber
-   (ADR 0008). Ajustar é uma função pura: incrementar limita em 99, decrementar
+   (ADR 0005). Ajustar é uma função pura: incrementar limita em 99, decrementar
    remove a chave ao chegar em 0.
 5. O progresso por seção usa o mesmo módulo puro do placar (Tarefa 0002-0002),
    agora parametrizado por conjunto de códigos — sem duplicar a regra de contagem.

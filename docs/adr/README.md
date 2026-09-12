@@ -9,10 +9,9 @@ commit**.
 
 | Nº | Título | Status | Tags | Resumo |
 |---|---|---|---|---|
-| [ADR 0001](0001-stack-vite-react.md) | Stack Vite + React | Aceito | stack, build | Vite como build tool e React como UI, template padrão do `create-vite`. |
-| [ADR 0002](0002-bandeiras-emoji-unicode.md) | Bandeiras como emoji Unicode via Twemoji | Aceito (revisado 2x) | bandeiras, assets | Dado continua emoji Unicode; renderização via SVG do Twemoji vendorizado, sem CDN em runtime. |
-| [ADR 0003](0003-deploy-firebase-hosting-github-actions.md) | Deploy via Firebase Hosting + GitHub Actions | Aceito | deploy, ci | Firebase Hosting com deploy e preview automatizados por GitHub Actions a cada PR. |
-| [ADR 0004](0004-branch-protection-preview-required.md) | Branch protection exigindo o preview deploy antes do merge | Aceito | deploy, seguranca | `main` exige PR com `build_and_preview` e `ci` verdes, inclusive para o admin (zero aprovações exigidas). |
-| [ADR 0005](0005-login-google-sdk-modular.md) | Login com Google via SDK modular, sem FirebaseUI | Aceito | auth | Login Google via SDK modular, sem FirebaseUI — remove dívida de versão e zera vulnerabilidades do `npm audit`. |
-| [ADR 0007](0007-persistencia-do-time-no-firestore.md) | Persistência do time visível no Cloud Firestore | Aceito | firestore, persistencia | Time visível persistido em `users/{uid}` no Firestore; SDK carregado sob demanda para não pesar o bundle. |
-| [ADR 0008](0008-schema-da-colecao-mapa-esparso.md) | Schema da coleção — mapa esparso em `users/{uid}` | Aceito | firestore, persistencia, schema | Mapa esparso de contagens (teto 99), gravação agregada com debounce, flush garantido por persistência local. |
+| [ADR 0001](0001-aplicacao-spa.md) | Aplicação Single Page Application (SPA) | Aceito | arquitetura | Aplicação construída como SPA, com build gerando arquivos estáticos. |
+| [ADR 0002](0002-stack-vite-react.md) | Stack Vite + React | Aceito | stack, build | Vite como build tool e React como UI, template padrão do `create-vite`. |
+| [ADR 0003](0003-firebase-hosting.md) | Firebase Hosting | Aceito | deploy, hosting | Hospedagem no Firebase Hosting, com domínio customizado e HTTPS automático. |
+| [ADR 0004](0004-login-google-sdk-modular.md) | Login com Google via SDK modular, sem FirebaseUI | Aceito | auth | Login Google via SDK modular, sem FirebaseUI — remove dívida de versão e zera vulnerabilidades do `npm audit`. |
+| [ADR 0005](0005-persistencia-no-firestore.md) | Persistência no Cloud Firestore | Aceito | firestore, persistencia | Dados do usuário persistidos em `users/{uid}` no Firestore; SDK carregado sob demanda para não pesar o bundle. Modelo de dados detalhado nos MDRs. |
+| [ADR 0006](0006-bandeiras-emoji-unicode.md) | Bandeiras como emoji Unicode via Twemoji | Aceito (revisado 2x) | bandeiras, assets | Dado continua emoji Unicode; renderização via SVG do Twemoji vendorizado, sem CDN em runtime. |

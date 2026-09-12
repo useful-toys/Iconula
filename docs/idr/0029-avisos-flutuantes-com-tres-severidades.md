@@ -41,7 +41,7 @@ ao toque e a proibição de log com scroll.
   - **Aviso** — some sozinho após **5s**. Cobre a recusa esperada, em
     que nada quebrou: arquivo de importação inválido ou de versão
     desconhecida, área de transferência indisponível, e a gravação sem
-    rede que ficou enfileirada no cache local (ADR 0008)
+    rede que ficou enfileirada no cache local (ADR 0005)
   - **Falha** — **persiste** até ser dispensada ou até a operação
     seguinte do mesmo tipo ter sucesso. Cobre o que deveria ter
     funcionado e não funcionou: gravação e carga
