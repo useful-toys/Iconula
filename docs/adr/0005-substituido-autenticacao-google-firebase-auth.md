@@ -31,11 +31,10 @@ válidos e são referenciados pelo ADR 0006.
   (ex.: `.env.local` ausente no primeiro `npm run dev` local),
   `firebase.auth()` lança exceção síncrona (`auth/invalid-api-key`) — como
   `App.jsx` importa `src/lib/firebase.js` estaticamente, isso derrubava o
-  app inteiro (tela branca), mesmo para quem só quer ver o botão sem
-  login. Correção: `src/lib/firebase.js` captura o erro e exporta
-  `auth: null`; `App.jsx` trata `auth === null` como "login indisponível"
-  e não renderiza a área de autenticação — o resto do app continua
-  funcional.
+  app inteiro (tela branca). Correção: `src/lib/firebase.js` captura o
+  erro e exporta `auth: null`; `App.jsx` trata `auth === null` como
+  "login indisponível" e não renderiza a área de autenticação — o resto
+  do app continua funcional.
 
 ## Decisão
 

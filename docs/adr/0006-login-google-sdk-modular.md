@@ -100,9 +100,9 @@ previsto: *"reavaliar migração para a API modular quando `firebaseui` 7
   `reset()` no cleanup e sem a dança com a dupla invocação de efeitos do
   StrictMode.
 - **Perde-se o visual e a acessibilidade prontos do widget**, e o caminho
-  fácil para adicionar outros provedores. Para um provedor único e um
-  botão único, a troca é favorável; se um dia forem vários provedores,
-  reavaliar (mas o FirebaseUI provavelmente ainda não será opção).
+  fácil para adicionar outros provedores. Para um provedor único, a troca
+  é favorável; se um dia forem vários provedores, reavaliar (mas o
+  FirebaseUI provavelmente ainda não será opção).
 - O texto do botão é "Entrar com Google". A string oficial do Google em
   pt-BR é "Fazer login com o Google" — se a aderência estrita às
   diretrizes de marca virar requisito, ajustar.
