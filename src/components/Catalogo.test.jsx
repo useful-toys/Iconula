@@ -147,7 +147,7 @@ describe('Catalogo', () => {
       );
 
       expect(screen.getByLabelText('BRA 01, faltante, metalizada')).toBeInTheDocument();
-      expect(screen.getByLabelText('FWC 01, faltante')).toBeInTheDocument();
+      expect(screen.getByLabelText('FWC 00, faltante')).toBeInTheDocument();
     });
 
     it('com "faltantes" mostra apenas contagem 0 e esconde seções completas', () => {
@@ -304,7 +304,7 @@ describe('Catalogo', () => {
     it('seção completa some com filtro "faltantes"', () => {
       // FWC com todas as 20 figurinhas coladas: nenhuma faltante
       const contagensFwcCompletas = {};
-      for (let i = 1; i <= 20; i++) {
+      for (let i = 0; i <= 19; i++) {
         contagensFwcCompletas[`FWC${String(i).padStart(2, '0')}`] = 1;
       }
 
