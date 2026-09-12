@@ -7,7 +7,10 @@ Visão de conjunto do sistema — serviços, camadas, dados e fluxo — e
 registros (ADR/TDR/IDR) e nos docs de referência
 ([persistencia.md](persistencia.md),
 [interface.md](interface.md), [requisitos.md](requisitos.md)); este
-documento monta o quebra-cabeça.
+documento monta o quebra-cabeça. A seção "Decisões-chave" abaixo é um
+resumo curado por tema — o índice completo e filtrável por tags de cada
+registro está em [adr/README.md](adr/README.md), [tdr/README.md](tdr/README.md)
+e [idr/README.md](idr/README.md).
 
 O produto especificado em [requisitos.md](requisitos.md) — o controle de
 figurinhas do álbum da Copa 2026 — está implementado nesta arquitetura; o
