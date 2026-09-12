@@ -8,7 +8,7 @@ Concluída
 ## Documentos de referência (ler antes de implementar)
 - `docs/interface.md` § Tela de login — o wireframe, os textos exatos e as medidas (cartão ~360px, raio 20px, `padding: 36px 28px`, título Poppins 700 de 26px)
 - `docs/idr/0022-tema-escuro-unico-paleta-do-prototipo.md` § Decisão — o botão do Google é o único elemento claro do produto, e é assim de propósito
-- `docs/adr/0006-login-google-sdk-modular.md` § Decisão — botão próprio seguindo as diretrizes do Google, popup, erro visível em `role="alert"`, ignorando popup fechado pelo usuário
+- `docs/adr/0005-login-google-sdk-modular.md` § Decisão — botão próprio seguindo as diretrizes do Google, popup, erro visível em `role="alert"`, ignorando popup fechado pelo usuário
 - `docs/requisitos.md` § Acesso — falha de login exibe erro, exceto quando o usuário fecha o popup; a tela expõe o link da política antes de qualquer autenticação
 - `docs/requisitos.md` § Privacidade — o aviso de independência e marcas no rodapé
 - `src/components/LoginButton.jsx` — o botão atual, que já implementa boa parte disso
@@ -25,7 +25,7 @@ política acessível sem autenticar.
   `#3c4043`, disco de 18px com as quatro cores — `docs/interface.md` § Tela de
   login e `docs/idr/0022-*`
 - Erro de login visível em `role="alert"`, ignorando `auth/popup-closed-by-user` e
-  `auth/cancelled-popup-request` — `docs/adr/0006-*` § Decisão
+  `auth/cancelled-popup-request` — `docs/adr/0005-*` § Decisão
 - O link da política fica acessível **antes** de autenticar —
   `docs/requisitos.md` § Acesso
 - O rodapé de marcas repete-se aqui, sem filete superior —
@@ -42,7 +42,7 @@ política acessível sem autenticar.
    Usar os textos exatos de `interface.md`.
 3. Reusar o `LoginButton.jsx` existente, reestilizado para as medidas de
    `interface.md`; preservar o tratamento de erro e as exceções de cancelamento
-   que o ADR 0006 estabeleceu.
+   que o ADR 0005 estabeleceu.
 4. Rodapé com o aviso de independência e marcas, sem filete superior.
 5. O link da política aponta para a vista da Tarefa 0008-0004 e funciona sem
    sessão — é requisito, não conveniência.
@@ -58,8 +58,8 @@ política acessível sem autenticar.
 de login além do Google.
 
 ## Decisões já tomadas (não reabrir)
-- Único provedor Google, popup, botão próprio, sem FirebaseUI — ver `docs/adr/0006-login-google-sdk-modular.md`
-- O texto do botão é "Entrar com Google" — ver `docs/adr/0006-*` § Consequências e `docs/interface.md`
+- Único provedor Google, popup, botão próprio, sem FirebaseUI — ver `docs/adr/0005-login-google-sdk-modular.md`
+- O texto do botão é "Entrar com Google" — ver `docs/adr/0005-*` § Consequências e `docs/interface.md`
 - Fechar o popup é desistência, não erro — ver `docs/requisitos.md` § Acesso
 - O botão do Google é o único elemento claro — ver `docs/idr/0022-tema-escuro-unico-paleta-do-prototipo.md`
 - `Cross-Origin-Opener-Policy: same-origin-allow-popups` é custo do fluxo de popup — ver `docs/tdr/0005-csp-firebase-auth-google-oauth.md`

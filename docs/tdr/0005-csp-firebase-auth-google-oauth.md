@@ -5,7 +5,7 @@
 ## Status
 
 Aceito — **atualizado** pela remoção do FirebaseUI
-([ADR 0006](../adr/0006-login-google-sdk-modular.md)).
+([ADR 0005](../adr/0005-login-google-sdk-modular.md)).
 
 - Concessões que existiam **por causa do widget** foram removidas da
   CSP: `style-src https://fonts.googleapis.com`,
@@ -44,7 +44,7 @@ específicas do FirebaseUI, leia como histórico.
   [TDR 0002](0002-headers-de-seguranca-hosting.md)) bloqueia, por
   padrão, tudo que não seja `'self'`. O login com Google via Firebase
   Auth
-  ([ADR 0005](../adr/0005-substituido-autenticacao-google-firebase-auth.md))
+  ([ADR 0005](../adr/0005-login-google-sdk-modular.md))
   precisa de algumas origens externas específicas.
 - **`npm run dev` (Vite) não valida CSP** — os headers do `firebase.json`
   só existem no Firebase Hosting de verdade (produção ou preview deploy
@@ -119,8 +119,8 @@ Alterações em `hosting.headers` no `firebase.json`:
   produção (ao contrário do FirebaseUI, onde um bump de versão nosso
   seria pego no preview deploy do próprio PR antes do merge). Risco
   aceito conscientemente por não haver alternativa dentro do Firebase
-  Auth nativo — ver "Gatilho de revisão futura" no
-  [ADR 0005](../adr/0005-substituido-autenticacao-google-firebase-auth.md)
+  Auth nativo — ver "Gatilhos de revisão futura" no
+  [ADR 0005](../adr/0005-login-google-sdk-modular.md)
   para quando reavaliar migrar para Google Identity Services (que não
   depende do gapi/resolver do Firebase).
 
@@ -192,7 +192,7 @@ Alterações em `hosting.headers` no `firebase.json`:
 - Se o app crescer a ponto de precisar preservar estado através do login
   (rota profunda, formulário em andamento) — ou se o time quiser reduzir
   essa dependência de terceiro — reavaliar migrar para Google Identity
-  Services, ver o gatilho de revisão documentado no ADR 0005.
+  Services, ver os gatilhos de revisão documentados no ADR 0005.
 - Verificação após deploy (mesmo padrão do TDR 0002):
   `curl -sI https://iconula.web.app` deve trazer a CSP acima; testar o
   login manualmente **completando o fluxo até o fim e conferindo que o

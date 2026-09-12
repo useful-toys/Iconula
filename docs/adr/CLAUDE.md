@@ -15,7 +15,7 @@ ao usuário*, é [IDR](../idr/CLAUDE.md).
   reaproveitado.
 - Slug: resumo da decisão em poucas palavras. Se o status final for
   rejeitado ou substituído, inclua isso no slug (ex.:
-  `0005-substituido-autenticacao-google-firebase-auth.md`).
+  `0015-ordenacao-padrao-provisoria-ordem-do-album.md` em TDR).
 
 ## Estrutura obrigatória
 

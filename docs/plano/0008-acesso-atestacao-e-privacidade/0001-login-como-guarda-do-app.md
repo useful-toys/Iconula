@@ -9,7 +9,7 @@ Concluída
 - `docs/requisitos.md` § Acesso — "visitante deslogado vê apenas a tela de login — catálogo e coleção não são acessíveis sem autenticar"
 - `docs/requisitos.md` § Dados e isolamento — sem as `VITE_FIREBASE_*` o login fica indisponível e o app não oferece funcionalidade; modo não suportado
 - `docs/requisitos.md` § Fora de Escopo — modo local sem login está excluído permanentemente
-- `docs/adr/0006-login-google-sdk-modular.md` § Decisão — detecção explícita de config ausente; estado do usuário em `App.jsx` com `useState` + `onAuthStateChanged`, sem Context
+- `docs/adr/0005-login-google-sdk-modular.md` § Decisão — detecção explícita de config ausente; estado do usuário em `App.jsx` com `useState` + `onAuthStateChanged`, sem Context
 - `docs/arquitetura.md` § Camadas no cliente — "tela de login como guarda"
 - `AGENTS.md` § Como rodar — o texto que hoje diz que `npm run dev` funciona sem credencial
 
@@ -25,7 +25,7 @@ login existe. A consequência prática — desenvolver passa a exigir `.env.loca
   suportado, não um modo degradado a ser projetado — `docs/requisitos.md` § Dados
   e isolamento
 - Estado do usuário continua em `App.jsx` com `useState` + `onAuthStateChanged`,
-  **sem Context** — `docs/adr/0006-*` § Decisão
+   **sem Context** — `docs/adr/0005-*` § Decisão
 - Sem router: a troca entre tela de login e tela principal é uma vista interna —
   `AGENTS.md` § Convenções
 - Mudança no jeito de rodar o projeto é refletida no `AGENTS.md` no mesmo PR —
@@ -56,7 +56,7 @@ comando de sair, que continua onde está até a Fase 9.
 
 ## Decisões já tomadas (não reabrir)
 - Login obrigatório; sem ele não há contador — ver `docs/requisitos.md` § Fora de Escopo
-- Único provedor Google, por popup — ver `docs/adr/0006-login-google-sdk-modular.md`
+- Único provedor Google, por popup — ver `docs/adr/0005-login-google-sdk-modular.md`
 - Sem router e sem estado global até a árvore exigir — ver `AGENTS.md` § Convenções
 - A coleção permanece gravada no Firestore e é recarregada no próximo login — ver `docs/requisitos.md` § Acesso
 

@@ -69,7 +69,7 @@ Questões recorrentes são marcadas como "Nota".*
 
 ### Acesso
 - Entrar com conta Google
-  - Único provedor: Google, via popup (ver ADR 0006)
+  - Único provedor: Google, via popup (ver ADR 0005)
   - Visitante deslogado vê apenas a tela de login — catálogo e coleção
     não são acessíveis sem autenticar
   - Falha de login exibe mensagem de erro, exceto quando o usuário fecha

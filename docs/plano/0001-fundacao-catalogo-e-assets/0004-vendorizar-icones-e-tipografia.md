@@ -7,7 +7,7 @@ Concluída
 
 ## Documentos de referência (ler antes de implementar)
 - `docs/adr/0002-bandeiras-emoji-unicode.md` § Decisão e § Consequências — SVGs Twemoji vendorizados em `src/assets/flags/`, nome do arquivo = code point, resolução por `import.meta.glob`
-- `docs/adr/0006-login-google-sdk-modular.md` § Consequências — "fim das requisições a terceiros em runtime" como propriedade a preservar
+- `docs/adr/0005-login-google-sdk-modular.md` § Consequências — "fim das requisições a terceiros em runtime" como propriedade a preservar
 - `docs/tdr/0002-headers-de-seguranca-hosting.md` § Decisão — a CSP e o que ela permite
 - `docs/tdr/0005-csp-firebase-auth-google-oauth.md` § Status — a política em vigor: `style-src 'self'`, `font-src 'self'`
 - `docs/interface.md` § Tipografia — Poppins 600/700 no título, códigos e nomes de seção; `system-ui` no restante
@@ -22,7 +22,7 @@ terceiros, e nenhuma exceção nova será aberta para isso.
 
 ## Padrões e convenções aplicáveis
 - Nenhum asset de terceiro em runtime: tudo vendorizado e servido pelo Hosting —
-  `docs/adr/0002-*` § Consequências e `docs/adr/0006-*` § Consequências
+  `docs/adr/0002-*` § Consequências e `docs/adr/0005-*` § Consequências
 - A CSP em vigor tem `style-src 'self'` e `font-src 'self'`; `fonts.googleapis.com`
   e `fonts.gstatic.com` foram **removidos** de propósito quando o FirebaseUI saiu —
   não reabrir — `docs/tdr/0005-*` § Status
@@ -51,7 +51,7 @@ terceiros, e nenhuma exceção nova será aberta para isso.
    licença junto dos `.woff2` e creditar no `README.md` da pasta.
 5. Registrar como **TDR** a decisão de vendorizar a fonte, com o motivo (a CSP em
    vigor, e a propriedade de não entregar IP e User-Agent do visitante a
-   terceiros, estabelecida no ADR 0006).
+   terceiros, estabelecida no ADR 0005).
 6. Conferir o peso: os quatro arquivos somados não devem mudar materialmente o
    tamanho do bundle. Registrar os números medidos no log.
 
@@ -84,7 +84,7 @@ outro peso ou família tipográfica além dos dois pesos de Poppins.
    prós e contras.
    **Caso concreto previsto aqui**: se a única forma de usar Poppins exigisse
    abrir `font-src`/`style-src` na CSP, PARE — isso reverte uma decisão do
-   ADR 0006 e do TDR 0005.
+    ADR 0005 e do TDR 0005.
 
 ## Arquivos impactados
 - `src/assets/flags/1f3c6.svg` — criar

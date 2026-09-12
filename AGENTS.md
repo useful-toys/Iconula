@@ -47,7 +47,7 @@ aberto e § Camadas no cliente).
   GitHub `useful-toys`, projeto Firebase `iconula`)
 - Login: Firebase Auth (SDK modular), único provedor Google, botão
   próprio — sem FirebaseUI (ver
-  [docs/adr/0006](docs/adr/0006-login-google-sdk-modular.md)); é a
+  [docs/adr/0005](docs/adr/0005-login-google-sdk-modular.md)); é a
   guarda do app — sem sessão só a tela de login existe (`docs/requisitos.md`
   § Acesso)
 - Persistência: Cloud Firestore, um documento por usuário
@@ -86,7 +86,7 @@ aberto e § Camadas no cliente).
 | `src/components/Figurinha.jsx` | Cartão da figurinha com três estados, selo `×N`, controle de menos e marca de metalizada. |
 | `src/components/Avisos.jsx` | Área de avisos flutuantes com três severidades (sucesso, aviso, falha — ver [IDR 0029](docs/idr/0029-avisos-flutuantes-com-tres-severidades.md)). |
 | `src/components/*.test.jsx` | Um arquivo de teste por componente acima, ao lado do respectivo `.jsx`. |
-| `src/lib/firebase.js` | Inicializa o SDK do Firebase (API modular — ver ADR 0006) a partir das variáveis `VITE_FIREBASE_*`; exporta `auth`, `app` (ambos `null` se a config estiver incompleta — login fica indisponível, mas o resto do app funciona) e `signInWithGoogle()`. Não importa `firebase/firestore` (ADR 0007). |
+| `src/lib/firebase.js` | Inicializa o SDK do Firebase (API modular — ver ADR 0005) a partir das variáveis `VITE_FIREBASE_*`; exporta `auth`, `app` (ambos `null` se a config estiver incompleta — login fica indisponível, mas o resto do app funciona) e `signInWithGoogle()`. Não importa `firebase/firestore` (ADR 0007). |
 | `src/lib/colecao.js` | Funções puras para o mapa esparso de contagens: obter contagem, ajustar com teto de 99 e piso de 0, e filtrar por status. |
 | `src/lib/colecaoRemota.js` | Único módulo que toca o SDK do Firestore (carregado sob demanda): carregar a coleção no login, gravar alterações/atestação/importação em `users/{uid}` — nunca lança, sempre devolve um resultado discriminado (ver [ADR 0008](docs/adr/0008-schema-da-colecao-mapa-esparso.md)). |
 | `src/lib/gravacaoAgregada.js` | Acúmulo, debounce (~2s), teto de espera (~10s) e `flush()` da gravação agregada de contagens (ver [IDR 0003](docs/idr/0003-gravacao-agrega-ajustes.md)). |

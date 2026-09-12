@@ -17,8 +17,8 @@ A CSP em vigor (`docs/tdr/0005-csp-firebase-auth-google-oauth.md`) tem
 `style-src 'self'` e `font-src 'self'`, sem exceção para
 `fonts.googleapis.com` nem `fonts.gstatic.com` — essas origens foram
 removidas de propósito quando o FirebaseUI saiu
-(`docs/adr/0006-login-google-sdk-modular.md` § Consequências). O
-[ADR 0006](../adr/0006-login-google-sdk-modular.md) estabeleceu como
+(`docs/adr/0005-login-google-sdk-modular.md` § Consequências). O
+[ADR 0005](../adr/0005-login-google-sdk-modular.md) estabeleceu como
 propriedade do projeto o "fim das requisições a terceiros em runtime":
 nenhum visitante entrega IP ou User-Agent a CDN externo, inclusive quem
 nunca faz login.
@@ -57,7 +57,7 @@ demais subsets (devanagari, etc.) ficaram de fora — o app não os usa.
 
 - **Poppins via Google Fonts CDN (`fonts.googleapis.com` + `fonts.gstatic.com`)**:
   rejeitado — exigiria reabrir `font-src` e `style-src` na CSP,
-  revertendo decisão do ADR 0006 e do TDR 0005, e entregaria IP e
+  revertendo decisão do ADR 0005 e do TDR 0005, e entregaria IP e
   User-Agent de todo visitante ao Google.
 - **Trocar Poppins por `system-ui`**: rejeitado — `docs/interface.md`
   especifica Poppins 600/700 no título, códigos e nomes de seção; a
