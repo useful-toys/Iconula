@@ -15,16 +15,15 @@ super-grupos, não 13.
 
 ## Contexto
 
-Na ordenação por ordem do álbum, as 50 seções fluem uma abaixo da outra
-— percurso longo. O álbum físico organiza as 48 seleções nos 12 grupos
-da Copa (A–L, 4 seleções cada); o usuário decidiu espelhar essa
-estrutura na tela: super-grupos colapsáveis — "Especiais" e os grupos
-A–L —, cada um com título e números agregados.
-
-Os grupos da Copa de cada seleção eram, na redação original, pendência
-do checklist. Deixaram de ser: o dado é **derivável da ordem do álbum**
-e foi verificado contra o sorteio de dezembro de 2025 — ver "A
-composição dos grupos", abaixo.
+- Na ordenação por ordem do álbum, as 50 seções fluem uma abaixo da
+  outra — percurso longo. O álbum físico organiza as 48 seleções nos
+  12 grupos da Copa (A–L, 4 seleções cada); o usuário decidiu espelhar
+  essa estrutura na tela: super-grupos colapsáveis — "Especiais" e os
+  grupos A–L —, cada um com título e números agregados.
+- Os grupos da Copa de cada seleção eram, na redação original,
+  pendência do checklist. Deixaram de ser: o dado é **derivável da
+  ordem do álbum** e foi verificado contra o sorteio de dezembro de
+  2025 — ver "A composição dos grupos", abaixo.
 
 ## Decisão
 

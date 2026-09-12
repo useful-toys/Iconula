@@ -17,17 +17,18 @@ fora, só que disparado por perda de foco em vez de clique (ver
 
 ## Contexto
 
-requisitos.md exige quatro saídas para a coleção — texto de faltantes
-para o WhatsApp, texto de repetidas, exportar JSON e importar JSON — e
-diz que a exportação está "disponível sempre, sem etapas adicionais". A
-tela principal especificada em interface.md não tinha porta de entrada
-para nenhuma delas: o cabeçalho tem título, a linha de controles tem os
-alternadores e o desfazer, e o corpo é o catálogo.
-
-Pôr quatro comandos na linha de controles disputaria o espaço mais caro
-da tela, que o [IDR 0018](0018-usuario-especialista-e-minimalismo.md)
-reservou ao catálogo — e são ações raras: exporta-se de vez em quando,
-importa-se quase nunca, e a lista de troca sai antes da feira.
+- requisitos.md exige quatro saídas para a coleção — texto de
+  faltantes para o WhatsApp, texto de repetidas, exportar JSON e
+  importar JSON — e diz que a exportação está "disponível sempre, sem
+  etapas adicionais". A tela principal especificada em interface.md
+  não tinha porta de entrada para nenhuma delas: o cabeçalho tem
+  título, a linha de controles tem os alternadores e o desfazer, e o
+  corpo é o catálogo.
+- Pôr quatro comandos na linha de controles disputaria o espaço mais
+  caro da tela, que o [IDR 0018](0018-usuario-especialista-e-minimalismo.md)
+  reservou ao catálogo — e são ações raras: exporta-se de vez em
+  quando, importa-se quase nunca, e a lista de troca sai antes da
+  feira.
 
 ## Decisão
 

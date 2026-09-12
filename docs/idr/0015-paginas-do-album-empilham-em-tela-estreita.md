@@ -8,15 +8,15 @@ Aceito.
 
 ## Contexto
 
-O [IDR 0009](0009-disposicao-como-no-album-reproduz-a-pagina-fisica.md)
-definiu o spread da seleção: duas páginas lado a lado, cada uma um grid
-de 4 trilhas de 52px — ~460px de largura total. Em celular (~360px), as
-duas páginas não cabem lado a lado; a pendência registrada em
-interface.md oferecia empilhar as colunas ou cair para a lista.
-
-O usuário decidiu: empilhar — a disposição álbum nunca deixa de ser
-álbum. No celular, aparelho mais usado na feira de troca, a comparação
-com a página física é justamente o valor da disposição.
+- O [IDR 0009](0009-disposicao-como-no-album-reproduz-a-pagina-fisica.md)
+  definiu o spread da seleção: duas páginas lado a lado, cada uma um
+  grid de 4 trilhas de 52px — ~460px de largura total.
+- Em celular (~360px), as duas páginas não cabem lado a lado; a
+  pendência registrada em interface.md oferecia empilhar as colunas ou
+  cair para a lista.
+- O usuário decidiu: empilhar — a disposição álbum nunca deixa de ser
+  álbum. No celular, aparelho mais usado na feira de troca, a
+  comparação com a página física é justamente o valor da disposição.
 
 ## Decisão
 

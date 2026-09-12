@@ -11,20 +11,19 @@ base herdada do botão (`App.css` com dark mode via
 
 ## Contexto
 
-interface.md declarava a identidade — escuro verde-gramado com dourado
-— e, na linha seguinte, mandava preservar o `App.css` do botão, que
-alterna claro/escuro conforme a preferência do sistema. As duas coisas
-não convivem: ou existe um tema claro, ou a identidade é sempre escura.
-
-A pergunta não era estética apenas: os estados do cartão
-([IDR 0006](0006-estados-visuais-e-interacao-da-figurinha.md)) são
-cinza, verde e laranja, e o verde do cartão sobre um fundo verde-gramado
-é o par mais frágil de contraste — precisaria de duas afinações se
-houvesse dois temas.
-
-O protótipo de tela (`docs/prototype/`) materializou a identidade com
-uma paleta fechada em OKLCH e virou a referência: o usuário decidiu
-adotar o esquema de cores, o layout e a aparência dele.
+- interface.md declarava a identidade — escuro verde-gramado com
+  dourado — e, na linha seguinte, mandava preservar o `App.css` do
+  botão, que alterna claro/escuro conforme a preferência do sistema.
+  As duas coisas não convivem: ou existe um tema claro, ou a
+  identidade é sempre escura.
+- A pergunta não era estética apenas: os estados do cartão
+  ([IDR 0006](0006-estados-visuais-e-interacao-da-figurinha.md)) são
+  cinza, verde e laranja, e o verde do cartão sobre um fundo
+  verde-gramado é o par mais frágil de contraste — precisaria de duas
+  afinações se houvesse dois temas.
+- O protótipo de tela (`docs/prototype/`) materializou a identidade com
+  uma paleta fechada em OKLCH e virou a referência: o usuário decidiu
+  adotar o esquema de cores, o layout e a aparência dele.
 
 ## Decisão
 

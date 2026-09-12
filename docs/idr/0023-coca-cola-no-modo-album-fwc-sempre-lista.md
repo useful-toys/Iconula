@@ -10,21 +10,20 @@ que restringia a disposição álbum às 48 seleções.
 
 ## Contexto
 
-O IDR 0009 limitou a disposição álbum às seleções porque o arranjo
-físico dos especiais não era conhecido — reproduzi-lo por analogia
-seria invenção. Desde então, o arranjo da página da Coca-Cola foi
-especificado (requisitos.md, Anexo): duas páginas, 6 figurinhas na
-primeira (2 linhas × 3 colunas) e 8 na segunda (3 colunas nas duas
-primeiras linhas, 2 na terceira). O dos Extras FIFA continua
-desconhecido — e o FWC ainda espalha suas 20 figurinhas por páginas nas
-duas pontas do álbum, o que tornaria a reprodução complexa mesmo com os
-dados.
-
-Ficava também a lacuna de comportamento: com "álbum" selecionado, a
-seção que não tem layout de álbum cai em lista — e o filtro de status,
-que existe "apenas na disposição lista"
-([IDR 0001](0001-filtro-de-status-so-na-disposicao-lista.md)), voltaria
-a aparecer só para ela.
+- O IDR 0009 limitou a disposição álbum às seleções porque o arranjo
+  físico dos especiais não era conhecido — reproduzi-lo por analogia
+  seria invenção.
+- Desde então, o arranjo da página da Coca-Cola foi especificado
+  (requisitos.md, Anexo): duas páginas, 6 figurinhas na primeira (2
+  linhas × 3 colunas) e 8 na segunda (3 colunas nas duas primeiras
+  linhas, 2 na terceira). O dos Extras FIFA continua desconhecido — e
+  o FWC ainda espalha suas 20 figurinhas por páginas nas duas pontas do
+  álbum, o que tornaria a reprodução complexa mesmo com os dados.
+- Ficava também a lacuna de comportamento: com "álbum" selecionado, a
+  seção que não tem layout de álbum cai em lista — e o filtro de
+  status, que existe "apenas na disposição lista"
+  ([IDR 0001](0001-filtro-de-status-so-na-disposicao-lista.md)),
+  voltaria a aparecer só para ela.
 
 ## Decisão
 

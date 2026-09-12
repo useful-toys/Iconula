@@ -11,18 +11,16 @@ interface.md ("`×N` = unidades sobrando").
 
 ## Contexto
 
-O glifo `×` aparecia com três leituras diferentes na especificação:
-
-- **no cartão**, o selinho `×N` — o IDR 0006 dizia que N é a contagem
-  (N−1 sobrando), interface.md dizia que N são as sobrando
-- **nos títulos** (placar, super-grupo, seção), `×37` conta **códigos
-  distintos** com contagem ≥ 2 (requisitos.md)
-- **no texto do WhatsApp**, `5×2` são as **unidades sobrando** do
-  número 5 (requisitos.md)
-
-O usuário decidiu a leitura do cartão: `×1` = uma figurinha colada no
-álbum e uma sobrando; `×2` = uma colada e duas sobrando; `×3` = uma
-colada e três sobrando.
+- O glifo `×` aparecia com três leituras diferentes na especificação:
+  - **no cartão**, o selinho `×N` — o IDR 0006 dizia que N é a contagem
+    (N−1 sobrando), interface.md dizia que N são as sobrando
+  - **nos títulos** (placar, super-grupo, seção), `×37` conta **códigos
+    distintos** com contagem ≥ 2 (requisitos.md)
+  - **no texto do WhatsApp**, `5×2` são as **unidades sobrando** do
+    número 5 (requisitos.md)
+- O usuário decidiu a leitura do cartão: `×1` = uma figurinha colada no
+  álbum e uma sobrando; `×2` = uma colada e duas sobrando; `×3` = uma
+  colada e três sobrando.
 
 ## Decisão
 

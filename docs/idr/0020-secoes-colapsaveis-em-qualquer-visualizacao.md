@@ -8,13 +8,13 @@ Aceito.
 
 ## Contexto
 
-O IDR 0019 tornou os super-grupos da ordem do álbum colapsáveis. Ficou
-a pergunta: e as seções — os grupos de ~20 figurinhas — podem fechar?
-
-O usuário decidiu: sim, em qualquer ordenação e disposição. Fechada, a
-seção deixa só o cabeçalho com o resumo (`Brasil BRA 24 · 12/20 · ▢8
-×3`) — que por si só responde à consulta de progresso; a grade só
-ocupa espaço quando interessa ajustar ou conferir posição a posição.
+- O IDR 0019 tornou os super-grupos da ordem do álbum colapsáveis.
+  Ficou a pergunta: e as seções — os grupos de ~20 figurinhas — podem
+  fechar?
+- O usuário decidiu: sim, em qualquer ordenação e disposição. Fechada,
+  a seção deixa só o cabeçalho com o resumo (`Brasil BRA 24 · 12/20 ·
+  ▢8 ×3`) — que por si só responde à consulta de progresso; a grade só
+  ocupa espaço quando interessa ajustar ou conferir posição a posição.
 
 ## Decisão
 

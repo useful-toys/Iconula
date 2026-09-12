@@ -14,21 +14,20 @@ oculta pelo filtro virou pendência de desenho (a faixa lista sempre as
 
 ## Contexto
 
-O IDR 0014 trouxe de volta o salto direto para seção, com o mecanismo
-aberto (combobox era uma opção, não a escolha). Candidatos discutidos:
-grade de siglas em painel, trilha alfabética fixa, campo de busca e
-combobox.
-
-O usuário decidiu: uma linha com as bandeiras de todas as seções, no
-cabeçalho, rolável para os lados. Tocar na bandeira salta até a seção.
-
-A faixa não cabe inteira em tela alguma (50 ícones) e rola
-horizontalmente — exceção pontual à regra "nenhum componente tem
-rolagem própria" do
-[IDR 0008](0008-uma-unica-pagina-scrollavel.md): a exceção é
-horizontal, rasa (uma linha de ícones) e não compete com a rolagem
-vertical da página — o mal evitado pelo 0008 era o scroll vertical
-aninhado.
+- O IDR 0014 trouxe de volta o salto direto para seção, com o
+  mecanismo aberto (combobox era uma opção, não a escolha). Candidatos
+  discutidos: grade de siglas em painel, trilha alfabética fixa, campo
+  de busca e combobox.
+- O usuário decidiu: uma linha com as bandeiras de todas as seções, no
+  cabeçalho, rolável para os lados. Tocar na bandeira salta até a
+  seção.
+- A faixa não cabe inteira em tela alguma (50 ícones) e rola
+  horizontalmente — exceção pontual à regra "nenhum componente tem
+  rolagem própria" do
+  [IDR 0008](0008-uma-unica-pagina-scrollavel.md): a exceção é
+  horizontal, rasa (uma linha de ícones) e não compete com a rolagem
+  vertical da página — o mal evitado pelo 0008 era o scroll vertical
+  aninhado.
 
 ## Decisão
 
