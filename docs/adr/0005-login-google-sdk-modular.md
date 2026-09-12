@@ -8,11 +8,17 @@ Aceito.
 
 ## Contexto
 
-- App não tinha conceito de usuário — Firebase só para Hosting. Objetivo:
-  preparar a base para personalizar a experiência no futuro (ex.: salvar
-  seleção favorita por usuário), sem implementar a persistência agora —
-  exige um mecanismo de login.
-- Escopo já fechado com o usuário:
+- A aplicação já é SPA hospedada no Firebase Hosting. O Firebase oferece
+  serviço gratuito de autenticação com integração nativa ao Firestore —
+  usar o que já está disponível é mais simples que construir mecanismo
+  próprio.
+- Arquitetura minimalista: não queremos manter mecanismo próprio de
+  usuários (senhas, tokens, recuperação de conta). O Firebase Auth
+  resolve isso como serviço gerenciado, sem código adicional no app.
+- Firestore exige um `uid` para isolar dados por usuário — o login
+  Google via Firebase Auth entrega isso de graça, com regras de segurança
+  baseadas em `request.auth.uid`.
+- Escopo fechado com o usuário:
   - Único provedor: **Google** (OAuth) — sem email/senha, telefone, login
     anônimo.
   - Esta entrega cobre só login/logout e exibir o usuário autenticado —
