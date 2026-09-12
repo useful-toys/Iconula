@@ -443,8 +443,27 @@ login não tem divisória alguma além da borda do cartão.
 
 ## Demais telas
 
-*A preencher quando desenhados: os diálogos de exportação e importação (o
-menu de ações define a porta de entrada, não o diálogo).*
+### Exportação
+
+Sem diálogo: escolher "Exportar" no menu de ações baixa o arquivo direto e
+emite o aviso de sucesso "Coleção exportada" — uma segunda etapa de
+confirmação contrariaria "sem etapas adicionais" de `requisitos.md` §
+Portabilidade, e não há nada destrutivo a confirmar. Nome do arquivo
+`iconula-AAAA-MM-DD.json`, com a data local de quem exporta (ver
+[IDR 0040](idr/0040-exportar-sem-dialogo-e-nome-de-arquivo-datado.md)).
+
+### Importação
+
+Sem tela própria: "Importar" no menu de ações abre o seletor nativo de
+arquivo do sistema operacional. Um arquivo inválido é rejeitado direto, com
+aviso — só um arquivo válido chega a perguntar. A confirmação usa
+`window.confirm()` nativo (não um componente do app), com a mensagem direta
+de que a coleção atual será substituída por inteiro e a operação não pode
+ser desfeita — a substituição é irreversível e descarta também o histórico
+de desfazer. Uma chave de código que não existe mais no catálogo é
+descartada sem recusar o resto do arquivo, com um segundo aviso informando
+quantas foram descartadas (ver
+[IDR 0041](idr/0041-importar-confirmacao-minima-e-descarte-de-chave-desconhecida.md)).
 
 ### Política de privacidade
 
@@ -595,12 +614,19 @@ estádio. O app não segue `prefers-color-scheme` e não tem tema claro
 
 ## Pendências de interface
 
+Nenhuma — as quatro pendências registradas ao longo do plano foram todas
+resolvidas, com registro próprio:
+
 - Se e onde o link da política de privacidade reaparece depois de
-  autenticado — o menu de ações (IDR 0024) é o candidato natural
+  autenticado: no rodapé da tela principal, ao lado do link já existente
+  na tela de login — [IDR 0037](idr/0037-politica-no-rodape-depois-de-autenticado.md)
 - O que acontece ao saltar (faixa de bandeiras) para uma seção que o
-  filtro ativo ocultou (IDR 0025): a faixa lista as 50 seções sempre
-- Se a atestação de menores é o próprio clique de entrar — como no
-  protótipo, que a exibe a cada login — ou um passo explícito só na
-  primeira vez; requisitos.md pede "um clique atestando… uma única vez
-  por conta"
-- Diálogos de exportação e importação
+  filtro ativo ocultou: o salto volta o filtro para "todas" e então rola
+  até a seção — [IDR 0031](idr/0031-salto-com-filtro-ativo.md)
+- Se a atestação de menores é o próprio clique de entrar ou um passo
+  explícito: passo explícito, uma única vez por conta, como
+  `requisitos.md` exige — [IDR 0036](idr/0036-atestacao-passo-explicito-e-falha-de-gravacao.md)
+- Diálogos de exportação e importação: exportação sem diálogo (baixa
+  direto) — [IDR 0040](idr/0040-exportar-sem-dialogo-e-nome-de-arquivo-datado.md);
+  importação com confirmação mínima via `window.confirm()` —
+  [IDR 0041](idr/0041-importar-confirmacao-minima-e-descarte-de-chave-desconhecida.md)

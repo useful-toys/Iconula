@@ -7,19 +7,27 @@ Guia para agentes de IA (e humanos) trabalhando neste repositório.
 ## O que é este projeto
 
 **Iconula 2026**: uma Single Page Application para colecionadores do álbum
-de figurinhas oficial Panini da Copa do Mundo FIFA 2026. O app permite
-registrar quantas unidades de cada figurinha você tem, acompanhar o
-progresso do álbum (coladas, faltantes e repetidas) e organizar trocas.
+de figurinhas oficial Panini da Copa do Mundo FIFA 2026. O app registra
+quantas unidades de cada figurinha você tem, acompanha o progresso do
+álbum (coladas, faltantes e repetidas) e ajuda a organizar trocas.
 
 O catálogo inteiro — 994 figurinhas em 50 seções — é exibido na tela
-principal, com contagens ajustáveis em memória. A autenticação com Google
-(Firebase Auth) está disponível, mas ainda não persiste a coleção; a
-persistência no Cloud Firestore chega na Fase 7.
+principal, com contagens ajustáveis, duas ordenações e duas disposições
+(lista e como no álbum físico). O login com Google (Firebase Auth) é
+obrigatório para usar o app: guarda o acesso e a atestação de maioridade
+(LGPD, uma vez por conta), e a coleção persiste no Cloud Firestore — um
+documento por usuário, gravação agregada e avisos de sincronização.
+Desfazer (últimas 10 alterações), um menu de ações (copiar listas de
+troca, exportar/importar a coleção em JSON, sair da conta) e a política
+de privacidade completam o produto.
 
-A SPA cresce por fases: catálogo em tela, ordenações e agrupamento,
+A SPA cresceu por fases: catálogo em tela, ordenações e agrupamento,
 disposição como no álbum físico, persistência, acesso e atestação,
-portabilidade, e acabamento. Router e gerenciador de estado global só
-entram quando a árvore realmente exigir.
+portabilidade, e acabamento (acessibilidade, desempenho e documentação —
+ver `docs/plano/README.md` para o status corrente de cada fase). Router e
+gerenciador de estado global não entraram: a árvore de componentes ainda
+não exigiu (ver [docs/arquitetura.md](docs/arquitetura.md) § Pontos em
+aberto e § Camadas no cliente).
 
 ## Stack
 
@@ -30,46 +38,73 @@ entram quando a árvore realmente exigir.
   Unicode, calculado via `@twemoji/api`) — necessário porque o Windows
   não renderiza emoji de bandeira nativamente (ver
   [docs/adr/0002](docs/adr/0002-bandeiras-emoji-unicode.md))
+- Tipografia: Poppins (600/700, latin + latin-ext) vendorizada em
+  `src/assets/fonts/` e servida pelo próprio Hosting — evita abrir a CSP
+  (`style-src`/`font-src`) para uma fonte externa (ver
+  [TDR 0013](docs/tdr/0013-tipografia-vendorizada.md))
 - Testes: [Vitest](https://vitest.dev/) + [React Testing Library](https://testing-library.com/react)
 - Deploy: Firebase Hosting via GitHub Actions (repositório na organização
   GitHub `useful-toys`, projeto Firebase `iconula`)
 - Login: Firebase Auth (SDK modular), único provedor Google, botão
   próprio — sem FirebaseUI (ver
-  [docs/adr/0006](docs/adr/0006-login-google-sdk-modular.md))
+  [docs/adr/0006](docs/adr/0006-login-google-sdk-modular.md)); é a
+  guarda do app — sem sessão só a tela de login existe (`docs/requisitos.md`
+  § Acesso)
 - Persistência: Cloud Firestore, um documento por usuário
   (`users/{uid}`), com o SDK carregado sob demanda para não pesar no
   bundle de quem não faz login (ver
-  [docs/adr/0007](docs/adr/0007-persistencia-do-time-no-firestore.md))
+  [docs/adr/0007](docs/adr/0007-persistencia-do-time-no-firestore.md) e
+  [docs/adr/0008](docs/adr/0008-schema-da-colecao-mapa-esparso.md))
 
 ## Onde fica cada coisa
 
 | Caminho | Conteúdo |
 |---|---|
-| `src/data/catalogo.js` | O catálogo do álbum: 50 seções e 994 códigos, com nome, grupo da Copa e páginas do spread. Única fonte desse dado. |
-| `src/data/catalogoOrdenacoes.js` | Derivações puras de ordenação e agrupamento do catálogo (ordem alfabética por sigla, ordem do álbum com super-grupos A–L). |
+| `src/data/catalogo.js` | O catálogo do álbum: 50 seções (`secoes`) e 994 figurinhas (`figurinhas`, expandidas por `expandirFigurinhas`), com código, nome, grupo da Copa, páginas do spread e marca de metalizada. Única fonte desse dado (ver [TDR 0010](docs/tdr/0010-forma-do-catalogo-degradacao-do-checklist-e-sem-pipeline.md)). |
+| `src/data/catalogoOrdenacoes.js` | Derivações puras de ordenação e agrupamento do catálogo (ordem alfabética por sigla, ordem do álbum com super-grupos A–L) — ver [TDR 0012](docs/tdr/0012-derivacoes-do-catalogo-em-src-data.md). |
 | `src/data/catalogoLayout.js` | Layout de álbum por seção: posições de página, linha e trilha de cada figurinha. |
-| `src/components/Cabecalho.jsx` | Cabeçalho sticky com o placar geral em notação compacta e relógio. |
-| `src/components/Catalogo.jsx` | Corpo da tela principal: renderiza as seções na ordenação vigente. |
-| `src/components/Secao.jsx` | Cabeçalho de seção com progresso compacto e grade de figurinhas em lista. |
-| `src/components/Figurinha.jsx` | Cartão da figurinha com três estados, selo `×N` e marca de metalizada. |
-| `src/components/MenuDeAcoes.jsx` | Botão de ações no cabeçalho e o popup de comandos raros (copiar listas, exportar/importar, sair da conta); "sair" dá flush da gravação pendente antes do `signOut`. |
+| `src/data/catalogo.test.js` | Testes de invariantes do catálogo (994 códigos, 50 seções, 20 por seleção, grupos e páginas) — faz o papel de validação que a ausência de pipeline deixaria sem cobertura ([TDR 0010](docs/tdr/0010-forma-do-catalogo-degradacao-do-checklist-e-sem-pipeline.md)). |
+| `src/App.jsx` | Único componente com estado: sessão (`onAuthStateChanged`), coleção (mapa esparso de contagens), `atualizadoEm`, histórico de desfazer, atestação pendente, vista da política de privacidade e preferências de vista (ordenação/disposição/filtro, lidas uma vez por faixa de tela — [IDR 0043](docs/idr/0043-padroes-de-primeira-abertura-por-faixa-de-tela.md)). Decide qual tela mostrar (guarda de login — `requisitos.md` § Acesso) e concentra toda leitura/escrita da coleção, sem Context (ver [TDR 0014](docs/tdr/0014-estado-da-colecao-sem-context.md)). |
+| `src/App.css` | Estilo de layout do app (flex de página, tela de auth indisponível). |
+| `src/App.test.jsx`, `src/App.auth-unavailable.test.jsx`, `src/App.atestacao.test.jsx`, `src/App.copiar.test.jsx`, `src/App.desfazer.test.jsx`, `src/App.exportar.test.jsx`, `src/App.gravacao.test.jsx`, `src/App.importar.test.jsx`, `src/App.persistencia.test.jsx`, `src/App.politica.test.jsx` | Testes de integração de `App.jsx`, um arquivo por funcionalidade: login/logout e cabeçalho, Firebase Auth indisponível, atestação de menores, cópia de listas de troca, desfazer, exportar/importar JSON, gravação agregada e carga/proteção de corrida, vista da política de privacidade. |
+| `src/theme.css` | Tokens de paleta (OKLCH) do tema escuro único e a regra global de foco visível (`:focus-visible`, [IDR 0042](docs/idr/0042-foco-visivel-e-area-de-toque.md)). |
+| `src/index.css` | `@font-face` da Poppins vendorizada (ver [TDR 0013](docs/tdr/0013-tipografia-vendorizada.md)). |
+| `src/main.jsx` | Ponto de entrada: monta `App` em `StrictMode`. |
+| `src/components/TelaDeLogin.jsx` | Tela de login (`docs/interface.md` § Tela de login): cartão com `LoginButton`, atestação textual e rodapé com o link da política. |
 | `src/components/LoginButton.jsx` | Botão "Entrar com Google" (`signInWithPopup`), com mensagem de erro para falhas que não sejam o usuário fechar o popup. |
-| `src/App.jsx` | Estado da coleção (`useState`, mapa esparso de contagens) e estado do usuário autenticado (`useState` + `onAuthStateChanged`) — sem Context (ver [ADR 0006](docs/adr/0006-login-google-sdk-modular.md)). Repassa a função de ajuste para o catálogo (ver [TDR 0014](docs/tdr/0014-estado-da-colecao-sem-context.md)) e `handleSignOut` (flush antes do `signOut`) para o menu de ações. |
-| `src/App.css` | Estilo do app (tema escuro único, responsivo). |
-| `src/App.test.jsx` | Testes de login/logout e renderização do cabeçalho/catálogo (mocka `src/lib/firebase.js` e `src/components/Catalogo.jsx`). |
-| `src/App.auth-unavailable.test.jsx` | Teste do comportamento quando o Firebase Auth não está configurado. |
-| `src/lib/firebase.js` | Inicializa o SDK do Firebase (API modular — ver ADR 0006) a partir das variáveis `VITE_FIREBASE_*`; exporta `auth`, `app` (ambos `null` se a config estiver incompleta — login fica indisponível, mas o resto do app funciona) e `signInWithGoogle()`. Não importa `firebase/firestore`: a persistência será carregada sob demanda na Fase 7. |
-| `src/lib/colecao.js` | Funções puras para o mapa esparso de contagens: obter contagem e ajustar com teto de 99 e piso de 0. |
+| `src/components/Atestacao.jsx` | Passo explícito de atestação de menores, uma única vez por conta (LGPD art. 14 — ver [IDR 0036](docs/idr/0036-atestacao-passo-explicito-e-falha-de-gravacao.md)). |
+| `src/components/PoliticaDePrivacidade.jsx` | Vista interna da política de privacidade, sem router (ver [TDR 0020](docs/tdr/0020-privacidade-como-vista-interna.md)). |
+| `src/components/Rodape.jsx` | Rodapé da tela principal: aviso de independência/marcas e o link da política, reaparecendo depois de autenticado (ver [IDR 0037](docs/idr/0037-politica-no-rodape-depois-de-autenticado.md)). |
+| `src/components/Cabecalho.jsx` | Cabeçalho sticky: placar geral em notação compacta, `atualizadoEm` e a faixa de bandeiras para salto. |
+| `src/components/FaixaDeSecoes.jsx` | Faixa de bandeiras rolável no cabeçalho; toque salta até a seção, limpando o filtro se ele a ocultar (ver [IDR 0031](docs/idr/0031-salto-com-filtro-ativo.md)). |
+| `src/components/Controles.jsx` | Linha de controles: grupos segmentados de ordenação, disposição e filtro de status, mais desfazer e o menu de ações. |
+| `src/components/MenuDeAcoes.jsx` | Botão de ações no cabeçalho e o popup de comandos raros (copiar listas, exportar/importar, sair da conta — ver [IDR 0024](docs/idr/0024-acoes-raras-em-menu-do-cabecalho.md)); "sair" dá flush da gravação pendente antes do `signOut` (ver [IDR 0038](docs/idr/0038-sair-da-conta-aborta-se-o-flush-falhar.md)). |
+| `src/components/Catalogo.jsx` | Corpo da tela principal: super-grupos e seções na ordenação/disposição vigente, com FWC abrindo e Coca-Cola fechando. |
+| `src/components/SuperGrupo.jsx` | Super-grupo A–L colapsável, com progresso agregado das seções que contém. |
+| `src/components/Secao.jsx` | Cabeçalho de seção com progresso compacto, colapsável, renderizando a grade em lista ou a página do álbum conforme a disposição vigente. |
+| `src/components/PaginaDoAlbum.jsx` | Página do álbum na disposição "como no álbum": grid de trilhas fixas reproduzindo a página física (ver [IDR 0009](docs/idr/0009-disposicao-como-no-album-reproduz-a-pagina-fisica.md)). |
+| `src/components/Figurinha.jsx` | Cartão da figurinha com três estados, selo `×N`, controle de menos e marca de metalizada. |
+| `src/components/Avisos.jsx` | Área de avisos flutuantes com três severidades (sucesso, aviso, falha — ver [IDR 0029](docs/idr/0029-avisos-flutuantes-com-tres-severidades.md)). |
+| `src/components/*.test.jsx` | Um arquivo de teste por componente acima, ao lado do respectivo `.jsx`. |
+| `src/lib/firebase.js` | Inicializa o SDK do Firebase (API modular — ver ADR 0006) a partir das variáveis `VITE_FIREBASE_*`; exporta `auth`, `app` (ambos `null` se a config estiver incompleta — login fica indisponível, mas o resto do app funciona) e `signInWithGoogle()`. Não importa `firebase/firestore` (ADR 0007). |
+| `src/lib/colecao.js` | Funções puras para o mapa esparso de contagens: obter contagem, ajustar com teto de 99 e piso de 0, e filtrar por status. |
+| `src/lib/colecaoRemota.js` | Único módulo que toca o SDK do Firestore (carregado sob demanda): carregar a coleção no login, gravar alterações/atestação/importação em `users/{uid}` — nunca lança, sempre devolve um resultado discriminado (ver [ADR 0008](docs/adr/0008-schema-da-colecao-mapa-esparso.md)). |
+| `src/lib/gravacaoAgregada.js` | Acúmulo, debounce (~2s), teto de espera (~10s) e `flush()` da gravação agregada de contagens (ver [IDR 0003](docs/idr/0003-gravacao-agrega-ajustes.md)). |
+| `src/lib/historico.js` | Pilha do histórico de desfazer: as últimas 10 alterações de contagem, em memória (ver [IDR 0012](docs/idr/0012-desfazer-no-cabecalho-historico-de-10.md)). |
+| `src/lib/preferenciasDeVista.js` | Ordenação, disposição e filtro persistidos no `localStorage`, por dispositivo (ver [IDR 0026](docs/idr/0026-preferencias-de-vista-persistidas-no-navegador.md)). |
+| `src/lib/portabilidade.js` | Serialização pura do export/import JSON da coleção — o download/leitura do arquivo é responsabilidade de `App.jsx` (`docs/requisitos.md` § Portabilidade). |
+| `src/lib/textoDeTroca.js` | Gera os textos de troca (faltantes e repetidas) prontos para colar num grupo de WhatsApp, sempre na ordem do álbum. |
+| `src/lib/avisos.js` | Fila e ciclo de vida dos avisos flutuantes: severidade, expiração e limite de empilhamento. |
 | `src/lib/progresso.js` | Calcula coladas, faltantes, repetidas e percentual sobre um conjunto de códigos. |
 | `src/lib/bandeira.js` | Converte emoji de bandeira/ícone em URL do SVG Twemoji vendorizado. |
+| `src/lib/*.test.js` | Um arquivo de teste por módulo acima, ao lado do respectivo `.js`. |
 | `firestore.rules` | Regras de segurança do Firestore — a única garantia de que um usuário não acessa os dados de outro. |
 | `firestore.rules.test.js` | Testes das regras contra o emulador (`npm run test:rules`, config em `vitest.rules.config.js`); rodam no CI a cada PR (ver [TDR 0008](docs/tdr/0008-deploy-e-teste-das-regras-do-firestore.md)). |
-| `src/components/LoginButton.jsx` | Botão "Entrar com Google" (`signInWithPopup`), com mensagem de erro para falhas que não sejam o usuário fechar o popup. |
 | `firebase.json`, `.firebaserc` | Configuração do Firebase Hosting (aponta para `dist/`), das regras do Firestore e do emulador. |
 | `.github/workflows/` | Workflows de deploy (produção em merge na `main`, preview em PRs). |
-| `docs/requisitos.md` | Requisitos do produto (o que é, diferenciais, MVP, futuros, fora de escopo) — ler antes de propor funcionalidades. Descreve o produto para o qual o app atual será transformado. |
-| `docs/interface.md` | Decisões de interface (o "como" da UI: telas, faixas de tela, identidade visual, interações). Telas principal e de login especificadas, com paleta e medidas; diálogos de export/import e faixas de tela pendentes; em conflito com requisitos, requisitos vence. |
-| `docs/persistencia.md` | Como os dados do usuário são gravados no Firestore — formato dos dados, regras, custos e o que muda com o controle de figurinhas. |
+| `docs/requisitos.md` | Requisitos do produto (o que é, diferenciais, MVP, futuros, fora de escopo) — ler antes de propor funcionalidades. Descreve o produto implementado; § Requisitos futuros lista o que ainda não foi comprometido. |
+| `docs/interface.md` | Decisões de interface (o "como" da UI: telas, faixas de tela, identidade visual, interações) — todas as telas do produto especificadas e implementadas, sem pendências abertas; em conflito com requisitos, requisitos vence. |
+| `docs/persistencia.md` | Como os dados do usuário são gravados e lidos no Firestore — formato dos dados, regras, custos e o que ainda falta (§ Pronto × falta). |
 | `docs/arquitetura.md` | Visão de conjunto da arquitetura — serviços, camadas, fluxo de dados e índice das decisões (ADRs/TDRs/IDRs). |
 | `docs/plano/` | Plano de implementação em fases e tarefas rumo ao controle de figurinhas do álbum; `docs/plano/README.md` é o índice e o mapa de status. |
 | `docs/adr/` | Decisões de arquitetura (ADRs) — leia antes de propor mudanças estruturais. |

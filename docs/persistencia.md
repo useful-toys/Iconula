@@ -215,13 +215,19 @@ ADR 0007 (abuso de cota ou migração para o Blaze).
 
 ## Pronto × falta
 
-| Pronto (na main) | Falta (implementação do produto novo) |
+| Pronto (na main) | Falta |
 |---|---|
-| Banco criado (região, Spark) | Aceitar os números do ADR 0008 (debounce, teto de espera, timeout) |
-| `users/{uid}` + regras + testes no CI | Escrita agregada, flush, `updatedAt`, `atestadoEm` |
-| Regras novas publicadas (schema, `updatedAt`, `atestadoEm`) | Migração: apagar o `teamName` na primeira gravação |
-| SDK sob demanda + CSP (TDR 0007) | |
-| Deploy das regras (TDR 0008) | |
+| Banco criado (região, Spark), `users/{uid}` + regras + testes no CI | Confirmar em uso real os números do ADR 0008 (debounce ~2s, teto ~10s, timeout ~5s sem rede) — aceitos como ponto de partida na Tarefa 0007-0003, sem deploy com usuários reais disponível durante o plano (ver `arquitetura.md` § Pontos em aberto) |
+| Regras publicadas (schema, `updatedAt`, `atestadoEm` — TDR 0008/0009) | — |
+| SDK sob demanda + CSP (ADR 0007, TDR 0007) | — |
+| Escrita agregada, flush, `updatedAt`, `atestadoEm` (ADR 0008, Fase 7) | — |
+| Migração: `teamName` da era do botão apagado na primeira gravação (Tarefa 0007-0004) | — |
+| Carga no login, atestação de menores e política de erro visível (Fase 7/8) | — |
+| Export/import JSON, sem tocar o Firestore para export (Fase 9) | — |
+
+O produto novo está implementado por completo; o único item em aberto é
+operacional (confirmação em uso real dos números do ADR 0008), não de
+código.
 
 ## Futuro
 

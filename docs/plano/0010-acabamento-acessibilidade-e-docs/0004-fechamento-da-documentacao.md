@@ -3,7 +3,7 @@
 # Tarefa [0010-0004]: fechamento da documentação
 
 ## Status
-Pendente
+Concluída
 
 ## Documentos de referência (ler antes de implementar)
 - `AGENTS.md` § Convenções — os documentos devem sempre corresponder ao estado real; divergência notada se corrige
