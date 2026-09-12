@@ -108,7 +108,7 @@ aberto e § Camadas no cliente).
 | `docs/interface.md` | Decisões de interface (o "como" da UI: telas, faixas de tela, identidade visual, interações) — todas as telas do produto especificadas e implementadas, sem pendências abertas; em conflito com requisitos, requisitos vence. |
 | `docs/persistencia.md` | Como os dados do usuário são gravados e lidos no Firestore — formato dos dados, regras, custos e o que ainda falta (§ Pronto × falta). |
 | `docs/arquitetura.md` | Visão de conjunto da arquitetura — serviços, camadas, fluxo de dados e índice das decisões (ADRs/TDRs/IDRs/MDRs/DDRs). |
-| `docs/devops.md` | Panorama de CI/CD, deploy e segurança — estado atual da infraestrutura, referenciando os DDRs. |
+| `docs/devops.md` | Panorama de DevOps: estado atual de CI/CD, deploy, workflows, ferramentas de validação local e segurança — referenciando os DDRs. Atualize sempre que mudar workflows, build, deploy, pipeline ou ferramentas de validação. |
 | `docs/modelo-firebase.md` | Modelo de dados da persistência no Firestore — estado atual do schema em produção, referenciando os MDRs. |
 | `docs/modelo-intercambio.md` | Modelo de dados do formato de intercâmbio (export/import JSON). |
 | `docs/modelo-memoria.md` | Modelo de dados da representação em memória na SPA. |
@@ -169,6 +169,17 @@ aberto e § Camadas no cliente).
   muda a configuração. Esses arquivos devem sempre corresponder ao
   estado real de cada ambiente; se notar alguma divergência, corrigir o
   documento junto com a mudança de código.
+- **Decisões de DevOps (workflows, CI/CD, deploy, pipeline, build,
+  ferramentas de validação)** devem ser registradas como DDR em
+  `docs/devops-dr/` e refletidas no panorama
+  [docs/devops.md](docs/devops.md). Ao criar ou modificar um workflow,
+  mudar o processo de build, adicionar/remover ferramenta de validação
+  (lint, testes, emuladores), alterar a configuração de deploy ou
+  preview, ou tomar qualquer decisão sobre CI/CD, registre a decisão no
+  DDR correspondente (novo ou existente) e atualize o `devops.md` se a
+  mudança afetar o panorama geral. O `devops.md` é o ponto de entrada
+  para entender o estado atual da infraestrutura; DDRs são o registro
+  detalhado de cada decisão.
 
 ## Ferramentas de automação disponíveis
 

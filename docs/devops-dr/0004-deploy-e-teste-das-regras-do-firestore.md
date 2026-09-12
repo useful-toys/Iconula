@@ -37,6 +37,10 @@ Aceito (migra TDR 0008)
   roda no `ci.yml`, inclusive para PR de fork
 - Config separada (`vitest.rules.config.js`, `environment: "node"`)
 - Script único `npm run test:rules`, idêntico local e no CI
+- `firebase.json` tem bloco `emulators.firestore` na porta 8080, com
+  `emulators.ui.enabled: false` — a UI do emulador não é necessária para
+  testes automatizados; desabilitá-la reduz o footprint do emulador e
+  evita abrir porta extra (4000) sem uso.
 
 ### Deploy das regras: step próprio no merge
 
