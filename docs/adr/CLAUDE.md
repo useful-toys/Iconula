@@ -6,7 +6,9 @@ Decisões de **arquitetura de software**: stack, infraestrutura, deploy,
 integrações externas (auth, banco de dados), formato de dados persistidos
 fora do app. Se a decisão é sobre *como o código é escrito ou protegido
 internamente*, é [TDR](../tdr/CLAUDE.md); se é sobre *comportamento visível
-ao usuário*, é [IDR](../idr/CLAUDE.md).
+ao usuário*, é [IDR](../idr/CLAUDE.md); se é sobre *modelagem de dados*
+(schema, formato de documentos, transformações e validações), é
+[MDR](../mdr/CLAUDE.md).
 
 ## Arquivo
 
@@ -26,7 +28,7 @@ ao usuário*, é [IDR](../idr/CLAUDE.md).
 
 ## Status
 
-Aceito | Rejeitado | **Substituído pelo [ADR/TDR/IDR NNNN](caminho)**: motivo.
+Aceito | Rejeitado | **Substituído pelo [ADR/TDR/IDR/MDR NNNN](caminho)**: motivo.
 
 ## Contexto
 

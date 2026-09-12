@@ -6,7 +6,9 @@ Decisões **técnicas de implementação interna**: segurança (CSP, headers,
 regras do Firestore), build/CI, estrutura de dados e de estado em runtime,
 desempenho, convenções de código. Se a decisão é sobre *stack, infra ou
 integração externa*, é [ADR](../adr/CLAUDE.md); se é sobre *comportamento
-visível ao usuário*, é [IDR](../idr/CLAUDE.md).
+visível ao usuário*, é [IDR](../idr/CLAUDE.md); se é sobre *modelagem de
+dados* (schema, formato de documentos, transformações e validações), é
+[MDR](../mdr/CLAUDE.md).
 
 ## Arquivo
 
@@ -26,7 +28,7 @@ visível ao usuário*, é [IDR](../idr/CLAUDE.md).
 
 ## Status
 
-Aceito | Rejeitado | **Substituído pelo [ADR/TDR/IDR NNNN](caminho)**: motivo.
+Aceito | Rejeitado | **Substituído pelo [ADR/TDR/IDR/MDR NNNN](caminho)**: motivo.
 
 ## Contexto
 

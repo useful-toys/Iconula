@@ -19,8 +19,11 @@ funciona igual, só não lembra onde você parou.
 - Persistência: Cloud Firestore
 - Deploy: Firebase Hosting via GitHub Actions
 
-Veja as decisões de arquitetura em [docs/adr](docs/adr) e informações para
-desenvolvimento (inclusive orientadas a agentes de IA) em [AGENTS.md](AGENTS.md).
+Veja as decisões de arquitetura em [docs/adr](docs/adr), as decisões
+técnicas em [docs/tdr](docs/tdr), as decisões de interface em
+[docs/idr](docs/idr), as decisões de modelagem de dados em
+[docs/mdr](docs/mdr), e informações para desenvolvimento (inclusive
+orientadas a agentes de IA) em [AGENTS.md](AGENTS.md).
 
 ## Desenvolvimento
 

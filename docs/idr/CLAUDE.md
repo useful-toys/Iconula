@@ -7,7 +7,9 @@ interação, layout responsivo, feedback visual, textos e estados da UI. Se a
 decisão é sobre *stack, infra ou integração externa*, é
 [ADR](../adr/CLAUDE.md); se é sobre *implementação interna* (segurança,
 build/CI, estrutura de dados/estado, desempenho), é
-[TDR](../tdr/CLAUDE.md).
+[TDR](../tdr/CLAUDE.md); se é sobre *modelagem de dados* (schema, formato
+de documentos, transformações e validações), é
+[MDR](../mdr/CLAUDE.md).
 
 ## Arquivo
 
@@ -27,7 +29,7 @@ build/CI, estrutura de dados/estado, desempenho), é
 
 ## Status
 
-Aceito | Rejeitado | **Substituído pelo [ADR/TDR/IDR NNNN](caminho)**: motivo.
+Aceito | Rejeitado | **Substituído pelo [ADR/TDR/IDR/MDR NNNN](caminho)**: motivo.
 
 ## Contexto
 
