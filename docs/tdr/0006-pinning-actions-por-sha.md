@@ -4,7 +4,7 @@
 
 ## Status
 
-Aceito
+**Substituído pelo [DDR 0003](../devops-dr/0003-pinning-de-actions-por-sha.md)**: decisões de CI/CD movidas para DevOps DRs.
 
 ## Contexto
 

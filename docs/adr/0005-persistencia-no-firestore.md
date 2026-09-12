@@ -34,7 +34,7 @@ Com o carregamento tardio, o bundle principal fica em **366,70 KB** (+1%) e o Fi
 
 **Segurança: a `apiKey` exposta não é um vazamento.** As `VITE_FIREBASE_*` vão para o bundle e são visíveis a qualquer visitante — isso é por desenho, não descuido, e já estava documentado em [docs/firebase.md](../firebase.md). **A `apiKey` identifica o projeto, não autentica ninguém**. A credencial é o ID token emitido pelo Firebase Auth, e o isolamento entre usuários é responsabilidade exclusiva das regras do Firestore, avaliadas no servidor.
 
-Consequência prática: a garantia de isolamento **não pode** depender do código cliente, que é público e substituível por qualquer requisição forjada. Ela vive em `firestore.rules` e é comprovada por testes automatizados no emulador, rodando no CI a cada PR — ver [TDR 0008](../tdr/0008-deploy-e-teste-das-regras-do-firestore.md).
+Consequência prática: a garantia de isolamento **não pode** depender do código cliente, que é público e substituível por qualquer requisição forjada. Ela vive em `firestore.rules` e é comprovada por testes automatizados no emulador, rodando no CI a cada PR — ver [DDR 0004](../devops-dr/0004-deploy-e-teste-das-regras-do-firestore.md).
 
 **Região e faixa gratuita.** Banco criado em **`southamerica-east1`** (São Paulo).
 
@@ -65,8 +65,8 @@ O que procede da objeção independentemente: **no plano Blaze, São Paulo é ma
 
 - **O login passa a ter utilidade concreta.** Era a lacuna aberta pelo ADR 0004 (login sem persistência).
 - **O bundle principal praticamente não cresce**, graças ao carregamento tardio: 363,09 KB → **366,70 KB** (+1%). O chunk do Firestore (554,85 KB) só é baixado por quem faz login.
-- **A CSP ganha uma origem** em `connect-src` — ver [TDR 0007](../tdr/0007-csp-para-o-firestore.md).
-- **O projeto passa a ter regras de segurança para manter**, com deploy próprio e testes próprios — ver [TDR 0008](../tdr/0008-deploy-e-teste-das-regras-do-firestore.md).
+- **A CSP ganha uma origem** em `connect-src` — ver [DDR 0001](../devops-dr/0001-csp-headers-e-configuracao-de-hosting.md).
+- **O projeto passa a ter regras de segurança para manter**, com deploy próprio e testes próprios — ver [DDR 0004](../devops-dr/0004-deploy-e-teste-das-regras-do-firestore.md).
 - **Um `firebase deploy` sem `--only`** passa a publicar regras além do Hosting.
 - **Cota:** 1 leitura por login (e menos, servindo do cache local); 1 escrita por agregação; +1 escrita única de atestação por conta; import = 1 escrita — folga grande na cota do Spark.
 - **Sincronização ao vivo (futuro)** trocará o modelo de leitura — gatilho de revisão deste ADR.
@@ -74,5 +74,5 @@ O que procede da objeção independentemente: **no plano Blaze, São Paulo é ma
 ## Alternativas consideradas
 
 - **`localStorage`**: mais simples, sem rede, sem regras, sem custo. Não atende ao pedido — não acompanha o usuário entre dispositivos nem entre navegadores. Continua sendo a escolha certa para conveniências por dispositivo (preferências de vista).
-- **Realtime Database**: latência menor e modelo mais simples, mas árvore JSON única em vez de armazenamento estruturado, e exigiria abrir `wss:` na CSP (o SDK do RTDB usa WebSocket; o do Firestore não — ver [TDR 0007](../tdr/0007-csp-para-o-firestore.md)). Descartado.
+- **Realtime Database**: latência menor e modelo mais simples, mas árvore JSON única em vez de armazenamento estruturado, e exigiria abrir `wss:` na CSP (o SDK do RTDB usa WebSocket; o do Firestore não — ver [DDR 0001](../devops-dr/0001-csp-headers-e-configuracao-de-hosting.md)). Descartado.
 - **Subcoleção `users/{uid}/contagens/{código}`**: uma escrita por figurinha (cota em rajada), leitura em query, regras por subcaminho — só compensaria se a coleção não coubesse num documento. Decisão de modelagem detalhada no [MDR 0002](../mdr/0002-schema-do-documento-da-colecao.md).

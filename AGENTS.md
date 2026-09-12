@@ -99,7 +99,7 @@ aberto e § Camadas no cliente).
 | `src/lib/bandeira.js` | Converte emoji de bandeira/ícone em URL do SVG Twemoji vendorizado. |
 | `src/lib/*.test.js` | Um arquivo de teste por módulo acima, ao lado do respectivo `.js`. |
 | `firestore.rules` | Regras de segurança do Firestore — a única garantia de que um usuário não acessa os dados de outro. |
-| `firestore.rules.test.js` | Testes das regras contra o emulador (`npm run test:rules`, config em `vitest.rules.config.js`); rodam no CI a cada PR (ver [TDR 0008](docs/tdr/0008-deploy-e-teste-das-regras-do-firestore.md)). |
+| `firestore.rules.test.js` | Testes das regras contra o emulador (`npm run test:rules`, config em `vitest.rules.config.js`); rodam no CI a cada PR (ver [DDR 0004](docs/devops-dr/0004-deploy-e-teste-das-regras-do-firestore.md)). |
 | `firebase.json`, `.firebaserc` | Configuração do Firebase Hosting (aponta para `dist/`), das regras do Firestore e do emulador. |
 | `.github/workflows/` | Workflows de deploy (produção em merge na `main`, preview em PRs). |
 | `docs/requisitos.md` | Requisitos do produto (o que é, diferenciais, MVP, futuros, fora de escopo) — ler antes de propor funcionalidades. Descreve o produto implementado; § Requisitos futuros lista o que ainda não foi comprometido. |
@@ -111,6 +111,7 @@ aberto e § Camadas no cliente).
 | `docs/tdr/` | Decisões técnicas pontuais (TDRs). |
 | `docs/idr/` | Decisões de interface significantes (IDRs) — apresentação, interação, navegação; mesmo formato dos ADRs/TDRs. |
 | `docs/mdr/` | Decisões de modelagem de dados (MDRs) — schema, formato de documentos, transformações e validações de dados; mesmo formato dos ADRs/TDRs/IDRs. |
+| `docs/devops-dr/` | Decisões de DevOps (DDRs) — CI/CD, pipelines, deploy, branch protection, ferramentas de segurança; mesmo formato dos ADRs/TDRs/IDRs/MDRs. |
 | `docs/firebase.md` | Tudo o que foi configurado no Firebase (projeto, Hosting, login) — como reproduzir. |
 | `docs/gcloud.md` | Tudo o que foi configurado no Google Cloud (APIs habilitadas, service account, IAM) — como reproduzir. |
 | `docs/github.md` | Tudo o que foi configurado no GitHub (repo, secrets, workflows, branch protection) — como reproduzir. |
@@ -122,8 +123,8 @@ aberto e § Camadas no cliente).
   `Copyright (c) 2026 Daniel Felix Ferber` (sintaxe de comentário do
   tipo de arquivo: `//` em JS/JSX, `/* */` em CSS, `<!-- -->` em HTML/MD,
   `#` em YAML).
-- Registrar um novo ADR/TDR/IDR/MDR em `docs/adr/`, `docs/tdr/`,
-  `docs/idr/` ou `docs/mdr/` **no momento em
+- Registrar um novo ADR/TDR/IDR/MDR/DDR em `docs/adr/`, `docs/tdr/`,
+  `docs/idr/`, `docs/mdr/` ou `docs/devops-dr/` **no momento em
   que a decisão é tomada**, não depois — inclusive decisões tomadas
   durante o planejamento (antes de qualquer código existir) e decisões
   tomadas automaticamente por um agente de IA durante a execução (ex.:
@@ -135,11 +136,12 @@ aberto e § Camadas no cliente).
   estruturais), TDR para decisões técnicas mais pontuais de
   implementação, IDR para decisões de interface significantes
   (apresentação, interação, navegação — detalhes puramente estéticos
-  não precisam de registro) e MDR para decisões de modelagem de dados
-  (schema, formato de documentos, transformações e validações de dados),
-  seguindo a numeração sequencial e o formato dos arquivos existentes
-  (Status / Contexto / Decisão / Consequências / Alternativas
-  consideradas).
+  não precisam de registro), MDR para decisões de modelagem de dados
+  (schema, formato de documentos, transformações e validações de dados)
+  e DDR para decisões de DevOps (CI/CD, pipelines, deploy, branch
+  protection, ferramentas de segurança), seguindo a numeração sequencial
+  e o formato dos arquivos existentes (Status / Contexto / Decisão /
+  Consequências / Alternativas consideradas).
 - Descobertas relevantes feitas durante a implementação (ex.: uma
   limitação de plataforma, um comportamento inesperado de uma
   biblioteca) que motivaram uma decisão devem ser registradas na seção

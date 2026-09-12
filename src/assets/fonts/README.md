@@ -11,7 +11,7 @@ Baixados uma única vez do Google Fonts (não são gerados em build nem em
 runtime), para eliminar a dependência de CDN externo em runtime — a CSP
 em vigor tem `style-src 'self'` e `font-src 'self'`, sem exceção para
 `fonts.googleapis.com` nem `fonts.gstatic.com` (ver
-[TDR 0005](../../../docs/tdr/0005-csp-firebase-auth-google-oauth.md) e
+[DDR 0001](../../../docs/devops-dr/0001-csp-headers-e-configuracao-de-hosting.md) e
 [TDR 0013](../../../docs/tdr/0013-tipografia-vendorizada.md)).
 
 ## Arquivos

@@ -4,7 +4,7 @@
 
 ## Status
 
-Aceito.
+**Substituído pelo [DDR 0004](../devops-dr/0004-deploy-e-teste-das-regras-do-firestore.md)**: decisões de CI/CD movidas para DevOps DRs. O desenho da validação do mapa esparso permanece neste TDR (TDR 0009 complementa).
 
 ## Contexto
 
