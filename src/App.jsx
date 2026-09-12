@@ -64,8 +64,12 @@ export default function App() {
   // sem router — checada antes de qualquer outro ramo de retorno, para
   // voltar sempre cair na tela que o restante do estado já determinaria.
   const [mostrarPolitica, setMostrarPolitica] = useState(false);
-  // Preferências de vista lidas uma vez na abertura (IDR 0026)
-  const [inicial] = useState(() => lerPreferenciasDeVista());
+  // Preferências de vista lidas uma vez na abertura (IDR 0026). Sem
+  // preferência guardada, o par (ordenação, disposição) inicial depende da
+  // faixa de tela no instante da abertura (IDR 0043) — `window.innerWidth`
+  // só é lido aqui, na inicialização preguiçosa; redimensionar depois não
+  // recalcula nem troca a escolha da sessão em andamento.
+  const [inicial] = useState(() => lerPreferenciasDeVista(window.innerWidth));
   const [ordenacao, setOrdenacao] = useState(inicial.ordenacao);
   const [disposicao, setDisposicao] = useState(inicial.disposicao);
   const [filtro, setFiltro] = useState(inicial.filtro);
