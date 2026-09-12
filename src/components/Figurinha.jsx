@@ -1,7 +1,30 @@
 // Copyright (c) 2026 Daniel Felix Ferber
 
-import { useRef } from 'react';
+import { memo, useRef } from 'react';
 import './Figurinha.css';
+
+/**
+ * Compara props para `memo`, ignorando deliberadamente `onIncrementar` e
+ * `onDecrementar`: são fechos recriados a cada render do pai (`() =>
+ * onAjustar(codigo, 1)`), mas equivalentes entre si enquanto `codigo` (chave
+ * do mapa, nunca muda para um cartão) e `onAjustar` (estabilizado em
+ * `App.jsx`) não mudarem — o que os demais campos comparados já cobrem.
+ * Sem isto, um cartão re-renderizaria mesmo com `contagem` idêntica, só
+ * porque o pai recriou o fecho (Tarefa 0010-0002, TDR 0021).
+ *
+ * @param {object} anterior
+ * @param {object} seguinte
+ * @returns {boolean} true se o cartão pode pular a re-renderização.
+ */
+function propsEquivalentes(anterior, seguinte) {
+  return (
+    anterior.codigo === seguinte.codigo &&
+    anterior.contagem === seguinte.contagem &&
+    anterior.metalizada === seguinte.metalizada &&
+    anterior.variante === seguinte.variante &&
+    anterior.paisagem === seguinte.paisagem
+  );
+}
 
 /**
  * Cartão de uma figurinha do álbum.
@@ -9,6 +32,9 @@ import './Figurinha.css';
  * Apresentacional e controlado por props: recebe o código, a contagem, se é
  * metalizada, a variante de tamanho e os callbacks de incremento/decremento.
  * Não armazena estado nem conhece a coleção.
+ *
+ * Memoizado (Tarefa 0010-0002, TDR 0021): com 994 cartões em tela, ajustar
+ * um deles não pode re-renderizar os outros 993 — ver `propsEquivalentes`.
  *
  * @param {object} props
  * @param {string} props.codigo - código da figurinha (ex.: "BRA05").
@@ -19,7 +45,7 @@ import './Figurinha.css';
  * @param {() => void} props.onIncrementar - chamado ao tocar no cartão.
  * @param {() => void} props.onDecrementar - chamado ao tocar no controle de menos.
  */
-export function Figurinha({
+export const Figurinha = memo(function Figurinha({
   codigo,
   contagem,
   metalizada = false,
@@ -95,4 +121,4 @@ export function Figurinha({
       )}
     </div>
   );
-}
+}, propsEquivalentes);

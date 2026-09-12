@@ -15,6 +15,7 @@ const figurinhasGrupoC = figurinhas.filter((f) =>
 // Mocks padrão para as props de colapso de seção
 const isExpandidaMock = vi.fn(() => true);
 const onToggleSecaoMock = vi.fn();
+const getToggleHandlerMock = vi.fn((sigla) => () => onToggleSecaoMock(sigla));
 const setSecaoRefMock = vi.fn();
 
 describe('SuperGrupo', () => {
@@ -27,7 +28,7 @@ describe('SuperGrupo', () => {
         contagens={{}}
         onAjustar={vi.fn()}
         isExpandida={isExpandidaMock}
-        onToggleSecao={onToggleSecaoMock}
+        getToggleHandler={getToggleHandlerMock}
         setSecaoRef={setSecaoRefMock}
       />,
     );
@@ -48,7 +49,7 @@ describe('SuperGrupo', () => {
         contagens={{}}
         onAjustar={vi.fn()}
         isExpandida={isExpandidaMock}
-        onToggleSecao={onToggleSecaoMock}
+        getToggleHandler={getToggleHandlerMock}
         setSecaoRef={setSecaoRefMock}
       />,
     );
@@ -67,7 +68,7 @@ describe('SuperGrupo', () => {
         contagens={{}}
         onAjustar={vi.fn()}
         isExpandida={isExpandidaMock}
-        onToggleSecao={onToggleSecaoMock}
+        getToggleHandler={getToggleHandlerMock}
         setSecaoRef={setSecaoRefMock}
       />,
     );
@@ -91,7 +92,7 @@ describe('SuperGrupo', () => {
         contagens={{}}
         onAjustar={vi.fn()}
         isExpandida={isExpandidaMock}
-        onToggleSecao={onToggleSecaoMock}
+        getToggleHandler={getToggleHandlerMock}
         setSecaoRef={setSecaoRefMock}
       />,
     );
@@ -120,7 +121,7 @@ describe('SuperGrupo', () => {
         contagens={contagens}
         onAjustar={vi.fn()}
         isExpandida={isExpandidaMock}
-        onToggleSecao={onToggleSecaoMock}
+        getToggleHandler={getToggleHandlerMock}
         setSecaoRef={setSecaoRefMock}
       />,
     );
@@ -142,7 +143,7 @@ describe('SuperGrupo', () => {
         contagens={{}}
         onAjustar={vi.fn()}
         isExpandida={isExpandidaMock}
-        onToggleSecao={onToggleSecaoMock}
+        getToggleHandler={getToggleHandlerMock}
         setSecaoRef={setSecaoRefMock}
       />,
     );

@@ -126,6 +126,7 @@ Fluxos:
 | Interface (disposições, estados, sync, scroll…) | [IDR 0001–0033](idr/) + [interface.md](interface.md) |
 | Aparência (tema, paleta, medidas) | [IDR 0022](idr/0022-tema-escuro-unico-paleta-do-prototipo.md) + [interface.md](interface.md) |
 | Schema da coleção | [ADR 0008](adr/0008-schema-da-colecao-mapa-esparso.md) + [persistencia.md](persistencia.md) |
+| Desempenho do catálogo (994 figurinhas) | [TDR 0021](tdr/0021-desempenho-do-catalogo.md) |
 
 ## Pontos em aberto (fase de implementação)
 
@@ -139,8 +140,5 @@ Fluxos:
 - **Estado global**: a coleção consumida por várias telas pode exigir
   Context — só quando o prop-drilling incomodar (convenção do
   AGENTS.md)
-- **Virtualização das listas**: ~1000 figurinhas sem travar, sem criar
-  scroll próprio (RNF + IDR 0008) — escolha de biblioteca na
-  implementação
 - **Geração do catálogo**: da fonte do checklist para `src/data/` —
   pipeline a definir

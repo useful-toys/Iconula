@@ -1,6 +1,6 @@
 // Copyright (c) 2026 Daniel Felix Ferber
 
-import { useState, useId } from 'react';
+import { useState, useId, memo } from 'react';
 import { calcularPlacar } from '../lib/progresso.js';
 import { urlDoIcone } from '../lib/bandeira.js';
 import { layoutDeSecao } from '../data/catalogoLayout.js';
@@ -87,8 +87,45 @@ function CabecalhoSecao({ secao, codigos, contagens, expandida, onToggle, corpoI
 }
 
 /**
+ * Compara props para `memo`: os campos primitivos e de referência bastam
+ * por igualdade estrita, exceto `contagens` — o mapa inteiro tem uma
+ * identidade nova a cada ajuste em qualquer figurinha do catálogo (Tarefa
+ * 0010-0002). Em vez de tratar isso como "mudou", confere só as contagens
+ * das figurinhas desta seção (~20 códigos): se nenhuma delas mudou de
+ * valor, a seção pode pular a re-renderização mesmo com um mapa novo.
+ *
+ * `figurinhas` já chega com a mesma referência entre ajustes (mapa
+ * memoizado em `Catalogo`/`SuperGrupo`, por seção), então este confronto
+ * não recalcula nada além do necessário.
+ *
+ * @param {object} anterior
+ * @param {object} seguinte
+ * @returns {boolean} true se a seção pode pular a re-renderização.
+ */
+function propsEquivalentes(anterior, seguinte) {
+  if (
+    anterior.secao !== seguinte.secao ||
+    anterior.figurinhas !== seguinte.figurinhas ||
+    anterior.onAjustar !== seguinte.onAjustar ||
+    anterior.expandida !== seguinte.expandida ||
+    anterior.onToggle !== seguinte.onToggle ||
+    anterior.disposicao !== seguinte.disposicao ||
+    anterior.filtro !== seguinte.filtro
+  ) {
+    return false;
+  }
+  if (anterior.contagens === seguinte.contagens) return true;
+  return seguinte.figurinhas.every(
+    (f) => (anterior.contagens[f.codigo] ?? 0) === (seguinte.contagens[f.codigo] ?? 0),
+  );
+}
+
+/**
  * Seção do catálogo: cabeçalho com resumo e grade de figurinhas em lista
  * ou disposição álbum, conforme a disposição vigente.
+ *
+ * Memoizada (Tarefa 0010-0002, TDR 0021): ajustar uma figurinha não pode
+ * re-renderizar as outras 49 seções do catálogo — ver `propsEquivalentes`.
  *
  * @param {object} props
  * @param {object} props.secao - objeto da seção (catálogo.js).
@@ -100,7 +137,7 @@ function CabecalhoSecao({ secao, codigos, contagens, expandida, onToggle, corpoI
  * @param {'lista'|'album'} [props.disposicao='lista'] - disposição vigente.
  * @param {'todas'|'faltantes'|'coladas'|'repetidas'} [props.filtro='todas'] - filtro vigente (só aplica na lista).
  */
-export function Secao({
+export const Secao = memo(function Secao({
   secao,
   figurinhas,
   contagens,
@@ -167,7 +204,7 @@ export function Secao({
       )}
     </section>
   );
-}
+}, propsEquivalentes);
 
 /**
  * Corpo da seção na disposição álbum: agrupa as figurinhas em páginas

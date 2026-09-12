@@ -31,7 +31,15 @@ export const Catalogo = forwardRef(function Catalogo(
   { secoes, figurinhas, contagens, onAjustar, ordenacao, disposicao = 'lista', filtro = 'todas', onLimparFiltro },
   ref,
 ) {
-  const estruturada = ordenacao === 'pagina' ? ordenarPorPagina(secoes) : ordenarPorSigla(secoes);
+  // Memoizado: sem isto, `estruturada` (e os arrays/objetos que ela cria,
+  // como `item.secoes` de cada super-grupo) ganharia uma identidade nova a
+  // cada render de `Catalogo` — inclusive a cada ajuste de contagem —, o
+  // que impediria `SuperGrupo` de comparar props por referência e o
+  // obrigaria a re-renderizar sempre (Tarefa 0010-0002, TDR 0021).
+  const estruturada = useMemo(
+    () => (ordenacao === 'pagina' ? ordenarPorPagina(secoes) : ordenarPorSigla(secoes)),
+    [ordenacao, secoes],
+  );
   const figurinhasPorSecao = useMemo(() => {
     const map = new Map();
     for (const figurinha of figurinhas) {
@@ -41,6 +49,19 @@ export const Catalogo = forwardRef(function Catalogo(
     }
     return map;
   }, [figurinhas]);
+
+  // Mesma razão: o array de figurinhas de cada super-grupo (`flatMap` das
+  // suas seções) precisa manter a referência entre ajustes para que
+  // `SuperGrupo` memoizado (TDR 0021) possa pular a re-renderização.
+  const figurinhasPorGrupo = useMemo(() => {
+    const map = new Map();
+    for (const item of estruturada) {
+      if (item.tipo === 'super-grupo') {
+        map.set(item.grupo, item.secoes.flatMap((s) => figurinhasPorSecao.get(s.sigla) ?? []));
+      }
+    }
+    return map;
+  }, [estruturada, figurinhasPorSecao]);
 
   // Estado de colapso por sigla: Set de siglas colapsadas
   // Padrão: todas expandidas (ausentes do Set)
@@ -61,6 +82,23 @@ export const Catalogo = forwardRef(function Catalogo(
       return next;
     });
   }, []);
+
+  // Mapa de callbacks de toggle por sigla — `() => toggleSecao(sigla)`
+  // calculado uma vez para as 50 seções e reaproveitado entre renders, em
+  // vez de um fecho novo a cada ajuste de contagem. Necessário para que
+  // `Secao` e `SuperGrupo` memoizados (TDR 0021) vejam `onToggle` estável e
+  // possam pular a re-renderização das seções não afetadas pelo ajuste.
+  const toggleHandlers = useMemo(() => {
+    const map = new Map();
+    for (const sec of secoes) {
+      map.set(sec.sigla, () => toggleSecao(sec.sigla));
+    }
+    return map;
+  }, [secoes, toggleSecao]);
+  const getToggleHandler = useCallback(
+    (sigla) => toggleHandlers.get(sigla),
+    [toggleHandlers],
+  );
 
   const expandirSecao = useCallback((sigla) => {
     setColapsadas((prev) => {
@@ -146,6 +184,22 @@ export const Catalogo = forwardRef(function Catalogo(
     }
   }, []);
 
+  // Mesmo cuidado do `toggleHandlers`, mas para o `ref` de cada
+  // `SuperGrupo`: `memo(forwardRef(...))` só pula a re-renderização se,
+  // além das props, o próprio `ref` também for o mesmo objeto entre
+  // renders (checagem interna do React) — um `ref` inline recriado a cada
+  // render de `Catalogo` anularia a memoização de todos os 12 super-grupos
+  // a cada ajuste de contagem, mesmo com `propsEquivalentes` (TDR 0021).
+  // Os 12 grupos (A–L) são fixos, então o mapa é montado uma única vez
+  // (inicializador preguiçoso do `useState`, nunca recalculado).
+  const [superGrupoRefHandlers] = useState(() => {
+    const map = new Map();
+    for (const letra of 'ABCDEFGHIJKL') {
+      map.set(letra, (refValue) => setSuperGrupoRef(letra, refValue));
+    }
+    return map;
+  });
+
   return (
     <main className="catalogo">
       {estruturada.map((item) => {
@@ -168,7 +222,7 @@ export const Catalogo = forwardRef(function Catalogo(
                 contagens={contagens}
                 onAjustar={onAjustar}
                 expandida={isExpandida(secao.sigla)}
-                onToggle={() => toggleSecao(secao.sigla)}
+                onToggle={getToggleHandler(secao.sigla)}
                 disposicao={disposicao}
                 filtro={filtro}
               />
@@ -176,23 +230,21 @@ export const Catalogo = forwardRef(function Catalogo(
           );
         }
         if (item.tipo === 'super-grupo') {
-          const figurinhasDoGrupo = item.secoes.flatMap(
-            (s) => figurinhasPorSecao.get(s.sigla) ?? [],
-          );
+          const figurinhasDoGrupo = figurinhasPorGrupo.get(item.grupo);
           // Oculta o super-grupo se nenhuma seção dele sobra com o filtro (IDR 0025)
           const secoesVisiveis = item.secoes.filter((s) => secaoTemVisivel(s));
           if (secoesVisiveis.length === 0) return null;
           return (
             <SuperGrupo
               key={item.grupo}
-              ref={(refValue) => setSuperGrupoRef(item.grupo, refValue)}
+              ref={superGrupoRefHandlers.get(item.grupo)}
               grupo={item.grupo}
               secoes={item.secoes}
               figurinhas={figurinhasDoGrupo}
               contagens={contagens}
               onAjustar={onAjustar}
               isExpandida={isExpandida}
-              onToggleSecao={toggleSecao}
+              getToggleHandler={getToggleHandler}
               secaoRefs={secaoRefs}
               setSecaoRef={setSecaoRef}
               disposicao={disposicao}

@@ -1,6 +1,6 @@
 // Copyright (c) 2026 Daniel Felix Ferber
 
-import { useEffect, useState, useRef, useMemo } from "react";
+import { useEffect, useState, useRef, useMemo, useCallback } from "react";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { figurinhas, secoes } from "./data/catalogo.js";
 import { ordenarPorSigla, ordenarPorPagina, extrairSecoes } from "./data/catalogoOrdenacoes.js";
@@ -231,10 +231,23 @@ export default function App() {
     gravarPreferenciasDeVista({ ordenacao, disposicao, filtro });
   }, [ordenacao, disposicao, filtro]);
 
+  // Espelha `contagens` num ref, sincronizado depois de cada commit (nunca
+  // durante a renderização): permite que `handleAjustar` leia a contagem
+  // anterior sem depender de `contagens` no fecho, o que manteria sua
+  // identidade instável a cada ajuste (Tarefa 0010-0002, TDR 0021) — só
+  // leitura, nunca dispara render por si.
+  const contagensRef = useRef(contagens);
+  useEffect(() => {
+    contagensRef.current = contagens;
+  }, [contagens]);
+
   // Aplica um delta à contagem e registra a alteração para a gravação
   // agregada — caminho comum ao toque no cartão e ao desfazer (IDR 0010,
   // IDR 0003): a gravação seguinte leva a reversão sem caso especial.
-  function aplicarAjuste(codigo, delta) {
+  // `useCallback` com dependências estáveis (`uid`, `gravacaoAgregada` só
+  // mudam em login/logout) para que o catálogo memoizado (TDR 0021) veja a
+  // mesma função em todo ajuste, em vez de uma nova a cada render de `App`.
+  const aplicarAjuste = useCallback((codigo, delta) => {
     ajustesRef.current += 1;
     setContagens((anterior) => {
       const nova = ajustarContagem(anterior, codigo, delta);
@@ -243,12 +256,14 @@ export default function App() {
       }
       return nova;
     });
-  }
+  }, [uid, gravacaoAgregada]);
 
-  function handleAjustar(codigo, delta) {
-    setHistorico((anterior) => registrarAjuste(anterior, codigo, obterContagem(contagens, codigo)));
+  const handleAjustar = useCallback((codigo, delta) => {
+    setHistorico((anterior) =>
+      registrarAjuste(anterior, codigo, obterContagem(contagensRef.current, codigo)),
+    );
     aplicarAjuste(codigo, delta);
-  }
+  }, [aplicarAjuste]);
 
   // Desfazer (Tarefa 0009-0001, IDR 0012): retira o topo do histórico e
   // reaplica a contagem anterior como um ajuste comum — a reversão em si
