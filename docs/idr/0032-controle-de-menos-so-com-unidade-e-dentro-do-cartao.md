@@ -4,11 +4,12 @@
 
 ## Status
 
-Aceito — revisa o [IDR 0030](0030-controle-de-menos-do-cartao.md), que
-decidiu *quando* o controle aparece sem condicioná-lo à contagem, e
-completa o [IDR 0006](0006-estados-visuais-e-interacao-da-figurinha.md),
-que só dizia "um ícone de menos surge no canto". Nasce da observação do
-app com o catálogo inteiro em tela.
+Aceito — absorve o
+[IDR 0030](0030-controle-de-menos-do-cartao.md) (quando o controle
+aparece) e completa o
+[IDR 0006](0006-estados-visuais-e-interacao-da-figurinha.md), que só
+dizia "um ícone de menos surge no canto". Nasce da observação do app
+com o catálogo inteiro em tela.
 
 ## Contexto
 
@@ -36,10 +37,18 @@ app com o catálogo inteiro em tela.
 - O controle fica **dentro do retângulo do cartão, no canto inferior
   esquerdo**, sem transbordar — ao contrário do selo `×N`, que
   transborda no canto inferior direito
-- Continua valendo o IDR 0030 para o cartão que tem o controle: oculto
-  por padrão, revelado no `:hover` e no `:focus-within`, sempre visível
-  em `@media (hover: none)`; botão próprio, focável, com nome acessível
-  ("remover uma unidade de BRA 05")
+- O controle fica **visualmente oculto por padrão** no cartão, para não
+  competir com o gesto principal (tocar para somar) nem poluir
+  visualmente a grade densa de figurinhas. Ele se torna visível quando:
+  - o cursor passa sobre o cartão (`:hover`);
+  - o cartão ou o próprio controle recebe foco (`:focus-within`);
+  - o dispositivo não oferece hover (`@media (hover: none)`), caso comum
+    de celulares e tablets — aí o controle fica sempre visível, já que
+    não há outro gatilho confiável para revelá-lo sem interferir no
+    toque de soma
+- O controle de menos é um botão separado, focável e com nome acessível
+  próprio ("remover uma unidade de BRA 05"), nunca
+  `dangerouslySetInnerHTML`
 - O último decremento (de 1 para 0) faz o controle desaparecer sob o
   cursor ou sob o foco; quando isso acontece, o foco volta para o corpo
   do cartão, que continua somando

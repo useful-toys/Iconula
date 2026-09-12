@@ -4,14 +4,13 @@
 
 ## Status
 
-Aceito — desbloqueia a Tarefa 0002-0003, que deixava em aberto como o
-controle de menos "surge ao tocar" num dispositivo sem toque (mouse e
-teclado).
+Absorvido pelo [IDR 0032](0032-controle-de-menos-so-com-unidade-e-dentro-do-cartao.md).
 
-Revisto pelo [IDR 0032](0032-controle-de-menos-so-com-unidade-e-dentro-do-cartao.md):
-o controle só existe a partir da contagem 1 e fica dentro do cartão, no
-canto inferior esquerdo. O que esta decisão diz sobre *quando* revelá-lo
-continua valendo — agora só nos cartões que o têm.
+Este IDR decidiu quando o controle de menos aparece (hover, foco,
+touch). O IDR 0032 revisou esta decisão ao condicionar a existência do
+controle à contagem ≥ 1 e ao reposicioná-lo dentro do cartão, no canto
+inferior esquerdo. As regras de visibilidade aqui definidas continuam
+valendo, agora incorporadas ao IDR 0032.
 
 ## Contexto
 

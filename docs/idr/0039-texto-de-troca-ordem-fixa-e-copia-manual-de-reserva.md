@@ -4,7 +4,9 @@
 
 ## Status
 
-Aceito.
+Aceito — absorve o
+[IDR 0044](0044-numero-de-dois-digitos-no-texto-de-troca.md)
+(formatação de números com dois dígitos).
 
 ## Contexto
 
@@ -27,6 +29,13 @@ desenho:
   `App.jsx`). Duas pessoas trocando figurinhas comparam listas geradas
   em momentos e preferências de tela diferentes; uma ordem fixa torna as
   listas comparáveis linha a linha.
+- **Todo número nos textos de troca sai com dois dígitos**, em todas as
+  seções, como no cartão e no código: `Brasil BRA: 05 08 12 19`,
+  `Extras FIFA FWC: 00 03 19`; nas repetidas, `05×2` e `00×1`. A
+  formatação é `String(posicao).padStart(2, "0")` — o mesmo `padStart`
+  usado para montar o código em `src/data/catalogo.js`. O `×k` continua
+  sendo as unidades sobrando (contagem − 1), sem mudança (IDR 0021). O
+  separador entre números continua o espaço, e não a vírgula.
 - Quando `navigator.clipboard.writeText` não existe ou rejeita, além do
   aviso dourado ("Área de transferência indisponível — copie o texto que
   apareceu na tela"), o texto é mostrado num `window.prompt()` — campo de
