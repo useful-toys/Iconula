@@ -21,17 +21,16 @@ com sucesso e aviso efêmeros (5s) e falha persistente.
 
 ## Contexto
 
-O ADR 0007 decidiu que falha de persistência **nunca chega à tela**:
-vira `console.error` e nada mais. Raciocínio válido para o botão de um
-clique — a preferência perdida era pequena e um banner de erro num app
-de um botão só seria pior que a perda silenciosa.
-
-No produto novo, a escala mudou: o usuário investe horas registrando
-~994 contagens. Perder alterações sem saber é catastrófico. A POC
-mostrou o padrão de referência — área de avisos com mensagens coloridas
-e timestamp (carregando, salvo, erro, mudança vinda de outro
-dispositivo) — e o pedido foi explícito: falhas informadas claramente,
-data/hora da última alteração no cabeçalho e notificações de eventos.
+- ADR 0007: falha de persistência nunca chega à tela — vira
+  `console.error` e nada mais; válido para o botão de um clique (perda
+  pequena, banner seria pior que perda silenciosa).
+- Produto novo: o usuário investe horas registrando ~994 contagens —
+  perder alterações sem saber é catastrófico.
+- POC mostrou o padrão de referência: área de avisos com mensagens
+  coloridas e timestamp (carregando, salvo, erro, mudança vinda de
+  outro dispositivo).
+- Pedido explícito do usuário: falhas informadas claramente, data/hora
+  da última alteração no cabeçalho e notificações de eventos.
 
 ## Decisão
 

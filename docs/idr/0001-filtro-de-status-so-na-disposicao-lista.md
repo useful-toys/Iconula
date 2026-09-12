@@ -18,19 +18,15 @@ disposição lista não mudou.
 
 ## Contexto
 
-A regra inicial de UX (registrar no `requisitos.md`) dizia "navegação
-por rolagem da tela inteira, **não por filtros**" — decidida quando a
-única referência era o princípio de minimalismo, antes de qualquer
-protótipo.
-
-Uma POC de painel de acompanhamento (artifact HTML autocontido) mostrou
-o valor prático dos filtros de status (todas/faltando/repetidas) para o
-caso de uso "consultar o que falta" — um dos dois fluxos essenciais do
-produto. Ficou evidente a tensão entre a regra do scroll e a consulta
-filtrada.
-
-Também da POC: o seletor de seleções parecia um filtro, mas seu papel
-real é navegação — pular direto a um grupo.
+- Regra inicial de UX (`requisitos.md`): percurso só por rolagem da
+  tela inteira, **não por filtros** — decidida antes de qualquer
+  protótipo, só com o princípio de minimalismo como referência.
+- POC de painel de acompanhamento mostrou o valor prático dos filtros
+  de status (todas/faltando/repetidas) para "consultar o que falta" —
+  um dos dois fluxos essenciais do produto; ficou evidente a tensão com
+  a regra do scroll.
+- Também da POC: o seletor de seleções parecia um filtro, mas seu papel
+  real é navegação — pular direto a um grupo.
 
 ## Decisão
 

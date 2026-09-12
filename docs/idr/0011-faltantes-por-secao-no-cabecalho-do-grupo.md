@@ -12,13 +12,14 @@ do grupo. A **notação** por extenso deste registro
 
 ## Contexto
 
-requisitos.md exige "os mesmos números" no progresso por seção — total,
-coladas, faltantes e repetidas —, mas o cabeçalho de grupo desenhado em
-interface.md exibia apenas "12/20 · 3 repetidas". O
-[IDR 0007](0007-placar-unico-e-progresso-por-secao.md) havia decidido
-"total, coladas e repetidas", com faltantes apenas derivado (total −
-coladas) — embora suas consequências já falassem em exibi-lo junto. O
-conflito req × interface precisava de uma das partes ceder.
+- `requisitos.md` exige "os mesmos números" no progresso por seção —
+  total, coladas, faltantes e repetidas —, mas o cabeçalho de grupo
+  desenhado em interface.md exibia apenas "12/20 · 3 repetidas".
+- O [IDR 0007](0007-placar-unico-e-progresso-por-secao.md) havia
+  decidido "total, coladas e repetidas", com faltantes apenas derivado
+  (total − coladas) — embora suas consequências já falassem em
+  exibi-lo junto.
+- O conflito req × interface precisava de uma das partes ceder.
 
 ## Decisão
 

@@ -11,15 +11,15 @@ Mecanismo decidido: faixa de bandeiras no cabeçalho
 
 ## Contexto
 
-O IDR 0004 registrou o diagnóstico — "ir para" é salto de navegação,
-não filtro — mas rejeitou o seletor: com uma UX de percurso
-suficientemente boa, rolar até a seção desejada seria o caminho natural.
-Na prática, com 50 seções e ~994 figurinhas, rolar até uma seção
-distante no celular (BRA, pág. 24, no meio do catálogo) é percurso
-longo demais.
-
-O usuário decidiu: o recurso de pular rápido para uma seção específica
-volta — sem prender o formato a um combobox.
+- O IDR 0004 registrou o diagnóstico — "ir para" é salto de navegação,
+  não filtro — mas rejeitou o seletor: com uma UX de percurso
+  suficientemente boa, rolar até a seção desejada seria o caminho
+  natural.
+- Na prática, com 50 seções e ~994 figurinhas, rolar até uma seção
+  distante no celular (BRA, pág. 24, no meio do catálogo) é percurso
+  longo demais.
+- O usuário decidiu: o recurso de pular rápido para uma seção
+  específica volta — sem prender o formato a um combobox.
 
 ## Decisão
 

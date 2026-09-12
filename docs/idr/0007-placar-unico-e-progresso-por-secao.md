@@ -15,15 +15,15 @@ tudo cabe na linha única do título, em notação compacta.
 
 ## Contexto
 
-A POC exibia o placar sobre as 980 da numeração oficial, com o progresso
-da coleção Coca-Cola num cartão à parte, fora do total principal — o
-modelo "bônus". Ficou em aberto: as figurinhas especiais e a Coca-Cola
-contam no placar?
-
-O usuário decidiu: **todas contam** — o objetivo é completar a coleção
-inteira, e um pedaço real dela fora do placar principal esconderia
-progresso. Sobre a forma de ver progresso: os números (total, tenho,
-repetidas) para o todo **e para cada seção** — sem tela separada.
+- A POC exibia o placar sobre as 980 da numeração oficial, com o
+  progresso da coleção Coca-Cola num cartão à parte, fora do total
+  principal — o modelo "bônus". Ficou em aberto: as figurinhas
+  especiais e a Coca-Cola contam no placar?
+- O usuário decidiu: **todas contam** — o objetivo é completar a
+  coleção inteira, e um pedaço real dela fora do placar principal
+  esconderia progresso.
+- Sobre a forma de ver progresso: os números (total, tenho, repetidas)
+  para o todo **e para cada seção** — sem tela separada.
 
 ## Decisão
 

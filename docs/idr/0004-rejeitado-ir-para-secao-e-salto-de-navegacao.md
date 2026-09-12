@@ -14,15 +14,15 @@ mecanismo aberto.
 
 ## Contexto
 
-A POC traz um combo de seleção de grupos. O padrão comum em trackers
-concorrentes (StickerTracker, Clube da Copa etc.) é selecionar um time e
-ver **somente** aquele time — uma filtragem de seção, que esconde o
-resto do catálogo.
-
-Isso tensava com a regra de percurso por rolagem da tela inteira
-([IDR 0005](0005-ordenacoes-disposicoes-e-percurso-do-catalogo.md)):
-filtrar a vista a uma seção quebra o catálogo contínuo. Mas percorrer 48
-seções só rolando é lento para chegar a uma seção distante.
+- A POC traz um combo de seleção de grupos. Padrão comum em trackers
+  concorrentes (StickerTracker, Clube da Copa etc.): selecionar um time
+  e ver **somente** aquele time — uma filtragem de seção, que esconde o
+  resto do catálogo.
+- Isso tensava com a regra de percurso por rolagem da tela inteira
+  ([IDR 0005](0005-ordenacoes-disposicoes-e-percurso-do-catalogo.md)):
+  filtrar a vista a uma seção quebra o catálogo contínuo.
+- Mas percorrer 48 seções só rolando é lento para chegar a uma seção
+  distante.
 
 ## Decisão
 
