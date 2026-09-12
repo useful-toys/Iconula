@@ -16,7 +16,7 @@ homologação e produção. Se a decisão é sobre *arquitetura de software*
 - `NNNN`: sequencial próprio do DDR, 4 dígitos com zero à esquerda,
   nunca reaproveitado.
 - Slug: resumo da decisão em poucas palavras. Se o status final for
-  rejeitado ou substituído, inclua isso no slug.
+  rejeitado, inclua isso no slug.
 
 ## Estrutura obrigatória
 
@@ -27,7 +27,7 @@ homologação e produção. Se a decisão é sobre *arquitetura de software*
 
 ## Status
 
-Aceito | Rejeitado | **Substituído pelo [ADR/TDR/IDR/MDR/DDR NNNN](caminho)**: motivo.
+Aceito | Rejeitado.
 
 ## Contexto
 
@@ -36,14 +36,22 @@ Aceito | Rejeitado | **Substituído pelo [ADR/TDR/IDR/MDR/DDR NNNN](caminho)**: 
 ## Consequências
 
 ## Alternativas consideradas
+
+## Histórico
 ```
 
 - `Alternativas consideradas` é opcional só quando não houve alternativa
   real a registrar; na prática está presente na quase totalidade dos
   DDRs.
-- Um DDR substituído **nunca é apagado ou reescrito** — o Status
-  aponta para quem o substitui, e o conteúdo original fica intacto como
-  registro histórico.
+- Um documento de decisão é **vivo**: quando a decisão muda, atualize o
+  mesmo documento (Contexto, Decisão, Consequências) em vez de criar um
+  novo. Não use "substituído por".
+- A decisão anterior vai para `## Histórico`, com a data (ou referência
+  de commit) e um resumo do que mudou e por quê — da entrada mais
+  recente para a mais antiga.
+- Antes de criar um novo documento, **consulte os existentes** no mesmo
+  diretório. Se o tópico já foi decidido, atualize o documento
+  existente. Só crie documento novo para decisão genuinamente nova.
 - Referencie outras decisões com link relativo:
   `[DDR 0001](0001-slug.md)`, `[ADR 0003](../adr/0003-slug.md)`.
 
