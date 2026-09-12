@@ -32,7 +32,7 @@ ela depender da resposta.
 
 Decisão tomada durante a execução vira ADR/TDR/IDR/MDR **no momento em que é
 tomada** (AGENTS.md § Convenções), com numeração sequencial a partir da última
-existente: **ADR 0009**, **TDR 0016**, **IDR 0034**, **MDR 0001**. O log aponta para o
+existente: **ADR 0010**, **TDR 0016**, **IDR 0034**, **MDR 0001**. O log aponta para o
 registro; não o substitui.
 
 ## Fases
@@ -295,7 +295,7 @@ tempo) e segue sozinha.
   comentário do tipo do arquivo (`AGENTS.md` § Convenções)
 - Componentes novos em `src/components/`, dados em `src/data/`; sem router e sem
   estado global antes de a árvore exigir (`AGENTS.md` § Convenções)
-- Decisão tomada vira ADR/TDR/IDR/MDR na hora, com a numeração a partir de ADR 0009,
+- Decisão tomada vira ADR/TDR/IDR/MDR na hora, com a numeração a partir de ADR 0010,
   TDR 0016, IDR 0034 e MDR 0001 (`AGENTS.md` § Convenções)
 - Mudança de build, deploy, Firebase, Google Cloud, GitHub ou DNS é refletida em
   `docs/firebase.md`, `docs/gcloud.md`, `docs/github.md` ou `docs/registrobr.md`
