@@ -23,7 +23,7 @@ dependência de CDN em runtime)
 
 - Dado continua emoji Unicode em `src/data/teams.js` — forma mais simples
   de representar/ler.
-- `TeamButton` converte o emoji em SVG do
+- O componente `Bandeira` converte o emoji em SVG do
   [Twemoji](https://github.com/jdecked/twemoji) (fork mantido do original
   do Twitter) — bandeiras visualmente consistentes em qualquer
   SO/navegador, incluindo as sequências "tag" de England/Scotland (sem
@@ -33,7 +33,7 @@ dependência de CDN em runtime)
 - Os 48 SVGs foram baixados uma vez de `cdn.jsdelivr.net` e vendorizados
   em `src/assets/flags/`, nomeados pelo code point Unicode (ex.:
   `1f1e6-1f1f7.svg` para Argentina).
-- `TeamButton.jsx` resolve o arquivo via `import.meta.glob` do Vite e
+- O componente `Bandeira` resolve o arquivo via `import.meta.glob` do Vite e
   renderiza um `<img>` normal — sem CDN em runtime, sem
   `dangerouslySetInnerHTML`.
 - `twemoji.convert.toCodePoint` (`@twemoji/api`) segue em uso só para
@@ -47,8 +47,8 @@ dependência de CDN em runtime)
 - `Content-Security-Policy` do Hosting não precisa mais abrir `img-src`
   para `cdn.jsdelivr.net` — fica restrita a `'self' data:'`.
 - O dado em `teams.js` continua sendo só o caractere emoji — a lógica de
-  renderização (e de resolução do SVG local) fica isolada em
-  `TeamButton.jsx`.
+  renderização (e de resolução do SVG local) fica isolada no componente
+  `Bandeira`.
 - Adicionar um time novo no futuro exige também baixar o SVG
   correspondente para `src/assets/flags/` (nome do arquivo = code point
   Unicode do emoji, gerado com `twemoji.convert.toCodePoint`).

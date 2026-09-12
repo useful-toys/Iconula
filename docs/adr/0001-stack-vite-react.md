@@ -8,10 +8,10 @@ Aceito
 
 ## Contexto
 
-O "Iconula Button" começa como uma SPA extremamente simples (um único
-botão), mas o usuário já sinaliza a intenção de evoluí-lo para uma
-aplicação single-page maior no futuro. Precisamos de uma base que suporte
-esse crescimento sem introduzir complexidade desnecessária hoje.
+A Iconula é uma single-page application para colecionadores do álbum de
+figurinhas da Copa do Mundo FIFA 2026. Precisamos de uma base que suporte
+o crescimento do catálogo, da interface e das integrações sem introduzir
+complexidade desnecessária.
 
 ## Decisão
 
@@ -23,9 +23,8 @@ como biblioteca de UI, com o template padrão `react` do `create-vite`.
 - Estrutura de pastas já separa dados (`src/data`) de componentes
   (`src/components`), preparando o terreno para crescer sem exigir
   reestruturação.
-- Sem router, sem gerenciador de estado global e sem framework de CSS
-  nesta fase — seriam over-engineering para um único botão. Adicionar
-  quando a complexidade da SPA realmente exigir.
+- Sem router nem gerenciador de estado global nesta fase — seriam
+  over-engineering enquanto a árvore de componentes não os exigir.
 - Build gera arquivos estáticos em `dist/`, compatíveis diretamente com
   Firebase Hosting (ver [ADR 0003](0003-deploy-firebase-hosting-github-actions.md)).
 

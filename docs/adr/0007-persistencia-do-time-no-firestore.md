@@ -13,9 +13,9 @@ Aceito.
   vivia só em `useState`; recarregar a página sempre voltava ao primeiro
   time em ordem alfabética. [ADR 0005](0005-substituido-autenticacao-google-firebase-auth.md)
   já previa a persistência como passo futuro.
-- Pedido: **gravar a bandeira visível a cada clique do usuário logado, e
-  mostrar a última ao fazer login**. Deslogado, comportamento não muda —
-  primeiro time, avança a cada clique, não grava nada.
+- Pedido: **gravar a seleção favorita sempre que o usuário logado a
+  alterar, e mostrar a última seleção dele ao fazer login**. Deslogado,
+  comportamento não muda — primeira seleção, não grava nada.
 - Projeto sem banco de dados algum, nem Firestore nem Realtime Database —
   `firestore.googleapis.com` desabilitada, `firebase.json` só com
   `hosting`.
@@ -97,8 +97,7 @@ viram `console.error` e mantêm a bandeira que está na tela.
 Deliberadamente **sem `role="alert"`**, ao contrário do
 `LoginButton.jsx`: um login que falha bloqueia uma ação que o usuário
 pediu e merece retorno visível; uma gravação de fundo que falha, não —
-um banner de erro num app de um botão só seria pior que a preferência
-perdida.
+um banner de erro seria pior que a preferência perdida.
 
 `empty` e `error` levam ao mesmo comportamento, mas são distinguidos na
 origem: `empty` é o fluxo normal do primeiro login e não é defeito
@@ -107,8 +106,8 @@ uid nem dados do usuário.
 
 ### Desenho de estado no React
 
-- `index` continua sendo a fonte da verdade (o wrap-around é nativo de
-  índice e o `TeamButton` já recebe `sortedTeams[index]`).
+- `index` continua sendo a fonte da verdade (o wrap-around é natural de
+  índice e o componente de seleção já recebe `sortedTeams[index]`).
 - A carga roda num efeito que depende de **`uid`, não do objeto `user`** —
   o `onAuthStateChanged` entrega uma instância nova a cada refresh de
   token, e o objeto como dependência relançaria a leitura à toa.

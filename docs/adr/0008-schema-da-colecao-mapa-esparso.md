@@ -19,9 +19,9 @@ revistos desde a redação:
 
 ## Contexto
 
-- ADR 0007 definiu a infraestrutura de persistência da era do botão
-  (`users/{uid}`, regras, SDK sob demanda, falha invisível). O produto
-  novo muda o quadro: contagens de 994 figurinhas, gravação agregada
+- ADR 0007 definiu a infraestrutura de persistência (`users/{uid}`,
+  regras, SDK sob demanda, falha invisível). O produto evoluiu: contagens
+  de 994 figurinhas, gravação agregada
   (IDR 0003), avisos visíveis (IDRs 0002/0017), `updatedAt` no cabeçalho,
   desfazer (IDRs 0010/0012), atestação de menores por conta (LGPD
   art. 14), campo `teamName` órfão a migrar, gravações pendentes que não
