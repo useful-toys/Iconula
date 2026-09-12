@@ -378,21 +378,22 @@ especificação própria antes de implementar.*
 - Analytics anônimo de uso
 
 ### Decisões Pendentes
-- **Fonte do checklist**: nomes das figurinhas de cada seção (jogadores
-  e especiais), página do FWC, verificação das posições fixas e marcação
-  das figurinhas metalizadas além da 01 (a estrelinha do cartão precisa
-  desse dado) — as 48 seleções (código, nome, grupo, páginas) e as
-  páginas da Coca-Cola já estão no Anexo; nada disso bloqueia a
-  implementação: os nomes das figurinhas não são exibidos pela interface
-  especificada, e os dois outros degradam (número da página omitido,
-  metalizada só na posição 01)
-- **Política de privacidade depois de autenticado**: a política é
-  exigida antes do login; se e onde ela reaparece na tela principal
-  (menu de ações do IDR 0024, rodapé) é decisão de interface — ver
-  [interface.md](interface.md)
-- **Falha ao gravar a atestação de menores**: se a escrita de
-  `atestadoEm` falhar no primeiro login, o app libera assim mesmo (e
-  regrava depois) ou retém o usuário na atestação
+Nenhuma — as três pendências registradas durante o plano foram todas
+resolvidas, com registro próprio:
+
+- **Fonte do checklist**: degradação decidida sem bloquear a
+  implementação — nomes de figurinha não entram no dado (a interface
+  especificada não os exibe), a página do FWC fica `null` (omitida) e
+  `metalizada` só nasce `true` na posição 01 de cada seleção; corrigir
+  quando a fonte completa aparecer é mudança contida em
+  `expandirFigurinhas` — [TDR 0010](tdr/0010-forma-do-catalogo-degradacao-do-checklist-e-sem-pipeline.md)
+- **Política de privacidade depois de autenticado**: reaparece no
+  rodapé da tela principal, ao lado do link já existente na tela de
+  login — [IDR 0037](idr/0037-politica-no-rodape-depois-de-autenticado.md)
+- **Falha ao gravar a atestação de menores**: o app libera o catálogo
+  mesmo em falha (o clique em "Confirmar" já é o ato de atestar); a
+  falha avisa e a próxima carga sem `atestadoEm` repete o passo —
+  [IDR 0036](idr/0036-atestacao-passo-explicito-e-falha-de-gravacao.md)
 
 ## Fora de Escopo
 

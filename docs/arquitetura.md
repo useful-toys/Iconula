@@ -9,9 +9,11 @@ registros (ADR/TDR/IDR) e nos docs de referência
 [interface.md](interface.md), [requisitos.md](requisitos.md)); este
 documento monta o quebra-cabeça.
 
-Hoje o código implementado é o app do botão; a arquitetura descrita
-aqui é a mesma em que o controle de figurinhas será construído —
-mudam as telas e o schema, não a forma.
+O produto especificado em [requisitos.md](requisitos.md) — o controle de
+figurinhas do álbum da Copa 2026 — está implementado nesta arquitetura; o
+"Iconula Button" (o app de um único botão que a precedeu) foi removido do
+código, e as menções a ele neste documento e em [persistencia.md](persistencia.md)
+são histórico de como o schema evoluiu, não o estado atual.
 
 ## Visão geral
 
@@ -61,16 +63,21 @@ regras do Firestore, avaliadas no servidor contra o ID token.
 
 ## Camadas no cliente
 
-| Camada | Hoje (botão) | Alvo (figurinhas) |
-|---|---|---|
-| `src/data/` | `teams.js` (48 times) | catálogo: 50 seções e 994 códigos, com nome, grupo da Copa (A–L), páginas do spread e layout — grupos e páginas já resolvidos (IDR 0019 + Anexo de requisitos.md); do checklist falta só o que degrada |
-| `src/lib/` | `firebase.js`, `userPreferences.js` | + persistência da coleção, preferências de vista no `localStorage` (IDR 0026), export/import JSON, texto WhatsApp |
-| `src/components/` | `TeamButton`, `AuthStatus`, `LoginButton` | tela de login, cabeçalho/placar, controles, menu de ações (IDR 0024), faixa de salto, super-grupo, grupo, figurinha, avisos |
-| `App.jsx` | estado do time + usuário | estado da coleção + usuário; tela de login como guarda |
+| Camada | Conteúdo |
+|---|---|
+| `src/data/` | Catálogo estático (50 seções, 994 figurinhas — [TDR 0010](tdr/0010-forma-do-catalogo-degradacao-do-checklist-e-sem-pipeline.md)) e suas derivações puras: ordenações/agrupamento ([TDR 0012](tdr/0012-derivacoes-do-catalogo-em-src-data.md)) e layout de página do álbum |
+| `src/lib/` | Módulos sem React: estado da coleção em memória, persistência no Firestore (`colecaoRemota.js`, único módulo que toca o SDK), gravação agregada com debounce/flush, histórico de desfazer, preferências de vista no `localStorage`, portabilidade (export/import JSON), textos de troca, fila de avisos e conversão de bandeiras |
+| `src/components/` | Telas (login, atestação, política de privacidade) e árvore da tela principal: cabeçalho com placar e faixa de salto, controles (ordenação/disposição/filtro), menu de ações, catálogo (super-grupo → seção → figurinha ou página do álbum) e avisos flutuantes |
+| `src/App.jsx` | Único componente com estado: sessão (Firebase Auth), coleção, atestação, vista da política, preferências de vista e histórico de desfazer; decide qual tela mostrar (guarda de login) e concentra toda leitura/escrita da coleção |
 
 Convenção vigente (AGENTS.md): nada de router nem estado global até a
-árvore de componentes realmente exigir — revisar quando as telas do
-produto novo existirem (ver Pontos em aberto).
+árvore de componentes realmente exigir. Confirmada em uso, não só
+proposta: a política de privacidade — a primeira tela endereçável além de
+login/catálogo — ficou como vista interna sem router
+([TDR 0020](tdr/0020-privacidade-como-vista-interna.md)), e a coleção
+consumida por cabeçalho, controles, menu de ações e catálogo segue em
+`App.jsx` por prop-drilling, sem Context
+([TDR 0014](tdr/0014-estado-da-colecao-sem-context.md)).
 
 ## Dados e fluxo
 
@@ -123,22 +130,38 @@ Fluxos:
 | CSP para Auth/Firestore | [TDR 0005](tdr/0005-csp-firebase-auth-google-oauth.md), [TDR 0007](tdr/0007-csp-para-o-firestore.md) |
 | Regras: deploy e teste | [TDR 0008](tdr/0008-deploy-e-teste-das-regras-do-firestore.md) |
 | Regras: o que dá para validar no mapa | [TDR 0009](tdr/0009-validacao-do-mapa-nas-regras.md) |
-| Interface (disposições, estados, sync, scroll…) | [IDR 0001–0033](idr/) + [interface.md](interface.md) |
+| Interface (disposições, estados, sync, scroll, acessibilidade…) | [IDR 0001–0043](idr/) + [interface.md](interface.md) |
 | Aparência (tema, paleta, medidas) | [IDR 0022](idr/0022-tema-escuro-unico-paleta-do-prototipo.md) + [interface.md](interface.md) |
 | Schema da coleção | [ADR 0008](adr/0008-schema-da-colecao-mapa-esparso.md) + [persistencia.md](persistencia.md) |
+| Forma do catálogo, checklist incompleto e sem pipeline de geração | [TDR 0010](tdr/0010-forma-do-catalogo-degradacao-do-checklist-e-sem-pipeline.md) |
+| Derivações de ordenação/agrupamento em `src/data/` | [TDR 0012](tdr/0012-derivacoes-do-catalogo-em-src-data.md) |
+| Tipografia (Poppins) vendorizada | [TDR 0013](tdr/0013-tipografia-vendorizada.md) |
+| Estado da coleção sem Context (prop-drilling) | [TDR 0014](tdr/0014-estado-da-colecao-sem-context.md) |
+| Política de privacidade como vista interna, sem router | [TDR 0020](tdr/0020-privacidade-como-vista-interna.md) |
 | Desempenho do catálogo (994 figurinhas) | [TDR 0021](tdr/0021-desempenho-do-catalogo.md) |
+| Login como guarda do app, atestação de menores | Tarefas 0008-0001/0003 + [IDR 0036](idr/0036-atestacao-passo-explicito-e-falha-de-gravacao.md) |
+| Desfazer, menu de ações, listas de troca, export/import | Fase 9 + [IDR 0012](idr/0012-desfazer-no-cabecalho-historico-de-10.md), [0024](idr/0024-acoes-raras-em-menu-do-cabecalho.md), [0039](idr/0039-texto-de-troca-ordem-fixa-e-copia-manual-de-reserva.md), [0040](idr/0040-exportar-sem-dialogo-e-nome-de-arquivo-datado.md), [0041](idr/0041-importar-confirmacao-minima-e-descarte-de-chave-desconhecida.md) |
+| Acessibilidade: foco visível, área de toque | [IDR 0042](idr/0042-foco-visivel-e-area-de-toque.md) |
+| Padrões de primeira abertura por faixa de tela | [IDR 0043](idr/0043-padroes-de-primeira-abertura-por-faixa-de-tela.md) |
 
 ## Pontos em aberto (fase de implementação)
 
-- **Aceite dos números do ADR 0008**: o schema está aceito (mapa esparso,
-  três campos, teto de 99 — TDR 0009); restam por aceitar os valores
-  numéricos (debounce ~2s, teto de espera ~10s, timeout ~5s sem rede),
-  pontos de partida ajustáveis sem novo ADR — aceitos em uso real na
-  Fase 7
-- **Router**: tela de privacidade como rota ou vista interna — decidir
-  quando as telas existirem
-- **Estado global**: a coleção consumida por várias telas pode exigir
-  Context — só quando o prop-drilling incomodar (convenção do
-  AGENTS.md)
-- **Geração do catálogo**: da fonte do checklist para `src/data/` —
-  pipeline a definir
+- **Aceite dos números do ADR 0008 — parcialmente aberto**: o schema está
+  aceito (mapa esparso, três campos, teto de 99 — TDR 0009) e os valores
+  numéricos (debounce ~2s, teto de espera ~10s, timeout ~5s sem rede)
+  foram aceitos como ponto de partida na Tarefa 0007-0003 (ver
+  [log](plano/0007-persistencia-da-colecao-e-avisos/logs/0003-log-gravacao-agregada-com-flush.md)
+  § "Números do ADR 0008"). **Falta**: confirmá-los em uso real — não
+  houve deploy de produção com usuários reais disponível durante a
+  execução automatizada do plano. Ajustar os números quando isso
+  acontecer é mudança de valor, não de forma, e não exige novo ADR.
+
+Os demais três pontos desta seção, mais a virtualização das listas
+(fechada na Tarefa 0010-0002), estão todos fechados — ver § Decisões-chave
+e onde vivem:
+
+- ~~Router~~: vista interna, sem router — [TDR 0020](tdr/0020-privacidade-como-vista-interna.md)
+- ~~Estado global~~: prop-drilling mantido, revisitado e confirmado na
+  gravação agregada — [TDR 0014](tdr/0014-estado-da-colecao-sem-context.md)
+- ~~Geração do catálogo~~: sem pipeline, arquivo escrito à mão a partir do
+  Anexo e validado por testes de invariantes — [TDR 0010](tdr/0010-forma-do-catalogo-degradacao-do-checklist-e-sem-pipeline.md)
