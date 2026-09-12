@@ -13,8 +13,8 @@ const SECOES = [
 ];
 
 const FIGURINHAS = [
+  { codigo: 'FWC00', secao: 'FWC', posicao: 0 },
   { codigo: 'FWC01', secao: 'FWC', posicao: 1 },
-  { codigo: 'FWC02', secao: 'FWC', posicao: 2 },
   { codigo: 'BRA01', secao: 'BRA', posicao: 1 },
   { codigo: 'BRA05', secao: 'BRA', posicao: 5 },
   { codigo: 'BRA08', secao: 'BRA', posicao: 8 },
@@ -25,15 +25,21 @@ const FIGURINHAS = [
 ];
 
 describe('gerarTextoFaltantes', () => {
-  it('gera uma linha "Nome SIG: n n n" com os números crescentes', () => {
+  it('gera uma linha "Nome SIG: nn nn nn" com os números crescentes', () => {
     // Só a seção do Brasil tem faltante; as demais ficam completas.
-    const contagens = { BRA01: 1, FWC01: 1, FWC02: 1, ARG01: 1, ARG02: 1 };
-    expect(gerarTextoFaltantes(contagens, SECOES, FIGURINHAS)).toBe('Brasil BRA: 5 8 12 19');
+    const contagens = { BRA01: 1, FWC00: 1, FWC01: 1, ARG01: 1, ARG02: 1 };
+    expect(gerarTextoFaltantes(contagens, SECOES, FIGURINHAS)).toBe('Brasil BRA: 05 08 12 19');
   });
 
   it('usa o exemplo exato de requisitos.md § Compartilhamento', () => {
-    const contagens = { BRA01: 3, ARG01: 1, ARG02: 1, FWC01: 1, FWC02: 1 };
-    expect(gerarTextoFaltantes(contagens, SECOES, FIGURINHAS)).toBe('Brasil BRA: 5 8 12 19');
+    const contagens = { BRA01: 3, ARG01: 1, ARG02: 1, FWC00: 1, FWC01: 1 };
+    expect(gerarTextoFaltantes(contagens, SECOES, FIGURINHAS)).toBe('Brasil BRA: 05 08 12 19');
+  });
+
+  it('inclui o 00 na linha dos Extras FIFA (faltantes)', () => {
+    // Só o FWC tem faltante: o 00 precisa sair com dois dígitos.
+    const contagens = { BRA01: 1, BRA05: 1, BRA08: 1, BRA12: 1, BRA19: 1, ARG01: 1, ARG02: 1 };
+    expect(gerarTextoFaltantes(contagens, SECOES, FIGURINHAS)).toBe('Extras FIFA FWC: 00 01');
   });
 
   it('seção sem faltantes não aparece no texto', () => {
@@ -45,22 +51,27 @@ describe('gerarTextoFaltantes', () => {
     const contagens = {}; // tudo faltante
     const texto = gerarTextoFaltantes(contagens, SECOES, FIGURINHAS);
     expect(texto.split('\n')).toEqual([
-      'Extras FIFA FWC: 1 2',
-      'Brasil BRA: 1 5 8 12 19',
-      'Argentina ARG: 1 2',
+      'Extras FIFA FWC: 00 01',
+      'Brasil BRA: 01 05 08 12 19',
+      'Argentina ARG: 01 02',
     ]);
   });
 
   it('sem nenhum faltante, o texto é vazio', () => {
-    const contagens = { FWC01: 1, FWC02: 1, BRA01: 1, BRA05: 1, BRA08: 1, BRA12: 1, BRA19: 1, ARG01: 1, ARG02: 1 };
+    const contagens = { FWC00: 1, FWC01: 1, BRA01: 1, BRA05: 1, BRA08: 1, BRA12: 1, BRA19: 1, ARG01: 1, ARG02: 1 };
     expect(gerarTextoFaltantes(contagens, SECOES, FIGURINHAS)).toBe('');
   });
 });
 
 describe('gerarTextoRepetidas', () => {
-  it('gera "n×k" com k = contagem − 1', () => {
+  it('gera "nn×k" com dois dígitos e k = contagem − 1', () => {
     const contagens = { BRA05: 3 }; // 2 unidades sobrando
-    expect(gerarTextoRepetidas(contagens, SECOES, FIGURINHAS)).toBe('Brasil BRA: 5×2');
+    expect(gerarTextoRepetidas(contagens, SECOES, FIGURINHAS)).toBe('Brasil BRA: 05×2');
+  });
+
+  it('inclui o 00 na linha dos Extras FIFA (repetidas)', () => {
+    const contagens = { FWC00: 2 }; // 1 unidade sobrando
+    expect(gerarTextoRepetidas(contagens, SECOES, FIGURINHAS)).toBe('Extras FIFA FWC: 00×1');
   });
 
   it('contagem 1 (colada, não repetida) não entra no texto', () => {
@@ -75,7 +86,7 @@ describe('gerarTextoRepetidas', () => {
 
   it('várias repetidas na mesma seção, em ordem crescente de número', () => {
     const contagens = { BRA19: 2, BRA05: 4, BRA08: 3 };
-    expect(gerarTextoRepetidas(contagens, SECOES, FIGURINHAS)).toBe('Brasil BRA: 5×3 8×2 19×1');
+    expect(gerarTextoRepetidas(contagens, SECOES, FIGURINHAS)).toBe('Brasil BRA: 05×3 08×2 19×1');
   });
 
   it('seção sem repetidas não aparece no texto', () => {

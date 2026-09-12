@@ -207,7 +207,7 @@ seção.
 | # | Tarefa | Objetivo | Status |
 |---|---|---|---|
 | 0001 | [FWC renumerado de FWC00 a FWC19](0014-numeracao-dos-extras-fifa/0001-fwc-renumerado-de-00-a-19.md) | `expandirFigurinhas` aceita seção que começa em zero; FWC com `inicio: 0`, `total: 20` inalterado; invariantes ajustadas. | Concluída |
-| 0002 | [O número zero nos textos de troca](0014-numeracao-dos-extras-fifa/0002-o-numero-zero-nos-textos-de-troca.md) | Um `0` solto numa lista de WhatsApp lê como erro: o número passa a sair com dois dígitos, como no cartão. | Pendente |
+| 0002 | [O número zero nos textos de troca](0014-numeracao-dos-extras-fifa/0002-o-numero-zero-nos-textos-de-troca.md) | Um `0` solto numa lista de WhatsApp lê como erro: o número passa a sair com dois dígitos, como no cartão. | Concluída |
 
 ---
 

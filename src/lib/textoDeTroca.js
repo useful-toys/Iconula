@@ -5,10 +5,13 @@
  * § Compartilhamento): um com as figurinhas faltantes, outro com as
  * repetidas — sempre separados, nunca um texto só.
  *
- * Uma linha por seção, `Nome SIG: n n n`, com os números em ordem
- * crescente; seção sem nada a listar não entra no texto. No texto de
- * repetidas, `n×k` são as **unidades sobrando** do número `n` (contagem −
- * 1), a mesma leitura do selo do cartão (IDR 0021).
+ * Uma linha por seção, `Nome SIG: nn nn nn`, com os números em ordem
+ * crescente; seção sem nada a listar não entra no texto. O número sai
+ * sempre com dois dígitos, como no cartão e no código (`FWC 00`,
+ * `BRA 05`), para que um `00` não leia como erro num grupo de WhatsApp
+ * (IDR 0044). No texto de repetidas, `nn×k` são as **unidades sobrando**
+ * do número `n` (contagem − 1), a mesma leitura do selo do cartão
+ * (IDR 0021).
  *
  * Funções puras: leem `contagens` em memória, sem requisição nenhuma
  * (`docs/persistencia.md` § Custos e cotas). Sempre na ordem do álbum
@@ -58,7 +61,7 @@ function gerarTexto(contagens, secoesNaOrdemDoAlbum, figurinhas, { incluir, form
 export function gerarTextoFaltantes(contagens, secoesNaOrdemDoAlbum, figurinhas) {
   return gerarTexto(contagens, secoesNaOrdemDoAlbum, figurinhas, {
     incluir: (contagem) => contagem === 0,
-    formatarNumero: (posicao) => String(posicao),
+    formatarNumero: (posicao) => String(posicao).padStart(2, '0'),
   });
 }
 
@@ -75,6 +78,6 @@ export function gerarTextoFaltantes(contagens, secoesNaOrdemDoAlbum, figurinhas)
 export function gerarTextoRepetidas(contagens, secoesNaOrdemDoAlbum, figurinhas) {
   return gerarTexto(contagens, secoesNaOrdemDoAlbum, figurinhas, {
     incluir: (contagem) => contagem >= 2,
-    formatarNumero: (posicao, contagem) => `${posicao}×${contagem - 1}`,
+    formatarNumero: (posicao, contagem) => `${String(posicao).padStart(2, '0')}×${contagem - 1}`,
   });
 }

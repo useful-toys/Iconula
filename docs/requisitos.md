@@ -209,9 +209,9 @@ Questões recorrentes são marcadas como "Nota".*
 
 ### Compartilhamento
 - Gerar texto pronto para WhatsApp com faltantes e/ou repetidas
-  - Uma linha por seção: nome e sigla no início, números em sequência
-    (ex.: `Brasil BRA: 5 8 12 19`)
-  - Repetidas indicam as unidades sobrando por número (ex.: `5×2`)
+  - Uma linha por seção: nome e sigla no início, números em sequência,
+    sempre com dois dígitos como no cartão (ex.: `Brasil BRA: 05 08 12 19`)
+  - Repetidas indicam as unidades sobrando por número (ex.: `05×2`)
   - Faltantes e repetidas geram textos separados
   - Entrega por copiar para a área de transferência — sem abrir o
     WhatsApp; os dois comandos ficam no menu de ações do cabeçalho (ver
