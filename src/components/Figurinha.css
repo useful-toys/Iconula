@@ -4,6 +4,12 @@
   position: relative;
   display: inline-block;
   flex-shrink: 0;
+  /* Escurecimento progressivo da espera da pressão longa (IDR 0051). */
+  transition: filter 0.5s linear;
+}
+
+.figurinha--pressionando {
+  filter: brightness(0.6);
 }
 
 .figurinha--lista {
@@ -34,6 +40,8 @@
   cursor: pointer;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
+  /* Sem o callout do iOS no toque longo (IDR 0051). */
+  -webkit-touch-callout: none;
   transition: transform 0.06s ease;
 }
 

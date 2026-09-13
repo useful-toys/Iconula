@@ -237,6 +237,10 @@ Páginas 112–113 do álbum (requisitos.md, Anexo):
   [IDR 0032](idr/0032-controle-de-menos-so-com-unidade-e-dentro-do-cartao.md));
   oculto por padrão, aparece no hover e no foco, e fica sempre visível
   em tela sem hover (IDR 0032)
+- Em tela sensível, segurar o cartão por 500ms tira uma unidade — atalho
+  para não mirar no controle de menos; o cartão escurece durante a espera e
+  mover o dedo mais de 10px cancela — rolagem nunca decrementa (ver
+  [IDR 0051](idr/0051-pressao-longa-decrementa-no-toque.md))
 
 ### Interações
 - Tocar na figurinha soma uma unidade — sem efeito ao chegar em 99

@@ -1,8 +1,8 @@
 // Copyright (c) 2026 Daniel Felix Ferber
 
 import { useState } from 'react';
-import { describe, expect, it, vi } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { act, createEvent, fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom/vitest';
 import { Figurinha } from './Figurinha.jsx';
@@ -120,6 +120,28 @@ describe('Figurinha', () => {
 
     await user.click(screen.getByLabelText(/BRA 05, faltante/));
     expect(onIncrementar).toHaveBeenCalledTimes(1);
+  });
+
+  it('teclado soma, sem acionar o gesto de pressão longa', async () => {
+    const onIncrementar = vi.fn();
+    const onDecrementar = vi.fn();
+    const user = userEvent.setup();
+
+    render(
+      <Figurinha
+        codigo="BRA05"
+        contagem={2}
+        onIncrementar={onIncrementar}
+        onDecrementar={onDecrementar}
+      />,
+    );
+
+    const corpo = screen.getByLabelText(/BRA 05, colada/);
+    corpo.focus();
+    await user.keyboard('{Enter}');
+
+    expect(onIncrementar).toHaveBeenCalledTimes(1);
+    expect(onDecrementar).not.toHaveBeenCalled();
   });
 
   it('decrementa ao clicar no controle de menos', async () => {
@@ -292,5 +314,161 @@ describe('Figurinha', () => {
     expect(
       screen.getByRole('button', { name: 'remover uma unidade de FWC 00' }),
     ).toBeInTheDocument();
+  });
+});
+
+describe('Figurinha — pressão longa (IDR 0051)', () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  function renderizar(contagem = 2) {
+    const onIncrementar = vi.fn();
+    const onDecrementar = vi.fn();
+    const { container } = render(
+      <Figurinha
+        codigo="BRA05"
+        contagem={contagem}
+        onIncrementar={onIncrementar}
+        onDecrementar={onDecrementar}
+      />,
+    );
+    return {
+      onIncrementar,
+      onDecrementar,
+      corpo: container.querySelector('.figurinha__corpo'),
+    };
+  }
+
+  function encostar(corpo, opcoes = {}) {
+    fireEvent.pointerDown(corpo, {
+      pointerType: 'touch',
+      pointerId: 1,
+      clientX: 0,
+      clientY: 0,
+      ...opcoes,
+    });
+  }
+
+  function soltar(corpo, opcoes = {}) {
+    fireEvent.pointerUp(corpo, { pointerType: 'touch', pointerId: 1, ...opcoes });
+  }
+
+  function avancar(ms) {
+    act(() => {
+      vi.advanceTimersByTime(ms);
+    });
+  }
+
+  it('toque de 500ms decrementa uma vez e não soma ao soltar', () => {
+    const { onIncrementar, onDecrementar, corpo } = renderizar(2);
+
+    encostar(corpo);
+    avancar(500);
+    expect(onDecrementar).toHaveBeenCalledTimes(1);
+
+    soltar(corpo);
+    fireEvent.click(corpo);
+
+    expect(onDecrementar).toHaveBeenCalledTimes(1);
+    expect(onIncrementar).not.toHaveBeenCalled();
+  });
+
+  it('soltar antes de 500ms soma', () => {
+    const { onIncrementar, onDecrementar, corpo } = renderizar(2);
+
+    encostar(corpo);
+    avancar(300);
+    soltar(corpo);
+    fireEvent.click(corpo);
+
+    expect(onDecrementar).not.toHaveBeenCalled();
+    expect(onIncrementar).toHaveBeenCalledTimes(1);
+  });
+
+  it('mover mais de 10px cancela sem decrementar', () => {
+    const { onDecrementar, corpo } = renderizar(2);
+
+    encostar(corpo);
+    fireEvent.pointerMove(corpo, {
+      pointerType: 'touch',
+      pointerId: 1,
+      clientX: 11,
+      clientY: 0,
+    });
+    avancar(500);
+
+    expect(onDecrementar).not.toHaveBeenCalled();
+  });
+
+  it('mouse não aciona o gesto', () => {
+    const { onDecrementar, corpo } = renderizar(2);
+
+    fireEvent.pointerDown(corpo, { pointerType: 'mouse', pointerId: 1, clientX: 0, clientY: 0 });
+    avancar(500);
+
+    expect(onDecrementar).not.toHaveBeenCalled();
+  });
+
+  it('contagem 0 não decrementa nem mostra a espera', () => {
+    const { onDecrementar, corpo } = renderizar(0);
+
+    encostar(corpo);
+    expect(document.querySelector('.figurinha--pressionando')).not.toBeInTheDocument();
+
+    avancar(500);
+    expect(onDecrementar).not.toHaveBeenCalled();
+  });
+
+  it('liga o escurecimento na espera e desliga ao soltar', () => {
+    const { corpo } = renderizar(2);
+
+    encostar(corpo);
+    expect(document.querySelector('.figurinha--pressionando')).toBeInTheDocument();
+
+    soltar(corpo);
+    expect(document.querySelector('.figurinha--pressionando')).not.toBeInTheDocument();
+  });
+
+  it('não gera mais de uma chamada de ajuste numa pressão longa', () => {
+    const { onIncrementar, onDecrementar, corpo } = renderizar(2);
+
+    encostar(corpo);
+    avancar(500);
+    soltar(corpo);
+    fireEvent.click(corpo);
+
+    // Toque rápido seguinte volta a somar: a marca de supressão não fica presa.
+    fireEvent.pointerDown(corpo, {
+      pointerType: 'touch',
+      pointerId: 2,
+      clientX: 0,
+      clientY: 0,
+    });
+    avancar(100);
+    soltar(corpo, { pointerId: 2 });
+    fireEvent.click(corpo);
+
+    expect(onDecrementar).toHaveBeenCalledTimes(1);
+    expect(onIncrementar).toHaveBeenCalledTimes(1);
+  });
+
+  it('suprime o menu de contexto no toque e mantém no mouse', () => {
+    const { corpo } = renderizar(2);
+
+    encostar(corpo);
+    const noToque = createEvent.contextMenu(corpo);
+    fireEvent(corpo, noToque);
+    expect(noToque.defaultPrevented).toBe(true);
+    soltar(corpo);
+
+    fireEvent.pointerDown(corpo, { pointerType: 'mouse', pointerId: 3 });
+    const noMouse = createEvent.contextMenu(corpo);
+    fireEvent(corpo, noMouse);
+    expect(noMouse.defaultPrevented).toBe(false);
   });
 });

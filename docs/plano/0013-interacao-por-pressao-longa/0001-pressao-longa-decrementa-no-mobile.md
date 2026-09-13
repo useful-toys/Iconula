@@ -3,7 +3,7 @@
 # Tarefa [0013-0001]: pressão longa decrementa no mobile
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Segurar o cartão por 500ms, em tela sensível, tira uma unidade — atalho para
