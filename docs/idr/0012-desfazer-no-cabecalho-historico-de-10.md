@@ -19,8 +19,8 @@ Aceito.
 
 ## Decisão
 
-- O comando desfazer é um botão no cabeçalho (que pode ser sticky),
-  sempre visível quando há histórico — desabilitado quando não há
+- O comando desfazer é um botão na linha de controles (abaixo da faixa
+  de bandeiras), sempre visível — desabilitado quando não há histórico
 - Repetido, desfaz as alterações em ordem inversa
 - O histórico guarda as **últimas 10** alterações, em memória;
   recarregar a página o descarta

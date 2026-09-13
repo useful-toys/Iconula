@@ -41,21 +41,23 @@ demonstrar avisos) é andaime da prévia, não faz parte do produto.*
   gravação o move; documento sem carimbo (conta nova) exibe `—`, e a
   data acompanha a hora quando o carimbo não é de hoje (ver
   [IDR 0027](idr/0027-relogio-do-titulo-e-o-updatedat-do-documento.md))
-- Comando desfazer: botão na linha de controles, sempre visível quando
-  há histórico — reverte a última alteração; repetido, as últimas 10
+- Comando desfazer: botão na linha de controles, sempre visível e
+  desabilitado quando não há histórico — reverte a última alteração;
+  repetido, as últimas 10
   (ver [IDR 0012](idr/0012-desfazer-no-cabecalho-historico-de-10.md))
 - Menu de ações: botão na mesma linha de controles, abre popup com os
   comandos raros — listas de troca, export/import e sair da conta (ver
   [IDR 0024](idr/0024-acoes-raras-em-menu-do-cabecalho.md))
-- Faixa de bandeiras (salto para seção): última linha do cabeçalho,
-  abaixo dos controles — uma linha com as 50 seções, bandeira da
+- Faixa de bandeiras (salto para seção): logo abaixo do título, dentro
+  do cabeçalho sticky — uma linha com as 50 seções, bandeira da
   seleção ou ícone temático do especial (🏆 Extras FIFA, 🥤
   Coca-Cola), rolável para os lados; tocar salta até a seção (ver
   [IDR 0016](idr/0016-salto-pela-faixa-de-bandeiras.md)) — a ordem
   acompanha o catálogo: 🏆 no início, 🥤 no fim (IDR 0028)
 
 ### Controles
-- Uma única linha, logo abaixo do título (IDR 0018)
+- Uma única linha, logo abaixo da faixa de bandeiras — fora do cabeçalho
+  sticky, rola com o conteúdo (IDR 0018)
 - Alternador de ordenação: página do álbum físico × sigla da seção —
   em ambas, os Extras FIFA abrem o catálogo e a Coca-Cola o fecha (ver
   [IDR 0028](idr/0028-fwc-abre-e-coca-cola-fecha-o-catalogo.md))
@@ -284,8 +286,9 @@ Esquemático em texto; cores indicadas são as do
 ```
 ┌──────────────────────────────────────────────────────────────┐
 │  ICONULA 2026 · 412/994 · 41% · ▢582 · ×37 · 12:34           │
-│  [álbum|sigla] [lista|álbum] [todas|falt|rep]      [↺] [⋯]   │
 │  [🏆][ALG][ARG][AUS]…[USA][UZB][🥤] ── rolável ──▶          │
+├──────────────────────────────────────────────────────────────┤
+│  [álbum|sigla] [lista|álbum] [todas|falt|rep]      [↺] [⋯]   │
 ├──────────────────────────────────────────────────────────────┤
 │                                                              │
 │     … grupos do catálogo, um após o outro, até o fim …       │
@@ -296,7 +299,8 @@ Esquemático em texto; cores indicadas são as do
 └──────────────────────────────────────────────────────────────┘
 ```
 
-- Uma única rolagem (IDR 0008); o cabeçalho é sticky
+- Uma única rolagem (IDR 0008); o cabeçalho sticky fixa o título e a
+  faixa de bandeiras — a linha de controles rola com o conteúdo
 - Faixa de bandeiras no cabeçalho (salto — IDR 0016): uma linha
   rolável horizontalmente — exceção pontual ao scroll único
 - `[⋯]` abre o menu de ações (IDR 0024): copiar faltantes, copiar
@@ -305,7 +309,8 @@ Esquemático em texto; cores indicadas são as do
   aviso somem em 5s, a falha fica e revela a mensagem técnica ao toque;
   nunca log com scroll
 - Estado vazio (0/994): tela normal, sem dica nem mensagem especial
-- Desfazer: botão no cabeçalho, sempre visível quando há histórico
+- Desfazer: botão na linha de controles, sempre visível e desabilitado
+  sem histórico
 - Notação compacta (IDR 0018) em placar e títulos: `412/994 · 41% ·
   ▢582 · ×37` — as palavras vivem só no nome acessível
 
@@ -553,7 +558,7 @@ estádio. O app não segue `prefers-color-scheme` e não tem tema claro
   toque ampliada até a metade do espaçamento entre os dois, sem crescer
   visualmente (IDR 0042)
 - Faixa de bandeiras: ícones de 30×30px, raio 8px, fundo `--panel`
-  (`--gold` no destaque), espaçamento 4px, rolagem horizontal; o glifo
+  (`--border` sob o cursor), espaçamento 4px, rolagem horizontal; o glifo
   da bandeira em 15px, centralizado no quadrado — o espaçamento é o
   mais apertado que ainda separa duas bandeiras vizinhas, para caber o
   máximo de seções na largura antes de precisar rolar; em tela sensível,
