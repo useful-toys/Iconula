@@ -5,85 +5,80 @@
 ## Status
 Pendente
 
-## Documentos de referência (ler antes de implementar)
-- `docs/interface.md` § Controles — os três grupos segmentados (ordenação,
-  disposição, filtro) e os rótulos curtos já decididos
-- `src/components/Controles.jsx` — cada grupo já é um `role="group"` com
-  `aria-label` próprio; a estrutura lógica de agrupamento já existe
-- `src/components/Controles.css` — `.controles__segmentado` já tem fundo
-  `var(--panel)` e `border-radius: 9px`, mas sem contorno
-- `src/theme.css` § Paleta — tokens OKLCH disponíveis (`--panel`, `--border`,
-  `--turf`, `--gold`)
-- Achado de uso reportado nesta conversa: captura de tela mostrando os três
-  grupos sem separação visível entre si e o exemplo de referência (segmented
-  control com contorno nítido)
-
 ## Objetivo
 Tornar visualmente claro que Página/Sigla, Lista/Álbum e Todas/Falt./Col./Rep.
-são três grupos de alternância independentes — sem mudar rótulos,
-comportamento, `aria-label`, nem introduzir nenhuma dependência nova.
+são três grupos de alternância independentes — no primeiro uso real, os três
+grupos não se liam como grupos. Sem mudar rótulos, comportamento,
+`aria-label`, nem introduzir dependência nova.
+
+## Documentos de referência
+- `docs/interface.md` § Controles — os três grupos segmentados (ordenação,
+  disposição, filtro) e os rótulos curtos já decididos
+- `docs/interface.md` § Medidas — "Controles: grupos segmentados sobre
+  `--panel`, raio 9px…" — onde o contorno passa a ser descrito
+- `docs/idr/0022-tema-escuro-unico-paleta-do-prototipo.md` § Decisão — as
+  medidas do protótipo, transcritas em `interface.md`, lastreiam a medida
+  alterada aqui
+- `docs/idr/0042-foco-visivel-e-area-de-toque.md` § Decisão — padrão de
+  contraste mínimo de 3:1 para elementos não textuais
+- `src/components/Controles.jsx` — cada grupo já é um `role="group"` com
+  `aria-label` próprio
+- `src/components/Controles.css` — `.controles__segmentado` já tem fundo
+  `var(--panel)` e `border-radius: 9px`, sem contorno
+- `src/theme.css` § Paleta — tokens `--panel`, `--border`, `--turf`, `--gold`
 
 ## Padrões e convenções aplicáveis
-- Rótulos curtos e a existência dos três grupos já são decisão fechada —
-  `docs/interface.md` § Controles — esta tarefa não os reabre
+- Rótulos curtos e a existência dos três grupos são decisão fechada —
+  `docs/interface.md` § Controles
 - Cor nunca é o único sinal de estado — `docs/requisitos.md` § Requisitos Não
-  Funcionais (o grupo ativo já usa `--gold` de fundo; o contorno é reforço de
-  agrupamento, não de estado)
-- Sem token de paleta novo — reaproveitar `--border`, já usado em bordas de
-  outros elementos do cabeçalho (`.controles__desfazer`)
-- Nenhuma mudança de medida do botão em si (`padding`, altura) — apenas o
-  contêiner do grupo ganha contorno
+  Funcionais (o contorno é reforço de agrupamento, não de estado)
+- Sem token de paleta novo — reaproveitar `--border`, já usado em
+  `.controles__desfazer`
+- Nenhuma mudança de medida do botão (`padding`, altura) — só o contêiner do
+  grupo ganha contorno
 
 ## Escopo e instruções de implementação
 1. Acrescentar `border: 1px solid var(--border)` a `.controles__segmentado`
    em `src/components/Controles.css`, mantendo fundo e raio atuais.
-2. Conferir em `npm run dev` que os três grupos ficam visualmente distintos
-   do fundo `--turf` da página, inclusive quando nenhuma opção do grupo está
-   ativa (ex.: abrir em disposição álbum, onde o filtro nem aparece — os dois
-   grupos restantes continuam legíveis).
-3. Medir o contraste do contorno (`--border` sobre `--turf`) — se ficar abaixo
-   de 3:1 (WCAG 1.4.11, mesmo padrão usado no IDR 0042 para o realce de foco),
-   registrar a medição e sinalizar antes de trocar qualquer token.
-4. Atualizar `docs/interface.md` § Controles com uma frase descrevendo o
-   contorno do grupo, no mesmo espírito da Fase 6 Tarefa 3 (ajuste de medida
-   registrado direto no documento, sem IDR novo).
+2. Medir o contraste do contorno (`--border` sobre `--turf`) e registrar a
+   medição.
+3. Atualizar o IDR 0022 e `docs/interface.md` § Medidas com o contorno do
+   grupo (ver "Decisões em aberto").
 
-**Fora do escopo**: mudar rótulos, cores de estado ativo/inativo, ou a ordem
-dos grupos; criar um novo componente de "segmented control" genérico.
+**Fora do escopo**: mudar rótulos, cores de estado ativo/inativo ou a ordem
+dos grupos; criar um componente genérico de "segmented control".
 
 ## Decisões já tomadas (não reabrir)
 - Os três grupos e seus rótulos curtos — ver `docs/interface.md` § Controles
-- O grupo de filtro só aparece na disposição lista — ver IDR 0023
+- O grupo de filtro só aparece na disposição lista — ver
+  `docs/idr/0001-filtro-de-status-so-na-disposicao-lista.md`
 - Cor de fundo ativa é `--gold` — ver `src/components/Controles.css`
 
 ## Decisões em aberto nesta tarefa
-Nenhuma — é um refinamento visual de uma estrutura já decidida, sem
-alternativa de comportamento a escolher. Não nasce IDR (mesmo precedente da
-Fase 6 Tarefa 3, "Faixa de bandeiras mais compacta", que ajustou uma medida
-direto em `docs/interface.md`).
+- **Muda decisão documentada**: `docs/idr/0022-tema-escuro-unico-paleta-do-prototipo.md`
+  § Decisão — "a paleta, a tipografia e as medidas são as do protótipo" →
+  acrescenta o contorno de 1px `--border` nos grupos segmentados como ajuste
+  feito em uso, com entrada em `## Histórico`. Se, pelo guia
+  `docs/idr/CLAUDE.md`, o ajuste for decisão genuinamente nova, nasce um IDR
+  sobre o contorno dos grupos em vez de atualizar o 0022.
 
-## Impedimentos
-1. Ambiguidade menor, reversível, interna ao código: decida, implemente e
-   **registre um TDR ou IDR** conforme o AGENTS.md.
-2. Ambiguidade que muda o comportamento visível ao usuário: implemente sob a
-   premissa mais conservadora, deixe-a explícita no log e sinalize ao humano.
-3. **PARE e pergunte** quando: contradiz `docs/requisitos.md`; exige mudança de
-   configuração pública (provedor de login, authorized domains, DNS, branch
-   protection, secrets); tem custo em cota/plano; ou é irreversível.
-   Ao parar, formule uma pergunta objetiva e apresente 2–3 alternativas com
-   prós e contras.
+## Impedimentos específicos
+- Contraste do contorno abaixo de 3:1 com os tokens existentes: não crie token
+  novo — bloqueie com a medição e as alternativas.
 
 ## Arquivos impactados
 - `src/components/Controles.css` — modificar
-- `docs/interface.md` — modificar (§ Controles)
+- `docs/interface.md` — modificar (§ Medidas)
+- `docs/idr/0022-tema-escuro-unico-paleta-do-prototipo.md` — modificar (ou
+  `docs/idr/` — criar, conforme a decisão em aberto)
 
 ## Critérios de aceite
 - [ ] Os três grupos segmentados têm contorno visível e consistente entre si
-- [ ] Nenhum rótulo, comportamento ou `aria-label` mudou
+- [ ] Nenhum rótulo, comportamento ou `aria-label` mudou (testes de
+      `Controles.test.jsx` inalterados e verdes)
 - [ ] Contraste do contorno medido e ≥ 3:1 sobre `--turf`
-- [ ] `docs/interface.md` descreve o contorno do grupo
 
-## Validação
-`npm run lint && npm run test && npm run build`.
-Verificação visual em `npm run dev`: conferir os três grupos nas duas
-disposições (lista e álbum) e com cada opção ativa.
+## Validação adicional
+Verificação visual em `npm run dev`: os três grupos nas duas disposições
+(lista e álbum) e com cada opção ativa; na disposição álbum, sem o filtro, os
+dois grupos restantes continuam legíveis.

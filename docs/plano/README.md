@@ -6,53 +6,59 @@ Roteiro executável para transformar o "Iconula Button" no controle de figurinha
 do álbum da Copa 2026 especificado em [requisitos.md](../requisitos.md).
 
 Cada **fase** é um PR mesclável na `main`. Como o preview deploy por PR é
-required check e o merge publica em produção (ADR 0003/0004), ao fim de toda
-fase `npm run lint`, `npm run test` e `npm run build` passam e o app continua
-utilizável — nenhuma fase deixa a `main` meio-migrada. Cada **tarefa** é um
-commit coerente: poucos arquivos, um assunto.
+required check e o merge publica em produção (ADR 0003, DDR 0005), ao fim de
+toda fase `npm run lint`, `npm run test` e `npm run build` passam e o app
+continua utilizável — nenhuma fase deixa a `main` meio-migrada. Cada **tarefa**
+é um commit de estado válido: poucos arquivos, um assunto.
 
-Os arquivos de tarefa ficam em `docs/plano/[000N-nome-da-fase]/[000X-nome-da-tarefa].md`
-e os logs de execução em `docs/plano/[000N-nome-da-fase]/logs/[000X-log-nome].md`.
+Os arquivos de tarefa ficam em `docs/plano/[NNNN-nome-da-fase]/[XXXX-nome-da-tarefa].md`
+e os logs de execução em `docs/plano/[NNNN-nome-da-fase]/logs/[XXXX-log-nome].md`
+(a pasta `logs/` nasce com o primeiro log).
 
-## Legenda de status e como atualizá-lo
+## Como o plano é produzido e executado
 
-| Status | Significado |
+| Comando | Faz |
 |---|---|
-| Pendente | Ainda não iniciada |
-| Em andamento | Trabalho começado, não mesclado |
-| Concluída | Mesclada na `main` com lint, test e build verdes |
-| Bloqueada | Parada à espera de decisão humana (ver "Impedimentos" da tarefa) |
+| `/planejar` (`.opencode/commands/planejar.md`) | Propõe fases e tarefas novas; grava os arquivos de tarefa e este README só depois da aprovação humana |
+| `/executar-plano NNNN` (`.opencode/commands/executar-plano.md`) | Executa uma fase numa branch e worktree próprias, tarefa a tarefa em subagentes, e entrega num PR |
+| `/executar-tarefa NNNN-XXXX` (`.opencode/commands/executar-tarefa.md`) | Executa uma tarefa e termina num commit válido, com testes, critérios de aceite verificados, decisões registradas, `docs/*.md` atualizados, setup registrado, log e status |
 
-O agente executor atualiza a seção `## Status` do arquivo da tarefa **e** a
-coluna de status das tabelas deste README **no mesmo commit** do trabalho —
-nunca depois. Ao concluir, grava o log em `logs/` e marca `Concluída` só quando
-a fase inteira estiver mesclada. Ao bloquear, escreve `Bloqueada` e a pergunta
-objetiva na própria tarefa; não avança para a tarefa seguinte da mesma fase se
-ela depender da resposta.
+Os comandos existem com o mesmo conteúdo em `.opencode/commands/` e
+`.claude/commands/`.
 
-Decisão tomada durante a execução vira ADR/TDR/IDR/MDR **no momento em que é
-tomada** (AGENTS.md § Convenções), com numeração sequencial a partir da última
-existente: **ADR 0010**, **TDR 0016**, **IDR 0034**, **MDR 0001**. O log aponta para o
-registro; não o substitui.
+Estrutura, status e ciclo de vida, regras que valem em toda tarefa,
+comportamento padrão, formato da tarefa e formato do log estão no guia
+**[CLAUDE.md](CLAUDE.md)** — a fonte única dessas regras. Este README é só o
+índice: fases e tarefas.
 
 ## Fases
 
+Status da fase:
+
+| Status | Significado |
+|---|---|
+| `Pendente` | Planejada; nenhuma tarefa iniciada |
+| `Em andamento` | Tarefas sendo executadas na branch da fase; ainda não entregue |
+| `Entregue` | **Fechada**: entregue por PR mesclado na `main`; não recebe tarefas novas |
+
+Detalhes e status das tarefas no guia [CLAUDE.md](CLAUDE.md) § Status e ciclo de vida.
+
 | # | Fase | Objetivo | Depende de | PR previsto | Status |
 |---|---|---|---|---|---|
-| 1 | [Fundação: plano, catálogo e assets](0001-fundacao-catalogo-e-assets/) | Colocar no repositório o catálogo das 994 figurinhas e os assets que faltam, sem mudar nada na tela | — | `docs+data: plano de implementação e catálogo do álbum` | Pendente |
-| 2 | [Fatia vertical: catálogo em tela](0002-fatia-vertical-catalogo-em-tela/) | Substituir o botão pela tela do catálogo com contagem ajustável em memória | 1 | `feat: tela do catálogo substitui o Iconula Button` | Pendente |
-| 3 | [Percurso: ordenações, agrupamento e salto](0003-percurso-ordenacoes-e-salto/) | Duas ordenações, super-grupos A–L, colapso e salto pela faixa de bandeiras | 2 | `feat: ordenações, super-grupos colapsáveis e salto para seção` | Pendente |
-| 4 | [Disposição álbum, filtro e preferências](0004-disposicao-album-filtro-e-preferencias/) | Reproduzir a página física, filtrar por status e lembrar a vista entre sessões | 3 | `feat: disposição álbum, filtro de status e preferências de vista` | Pendente |
-| 5 | [Regras do Firestore para o schema novo](0005-regras-do-firestore/) | Publicar as regras do mapa esparso antes de qualquer código que o escreva | 1 | `feat(rules): schema da coleção no Firestore` | Pendente |
-| 6 | [Ajuste de rota: correções de interface](0006-ajuste-de-rota/) | Corrigir o controle de menos do cartão, acrescentar o filtro de coladas e apertar a faixa de bandeiras, tudo observado com o app já em uso | 2, 3, 4 | `fix: correções de interface observadas em uso` | Pendente |
-| 7 | [Persistência da coleção e avisos](0007-persistencia-da-colecao-e-avisos/) | Carregar no login, gravar agregado e informar sucesso, aviso e falha | 5, 2 | `feat: persistência da coleção e área de avisos` | Pendente |
-| 8 | [Acesso, atestação e privacidade](0008-acesso-atestacao-e-privacidade/) | Login como guarda do app, atestação de menores e política de privacidade | 7 | `feat: guarda de login, atestação de menores e política de privacidade` | Pendente |
-| 9 | [Desfazer, menu de ações e portabilidade](0009-desfazer-menu-e-portabilidade/) | Desfazer, popup de comandos raros, listas de troca e export/import JSON | 7, 8 | `feat: desfazer, menu de ações, listas de troca e export/import` | Pendente |
-| 10 | [Acabamento: acessibilidade, desempenho e docs](0010-acabamento-acessibilidade-e-docs/) | Fechar acessibilidade, desempenho das 994, faixas de tela e a documentação | 9 | `chore: acessibilidade, desempenho e fechamento da documentação` | Pendente |
+| 1 | [Fundação: plano, catálogo e assets](0001-fundacao-catalogo-e-assets/) | Colocar no repositório o catálogo das 994 figurinhas e os assets que faltam, sem mudar nada na tela | — | `docs+data: plano de implementação e catálogo do álbum` | Entregue |
+| 2 | [Fatia vertical: catálogo em tela](0002-fatia-vertical-catalogo-em-tela/) | Substituir o botão pela tela do catálogo com contagem ajustável em memória | 1 | `feat: tela do catálogo substitui o Iconula Button` | Entregue |
+| 3 | [Percurso: ordenações, agrupamento e salto](0003-percurso-ordenacoes-e-salto/) | Duas ordenações, super-grupos A–L, colapso e salto pela faixa de bandeiras | 2 | `feat: ordenações, super-grupos colapsáveis e salto para seção` | Entregue |
+| 4 | [Disposição álbum, filtro e preferências](0004-disposicao-album-filtro-e-preferencias/) | Reproduzir a página física, filtrar por status e lembrar a vista entre sessões | 3 | `feat: disposição álbum, filtro de status e preferências de vista` | Entregue |
+| 5 | [Regras do Firestore para o schema novo](0005-regras-do-firestore/) | Publicar as regras do mapa esparso antes de qualquer código que o escreva | 1 | `feat(rules): schema da coleção no Firestore` | Entregue |
+| 6 | [Ajuste de rota: correções de interface](0006-ajuste-de-rota/) | Corrigir o controle de menos do cartão, acrescentar o filtro de coladas e apertar a faixa de bandeiras, tudo observado com o app já em uso | 2, 3, 4 | `fix: correções de interface observadas em uso` | Entregue |
+| 7 | [Persistência da coleção e avisos](0007-persistencia-da-colecao-e-avisos/) | Carregar no login, gravar agregado e informar sucesso, aviso e falha | 5, 2 | `feat: persistência da coleção e área de avisos` | Entregue |
+| 8 | [Acesso, atestação e privacidade](0008-acesso-atestacao-e-privacidade/) | Login como guarda do app, atestação de menores e política de privacidade | 7 | `feat: guarda de login, atestação de menores e política de privacidade` | Entregue |
+| 9 | [Desfazer, menu de ações e portabilidade](0009-desfazer-menu-e-portabilidade/) | Desfazer, popup de comandos raros, listas de troca e export/import JSON | 7, 8 | `feat: desfazer, menu de ações, listas de troca e export/import` | Entregue |
+| 10 | [Acabamento: acessibilidade, desempenho e docs](0010-acabamento-acessibilidade-e-docs/) | Fechar acessibilidade, desempenho das 994, faixas de tela e a documentação | 9 | `chore: acessibilidade, desempenho e fechamento da documentação` | Entregue |
 | 11 | [Refinamento do cabeçalho](0011-refinamento-do-cabecalho/) | Agrupar visualmente os controles, tooltip nas opções, bandeiras mais compactas, e avaliar fundir título/controles numa linha e mostrar a identidade do usuário | 10 | `feat: refinamento do cabeçalho e dos controles` | Pendente |
 | 12 | [Redução de rolagem vertical](0012-reducao-de-rolagem-vertical/) | Colapsar por padrão o que já está completo, com colapso manual persistido, e apertar os espaçamentos repetidos do catálogo | 10 | `feat: colapso inteligente e catálogo mais compacto` | Pendente |
 | 13 | [Interação por pressão longa](0013-interacao-por-pressao-longa/) | Segurar o cartão decrementa uma unidade no mobile, sem precisar mirar no botão de menos | 10 | `feat: pressão longa decrementa no mobile` | Pendente |
-| 14 | [Correção urgente: renumeração do FWC](0014-numeracao-dos-extras-fifa/) | Extras FIFA de `FWC00` a `FWC19` (hoje `FWC01`–`FWC20`, deslocado em um); total do catálogo continua 994 | 10 | `fix: renumera os Extras FIFA para FWC00–FWC19` | Concluída |
+| 14 | [Correção urgente: renumeração do FWC](0014-numeracao-dos-extras-fifa/) | Extras FIFA de `FWC00` a `FWC19` (hoje `FWC01`–`FWC20`, deslocado em um); total do catálogo continua 994 | 10 | `fix: renumera os Extras FIFA para FWC00–FWC19` | Entregue |
 
 ---
 
@@ -123,7 +129,7 @@ no cliente escreve no Firestore ainda, então a troca é inócua.
 | 0001 | [Regras do mapa esparso](0005-regras-do-firestore/0001-regras-do-mapa-esparso.md) | `hasOnly` dos três campos, tamanho, valores 1–99, `updatedAt == request.time` e guarda de campo ausente. | Concluída |
 | 0002 | [Medir a allow-list dos códigos](0005-regras-do-firestore/0002-medir-a-allow-list-dos-codigos.md) | Gerar, medir e exercitar; se não couber no ruleset, ficar sem ela e registrar a medição. | Concluída |
 | 0003 | [Testes das regras no emulador](0005-regras-do-firestore/0003-testes-das-regras-no-emulador.md) | Cobrir os casos do TDR 0009 mais o update que apaga `teamName` e o acesso cruzado entre usuários. | Concluída |
-| 0004 | [Atualizar a documentação de persistência](0005-regras-do-firestore/0004-atualizar-documentacao-de-modelo-firebase.md) | Refletir regras novas e medição em `modelo-firebase.md` e `firebase.md`, no mesmo PR. | Concluída |
+| 0004 | [Atualizar a documentação de persistência](0005-regras-do-firestore/0004-atualizar-documentacao-de-persistencia.md) | Refletir regras novas e medição em `modelo-firebase.md` e `setup-firebase.md` (à época, `firebase.md`), no mesmo PR. | Concluída |
 
 ## Fase 6 — Ajuste de rota: correções de interface
 
@@ -219,9 +225,11 @@ os três grupos de controles não se leem como grupos, as opções não explicam
 si mesmas ao passar o mouse, a faixa de bandeiras ainda pode ficar mais
 compacta, e há espaço para economizar altura de tela e mostrar a identidade de
 quem está logado. As duas primeiras tarefas e a de bandeiras são refinamentos
-de baixo risco sobre decisões já tomadas; as duas últimas revisam
-explicitamente o IDR 0018 e o IDR 0024 e cada uma abre seu próprio IDR antes
-de mudar código.
+de baixo risco sobre decisões já tomadas; a Tarefa 0004 revisa o IDR 0018,
+atualizando o próprio registro, e a Tarefa 0005 abre um IDR para o avatar e
+atualiza o IDR 0024 se mudar o gatilho do menu. Toda medida alterada em
+`docs/interface.md` é lastreada por registro (IDR 0022, IDR 0042 ou IDR
+próprio).
 
 | # | Tarefa | Objetivo | Status |
 |---|---|---|---|
@@ -238,9 +246,10 @@ sticky reduz a área útil o tempo todo, e cada seção/super-grupo carrega
 respiro fixo que se repete até 50 vezes. A maior alavanca, porém, não é
 nenhuma medida isolada — é que seções já 100% completas continuam abertas por
 padrão, ocupando tela mesmo quando não sobra nada a fazer nelas. A Tarefa
-0001 ataca isso e revisa o IDR 0026; as Tarefas 0002-0004 são ajustes finos de
-medida já registrada em `docs/interface.md`, mesmo precedente da Fase 6
-Tarefa 3, sem IDR novo.
+0001 ataca isso e revisa os IDRs 0020, 0019 e 0026, atualizando os próprios
+registros; as Tarefas 0002-0004 são ajustes finos de medida já registrada em
+`docs/interface.md`, lastreados num único registro escolhido na Tarefa 0002
+(IDR 0022 atualizado ou IDR próprio da compactação vertical).
 
 | # | Tarefa | Objetivo | Status |
 |---|---|---|---|
@@ -251,9 +260,9 @@ Tarefa 3, sem IDR novo.
 
 ## Fase 13 — Interação por pressão longa
 
-Proposta avaliada nesta conversa: duplo clique, clique direito e clique do
-botão do meio no desktop foram todos descartados — ou atrasam o clique
-simples (o gesto mais comum) pra desambiguar de um duplo clique, ou dependem
+Proposta avaliada antes do planejamento: duplo clique, clique direito e clique
+do botão do meio no desktop foram todos descartados — ou atrasam o clique
+simples (o gesto mais comum) para desambiguar de um duplo clique, ou dependem
 de um botão de mouse nem sempre acessível. Pressão longa no mobile não tem
 esse problema (toque curto e pressão longa já são gestos distintos por
 tempo) e segue sozinha.
@@ -262,50 +271,7 @@ tempo) e segue sozinha.
 |---|---|---|---|
 | 0001 | [Pressão longa decrementa no mobile](0013-interacao-por-pressao-longa/0001-pressao-longa-decrementa-no-mobile.md) | Segurar o cartão além de um limiar decrementa uma unidade, com retorno visual durante a espera e uma única entrada no histórico de desfazer. | Pendente |
 
----
-
-## Onde cada pendência conhecida foi alocada
-
-| Pendência | Origem | Fase.Tarefa | Resolução proposta | Registro que nasce |
-|---|---|---|---|---|
-| Fonte do checklist (nomes das figurinhas, página do FWC, metalizadas além da 01) | `requisitos.md` § Decisões Pendentes | 1.2 | Não bloquear: nomes não são exibidos pela interface especificada, o número da página do FWC é omitido no cabeçalho daquela seção e `metalizada` fica só na posição 01; o dado nasce com o campo previsto para receber a fonte depois | TDR |
-| Política de privacidade depois de autenticado | `requisitos.md` § Decisões Pendentes; `interface.md` § Pendências de interface | 8.4 | Link no rodapé da tela principal — o rodapé já existe em ambas as telas e não gasta item do menu de ações; se preferir o menu, entra como sexto comando na 9.2 | IDR |
-| Falha ao gravar `atestadoEm` | `requisitos.md` § Decisões Pendentes | 8.3 | Liberar o app e reagendar a gravação: a atestação é ato do usuário, já praticado, e retê-lo puniria falha de rede; a falha avisa e a gravação seguinte a regrava | IDR |
-| Aceite dos números do ADR 0005 (debounce, teto de espera) | `arquitetura.md` § Pontos em aberto | 7.3 | Aceitar ~2s de debounce, ~10s de teto e ~5s de timeout sem rede como estão; medir em uso real e registrar o ajuste no log — o próprio ADR 0005 permite mudá-los sem novo ADR | log (TDR só se mudar a forma, não o número) |
-| Router ou vista interna para a privacidade | `arquitetura.md` § Pontos em aberto | 8.4 | Vista interna com estado no `App.jsx`, sem router — a árvore ainda não exige, e a convenção do `AGENTS.md` proíbe antecipar | TDR |
-| Context vs. prop-drilling | `arquitetura.md` § Pontos em aberto | 2.4, revisto em 7.3 | Prop-drilling enquanto couber; Context só para a coleção e o ajuste, e só quando a passagem atravessar mais de três níveis | TDR |
-| Virtualização das listas | `arquitetura.md` § Pontos em aberto | 10.2 | Medir antes de escolher: preferir `content-visibility` por seção, que não cria contêiner rolável; biblioteca só se a medição exigir, e nunca uma que introduza rolagem própria | TDR |
-| Pipeline de geração do catálogo | `arquitetura.md` § Pontos em aberto | 1.2 | Sem pipeline: arquivo escrito à mão a partir do Anexo de `requisitos.md` e do IDR 0019, com teste de invariantes fazendo o papel de validação | TDR |
-| Salto para seção ocultada pelo filtro | `interface.md` § Pendências de interface | 4.4 | O salto limpa o filtro para "todas" antes de rolar até a seção — a faixa lista as 50 sempre, e um toque que não move nada seria pior | IDR |
-| Atestação: clique de entrar ou passo explícito | `interface.md` § Pendências de interface | 8.3 | Passo explícito uma única vez por conta, como `requisitos.md` exige; o protótipo, que a exibe a cada login, é referência visual e não vence o requisito | IDR |
-| Foco, hover e pressionado | `interface.md` § Pendências de interface | 10.1 | Realce de foco visível em dourado e retorno imediato de toque no cartão, além da mudança de cor de estado | IDR |
-| Área de toque ampliada nos alvos de 30×30px | `interface.md` § Pendências de interface | 10.1 | Ampliar a área de toque sem mudar o desenho, mantendo as medidas de `interface.md` | IDR |
-| Ordenação e disposição pré-selecionadas por faixa de tela | `interface.md` § Pendências de interface | 10.3 | Definir na fase de acabamento, com a preferência guardada vencendo a partir da segunda abertura | IDR |
-| Diálogos de exportação e importação | `interface.md` § Demais telas | 9.4, 9.5 | Exportação sem diálogo (baixa direto e avisa); importação com confirmação explícita mínima, sem tela própria | IDR |
-| Poppins por webfont colide com `style-src 'self'` e `font-src 'self'` | Achado da leitura: `interface.md` § Tipografia × DDR 0001 e ADR 0005 | 1.4 | Vendorizar os arquivos da fonte e servi-los pelo próprio Hosting, como os SVGs de bandeira e o logo do Google — a CSP não se abre | TDR |
-| Controle de menos na figurinha faltante e transbordando o canto superior esquerdo | Achado de uso: app com as 994 em tela × `interface.md` § Figurinha | 6.1 | Renderizar o controle só a partir da contagem 1 e movê-lo para dentro do cartão, no canto inferior esquerdo | IDR 0032 (já registrado) |
-| Falta a vista das coladas (contagem ≥ 1), que não são as repetidas (≥ 2) | Achado de uso: filtro de status × `requisitos.md` § Progresso e listas | 6.2 | Acrescentar `coladas` como quarto valor do filtro, sem tocar em nenhuma outra regra do filtro | IDR 0033 (já registrado) |
-| Faixa de bandeiras larga demais: poucas seções cabem sem rolar | Achado de uso: faixa de salto × `interface.md` § Medidas | 6.3 | Baixar o espaçamento entre ícones de 8px para 4px, mantendo o ícone de 30×30px e a rolagem horizontal | — (medida em `interface.md`) |
-| `npm run dev` deixa de funcionar sem credenciais quando o login vira guarda | Achado da leitura: `requisitos.md` § Dados e isolamento × `AGENTS.md` § Como rodar | 8.1 | `requisitos.md` vence (modo não suportado); `AGENTS.md` passa a dizer que o desenvolvimento exige `.env.local` | — (correção de doc no mesmo PR) |
-| Extras FIFA numerados de `FWC01` a `FWC20`, quando a numeração oficial do álbum 2026 vai de `FWC00` a `FWC19` | Achado de uso: catálogo × numeração real do FWC (confirmada por múltiplas fontes após uma primeira leitura errada, com dados do Catar 2022) | 14.1 | Deslocar a seção para começar em zero (`inicio: 0`, `total: 20` inalterado), sem migração de dado por não haver uso real em produção ainda | TDR |
-
 ## Regras que valem em toda tarefa
 
-- Arquivo novo abre com `Copyright (c) 2026 Daniel Felix Ferber`, na sintaxe de
-  comentário do tipo do arquivo (`AGENTS.md` § Convenções)
-- Componentes novos em `src/components/`, dados em `src/data/`; sem router e sem
-  estado global antes de a árvore exigir (`AGENTS.md` § Convenções)
-- Decisão tomada vira ADR/TDR/IDR/MDR na hora, com a numeração a partir de ADR 0010,
-  TDR 0016, IDR 0034 e MDR 0001 (`AGENTS.md` § Convenções)
-- Mudança de build, deploy, Firebase, Google Cloud, GitHub ou DNS é refletida em
-  `docs/setup-firebase.md`, `docs/setup-gcloud.md`, `docs/setup-github.md` ou `docs/setup-registrobr.md`
-  no mesmo PR (`AGENTS.md` § Convenções)
-- Nenhuma requisição por figurinha, uma leitura por login, escrita agregada e
-  mapa esparso (`requisitos.md` § Requisitos Não Funcionais)
-- Nenhum componente com rolagem própria, salvo a faixa de bandeiras
-  (IDR 0008 / IDR 0016)
-- Todo texto visível em PT-BR; cor nunca é o único sinal de estado; o nome
-  acessível escreve por extenso a notação compacta (`requisitos.md` § Requisitos
-  Não Funcionais, IDR 0018)
-- `npm run lint && npm run test && npm run build` verdes ao fim de toda tarefa;
-  `npm run test:rules` (JDK 21+) quando a tarefa tocar `firestore.rules`
+Ver o guia [CLAUDE.md](CLAUDE.md) § Regras que valem em toda tarefa e
+§ Comportamento padrão da execução.
