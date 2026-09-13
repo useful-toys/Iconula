@@ -9,7 +9,7 @@
 ## Contexto
 
 Definir onde ficam os dados dos times e o componente do botão dentro do
-scaffold do Vite+React (ver [ADR 0001](../adr/0001-stack-vite-react.md)).
+scaffold do Vite+React (ver [ADR 0002](../adr/0002-stack-vite-react.md)).
 
 ## Decisão
 

@@ -50,9 +50,13 @@ A confusão com `wss:` vem do **Realtime Database** (`firebase/database`,
 no ADR 0005 justamente entre outros motivos por isso.
 
 **Nada mais na política se mexe**: sem `script-src`, `frame-src`,
-`img-src` ou `worker-src` novos. O `getFirestore()` é usado sem
-persistência local (`IndexedDB`), sem `initializeFirestore()` com cache
-customizado e sem web worker, então não há superfície adicional.
+`img-src` ou `worker-src` novos. O Firestore é inicializado com
+`initializeFirestore()` e cache local persistente (`persistentLocalCache`
+com `persistentMultipleTabManager()`, em IndexedDB) — recurso interno do
+SDK, sem origem de rede nova e sem web worker, então não há superfície
+adicional na CSP (o cache local está decidido nos
+[MDR 0007](../model-dr/0007-persistencia-no-armazenamento-local.md) e
+[MDR 0003](../model-dr/0003-gravacao-agregada-da-colecao.md)).
 
 ## Consequências
 
@@ -94,3 +98,12 @@ customizado e sem web worker, então não há superfície adicional.
 - **Realtime Database em vez de Firestore**: exigiria `wss:` e um
   endpoint `*.firebaseio.com`. Descartado no ADR 0005 por motivos de
   modelo de dados; a CSP mais fechada é um bônus.
+
+## Histórico
+
+- **2026-09-13**: corrigida a premissa sobre o cache do SDK, sincronizando
+  com a base de código. O Firestore passou a ser inicializado com
+  `initializeFirestore()` e `persistentLocalCache` (multi-aba, IndexedDB
+  — MDR 0007), então o texto deixou de afirmar que não há persistência
+  local. A decisão de CSP não muda: IndexedDB não é origem de rede e não
+  exige diretiva nova.

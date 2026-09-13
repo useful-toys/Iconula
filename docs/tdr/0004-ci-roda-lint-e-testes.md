@@ -21,7 +21,7 @@
   só um comentário no `.oxlintrc.json`.
 - **Reproduz a ilusão de controle do `build_and_preview`.** Esse job é o
   required status check da branch (ver
-  [ADR 0004](../adr/0004-branch-protection-preview-required.md)); a
+  [DDR 0005](../devops-dr/0005-protecao-da-branch-main.md)); a
   expectativa razoável é que "o check passou" signifique "o código está
   saudável". Hoje significa só "compilou". Um controle que promete mais
   do que entrega é pior que a ausência dele, porque desloca a atenção de

@@ -19,7 +19,7 @@
   - custo de adicionar é baixo (um bloco de JSON, sem build adicional);
   - a CSP torna sobrevivível um eventual bug de injeção via
     `dangerouslySetInnerHTML` em `TeamButton.jsx` (ver
-    [ADR 0002](../adr/0002-bandeiras-emoji-unicode.md)) — sem CSP, a
+    [ADR 0006](../adr/0006-bandeiras-emoji-unicode.md)) — sem CSP, a
     primeira falha de sanitização seria a única defesa;
   - headers de segurança costumam ser adicionados só depois que o app
     cresce, quando já é tarde para fazer "de graça".
@@ -30,7 +30,7 @@ Adicionar `hosting.headers` ao `firebase.json`:
 
 - `Content-Security-Policy`: `default-src 'self'`, com concessões
   pontuais — `img-src` inclui `https://cdn.jsdelivr.net` (Twemoji, ver
-  ADR 0002) e `data:`; `script-src`/`style-src`/`font-src`/`connect-src`
+     ADR 0006) e `data:`; `script-src`/`style-src`/`font-src`/`connect-src`
   restritos a `'self'`; `object-src 'none'`, `base-uri 'none'`,
   `form-action 'none'`, `frame-ancestors 'none'`.
 - `X-Content-Type-Options: nosniff`.
@@ -59,7 +59,7 @@ Adicionar `hosting.headers` ao `firebase.json`:
 ## Consequências
 
 - **Atualização**: as bandeiras Twemoji foram vendorizadas em
-  `src/assets/flags/` (ver [ADR 0002](../adr/0002-bandeiras-emoji-unicode.md)),
+  `src/assets/flags/` (ver [ADR 0006](../adr/0006-bandeiras-emoji-unicode.md)),
   então `img-src` já foi restrita a `'self' data:'` — a CSP está
   completamente fechada, sem dependência de CDN externo.
 - Qualquer novo componente que precise de `style` inline ou de

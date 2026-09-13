@@ -17,8 +17,8 @@ A CSP em vigor (`docs/tdr/0005-csp-firebase-auth-google-oauth.md`) tem
 `style-src 'self'` e `font-src 'self'`, sem exceção para
 `fonts.googleapis.com` nem `fonts.gstatic.com` — essas origens foram
 removidas de propósito quando o FirebaseUI saiu
-(`docs/adr/0005-login-google-sdk-modular.md` § Consequências). O
-[ADR 0005](../adr/0005-login-google-sdk-modular.md) estabeleceu como
+(`docs/adr/0004-login-google-sdk-modular.md` § Consequências). O
+[ADR 0004](../adr/0004-login-google-sdk-modular.md) estabeleceu como
 propriedade do projeto o "fim das requisições a terceiros em runtime":
 nenhum visitante entrega IP ou User-Agent a CDN externo, inclusive quem
 nunca faz login.
@@ -47,7 +47,7 @@ demais subsets (devanagari, etc.) ficaram de fora — o app não os usa.
   materialmente o tamanho do bundle de produção.
 - **Propriedade preservada**: visitante nenhum entrega IP ou User-Agent
   ao Google Fonts — mesma propriedade que o
-  [ADR 0002](../adr/0002-bandeiras-emoji-unicode.md) estabeleceu para
+  [ADR 0006](../adr/0006-bandeiras-emoji-unicode.md) estabeleceu para
   os SVGs de bandeira.
 - Se no futuro o app precisar de pesos ou famílias tipográficas
   adicionais, a regra é a mesma: vendorizar em `src/assets/fonts/`,
@@ -57,7 +57,7 @@ demais subsets (devanagari, etc.) ficaram de fora — o app não os usa.
 
 - **Poppins via Google Fonts CDN (`fonts.googleapis.com` + `fonts.gstatic.com`)**:
   rejeitado — exigiria reabrir `font-src` e `style-src` na CSP,
-  revertendo decisão do ADR 0005 e do DDR 0001, e entregaria IP e
+  revertendo decisão do ADR 0004 e do DDR 0001, e entregaria IP e
   User-Agent de todo visitante ao Google.
 - **Trocar Poppins por `system-ui`**: rejeitado — `docs/interface.md`
   especifica Poppins 600/700 no título, códigos e nomes de seção; a
