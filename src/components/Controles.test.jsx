@@ -286,4 +286,24 @@ describe('Controles', () => {
     await user.click(screen.getByRole('button', { name: /menu de ações/ }));
     expect(screen.getByRole('menuitem', { name: 'Importar coleção (JSON)' })).toBeDisabled();
   });
+
+  it('dá a cada opção dos três grupos um tooltip igual ao nome acessível', () => {
+    const { container } = render(
+      <Controles
+        ordenacao="pagina"
+        onTrocarOrdenacao={vi.fn()}
+        disposicao="lista"
+        onTrocarDisposicao={vi.fn()}
+        filtro="todas"
+        onTrocarFiltro={vi.fn()}
+      />
+    );
+
+    const opcoes = container.querySelectorAll('.controles__opcao');
+    expect(opcoes).toHaveLength(8);
+
+    for (const opcao of opcoes) {
+      expect(opcao).toHaveAttribute('data-tooltip', opcao.getAttribute('aria-label'));
+    }
+  });
 });

@@ -3,7 +3,7 @@
 # Tarefa [0011-0002]: tooltip nas opções de controle
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Ao passar o mouse ou levar o foco de teclado a qualquer opção dos três grupos

@@ -74,6 +74,11 @@ demonstrar avisos) é andaime da prévia, não faz parte do produto.*
   grupos caberem numa linha de celular, que com o quarto segmento do
   filtro passa a depender da quebra descrita abaixo; a forma por extenso
   vive só no nome acessível, como manda a notação compacta do IDR 0018
+- Cada opção mostra, abaixo dela, o próprio nome por extenso como tooltip
+  visual — no hover depois de ~400ms e na hora no foco por teclado
+  (`:focus-visible`); em toque, não; nas pontas de cada grupo, alinhado à
+  borda do grupo para não estourar a viewport (ver
+  [IDR 0048](idr/0048-contorno-e-tooltip-nos-grupos-de-controles.md))
 - Os grupos segmentados fluem da esquerda para a direita e quebram para
   a linha seguinte quando não cabem na largura; os dois botões de
   comando ficam sempre colados à direita, separados dos alternadores

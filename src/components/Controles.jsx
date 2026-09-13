@@ -102,6 +102,7 @@ export function Controles({
               className={`controles__opcao${ativa ? ' controles__opcao--ativa' : ''}`}
               aria-pressed={ativa}
               aria-label={opcao.nomeAcessivel}
+              data-tooltip={opcao.nomeAcessivel}
               onClick={() => onTrocarOrdenacao(opcao.valor)}
             >
               {opcao.rotulo}
@@ -120,6 +121,7 @@ export function Controles({
                 className={`controles__opcao${ativa ? ' controles__opcao--ativa' : ''}`}
                 aria-pressed={ativa}
                 aria-label={opcao.nomeAcessivel}
+                data-tooltip={opcao.nomeAcessivel}
                 onClick={() => onTrocarDisposicao(opcao.valor)}
               >
                 {opcao.rotulo}
@@ -139,6 +141,7 @@ export function Controles({
                 className={`controles__opcao${ativa ? ' controles__opcao--ativa' : ''}`}
                 aria-pressed={ativa}
                 aria-label={opcao.nomeAcessivel}
+                data-tooltip={opcao.nomeAcessivel}
                 onClick={() => onTrocarFiltro(opcao.valor)}
               >
                 {opcao.rotulo}
