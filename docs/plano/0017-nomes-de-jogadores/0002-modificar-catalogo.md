@@ -36,12 +36,11 @@ refletir a nova forma do dado na documentação de modelo no mesmo commit.
   `docs/model-dr/0002-schema-do-documento-da-colecao.md`
 
 ## Escopo e instruções de implementação
-1. Criar em `catalogo.js` a função auxiliar `obterNomeFigurinha(sigla, posicao)`
-   conforme o MDR 0008: FWC indexa a partir de zero (`FWC00` →
-   `jogadoresFWC[0]`); COC a partir de um; seleções com 01 = "Escudo do time",
-   13 = "Foto do time", 02–12 = jogadores 1–11 (`posicao - 2`) e 14–20 =
-   jogadores 12–18 (`posicao - 3`).
-2. `expandirFigurinhas` passa a emitir `nome: obterNomeFigurinha(secao.sigla, posicao)`.
+1. Derivar em `catalogo.js` o nome de cada figurinha a partir de
+   `jogadores.js`, conforme o mapeamento de posições do MDR 0008 (posições
+   fixas 01 e 13; jogadores 1–11 e 12–18; FWC a partir de zero, COC a partir
+   de um).
+2. `expandirFigurinhas` passa a emitir `nome` para cada figurinha.
 3. Testes em `catalogo.test.js`: 989 figurinhas com `nome` não vazio e
    PAR16–PAR20 com `null` declarado (lacuna do MDR 0008); `BRA01` "Escudo do
    time" e `BRA13` "Foto do time"; `FWC00` e `COC01` com os nomes da fonte;

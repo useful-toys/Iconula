@@ -37,8 +37,9 @@ que a opção faz, reaproveitando o texto que já existe como `aria-label`.
 
 ## Escopo e instruções de implementação
 1. Registrar a técnica do tooltip num IDR (ver "Decisões em aberto").
-2. Em `Controles.jsx`, acrescentar `data-tooltip={opcao.nomeAcessivel}` a cada
-   botão dos três grupos, reaproveitando os arrays existentes.
+2. Em `Controles.jsx`, acrescentar a cada botão dos três grupos o atributo
+   `data-tooltip`, com o `nomeAcessivel` da opção como valor, reaproveitando
+   os arrays existentes.
 3. Em `Controles.css`, implementar o tooltip: acima do botão, oculto por padrão
    (`opacity: 0`/`visibility: hidden`), revelado em `:hover`/`:focus-visible`,
    com transição curta para não piscar ao passar o mouse de raspão.
