@@ -42,10 +42,17 @@ Configuração de segurança ativa no repositório público (gratuita), em
 | Dependabot security updates | `enabled` | `PUT /repos/.../automated-security-fixes` |
 | Secret scanning validity checks | `disabled` | **não habilitável** — requer GitHub Advanced Security (plano Team/Enterprise); PATCH retorna 200 mas o campo não muda |
 | Secret scanning non-provider patterns | `disabled` | **não habilitável** — idem, requer GitHub Advanced Security |
+| CodeQL code scanning | `configured` | Default setup em *Settings → Code security* (Actions + JavaScript/TypeScript; PR, push e varredura semanal) |
 
 O essencial (secret scanning + push protection) cobre o risco do
 `key.json` mencionado em [docs/setup-gcloud.md](setup-gcloud.md): push protection
 bloqueia o push de um segredo detectado, mesmo num commit acidental.
+
+O **CodeQL** roda em *default setup*: não é um arquivo em
+`.github/workflows/`, e sim um workflow dinâmico gerenciado pelo GitHub.
+Os alertas ficam em *Security → Code scanning* e a configuração
+(linguagens, agendamento) em *Settings → Code security*. Ver
+[DDR 0006](devops-dr/0006-ferramentas-de-seguranca-do-repositorio.md).
 
 Conferir o estado atual:
 
@@ -110,9 +117,11 @@ bloco `env:` antes do `npm run build`.
 
 ## Workflows (GitHub Actions)
 
-Dois arquivos em `.github/workflows/`, no formato que o
+Os dois workflows de deploy (`firebase-hosting-merge.yml` e
+`firebase-hosting-pull-request.yml`) seguem o formato que o
 `firebase init hosting:github` normalmente geraria (escritos manualmente
-aqui pelo motivo explicado acima):
+aqui pelo motivo explicado acima); `ci.yml` é um terceiro arquivo,
+adicionado para lint e testes (ver abaixo).
 
 ### `firebase-hosting-merge.yml`
 
