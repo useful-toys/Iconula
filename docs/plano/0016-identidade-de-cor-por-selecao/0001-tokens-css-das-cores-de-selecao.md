@@ -1,92 +1,63 @@
 <!-- Copyright (c) 2026 Daniel Felix Ferber -->
 
-# Tarefa 0016-0001: Tokens CSS das cores de seleção
+# Tarefa [0016-0001]: tokens CSS das cores de seleção
 
 ## Status
 Pendente
 
 ## Objetivo
-Criar 50 tokens CSS em `theme.css` para as cores individuais das 48 seleções e dos 2 especiais (FWC e COC), convertidos para OKLCH.
+Criar em `theme.css` os tokens das cores individuais das 48 seleções e dos
+dois especiais — base da Tarefa 0002 —, convertendo o hex do IDR 0046 para
+OKLCH com contraste ajustado ao tema escuro.
 
 ## Documentos de referência
-- `src/theme.css` — tokens existentes da paleta (OKLCH)
-- `docs/interface.md` § Identidade visual — paleta e tokens
-- Tabela de cores fornecida pelo humano (48 seleções + FWC + COC)
+- `docs/idr/0046-cores-de-selecoes.md` § Decisão — a tabela hex das 48
+  seleções e a hierarquia com o IDR 0045 (FWC `--gold`, COC `--notif-red`)
+- `docs/idr/0042-foco-visivel-e-area-de-toque.md` § Decisão — contraste mínimo
+  de 3:1 para elementos não textuais
+- `src/theme.css` — tokens existentes em OKLCH, incluindo os de grupo da
+  Tarefa 0015-0001
+- `docs/interface.md` § Identidade visual — onde os tokens passam a ser
+  descritos
 
 ## Padrões e convenções aplicáveis
-- Tokens em OKLCH, seguindo o padrão dos existentes (`--turf`, `--gold`, etc.)
-- Cabeçalho de copyright no arquivo (`AGENTS.md` § Convenções)
+- Tokens em OKLCH, como os existentes — `src/theme.css`
+- FWC e COC são alias, não cores novas: `--selection-fwc: var(--gold)` e
+  `--selection-coc: var(--notif-red)` — IDR 0045 § Especiais
+- Contraste ≥ 3:1 (não textual) da cor aplicada contra o fundo do cabeçalho
+  de seção — IDR 0042; medir e registrar a medição
+- Seleções vizinhas na mesma ordenação continuam distinguíveis entre si
 
 ## Escopo e instruções de implementação
-1. Adicionar 50 tokens de cor em `src/theme.css`, agrupados sob comentário "Cores de seleção":
-   - `--selection-alg` a `--selection-uzb` (48 seleções, em ordem alfabética pela sigla)
-   - `--selection-fwc` (Extras FIFA — reaproveitar `var(--gold)`)
-   - `--selection-coc` (Coca-Cola — vermelho característico)
-2. Converter as cores hex fornecidas para OKLCH:
-   - ALG: `#3FA65A` → `oklch(0.65 0.15 145)`
-   - ARG: `#4A6FA5` → `oklch(0.52 0.12 255)`
-   - AUS: `#3D6FB0` → `oklch(0.51 0.13 255)`
-   - AUT: `#D2603A` → `oklch(0.58 0.18 35)`
-   - BEL: `#D2402E` → `oklch(0.55 0.20 25)`
-   - BIH: `#3B6EA5` → `oklch(0.51 0.12 255)`
-   - BRA: `#3FA65A` → `oklch(0.65 0.15 145)`
-   - CAN: `#E8836B` → `oklch(0.65 0.14 35)`
-   - CIV: `#3A9A5C` → `oklch(0.62 0.14 145)`
-   - COD: `#4A6FA5` → `oklch(0.52 0.12 255)`
-   - COL: `#D89A3E` → `oklch(0.68 0.14 75)`
-   - CPV: `#6B7FB5` → `oklch(0.58 0.10 265)`
-   - CRO: `#D2603A` → `oklch(0.58 0.18 35)`
-   - CUW: `#3A6EA8` → `oklch(0.51 0.13 255)`
-   - CZE: `#5B7FA6` → `oklch(0.57 0.10 255)`
-   - ECU: `#C8862E` → `oklch(0.62 0.14 65)`
-   - EGY: `#D89A3E` → `oklch(0.68 0.14 75)`
-   - ENG: `#D2402E` → `oklch(0.55 0.20 25)`
-   - ESP: `#D2603A` → `oklch(0.58 0.18 35)`
-   - FRA: `#6B7FB5` → `oklch(0.58 0.10 265)`
-   - GER: `#D2402E` → `oklch(0.55 0.20 25)`
-   - GHA: `#D89A3E` → `oklch(0.68 0.14 75)`
-   - HAI: `#3D5FA0` → `oklch(0.47 0.14 265)`
-   - IRN: `#3FA65A` → `oklch(0.65 0.15 145)`
-   - IRQ: `#D2603A` → `oklch(0.58 0.18 35)`
-   - JOR: `#3FA65A` → `oklch(0.65 0.15 145)`
-   - JPN: `#D2603A` → `oklch(0.58 0.18 35)`
-   - KOR: `#2E5FA3` → `oklch(0.47 0.15 260)`
-   - KSA: `#4A9A3A` → `oklch(0.62 0.16 130)`
-   - MAR: `#C05A3A` → `oklch(0.55 0.16 35)`
-   - MEX: `#3FA65A` → `oklch(0.65 0.15 145)`
-   - NED: `#6B7FB5` → `oklch(0.58 0.10 265)`
-   - NOR: `#6B7FB5` → `oklch(0.58 0.10 265)`
-   - NZL: `#3D6FB0` → `oklch(0.51 0.13 255)`
-   - PAN: `#D2402E` → `oklch(0.55 0.20 25)`
-   - PAR: `#D2603A` → `oklch(0.58 0.18 35)`
-   - POR: `#3FA65A` → `oklch(0.65 0.15 145)`
-   - QAT: `#C97A85` → `oklch(0.60 0.10 5)`
-   - RSA: `#F4941F` → `oklch(0.70 0.17 65)`
-   - SCO: `#2E8FA5` → `oklch(0.60 0.12 210)`
-   - SEN: `#E8942A` → `oklch(0.70 0.16 65)`
-   - SUI: `#C8792A` → `oklch(0.60 0.15 55)`
-   - SWE: `#4A6FA5` → `oklch(0.52 0.12 255)`
-   - TUN: `#D2603A` → `oklch(0.58 0.18 35)`
-   - TUR: `#E05A4E` → `oklch(0.58 0.19 25)`
-   - URU: `#4A6FA5` → `oklch(0.52 0.12 255)`
-   - USA: `#4A6FA5` → `oklch(0.52 0.12 255)`
-   - UZB: `#3D8FA5` → `oklch(0.60 0.12 215)`
-   - FWC: `var(--gold)`
-   - COC: `oklch(0.58 0.22 29)` (vermelho Coca-Cola)
-3. Ajustar luminosidade se necessário para contraste mínimo 4.5:1 sobre `--panel`
+1. Converter os 48 hex do IDR 0046 para OKLCH com conversor de verdade — os
+   valores são recalculados na execução, não copiados de cabeça — ajustando a
+   luminosidade quando o contraste sobre o tema escuro pedir.
+2. Acrescentar em `src/theme.css`, sob comentário "Cores de seleção": os 48
+   tokens `--selection-alg`…`--selection-uzb` e os alias `--selection-fwc` e
+   `--selection-coc`.
+3. Medir o contraste de cada cor contra o fundo do cabeçalho de seção
+   (`--panel`) e registrar a medição no log.
+4. Descrever os tokens em `docs/interface.md` § Identidade visual, citando o
+   IDR 0046.
 
-**Fora do escopo**: aplicar as cores nos componentes (coberto pela tarefa 0002).
+**Fora do escopo**: aplicar as cores no cabeçalho (Tarefa 0002); cores de
+grupo (Tarefa 0015-0001).
 
 ## Decisões já tomadas (não reabrir)
-- Tema escuro único — ver [IDR 0022](../../idr/0022-tema-escuro-unico-paleta-do-prototipo.md)
-- FWC abre e COC fecha o catálogo — ver [IDR 0028](../../idr/0028-fwc-abre-e-coca-cola-fecha-o-catalogo.md)
+- A cor de cada seleção e a hierarquia (grupo no título/faixa, seleção no
+  cabeçalho de seção) — ver `docs/idr/0046-cores-de-selecoes.md` e
+  `docs/idr/0045-cores-de-super-grupos.md`
+- Tema escuro único — ver
+  `docs/idr/0022-tema-escuro-unico-paleta-do-prototipo.md`
 
 ## Arquivos impactados
-- `src/theme.css` — modificar (adicionar tokens de cores de seleção)
+- `src/theme.css` — modificar
+- `docs/interface.md` — modificar (§ Identidade visual)
 
 ## Critérios de aceite
-- [ ] 50 tokens de cor criados em `theme.css`
-- [ ] Cores convertidas para OKLCH mantendo identidade visual
-- [ ] `npm run lint` verde
-- [ ] `npm run test` verde
-- [ ] `npm run build` verde
+- [ ] 50 tokens em `theme.css`: 48 cores de seleção + `--selection-fwc` e
+      `--selection-coc` como alias de `--gold` e `--notif-red`
+- [ ] Conversões OKLCH recalculadas dos hex do IDR 0046
+- [ ] Contraste ≥ 3:1 medido e registrado no log
+- [ ] `docs/interface.md` § Identidade visual descreve os tokens citando o
+      IDR 0046

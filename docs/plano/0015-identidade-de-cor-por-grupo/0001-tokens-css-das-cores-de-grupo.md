@@ -1,55 +1,62 @@
 <!-- Copyright (c) 2026 Daniel Felix Ferber -->
 
-# Tarefa 0015-0001: Tokens CSS das cores de grupo
+# Tarefa [0015-0001]: tokens CSS das cores de grupo
 
 ## Status
 Pendente
 
 ## Objetivo
-Criar 14 tokens CSS em `theme.css` para as cores dos 12 grupos da Copa (A–L) e dos 2 especiais (FWC dourado, COC vermelho Coca-Cola), convertidos para OKLCH com ajuste de contraste para o tema escuro.
+Criar em `theme.css` os tokens das cores de identidade dos 12 grupos da Copa
+(A–L) e dos dois especiais — base das Tarefas 0002 e 0003 —, convertendo o hex
+do IDR 0045 para OKLCH com contraste ajustado ao tema escuro.
 
 ## Documentos de referência
-- `src/theme.css` — tokens existentes da paleta (OKLCH)
-- `docs/interface.md` § Identidade visual — paleta e tokens
+- `docs/idr/0045-cores-de-super-grupos.md` § Decisão — a tabela hex dos 12
+  grupos e os especiais: FWC dourado (`--gold`), COC vermelho (`--notif-red`)
+- `docs/idr/0042-foco-visivel-e-area-de-toque.md` § Decisão — contraste mínimo
+  de 3:1 para elementos não textuais
+- `src/theme.css` — tokens existentes em OKLCH, incluindo `--gold` e
+  `--notif-red`
+- `docs/interface.md` § Identidade visual — onde os tokens passam a ser
+  descritos
 
 ## Padrões e convenções aplicáveis
-- Tokens em OKLCH, seguindo o padrão dos existentes (`--turf`, `--gold`, etc.)
-- Cabeçalho de copyright no arquivo (`AGENTS.md` § Convenções)
+- Tokens em OKLCH, como os existentes (`--turf`, `--gold`) — `src/theme.css`
+- FWC e COC são alias, não cores novas: `--group-fwc: var(--gold)` e
+  `--group-coc: var(--notif-red)` — IDR 0045 § Especiais
+- Contraste ≥ 3:1 (não textual) da cor aplicada contra a superfície onde
+  assenta — IDR 0042; medir e registrar a medição
+- Cabeçalho de copyright mantido no arquivo — `AGENTS.md` § Convenções
 
 ## Escopo e instruções de implementação
-1. Adicionar 14 tokens de cor em `src/theme.css`, agrupados sob comentário "Cores de grupo":
-   - `--group-a` a `--group-l` (12 grupos da Copa)
-   - `--group-fwc` (Extras FIFA — dourado, reaproveitar `var(--gold)`)
-   - `--group-coc` (Coca-Cola — vermelho característico)
-2. Converter as cores hex propostas para OKLCH:
-   - A (Verde): `#4CAF50` → `oklch(0.65 0.17 142)`
-   - B (Vermelho): `#E53935` → `oklch(0.58 0.22 29)`
-   - C (Verde-limão): `#C0CA33` → `oklch(0.72 0.16 95)`
-   - D (Azul-índigo): `#3F51B5` → `oklch(0.45 0.17 275)`
-   - E (Laranja): `#F4511E` → `oklch(0.62 0.20 35)`
-   - F (Verde-azulado): `#00695C` → `oklch(0.50 0.12 195)`
-   - G (Lilás): `#B39DDB` → `oklch(0.70 0.12 295)`
-   - H (Azul-petróleo): `#26A69A` → `oklch(0.65 0.13 185)`
-   - I (Roxo): `#6A1B9A` → `oklch(0.52 0.20 305)`
-   - J (Salmão): `#E8B4A8` → `oklch(0.75 0.10 25)`
-   - K (Rosa): `#EC407A` → `oklch(0.63 0.20 355)`
-   - L (Vermelho-vinho): `#8D2E2E` → `oklch(0.48 0.15 25)`
-   - FWC: `var(--gold)`
-   - COC: `oklch(0.58 0.22 29)` (vermelho Coca-Cola)
-3. Ajustar luminosidade se necessário para contraste mínimo 4.5:1 sobre `--panel`
+1. Converter os 12 hex do IDR 0045 para OKLCH com conversor de verdade — os
+   valores são recalculados na execução, não copiados de cabeça — ajustando a
+   luminosidade quando o contraste sobre o tema escuro pedir.
+2. Acrescentar em `src/theme.css`, sob comentário "Cores de grupo": os 12
+   tokens `--group-a`…`--group-l` e os alias `--group-fwc` e `--group-coc`.
+3. Medir o contraste de cada cor contra a superfície de aplicação (título do
+   super-grupo e fundo da faixa de bandeiras) e registrar a medição no log.
+4. Descrever os tokens em `docs/interface.md` § Identidade visual, citando o
+   IDR 0045.
 
-**Fora do escopo**: aplicar as cores nos componentes (coberto pelas tarefas 0002, 0003 e 0004).
+**Fora do escopo**: aplicar as cores em componentes (Tarefas 0002 e 0003);
+cores por seleção (Fase 16).
 
 ## Decisões já tomadas (não reabrir)
-- Tema escuro único — ver [IDR 0022](../../idr/0022-tema-escuro-unico-paleta-do-prototipo.md)
-- FWC abre e COC fecha o catálogo — ver [IDR 0028](../../idr/0028-fwc-abre-e-coca-cola-fecha-o-catalogo.md)
+- As cores de cada grupo e os especiais (FWC `--gold`, COC `--notif-red`) —
+  ver `docs/idr/0045-cores-de-super-grupos.md`
+- Tema escuro único, sem tema claro — ver
+  `docs/idr/0022-tema-escuro-unico-paleta-do-prototipo.md`
 
 ## Arquivos impactados
-- `src/theme.css` — modificar (adicionar tokens de cores de grupo)
+- `src/theme.css` — modificar
+- `docs/interface.md` — modificar (§ Identidade visual)
 
 ## Critérios de aceite
-- [ ] 14 tokens de cor criados em `theme.css`
-- [ ] Cores convertidas para OKLCH mantendo identidade visual
-- [ ] `npm run lint` verde
-- [ ] `npm run test` verde
-- [ ] `npm run build` verde
+- [ ] 14 tokens em `theme.css`: 12 cores próprias + `--group-fwc` e
+      `--group-coc` como alias de `--gold` e `--notif-red`
+- [ ] Conversões OKLCH recalculadas dos hex do IDR 0045, mantendo os 12
+      grupos distinguíveis entre si
+- [ ] Contraste ≥ 3:1 medido e registrado no log
+- [ ] `docs/interface.md` § Identidade visual descreve os tokens citando o
+      IDR 0045

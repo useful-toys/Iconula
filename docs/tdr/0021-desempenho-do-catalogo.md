@@ -137,9 +137,9 @@ virtualização) não foi necessária:
   navegador adia layout/pintura das seções fora da tela, sem tirá-las do
   fluxo normal da página (IDR 0008 preservado).
 - A medição em jsdom não mede o ganho real desta técnica — jsdom não faz
-  layout nem pintura. A adoção segue diretamente a resolução já registrada
-  em `docs/plano/README.md` § "Onde cada pendência foi alocada"
-  ("preferir `content-visibility`... biblioteca só se a medição exigir") e
+  layout nem pintura. A adoção segue diretamente a resolução tomada no
+  planejamento da Fase 10 ("preferir `content-visibility` por seção, que
+  não cria contêiner rolável; biblioteca só se a medição exigir") e
   a própria ordenação de custo desta tarefa: é uma dica de CSS, zero JS,
   suporte nos quatro navegadores evergreen alvo
   (`docs/requisitos.md` § Navegadores) via a especificação de CSS
