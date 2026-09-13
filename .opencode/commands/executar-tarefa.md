@@ -82,8 +82,11 @@ durante toda a execução.
    Não reabra "Decisões já tomadas". Conflito com a fonte de "Padrões" → a
    fonte vence; anote no log.
 3. Crie ou ajuste os testes que cobrem o comportamento.
-4. Decisões: lista mantida durante a execução, cada uma registrada na hora
-   (guia § Registro de decisões).
+4. Decisões da execução (guia § Registro de decisões › Quem registra):
+   registre na hora só as de nível 1 e 2 que tomar e as de nível 3 ou pontos
+   de decisão respondidos pelo humano. Decisão significativa sem registro do
+   planejamento → condição 11. Decisões já registradas no planejamento são
+   implementadas, não reabertas.
 5. `docs/*.md` no estado atual, com lastro (guia § Documentação viva).
 6. Setup: só o previsto, cada passo no log na hora (guia § Setup).
 7. Comando que exige aprovação → condição 11; modo delegado só executa com

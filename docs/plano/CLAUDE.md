@@ -9,7 +9,7 @@ remetem a este guia; em conflito, **o guia vence** e o comando é corrigido.
 
 | Comando | Faz |
 |---|---|
-| `/planejar <pedido>` | verifica se o pedido é novo, propõe tarefas em fases existentes ou novas, grava numa branch `docs` e abre PR |
+| `/planejar <pedido>` | verifica se o pedido é novo, propõe tarefas e decisões significativas, registra as decisões confirmadas, grava numa branch `docs` e abre PR |
 | `/executar-plano NNNN` | executa as tarefas pendentes de uma fase, uma por subagente, entrega num PR e acompanha CI e preview |
 | `/executar-tarefa NNNN-XXXX` | discovery, plano da alteração, implementação e um commit de estado válido |
 
@@ -118,7 +118,7 @@ estar escrito nela:
 | Regras gerais | lista acima | Regras que valem em toda tarefa |
 | Discovery e plano | antes de qualquer edição; sem aprovação, salvo nível 3 | Discovery e plano da alteração |
 | Impedimentos | três níveis; só o nível 3 exige aprovação explícita | Impedimentos |
-| Decisões | registradas na hora; mudança de decisão só se prevista | Registro de decisões |
+| Decisões | significativas já registradas no planejamento; a execução registra só níveis 1 e 2 e nível 3 respondido | Registro de decisões |
 | Documentação | `docs/*.md` no estado atual, com lastro em registro | Documentação viva |
 | Setup | só o previsto, cada comando registrado no log, sem segredos | Setup de infraestrutura e ambiente |
 | Validação | lint, test, build; `test:rules` se tocou regras | Regras que valem em toda tarefa |
@@ -184,8 +184,10 @@ A matriz vale sempre; "Impedimentos específicos" da tarefa só acrescenta.
 
 Nível 3:
 - contradiz `docs/requisitos.md` ou exigiria alterá-lo;
+- decisão significativa (§ Registro de decisões) que não foi registrada no
+  planejamento;
 - decisão da execução altera, reverte ou substitui decisão documentada
-  vigente (inclusive alternativa recusada) **sem previsão na tarefa**;
+  vigente (inclusive alternativa recusada) que o planejamento não atualizou;
 - setup não previsto na tarefa;
 - comando de configuração pública ou de conta (provedor de login, authorized
   domains, DNS, branch protection, secrets, IAM), com custo em cota/plano ou
@@ -232,10 +234,47 @@ dúvida, nível 3.
 ## Registro de decisões
 
 Decisão = escolha que outra pessoa poderia fazer diferente e que não está na
-tarefa nem num registro vigente: resolver "Decisão em aberto"; escolher
+tarefa nem num registro vigente.
+
+### Quem registra
+
+Decisão confirmada é registrada **no momento da confirmação** — não é
+repassada a uma tarefa para ser "decidida" de novo.
+
+| Decisão | Exemplos | Quando é confirmada | Quem registra |
+|---|---|---|---|
+| **Significativa** | arquitetura ou tecnologia; interface visível relevante (layout, interação, navegação); schema ou formato de dados; CI/CD e deploy; qualquer mudança em decisão documentada | na aprovação do mapa de fases | `/planejar`, no PR do plano |
+| Significativa que depende de evidência da execução | medição de largura, altura ou desempenho que decide entre alternativas | quando o humano responde ao ponto de parada | `/executar-tarefa`, citando a resposta |
+| Nível 3 surgida na execução | § Impedimentos | quando o humano responde | `/executar-tarefa`, citando a resposta |
+| Nível 1 | estrutura de dado, nome de módulo, API interna, contorno de bug ou limitação | na execução | `/executar-tarefa` |
+| Nível 2 | premissa conservadora num detalhe visível não previsto | na execução | `/executar-tarefa`, sinalizada no relatório |
+
+### Decisões no planejamento
+
+- O mapa de fases propõe cada decisão significativa: tipo, registro a criar ou
+  atualizar (com o trecho que muda), decisão, alternativas com prós e contras
+  e tarefa que a implementa. O humano confirma no mesmo passo.
+- Confirmada → o `/planejar` cria ou atualiza o registro e a linha do índice,
+  no commit do plano. Em "Consequências", cita a fase e a tarefa que a
+  implementam. Mudança em decisão vigente atualiza o próprio registro, com a
+  anterior em `## Histórico` e a nota "implementação na Fase NNNN".
+- Até a entrega da fase, código e `docs/*.md` seguem o estado anterior; a
+  tarefa implementa a decisão e atualiza os `docs/*.md`.
+- Decisão significativa que só a execução pode resolver (depende de medição)
+  entra na tarefa como ponto de parada em "Impedimentos específicos", com a
+  pergunta e as alternativas já descritas; nunca como "decisão em aberto"
+  para a tarefa resolver sozinha.
+
+### Decisões na execução
+
+A tarefa registra só: decisões de nível 1 e 2 que tomou, e decisões de nível 3
+ou pontos de parada respondidos pelo humano. Qualquer decisão significativa
+sem registro do planejamento é nível 3. Exemplos de nível 1: escolher
 estrutura de dado, nome de módulo, API interna ou biblioteca; contornar bug ou
-limitação (descoberta no Contexto); interpretar ambiguidade; desviar da tarefa
-por causa do código atual.
+limitação (descoberta no Contexto); interpretar ambiguidade menor; desviar da
+tarefa por causa do código atual sem mudar o resultado.
+
+### Como registrar
 
 | Tipo | Pasta | Guia (ler pelo caminho) | Para decisões de |
 |---|---|---|---|
@@ -249,10 +288,11 @@ por causa do código atual.
 - Registre no momento da decisão: estrutura e estilo do guia, linha no índice
   `docs/<tipo>/README.md`, mesmo commit.
 - Número = último da pasta + 1, descoberto na hora; colisão com outra branch é
-  resolvida pelo `/executar-plano` antes do PR.
-- Decisão que altera, reverte ou substitui uma vigente só segue se a tarefa a
-  prevê; senão, nível 3.
-- Mudança prevista atualiza o **próprio registro** (anterior em
+  resolvida antes do PR (§ Convenções de Git › Renumeração), tanto no PR do
+  plano quanto no PR da fase.
+- Decisão que altera, reverte ou substitui uma vigente só segue se o
+  planejamento já atualizou o registro; senão, nível 3.
+- Mudança em decisão vigente atualiza o **próprio registro** (anterior em
   `## Histórico`), nunca registro novo "substituído por".
 - Sem registro só o puramente estético ou já decidido, com o motivo no log.
 
@@ -272,12 +312,33 @@ commit.
 | `docs/setup-*.md` | configuração real de Firebase, Google Cloud, GitHub, DNS | DDR ou ADR |
 
 1. Toda alteração tem registro que a lastreia: existe e está certo → cite;
-   não existe → crie antes; existe e é contrariado → só com previsão na tarefa.
+   não existe → só pode ser criado pela tarefa se for decisão de nível 1 ou 2
+   (§ Registro de decisões › Quem registra), senão nível 3; existe e é
+   contrariado → só se o planejamento já atualizou o registro.
    Correção redacional (digitação, link) dispensa registro.
 2. `docs/requisitos.md` não é alterado por tarefa.
 3. `docs/setup-*.md` só muda com passos de setup no escopo.
 4. Divergência antiga fora do que a tarefa toca vai para `observacoes` do
    relatório, não é corrigida.
+
+### Especificação no planejamento
+
+O `/planejar` **só produz documentação de planejamento**:
+- arquivos de tarefa e `docs/plano/README.md`;
+- registros de decisão confirmados e seus índices (§ Registro de decisões ›
+  Decisões no planejamento).
+
+Nunca cria, altera ou remove código-fonte, testes, estilos, configuração,
+`firestore.rules`, workflows, assets nem `docs/*.md`.
+
+- **Mudança de especificação** num `docs/*.md` (interface, arquitetura,
+  modelos, DevOps) é **descrita na tarefa** — documento, seção e o que passa a
+  dizer — e aplicada pela tarefa ao implementar, junto com o código.
+- Se a mudança de especificação é uma **decisão**, o `/planejar` registra a
+  decisão (IDR, TDR, MDR, DDR ou ADR) e a tarefa cita o registro em "Decisões
+  já tomadas".
+- O comportamento desejado é descrito em texto na tarefa; **no máximo
+  pseudocódigo curto**, nunca código pronto para colar.
 
 ## Setup de infraestrutura e ambiente
 
@@ -337,6 +398,25 @@ Usadas quando as skills de Git não estão disponíveis (sempre no OpenCode).
   (só documentação).
 - Nunca merge nem auto-merge.
 
+### Renumeração
+
+Antes do push de qualquer branch que criou registro de decisão (plano ou
+fase), depois de sincronizar com a `main`:
+
+1. Leia o guia de cada pasta envolvida (formato do título, links e índice).
+2. Registros criados na branch:
+   `git diff --name-status --diff-filter=A origin/main...HEAD -- docs/adr docs/tdr docs/idr docs/model-dr docs/devops-dr`
+   (sem `README.md` e `CLAUDE.md`).
+3. Colisão = mesmo número na mesma pasta da `origin/main`.
+4. Novo número = próximo livre após o maior entre `origin/main` e a branch, em
+   ordem de criação: `git mv`; título; links e menções `TIPO NNNN` em todos os
+   arquivos alterados pela branch (tarefas, logs, `docs/*.md`, índice); linha do
+   índice na posição; busca sem referência antiga.
+5. Commit próprio; tabela `antigo → novo` na descrição do PR.
+6. Conflito de sincronização só em `docs/<tipo>/README.md` ou em linhas de
+   tabela de `docs/plano/README.md` → mantenha as linhas dos dois lados, em
+   ordem numérica.
+
 ## Formato da tarefa
 
 Seções com estes nomes, **nesta ordem**; as opcionais são omitidas quando não
@@ -365,16 +445,19 @@ Pendente
 **Fora do escopo**: [o que fica de fora e qual tarefa cobre]
 
 ## Decisões já tomadas (não reabrir)
-- [decisão mantida] — ver `docs/<tipo>/NNNN-slug.md`
+- [decisão vigente mantida] — ver `docs/<tipo>/NNNN-slug.md`
+- [decisão registrada no planejamento, que esta tarefa implementa] — ver
+  `docs/<tipo>/NNNN-slug.md`
 
 ## Decisões em aberto nesta tarefa        (opcional)
-- [pergunta] — encaminhamento; registro: atualiza `docs/<tipo>/NNNN-slug.md` |
-  nasce um [TIPO] sobre [assunto]
-- **Muda decisão documentada**: `docs/<tipo>/NNNN-slug.md` § [trecho] —
-  [o que dizia] → [o que passa a dizer]
+- [questão menor, nível 1 ou 2] — encaminhamento; se virar registro: [TIPO]
+  sobre [assunto]
 
 ## Impedimentos específicos               (opcional)
 - [parada ou premissa própria desta tarefa]
+- **Ponto de decisão**: [decisão significativa que depende de evidência da
+  execução] — medir/verificar [o quê]; alternativas: [A — prós/contras],
+  [B — prós/contras]; registro que nasce ou muda: `docs/<tipo>/...`
 
 ## Arquivos impactados
 - `caminho/arquivo` — criar | modificar | remover
@@ -396,13 +479,18 @@ Pendente
   entram como fatos, não como "conversa".
 - **Padrões**: 3 a 6 regras que esta tarefa pode violar; regra geral do guia
   não entra.
-- **Escopo**: o que mudar (o como é do plano da execução), incluindo os testes;
+- **Escopo**: o que mudar (o como é do plano da execução), em texto — no
+  máximo pseudocódigo curto, nunca código pronto —, incluindo os testes e as
+  mudanças de especificação em `docs/*.md` (documento, seção, o que passa a
+  dizer);
   passos de setup um por item, com ambiente, resultado, comando previsto e se
   é configuração pública. "Fora do escopo" obrigatório.
-- **Decisões já tomadas**: só registros mantidos; o que muda vai para "Muda
-  decisão documentada".
-- **Decisões em aberto**: encaminhamento e destino do registro; registro novo
-  pelo tipo e assunto, sem número.
+- **Decisões já tomadas**: registros vigentes que a tarefa mantém e registros
+  criados ou atualizados pelo planejamento que ela implementa, sempre pelo
+  caminho real.
+- **Decisões em aberto**: só questões menores (nível 1 ou 2), com
+  encaminhamento; decisão significativa nunca fica aqui — ou foi registrada no
+  planejamento, ou é "Ponto de decisão" em "Impedimentos específicos".
 - **Arquivos impactados**: código, testes, `docs/*.md` e registros; nunca
   `docs/requisitos.md`; `docs/setup-*.md` só com setup.
 - **Critérios**: verificáveis por teste, trecho, busca ou verificação visual
@@ -414,10 +502,16 @@ Pendente
 
 - [ ] Seções obrigatórias, nomes exatos, ordem do modelo
 - [ ] Nada repete o comportamento padrão
+- [ ] Nenhum código pronto: comportamento em texto, no máximo pseudocódigo
+      curto
+- [ ] Mudanças de especificação em `docs/*.md` descritas (documento, seção, o
+      que passa a dizer); as que são decisão têm registro citado
 - [ ] Pré-requisitos só entre tarefas anteriores da mesma fase
-- [ ] Nenhum número de registro novo; registros existentes pelo caminho real
-- [ ] Toda mudança de decisão documentada declarada como "Muda decisão
-      documentada"
+- [ ] Registros citados pelo caminho real, inclusive os criados no
+      planejamento
+- [ ] Nenhuma decisão significativa em "Decisões em aberto"; as confirmadas
+      estão registradas e em "Decisões já tomadas"; as que dependem de
+      evidência estão como "Ponto de decisão"
 - [ ] Todo `docs/*.md` impactado com registro de lastro
 - [ ] `docs/requisitos.md` fora; `docs/setup-*.md` só com setup
 - [ ] A tarefa sozinha termina em lint, test e build verdes
