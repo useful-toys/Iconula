@@ -43,7 +43,7 @@ específicas do FirebaseUI, leia como histórico.
   [TDR 0002](0002-headers-de-seguranca-hosting.md)) bloqueia, por
   padrão, tudo que não seja `'self'`. O login com Google via Firebase
   Auth
-  ([ADR 0005](../adr/0005-login-google-sdk-modular.md))
+  ([ADR 0004](../adr/0004-login-google-sdk-modular.md))
   precisa de algumas origens externas específicas.
 - **`npm run dev` (Vite) não valida CSP** — os headers do `firebase.json`
   só existem no Firebase Hosting de verdade (produção ou preview deploy
@@ -119,7 +119,7 @@ Alterações em `hosting.headers` no `firebase.json`:
   seria pego no preview deploy do próprio PR antes do merge). Risco
   aceito conscientemente por não haver alternativa dentro do Firebase
   Auth nativo — ver "Gatilhos de revisão futura" no
-  [ADR 0005](../adr/0005-login-google-sdk-modular.md)
+  [ADR 0004](../adr/0004-login-google-sdk-modular.md)
   para quando reavaliar migrar para Google Identity Services (que não
   depende do gapi/resolver do Firebase).
 
@@ -167,7 +167,7 @@ Alterações em `hosting.headers` no `firebase.json`:
   janela do popup e o handshake não fecha — relaxamento pontual, o
   isolamento continua valendo contra qualquer origem que não seja um
   popup aberto pela própria página.
-- Alternativa não escolhida (registrada no ADR 0005): manter redirect e
+- Alternativa não escolhida (registrada no ADR 0004): manter redirect e
   apontar `VITE_FIREBASE_AUTH_DOMAIN` pro próprio host do app. Funciona
   — o Firebase Hosting serve `/__/auth/handler` e `/__/auth/iframe` em
   todos os hosts do projeto (verificado com `curl` nos três) — mas exige
@@ -191,7 +191,7 @@ Alterações em `hosting.headers` no `firebase.json`:
 - Se o app crescer a ponto de precisar preservar estado através do login
   (rota profunda, formulário em andamento) — ou se o time quiser reduzir
   essa dependência de terceiro — reavaliar migrar para Google Identity
-  Services, ver os gatilhos de revisão documentados no ADR 0005.
+  Services, ver os gatilhos de revisão documentados no ADR 0004.
 - Verificação após deploy (mesmo padrão do TDR 0002):
   `curl -sI https://iconula.web.app` deve trazer a CSP acima; testar o
   login manualmente **completando o fluxo até o fim e conferindo que o

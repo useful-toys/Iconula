@@ -4,7 +4,7 @@
 
 ## Status
 
-**Substituído pelo [DDR 0004](../devops-dr/0004-deploy-e-teste-das-regras-do-firestore.md)**: decisões de CI/CD movidas para DevOps DRs. O desenho da validação do mapa esparso permanece neste TDR (TDR 0009 complementa).
+**Substituído pelo [DDR 0004](../devops-dr/0004-deploy-e-teste-das-regras-do-firestore.md)**: as decisões de deploy e teste das regras foram para DevOps DRs. O desenho da validação do mapa esparso está no [TDR 0009](0009-validacao-do-mapa-nas-regras.md), que complementa este registro.
 
 ## Contexto
 
@@ -36,11 +36,21 @@ nenhuma tem resposta no código cliente:
 match /users/{userId} {
   allow get: if request.auth != null && request.auth.uid == userId;
 
-  allow create, update: if request.auth != null
+  allow create: if request.auth != null
     && request.auth.uid == userId
-    && request.resource.data.keys().hasOnly(["teamName"])
-    && request.resource.data.teamName is string
-    && request.resource.data.teamName.size() <= 64;
+    && request.resource.data.keys().hasOnly(["contagens", "updatedAt", "atestadoEm"])
+    && (!("contagens" in request.resource.data) || (
+      request.resource.data.contagens is map
+      && request.resource.data.contagens.size() <= 994
+      && request.resource.data.contagens.values().hasOnly([1, 2, …, 99])
+      && "updatedAt" in request.resource.data
+    ))
+    && (!("updatedAt" in request.resource.data) || request.resource.data.updatedAt == request.time)
+    && (!("atestadoEm" in request.resource.data) || request.resource.data.atestadoEm is timestamp);
+
+  // `update`: mesmas cláusulas, cada uma perguntando se *esta* operação
+  // escreveu o campo — `"X" in request.resource.data.diff(resource.data).affectedKeys()`.
+  allow update: if … ;
 }
 ```
 
@@ -51,10 +61,19 @@ match /users/{userId} {
   sem depender de a condição por acaso não ser satisfazível numa query.
 - **`create, update`, nunca `delete`.** Apagar o documento não é uma
   operação que o app faça; não autorizá-la é de graça.
-- **Validação de formato na escrita.** O documento é do usuário, mas o
-  armazenamento e a cota são do projeto: sem `hasOnly` + `is string` +
-  `size()`, um usuário autenticado poderia usar o próprio documento como
-  armazenamento livre.
+- **Schema esparso validado.** O documento é do usuário, mas o
+  armazenamento e a cota são do projeto: `hasOnly(["contagens",
+  "updatedAt", "atestadoEm"])` sobre o documento resultante, `contagens`
+  é `map` com `size() <= 994` e `values().hasOnly([1…99])` (o teto de 99
+  é o que torna os valores validáveis — [TDR 0009](0009-validacao-do-mapa-nas-regras.md)),
+  `updatedAt == request.time` e `atestadoEm` timestamp. No `update` com
+  `merge: true`, cada cláusula pergunta se **esta** operação escreveu o
+  campo (`diff(resource.data).affectedKeys()`), porque
+  `request.resource.data` é o documento resultante inteiro.
+- **Guarda de campo ausente.** A atestação cria o documento só com
+  `atestadoEm`: toda cláusula sobre `contagens`/`updatedAt` fica sob
+  `!("…" in request.resource.data)`, senão a regra erra em vez de negar
+  ([TDR 0009](0009-validacao-do-mapa-nas-regras.md)).
 - **Deny-by-default.** Qualquer caminho fora de `users/{userId}` já é
   negado pelo Firestore. Não se acrescenta uma regra `if false`
   catch-all: ela só daria a falsa impressão de que sua ausência abriria o
@@ -64,10 +83,12 @@ match /users/{userId} {
 
 - Regras corretas hoje não são regras corretas amanhã: `firestore.rules.test.js`
   usa `@firebase/rules-unit-testing` contra o emulador do Firestore e
-  cobre o isolamento explicitamente — dono lê o próprio documento;
-  **outro uid é negado**; anônimo é negado; `list` na coleção é negado;
-  campo extra, tipo errado e string longa demais são negados; `delete` é
-  negado.
+  cobre o isolamento e a validação explicitamente — dono lê o próprio
+  documento; **outro uid é negado**; anônimo é negado; `list` na coleção
+  e `delete` são negados; valores fora de 1–99 (`0`, negativo, `100`,
+  não-inteiro, string), campo extra, `updatedAt` forjado, `contagens` sem
+  `updatedAt` e mais de 994 chaves são negados; documento só com
+  `atestadoEm` é aceito.
 
 Detalhes de implementação que importam:
 
@@ -131,10 +152,11 @@ diferentes e devem continuar assim.
   (`firebase deploy --only firestore:rules --project iconula`,
   idempotente e idêntico ao que o CI fará). Quem revisar um PR deste tipo
   precisa saber disso, ou vai concluir que a feature está quebrada.
-- **`hasOnly(["teamName"])` acopla schema a deploy de regras**: um campo
-  novo exige que as regras subam **antes ou junto** com o código que o
-  escreve, nunca depois. Se esse acoplamento incomodar, o caminho é
-  abandonar o `hasOnly` e manter só as checagens de tipo e tamanho.
+- **`hasOnly([...])` sobre os três campos acopla schema a deploy de
+  regras**: um campo novo exige que as regras subam **antes ou junto**
+  com o código que o escreve, nunca depois. Se esse acoplamento
+  incomodar, o caminho é abandonar o `hasOnly` e manter só as checagens
+  de tipo e tamanho.
 - **`npm run test:rules` precisa de Java** (o emulador do Firestore roda
   na JVM). Está disponível no runner `ubuntu-latest` e em máquinas de
   desenvolvimento com JDK; quem não tiver Java verá esse teste falhar por
@@ -171,3 +193,12 @@ diferentes e devem continuar assim.
   erro de sintaxe antes do merge: ideia boa e barata, mas não foi
   incluída porque não ficou verificado se `--dry-run` exige permissão de
   escrita. Fica registrada como próximo passo natural.
+
+## Histórico
+
+- **2026-09-13**: sincronizado com a base de código. O bloco de regras
+  ainda exibia o schema da era do botão (`hasOnly(["teamName"])`);
+  alinhado ao schema esparso em produção — `contagens`/`updatedAt`/
+  `atestadoEm`, com `create` e `update` separados por
+  `diff(resource.data).affectedKeys()`. O Status deixou de afirmar que o
+  desenho da validação "permanece neste TDR": ele está no TDR 0009.

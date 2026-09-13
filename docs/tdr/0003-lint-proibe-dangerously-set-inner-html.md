@@ -14,7 +14,7 @@ Aceito
   React.
 - Correção já aplicada: trocado por um `<img>` React comum, resolvido a
   partir de SVGs vendorizados (ver
-  [ADR 0002](../adr/0002-bandeiras-emoji-unicode.md)).
+  [ADR 0006](../adr/0006-bandeiras-emoji-unicode.md)).
 - Corrigir a ocorrência atual não impede uma futura reintrodução de
   `dangerouslySetInnerHTML` (novo componente, ou `twemoji.parse()`
   reintroduzido para outro problema) — sem barreira automática, é o tipo

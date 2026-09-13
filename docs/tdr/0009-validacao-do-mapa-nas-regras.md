@@ -52,10 +52,12 @@ total que o formato permite.
   só com `atestadoEm`, sem `contagens`. Toda cláusula sobre `contagens`
   fica sob `!("contagens" in request.resource.data) || (…)`, senão a
   regra erra em vez de negar
-- **A allow-list dos 994 códigos entra se couber**: gerar a lista a
-  partir do catálogo, medir o tamanho do ruleset e exercitar no
-  emulador. Se o deploy ou a avaliação esbarrar no limite, ela fica de
-  fora e as chaves seguem só limitadas em quantidade
+- **A allow-list dos 994 códigos ficou de fora**: gerada a partir do
+  catálogo e exercitada no emulador (Tarefa 0005-0002), a cláusula
+  estoura o limite de 1.000 expressões avaliadas por requisição — o
+  segundo dos dois desfechos já previstos aqui. As chaves seguem
+  limitadas só em quantidade (`size() <= 994`), nunca em conteúdo;
+  desfecho registrado em [modelo-firebase.md](../modelo-firebase.md)
 - **Limitação conhecida, registrada de propósito**: mesmo com tudo
   acima, uma requisição forjada com o token do próprio usuário pode
   gastar espaço em **nomes de chave** (o Firestore aceita nome de campo
@@ -73,11 +75,14 @@ total que o formato permite.
   ([IDR 0021](../idr/0021-selo-conta-unidades-sobrando.md)), então o
   limite é invisível
 - `requisitos.md` deixa de dizer "sem teto de contagem"
-- Os testes das regras cobrem: valor 0, negativo, 100, não-inteiro,
-  string; chave fora do catálogo; campo extra; `updatedAt` forjado;
-  documento só com `atestadoEm`; acesso cruzado entre usuários
-- A medição da allow-list é tarefa do PR das regras, não pendência de
-  desenho: os dois desfechos já estão decididos aqui
+- Os testes das regras cobrem: valor 0, negativo, 100, não-inteiro e
+  string; campo extra; `updatedAt` forjado; `contagens` sem `updatedAt`;
+  mais de 994 chaves; documento só com `atestadoEm`; `list` e `delete`;
+  acesso cruzado entre usuários. Chave fora do catálogo continua aceita —
+  sem allow-list, as regras não validam o conteúdo das chaves
+- A medição da allow-list foi feita no PR das regras (Tarefa 0005-0002) e
+  não coube, como o desfecho já previa: as chaves seguem sem validação de
+  conteúdo
 
 ## Alternativas consideradas
 
@@ -94,3 +99,10 @@ total que o formato permite.
   campos de nome conhecido, validação completa e sem enumerar nada — o
   único desenho que fecha o abuso de verdade. Descartado pelo ADR 0005:
   uma escrita por figurinha em vez de uma por agregação
+
+## Histórico
+
+- **2026-09-13**: registrado o desfecho da medição da allow-list (não
+  coube; Tarefa 0005-0002, `modelo-firebase.md`). Antes o texto deixava a
+  decisão em aberto ("entra se couber"), como se ainda dependesse da
+  medição.
