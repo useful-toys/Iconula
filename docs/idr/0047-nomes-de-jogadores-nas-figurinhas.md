@@ -14,20 +14,22 @@ O álbum Panini da Copa 2026 tem 994 figurinhas. Atualmente, o app exibe apenas 
 
 Adicionar o nome do jogador/elemento abaixo do código em cada cartão, com as seguintes regras:
 
-- **Posição**: Nome abaixo do código (sigla + número)
-- **Truncamento**: Ellipsis (...) para nomes longos
-- **Disposições**: Visível em lista e álbum
-- **Acessibilidade**: Nome incluído no aria-label
+- **Posição**: abaixo do código (sigla + número), em duas linhas, em letra pequena — o código continua como está hoje
+- **Jogadores**: primeira linha com os prenomes, em caixa normal; segunda linha com o sobrenome, em caixa alta — transformação apenas visual, o dado mantém a grafia; jogador de nome único exibe só a segunda linha, em caixa alta
+- **Nomes de figurinha** (posições fixas, Extras FIFA, Coca-Cola): sem corte — quebram naturalmente em até duas linhas, em caixa normal
+- **Truncamento**: ellipsis por linha — nomes longos não quebram o layout
+- **Disposições**: visível em lista e álbum
+- **Acessibilidade**: o `aria-label` traz o nome completo, por extenso, em caixa normal
 - **Fonte tipográfica**: `system-ui`, como o restante do texto que não é título, código de cartão ou nome de seção (`docs/interface.md` § Tipografia), em corpo menor que o código
 
-O dado que alimenta o nome (fonte, forma do arquivo, mapeamento de posições, grafia, lacunas e invariantes) é decisão de modelagem — ver [MDR 0008](../model-dr/0008-dados-dos-nomes-das-figurinhas.md).
+O dado que alimenta o nome (fonte, forma do arquivo, corte prenomes/sobrenome, mapeamento de posições, grafia e invariantes) é decisão de modelagem — ver [MDR 0008](../model-dr/0008-dados-dos-nomes-das-figurinhas.md).
 
 ## Consequências
 
 - Identificação visual imediata de cada figurinha
 - Melhora a experiência de usuários iniciantes
-- Aumenta a largura mínima do cartão (nome pode ser mais largo que o código)
-- Nomes longos são truncados, perdendo informação visual (mas acessível via aria-label)
+- Aumenta a altura mínima do cartão (duas linhas de letra pequena abaixo do código)
+- Nomes longos são truncados por linha, perdendo informação visual (mas acessível via aria-label)
 
 ## Alternativas consideradas
 
@@ -35,9 +37,16 @@ O dado que alimenta o nome (fonte, forma do arquivo, mapeamento de posições, g
 - **Nome no lugar do código**: Rejeitado - perde a identificação numérica oficial
 - **Nome apenas na disposição álbum**: Rejeitado - inconsistência entre disposições
 - **Nome completo sem truncamento**: Rejeitado - quebraria o layout em nomes longos
+- **Nome numa linha só, com o sobrenome em caixa alta na mesma linha**: Rejeitado - não cabe em letra pequena legível na largura do cartão
 
 ## Histórico
 
+- 2026-09-13 — Esclarecimento do humano: o nome passa a ocupar duas linhas abaixo
+  do código — prenomes na primeira (caixa normal), sobrenome na segunda (caixa
+  alta); nome único sozinho na segunda linha, em caixa alta; nomes de figurinha
+  quebram naturalmente, em caixa normal. Antes: nome numa linha só, truncado com
+  ellipsis. O corte prenomes/sobrenome exigido pela exibição virou dado, no MDR
+  0008.
 - 2026-09-13 — Segunda revisão do planejamento da Fase 17: as decisões de dado
   (fonte, forma de `jogadores.js`, mapeamento de posições, política de grafia,
   lacuna declarada do Paraguai e invariantes) migram para o MDR 0008 —

@@ -6,9 +6,11 @@
 Pendente
 
 ## Objetivo
-Exibir o nome da figurinha abaixo do código no cartão, incluí-lo no nome
-acessível dos dois botões e fazer `propsEquivalentes` compará-lo — nas duas
-disposições, sem mudar os três estados, o selo `×N` e o controle de menos.
+Exibir o nome da figurinha abaixo do código em duas linhas — prenomes em
+caixa normal, sobrenome em caixa alta; nome único só na segunda linha —,
+incluí-lo no nome acessível dos dois botões e fazer `propsEquivalentes`
+compará-lo — nas duas disposições, sem mudar os três estados, o selo `×N` e
+o controle de menos.
 
 ## Documentos de referência
 - `docs/idr/0047-nomes-de-jogadores-nas-figurinhas.md` § Decisão — nome abaixo
@@ -37,9 +39,9 @@ disposições, sem mudar os três estados, o selo `×N` e o controle de menos.
 ## Escopo e instruções de implementação
 1. Em `Figurinha.jsx`, aceitar a prop `nome = null` e incluí-la em
    `propsEquivalentes`.
-2. Renderizar o nome dentro do corpo do cartão, após o código, oculto para
-   leitor de tela — o `aria-label` continua a única fonte; o estilo é da
-   Tarefa 0004.
+2. Renderizar as duas linhas dentro do corpo do cartão, após o código,
+   ocultas para leitor de tela — o `aria-label` continua a única fonte; nomes
+   de figurinha, sem corte, quebram naturalmente; o estilo é da Tarefa 0004.
 3. O nome entra no `aria-label` do corpo e do controle de menos, entre o
    código e o estado — ex.: "BRA 05, Gabriel Magalhães, faltante" no corpo.
 4. Em `Secao.jsx` e `PaginaDoAlbum.jsx`, passar `nome={figurinha.nome}` ao
@@ -70,7 +72,8 @@ controle de menos; texto de troca e export/import (continuam só com o código).
 - `docs/interface.md` — modificar (§ Figurinha)
 
 ## Critérios de aceite
-- [ ] Nome exibido abaixo do código nas duas variantes quando presente
+- [ ] Nome exibido em duas linhas nas duas variantes: prenomes em caixa
+      normal e sobrenome em caixa alta; nome único só na segunda linha
       (teste)
 - [ ] `aria-label` do corpo e do controle de menos incluem o nome (teste)
 - [ ] Sem `nome`, o cartão e os `aria-label` ficam como hoje (teste)
