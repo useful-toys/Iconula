@@ -41,8 +41,8 @@ Aceito.
 - Armazenamento local ausente ou bloqueado (navegação privada, storage
   desabilitado) não pode quebrar o app: falha de leitura/escrita cai nos
   padrões e segue
-- Padrões de primeira abertura continuam pendentes por faixa de tela
-  (interface.md)
+- Os padrões de primeira abertura por faixa de tela foram decididos
+  pelo [IDR 0043](0043-padroes-de-primeira-abertura-por-faixa-de-tela.md)
 - Um dado local a mais no cliente, além do cache do SDK — sem dado
   pessoal, sem impacto na política de privacidade
 

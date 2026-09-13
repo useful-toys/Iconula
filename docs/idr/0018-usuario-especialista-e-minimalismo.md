@@ -29,8 +29,9 @@ pelo [IDR 0027](0027-relogio-do-titulo-e-o-updatedat-do-documento.md):
   espaço otimizado para o catálogo
 - **Título único, uma linha**: `ICONULA 2026 · 412/994 · 41% · ▢582 ·
   ×37 · 12:34` — nome, coladas/total, percentual, faltantes,
-  repetidas e data/hora da última transação bem-sucedida (leitura ou
-  escrita); **sem barra de progresso, sem cartões**
+  repetidas e data/hora da última **escrita** bem-sucedida (`updatedAt`
+  do documento — [IDR 0027](0027-relogio-do-titulo-e-o-updatedat-do-documento.md));
+  **sem barra de progresso, sem cartões**
 - **Glifos**: `▢` marca faltantes (espaço vazio do álbum — eco do
   reforço vazio-vs-preenchido do cartão); `×` marca repetidas (o mesmo
   × do selinho `×N` do cartão)
@@ -48,8 +49,8 @@ pelo [IDR 0027](0027-relogio-do-titulo-e-o-updatedat-do-documento.md):
   especialista; a linha de título serve de legenda permanente
 - Sem barra de progresso: o percentual (`41%`) cumpre o papel em menos
   espaço
-- A data/hora passou a incluir leitura (carga), não só escrita —
-  "quando meus dados sincronizaram por último"
+- A data/hora reflete só a escrita (`updatedAt`), não a carga —
+  "quando minha coleção foi salva por último"
 - Reforço não-cromático e nomes acessíveis seguem valendo — minimalismo
   visual não é minimalismo de acessibilidade
 

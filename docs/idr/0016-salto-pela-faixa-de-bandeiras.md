@@ -9,8 +9,9 @@ Aceito — resolve a pendência de mecanismo do
 ficaram definidos: 🏆 (Extras FIFA) e 🥤 (Coca-Cola) — ver
 interface.md. Com o
 [IDR 0025](0025-filtro-oculta-secoes-vazias.md), o salto para uma seção
-oculta pelo filtro virou pendência de desenho (a faixa lista sempre as
-50 seções).
+oculta pelo filtro virou pendência de desenho — resolvida pelo
+[IDR 0031](0031-salto-com-filtro-ativo.md), que volta o filtro para
+"todas" antes de rolar (a faixa lista sempre as 50 seções).
 
 ## Contexto
 
