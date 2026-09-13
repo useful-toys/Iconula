@@ -24,9 +24,11 @@ Aceito — implementação na Fase 0015.
 - **Título do super-grupo**: borda esquerda de 3px na cor do grupo e fundo
   com 15% dela misturada ao transparente — o título não tem painel e fica
   sobre `--turf`; o texto continua em `--gold`
-- **Faixa de bandeiras**: fundo de cada bandeira com 20% da cor do grupo
+- **Faixa de bandeiras**: fundo de cada bandeira com 55–60% da cor do grupo
   misturada a `--panel`, **só na ordenação por página**; na ordenação por
-  sigla, fundo neutro `--panel`, inclusive FWC e COC
+  sigla, fundo neutro `--panel`, inclusive FWC e COC. Os 20% originais se
+  mostraram sutis demais no primeiro uso real; o valor exato dentro da faixa
+  é confirmado na execução (Tarefa 0015-0004) e registrado aqui
 - O cabeçalho de seção não recebe cor de grupo: recebe a cor da sua seleção
   ([IDR 0046](0046-cores-de-selecoes.md))
 
@@ -84,6 +86,10 @@ duas), mantendo croma e matiz.
 
 ## Histórico
 
+- 2026-09-13 — Ajuste da Fase 15 (Tarefa 0015-0004): a mistura da faixa sobe
+  de 20% para 55–60% — no primeiro uso real os 20% não se liam como
+  identidade de grupo. Antes: 20% sobre `--panel`, só na ordenação por
+  página.
 - 2026-09-13 — Segunda revisão do planejamento das Fases 11–17: os valores
   OKLCH finais passam a ser decididos aqui (D, F, I e L com luminosidade
   elevada até 3:1); a COC deixa de ser alias de `--notif-red` e ganha

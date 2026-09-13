@@ -87,7 +87,7 @@ elevada até ≥ 3:1 contra `--turf`, mantendo croma e matiz.
 
 - **Super-grupo**: borda esquerda 3px + fundo 15% (título do super-grupo)
 - **Seleção**: borda completa 1px + fundo 15% (cabeçalho de seção)
-- **Faixa de bandeiras**: cor do super-grupo com 20% (só na ordenação por
+- **Faixa de bandeiras**: cor do super-grupo com 55–60% (só na ordenação por
   página)
 
 ## Consequências
@@ -110,6 +110,9 @@ elevada até ≥ 3:1 contra `--turf`, mantendo croma e matiz.
 
 ## Histórico
 
+- 2026-09-13 — Ajuste da Fase 15 (Tarefa 0015-0004): a linha da faixa passa a
+  refletir a mistura de 55–60% decidida no
+  [IDR 0045](0045-cores-de-super-grupos.md). Antes: 20%.
 - 2026-09-13 — Revisão do planejamento das Fases 11–17: valores OKLCH finais
   decididos aqui (HAI e KOR com luminosidade elevada); aplicação nas duas
   disposições, sem a antiga alternativa "cores em todas as disposições:
