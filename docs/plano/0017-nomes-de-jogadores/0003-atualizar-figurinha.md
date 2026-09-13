@@ -14,9 +14,9 @@ disposições, sem mudar os três estados, o selo `×N` e o controle de menos.
 - `docs/idr/0047-nomes-de-jogadores-nas-figurinhas.md` § Decisão — nome abaixo
   do código, nas duas disposições, no aria-label, truncado
 - `src/components/Figurinha.jsx` — `propsEquivalentes` compara `codigo`,
-  `contagem`, `metalizada`, `variante`, `paisagem`; `aria-label` do corpo é
-  `` `${sigla} ${numero}, ${estadoLabel}` ``; o do controle de menos é
-  `` `remover uma unidade de ${sigla} ${numero}` ``
+  `contagem`, `metalizada`, `variante`, `paisagem`; o `aria-label` do corpo
+  hoje é o código seguido do estado (ex.: "BRA 05, faltante"); o do controle
+  de menos, "remover uma unidade de BRA 05"
 - `src/components/Secao.jsx` e `src/components/PaginaDoAlbum.jsx` — os dois
   pontos que renderizam `Figurinha` e passam as props
 - `src/data/catalogo.js` — figurinhas com `nome` (gerado pela Tarefa
@@ -37,12 +37,11 @@ disposições, sem mudar os três estados, o selo `×N` e o controle de menos.
 ## Escopo e instruções de implementação
 1. Em `Figurinha.jsx`, aceitar a prop `nome = null` e incluí-la em
    `propsEquivalentes`.
-2. Renderizar, dentro do corpo e após o código:
-   `{nome && <span className="figurinha__nome" aria-hidden="true">{nome}</span>}`.
-3. `aria-label` do corpo passa a
-   `` `${sigla} ${numero}${nome ? `, ${nome}` : ''}, ${estadoLabel}` ``; o do
-   controle de menos a
-   `` `remover uma unidade de ${sigla} ${numero}${nome ? `, ${nome}` : ''}` ``.
+2. Renderizar o nome dentro do corpo do cartão, após o código, oculto para
+   leitor de tela — o `aria-label` continua a única fonte; o estilo é da
+   Tarefa 0004.
+3. O nome entra no `aria-label` do corpo e do controle de menos, entre o
+   código e o estado — ex.: "BRA 05, Gabriel Magalhães, faltante" no corpo.
 4. Em `Secao.jsx` e `PaginaDoAlbum.jsx`, passar `nome={figurinha.nome}` ao
    `Figurinha`.
 5. Testes em `Figurinha.test.jsx`: nome exibido quando fornecido; ausente

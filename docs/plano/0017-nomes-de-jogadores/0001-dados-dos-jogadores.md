@@ -8,13 +8,13 @@ Pendente
 ## Objetivo
 Criar `src/data/jogadores.js` com os nomes das figurinhas — 48 seleções (47 com
 18 jogadores e o Paraguai com 13, lacuna declarada), 20 Extras FIFA e 14
-Coca-Cola — a partir do fornecimento do humano (fonte original), conforme o
-MDR 0008.
+Coca-Cola — transcrevendo as listas confirmadas do MDR 0008.
 
 ## Documentos de referência
-- `docs/model-dr/0008-dados-dos-nomes-das-figurinhas.md` § Decisão — forma das
-  três exportações, mapeamento de posições, política de grafia, lacuna do
-  Paraguai e invariantes
+- `docs/model-dr/0008-dados-dos-nomes-das-figurinhas.md` § Listas confirmadas
+  e § Decisão — o conteúdo a transcrever: forma das três exportações,
+  mapeamento de posições, grafia já corrigida, lacuna do Paraguai e
+  invariantes
 - `docs/tdr/0022-renumeracao-do-fwc.md` — FWC numerado de `FWC00` a `FWC19`
 - `src/data/catalogo.js` — as 50 seções (siglas) que o dado deve cobrir
 - `src/data/catalogo.test.js` — o padrão de testes de invariantes que esta
@@ -29,13 +29,11 @@ MDR 0008.
   importa direto — MDR 0008
 
 ## Escopo e instruções de implementação
-1. Transcrever a provisão do humano (fonte original) aplicando a política de
-   grafia do MDR 0008: correções óbvias e diacritics dos nomes de imprensa
-   conhecida (Orlando Gill, PAR 2, e Van Valery, TUN 3, já confirmados como
-   escritos).
-2. Criar `src/data/jogadores.js` exportando `jogadoresPorSelecao` (48 siglas →
-   18 nomes; Paraguai com 13), `jogadoresFWC` (20) e `jogadoresCOC` (14).
-3. Criar `src/data/jogadores.test.js` com as invariantes do MDR 0008: 48
+1. Transcrever as listas confirmadas do MDR 0008 para `src/data/jogadores.js`,
+   nas três exportações: `jogadoresPorSelecao` (48 siglas → 18 nomes; Paraguai
+   com 13), `jogadoresFWC` (20) e `jogadoresCOC` (14) — a grafia já está
+   corrigida no registro.
+2. Criar `src/data/jogadores.test.js` com as invariantes do MDR 0008: 48
    seleções; 47 com 18 nomes e o Paraguai com 13; nenhum nome vazio; nenhuma
    duplicata na mesma seção; as 48 siglas conferem com `secoes` do catálogo;
    20 nomes para FWC e 14 para COC.
@@ -59,4 +57,4 @@ trouxe os jogadores 14–18 — ver MDR 0008).
 - [ ] Nenhum nome vazio e nenhuma duplicata na mesma seção (teste)
 - [ ] As 48 siglas conferem com as seções do catálogo (teste)
 - [ ] 20 nomes para FWC e 14 para COC (teste)
-- [ ] Grafia conforme o MDR 0008 — correções e diacritics aplicados (log)
+- [ ] Transcrição fiel às listas confirmadas do MDR 0008 (conferência no log)

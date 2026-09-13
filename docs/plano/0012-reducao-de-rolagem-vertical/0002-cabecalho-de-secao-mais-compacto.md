@@ -18,8 +18,8 @@ colapso, e escolher o registro que lastreia as medidas compactadas desta fase.
 - `docs/idr/0042-foco-visivel-e-area-de-toque.md` § Decisão — a área de toque
   ampliada cobre só os alvos pequenos (30×30px e o controle de menos); o
   cabeçalho de seção não está entre eles
-- `src/components/Secao.jsx` — o cabeçalho de seção é um `<button
-  className="secao__cabecalho">` de largura total
+- `src/components/Secao.jsx` — o cabeçalho de seção é um botão de largura
+  total (`.secao__cabecalho`)
 - `src/components/Secao.css` (`.secao__cabecalho`) — implementação
 
 ## Padrões e convenções aplicáveis
