@@ -6,8 +6,8 @@ Este documento descreve tudo o que foi configurado no **Google Cloud**
 (fora do que é gerenciado pelo próprio Firebase) para o projeto
 **Iconula Button** — especificamente a service account usada pelo GitHub
 Actions para fazer deploy. Para o projeto Firebase e o Hosting em si, ver
-[docs/firebase.md](firebase.md). Para o lado GitHub (onde a chave é
-armazenada como secret), ver [docs/github.md](github.md).
+[docs/setup-firebase.md](setup-firebase.md). Para o lado GitHub (onde a chave é
+armazenada como secret), ver [docs/setup-github.md](setup-github.md).
 
 ## Ferramenta
 
@@ -25,7 +25,7 @@ Habilitadas explicitamente por este projeto:
 
 | API | Motivo |
 |---|---|
-| `identitytoolkit.googleapis.com` (Identity Toolkit API) | Usada pelo Firebase Auth (login com Google — ver [ADR 0005](adr/0005-login-google-sdk-modular.md) e [docs/firebase.md](firebase.md#firebase-authentication)); também é a API por trás do Identity Platform Admin API, usada para automatizar authorized domains via `curl` + token do `gcloud` (mesmo padrão da Firebase Hosting REST API já usado para o domínio customizado). |
+| `identitytoolkit.googleapis.com` (Identity Toolkit API) | Usada pelo Firebase Auth (login com Google — ver [ADR 0005](adr/0005-login-google-sdk-modular.md) e [docs/setup-firebase.md](setup-firebase.md#firebase-authentication)); também é a API por trás do Identity Platform Admin API, usada para automatizar authorized domains via `curl` + token do `gcloud` (mesmo padrão da Firebase Hosting REST API já usado para o domínio customizado). |
 | `firestore.googleapis.com` (Cloud Firestore API) | Persistência do time visível por usuário — ver [ADR 0005](adr/0005-persistencia-no-firestore.md) e a seção "Cloud Firestore" abaixo. Sem ela, qualquer `gcloud firestore ...` falha com `SERVICE_DISABLED`. |
 
 Habilitadas com:
@@ -51,7 +51,7 @@ gcloud services list --enabled --project iconula
 ## Service account para deploy via GitHub Actions
 
 O workflow de deploy (`.github/workflows/firebase-hosting-*.yml`, ver
-[docs/github.md](github.md)) autentica no Firebase usando uma service
+[docs/setup-github.md](setup-github.md)) autentica no Firebase usando uma service
 account do Google Cloud, cuja chave fica armazenada como secret no
 repositório GitHub — **não** no repositório de código.
 
@@ -131,7 +131,7 @@ não-interativo. A alternativa foi configurar cada peça manualmente com
    ```
 
 5. Registrar o conteúdo do `key.json` como secret no repositório GitHub
-   (ver [docs/github.md](github.md) para o comando `gh secret set`) e, em
+   (ver [docs/setup-github.md](setup-github.md) para o comando `gh secret set`) e, em
    seguida, **apagar o arquivo `key.json` local** — a chave só deve existir
    como secret do GitHub, nunca versionada ou deixada em disco.
 
@@ -149,7 +149,7 @@ gcloud iam service-accounts keys list \
 gcloud iam service-accounts keys delete <KEY_ID> \
   --iam-account=github-action-iconula@iconula.iam.gserviceaccount.com
 
-# Gerar uma nova e atualizar o secret no GitHub (ver docs/github.md)
+# Gerar uma nova e atualizar o secret no GitHub (ver docs/setup-github.md)
 ```
 
 ## Cloud Firestore
@@ -197,7 +197,7 @@ em outra região — ao custo de perder os dados gravados. Não é uma escolha
 sem volta, mas passa a ter custo real assim que houver usuários.
 
 As regras de segurança e como elas são publicadas ficam em
-[docs/firebase.md](firebase.md#cloud-firestore) e no
+[docs/setup-firebase.md](setup-firebase.md#cloud-firestore) e no
 [DDR 0004](devops-dr/0004-deploy-e-teste-das-regras-do-firestore.md).
 
 ## Reproduzindo do zero (resumo)

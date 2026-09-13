@@ -298,7 +298,7 @@ tempo) e segue sozinha.
 - Decisão tomada vira ADR/TDR/IDR/MDR na hora, com a numeração a partir de ADR 0010,
   TDR 0016, IDR 0034 e MDR 0001 (`AGENTS.md` § Convenções)
 - Mudança de build, deploy, Firebase, Google Cloud, GitHub ou DNS é refletida em
-  `docs/firebase.md`, `docs/gcloud.md`, `docs/github.md` ou `docs/registrobr.md`
+  `docs/setup-firebase.md`, `docs/setup-gcloud.md`, `docs/setup-github.md` ou `docs/setup-registrobr.md`
   no mesmo PR (`AGENTS.md` § Convenções)
 - Nenhuma requisição por figurinha, uma leitura por login, escrita agregada e
   mapa esparso (`requisitos.md` § Requisitos Não Funcionais)

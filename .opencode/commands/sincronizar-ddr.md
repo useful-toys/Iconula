@@ -17,8 +17,8 @@ limite a sincronização a esse assunto; caso contrário, varra tudo.
    - o guia `docs/devops-dr/CLAUDE.md` — regras de redação, estrutura
      obrigatória e atualização do índice `docs/devops-dr/README.md`;
    - o documento vivo `docs/devops.md` e os docs de ambiente
-     `docs/firebase.md`, `docs/gcloud.md`, `docs/github.md`,
-     `docs/registrobr.md`;
+     `docs/setup-firebase.md`, `docs/setup-gcloud.md`, `docs/setup-github.md`,
+     `docs/setup-registrobr.md`;
    - **todos** os DDRs de `docs/devops-dr/` e o índice
      `docs/devops-dr/README.md`.
    Se algum desses arquivos não existir, pare e diga o que faltou — não invente
@@ -45,8 +45,8 @@ Arquivos e workflows:
   pinadas por SHA, versões);
 - `firebase.json`, `.firebaserc`, `firestore.rules`, `package.json`
   (scripts de build/test/lint/deploy), `vite.config.js`;
-- `docs/devops.md` (documento vivo) e `docs/firebase.md`, `docs/gcloud.md`,
-  `docs/github.md`, `docs/registrobr.md` (devem refletir o estado real —
+- `docs/devops.md` (documento vivo) e `docs/setup-firebase.md`, `docs/setup-gcloud.md`,
+  `docs/setup-github.md`, `docs/setup-registrobr.md` (devem refletir o estado real —
   exigência do `AGENTS.md`).
 
 Configuração do GitHub via `gh` CLI (somente leitura):
@@ -79,7 +79,7 @@ Apresente a proposta **antes de escrever qualquer arquivo**:
   `criar DDR NNNN: título` / `reescrever DDR NNNN` (nova decisão; a anterior
   vira histórico);
 - divergências entre a configuração real e `docs/devops.md`,
-  `docs/firebase.md`, `docs/gcloud.md`, `docs/github.md`, `docs/registrobr.md`,
+  `docs/setup-firebase.md`, `docs/setup-gcloud.md`, `docs/setup-github.md`, `docs/setup-registrobr.md`,
   com a correção proposta;
 - mudanças propostas no índice `docs/devops-dr/README.md`.
 
@@ -95,8 +95,8 @@ explícita.**
 - Todo arquivo novo começa com
   `<!-- Copyright (c) 2026 Daniel Felix Ferber -->`.
 - Atualize `docs/devops.md` (documento vivo) e os docs de ambiente
-  (`docs/firebase.md`, `docs/gcloud.md`, `docs/github.md`,
-  `docs/registrobr.md`) para refletirem a situação atual.
+  (`docs/setup-firebase.md`, `docs/setup-gcloud.md`, `docs/setup-github.md`,
+  `docs/setup-registrobr.md`) para refletirem a situação atual.
 - **Escopo restrito a documentação**: não altere código, workflows nem
   configuração pública (Firebase/GCloud/GitHub/DNS) — nunca rode `gh` com
   escrita (`-X POST/PUT/PATCH/DELETE`).

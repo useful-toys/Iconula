@@ -37,7 +37,7 @@ Estado em vigor, verificado contra a API:
 | `required_conversation_resolution` | `true` |
 | `allow_force_pushes` / `allow_deletions` | `false` |
 
-O comando exato está em [docs/github.md](../github.md). O check `ci` vem do [DDR 0002](../devops-dr/0002-workflow-de-ci-separado.md).
+O comando exato está em [docs/setup-github.md](../setup-github.md). O check `ci` vem do [DDR 0002](../devops-dr/0002-workflow-de-ci-separado.md).
 
 ### O que esta regra garante, literalmente
 

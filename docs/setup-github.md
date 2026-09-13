@@ -5,8 +5,8 @@
 Este documento descreve tudo o que foi configurado no GitHub para o
 projeto **Iconula Button**, para o caso de ser necessário reproduzir a
 configuração (novo repositório, migração, etc.). Para o projeto/Hosting
-do Firebase, ver [docs/firebase.md](firebase.md); para a service account
-e permissões no Google Cloud, ver [docs/gcloud.md](gcloud.md).
+do Firebase, ver [docs/setup-firebase.md](setup-firebase.md); para a service account
+e permissões no Google Cloud, ver [docs/setup-gcloud.md](setup-gcloud.md).
 
 ## Repositório
 
@@ -44,7 +44,7 @@ Configuração de segurança ativa no repositório público (gratuita), em
 | Secret scanning non-provider patterns | `disabled` | **não habilitável** — idem, requer GitHub Advanced Security |
 
 O essencial (secret scanning + push protection) cobre o risco do
-`key.json` mencionado em [docs/gcloud.md](gcloud.md): push protection
+`key.json` mencionado em [docs/setup-gcloud.md](setup-gcloud.md): push protection
 bloqueia o push de um segredo detectado, mesmo num commit acidental.
 
 Conferir o estado atual:
@@ -57,10 +57,10 @@ gh api repos/useful-toys/Iconula --jq .security_and_analysis
 
 | Secret | Origem | Uso |
 |---|---|---|
-| `FIREBASE_SERVICE_ACCOUNT_ICONULA` | Chave JSON da service account `github-action-iconula@iconula.iam.gserviceaccount.com` (ver [docs/gcloud.md](gcloud.md)) | Autenticar o `FirebaseExtended/action-hosting-deploy@v0` nos workflows de deploy; e, via `GOOGLE_APPLICATION_CREDENTIALS`, o `firebase deploy --only firestore:rules` no merge e o `hosting:channel:delete` no fechamento de PR |
+| `FIREBASE_SERVICE_ACCOUNT_ICONULA` | Chave JSON da service account `github-action-iconula@iconula.iam.gserviceaccount.com` (ver [docs/setup-gcloud.md](setup-gcloud.md)) | Autenticar o `FirebaseExtended/action-hosting-deploy@v0` nos workflows de deploy; e, via `GOOGLE_APPLICATION_CREDENTIALS`, o `firebase deploy --only firestore:rules` no merge e o `hosting:channel:delete` no fechamento de PR |
 
 Como foi criado (a partir do arquivo de chave gerado no lado do Google
-Cloud — ver `docs/gcloud.md`):
+Cloud — ver `docs/setup-gcloud.md`):
 
 ```bash
 gh secret set FIREBASE_SERVICE_ACCOUNT_ICONULA --repo useful-toys/Iconula < key.json
@@ -72,7 +72,7 @@ PR é automático (gerado pelo GitHub por execução, não precisa ser criado).
 ## Variáveis do repositório
 
 Diferente da tabela acima, estas **não são secretas** — são o config do
-Web App do Firebase (ver [docs/firebase.md](firebase.md#firebase-authentication)),
+Web App do Firebase (ver [docs/setup-firebase.md](setup-firebase.md#firebase-authentication)),
 enviado ao navegador de qualquer forma. Usar Actions **Variables** (não
 Secrets) evita alarme de secret-scanning e deixa o `gh variable list`
 mostrar o valor, útil para depurar builds.
@@ -328,8 +328,8 @@ passar; o PR foi então mesclado (squash) e a branch de teste removida.
 ## Reproduzindo do zero (resumo)
 
 1. `gh repo create <org>/<repo> --public --source=. --remote=origin --push`
-2. Criar/obter o projeto Firebase (ver [docs/firebase.md](firebase.md)) e
-   a service account/chave JSON no Google Cloud (ver [docs/gcloud.md](gcloud.md))
+2. Criar/obter o projeto Firebase (ver [docs/setup-firebase.md](setup-firebase.md)) e
+   a service account/chave JSON no Google Cloud (ver [docs/setup-gcloud.md](setup-gcloud.md))
 3. `gh secret set FIREBASE_SERVICE_ACCOUNT_<NOME> --repo <org>/<repo> < key.json`
 4. Commitar os dois workflows em `.github/workflows/` apontando para esse
    secret e para o `projectId` correto

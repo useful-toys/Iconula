@@ -107,7 +107,7 @@ deploy.
   nenhuma verificação automática.
 - A proteção de branch precisa ser atualizada para incluir `ci` (nome do
   job) na lista de required status checks, seguindo a mesma sequência já
-  documentada em [docs/github.md](../github.md) para `build_and_preview`:
+  documentada em [docs/setup-github.md](../setup-github.md) para `build_and_preview`:
   fazer o push do workflow, deixar rodar uma vez num PR, só então
   referenciar o nome na regra.
 - `firebase-hosting-merge.yml` (deploy em produção) continua sem rodar

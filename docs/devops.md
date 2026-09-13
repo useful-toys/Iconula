@@ -120,7 +120,7 @@ e [TDR 0009](tdr/0009-validacao-do-mapa-nas-regras.md))
 
 ## Configuração dos ambientes
 
-- [docs/firebase.md](firebase.md): projeto Firebase, Hosting, Auth
-- [docs/gcloud.md](gcloud.md): APIs, service account, IAM
-- [docs/github.md](github.md): secrets, workflows, branch protection
-- [docs/registrobr.md](registrobr.md): DNS do domínio customizado
+- [docs/setup-firebase.md](setup-firebase.md): projeto Firebase, Hosting, Auth
+- [docs/setup-gcloud.md](setup-gcloud.md): APIs, service account, IAM
+- [docs/setup-github.md](setup-github.md): secrets, workflows, branch protection
+- [docs/setup-registrobr.md](setup-registrobr.md): DNS do domínio customizado
