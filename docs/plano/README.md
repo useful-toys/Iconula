@@ -61,7 +61,7 @@ Detalhes e status das tarefas no guia [CLAUDE.md](CLAUDE.md) § Status e ciclo d
 | 14 | [Correção urgente: renumeração do FWC](0014-numeracao-dos-extras-fifa/) | Extras FIFA de `FWC00` a `FWC19` (hoje `FWC01`–`FWC20`, deslocado em um); total do catálogo continua 994 | 10 | `fix: renumera os Extras FIFA para FWC00–FWC19` | Entregue |
 | 15 | [Identidade de cor por grupo](0015-identidade-de-cor-por-grupo/) | Cor distinta por grupo de seleções (A–L) e especiais (FWC, COC), aplicada no título do super-grupo e na faixa de bandeiras — o cabeçalho de seção fica para a cor da seleção (Fase 16) | 13 | `feat: identidade de cor por grupo de seções` | Pendente |
 | 16 | [Identidade de cor por seleção](0016-identidade-de-cor-por-selecao/) | Cor individual para cada uma das 48 seleções, aplicada no cabeçalho de seção | 15 | `feat: identidade de cor por seleção` | Pendente |
-| 17 | [Nomes de jogadores nas figurinhas](0017-nomes-de-jogadores/) | Nome do jogador/elemento abaixo do código em cada figurinha, a partir do fornecimento do humano (fonte original) | — | `feat: nomes de jogadores nas figurinhas` | Pendente |
+| 17 | [Nomes de jogadores nas figurinhas](0017-nomes-de-jogadores/) | Nome do jogador/elemento em cada figurinha, num cartão de 60×84px igual em todas as vistas | 14, 16 | `feat: nomes de jogadores nas figurinhas` | Pendente |
 
 ---
 
@@ -306,30 +306,25 @@ aceitas.
 
 ## Fase 17 — Nomes de jogadores nas figurinhas
 
-Decisão de exibição já registrada no
-[IDR 0047](../idr/0047-nomes-de-jogadores-nas-figurinhas.md) e decisões de
-dado no [MDR 0008](../model-dr/0008-dados-dos-nomes-das-figurinhas.md):
-nome do jogador/elemento abaixo do código em cada cartão, em duas linhas
-(prenomes em caixa normal; sobrenome em caixa alta; nome único só na
-segunda), nas duas disposições, com truncamento por linha e nome completo
-no aria-label. A fonte é o fornecimento
-do humano (fonte original): as 48 seleções, os Extras FIFA e a Coca-Cola
-foram provistos e conferidos contra os defeitos da primeira listagem
-(48/48, grupos idênticos ao catálogo, buracos e duplicatas resolvidos), o
-Paraguai foi completado por posição — coincidindo com o mapeamento — e a
-divergência FWC10–19 se resolveu em favor da fonte (ver Fase 14 e MDR
-0008); todas as 994 figurinhas terão nome, e a fase está pronta para
-executar depois da Fase 13.
-
-Executar depois da Fase 13: as duas tocam `Figurinha.jsx`, `Figurinha.css` e
-`Figurinha.test.jsx`.
+Exibição no [IDR 0047](../idr/0047-nomes-de-jogadores-nas-figurinhas.md):
+cartão de 60×84px igual na lista e no álbum, código em cima, nome em duas
+linhas de Roboto Condensed 10px (prenomes; sobrenome em caixa alta) e faixa
+inferior para o menos e o selo. Dado no
+[MDR 0008](../model-dr/0008-dados-dos-nomes-das-figurinhas.md), com os campos
+`nome` e `nomeLinhas` e as listas confirmadas das 994 figurinhas. Seguem da
+mudança de medida o [IDR 0015](../idr/0015-paginas-do-album-empilham-em-tela-estreita.md)
+(trilhas de 60px), o [IDR 0043](../idr/0043-padroes-de-primeira-abertura-por-faixa-de-tela.md)
+(celular até 582px), o [IDR 0042](../idr/0042-foco-visivel-e-area-de-toque.md)
+(área de toque do menos) e o [TDR 0013](../tdr/0013-tipografia-vendorizada.md)
+(fonte vendorizada).
 
 | # | Tarefa | Objetivo | Status |
 |---|---|---|---|
 | 0001 | [Dados dos jogadores](0017-nomes-de-jogadores/0001-dados-dos-jogadores.md) | `src/data/jogadores.js` com os nomes das listas confirmadas do MDR 0008 (48×18, 20 FWC, 14 COC), com testes de invariantes. | Pendente |
-| 0002 | [Campo nome no catálogo](0017-nomes-de-jogadores/0002-modificar-catalogo.md) | `expandirFigurinhas` emite `nome` via `obterNomeFigurinha`; MDR 0006, `modelo-memoria.md`, TDR 0010 e `AGENTS.md` atualizados no mesmo commit. | Pendente |
-| 0003 | [Nome no cartão](0017-nomes-de-jogadores/0003-atualizar-figurinha.md) | `Figurinha` exibe o nome em duas linhas abaixo do código e no aria-label, `propsEquivalentes` compara; `Secao` e `PaginaDoAlbum` passam as props. | Pendente |
-| 0004 | [Estilo do nome](0017-nomes-de-jogadores/0004-estilizar-nome.md) | `.figurinha__nome` em `system-ui` menor que o código, truncado com ellipsis, calibrado nas duas disposições. | Pendente |
+| 0002 | [Campos de nome no catálogo](0017-nomes-de-jogadores/0002-modificar-catalogo.md) | `expandirFigurinhas` emite `nome` e `nomeLinhas`; `modelo-memoria.md` e `AGENTS.md` atualizados. | Pendente |
+| 0003 | [Vendorizar a Roboto Condensed](0017-nomes-de-jogadores/0003-vendorizar-roboto-condensed.md) | Roboto Condensed 500, latin e latin-ext, servida pelo Hosting, sem abrir a CSP. | Pendente |
+| 0004 | [Cartão de 60×84px em todas as vistas](0017-nomes-de-jogadores/0004-cartao-60x84-em-todas-as-vistas.md) | Cartão único na lista e no álbum, trilhas de 60px, limite de celular em 582px e faixa inferior para menos e selo. | Pendente |
+| 0005 | [Nome no cartão](0017-nomes-de-jogadores/0005-nome-no-cartao.md) | Duas linhas de nome em Roboto Condensed 10px e nome acessível com o nome, nas duas disposições. | Pendente |
 
 ## Regras que valem em toda tarefa
 

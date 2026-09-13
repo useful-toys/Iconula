@@ -59,10 +59,10 @@ nível 1 — ambiguidade menor, reversível e interna).
 ## Decisão
 
 - **Limites de faixa** (largura da janela, `window.innerWidth`):
-  - **Celular**: até 512px — arredondamento do ponto de recuo geométrico do
-    próprio spread do álbum (~513px, calculado acima), para não introduzir
-    uma segunda noção de "estreito" no app.
-  - **Tablet**: de 513px até 1024px — sem precedente próprio no app (o
+  - **Celular**: até 582px — arredondamento do ponto de recuo geométrico do
+    próprio spread do álbum (~583px com as trilhas de 60px; conta no
+    Histórico), para não introduzir uma segunda noção de "estreito" no app.
+  - **Tablet**: de 583px até 1024px — sem precedente próprio no app (o
     spread só tem um ponto de quebra); adotado por convenção comum de
     mercado para tablet em paisagem (ex.: iPad, 1024px de largura lógica).
   - **Navegador**: acima de 1024px.
@@ -101,8 +101,8 @@ nível 1 — ambiguidade menor, reversível e interna).
 - Zero custo e zero requisição: cálculo local, sem estado novo persistido
   — só um `window.innerWidth` lido no mesmo `useState` que já lia as
   preferências.
-- O limite celular/tablet (512px) está amarrado às medidas atuais do
-  spread (trilhas de 52px, gap de 20px, `--page-gutter` mínimo de 16px);
+- O limite celular/tablet (582px) está amarrado às medidas atuais do
+  spread (trilhas de 60px, gap de 20px, `--page-gutter` mínimo de 16px);
   se essas medidas mudarem no futuro, o limite deveria ser recalculado
   para continuar coerente — o cálculo fica documentado aqui para isso.
 - Tablet herda o par do celular, não o do navegador, por uma leitura do
@@ -132,3 +132,14 @@ nível 1 — ambiguidade menor, reversível e interna).
   nos navegadores-alvo (`docs/requisitos.md` § Requisitos Não Funcionais);
   o número fica só documentado aqui e comentado no código, para
   rastreabilidade caso as medidas do spread mudem.
+
+## Histórico
+
+- 2026-09-13 — Planejamento revisado das Fases 11–17 (implementação na
+  Fase 0017, Tarefa 0017-0004): com o cartão de 60×84px do
+  [IDR 0047](0047-nomes-de-jogadores-nas-figurinhas.md), o limite é
+  recalculado como este registro prevê:
+  - página: 4 × 60 + 3 × 6 = 258px; spread: 258 + 20 + 258 = 536px
+  - `largura − 2 × 4vw ≥ 536px` → `largura ≥ 582,6px`
+  - celular até 582px; tablet de 583px a 1024px; navegador inalterado
+  Antes: trilhas de 52px, spread de 472px, celular até 512px.

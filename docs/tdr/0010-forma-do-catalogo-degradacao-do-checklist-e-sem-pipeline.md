@@ -101,3 +101,11 @@ seleção, grupos e páginas por seleção) — não de um script de geração.
   conteúdo integral (as 48 seleções) já está disponível — adiado até que
   a fonte completa do checklist apareça e o volume de edições manuais
   justifique automatizar.
+
+## Histórico
+
+- 2026-09-13 — Planejamento revisado das Fases 11–17 (implementação na
+  Fase 0017): os nomes das figurinhas deixam de depender da fonte do
+  checklist — vêm de `src/data/jogadores.js`, transcrito do
+  [MDR 0008](../model-dr/0008-dados-dos-nomes-das-figurinhas.md) e lido só
+  pelo catálogo, que continua a única fonte para o resto do app.

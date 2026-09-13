@@ -25,7 +25,7 @@ Aceito.
   - Total: 960 + 20 + 14 = 994
 - **Posições fixas** (seleções): `01` é metalizada; `13` é paisagem (cromo horizontal).
 - **Estrutura de cada seção**: `sigla`, `nome`, `tipo` (`selecao` | `especial`), `icone` (emoji Unicode), `grupo` (A–L ou `null`), `paginas` (spread ou `null`), `total`, `inicio` (opcional, padrão 1).
-- **Estrutura de cada figurinha**: `codigo`, `secao` (sigla), `posicao` (inteiro), `metalizada` (booleano), `paisagem` (booleano).
+- **Estrutura de cada figurinha**: `codigo`, `secao` (sigla), `posicao` (inteiro), `metalizada` (booleano), `paisagem` (booleano), `nome` (texto) e `nomeLinhas` (par prenomes/sobrenome ou `null`) — os dois últimos definidos no [MDR 0008](0008-dados-dos-nomes-das-figurinhas.md).
 - **Derivações de tela** (agrupar, ordenar, dispor) ficam em `src/data/catalogoOrdenacoes.js` e `src/data/catalogoLayout.js` — funções puras, sem efeito colateral.
 - **Layout de álbum** (`catalogoLayout.js`): posições explícitas de `pagina`, `linha`, `trilha`, `trilhas` para cada figurinha, reproduzindo a página física do álbum.
 
@@ -42,3 +42,7 @@ a `FWC19` (ver [TDR 0010](../tdr/0010-forma-do-catalogo-degradacao-do-checklist-
 - **Escrever os 994 códigos como literais**: mais verboso, sem vantagem sobre a expansão por função pura. Descartado.
 - **Pipeline de geração a partir de fonte externa**: não existe fonte estruturada confiável; a degradação da fonte é tratada campo a campo (TDR 0010). Descartado.
 - **Catálogo carregado do Firestore**: seria o mesmo para todos, gastaria leitura à toa. Descartado.
+
+## Histórico
+
+- 2026-09-13 — Planejamento revisado das Fases 11–17 (implementação na Fase 0017, Tarefa 0017-0002): a figurinha ganha `nome` e `nomeLinhas`, derivados de `src/data/jogadores.js` ([MDR 0008](0008-dados-dos-nomes-das-figurinhas.md)). Antes: sem nome.
