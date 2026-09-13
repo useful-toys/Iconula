@@ -95,6 +95,7 @@ seções encontradas:
    | já entregue | tarefa `Concluída` de fase `Entregue` já faz, e o código confirma | condição 3 |
    | já planejado | tarefa `Pendente` já cobre | aponta a tarefa; se o pedido difere, propõe ajustá-la |
    | muda o que já foi feito | altera comportamento entregue, decisão documentada ou alternativa recusada | decisão significativa proposta (registro atualizado ao confirmar) e tarefas novas que a implementam, citando a tarefa entregue como precedente |
+   | já decidido, a planejar | registro com `Implementação: a planejar` (guia § Registro de decisões › Decisões no esmiuçamento) cobre | decisão não é reproposta; tarefas novas a implementam |
    | contraria requisito | fora de escopo em `docs/requisitos.md`, ou exige mudá-lo | condição 4 |
 
 3. Resuma: classificação com evidência; fases `Pendente` ou `Em andamento`
@@ -164,7 +165,8 @@ seções encontradas:
 4. Registre as decisões confirmadas (guia § Registro de decisões › Decisões no
    planejamento): leia antes o guia da pasta de cada tipo; crie ou atualize o
    registro e a linha do índice; em "Consequências", a fase e a tarefa que o
-   implementam.
+   implementam — também nos registros "a planejar" do esmiuçamento, trocando
+   essa linha.
 5. Escreva em `docs/plano/`:
    - fases novas: pasta `docs/plano/NNNN-nome-da-fase/` e tarefas no guia
      § Formato da tarefa, citando em "Decisões já tomadas" os registros do
