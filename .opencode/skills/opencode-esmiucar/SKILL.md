@@ -1,6 +1,6 @@
 ---
 name: opencode-esmiucar
-description: Esmiúça um pedido de funcionalidade ou correção antes do planejamento — lê requisitos, interface, arquitetura, plano e registros de decisão, compara com o que já está implementado e conduz rodadas de perguntas com sugestões para tornar a solução mais eficaz, tirar dúvidas, fechar lacunas, resolver contradições e remover impedimentos; registra cada decisão confirmada (ADR, TDR, IDR, MDR, DDR) numa worktree e branch docs com PR. Carregada pelo comando /esmiucar; use também quando o humano pedir para esmiuçar, detalhar, refinar ou discutir os requisitos de um pedido antes de planejar. Não use para fatiar em tarefas (/planejar) nem para executar.
+description: Esmiúça um pedido de funcionalidade ou correção antes do planejamento — lê requisitos, interface, arquitetura, plano e registros de decisão, compara com o que já está implementado, propõe e explora com o humano ideias de como a funcionalidade poderia ficar melhor (parceiro de criatividade) e conduz rodadas de perguntas com sugestões para tornar a solução mais eficaz, tirar dúvidas, fechar lacunas, resolver contradições e remover impedimentos; registra cada decisão confirmada (ADR, TDR, IDR, MDR, DDR) numa worktree e branch docs com PR. Carregada pelo comando /esmiucar; use também quando o humano pedir para esmiuçar, detalhar, refinar ou discutir os requisitos de um pedido antes de planejar. Não use para fatiar em tarefas (/planejar) nem para executar.
 ---
 
 <!-- Copyright (c) 2026 Daniel Felix Ferber -->
@@ -11,8 +11,10 @@ description: Esmiúça um pedido de funcionalidade ou correção antes do planej
 
 Levar `$ARGUMENTS` a um pedido **sem dúvidas, lacunas, contradições nem
 impedimentos**, pronto para o `/planejar`: compara o pedido com o que já está
-implementado e documentado, pergunta ao humano apresentando sugestões e
-**registra cada decisão significativa no momento em que o humano a confirma**,
+implementado e documentado, **propõe ideias de como a funcionalidade ou o
+ajuste poderia ficar melhor** e as explora com o humano, pergunta apresentando
+sugestões e **registra cada decisão significativa no momento em que o humano
+a confirma**,
 tudo numa worktree e branch `docs` com PR. `docs/` é a base de conhecimento e a
 base das decisões. **Nunca cria nem altera código-fonte, `docs/*.md` nem
 `docs/plano/`**: escreve só nas pastas de decisão (guia § Registro de decisões ›
@@ -109,7 +111,50 @@ seções encontradas:
 4. Imprima no chat, curto: o pedido em uma frase; classificação com evidência;
    o que já existe e se aproveita; registros e requisitos que restringem.
 
-### 2. Pauta de questões — sem perguntar ainda
+### 2. Explorar ideias — parceiro criativo
+
+Antes de fechar o pedido, imagine como ele poderia ficar **melhor** para o
+colecionador — não só como fazer o que foi pedido. A skill é parceira de
+criatividade: propõe, desenvolve e critica ideias junto com o humano.
+
+1. Gere de 3 a 6 ideias, variando a ousadia:
+
+   | Tipo | O que propõe |
+   |---|---|
+   | Refinamento | o mesmo pedido mais bem acabado: menos toques, feedback mais claro, atalho, estado vazio útil, texto melhor |
+   | Variação | outra forma de atingir o mesmo objetivo, às vezes mais simples ou mais barata |
+   | Extensão | passo vizinho que o pedido torna fácil ou natural: o que o colecionador faz logo antes ou logo depois |
+   | Reenquadramento | o problema por trás do pedido e uma solução diferente para ele |
+   | Ousada | vai além do escopo atual; marcada como tal |
+
+2. Cada ideia, em poucas linhas:
+   - nome curto e como seria na tela ou no fluxo (esboço textual quando
+     ajudar);
+   - que necessidade do colecionador atende;
+   - o que já existe e ela aproveita;
+   - custo relativo: baixo, médio ou alto;
+   - o que ela contraria ou onde esbarra — requisito, registro vigente,
+     alternativa recusada, requisito não funcional —, com evidência.
+3. Fundamente as ideias no produto, não em gosto genérico:
+   `docs/requisitos.md` § O que é, § Diferenciais, § Conceitos fundamentais e
+   § Requisitos futuros; o perfil de usuário especialista e o minimalismo
+   (`docs/idr/0018-usuario-especialista-e-minimalismo.md`); os padrões de
+   interação vigentes; o protótipo. Ideia contra § Fora de Escopo pode
+   aparecer, marcada "fora de escopo": só o humano muda requisitos.
+4. Imprima as ideias no chat e pergunte, em múltipla escolha, quais explorar;
+   nenhuma escolhida → siga com o pedido original.
+5. Cada ideia escolhida é desenvolvida em conversa — variações, combinações
+   entre ideias, riscos, detalhes — até o humano dizer se ela **entra no
+   pedido**, fica **guardada para depois** ou é **descartada**. A que entra
+   passa pelos passos seguintes como parte do pedido; as guardadas vão ao
+   resumo.
+6. O humano pode trazer ideias próprias a qualquer momento: desenvolva-as do
+   mesmo jeito, com entusiasmo e crítica honesta (custo, riscos, conflito com
+   o existente), sem descartar por fugirem do pedido inicial.
+7. Nas rodadas de perguntas (passo 4), quando uma resposta abrir espaço para
+   algo melhor, proponha a ideia na hora, marcada como ideia.
+
+### 3. Pauta de questões — sem perguntar ainda
 
 Levante as questões por categoria, cada uma com evidência:
 
@@ -129,7 +174,7 @@ Levante as questões por categoria, cada uma com evidência:
   derrubar ou mudar o pedido); depois dúvidas de escopo; lacunas; sugestões.
 - Imprima a pauta no chat: categoria e questão em uma linha cada.
 
-### 3. Rodadas de perguntas
+### 4. Rodadas de perguntas
 
 1. Pergunte com a ferramenta `question`: uma rodada = um assunto, até 4
    questões relacionadas.
@@ -145,7 +190,8 @@ Levante as questões por categoria, cada uma com evidência:
 
    | Resposta | Tratamento |
    |---|---|
-   | decisão significativa | passo 4, antes da próxima rodada |
+   | decisão significativa | passo 5, antes da próxima rodada |
+   | ideia nova, do humano ou aberta pela resposta | desenvolva como no passo 2.5 antes de seguir |
    | orientação de nível 1 ou 2, ou esclarecimento sem decisão | anote para o resumo |
    | "decida você" ou equivalente | aplique a recomendada, diga isso na hora e trate como confirmada |
    | adiada pelo humano | anote como questão em aberto no resumo |
@@ -157,7 +203,7 @@ Levante as questões por categoria, cada uma com evidência:
 5. Siga até a pauta esvaziar ou o humano encerrar. A cada 3 rodadas, mostre
    a pauta restante em uma linha por questão.
 
-### 4. Registrar a decisão — na confirmação
+### 5. Registrar a decisão — na confirmação
 
 1. Tipo pelo guia § Registro de decisões › Como registrar; leia o guia da
    pasta antes do primeiro registro daquele tipo.
@@ -179,11 +225,14 @@ Levante as questões por categoria, cada uma com evidência:
 6. Mostre no chat o caminho e a Decisão em até 3 linhas; correção pedida pelo
    humano é aplicada no mesmo registro. Sem commit por decisão.
 
-### 5. Fechar e entregar
+### 6. Fechar e entregar
 
 1. Imprima o **resumo esmiuçado** — é a entrada do `/planejar`:
    - pedido refinado: o que entra e o que fica fora;
    - classificação e comparação com o existente (o que se reaproveita);
+   - ideias incorporadas ao pedido; ideias guardadas para depois (as fora
+     do escopo como candidatas a § Requisitos futuros, que cabem ao
+     humano); ideias descartadas, com o motivo;
    - decisões registradas: caminho e decisão em uma linha;
    - orientações de nível 1 ou 2 e esclarecimentos;
    - pontos que dependem de evidência da execução (medição), com alternativas;
@@ -204,9 +253,10 @@ Levante as questões por categoria, cada uma com evidência:
 
 ## Saída
 
-- Passos 1 e 2: comparação com o existente e a pauta.
-- Passo 3: as rodadas de perguntas; passo 4: cada registro gravado.
-- Passo 5: resumo esmiuçado, commit, URL do PR (se aberto) e o lembrete:
+- Passo 1: comparação com o existente; passo 2: as ideias e a exploração
+  com o humano; passo 3: a pauta.
+- Passo 4: as rodadas de perguntas; passo 5: cada registro gravado.
+- Passo 6: resumo esmiuçado, commit, URL do PR (se aberto) e o lembrete:
   `/planejar` depois do merge do PR, citando o PR como descrição do pedido.
 
 ## Proibições
@@ -221,6 +271,8 @@ Levante as questões por categoria, cada uma com evidência:
   ambígua ou recomendação sem o "decida você".
 - Registro novo "substituído por" ou para "revisar" outro; reabrir decisão
   vigente sem mostrar o registro e o trecho que muda.
+- Apresentar ideia como decisão, ou registrá-la sem o humano a incorporar e
+  confirmar; esconder ideia só porque foge do pedido — mostre e marque.
 - Perguntar sem evidência, sem opções ou sem recomendação; perguntar o que o
   `docs/` ou o código já respondem.
 - Inventar caminho, número de decisão ou requisito.

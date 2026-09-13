@@ -1,5 +1,5 @@
 ---
-description: Esmiúça um pedido antes do planejamento — compara com o que já está implementado e documentado, pergunta com sugestões até eliminar dúvidas, lacunas, contradições e impedimentos, e registra as decisões confirmadas numa branch docs com PR
+description: Esmiúça um pedido antes do planejamento — compara com o que já está implementado e documentado, propõe e explora ideias de melhoria, pergunta com sugestões até eliminar dúvidas, lacunas, contradições e impedimentos, e registra as decisões confirmadas numa branch docs com PR
 ---
 
 <!-- Copyright (c) 2026 Daniel Felix Ferber -->

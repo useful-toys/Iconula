@@ -9,7 +9,7 @@ remetem a este guia; em conflito, **o guia vence** e a skill é corrigida.
 
 | Chamada | Faz |
 |---|---|
-| `/esmiucar <pedido>` | antes do planejamento, compara o pedido com o existente, pergunta com sugestões até eliminar dúvidas, lacunas, contradições e impedimentos, registra as decisões confirmadas, grava numa branch `docs` e abre PR |
+| `/esmiucar <pedido>` | antes do planejamento, compara o pedido com o existente, propõe e explora com o humano ideias de como ele poderia ficar melhor, pergunta com sugestões até eliminar dúvidas, lacunas, contradições e impedimentos, registra as decisões confirmadas, grava numa branch `docs` e abre PR |
 | `/planejar <pedido>` | verifica se o pedido é novo, propõe tarefas e decisões significativas, registra as decisões confirmadas, grava numa branch `docs` e abre PR |
 | `/executar-plano NNNN` | executa as tarefas pendentes de uma fase, uma por subagente, entrega num PR e acompanha CI e preview |
 | `/executar-tarefa NNNN-XXXX` | discovery, plano da alteração, implementação e um commit de estado válido |
