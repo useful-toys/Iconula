@@ -33,13 +33,16 @@ Aceito.
 - **Progresso**: calculado sob demanda por `calcularPlacar(contagens, codigosTodasFigurinhas)` → `{coladas, faltantes, repetidas, percentual}`; `percentual` é `Math.round((coladas / total) * 100)`.
 - **Textos de troca**: uma linha por seção (`Nome SIG: nn nn nn`), ordem fixa do álbum (FWC abre, COC fecha), independente da ordenação vigente; número com dois dígitos; repetidas usam `nn×k` onde `k` é unidades sobrando (contagem − 1).
 - **Avisos**: fila com limite de empilhamento (3), estrutura `{id, severidade, mensagem, detalhe, tipo}`; sucesso e aviso expiram em 5s; falha persiste; sucesso dispensa a falha do mesmo `tipo`; `id` é auto-incremento.
-- **Colapso de seções e super-grupos**: volátil, some ao recarregar.
+- **Colapso de seções e super-grupos**: conjunto de siglas e letras do que foi
+  fechado à mão, mantido em `Catalogo.jsx` e persistido no `localStorage`
+  (chave `iconula.colapso-manual.v1`), restaurado na abertura; ausente =
+  aberto ([MDR 0007](0007-persistencia-no-armazenamento-local.md)).
 
 ## Consequências
 
 - Todo o estado da coleção vive em `App.jsx`, consumido por prop-drilling (sem Context).
 - O histórico de desfazer é volátil — recarregar a página o descarta.
-- As preferências de vista persistem no `localStorage`, por dispositivo, e custam zero requisição.
+- As preferências de vista e o colapso manual persistem no `localStorage`, por dispositivo, e custam zero requisição.
 - O catálogo estático é imutável e igual para todos os usuários.
 - O progresso é calculado sob demanda, não armazenado.
 
@@ -47,5 +50,10 @@ Aceito.
 
 - **Context para a coleção**: a árvore tem até três níveis, o prop-drilling ainda basta (ver [TDR 0014](../tdr/0014-estado-da-colecao-sem-context.md)). Descartado.
 - **State manager global (Redux, Zustand)**: a árvore não exige; adicionaria complexidade sem benefício. Descartado.
-- **Persistir o colapso de seções**: é volátil por decisão (IDR 0020). Descartado.
 - **Persistir o histórico de desfazer**: é volátil por decisão (IDR 0012). Descartado.
+
+## Histórico
+
+- 2026-09-13 — Fase 0012, Tarefa 0012-0001: o colapso de seções e super-grupos
+  deixa de ser volátil; o conjunto do que foi fechado à mão passa a ser lido e
+  gravado no `localStorage` (IDR 0020, IDR 0026, MDR 0007).

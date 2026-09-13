@@ -79,8 +79,7 @@ Três funções de escrita, cada uma com semântica própria ([MDR 0003](model-d
 
 ## O que **não** vai para o Firestore
 
-- **Preferências de vista** — ordenação, disposição e filtro — vivem no `localStorage` do navegador, por dispositivo, e custam zero requisição
-- **Estado de colapso** de seções e super-grupos é volátil: some ao recarregar
+- **Preferências de vista e colapso manual** — ordenação, disposição, filtro e as seções/super-grupos fechados à mão — vivem no `localStorage` do navegador, por dispositivo, e custam zero requisição (ver [MDR 0007](model-dr/0007-persistencia-no-armazenamento-local.md))
 - **Histórico de desfazer** (últimas 10 alterações) vive em memória
 - **Cache do SDK** (IndexedDB, `persistentLocalCache` com `persistentMultipleTabManager()`) espelha o documento e sustenta o flush de gravações pendentes
 

@@ -57,7 +57,7 @@ Detalhes e status das tarefas no guia [CLAUDE.md](CLAUDE.md) § Status e ciclo d
 | 9 | [Desfazer, menu de ações e portabilidade](0009-desfazer-menu-e-portabilidade/) | Desfazer, popup de comandos raros, listas de troca e export/import JSON | 7, 8 | `feat: desfazer, menu de ações, listas de troca e export/import` | Entregue |
 | 10 | [Acabamento: acessibilidade, desempenho e docs](0010-acabamento-acessibilidade-e-docs/) | Fechar acessibilidade, desempenho das 994, faixas de tela e a documentação | 9 | `chore: acessibilidade, desempenho e fechamento da documentação` | Entregue |
 | 11 | [Refinamento do cabeçalho](0011-refinamento-do-cabecalho/) | Contorno e tooltip nos controles, bandeiras mais compactas, título e controles numa linha a partir de 768px e avatar do usuário como botão do menu | 10 | `feat: refinamento do cabeçalho e dos controles` | Entregue |
-| 12 | [Redução de rolagem vertical](0012-reducao-de-rolagem-vertical/) | Lembrar o colapso manual entre sessões e apertar os espaçamentos repetidos do catálogo | 11 | `feat: colapso lembrado e catálogo mais compacto` | Pendente |
+| 12 | [Redução de rolagem vertical](0012-reducao-de-rolagem-vertical/) | Lembrar o colapso manual entre sessões e apertar os espaçamentos repetidos do catálogo | 11 | `feat: colapso lembrado e catálogo mais compacto` | Em andamento |
 | 13 | [Interação por pressão longa](0013-interacao-por-pressao-longa/) | Segurar o cartão decrementa uma unidade no mobile, sem precisar mirar no botão de menos | 12 | `feat: pressão longa decrementa no mobile` | Pendente |
 | 14 | [Correção urgente: renumeração do FWC](0014-numeracao-dos-extras-fifa/) | Extras FIFA de `FWC00` a `FWC19` (hoje `FWC01`–`FWC20`, deslocado em um); total do catálogo continua 994 | 10 | `fix: renumera os Extras FIFA para FWC00–FWC19` | Entregue |
 | 15 | [Identidade de cor por grupo](0015-identidade-de-cor-por-grupo/) | Cor distinta por grupo de seleções (A–L) e especiais (FWC, COC), aplicada no título do super-grupo e na faixa de bandeiras — o cabeçalho de seção fica para a cor da seleção (Fase 16) | 13 | `feat: identidade de cor por grupo de seções` | Pendente |
@@ -261,7 +261,7 @@ de seções completas foi descartado no planejamento.
 
 | # | Tarefa | Objetivo | Status |
 |---|---|---|---|
-| 0001 | [Persistência do colapso manual](0012-reducao-de-rolagem-vertical/0001-persistencia-do-colapso-manual.md) | Seções e super-grupos fechados à mão voltam fechados na próxima abertura; o salto grava a abertura. | Pendente |
+| 0001 | [Persistência do colapso manual](0012-reducao-de-rolagem-vertical/0001-persistencia-do-colapso-manual.md) | Seções e super-grupos fechados à mão voltam fechados na próxima abertura; o salto grava a abertura. | Concluída |
 | 0002 | [Cabeçalho de seção mais compacto](0012-reducao-de-rolagem-vertical/0002-cabecalho-de-secao-mais-compacto.md) | `padding` do cabeçalho de seção de `10px 14px` para `7px 12px`. | Pendente |
 | 0003 | [Gaps entre seções e super-grupos reduzidos](0012-reducao-de-rolagem-vertical/0003-gaps-entre-secoes-e-super-grupos-reduzidos.md) | Espaços entre blocos: super-grupos 16→12px, seções 14→10px, cabeçalho→grade 10→8px. | Pendente |
 | 0004 | [Margem inferior do corpo sob medida](0012-reducao-de-rolagem-vertical/0004-margem-inferior-do-corpo-sob-medida.md) | Margem inferior = altura medida da falha expandida + 8px, em vez de 60px fixos. | Pendente |

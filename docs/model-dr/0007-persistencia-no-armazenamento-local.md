@@ -31,6 +31,23 @@ Aceito.
 - **Falha de leitura ou escrita**: ignorada em silêncio, segue com o padrão.
 - **Persistência**: por dispositivo, zero requisição ao Firestore.
 
+### localStorage — colapso manual de seções e super-grupos
+
+- **Chave**: `iconula.colapso-manual.v1` (versionada), separada das
+  preferências de vista — o dado é um conjunto, não um enum de domínio.
+- **Formato**: JSON com `{secoes, grupos}`, listas de siglas de seção
+  (ex.: `BRA`) e de letras de super-grupo (ex.: `C`).
+- **Semântica**: presente na lista = fechado à mão; ausente = aberto. Só o
+  que o usuário (ou o salto, ao abrir o alvo) mudou é gravado; nunca o
+  catálogo inteiro.
+- **Valores desconhecidos**: siglas e letras fora do catálogo são ignoradas
+  na leitura.
+- **Falha de leitura ou escrita**: ignorada em silêncio, tudo aberto
+  ([IDR 0026](../idr/0026-preferencias-de-vista-persistidas-no-navegador.md)).
+- **Persistência**: por dispositivo, zero requisição ao Firestore; o colapso
+  é decisão de interface ([IDR 0020](../idr/0020-secoes-colapsaveis-em-qualquer-visualizacao.md),
+  implementação na Fase 0012, Tarefa 0012-0001).
+
 ### IndexedDB — cache do SDK do Firestore
 
 - **Configuração**: `persistentLocalCache` com `persistentMultipleTabManager()`.
@@ -41,8 +58,10 @@ Aceito.
 
 ## Consequências
 
-- Preferências de vista são por dispositivo, não seguem o usuário entre dispositivos.
-- O colapso de seções e super-grupos é volátil (não persiste).
+- Preferências de vista e o colapso manual são por dispositivo, não seguem o
+  usuário entre dispositivos.
+- O colapso manual de seções e super-grupos persiste no `localStorage` e volta
+  na próxima abertura, em duas chaves versionadas independentes.
 - O histórico de desfazer é volátil (não persiste).
 - Escritas pendentes no Firestore sobrevivem ao fechamento da aba.
 - Cargas repetidas podem servir do cache IndexedDB, sem leitura ao servidor.
@@ -51,6 +70,15 @@ Aceito.
 
 - **Persistir preferências no Firestore**: acompanhariam o usuário entre dispositivos, mas custariam leitura/escrita à toa e não são dados que o usuário espera sincronizar. Descartado.
 - **Persistir o histórico de desfazer**: aumentaria a complexidade sem benefício claro — o desfazer é para ajustes imediatos, não para histórico de longo prazo. Descartado.
-- **Persistir o colapso de seções**: é volátil por decisão de interface (IDR 0020). Descartado.
+- **Guardar o colapso na mesma chave das preferências de vista**: uma chave só, mas misturaria um conjunto sem padrão por faixa de tela com os enums validados por domínio; separado em chave própria. Descartado.
+- **Persistir o colapso no Firestore**: sincronizaria entre dispositivos, mas é preferência do aparelho e custaria escrita por toque. Descartado.
 - **Fila própria de flush em `localStorage`**: reinventaria a fila que o SDK já mantém com o cache IndexedDB. Descartado.
 - **Cache do Firestore sem `persistentMultipleTabManager()`**: a segunda aba perderia o cache e a garantia de flush. Descartado.
+
+## Histórico
+
+- 2026-09-13 — Fase 0012, Tarefa 0012-0001: o colapso manual de seções e
+  super-grupos passa a persistir numa segunda chave versionada
+  (`iconula.colapso-manual.v1`); antes era volátil (decisão original do
+  [IDR 0020](../idr/0020-secoes-colapsaveis-em-qualquer-visualizacao.md),
+  revista no planejamento das Fases 11–17).

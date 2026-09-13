@@ -1,7 +1,7 @@
 // Copyright (c) 2026 Daniel Felix Ferber
 
-import { describe, expect, it, vi } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom/vitest';
 import { Catalogo } from './Catalogo.jsx';
@@ -18,6 +18,14 @@ const figurinhasParcial = figurinhas.filter(
 );
 
 describe('Catalogo', () => {
+  beforeEach(() => {
+    localStorage.clear();
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   it('renderiza as seções na ordem por sigla, com FWC primeiro e COC por último', () => {
     render(
       <Catalogo
@@ -425,6 +433,112 @@ describe('Catalogo', () => {
       // O super-grupo A some inteiro (nenhuma seção tem faltantes)
       expect(screen.queryByRole('button', { name: /Grupo A/ })).not.toBeInTheDocument();
       expect(screen.queryByRole('button', { name: /México/ })).not.toBeInTheDocument();
+    });
+  });
+
+  describe('persistência do colapso manual (IDR 0020, IDR 0026)', () => {
+    const propsBase = {
+      secoes: secoesParcial,
+      figurinhas: figurinhasParcial,
+      contagens: {},
+      onAjustar: vi.fn(),
+      ordenacao: 'sigla',
+    };
+
+    it('seção fechada à mão continua fechada após recarregar', async () => {
+      const user = userEvent.setup();
+      const { unmount } = render(<Catalogo {...propsBase} />);
+
+      await user.click(screen.getByRole('button', { name: /Brasil/ }));
+      expect(screen.getByRole('button', { name: /Brasil/ })).toHaveAttribute('aria-expanded', 'false');
+
+      unmount();
+      render(<Catalogo {...propsBase} />);
+
+      expect(screen.getByRole('button', { name: /Brasil/ })).toHaveAttribute('aria-expanded', 'false');
+      expect(screen.queryByLabelText('BRA 01, faltante, metalizada')).not.toBeInTheDocument();
+    });
+
+    it('seção reaberta à mão continua aberta após recarregar', async () => {
+      const user = userEvent.setup();
+      const { unmount } = render(<Catalogo {...propsBase} />);
+
+      await user.click(screen.getByRole('button', { name: /Brasil/ }));
+      await user.click(screen.getByRole('button', { name: /Brasil/ }));
+      expect(screen.getByRole('button', { name: /Brasil/ })).toHaveAttribute('aria-expanded', 'true');
+
+      unmount();
+      render(<Catalogo {...propsBase} />);
+
+      expect(screen.getByRole('button', { name: /Brasil/ })).toHaveAttribute('aria-expanded', 'true');
+      expect(screen.getByLabelText('BRA 01, faltante, metalizada')).toBeInTheDocument();
+    });
+
+    it('super-grupo fechado à mão continua fechado após recarregar', async () => {
+      const user = userEvent.setup();
+      const props = { ...propsBase, ordenacao: 'pagina' };
+      const { unmount } = render(<Catalogo {...props} />);
+
+      await user.click(screen.getByRole('button', { name: /Grupo C/ }));
+      expect(screen.getByRole('button', { name: /Grupo C/ })).toHaveAttribute('aria-expanded', 'false');
+
+      unmount();
+      render(<Catalogo {...props} />);
+
+      expect(screen.getByRole('button', { name: /Grupo C/ })).toHaveAttribute('aria-expanded', 'false');
+      expect(screen.queryByRole('button', { name: /Brasil/ })).not.toBeInTheDocument();
+    });
+
+    it('salto abre seção e super-grupo fechados e a recarga os mantém abertos', async () => {
+      const user = userEvent.setup();
+      const props = { ...propsBase, ordenacao: 'pagina' };
+      const ref = { current: null };
+      const { unmount } = render(<Catalogo ref={ref} {...props} />);
+
+      // Fecha a seção Brasil e, em seguida, o Grupo C que a contém.
+      await user.click(screen.getByRole('button', { name: /Brasil/ }));
+      await user.click(screen.getByRole('button', { name: /Grupo C/ }));
+      expect(screen.getByRole('button', { name: /Grupo C/ })).toHaveAttribute('aria-expanded', 'false');
+
+      act(() => {
+        ref.current.saltarPara('BRA');
+      });
+
+      expect(screen.getByRole('button', { name: /Grupo C/ })).toHaveAttribute('aria-expanded', 'true');
+      expect(screen.getByRole('button', { name: /Brasil/ })).toHaveAttribute('aria-expanded', 'true');
+
+      unmount();
+      render(<Catalogo {...props} />);
+
+      expect(screen.getByRole('button', { name: /Grupo C/ })).toHaveAttribute('aria-expanded', 'true');
+      expect(screen.getByRole('button', { name: /Brasil/ })).toHaveAttribute('aria-expanded', 'true');
+    });
+
+    it('sem localStorage disponível, tudo abre e nada quebra', () => {
+      vi.spyOn(Storage.prototype, 'getItem').mockImplementation(() => {
+        throw new Error('storage bloqueado');
+      });
+      vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
+        throw new Error('storage bloqueado');
+      });
+
+      render(<Catalogo {...propsBase} />);
+
+      expect(screen.getByRole('button', { name: /Brasil/ })).toHaveAttribute('aria-expanded', 'true');
+      expect(screen.getByLabelText('BRA 01, faltante, metalizada')).toBeInTheDocument();
+    });
+
+    it('siglas e letras desconhecidas no armazenamento são ignoradas', () => {
+      localStorage.setItem(
+        'iconula.colapso-manual.v1',
+        JSON.stringify({ secoes: ['XYZ', 'BRA'], grupos: ['Z'] }),
+      );
+
+      render(<Catalogo {...propsBase} />);
+
+      // BRA é válida e volta fechada; FWC (a outra seção da amostra) abre.
+      expect(screen.getByRole('button', { name: /Brasil/ })).toHaveAttribute('aria-expanded', 'false');
+      expect(screen.getByRole('button', { name: /Extras FIFA/ })).toHaveAttribute('aria-expanded', 'true');
     });
   });
 });
