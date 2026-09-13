@@ -3,7 +3,7 @@
 # Tarefa [0012-0002]: cabeçalho de seção mais compacto
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Reduzir a altura do cabeçalho de cada seção — repetido 50 vezes no catálogo —

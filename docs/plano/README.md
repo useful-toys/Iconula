@@ -262,7 +262,7 @@ de seções completas foi descartado no planejamento.
 | # | Tarefa | Objetivo | Status |
 |---|---|---|---|
 | 0001 | [Persistência do colapso manual](0012-reducao-de-rolagem-vertical/0001-persistencia-do-colapso-manual.md) | Seções e super-grupos fechados à mão voltam fechados na próxima abertura; o salto grava a abertura. | Concluída |
-| 0002 | [Cabeçalho de seção mais compacto](0012-reducao-de-rolagem-vertical/0002-cabecalho-de-secao-mais-compacto.md) | `padding` do cabeçalho de seção de `10px 14px` para `7px 12px`. | Pendente |
+| 0002 | [Cabeçalho de seção mais compacto](0012-reducao-de-rolagem-vertical/0002-cabecalho-de-secao-mais-compacto.md) | `padding` do cabeçalho de seção de `10px 14px` para `7px 12px`. | Concluída |
 | 0003 | [Gaps entre seções e super-grupos reduzidos](0012-reducao-de-rolagem-vertical/0003-gaps-entre-secoes-e-super-grupos-reduzidos.md) | Espaços entre blocos: super-grupos 16→12px, seções 14→10px, cabeçalho→grade 10→8px. | Pendente |
 | 0004 | [Margem inferior do corpo sob medida](0012-reducao-de-rolagem-vertical/0004-margem-inferior-do-corpo-sob-medida.md) | Margem inferior = altura medida da falha expandida + 8px, em vez de 60px fixos. | Pendente |
 
