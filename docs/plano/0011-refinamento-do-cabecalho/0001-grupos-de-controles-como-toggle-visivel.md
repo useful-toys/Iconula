@@ -3,7 +3,7 @@
 # Tarefa [0011-0001]: grupos de controles como toggle visível
 
 ## Status
-Em andamento
+Concluída
 
 ## Objetivo
 Tornar visualmente claro que Página/Sigla, Lista/Álbum e Todas/Falt./Col./Rep.
