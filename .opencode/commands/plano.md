@@ -109,25 +109,50 @@ disco ainda.** O conteúdo deve ter:
    GCloud/GitHub/DNS no `docs/*.md` correspondente no mesmo PR; não introduzir
    router ou estado global antes de a árvore exigir.
 
-### Interação com fases pendentes existentes
+### Interação com fases e tarefas existentes
 
-Se o plano novo depende de, conflita com, ou estende uma fase pendente
-existente (como as Fases 11, 12 ou 13 no momento da escrita deste comando),
-diga explicitamente:
+**Tarefas concluídas são imutáveis.** Nenhuma tarefa com status "Concluída" pode
+ser alterada, removida ou reescrita — seu arquivo, log e commit já fizeram parte
+da `main`. Se o plano novo contradiz ou precisa rever algo que uma tarefa
+concluída entregou, a solução é sempre uma **tarefa nova** (na mesma fase ou
+numa nova), nunca a edição da antiga.
+
+**Tarefas em fases não concluídas podem receber novas tarefas.** Se o plano
+novo se encaixa numa fase existente que ainda tem tarefas pendentes ou em
+andamento (status da fase ≠ todas concluídas), proponha acrescentar tarefas
+novas a essa fase, em vez de criar uma fase paralela. Diga explicitamente:
+- qual fase existente recebe as novas tarefas;
+- por que elas pertencem àquela fase e não a uma nova;
+- a numeração das novas tarefas (sequencial a partir da última existente na fase).
+
+**Fases inteiramente concluídas não recebem tarefas novas.** Se o trabalho
+pertence ao mesmo tema de uma fase já concluída, crie uma fase nova que a
+referencie como dependência.
+
+Para fases pendentes que o plano novo afeta (depende de, conflita com ou
+estende), diga explicitamente:
 - qual fase pendente é afetada;
 - se a nova fase deve vir antes, depois ou em paralelo;
 - se a fase pendente precisa de ajuste (e qual).
 
 ## Etapa 2 — Arquivos de fase e tarefa (só após aprovação explícita)
 
-Nesta etapa, sim, escreva no disco. Para cada fase nova:
+Nesta etapa, sim, escreva no disco.
 
+### Para fases novas:
 1. Crie a pasta `docs/plano/[00NN-nome-da-fase]/` com kebab-case sem acentos.
 2. Crie os arquivos de tarefa `docs/plano/[00NN-nome-da-fase]/[000X-nome-da-tarefa].md`.
 3. Crie a subpasta `docs/plano/[00NN-nome-da-fase]/logs/` (vazia, o agente
    executor a preenche).
-4. Atualize `docs/plano/README.md` acrescentando as novas fases e a tabela de
-   pendências.
+
+### Para tarefas novas em fases existentes não concluídas:
+1. Crie os arquivos de tarefa na pasta da fase existente, numerados
+   sequencialmente a partir da última tarefa já presente.
+2. A subpasta `logs/` já existe; não a recrie.
+
+### Em ambos os casos:
+- Atualize `docs/plano/README.md` acrescentando as novas fases ou tarefas e a
+  tabela de pendências.
 
 ### Modelo obrigatório de cada tarefa
 
