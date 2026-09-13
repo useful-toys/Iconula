@@ -6,9 +6,10 @@
 Pendente
 
 ## Objetivo
-Estilizar `.figurinha__nome` — `system-ui`, menor que o código, centralizado,
-truncado com ellipsis — calibrando o tamanho nas duas disposições para o nome
-ser legível sem alargar o cartão.
+Estilizar o nome do cartão em duas linhas — `system-ui`, menor que o código,
+centralizado, sobrenome em caixa alta, truncado com ellipsis por linha —
+calibrando o tamanho nas duas disposições para o nome ser legível sem
+alargar o cartão.
 
 ## Documentos de referência
 - `docs/idr/0047-nomes-de-jogadores-nas-figurinhas.md` § Decisão — `system-ui`
@@ -25,21 +26,25 @@ ser legível sem alargar o cartão.
 ## Padrões e convenções aplicáveis
 - `font-family: system-ui, -apple-system, sans-serif` — o nome não entra na
   Poppins — `docs/interface.md` § Tipografia
-- Truncamento com `white-space: nowrap; overflow: hidden; text-overflow:
-  ellipsis;` — IDR 0047
+- Truncamento com ellipsis **por linha** (`white-space: nowrap; overflow:
+  hidden; text-overflow: ellipsis;`) — IDR 0047
+- Segunda linha em caixa alta por transformação visual (`text-transform:
+  uppercase`) — o dado mantém a grafia e o `aria-label` lê o nome completo
+  em caixa normal — IDR 0047
 - Tamanho menor que o código da mesma variante, com o menor valor ainda
   legível: partir de 9px na lista e 8px no álbum e calibrar na verificação
   visual — nomes longos truncam, nunca quebram o layout
 - Cor `--cream`, como o código — contraste textual pelos tokens existentes
 
 ## Escopo e instruções de implementação
-1. Criar `.figurinha__nome` em `Figurinha.css`: bloco, centralizado, cor
-   `--cream`, `system-ui`, truncamento com ellipsis, `max-width: 100%`.
-2. Ajuste por variante: `.figurinha--album .figurinha__nome` com o tamanho
-   menor calibrado.
-3. Verificação visual nas duas disposições com os nomes mais longos da fonte
-   (ex.: "Trent Alexander-Arnold"): truncados numa linha, sem empurrar o
-   layout nem colar no selo `×N`.
+1. Criar o estilo do nome em `Figurinha.css`, em duas linhas: bloco,
+   centralizado, cor `--cream`, `system-ui`, truncamento com ellipsis por
+   linha, `max-width: 100%`; segunda linha com `text-transform: uppercase`.
+2. Ajuste por variante: `.figurinha--album` com o tamanho menor calibrado.
+3. Verificação visual nas duas disposições com os casos extremos — sobrenome
+   longo (Trent/Alexander-Arnold), prenomes compostos (Juan José/Cáceres) e
+   nome único (Rodri): truncados por linha, sem empurrar o layout nem colar
+   no selo `×N`.
 4. Registrar os tamanhos finais em `docs/interface.md` § Medidas, citando o
    IDR 0047.
 
@@ -64,7 +69,9 @@ ser legível sem alargar o cartão.
 
 ## Critérios de aceite
 - [ ] Nome em `system-ui`, centralizado, menor que o código da mesma variante
-- [ ] Nomes longos truncam com ellipsis numa linha, sem quebrar o layout
+- [ ] Segunda linha em caixa alta; primeira linha e nomes de figurinha em
+      caixa normal
+- [ ] Nomes longos truncam com ellipsis por linha, sem quebrar o layout
       (verificação visual)
 - [ ] O tamanho final está em `docs/interface.md` § Medidas, citando o
       IDR 0047

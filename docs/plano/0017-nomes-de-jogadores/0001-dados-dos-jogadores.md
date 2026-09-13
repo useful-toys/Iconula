@@ -12,8 +12,8 @@ confirmadas do MDR 0008.
 
 ## Documentos de referência
 - `docs/model-dr/0008-dados-dos-nomes-das-figurinhas.md` § Listas confirmadas
-  e § Decisão — o conteúdo a transcrever: forma das três exportações,
-  mapeamento de posições, grafia já corrigida, lacuna do Paraguai e
+  e § Decisão — o conteúdo a transcrever: forma das três exportações, corte
+  prenomes/sobrenome, mapeamento de posições, grafia já corrigida e
   invariantes
 - `docs/tdr/0022-renumeracao-do-fwc.md` — FWC numerado de `FWC00` a `FWC19`
 - `src/data/catalogo.js` — as 50 seções (siglas) que o dado deve cobrir
@@ -30,13 +30,15 @@ confirmadas do MDR 0008.
 
 ## Escopo e instruções de implementação
 1. Transcrever as listas confirmadas do MDR 0008 para `src/data/jogadores.js`,
-   nas três exportações: `jogadoresPorSelecao` (48 siglas → 18 nomes),
-   `jogadoresFWC` (20) e `jogadoresCOC` (14) — a grafia já está corrigida no
-   registro.
+   nas três exportações: `jogadoresPorSelecao` (48 siglas → 18 jogadores,
+   cada um como "Prenomes/Sobrenome"; sem barra, nome único), `jogadoresFWC`
+   (20) e `jogadoresCOC` (14) — a grafia já está corrigida no registro.
 2. Criar `src/data/jogadores.test.js` com as invariantes do MDR 0008: 48
-   seleções com 18 nomes; nenhum nome vazio; nenhuma duplicata na mesma
-   seção; as 48 siglas conferem com `secoes` do catálogo; 20 nomes para FWC
-   e 14 para COC.
+   seleções com 18 jogadores; todo jogador com corte ("Prenomes/Sobrenome")
+   ou nome único, e nenhum corte em FWC/COC — onde a barra, quando existe,
+   é literal (FWC00, FWC02, FWC09, FWC19); nenhum nome vazio; nenhuma
+   duplicata na mesma seção; as 48 siglas conferem com `secoes` do catálogo;
+   20 nomes para FWC e 14 para COC.
 
 **Fora do escopo**: consumir o dado no catálogo (Tarefa 0002); exibir no
 cartão (Tarefa 0003).
@@ -53,6 +55,8 @@ cartão (Tarefa 0003).
 
 ## Critérios de aceite
 - [ ] 48 seleções com 18 nomes cada (teste)
+- [ ] Corte presente em todo jogador de seleção — barra ou nome único — e
+      ausente em FWC/COC (teste)
 - [ ] Nenhum nome vazio e nenhuma duplicata na mesma seção (teste)
 - [ ] As 48 siglas conferem com as seções do catálogo (teste)
 - [ ] 20 nomes para FWC e 14 para COC (teste)

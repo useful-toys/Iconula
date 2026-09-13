@@ -6,14 +6,15 @@
 Pendente
 
 ## Objetivo
-Acrescentar o campo `nome` a cada figurinha expandida por
-`expandirFigurinhas`, derivado de `jogadores.js` conforme o MDR 0008, e
-refletir a nova forma do dado na documentação de modelo no mesmo commit.
+Acrescentar a cada figurinha expandida por `expandirFigurinhas` o nome
+completo e as duas linhas de exibição (prenomes; sobrenome), derivados de
+`jogadores.js` conforme o MDR 0008, e refletir a nova forma do dado na
+documentação de modelo no mesmo commit.
 
 ## Documentos de referência
 - `src/data/jogadores.js` (gerado pela Tarefa 0017-0001)
-- `docs/model-dr/0008-dados-dos-nomes-das-figurinhas.md` § Decisão —
-  mapeamento de posições, lacuna do Paraguai e invariantes
+- `docs/model-dr/0008-dados-dos-nomes-das-figurinhas.md` § Decisão — corte
+  prenomes/sobrenome, mapeamento de posições e invariantes
 - `src/data/catalogo.js` — `expandirFigurinhas` e a forma atual da figurinha
   (`codigo`, `secao`, `posicao`, `metalizada`, `paisagem`)
 - `docs/model-dr/0006-catalogo-estatico-embutido.md` § Decisão — "estrutura
@@ -36,15 +37,17 @@ refletir a nova forma do dado na documentação de modelo no mesmo commit.
   `docs/model-dr/0002-schema-do-documento-da-colecao.md`
 
 ## Escopo e instruções de implementação
-1. Derivar em `catalogo.js` o nome de cada figurinha a partir de
-   `jogadores.js`, conforme o mapeamento de posições do MDR 0008 (posições
-   fixas 01 e 13; jogadores 1–11 e 12–18; FWC a partir de zero, COC a partir
-   de um).
-2. `expandirFigurinhas` passa a emitir `nome` para cada figurinha.
-3. Testes em `catalogo.test.js`: as 994 figurinhas com `nome` não vazio;
-   `BRA01` "Escudo do time" e `BRA13` "Foto do time"; `FWC00` e `COC01` com
-   os nomes da fonte; um jogador de cada faixa (ex.: `BRA02` e `BRA14`) com
-   o nome certo.
+1. Derivar em `catalogo.js`, para cada figurinha, o nome completo e as duas
+   linhas de exibição a partir de `jogadores.js`, conforme o MDR 0008
+   (mapeamento de posições; corte prenomes/sobrenome; FWC, COC e posições
+   fixas sem corte, exibidas com quebra natural).
+2. `expandirFigurinhas` passa a emitir o nome completo e as linhas de
+   exibição para cada figurinha.
+3. Testes em `catalogo.test.js`: as 994 figurinhas com nome completo e linhas
+   de exibição; `BRA01` "Escudo do time" e `BRA13` "Foto do time", sem corte;
+   `FWC00` e `COC01` com os nomes da fonte; um caso de cada faixa — `BRA02`
+   (nome único) e `BRA14` (Vinícius/Júnior) com prenomes e sobrenome
+   separados.
 4. Atualizar MDR 0006 (figurinha ganha `nome`; `jogadores.js` como dado de
    nomes), `docs/modelo-memoria.md` § Catálogo, TDR 0010 (a fonte dos nomes
    chegou por fornecimento do humano) e a linha de `src/data/jogadores.js` no
@@ -70,7 +73,8 @@ refletir a nova forma do dado na documentação de modelo no mesmo commit.
 - `AGENTS.md` — modificar (§ Onde fica cada coisa)
 
 ## Critérios de aceite
-- [ ] As 994 figurinhas com `nome` não vazio (teste)
+- [ ] As 994 figurinhas com nome completo e as duas linhas de exibição
+      derivadas do corte (teste)
 - [ ] FWC indexa a partir de zero e COC a partir de um (teste com `FWC00` e
       `COC01`)
 - [ ] Posições fixas 01/13 e as duas faixas de jogadores mapeadas corretamente

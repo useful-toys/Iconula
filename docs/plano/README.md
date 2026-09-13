@@ -314,8 +314,10 @@ vermelho (`--notif-red`).
 Decisão de exibição já registrada no
 [IDR 0047](../idr/0047-nomes-de-jogadores-nas-figurinhas.md) e decisões de
 dado no [MDR 0008](../model-dr/0008-dados-dos-nomes-das-figurinhas.md):
-nome do jogador/elemento abaixo do código em cada cartão, nas duas
-disposições, com truncamento e nome no aria-label. A fonte é o fornecimento
+nome do jogador/elemento abaixo do código em cada cartão, em duas linhas
+(prenomes em caixa normal; sobrenome em caixa alta; nome único só na
+segunda), nas duas disposições, com truncamento por linha e nome completo
+no aria-label. A fonte é o fornecimento
 do humano (fonte original): as 48 seleções, os Extras FIFA e a Coca-Cola
 foram provistos e conferidos contra os defeitos da primeira listagem
 (48/48, grupos idênticos ao catálogo, buracos e duplicatas resolvidos), o
@@ -331,7 +333,7 @@ Executar depois da Fase 13: as duas tocam `Figurinha.jsx`, `Figurinha.css` e
 |---|---|---|---|
 | 0001 | [Dados dos jogadores](0017-nomes-de-jogadores/0001-dados-dos-jogadores.md) | `src/data/jogadores.js` com os nomes das listas confirmadas do MDR 0008 (48×18, 20 FWC, 14 COC), com testes de invariantes. | Pendente |
 | 0002 | [Campo nome no catálogo](0017-nomes-de-jogadores/0002-modificar-catalogo.md) | `expandirFigurinhas` emite `nome` via `obterNomeFigurinha`; MDR 0006, `modelo-memoria.md`, TDR 0010 e `AGENTS.md` atualizados no mesmo commit. | Pendente |
-| 0003 | [Nome no cartão](0017-nomes-de-jogadores/0003-atualizar-figurinha.md) | `Figurinha` exibe o nome abaixo do código e no aria-label, `propsEquivalentes` compara; `Secao` e `PaginaDoAlbum` passam a prop. | Pendente |
+| 0003 | [Nome no cartão](0017-nomes-de-jogadores/0003-atualizar-figurinha.md) | `Figurinha` exibe o nome em duas linhas abaixo do código e no aria-label, `propsEquivalentes` compara; `Secao` e `PaginaDoAlbum` passam as props. | Pendente |
 | 0004 | [Estilo do nome](0017-nomes-de-jogadores/0004-estilizar-nome.md) | `.figurinha__nome` em `system-ui` menor que o código, truncado com ellipsis, calibrado nas duas disposições. | Pendente |
 
 ## Regras que valem em toda tarefa
