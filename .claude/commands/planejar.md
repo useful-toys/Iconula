@@ -11,9 +11,11 @@ argument-hint: <descrição do pedido>
 
 Transformar `$ARGUMENTS` num plano que o `/executar-plano` e o
 `/executar-tarefa` executam **sem interpretação**: tarefas em fases existentes
-ou novas, no formato do guia, entregues numa branch `docs` com PR. Não escreve
-código, registros de decisão nem `docs/*.md` fora de `docs/plano/`. As regras
-estão em `docs/plano/CLAUDE.md` (o guia); em conflito, o guia vence.
+ou novas, no formato do guia, e as **decisões significativas confirmadas**
+pelo humano já registradas, tudo numa branch `docs` com PR. **Nunca cria nem
+altera código-fonte nem `docs/*.md`**: escreve só em `docs/plano/` e nas pastas
+de decisão (guia § Documentação viva › Especificação no planejamento). As regras estão
+em `docs/plano/CLAUDE.md` (o guia); em conflito, o guia vence.
 
 ## Entrada
 
@@ -56,10 +58,12 @@ seções encontradas:
 | 2 | contexto acabou antes das leituras | PARE: diga o que faltou, não planeje com leitura parcial |
 | 3 | parte classificada **já entregue** | não planeje essa parte: mostre tarefa, log e código |
 | 4 | parte classificada **contraria requisito** | PARE: peça a decisão do humano |
-| 5 | fim do passo 2 (mapa de fases) | PARE: aprovação explícita do humano |
+| 5 | fim do passo 2 (mapa de fases) | PARE: aprovação explícita do mapa e de cada decisão significativa |
 | 6 | fase que receberia tarefas tem branch ou PR aberto | pergunte antes de incluir |
 | 7 | árvore atual suja (passo 3) | PARE: peça para resolver |
 | 8 | `.worktrees/` não está no ignore | PARE: avise |
+| 9 | vontade de criar código, teste, estilo, configuração ou `docs/*.md` para explicar ou adiantar o plano | não crie: descreva na tarefa, em texto ou pseudocódigo curto |
+| 10 | `git diff --name-only` com arquivo fora de `docs/plano/` e das pastas de decisão | desfaça esse arquivo antes do commit |
 
 ## Passos
 
@@ -77,7 +81,7 @@ seções encontradas:
    | novo | nada no plano, nos registros nem no código trata disso | tarefas novas |
    | já entregue | tarefa `Concluída` de fase `Entregue` já faz, e o código confirma | condição 3 |
    | já planejado | tarefa `Pendente` já cobre | aponta a tarefa; se o pedido difere, propõe ajustá-la |
-   | muda o que já foi feito | altera comportamento entregue, decisão documentada ou alternativa recusada | tarefas novas com "Muda decisão documentada", citando a tarefa entregue como precedente |
+   | muda o que já foi feito | altera comportamento entregue, decisão documentada ou alternativa recusada | decisão significativa proposta (registro atualizado ao confirmar) e tarefas novas que a implementam, citando a tarefa entregue como precedente |
    | contraria requisito | fora de escopo em `docs/requisitos.md`, ou exige mudá-lo | condição 4 |
 
 3. Resuma: classificação com evidência; fases `Pendente` ou `Em andamento`
@@ -105,13 +109,21 @@ seções encontradas:
    - dependência só entre tarefas anteriores da mesma fase; entre fases, em
      "Depende de" (guia § Estrutura › Dependências);
    - fases em paralelo não alteram os mesmos arquivos de código;
-   - decisão aberta vai para "Decisões em aberto nesta tarefa"; ponto de
-     `docs/arquitetura.md` § Pontos em aberto ou `docs/interface.md`
+   - **decisões significativas são tomadas aqui** (guia § Registro de
+     decisões › Quem registra): propostas no mapa, confirmadas pelo humano e
+     registradas no passo 3 — nunca repassadas à tarefa; a que depende de
+     evidência da execução vira "Ponto de decisão" em "Impedimentos
+     específicos"; "Decisões em aberto" da tarefa só leva questões de nível 1
+     ou 2;
+   - ponto de `docs/arquitetura.md` § Pontos em aberto ou `docs/interface.md`
      § Pendências de interface resolvido pelo plano é alocado numa tarefa;
-   - mudança de decisão documentada é explícita e aprovada neste passo;
    - requisito não funcional que a tarefa pode quebrar vira critério específico;
    - `docs/*.md` impactado tem registro de lastro; `docs/requisitos.md` nunca;
-     `docs/setup-*.md` só com passos de setup.
+     `docs/setup-*.md` só com passos de setup;
+   - mudança de especificação em `docs/*.md` é descrita na tarefa (documento,
+     seção, o que passa a dizer) e feita pela tarefa; se é decisão, o registro
+     nasce no passo 3 e a tarefa o cita;
+   - comportamento desejado em texto; no máximo pseudocódigo curto.
 3. Imprima no chat:
    - classificação do pedido, com evidência;
    - tarefas acrescentadas a fases existentes (fase, numeração, motivo) e
@@ -119,7 +131,10 @@ seções encontradas:
    - tabela de fases novas: número, nome, objetivo em uma linha, "Depende de",
      PR previsto;
    - tarefas de cada fase: título e objetivo em uma linha;
-   - decisões documentadas que o plano muda e em qual tarefa;
+   - decisões significativas propostas, uma a uma: tipo; registro a criar ou
+     atualizar (com o trecho que muda); decisão; alternativas com prós e
+     contras; tarefa que a implementa;
+   - pontos de decisão que dependem de evidência da execução, com a tarefa;
    - tarefas com setup ou configuração pública;
    - ajustes em tarefas pendentes existentes.
 4. Condição 5.
@@ -132,20 +147,28 @@ seções encontradas:
    Branch ou worktree com esse sufixo já existe → pergunte se reaproveita.
 3. `git worktree add .worktrees/<diretório> -b <branch> origin/main`; trabalhe
    só nela.
-4. Escreva em `docs/plano/`:
+4. Registre as decisões confirmadas (guia § Registro de decisões › Decisões no
+   planejamento): leia antes o guia da pasta de cada tipo; crie ou atualize o
+   registro e a linha do índice; em "Consequências", a fase e a tarefa que o
+   implementam.
+5. Escreva em `docs/plano/`:
    - fases novas: pasta `docs/plano/NNNN-nome-da-fase/` e tarefas no guia
-     § Formato da tarefa; sem pasta `logs/`;
+     § Formato da tarefa, citando em "Decisões já tomadas" os registros do
+     item 4 pelo caminho real; sem pasta `logs/`;
    - tarefas novas em fase existente: numeradas a partir da última;
    - ajustes aprovados em tarefas `Pendente`;
    - `docs/plano/README.md`: linha da fase nova (`Pendente`) e tabela de
-     tarefas (`Pendente`); sem números de registro novos, sem regras do guia,
-     sem pendências.
-5. Passe cada tarefa pelo guia § Conferência da tarefa e corrija.
-6. Um commit — mensagem pela skill `git-commit-message` (sem a skill: guia § Convenções de Git › Commit).
-7. Mostre arquivos e resultado da conferência; pergunte se abre o PR.
-8. Autorizado → `git push -u origin <branch>`; PR — skill `git-pull-request-message` (sem a skill: guia § Convenções de Git › PR) —, label
-   `documentation`, descrição com classificação, fases e tarefas, decisões
-   documentadas que mudam e tarefas com setup.
+     tarefas (`Pendente`); sem regras do guia, sem pendências.
+6. Passe cada tarefa pelo guia § Conferência da tarefa e corrija. Confira
+   `git status --short`: só `docs/plano/` e `docs/adr`, `docs/tdr`,
+   `docs/idr`, `docs/model-dr`, `docs/devops-dr` — condição 10.
+7. Um commit — mensagem pela skill `git-commit-message` (sem a skill: guia § Convenções de Git › Commit).
+8. Mostre arquivos, registros e resultado da conferência; pergunte se abre o
+   PR.
+9. Autorizado → sincronize com a `main` e renumere registros que colidem (guia
+   § Convenções de Git › Renumeração); `git push -u origin <branch>`; PR —
+   skill `git-pull-request-message` (sem a skill: guia § Convenções de Git › PR) —, label `documentation`, descrição com classificação, fases e
+   tarefas, decisões registradas (e renumeração) e tarefas com setup.
 
 ## Saída
 
@@ -156,8 +179,12 @@ seções encontradas:
 ## Proibições
 
 - Gravar arquivo ou criar branch antes da aprovação do mapa.
-- Escrever fora de `docs/plano/`; criar registro de decisão; alterar
-  `docs/*.md` fora de `docs/plano/`.
+- Criar, alterar ou remover código-fonte, testes, estilos, configuração,
+  `firestore.rules`, workflows, assets ou qualquer `docs/*.md` — só
+  `docs/plano/` e as pastas de decisão.
+- Código pronto nas tarefas; no máximo pseudocódigo curto.
+- Registrar decisão não confirmada pelo humano, ou deixar decisão
+  significativa em aberto para a tarefa.
 - Editar tarefa `Concluída`; acrescentar tarefa a fase `Entregue`.
 - Prever alteração em `docs/requisitos.md`.
 - Repetir ou contradizer o comportamento padrão do guia; fixar número de

@@ -131,17 +131,9 @@ Para cada tarefa não `Concluída`, em ordem numérica:
    `docs/<tipo>/README.md` ou em linhas de tabela de `docs/plano/README.md` →
    mantenha as linhas dos dois lados, em ordem numérica. Outro conflito →
    condição 9.
-2. Renumere registros que colidem com a `main`:
-   1. Criados na fase:
-      `git diff --name-status --diff-filter=A origin/main...HEAD -- docs/adr docs/tdr docs/idr docs/model-dr docs/devops-dr`
-      (sem `README.md` e `CLAUDE.md`).
-   2. Colisão = mesmo número na mesma pasta da `origin/main`.
-   3. Novo número = próximo livre após o maior entre `origin/main` e a branch,
-      em ordem de criação: `git mv`; título; links e menções `TIPO NNNN` nos
-      arquivos alterados pela fase; linha do índice na posição; busca sem
-      referência antiga.
-   4. Commit próprio — mensagem pela skill `git-commit-message` (sem a skill: guia § Convenções de Git › Commit) —; guarde a tabela `antigo → novo`.
-   5. Houve mudança na sincronização ou renumeração → repita o passo 4.1.
+2. Renumere registros que colidem com a `main` — guia § Convenções de Git ›
+   Renumeração; commit — mensagem pela skill `git-commit-message` (sem a skill: guia § Convenções de Git › Commit). Houve mudança na sincronização ou
+   renumeração → repita o passo 4.1.
 3. `git push -u origin <branch>`; `--force-with-lease` só se a branch já estava
    no remoto e foi rebaseada.
 4. PR — skill `git-pull-request-message` (sem a skill: guia § Convenções de Git › PR) —, a partir de "PR previsto": objetivo; tarefas com link

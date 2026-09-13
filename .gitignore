@@ -35,3 +35,5 @@ dist-ssr
 
 # Worktrees do Claude Code (checkouts locais de outras branches)
 .claude/worktrees/
+# worktrees de trabalho dos comandos do plano
+.worktrees/
