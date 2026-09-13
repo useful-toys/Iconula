@@ -16,6 +16,11 @@ Aceito
 - A action `FirebaseExtended/action-hosting-deploy` deriva um nome
   default do branch, mas esse nome não é estável nem fácil de referenciar
   programaticamente no job de cleanup.
+- O host do canal (`iconula--pr<N>-<hash>.web.app`) não entra nos
+  authorized domains do Firebase Auth: sem ele, o login no preview falha
+  com `auth/unauthorized-domain`.
+- Authorized domains não expiram com o canal: em 2026-09-13 a lista tinha
+  `pr13`, `pr24` e `pr25`, adicionados à mão, sem canal nenhum por trás.
 
 ## Decisão
 
@@ -44,6 +49,31 @@ Aceito
   Firebase app directory"). Sem o passo `actions/checkout`, o job falhava
   em todo PR fechado e os canais nunca eram apagados.
 
+### Domínio do canal autorizado no login pelo tempo de vida do canal
+
+- **Adicionar**: depois do deploy, `build_and_preview` adiciona o host do
+  canal (saída `details_url` da action) aos authorized domains.
+- **Remover ao fechar**: `cleanup_preview` remove todo host
+  `iconula--pr<N>-*.web.app`, com `if: always()` — sai mesmo se o delete
+  do canal falhar.
+- **Varredura diária**: `firebase-preview-domains-sweep.yml` (agendado e
+  manual) remove hosts de preview sem canal ativo — acompanha a expiração
+  de 3 dias, que o Hosting aplica ao canal e não aos authorized domains.
+- **Script único**: `.github/scripts/dominios-autorizados-preview.sh`
+  (`adicionar`, `remover-pr`, `varrer`), com `curl`, `jq` e `gcloud` da
+  imagem do runner, contra a Identity Toolkit Admin API e a Hosting REST
+  API — sem action ou dependência nova.
+- **Concorrência**: a API grava a lista inteira
+  (`updateMask=authorizedDomains`); cada alteração lê, grava e relê para
+  confirmar, com até 5 tentativas. A varredura só toca hosts no padrão
+  `iconula--*.web.app` e para se a listagem de canais falhar.
+- **Permissão mínima**: role custom
+  `projects/iconula/roles/authorizedDomainsEditor`
+  (`firebaseauth.configs.get` e `firebaseauth.configs.update`) na service
+  account do CI — ver [setup-gcloud.md](../setup-gcloud.md).
+- **Falha visível**: não conseguir autorizar falha o `build_and_preview`;
+  preview com login quebrado não passa despercebido.
+
 ### Restrição a PRs do próprio repositório
 
 - `if: github.event.pull_request.head.repo.full_name == github.repository`
@@ -64,6 +94,13 @@ Aceito
   tendo lint/testes (cobertura de qualidade).
 - O checkout no `cleanup_preview` é obrigatório — sem ele, o job falha
   silenciosamente e os canais nunca são apagados.
+- Login com Google funciona no preview sem passo manual; o host fica
+  autorizado no máximo enquanto o canal existir, com folga de até um dia
+  quando só a varredura o remove.
+- A chave do CI passa a poder alterar a configuração do Auth
+  (`firebaseauth.configs.update`), mas não usuários.
+- Uma falha de IAM ou da API do Auth bloqueia o merge de todo PR, porque
+  `build_and_preview` é required check ([DDR 0005](0005-protecao-da-branch-main.md)).
 
 ## Alternativas consideradas
 
@@ -77,3 +114,20 @@ Aceito
 - **Preview deploy para PRs de fork**: rejeitado — exporia o secret de
   deploy a código não revisado; forks continuam com lint/testes via
   `ci.yml`.
+- **Autorizar o domínio à mão**: rejeitado — era a limitação documentada,
+  exigia passo manual a cada PR e deixava os hosts na lista para sempre.
+- **`roles/firebaseauth.admin` na service account**: rejeitado — daria à
+  chave do CI criar, alterar e apagar usuários do Auth para editar só a
+  lista de domínios.
+- **Remover só ao fechar o PR**: rejeitado — um cleanup que falhe deixa o
+  host autorizado indefinidamente, como aconteceu com `pr13`, `pr24` e
+  `pr25`.
+- **`concurrency` do GitHub Actions para serializar as alterações**:
+  rejeitado — o GitHub cancela a execução pendente quando outra entra no
+  mesmo grupo, e o PR cancelado ficaria sem domínio autorizado.
+
+## Histórico
+
+- 2026-09-13 — acrescenta a autorização do host do canal no Firebase Auth
+  (adicionar no deploy, remover ao fechar e na varredura diária) e a role
+  custom mínima. Antes, o host era adicionado à mão e nunca saía da lista.

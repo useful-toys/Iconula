@@ -114,7 +114,7 @@ curl -sI https://iconula.web.app
 ```
 
 - **URL de produção**: https://iconula.web.app
-- **URLs de preview** (por PR): `https://iconula--pr<N>-<slug>-<hash>.web.app`, expiram automaticamente após 3 dias
+- **URLs de preview** (por PR): `https://iconula--pr<N>-<hash>.web.app`, expiram automaticamente após 3 dias
 
 ### Deploy manual (fora do CI, se necessário)
 
@@ -211,15 +211,35 @@ O login com Google exigiu abrir exceções pontuais na CSP e relaxar o
 [docs/tdr/0005](tdr/0005-csp-firebase-auth-google-oauth.md) para o
 detalhamento de cada diretiva.
 
-### Limitação conhecida: preview deploys por PR
+### Authorized domains dos previews por PR
 
 O canal de preview gerado por `firebase-hosting-pull-request.yml` usa um
-host temporário (`https://iconula--pr<N>-<slug>-<hash>.web.app`) que
-**não é adicionado automaticamente** às Authorized domains do Firebase
-Auth. Se o login falhar num preview com o erro
-`auth/unauthorized-domain`, adicionar manualmente esse host em
-Authentication → Settings → Authorized domains (ele expira junto com o
-canal de preview, 3 dias — não precisa ser removido manualmente depois).
+host temporário (`https://iconula--pr<N>-<hash>.web.app`) que o CI
+**adiciona e remove automaticamente** das Authorized domains, com o
+script `.github/scripts/dominios-autorizados-preview.sh` e a mesma
+service account do deploy (role custom `authorizedDomainsEditor` — ver
+[docs/setup-gcloud.md](setup-gcloud.md)):
+
+- entra no `build_and_preview`, logo depois do deploy;
+- sai no `cleanup_preview`, quando o PR fecha;
+- sai na varredura diária `firebase-preview-domains-sweep.yml` quando o
+  canal expirou (3 dias) — Authorized domains **não** expiram junto com o
+  canal.
+
+Decisão e alternativas em
+[DDR 0007](devops-dr/0007-ciclo-de-vida-dos-canais-de-preview.md).
+
+Conferir a lista e simular uma operação localmente, sem gravar:
+
+```bash
+TOKEN=$(gcloud auth print-access-token)
+curl -s "https://identitytoolkit.googleapis.com/admin/v2/projects/iconula/config" \
+  -H "Authorization: Bearer $TOKEN" -H "X-Goog-User-Project: iconula" | jq .authorizedDomains
+ACCESS_TOKEN=$TOKEN SIMULAR=1 bash .github/scripts/dominios-autorizados-preview.sh varrer
+```
+
+Rodar a varredura sob demanda:
+`gh workflow run firebase-preview-domains-sweep.yml`.
 
 ## Cloud Firestore
 

@@ -121,7 +121,9 @@ Os dois workflows de deploy (`firebase-hosting-merge.yml` e
 `firebase-hosting-pull-request.yml`) seguem o formato que o
 `firebase init hosting:github` normalmente geraria (escritos manualmente
 aqui pelo motivo explicado acima); `ci.yml` é um terceiro arquivo,
-adicionado para lint e testes (ver abaixo).
+adicionado para lint e testes, e `firebase-preview-domains-sweep.yml` um
+quarto, que limpa os authorized domains dos previews expirados (ver
+abaixo).
 
 ### `firebase-hosting-merge.yml`
 
@@ -147,10 +149,26 @@ O workflow tem `permissions: contents: read`, como o `ci.yml`.
 Dispara em todo pull request, mas só quando o PR **não** é de fork
 (`if: head.repo.full_name == github.repository`), para não expor os
 secrets de deploy a um fork. Faz build e um *preview deploy* (canal
-temporário, expira em ~7 dias), comentando a URL de preview automaticamente
+`pr<N>`, expira em 3 dias), comentando a URL de preview automaticamente
 no PR. Roda no job chamado **`build_and_preview`** — esse nome é
 importante porque é o identificador usado na regra de proteção de branch
 abaixo.
+
+Depois do deploy, o mesmo job adiciona o host do canal aos authorized
+domains do Firebase Auth (`.github/scripts/dominios-autorizados-preview.sh
+adicionar`), e o job `cleanup_preview` o remove quando o PR fecha
+(`remover-pr`, com `if: always()`). Os dois autenticam pela chave da
+service account em `$RUNNER_TEMP`, apagada num passo `if: always()` — ver
+[DDR 0007](devops-dr/0007-ciclo-de-vida-dos-canais-de-preview.md).
+
+### `firebase-preview-domains-sweep.yml`
+
+Roda todo dia (`cron: "17 6 * * *"`, UTC) e sob demanda
+(`gh workflow run firebase-preview-domains-sweep.yml`). Remove dos
+authorized domains os hosts `iconula--*.web.app` que não têm mais canal de
+Hosting ativo — os canais expiram em 3 dias, mas os domínios não. Job
+**`sweep_preview_domains`**, com `permissions: contents: read`; não é
+required check (não roda em PR).
 
 Ambos (`firebase-hosting-merge.yml` e `firebase-hosting-pull-request.yml`)
 usam `actions/setup-node` (Node 22) antes do build, e a versão `v0` do
