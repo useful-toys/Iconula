@@ -6,68 +6,60 @@
 Pendente
 
 ## Objetivo
-Aplicar a cor do grupo no título do `SuperGrupo.jsx` — borda esquerda de 3px e
-fundo com 15% de opacidade — usando os tokens da Tarefa 0001, com o texto do
-título mantendo `--gold`.
+Aplicar a cor do grupo no título de cada super-grupo — borda esquerda de 3px
+e fundo com 15% da cor sobre transparente —, com o texto do título em
+`--gold`.
 
 ## Documentos de referência
-- `docs/idr/0045-cores-de-super-grupos.md` § Decisão — "título do
-  super-grupo: borda esquerda 3px + fundo com 15% de opacidade"; FWC e COC
-  ficam de fora (não têm super-grupo)
-- `src/components/SuperGrupo.jsx` — a prop `grupo` já é a letra (A–L); o
-  título é o `button.super-grupo__titulo`, com texto em `--gold`
-- `src/components/SuperGrupo.css` — estilos atuais do título
-- `docs/adr/0008-css-modular-por-componente.md` — convenção de nomenclatura
-  de classes
-- `docs/tdr/0021-desempenho-do-catalogo.md` — memoização: a classe derivada
-  da prop existente não muda o comportamento de `propsEquivalentes`
-- `docs/interface.md` § Corpo — cabeçalho de super-grupo
+- `docs/idr/0045-cores-de-super-grupos.md` § Decisão — título do
+  super-grupo: borda esquerda 3px, fundo 15% misturado ao transparente
+- `src/theme.css` — tokens `--group-a` a `--group-l` (gerados pela Tarefa
+  0015-0001)
+- `src/components/SuperGrupo.jsx` — prop `grupo` com a letra; título é o
+  botão `super-grupo__titulo`
+- `src/components/SuperGrupo.css` — título sem painel, fundo transparente
+- `docs/adr/0008-css-modular-por-componente.md` — nomenclatura de classes
+- `docs/tdr/0021-desempenho-do-catalogo.md` — comparador de `memo` do
+  `SuperGrupo`
+- `docs/interface.md` § Medidas — "Título de super-grupo: 13px/600 em
+  `--gold`, com chevron, sem painel"
 
 ## Padrões e convenções aplicáveis
-- CSS modular por componente (prefixo `super-grupo--`) — ADR 0008
-- Cor nunca é o único sinal: a cor reforça a identidade do grupo; o nome
-  "Grupo A" continua no título — `docs/requisitos.md` § Requisitos Não
-  Funcionais
-- O texto do título mantém `--gold` para contraste — IDR 0045
+- CSS modular por componente — ADR 0008
+- Cor reforça; "Grupo A" continua no título — `docs/requisitos.md`
+  § Requisitos Não Funcionais
+- A cor deriva da prop `grupo`, já comparada no `memo` — TDR 0021
 
 ## Escopo e instruções de implementação
-1. Em `SuperGrupo.jsx`, acrescentar a classe dinâmica
-   `super-grupo--grupo-{letra}` derivada da prop `grupo`.
-2. Em `SuperGrupo.css`, criar os 12 modificadores (`.super-grupo--grupo-a` a
-   `.super-grupo--grupo-l`) aplicando ao `.super-grupo__titulo`:
-   `border-left: 3px solid var(--group-{letra})` e
-   `background: color-mix(in srgb, var(--group-{letra}) 15%, transparent)`.
-3. Testes em `SuperGrupo.test.jsx`: cada super-grupo renderizado recebe a
-   classe da sua letra.
-4. Descrever o estilo em `docs/interface.md` § Corpo (cabeçalho de
-   super-grupo), citando o IDR 0045.
+1. Em `SuperGrupo.jsx`, uma classe modificadora por letra do grupo.
+2. Em `SuperGrupo.css`, para cada uma das 12 letras, o título ganha borda
+   esquerda de 3px na cor do grupo e fundo com 15% da cor misturada ao
+   transparente.
+3. Testes em `SuperGrupo.test.jsx`: cada letra recebe a sua classe.
+4. Em `docs/interface.md` § Medidas, a linha do título de super-grupo passa
+   a: 13px/600 em `--gold`, com chevron, borda esquerda de 3px e fundo 15% na
+   cor do grupo — citando o IDR 0045.
 
-**Fora do escopo**: FWC e COC (não têm super-grupo — ver
-`docs/idr/0028-fwc-abre-e-coca-cola-fecha-o-catalogo.md`); cabeçalho de seção
-(Fase 16); faixa de bandeiras (Tarefa 0003).
+**Fora do escopo**: FWC e COC (fora de super-grupos); cabeçalho de seção
+(Fase 16); faixa de bandeiras (Tarefa 0015-0003).
 
 ## Decisões já tomadas (não reabrir)
-- Borda esquerda 3px + fundo com 15% de opacidade no título — ver
+- Borda, fundo e texto do título — ver
   `docs/idr/0045-cores-de-super-grupos.md`
 - FWC e COC fora dos super-grupos — ver
   `docs/idr/0028-fwc-abre-e-coca-cola-fecha-o-catalogo.md`
-- Super-grupos colapsáveis com progresso agregado — ver
-  `docs/idr/0019-ordem-do-album-agrupada-e-colapsavel.md`
 
 ## Arquivos impactados
-- `src/components/SuperGrupo.jsx` — modificar
-- `src/components/SuperGrupo.css` — modificar
-- `src/components/SuperGrupo.test.jsx` — modificar
-- `docs/interface.md` — modificar (§ Corpo)
+- `src/components/SuperGrupo.jsx`, `src/components/SuperGrupo.css`,
+  `src/components/SuperGrupo.test.jsx` — modificar
+- `docs/interface.md` — modificar (§ Medidas)
 
 ## Critérios de aceite
-- [ ] Cada título de super-grupo exibe borda esquerda de 3px e fundo com 15%
-      da cor do seu grupo
-- [ ] O texto do título continua em `--gold`
-- [ ] Teste confirma a classe `super-grupo--grupo-{letra}` para cada grupo
-- [ ] `docs/interface.md` § Corpo descreve o estilo citando o IDR 0045
+- [ ] Cada título tem borda esquerda de 3px e fundo 15% da cor do seu grupo
+      (CSS e teste da classe por letra)
+- [ ] Texto do título continua em `--gold`
+- [ ] `docs/interface.md` § Medidas descreve o título citando o IDR 0045
 
 ## Validação adicional
-Verificação visual em `npm run dev`, na ordenação por página: os 12
-super-grupos com suas cores, colapsados e expandidos, sem perda de legibilidade
-do título.
+Verificação visual em `npm run dev`, ordenação por página: os 12 super-grupos
+abertos e fechados, títulos legíveis.

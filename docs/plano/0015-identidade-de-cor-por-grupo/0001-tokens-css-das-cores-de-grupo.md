@@ -6,46 +6,38 @@
 Pendente
 
 ## Objetivo
-Criar em `theme.css` os tokens das cores de identidade dos 12 grupos da Copa
-(A–L) e dos dois especiais — base das Tarefas 0002 e 0003 —, convertendo o hex
-do IDR 0045 para OKLCH com contraste ajustado ao tema escuro.
+Criar em `theme.css` os tokens de identidade dos 12 grupos (A–L), o vermelho
+da Coca-Cola e os alias dos dois especiais, com os valores OKLCH já decididos
+— base das Tarefas 0002 e 0003.
 
 ## Documentos de referência
-- `docs/idr/0045-cores-de-super-grupos.md` § Decisão — a tabela hex dos 12
-  grupos e os especiais: FWC dourado (`--gold`), COC vermelho (`--notif-red`)
-- `docs/idr/0042-foco-visivel-e-area-de-toque.md` § Decisão — contraste mínimo
-  de 3:1 para elementos não textuais
-- `src/theme.css` — tokens existentes em OKLCH, incluindo `--gold` e
-  `--notif-red`
-- `docs/interface.md` § Identidade visual — onde os tokens passam a ser
-  descritos
+- `docs/idr/0045-cores-de-super-grupos.md` § Cores dos super-grupos e
+  § Especiais — nomes dos tokens e valores finais
+- `src/theme.css` — tokens existentes em OKLCH, incluindo `--gold`
+- `docs/interface.md` § Identidade visual › Paleta — tabela de tokens
 
 ## Padrões e convenções aplicáveis
-- Tokens em OKLCH, como os existentes (`--turf`, `--gold`) — `src/theme.css`
-- FWC e COC são alias, não cores novas: `--group-fwc: var(--gold)` e
-  `--group-coc: var(--notif-red)` — IDR 0045 § Especiais
-- Contraste ≥ 3:1 (não textual) da cor aplicada contra a superfície onde
-  assenta — IDR 0042; medir e registrar a medição
-- Cabeçalho de copyright mantido no arquivo — `AGENTS.md` § Convenções
+- Valores copiados do IDR 0045, sem reconverter nem ajustar — IDR 0045
+- FWC e COC são alias: `--group-fwc` aponta para `--gold` e `--group-coc`
+  para `--coc-red` — IDR 0045
+- `--notif-red` continua exclusivo dos avisos — IDR 0029
 
 ## Escopo e instruções de implementação
-1. Converter os 12 hex do IDR 0045 para OKLCH com conversor de verdade — os
-   valores são recalculados na execução, não copiados de cabeça — ajustando a
-   luminosidade quando o contraste sobre o tema escuro pedir.
-2. Acrescentar em `src/theme.css`, sob comentário "Cores de grupo": os 12
-   tokens `--group-a`…`--group-l` e os alias `--group-fwc` e `--group-coc`.
-3. Medir o contraste de cada cor contra a superfície de aplicação (título do
-   super-grupo e fundo da faixa de bandeiras) e registrar a medição no log.
-4. Descrever os tokens em `docs/interface.md` § Identidade visual, citando o
-   IDR 0045.
+1. Em `src/theme.css`, sob um comentário "Cores de grupo": `--group-a` a
+   `--group-l` e `--coc-red` com os valores da tabela do IDR 0045, e os alias
+   `--group-fwc` e `--group-coc`.
+2. Em `docs/interface.md` § Identidade visual › Paleta, acrescentar as
+   linhas dos 12 tokens de grupo, de `--coc-red` e dos alias, com uso
+   "identidade do grupo (título do super-grupo, faixa de bandeiras)" —
+   citando o IDR 0045.
 
-**Fora do escopo**: aplicar as cores em componentes (Tarefas 0002 e 0003);
-cores por seleção (Fase 16).
+**Fora do escopo**: aplicar as cores (Tarefas 0015-0002 e 0015-0003); cores
+de seleção (Fase 16).
 
 ## Decisões já tomadas (não reabrir)
-- As cores de cada grupo e os especiais (FWC `--gold`, COC `--notif-red`) —
-  ver `docs/idr/0045-cores-de-super-grupos.md`
-- Tema escuro único, sem tema claro — ver
+- Cores, valores OKLCH, contrastes e `--coc-red` — ver
+  `docs/idr/0045-cores-de-super-grupos.md`
+- Tema escuro único — ver
   `docs/idr/0022-tema-escuro-unico-paleta-do-prototipo.md`
 
 ## Arquivos impactados
@@ -53,10 +45,8 @@ cores por seleção (Fase 16).
 - `docs/interface.md` — modificar (§ Identidade visual)
 
 ## Critérios de aceite
-- [ ] 14 tokens em `theme.css`: 12 cores próprias + `--group-fwc` e
-      `--group-coc` como alias de `--gold` e `--notif-red`
-- [ ] Conversões OKLCH recalculadas dos hex do IDR 0045, mantendo os 12
-      grupos distinguíveis entre si
-- [ ] Contraste ≥ 3:1 medido e registrado no log
-- [ ] `docs/interface.md` § Identidade visual descreve os tokens citando o
+- [ ] 15 tokens em `theme.css` com os valores exatos do IDR 0045: 12 grupos,
+      `--coc-red` e os alias `--group-fwc` e `--group-coc` (busca)
+- [ ] `--notif-red` inalterado (diff)
+- [ ] `docs/interface.md` § Identidade visual lista os tokens citando o
       IDR 0045
