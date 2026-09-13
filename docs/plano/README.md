@@ -308,22 +308,22 @@ vermelho (`--notif-red`).
 ## Fase 17 — Nomes de jogadores nas figurinhas
 
 Decisão de exibição já registrada no
-[IDR 0047](../idr/0047-nomes-de-jogadores-nas-figurinhas.md): nome do
-jogador/elemento abaixo do código em cada cartão, nas duas disposições, com
-truncamento e nome no aria-label. **A fonte do dado é o fornecimento do humano
-(fonte original), ainda pendente**: a primeira listagem chegou embutida no
-IDR 0047 incompleta e com erros — 44 de 48 seleções (faltavam RSA, SEN, SUI e
-TUR), buracos em QAT06, SCO04, TUN12 e SWE04/12/14/16, Paraguai com jogadores
-da Colômbia nas posições 15–20 e duplicatas em NZL, PAN, POR e UZB — e foi
-removida do registro (ver o Histórico do IDR 0047). A Tarefa 0001 bloqueia
-sem o fornecimento e o confere contra esses pontos.
+[IDR 0047](../idr/0047-nomes-de-jogadores-nas-figurinhas.md) e decisões de
+dado no [MDR 0008](../model-dr/0008-dados-dos-nomes-das-figurinhas.md):
+nome do jogador/elemento abaixo do código em cada cartão, nas duas
+disposições, com truncamento e nome no aria-label. A fonte é o fornecimento
+do humano (fonte original): as 48 seleções já foram provistas e conferidas
+contra os defeitos da primeira listagem (48/48, grupos idênticos ao
+catálogo, buracos e duplicatas resolvidos), com o Paraguai trazendo só 13
+dos 18 jogadores — lacuna declarada em PAR16–PAR20; FWC e COC aguardam
+reenvio, e a Tarefa 0001 bloqueia até lá.
 
 Executar depois da Fase 13: as duas tocam `Figurinha.jsx`, `Figurinha.css` e
 `Figurinha.test.jsx`.
 
 | # | Tarefa | Objetivo | Status |
 |---|---|---|---|
-| 0001 | [Dados dos jogadores](0017-nomes-de-jogadores/0001-dados-dos-jogadores.md) | `src/data/jogadores.js` com os 994 nomes da fonte do humano (48×18 jogadores + escudo + foto, 20 FWC, 14 COC), com testes de invariantes. | Pendente |
+| 0001 | [Dados dos jogadores](0017-nomes-de-jogadores/0001-dados-dos-jogadores.md) | `src/data/jogadores.js` com os nomes da fonte do humano, conforme o MDR 0008 (47×18 + Paraguai com 13, 20 FWC, 14 COC), com testes de invariantes. | Pendente |
 | 0002 | [Campo nome no catálogo](0017-nomes-de-jogadores/0002-modificar-catalogo.md) | `expandirFigurinhas` emite `nome` via `obterNomeFigurinha`; MDR 0006, `modelo-memoria.md`, TDR 0010 e `AGENTS.md` atualizados no mesmo commit. | Pendente |
 | 0003 | [Nome no cartão](0017-nomes-de-jogadores/0003-atualizar-figurinha.md) | `Figurinha` exibe o nome abaixo do código e no aria-label, `propsEquivalentes` compara; `Secao` e `PaginaDoAlbum` passam a prop. | Pendente |
 | 0004 | [Estilo do nome](0017-nomes-de-jogadores/0004-estilizar-nome.md) | `.figurinha__nome` em `system-ui` menor que o código, truncado com ellipsis, calibrado nas duas disposições. | Pendente |
