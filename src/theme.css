@@ -20,9 +20,9 @@
   --header-padding: 12px var(--page-gutter) 10px;
   --body-padding: 20px var(--page-gutter) 60px;
 
-  --super-group-gap: 16px;
-  --section-gap: 14px;
-  --section-body-gap: 10px;
+  --super-group-gap: 12px;
+  --section-gap: 10px;
+  --section-body-gap: 8px;
   --card-gap-list: 8px;
   --album-page-gap: 20px;
 

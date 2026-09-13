@@ -3,7 +3,7 @@
 # Tarefa [0012-0003]: gaps entre seções e super-grupos reduzidos
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Apertar os espaçamentos entre blocos do catálogo — 16→12px entre
