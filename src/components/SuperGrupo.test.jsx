@@ -187,4 +187,28 @@ describe('SuperGrupo', () => {
     expect(screen.getByRole('button', { name: /Grupo C/ })).toHaveAttribute('aria-expanded', 'true');
     expect(screen.getByRole('button', { name: /Brasil/ })).toBeInTheDocument();
   });
+
+  it('aplica a classe de cor de cada letra do grupo no título', () => {
+    const letras = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L'];
+
+    for (const letra of letras) {
+      const { unmount } = render(
+        <SuperGrupo
+          grupo={letra}
+          secoes={[]}
+          figurinhas={[]}
+          contagens={{}}
+          onAjustar={vi.fn()}
+          isExpandida={isExpandidaMock}
+          getToggleHandler={getToggleHandlerMock}
+          setSecaoRef={setSecaoRefMock}
+        />,
+      );
+
+      const titulo = screen.getByRole('button', { name: new RegExp(`Grupo ${letra}`) });
+      expect(titulo).toHaveClass('super-grupo__titulo');
+      expect(titulo).toHaveClass(`super-grupo__titulo--${letra.toLowerCase()}`);
+      unmount();
+    }
+  });
 });

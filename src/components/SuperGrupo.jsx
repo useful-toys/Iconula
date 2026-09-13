@@ -122,7 +122,7 @@ export const SuperGrupo = memo(function SuperGrupo({
     <div className="super-grupo">
       <button
         type="button"
-        className="super-grupo__titulo"
+        className={`super-grupo__titulo super-grupo__titulo--${grupo.toLowerCase()}`}
         aria-expanded={expandida}
         aria-label={nomeAcessivel}
         onClick={onToggle}

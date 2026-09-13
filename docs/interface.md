@@ -627,8 +627,9 @@ bandeiras.
   8px entre o cabeçalho da seção e a sua grade, 8px entre cartões na
   disposição lista e 20px entre as duas páginas na disposição álbum
   (IDR 0050)
-- Título de super-grupo: 13px/600 em `--gold`, com chevron `▾`/`▸`, sem
-  painel
+- Título de super-grupo: 13px/600 em `--gold`, com chevron `▾`/`▸`, borda
+  esquerda de 3px e fundo com 15% da cor do grupo sobre transparente — sem
+  painel (IDR 0045)
 - Cabeçalho de seção: painel com borda, raio 12px, `padding: 7px 12px`;
   ícone 18px, nome 14px/600 em `--cream`, números em `--muted`
   (IDR 0050)

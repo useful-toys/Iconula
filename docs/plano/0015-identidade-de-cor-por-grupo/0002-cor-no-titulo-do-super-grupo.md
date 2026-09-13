@@ -3,7 +3,7 @@
 # Tarefa [0015-0002]: cor no título do super-grupo
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Aplicar a cor do grupo no título de cada super-grupo — borda esquerda de 3px
