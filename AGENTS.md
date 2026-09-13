@@ -114,7 +114,7 @@ aberto e § Camadas no cliente).
 | `docs/plano/` | Plano de implementação em fases e tarefas; `docs/plano/README.md` é o índice e o mapa de status das fases. |
 | `docs/plano/CLAUDE.md` | Guia único do plano: estrutura, status, dependências, comportamento padrão de toda tarefa, impedimentos, registro de decisões, documentação viva, setup, convenções de Git e formatos de tarefa, log e relatório. Ler pelo caminho — não é carregado automaticamente por todas as ferramentas. |
 | `.claude/skills/`, `.opencode/skills/` | Skills do plano em duas versões sincronizadas (Claude Code e OpenCode, esta com prefixo `opencode-`): `/planejar`, `/executar-plano` e `/executar-tarefa`. |
-| `.opencode/commands/` | Comandos do OpenCode: os comandos finos que carregam as skills do plano; `/sincronizar-*` e `/reestruturar-*` para os registros de decisão. |
+| `.opencode/commands/` | Comandos do OpenCode: os comandos finos que carregam as skills do plano; `/sincronizar-*` e `/reestruturar-*` para os registros de decisão e `/limpar-branches-de-prs` para apagar branches e worktrees de PRs entregues. |
 | `opencode.json` | Configuração do OpenCode: oculta do agente as skills de `.claude/skills/`, que o OpenCode também descobre. |
 | `docs/adr/` | Decisões de arquitetura (ADRs) — leia antes de propor mudanças estruturais. |
 | `docs/tdr/` | Decisões técnicas pontuais (TDRs). |
