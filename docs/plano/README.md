@@ -59,7 +59,7 @@ Detalhes e status das tarefas no guia [CLAUDE.md](CLAUDE.md) § Status e ciclo d
 | 12 | [Redução de rolagem vertical](0012-reducao-de-rolagem-vertical/) | Lembrar o colapso manual entre sessões e apertar os espaçamentos repetidos do catálogo | 11 | `feat: colapso lembrado e catálogo mais compacto` | Pendente |
 | 13 | [Interação por pressão longa](0013-interacao-por-pressao-longa/) | Segurar o cartão decrementa uma unidade no mobile, sem precisar mirar no botão de menos | 12 | `feat: pressão longa decrementa no mobile` | Pendente |
 | 14 | [Correção urgente: renumeração do FWC](0014-numeracao-dos-extras-fifa/) | Extras FIFA de `FWC00` a `FWC19` (hoje `FWC01`–`FWC20`, deslocado em um); total do catálogo continua 994 | 10 | `fix: renumera os Extras FIFA para FWC00–FWC19` | Entregue |
-| 15 | [Identidade de cor por grupo](0015-identidade-de-cor-por-grupo/) | Cor distinta por grupo de seleções (A–L) e especiais (FWC, COC), aplicada no título do super-grupo e na faixa de bandeiras — o cabeçalho de seção fica para a cor da seleção (Fase 16) | 10 | `feat: identidade de cor por grupo de seções` | Pendente |
+| 15 | [Identidade de cor por grupo](0015-identidade-de-cor-por-grupo/) | Cor distinta por grupo de seleções (A–L) e especiais (FWC, COC), aplicada no título do super-grupo e na faixa de bandeiras — o cabeçalho de seção fica para a cor da seleção (Fase 16) | 13 | `feat: identidade de cor por grupo de seções` | Pendente |
 | 16 | [Identidade de cor por seleção](0016-identidade-de-cor-por-selecao/) | Cor individual para cada uma das 48 seleções, aplicada no cabeçalho de seção | 15 | `feat: identidade de cor por seleção` | Pendente |
 | 17 | [Nomes de jogadores nas figurinhas](0017-nomes-de-jogadores/) | Nome do jogador/elemento abaixo do código em cada figurinha, a partir do fornecimento do humano (fonte original) | — | `feat: nomes de jogadores nas figurinhas` | Pendente |
 
@@ -278,34 +278,31 @@ avaliados ficaram como alternativas descartadas no registro.
 
 ## Fase 15 — Identidade de cor por grupo
 
-Decisão já registrada no [IDR 0045](../idr/0045-cores-de-super-grupos.md): uma
-cor distinta por grupo de seleções (A–L) e para os especiais — FWC dourado
-(`--gold`), COC vermelho (`--notif-red`) — aplicada no título do super-grupo
-(borda esquerda 3px + fundo com 15% de opacidade) e na faixa de bandeiras
-(fundo com 20% de opacidade, somente na ordenação por página). O cabeçalho de
-seção não entra nesta fase: ganha a cor da seleção na Fase 16
-([IDR 0046](../idr/0046-cores-de-selecoes.md)) — aplicar as duas em sequência
-seria trabalho descartável (ver o Histórico do IDR 0045).
+Decisão registrada no [IDR 0045](../idr/0045-cores-de-super-grupos.md), com
+os valores OKLCH finais: uma cor por grupo (A–L), FWC em `--gold` e COC num
+vermelho próprio (`--coc-red`), no título do super-grupo (borda esquerda 3px +
+fundo 15%) e na faixa de bandeiras (fundo 20%, só na ordenação por página). O
+cabeçalho de seção ganha a cor da seleção na Fase 16
+([IDR 0046](../idr/0046-cores-de-selecoes.md)).
 
 | # | Tarefa | Objetivo | Status |
 |---|---|---|---|
-| 0001 | [Tokens CSS das cores de grupo](0015-identidade-de-cor-por-grupo/0001-tokens-css-das-cores-de-grupo.md) | 14 tokens em `theme.css`: 12 grupos convertidos do hex do IDR 0045 para OKLCH, FWC e COC como alias de `--gold` e `--notif-red`; contraste ≥ 3:1. | Pendente |
+| 0001 | [Tokens CSS das cores de grupo](0015-identidade-de-cor-por-grupo/0001-tokens-css-das-cores-de-grupo.md) | 15 tokens em `theme.css` com os valores do IDR 0045: 12 grupos, `--coc-red` e os alias de FWC e COC. | Pendente |
 | 0002 | [Cor no título do super-grupo](0015-identidade-de-cor-por-grupo/0002-cor-no-titulo-do-super-grupo.md) | Borda esquerda 3px + fundo com 15% de opacidade da cor do grupo no título do `SuperGrupo.jsx`; texto continua em `--gold`. | Pendente |
 | 0003 | [Cor na faixa de bandeiras](0015-identidade-de-cor-por-grupo/0003-cor-na-faixa-de-bandeiras.md) | Fundo com 20% de opacidade da cor do grupo em cada bandeira, somente na ordenação por página (FWC e COC incluídos); na ordenação por sigla, fundo neutro. | Pendente |
 
 ## Fase 16 — Identidade de cor por seleção
 
-Decisão já registrada no [IDR 0046](../idr/0046-cores-de-selecoes.md): cor
-individual para cada uma das 48 seleções, aplicada no cabeçalho de seção com
-borda completa de 1px + fundo com 15% de opacidade. Hierarquia: cor do grupo
-no título do super-grupo e na faixa de bandeiras (Fase 15, IDR 0045), cor da
-seleção no cabeçalho de seção (esta fase). FWC dourado (`--gold`), COC
-vermelho (`--notif-red`).
+Decisão registrada no [IDR 0046](../idr/0046-cores-de-selecoes.md), com os
+valores OKLCH finais: cor individual para cada uma das 48 seleções no
+cabeçalho de seção (borda completa 1px + fundo 15%), nas duas ordenações e
+disposições; FWC e COC com as cores de grupo; cores repetidas entre seleções
+aceitas.
 
 | # | Tarefa | Objetivo | Status |
 |---|---|---|---|
-| 0001 | [Tokens CSS das cores de seleção](0016-identidade-de-cor-por-selecao/0001-tokens-css-das-cores-de-selecao.md) | 50 tokens em `theme.css`: 48 seleções convertidas do hex do IDR 0046 para OKLCH, FWC e COC como alias; contraste ≥ 3:1. | Pendente |
-| 0002 | [Cor no cabeçalho de seção por seleção](0016-identidade-de-cor-por-selecao/0002-cor-no-cabecalho-de-secao-por-selecao.md) | Borda completa 1px + fundo com 15% de opacidade da cor da seleção no cabeçalho de cada seção; FWC e COC com suas cores. | Pendente |
+| 0001 | [Tokens CSS das cores de seleção](0016-identidade-de-cor-por-selecao/0001-tokens-css-das-cores-de-selecao.md) | 50 tokens em `theme.css` com os valores do IDR 0046: 48 seleções e os alias de FWC e COC. | Pendente |
+| 0002 | [Cor no cabeçalho de seção por seleção](0016-identidade-de-cor-por-selecao/0002-cor-no-cabecalho-de-secao-por-selecao.md) | Borda completa 1px + fundo 15% da cor da seleção no cabeçalho de cada seção, nas duas disposições; FWC e COC com suas cores. | Pendente |
 
 ## Fase 17 — Nomes de jogadores nas figurinhas
 

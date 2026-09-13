@@ -6,77 +6,59 @@
 Pendente
 
 ## Objetivo
-Fundo com 20% de opacidade da cor do grupo em cada bandeira da faixa de salto,
-somente na ordenação por página — FWC e COC incluídos, com as suas cores; na
-ordenação por sigla, todas as bandeiras ficam com o fundo neutro de hoje.
+Fundo de cada bandeira com 20% da cor do seu grupo misturada a `--panel`,
+só na ordenação por página — FWC e COC com as suas cores; na ordenação por
+sigla, todas neutras.
 
 ## Documentos de referência
-- `docs/idr/0045-cores-de-super-grupos.md` § Decisão — "faixa de bandeiras:
-  fundo com 20% de opacidade, apenas na ordenação por página; na ordenação
-  por sigla, fundo neutro, inclusive FWC e COC"
-- `src/components/FaixaDeSecoes.jsx` — recebe `secoes` e `onSaltar`; é
-  renderizada por `Cabecalho.jsx`, não por `App.jsx`
-- `src/components/Cabecalho.jsx` — pai direto da faixa; `App.jsx` é quem detém
-  o estado `ordenacao` (`'pagina' | 'sigla'`)
-- `src/components/FaixaDeSecoes.css` — estilos atuais dos botões da faixa
-  (`--panel`, hover em `--border`) e a área de toque ampliada do IDR 0042
-- `docs/idr/0016-salto-pela-faixa-de-bandeiras.md` — a faixa lista as 50
-  seções sempre, com rolagem horizontal
-- `docs/interface.md` § Cabeçalho — faixa de bandeiras
+- `docs/idr/0045-cores-de-super-grupos.md` § Decisão — faixa: 20% sobre
+  `--panel`, só por página, neutra por sigla inclusive FWC e COC
+- `src/theme.css` — `--group-*` (gerados pela Tarefa 0015-0001)
+- `src/components/FaixaDeSecoes.jsx`, `src/components/FaixaDeSecoes.css` —
+  a faixa já recebe a ordenação vigente (Fase 11,
+  `docs/plano/0011-refinamento-do-cabecalho/0003-bandeiras-mais-compactas.md`)
+- `docs/idr/0042-foco-visivel-e-area-de-toque.md` — área de toque e foco da
+  faixa
+- `docs/interface.md` § Medidas — linha "Faixa de bandeiras"
 
 ## Padrões e convenções aplicáveis
-- A cor depende da ordenação vigente: a prop `ordenacao` atravessa
-  `App.jsx → Cabecalho.jsx → FaixaDeSecoes.jsx` — nenhum outro canal
-- Área de toque ampliada do IDR 0042 inalterada: o `::before` de
-  `@media (pointer: coarse)` continua como está
-- Na ordenação por sigla nenhuma classe de cor é aplicada, inclusive FWC e
-  COC — IDR 0045
-- Hover e foco mantêm o comportamento atual (`--border`, `:focus-visible`)
+- Área de toque ampliada, espaçamentos e foco visível não mudam — IDR 0042
+- Hover continua em `--border` — `docs/interface.md` § Medidas
+- Na ordenação por sigla nenhuma bandeira recebe cor — IDR 0045
 
 ## Escopo e instruções de implementação
-1. Em `App.jsx`, passar `ordenacao` para `Cabecalho`.
-2. Em `Cabecalho.jsx`, repassar `ordenacao` para `FaixaDeSecoes`.
-3. Em `FaixaDeSecoes.jsx`, aceitar `ordenacao` e, só quando `'pagina'`,
-   aplicar a classe de cor de cada seção: `faixa-de-secoes__botao--grupo-{letra}`
-   para seleções e `faixa-de-secoes__botao--fwc`/`--coc` para os especiais.
-4. Em `FaixaDeSecoes.css`, criar os modificadores com
-   `background: color-mix(in srgb, var(--group-{letra}) 20%, var(--panel))`
-   — e o equivalente com `--group-fwc`/`--group-coc`.
-5. Testes em `FaixaDeSecoes.test.jsx` e `Cabecalho.test.jsx`: na ordenação
-   `pagina` as classes de cor aparecem (inclusive FWC e COC); na `sigla`,
-   nenhuma aparece; a prop atravessa o `Cabecalho`.
-6. Descrever em `docs/interface.md` § Cabeçalho (faixa de bandeiras), citando
-   o IDR 0045.
+1. Em `FaixaDeSecoes.jsx`, na ordenação por página, cada bandeira recebe uma
+   classe com a letra do grupo da seção, ou de FWC/COC; na ordenação por
+   sigla, nenhuma.
+2. Em `FaixaDeSecoes.css`, cada classe pinta o fundo com 20% da cor do grupo
+   (ou `--group-fwc`/`--group-coc`) misturada a `--panel`.
+3. Testes em `FaixaDeSecoes.test.jsx`: por página, as 50 bandeiras com a
+   classe certa (inclusive FWC e COC); por sigla, nenhuma.
+4. Em `docs/interface.md` § Medidas, a linha da faixa acrescenta: na
+   ordenação por página, fundo com 20% da cor do grupo — citando o IDR 0045.
 
-**Fora do escopo**: mudar ícone, espaçamento ou área de toque da faixa
-(Tarefa 0011-0003); cores por seleção na faixa (mantém cor de grupo —
-`docs/idr/0046-cores-de-selecoes.md`).
+**Fora do escopo**: ícone, espaçamento e área de toque (Tarefa 0011-0003);
+cor por seleção na faixa (fica a de grupo — IDR 0046).
 
 ## Decisões já tomadas (não reabrir)
-- Faixa com as 50 seções sempre, rolagem horizontal — ver
+- Cores só na ordenação por página, FWC e COC incluídos — ver
+  `docs/idr/0045-cores-de-super-grupos.md`
+- Faixa com as 50 seções e rolagem horizontal — ver
   `docs/idr/0016-salto-pela-faixa-de-bandeiras.md`
-- Cores só na ordenação por página, FWC e COC incluídos com as suas cores —
-  ver `docs/idr/0045-cores-de-super-grupos.md`
 
 ## Arquivos impactados
-- `src/App.jsx` — modificar (passar `ordenacao` ao `Cabecalho`)
-- `src/components/Cabecalho.jsx` — modificar (repassar a prop)
-- `src/components/Cabecalho.test.jsx` — modificar
-- `src/components/FaixaDeSecoes.jsx` — modificar
-- `src/components/FaixaDeSecoes.css` — modificar
-- `src/components/FaixaDeSecoes.test.jsx` — modificar
-- `docs/interface.md` — modificar (§ Cabeçalho)
+- `src/components/FaixaDeSecoes.jsx`, `src/components/FaixaDeSecoes.css`,
+  `src/components/FaixaDeSecoes.test.jsx` — modificar
+- `docs/interface.md` — modificar (§ Medidas)
 
 ## Critérios de aceite
-- [ ] Na ordenação `pagina`, cada bandeira exibe fundo com 20% da cor do seu
-      grupo; FWC e COC com as suas (teste)
-- [ ] Na ordenação `sigla`, nenhuma bandeira recebe classe de cor — fundo
-      neutro `--panel` (teste)
-- [ ] A prop `ordenacao` atravessa `App → Cabecalho → FaixaDeSecoes` (teste)
-- [ ] Área de toque e foco visível inalterados (o diff só acrescenta classes
-      e regras de fundo)
+- [ ] Por página, cada bandeira com fundo 20% da cor do grupo; FWC e COC com
+      as suas (teste)
+- [ ] Por sigla, nenhuma bandeira com classe de cor (teste)
+- [ ] Área de toque, espaçamentos e foco inalterados (diff)
+- [ ] `docs/interface.md` § Medidas descreve a cor da faixa citando o
+      IDR 0045
 
 ## Validação adicional
-Verificação visual em `npm run dev`: alternar as duas ordenações e conferir a
-faixa ganhando e perdendo as cores de grupo; tocar numa bandeira e conferir
-que o salto para a seção continua funcionando.
+Verificação visual em `npm run dev`: alternar as ordenações e conferir a faixa
+ganhando e perdendo cor; tocar numa bandeira e conferir o salto.
