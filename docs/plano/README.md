@@ -59,6 +59,7 @@ Detalhes e status das tarefas no guia [CLAUDE.md](CLAUDE.md) § Status e ciclo d
 | 12 | [Redução de rolagem vertical](0012-reducao-de-rolagem-vertical/) | Colapsar por padrão o que já está completo, com colapso manual persistido, e apertar os espaçamentos repetidos do catálogo | 10 | `feat: colapso inteligente e catálogo mais compacto` | Pendente |
 | 13 | [Interação por pressão longa](0013-interacao-por-pressao-longa/) | Segurar o cartão decrementa uma unidade no mobile, sem precisar mirar no botão de menos | 10 | `feat: pressão longa decrementa no mobile` | Pendente |
 | 14 | [Correção urgente: renumeração do FWC](0014-numeracao-dos-extras-fifa/) | Extras FIFA de `FWC00` a `FWC19` (hoje `FWC01`–`FWC20`, deslocado em um); total do catálogo continua 994 | 10 | `fix: renumera os Extras FIFA para FWC00–FWC19` | Entregue |
+| 15 | [Identidade de cor por grupo](0015-identidade-de-cor-por-grupo/) | Associar uma cor distinta a cada grupo de seleções (A–L) e aos especiais (FWC, COC), aplicada no título do super-grupo, cabeçalho de seção e faixa de bandeiras | 10 | `feat: identidade de cor por grupo de seções` | Pendente |
 
 ---
 
@@ -271,6 +272,55 @@ tempo) e segue sozinha.
 |---|---|---|---|
 | 0001 | [Pressão longa decrementa no mobile](0013-interacao-por-pressao-longa/0001-pressao-longa-decrementa-no-mobile.md) | Segurar o cartão além de um limiar decrementa uma unidade, com retorno visual durante a espera e uma única entrada no histórico de desfazer. | Pendente |
 
+<<<<<<< HEAD
+=======
+---
+
+## Fase 15 — Identidade de cor por grupo
+
+Proposta discutida com o humano: associar uma cor distinta a cada grupo de
+seleções (A–L) e aos especiais (FWC, COC). As cores aparecem no título do
+super-grupo (borda + fundo com opacidade reduzida), no cabeçalho de seção
+(borda sutil) e na faixa de bandeiras (fundo com opacidade reduzida, somente
+na ordenação por página). FWC usa dourado (`--gold`), COC usa vermelho
+Coca-Cola. 14 cores em OKLCH, ajustadas para contraste no tema escuro.
+
+| # | Tarefa | Objetivo | Status |
+|---|---|---|---|
+| 0001 | [Tokens CSS das cores de grupo](0015-identidade-de-cor-por-grupo/0001-tokens-css-das-cores-de-grupo.md) | 14 tokens em `theme.css` (12 grupos A–L + FWC dourado + COC vermelho), convertidos para OKLCH com ajuste de contraste. | Pendente |
+| 0002 | [Cor no título do super-grupo](0015-identidade-de-cor-por-grupo/0002-cor-no-titulo-do-super-grupo.md) | Borda esquerda + fundo com opacidade reduzida da cor do grupo no título do `SuperGrupo.jsx`. | Pendente |
+| 0003 | [Cor no cabeçalho de seção](0015-identidade-de-cor-por-grupo/0003-cor-no-cabecalho-de-secao.md) | Borda esquerda sutil da cor do grupo no cabeçalho de cada seção; FWC e COC usam suas cores próprias. | Pendente |
+| 0004 | [Cor na faixa de bandeiras](0015-identidade-de-cor-por-grupo/0004-cor-na-faixa-de-bandeiras.md) | Fundo com opacidade reduzida da cor do grupo em cada bandeira, somente na ordenação por página; na ordenação por sigla, fundo neutro. | Pendente |
+| 0005 | [IDR e documentação](0015-identidade-de-cor-por-grupo/0005-idr-e-documentacao.md) | Criar IDR 0045 documentando a decisão; atualizar `interface.md` com as novas medidas e estilos. | Pendente |
+
+---
+
+## Onde cada pendência conhecida foi alocada
+
+| Pendência | Origem | Fase.Tarefa | Resolução proposta | Registro que nasce |
+|---|---|---|---|---|
+| Fonte do checklist (nomes das figurinhas, página do FWC, metalizadas além da 01) | `requisitos.md` § Decisões Pendentes | 1.2 | Não bloquear: nomes não são exibidos pela interface especificada, o número da página do FWC é omitido no cabeçalho daquela seção e `metalizada` fica só na posição 01; o dado nasce com o campo previsto para receber a fonte depois | TDR |
+| Política de privacidade depois de autenticado | `requisitos.md` § Decisões Pendentes; `interface.md` § Pendências de interface | 8.4 | Link no rodapé da tela principal — o rodapé já existe em ambas as telas e não gasta item do menu de ações; se preferir o menu, entra como sexto comando na 9.2 | IDR |
+| Falha ao gravar `atestadoEm` | `requisitos.md` § Decisões Pendentes | 8.3 | Liberar o app e reagendar a gravação: a atestação é ato do usuário, já praticado, e retê-lo puniria falha de rede; a falha avisa e a gravação seguinte a regrava | IDR |
+| Aceite dos números do ADR 0005 (debounce, teto de espera) | `arquitetura.md` § Pontos em aberto | 7.3 | Aceitar ~2s de debounce, ~10s de teto e ~5s de timeout sem rede como estão; medir em uso real e registrar o ajuste no log — o próprio ADR 0005 permite mudá-los sem novo ADR | log (TDR só se mudar a forma, não o número) |
+| Router ou vista interna para a privacidade | `arquitetura.md` § Pontos em aberto | 8.4 | Vista interna com estado no `App.jsx`, sem router — a árvore ainda não exige, e a convenção do `AGENTS.md` proíbe antecipar | TDR |
+| Context vs. prop-drilling | `arquitetura.md` § Pontos em aberto | 2.4, revisto em 7.3 | Prop-drilling enquanto couber; Context só para a coleção e o ajuste, e só quando a passagem atravessar mais de três níveis | TDR |
+| Virtualização das listas | `arquitetura.md` § Pontos em aberto | 10.2 | Medir antes de escolher: preferir `content-visibility` por seção, que não cria contêiner rolável; biblioteca só se a medição exigir, e nunca uma que introduza rolagem própria | TDR |
+| Pipeline de geração do catálogo | `arquitetura.md` § Pontos em aberto | 1.2 | Sem pipeline: arquivo escrito à mão a partir do Anexo de `requisitos.md` e do IDR 0019, com teste de invariantes fazendo o papel de validação | TDR |
+| Salto para seção ocultada pelo filtro | `interface.md` § Pendências de interface | 4.4 | O salto limpa o filtro para "todas" antes de rolar até a seção — a faixa lista as 50 sempre, e um toque que não move nada seria pior | IDR |
+| Atestação: clique de entrar ou passo explícito | `interface.md` § Pendências de interface | 8.3 | Passo explícito uma única vez por conta, como `requisitos.md` exige; o protótipo, que a exibe a cada login, é referência visual e não vence o requisito | IDR |
+| Foco, hover e pressionado | `interface.md` § Pendências de interface | 10.1 | Realce de foco visível em dourado e retorno imediato de toque no cartão, além da mudança de cor de estado | IDR |
+| Área de toque ampliada nos alvos de 30×30px | `interface.md` § Pendências de interface | 10.1 | Ampliar a área de toque sem mudar o desenho, mantendo as medidas de `interface.md` | IDR |
+| Ordenação e disposição pré-selecionadas por faixa de tela | `interface.md` § Pendências de interface | 10.3 | Definir na fase de acabamento, com a preferência guardada vencendo a partir da segunda abertura | IDR |
+| Diálogos de exportação e importação | `interface.md` § Demais telas | 9.4, 9.5 | Exportação sem diálogo (baixa direto e avisa); importação com confirmação explícita mínima, sem tela própria | IDR |
+| Poppins por webfont colide com `style-src 'self'` e `font-src 'self'` | Achado da leitura: `interface.md` § Tipografia × DDR 0001 e ADR 0005 | 1.4 | Vendorizar os arquivos da fonte e servi-los pelo próprio Hosting, como os SVGs de bandeira e o logo do Google — a CSP não se abre | TDR |
+| Controle de menos na figurinha faltante e transbordando o canto superior esquerdo | Achado de uso: app com as 994 em tela × `interface.md` § Figurinha | 6.1 | Renderizar o controle só a partir da contagem 1 e movê-lo para dentro do cartão, no canto inferior esquerdo | IDR 0032 (já registrado) |
+| Falta a vista das coladas (contagem ≥ 1), que não são as repetidas (≥ 2) | Achado de uso: filtro de status × `requisitos.md` § Progresso e listas | 6.2 | Acrescentar `coladas` como quarto valor do filtro, sem tocar em nenhuma outra regra do filtro | IDR 0033 (já registrado) |
+| Faixa de bandeiras larga demais: poucas seções cabem sem rolar | Achado de uso: faixa de salto × `interface.md` § Medidas | 6.3 | Baixar o espaçamento entre ícones de 8px para 4px, mantendo o ícone de 30×30px e a rolagem horizontal | — (medida em `interface.md`) |
+| `npm run dev` deixa de funcionar sem credenciais quando o login vira guarda | Achado da leitura: `requisitos.md` § Dados e isolamento × `AGENTS.md` § Como rodar | 8.1 | `requisitos.md` vence (modo não suportado); `AGENTS.md` passa a dizer que o desenvolvimento exige `.env.local` | — (correção de doc no mesmo PR) |
+| Extras FIFA numerados de `FWC01` a `FWC20`, quando a numeração oficial do álbum 2026 vai de `FWC00` a `FWC19` | Achado de uso: catálogo × numeração real do FWC (confirmada por múltiplas fontes após uma primeira leitura errada, com dados do Catar 2022) | 14.1 | Deslocar a seção para começar em zero (`inicio: 0`, `total: 20` inalterado), sem migração de dado por não haver uso real em produção ainda | TDR |
+
+>>>>>>> d2730ef (docs(plano): fase 15 — identidade de cor por grupo de seções)
 ## Regras que valem em toda tarefa
 
 Ver o guia [CLAUDE.md](CLAUDE.md) § Regras que valem em toda tarefa e
