@@ -56,7 +56,7 @@ Detalhes e status das tarefas no guia [CLAUDE.md](CLAUDE.md) § Status e ciclo d
 | 8 | [Acesso, atestação e privacidade](0008-acesso-atestacao-e-privacidade/) | Login como guarda do app, atestação de menores e política de privacidade | 7 | `feat: guarda de login, atestação de menores e política de privacidade` | Entregue |
 | 9 | [Desfazer, menu de ações e portabilidade](0009-desfazer-menu-e-portabilidade/) | Desfazer, popup de comandos raros, listas de troca e export/import JSON | 7, 8 | `feat: desfazer, menu de ações, listas de troca e export/import` | Entregue |
 | 10 | [Acabamento: acessibilidade, desempenho e docs](0010-acabamento-acessibilidade-e-docs/) | Fechar acessibilidade, desempenho das 994, faixas de tela e a documentação | 9 | `chore: acessibilidade, desempenho e fechamento da documentação` | Entregue |
-| 11 | [Refinamento do cabeçalho](0011-refinamento-do-cabecalho/) | Contorno e tooltip nos controles, bandeiras mais compactas, título e controles numa linha a partir de 768px e avatar do usuário como botão do menu | 10 | `feat: refinamento do cabeçalho e dos controles` | Pendente |
+| 11 | [Refinamento do cabeçalho](0011-refinamento-do-cabecalho/) | Contorno e tooltip nos controles, bandeiras mais compactas, título e controles numa linha a partir de 768px e avatar do usuário como botão do menu | 10 | `feat: refinamento do cabeçalho e dos controles` | Em andamento |
 | 12 | [Redução de rolagem vertical](0012-reducao-de-rolagem-vertical/) | Lembrar o colapso manual entre sessões e apertar os espaçamentos repetidos do catálogo | 11 | `feat: colapso lembrado e catálogo mais compacto` | Pendente |
 | 13 | [Interação por pressão longa](0013-interacao-por-pressao-longa/) | Segurar o cartão decrementa uma unidade no mobile, sem precisar mirar no botão de menos | 12 | `feat: pressão longa decrementa no mobile` | Pendente |
 | 14 | [Correção urgente: renumeração do FWC](0014-numeracao-dos-extras-fifa/) | Extras FIFA de `FWC00` a `FWC19` (hoje `FWC01`–`FWC20`, deslocado em um); total do catálogo continua 994 | 10 | `fix: renumera os Extras FIFA para FWC00–FWC19` | Entregue |
@@ -242,7 +242,7 @@ e no [IDR 0024](../idr/0024-acoes-raras-em-menu-do-cabecalho.md).
 
 | # | Tarefa | Objetivo | Status |
 |---|---|---|---|
-| 0001 | [Grupos de controles como toggle visível](0011-refinamento-do-cabecalho/0001-grupos-de-controles-como-toggle-visivel.md) | Contorno de 1px em `--border` nos três grupos segmentados, para que se leiam como grupos de alternância. | Pendente |
+| 0001 | [Grupos de controles como toggle visível](0011-refinamento-do-cabecalho/0001-grupos-de-controles-como-toggle-visivel.md) | Contorno de 1px em `--border` nos três grupos segmentados, para que se leiam como grupos de alternância. | Em andamento |
 | 0002 | [Tooltip nas opções de controle](0011-refinamento-do-cabecalho/0002-tooltip-nas-opcoes-de-controle.md) | Nome por extenso abaixo da opção no hover (~400ms) e no foco por teclado, a partir do `nomeAcessivel`; sem toque. | Pendente |
 | 0003 | [Bandeiras mais compactas](0011-refinamento-do-cabecalho/0003-bandeiras-mais-compactas.md) | 2px entre bandeiras e 4px entre grupos na ordenação por página; área de toque ampliada de 1px. | Pendente |
 | 0004 | [Título e controles em uma única linha](0011-refinamento-do-cabecalho/0004-titulo-e-controles-em-uma-linha.md) | A partir de 768px, título e controles na mesma linha sticky; abaixo disso, como hoje. | Pendente |
