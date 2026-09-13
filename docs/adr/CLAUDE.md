@@ -8,7 +8,7 @@ fora do app. Se a decisão é sobre *como o código é escrito ou protegido
 internamente*, é [TDR](../tdr/CLAUDE.md); se é sobre *comportamento visível
 ao usuário*, é [IDR](../idr/CLAUDE.md); se é sobre *modelagem de dados*
 (schema, formato de documentos, transformações e validações), é
-[MDR](../mdr/CLAUDE.md); se é sobre *DevOps* (CI/CD, pipelines, deploy,
+[MDR](../model-dr/CLAUDE.md); se é sobre *DevOps* (CI/CD, pipelines, deploy,
 branch protection, ferramentas de segurança), é
 [DDR](../devops-dr/CLAUDE.md).
 

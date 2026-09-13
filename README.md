@@ -22,7 +22,7 @@ funciona igual, só não lembra onde você parou.
 Veja as decisões de arquitetura em [docs/adr](docs/adr), as decisões
 técnicas em [docs/tdr](docs/tdr), as decisões de interface em
 [docs/idr](docs/idr), as decisões de modelagem de dados em
-[docs/mdr](docs/mdr), as decisões de DevOps em
+[docs/model-dr](docs/model-dr), as decisões de DevOps em
 [docs/devops-dr](docs/devops-dr), e informações para desenvolvimento
 (inclusive orientadas a agentes de IA) em [AGENTS.md](AGENTS.md).
 

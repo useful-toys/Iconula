@@ -4,7 +4,7 @@
 
 ## Status
 
-Aceito
+Aceito — consolidado com a renumeração do FWC (ver [TDR 0022](0022-renumeracao-do-fwc.md)).
 
 ## Contexto
 
@@ -30,11 +30,19 @@ com `sigla`, `nome`, `tipo`, `icone`, `grupo`, `paginas`, `total`
 escritos à mão) e `figurinhas`, gerado a partir de `secoes` por
 `expandirFigurinhas` — uma função pura, executada uma vez no carregamento
 do módulo. Nenhum literal de figurinha é escrito à mão; o array de 994
-nasce por expansão (`SIG01`…`SIG20`, `FWC01`…`FWC20`, `COC01`…`COC14`),
+nasce por expansão (`SIG01`…`SIG20`, `FWC00`…`FWC19`, `COC01`…`COC14`),
 como o item 7 do escopo da tarefa pedia. As posições fixas de seleção
 (`01` metalizada, `13` paisagem) são marcadas dentro da própria expansão,
 por posição e por `tipo === "selecao"` — não há tabela separada de
 exceções.
+
+**Campo `inicio` na seção**: opcional, com padrão `1`, é o número da
+primeira figurinha da seção. `total` continua significando a
+**quantidade** de figurinhas, nunca o último número. `expandirFigurinhas`
+gera `posicao` de `inicio` a `inicio + total − 1` e o código segue sendo
+a sigla mais o número com dois dígitos (`padStart(2, "0")`). A seção
+`fwc` usa `inicio: 0` porque a numeração oficial dos Extras FIFA vai de
+`FWC00` a `FWC19` (confirmada por múltiplas fontes independentes).
 
 **Degradação da fonte do checklist ausente**: cada lacuna degrada
 individualmente, sem bloquear a tarefa, como a tarefa já previa:

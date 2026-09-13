@@ -33,7 +33,8 @@ Aceito.
 
 - O catálogo é imutável e igual para todos os usuários.
 - A expansão por função pura evita escrever 994 códigos como literais — a expansão é conferível pelo teste de invariantes.
-- O FWC usa `inicio: 0` porque a numeração oficial vai de `FWC00` a `FWC19` (renumeração do TDR 0022).
+- O FWC usa `inicio: 0` porque a numeração oficial vai de `FWC00`
+a `FWC19` (ver [TDR 0010](../tdr/0010-forma-do-catalogo-degradacao-do-checklist-e-sem-pipeline.md)).
 - A ausência de pipeline de geração significa que lacunas da fonte degradam campo a campo (TDR 0010).
 
 ## Alternativas consideradas

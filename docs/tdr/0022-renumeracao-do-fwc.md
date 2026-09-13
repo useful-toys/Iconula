@@ -4,7 +4,7 @@
 
 ## Status
 
-Aceito — implementa a Tarefa 0014-0001.
+**Consolidado no [TDR 0010](0010-forma-do-catalogo-degradacao-do-checklist-e-sem-pipeline.md)**: a decisão sobre o campo `inicio` e a numeração do FWC foi incorporada ao TDR 0010. Mantido para registro histórico da Tarefa 0014-0001.
 
 ## Contexto
 

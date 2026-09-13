@@ -2,12 +2,12 @@
 
 # Modelo de dados — Persistência no Firebase
 
-Como a aplicação representa a coleção do usuário no Cloud Firestore. As decisões de modelagem estão nos [MDRs](mdr/); este documento mostra o estado atual do modelo em produção.
+Como a aplicação representa a coleção do usuário no Cloud Firestore. As decisões de modelagem estão nos [MDRs](model-dr/); este documento mostra o estado atual do modelo em produção.
 
 ## Onde os dados vivem
 
 - Projeto Firebase `iconula`, banco Firestore `(default)`, modo Native, região `southamerica-east1` (São Paulo), faixa gratuita confirmada no plano Spark
-- Um documento por usuário: `users/{uid}` — o uid no caminho é o que torna a autorização uma comparação direta nas regras, sem consulta e sem índice ([MDR 0001](mdr/0001-localizacao-do-documento-no-firestore.md))
+- Um documento por usuário: `users/{uid}` — o uid no caminho é o que torna a autorização uma comparação direta nas regras, sem consulta e sem índice ([MDR 0001](model-dr/0001-localizacao-do-documento-no-firestore.md))
 - Fora isso, só a identidade Google (nome, e-mail, foto) — que mora no Firebase Auth, não no Firestore; nenhum outro dado de usuário existe
 
 ## Formato do documento
@@ -38,11 +38,11 @@ users/{uid}
 - **Nada além disso**: os únicos campos são `contagens`, `updatedAt` e `atestadoEm`
 - **Tamanho**: no pior caso (coleção completa), ~994 chaves de ~5 caracteres — poucos KB, muito abaixo do limite de 1 MiB por documento
 
-Detalhes no [MDR 0002](mdr/0002-schema-do-documento-da-colecao.md).
+Detalhes no [MDR 0002](model-dr/0002-schema-do-documento-da-colecao.md).
 
 ## Mecanismo de gravação
 
-Três funções de escrita, cada uma com semântica própria ([MDR 0003](mdr/0003-gravacao-agregada-da-colecao.md)):
+Três funções de escrita, cada uma com semântica própria ([MDR 0003](model-dr/0003-gravacao-agregada-da-colecao.md)):
 
 - **`gravarAlteracoes`** — `setDoc` com `merge: true`, toca só as chaves alteradas acumuladas pelo debounce; valor absoluto ou `deleteField`; cria o documento na primeira gravação sem leitura extra ([TDR 0017](tdr/0017-escrita-por-setdoc-merge-e-carimbo-local-pos-gravacao.md))
 - **`gravarImportacao`** — `setDoc` com `mergeFields: ['contagens', 'updatedAt']`, substitui o mapa `contagens` inteiro; `atestadoEm` fica de fora e continua intocado

@@ -13,7 +13,7 @@ registros (ADR/TDR/IDR/MDR/DDR) e nos docs de referência
 documento monta o quebra-cabeça. A seção "Decisões-chave" abaixo é um
 resumo curado por tema — o índice completo e filtrável por tags de cada
 registro está em [adr/README.md](adr/README.md), [tdr/README.md](tdr/README.md),
-[idr/README.md](idr/README.md), [mdr/README.md](mdr/README.md) e
+[idr/README.md](idr/README.md), [model-dr/README.md](model-dr/README.md) e
 [devops-dr/README.md](devops-dr/README.md).
 
 O produto especificado em [requisitos.md](requisitos.md) — o controle de
@@ -165,23 +165,23 @@ Fluxos:
 | Política de privacidade como vista interna, sem router | [TDR 0020](tdr/0020-privacidade-como-vista-interna.md) |
 | Desempenho do catálogo (994 figurinhas) | [TDR 0021](tdr/0021-desempenho-do-catalogo.md) |
 | Deploy via GitHub Actions (três workflows) | [TDR 0023](tdr/0023-deploy-via-github-actions.md) |
-| Branch protection exigindo preview deploy | [TDR 0024](tdr/0024-branch-protection-preview-required.md) |
+| Branch protection exigindo preview deploy | [DDR 0005](devops-dr/0005-protecao-da-branch-main.md) |
 | Interface (disposições, estados, sync, scroll, acessibilidade…) | [IDR 0001–0044](idr/) + [interface.md](interface.md) |
 | Aparência (tema, paleta, medidas) | [IDR 0022](idr/0022-tema-escuro-unico-paleta-do-prototipo.md) + [interface.md](interface.md) |
 | Acessibilidade: foco visível, área de toque | [IDR 0042](idr/0042-foco-visivel-e-area-de-toque.md) |
 | Padrões de primeira abertura por faixa de tela | [IDR 0043](idr/0043-padroes-de-primeira-abertura-por-faixa-de-tela.md) |
-| Localização do documento no Firestore | [MDR 0001](mdr/0001-localizacao-do-documento-no-firestore.md) |
-| Schema da coleção (mapa esparso) | [MDR 0002](mdr/0002-schema-do-documento-da-colecao.md) + [modelo-firebase.md](modelo-firebase.md) |
-| Gravação agregada da coleção | [MDR 0003](mdr/0003-gravacao-agregada-da-colecao.md) |
-| Formato de intercâmbio (export/import JSON) | [MDR 0004](mdr/0004-formato-de-intercambio-da-colecao.md) |
-| Representação em memória na SPA | [MDR 0005](mdr/0005-representacao-em-memoria-na-spa.md) |
-| Catálogo estático embutido | [MDR 0006](mdr/0006-catalogo-estatico-embutido.md) |
-| Persistência no armazenamento local | [MDR 0007](mdr/0007-persistencia-no-armazenamento-local.md) |
+| Localização do documento no Firestore | [MDR 0001](model-dr/0001-localizacao-do-documento-no-firestore.md) |
+| Schema da coleção (mapa esparso) | [MDR 0002](model-dr/0002-schema-do-documento-da-colecao.md) + [modelo-firebase.md](modelo-firebase.md) |
+| Gravação agregada da coleção | [MDR 0003](model-dr/0003-gravacao-agregada-da-colecao.md) |
+| Formato de intercâmbio (export/import JSON) | [MDR 0004](model-dr/0004-formato-de-intercambio-da-colecao.md) |
+| Representação em memória na SPA | [MDR 0005](model-dr/0005-representacao-em-memoria-na-spa.md) |
+| Catálogo estático embutido | [MDR 0006](model-dr/0006-catalogo-estatico-embutido.md) |
+| Persistência no armazenamento local | [MDR 0007](model-dr/0007-persistencia-no-armazenamento-local.md) |
 
 ## Pontos em aberto (fase de implementação)
 
 - **Aceite dos números do ADR 0005 — parcialmente aberto**: o schema está
-  aceito (mapa esparso, três campos, teto de 99 — [MDR 0002](mdr/0002-schema-do-documento-da-colecao.md))
+  aceito (mapa esparso, três campos, teto de 99 — [MDR 0002](model-dr/0002-schema-do-documento-da-colecao.md))
   e os valores numéricos (debounce ~2s, teto de espera ~10s, timeout ~5s
   sem rede) foram aceitos como ponto de partida na Tarefa 0007-0003 (ver
   [log](plano/0007-persistencia-da-colecao-e-avisos/logs/0003-log-gravacao-agregada-com-flush.md)

@@ -8,7 +8,7 @@ homologação e produção. Se a decisão é sobre *arquitetura de software*
 (stack, integrações externas), é [ADR](../adr/CLAUDE.md); se é sobre
 *implementação interna de código* (CSP, lint, testes), é
 [TDR](../tdr/CLAUDE.md); se é sobre *modelagem de dados*, é
-[MDR](../mdr/CLAUDE.md).
+[MDR](../model-dr/CLAUDE.md).
 
 ## Arquivo
 

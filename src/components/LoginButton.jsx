@@ -14,7 +14,7 @@ import "./LoginButton.css";
 // mesmo motivo estrutural de antes: o `authDomain`
 // (`iconula.firebaseapp.com`) é origem diferente da do app, e o
 // particionamento de storage de terceiros impede o redirect de entregar
-// o resultado — ver TDR 0005.
+// o resultado — ver DDR 0001.
 export default function LoginButton() {
   const [error, setError] = useState(null);
 

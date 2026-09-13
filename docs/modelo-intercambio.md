@@ -2,7 +2,7 @@
 
 # Modelo de dados — Formato de intercâmbio
 
-Como a aplicação representa a coleção do usuário em arquivos JSON de exportação e importação. As decisões de modelagem estão nos [MDRs](mdr/); este documento mostra o estado atual do formato de intercâmbio.
+Como a aplicação representa a coleção do usuário em arquivos JSON de exportação e importação. As decisões de modelagem estão nos [MDRs](model-dr/); este documento mostra o estado atual do formato de intercâmbio.
 
 ## Formato do arquivo
 
@@ -22,7 +22,7 @@ Como a aplicação representa a coleção do usuário em arquivos JSON de export
 
 - **`versao`**: inteiro, começando em 1 — versiona o formato; uma mudança futura troca a versão e o dado antigo é recusado em vez de mal interpretado
 - **`geradoEm`**: ISO 8601 — instante local de quem exporta
-- **`contagens`**: mapa esparso, mesmo formato do Firestore ([MDR 0002](mdr/0002-schema-do-documento-da-colecao.md)) — chave ausente = contagem 0, zeros nunca aparecem
+- **`contagens`**: mapa esparso, mesmo formato do Firestore ([MDR 0002](model-dr/0002-schema-do-documento-da-colecao.md)) — chave ausente = contagem 0, zeros nunca aparecem
 - **Sem dados pessoais**: nada de uid, e-mail, nome ou foto — lossless para a coleção, sem lock-in
 
 ## Exportação
@@ -55,7 +55,7 @@ Como a aplicação representa a coleção do usuário em arquivos JSON de export
 - **Normalizações não recusam o arquivo**:
   - Valor exatamente `0` some silenciosamente (mapa esparso)
   - Código fora do catálogo atual (`codigosValidos`) some e entra na contagem de `descartadas`, avisada ao usuário
-- **Substitui a coleção inteira** — `gravarImportacao` usa `mergeFields: ['contagens', 'updatedAt']` para trocar o mapa `contagens` inteiro de uma vez ([MDR 0003](mdr/0003-gravacao-agregada-da-colecao.md)), sem precisar comparar com o estado anterior e gerar `deleteField()` para cada chave ausente
+- **Substitui a coleção inteira** — `gravarImportacao` usa `mergeFields: ['contagens', 'updatedAt']` para trocar o mapa `contagens` inteiro de uma vez ([MDR 0003](model-dr/0003-gravacao-agregada-da-colecao.md)), sem precisar comparar com o estado anterior e gerar `deleteField()` para cada chave ausente
 - **Descarta o histórico de desfazer** — a coleção anterior deixou de existir
 - **Descarta pendências da gravação agregada** — `descartarPendencias()` limpa alterações acumuladas antes de aplicar a importação, para não reintroduzir dado já substituído
 - **1 escrita no Firestore** (substitui `contagens` + `updatedAt`; `atestadoEm` intocado)
@@ -120,4 +120,4 @@ Como a aplicação representa a coleção do usuário em arquivos JSON de export
 | **Dados pessoais** | Não existe | Não existe | Não existe |
 | **Escrita no Firestore** | `merge: true` (ajustes) ou `mergeFields` (importação) | — | `mergeFields` (substitui mapa inteiro) |
 
-Detalhes nos [MDR 0002](mdr/0002-schema-do-documento-da-colecao.md), [MDR 0003](mdr/0003-gravacao-agregada-da-colecao.md) e [MDR 0004](mdr/0004-formato-de-intercambio-da-colecao.md).
+Detalhes nos [MDR 0002](model-dr/0002-schema-do-documento-da-colecao.md), [MDR 0003](model-dr/0003-gravacao-agregada-da-colecao.md) e [MDR 0004](model-dr/0004-formato-de-intercambio-da-colecao.md).

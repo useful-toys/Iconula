@@ -4,7 +4,7 @@
 
 ## Status
 
-Aceito
+**Obsoleto**: os arquivos referenciados (`src/data/teams.js`, `src/components/TeamButton.jsx`) não existem mais. A estrutura inicial evoluiu para o catálogo atual — ver [TDR 0010](0010-forma-do-catalogo-degradacao-do-checklist-e-sem-pipeline.md).
 
 ## Contexto
 
