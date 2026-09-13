@@ -57,7 +57,7 @@ Detalhes e status das tarefas no guia [CLAUDE.md](CLAUDE.md) § Status e ciclo d
 | 10 | [Acabamento: acessibilidade, desempenho e docs](0010-acabamento-acessibilidade-e-docs/) | Fechar acessibilidade, desempenho das 994, faixas de tela e a documentação | 9 | `chore: acessibilidade, desempenho e fechamento da documentação` | Entregue |
 | 11 | [Refinamento do cabeçalho](0011-refinamento-do-cabecalho/) | Contorno e tooltip nos controles, bandeiras mais compactas, título e controles numa linha a partir de 768px e avatar do usuário como botão do menu | 10 | `feat: refinamento do cabeçalho e dos controles` | Pendente |
 | 12 | [Redução de rolagem vertical](0012-reducao-de-rolagem-vertical/) | Lembrar o colapso manual entre sessões e apertar os espaçamentos repetidos do catálogo | 11 | `feat: colapso lembrado e catálogo mais compacto` | Pendente |
-| 13 | [Interação por pressão longa](0013-interacao-por-pressao-longa/) | Segurar o cartão decrementa uma unidade no mobile, sem precisar mirar no botão de menos | 10 | `feat: pressão longa decrementa no mobile` | Pendente |
+| 13 | [Interação por pressão longa](0013-interacao-por-pressao-longa/) | Segurar o cartão decrementa uma unidade no mobile, sem precisar mirar no botão de menos | 12 | `feat: pressão longa decrementa no mobile` | Pendente |
 | 14 | [Correção urgente: renumeração do FWC](0014-numeracao-dos-extras-fifa/) | Extras FIFA de `FWC00` a `FWC19` (hoje `FWC01`–`FWC20`, deslocado em um); total do catálogo continua 994 | 10 | `fix: renumera os Extras FIFA para FWC00–FWC19` | Entregue |
 | 15 | [Identidade de cor por grupo](0015-identidade-de-cor-por-grupo/) | Cor distinta por grupo de seleções (A–L) e especiais (FWC, COC), aplicada no título do super-grupo e na faixa de bandeiras — o cabeçalho de seção fica para a cor da seleção (Fase 16) | 10 | `feat: identidade de cor por grupo de seções` | Pendente |
 | 16 | [Identidade de cor por seleção](0016-identidade-de-cor-por-selecao/) | Cor individual para cada uma das 48 seleções, aplicada no cabeçalho de seção | 15 | `feat: identidade de cor por seleção` | Pendente |
@@ -267,16 +267,14 @@ de seções completas foi descartado no planejamento.
 
 ## Fase 13 — Interação por pressão longa
 
-Proposta avaliada antes do planejamento: duplo clique, clique direito e clique
-do botão do meio no desktop foram todos descartados — ou atrasam o clique
-simples (o gesto mais comum) para desambiguar de um duplo clique, ou dependem
-de um botão de mouse nem sempre acessível. Pressão longa no mobile não tem
-esse problema (toque curto e pressão longa já são gestos distintos por
-tempo) e segue sozinha.
+Decisão registrada no
+[IDR 0051](../idr/0051-pressao-longa-decrementa-no-toque.md): segurar o
+cartão por 500ms em tela sensível tira uma unidade; os gestos de desktop
+avaliados ficaram como alternativas descartadas no registro.
 
 | # | Tarefa | Objetivo | Status |
 |---|---|---|---|
-| 0001 | [Pressão longa decrementa no mobile](0013-interacao-por-pressao-longa/0001-pressao-longa-decrementa-no-mobile.md) | Segurar o cartão além de um limiar decrementa uma unidade, com retorno visual durante a espera e uma única entrada no histórico de desfazer. | Pendente |
+| 0001 | [Pressão longa decrementa no mobile](0013-interacao-por-pressao-longa/0001-pressao-longa-decrementa-no-mobile.md) | Toque de 500ms decrementa uma unidade; mover 10px cancela; cartão escurece na espera; menu do navegador suprimido. | Pendente |
 
 ## Fase 15 — Identidade de cor por grupo
 
