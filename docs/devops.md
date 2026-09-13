@@ -70,7 +70,10 @@ reproduzível localmente sem depender de push
 - **Secret scanning**: habilitado
 - **Secret scanning — push protection**: habilitado (bloqueia push com
   secrets conhecidos)
+- **Dependabot alerts**: habilitado
 - **Dependabot security updates**: habilitado
+- **CodeQL code scanning**: default setup (Actions + JavaScript/TypeScript;
+  roda em PR, push na `main` e varredura semanal)
 - **SHA pinning obrigatório**: `sha_pinning_required: true`
 
 (ver [DDR 0006](devops-dr/0006-ferramentas-de-seguranca-do-repositorio.md))

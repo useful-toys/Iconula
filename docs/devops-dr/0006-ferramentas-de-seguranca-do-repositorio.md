@@ -47,6 +47,14 @@ Ferramentas de segurança ativadas no repositório (verificado via
 - Desabilitado — reduz falsos positivos, mas o volume de secrets do
   projeto não justifica a complexidade
 
+### Dependabot alerts
+
+- **Status**: `enabled`
+- Notifica o mantenedor quando uma dependência usa uma versão com
+  vulnerabilidade conhecida (CVE)
+- Base dos security updates abaixo; habilitado via
+  `PUT /repos/.../vulnerability-alerts`
+
 ### Dependabot security updates
 
 - **Status**: `enabled`
@@ -56,6 +64,18 @@ Ferramentas de segurança ativadas no repositório (verificado via
   configuração default do repositório (sem ecossistema
   `github-actions` explícito; os SHAs das actions são atualizados
   manualmente)
+
+### CodeQL (code scanning)
+
+- **Status**: `configured` (default setup)
+- Análise estática de segurança gerenciada pelo GitHub — não é um arquivo
+  em `.github/workflows/`; aparece na aba Actions como o workflow
+  dinâmico `CodeQL`
+- Linguagens analisadas: **Actions** + **JavaScript/TypeScript**
+- Query suite `default`, threat model `remote`, varredura **semanal** e a
+  cada PR/push na `main`
+- Gratuito em repositório público; alertas no painel
+  *Security → Code scanning*
 
 ### Visibilidade
 
@@ -68,5 +88,20 @@ Ferramentas de segurança ativadas no repositório (verificado via
 - Secrets que passem pelo push protection são detectados no scan
   periódico
 - Dependabot cria PRs de atualização de segurança automaticamente
+- CodeQL aponta vulnerabilidades de forma contínua (PR, push na `main` e
+  varredura semanal) — os achados ficam no painel *Security → Code
+  scanning*
 - `dependabot.yml` não existe — adicionar com `ecosystems: [github-actions]`
   para automatizar atualização dos SHAs das actions (DDR 0003)
+
+## Alternativas consideradas
+
+- **CodeQL advanced setup** (workflow em `.github/workflows/`): rejeitado
+  — o default setup cobre as mesmas linguagens sem um workflow próprio a
+  manter e fixar por SHA ([DDR 0003](0003-pinning-de-actions-por-sha.md))
+
+## Histórico
+
+- **2026-09-12**: incluídos **CodeQL (code scanning)** e **Dependabot
+  alerts** — já estavam habilitados no repositório, mas não constavam
+  neste registro; o Dependabot alerts é a base dos security updates.

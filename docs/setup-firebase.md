@@ -114,7 +114,7 @@ curl -sI https://iconula.web.app
 ```
 
 - **URL de produção**: https://iconula.web.app
-- **URLs de preview** (por PR): `https://iconula--pr<N>-<slug>-<hash>.web.app`, expiram automaticamente após ~7 dias
+- **URLs de preview** (por PR): `https://iconula--pr<N>-<slug>-<hash>.web.app`, expiram automaticamente após 3 dias
 
 ### Deploy manual (fora do CI, se necessário)
 
@@ -219,7 +219,7 @@ host temporário (`https://iconula--pr<N>-<slug>-<hash>.web.app`) que
 Auth. Se o login falhar num preview com o erro
 `auth/unauthorized-domain`, adicionar manualmente esse host em
 Authentication → Settings → Authorized domains (ele expira junto com o
-canal de preview, ~7 dias — não precisa ser removido manualmente depois).
+canal de preview, 3 dias — não precisa ser removido manualmente depois).
 
 ## Cloud Firestore
 
