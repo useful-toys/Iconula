@@ -315,8 +315,8 @@ disposições, com truncamento e nome no aria-label. A fonte é o fornecimento
 do humano (fonte original): as 48 seleções já foram provistas e conferidas
 contra os defeitos da primeira listagem (48/48, grupos idênticos ao
 catálogo, buracos e duplicatas resolvidos), com o Paraguai trazendo só 13
-dos 18 jogadores — lacuna declarada em PAR16–PAR20; FWC e COC aguardam
-reenvio, e a Tarefa 0001 bloqueia até lá.
+dos 18 jogadores — lacuna declarada em PAR16–PAR20; a Coca-Cola já foi
+reenviada e confirmada, e a Tarefa 0001 bloqueia só pelo reenvio do FWC.
 
 Executar depois da Fase 13: as duas tocam `Figurinha.jsx`, `Figurinha.css` e
 `Figurinha.test.jsx`.

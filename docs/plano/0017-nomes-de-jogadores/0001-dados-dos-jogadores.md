@@ -51,9 +51,10 @@ trouxe os jogadores 14–18 — ver MDR 0008).
 - FWC00–FWC19 — ver `docs/tdr/0022-renumeracao-do-fwc.md`
 
 ## Impedimentos específicos
-- Bloqueia até o reenvio humano de FWC00–FWC19 e COC01–COC14; até lá valem as
-  listas da provisão anterior (MDR 0008 § Fonte), e a divergência FWC10–19
-  com a descrição da Fase 14 se resolve no reenvio.
+- Bloqueia até o reenvio humano de FWC00–FWC19; até lá vale a lista FWC da
+  provisão anterior (MDR 0008 § Fonte), e a divergência FWC10–19 com a
+  descrição da Fase 14 se resolve no reenvio. COC01–COC14 foi reenviado e
+  confirmado em 2026-09-13 (idêntico à provisão anterior) — não bloqueia.
 - A provisão das 48 seleções (2026-09-13) já foi conferida contra os defeitos
   da primeira listagem: 48/48 seleções, grupos idênticos ao catálogo,
   QAT06/SCO04/TUN12 e SWE04/12/14/16 preenchidos, duplicatas resolvidas;
