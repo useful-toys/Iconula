@@ -17,7 +17,8 @@
   padding: 0;
   margin: 0;
   border: none;
-  background: transparent;
+  border-left: 3px solid var(--group-color, transparent);
+  background: color-mix(in oklch, var(--group-color, transparent) 15%, transparent);
   cursor: pointer;
   font-family: 'Poppins', system-ui, sans-serif;
   font-size: 13px;
@@ -26,6 +27,58 @@
   color: var(--gold);
   text-align: left;
   width: 100%;
+}
+
+/* Cor de identidade do grupo no título (IDR 0045): cada letra A–L define
+ * `--group-color`, consumido pela borda esquerda de 3px e pelo fundo com
+ * 15% sobre transparente. O texto permanece em `--gold`. A letra vem da
+ * prop `grupo` do `SuperGrupo`. */
+.super-grupo__titulo--a {
+  --group-color: var(--group-a);
+}
+
+.super-grupo__titulo--b {
+  --group-color: var(--group-b);
+}
+
+.super-grupo__titulo--c {
+  --group-color: var(--group-c);
+}
+
+.super-grupo__titulo--d {
+  --group-color: var(--group-d);
+}
+
+.super-grupo__titulo--e {
+  --group-color: var(--group-e);
+}
+
+.super-grupo__titulo--f {
+  --group-color: var(--group-f);
+}
+
+.super-grupo__titulo--g {
+  --group-color: var(--group-g);
+}
+
+.super-grupo__titulo--h {
+  --group-color: var(--group-h);
+}
+
+.super-grupo__titulo--i {
+  --group-color: var(--group-i);
+}
+
+.super-grupo__titulo--j {
+  --group-color: var(--group-j);
+}
+
+.super-grupo__titulo--k {
+  --group-color: var(--group-k);
+}
+
+.super-grupo__titulo--l {
+  --group-color: var(--group-l);
 }
 
 .super-grupo__chevron {
