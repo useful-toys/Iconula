@@ -1,80 +1,80 @@
-# Tarefa 0002: Modificar catálogo
+<!-- Copyright (c) 2026 Daniel Felix Ferber -->
+
+# Tarefa [0017-0002]: campo nome no catálogo
+
+## Status
+Pendente
 
 ## Objetivo
+Acrescentar o campo `nome` a cada figurinha expandida por
+`expandirFigurinhas`, derivado de `jogadores.js`, e refletir a nova forma do
+dado na documentação de modelo no mesmo commit.
 
-Adicionar campo `nome` às figurinhas no catálogo, usando os dados de `jogadores.js`.
+## Documentos de referência
+- `src/data/jogadores.js` (gerado pela Tarefa 0017-0001)
+- `src/data/catalogo.js` — `expandirFigurinhas` e a forma atual da figurinha
+  (`codigo`, `secao`, `posicao`, `metalizada`, `paisagem`)
+- `docs/model-dr/0006-catalogo-estatico-embutido.md` § Decisão — "estrutura
+  de cada figurinha" a atualizar
+- `docs/modelo-memoria.md` § Catálogo — a mesma forma, em visão de memória
+- `docs/tdr/0010-forma-do-catalogo-degradacao-do-checklist-e-sem-pipeline.md` —
+  o catálogo como única fonte do dado; a fonte dos nomes chegou por
+  fornecimento do humano
+- `docs/idr/0047-nomes-de-jogadores-nas-figurinhas.md` § Dados e mapeamento —
+  o mapeamento de posições
 
-## Escopo
+## Padrões e convenções aplicáveis
+- `jogadores.js` é consumido só por `catalogo.js`; o resto do app continua
+  obtendo tudo do catálogo — TDR 0010
+- Mudança na forma da figurinha é modelagem de dados: MDR 0006 e
+  `modelo-memoria.md` atualizados no mesmo commit
+- `AGENTS.md` § Onde fica cada coisa ganha a linha de `src/data/jogadores.js`
+- O schema do Firestore não muda: `nome` é dado de catálogo, não de usuário;
+  a chave continua o código, nunca o nome —
+  `docs/model-dr/0002-schema-do-documento-da-colecao.md`
 
-### Arquivo: `src/data/catalogo.js`
+## Escopo e instruções de implementação
+1. Criar em `catalogo.js` a função auxiliar `obterNomeFigurinha(sigla, posicao)`:
+   - FWC indexa a partir de zero (`FWC00` → `jogadoresFWC[0]`, até
+     `FWC19` → `jogadoresFWC[19]`);
+   - COC indexa a partir de um (`COC01` → `jogadoresCOC[0]`);
+   - seleções: `posicao === 1` → "Escudo do time"; `posicao === 13` → "Foto
+     do time"; `2–12` → jogadores 1–11 (`posicao - 2`); `14–20` → jogadores
+     12–18 (`posicao - 3`).
+2. `expandirFigurinhas` passa a emitir `nome: obterNomeFigurinha(secao.sigla, posicao)`.
+3. Testes em `catalogo.test.js`: toda figurinha tem `nome` não vazio; `BRA01`
+   "Escudo do time" e `BRA13` "Foto do time"; `FWC00` e `COC01` com os nomes
+   da fonte; um jogador de cada faixa (ex.: `BRA02` e `BRA14`) com o nome
+   certo.
+4. Atualizar MDR 0006 (figurinha ganha `nome`; `jogadores.js` como dado de
+   nomes), `docs/modelo-memoria.md` § Catálogo, TDR 0010 (a fonte dos nomes
+   chegou por fornecimento do humano) e a linha de `src/data/jogadores.js` no
+   `AGENTS.md`.
 
-#### 1. Importar dados de jogadores
+**Fora do escopo**: exibir o nome no cartão (Tarefa 0003); estilo do nome
+(Tarefa 0004); qualquer mudança no Firestore ou no formato de intercâmbio.
 
-```javascript
-import { jogadoresPorSelecao, jogadoresFWC, jogadoresCOC } from './jogadores.js';
-```
+## Decisões já tomadas (não reabrir)
+- Mapeamento de posições — ver
+  `docs/idr/0047-nomes-de-jogadores-nas-figurinhas.md`
+- Chave do Firestore é o código, nunca o nome — ver
+  `docs/model-dr/0002-schema-do-documento-da-colecao.md`
+- FWC com `inicio: 0` — ver `docs/tdr/0022-renumeracao-do-fwc.md`
 
-#### 2. Criar função auxiliar
-
-```javascript
-function obterNomeFigurinha(sigla, posicao) {
-  // Extras FIFA: FWC00-FWC19
-  if (sigla === 'FWC') {
-    return jogadoresFWC[posicao] ?? null;
-  }
-  
-  // Coca-Cola: COC01-COC14
-  if (sigla === 'COC') {
-    return jogadoresCOC[posicao - 1] ?? null;
-  }
-  
-  // Seleções: posições fixas e jogadores
-  if (posicao === 1) return 'Escudo do time';
-  if (posicao === 13) return 'Foto do time';
-  
-  // Jogadores 1-11 → posições 02-12
-  if (posicao >= 2 && posicao <= 12) {
-    return jogadoresPorSelecao[sigla]?.[posicao - 2] ?? null;
-  }
-  
-  // Jogadores 12-18 → posições 14-20
-  if (posicao >= 14 && posicao <= 20) {
-    return jogadoresPorSelecao[sigla]?.[posicao - 3] ?? null;
-  }
-  
-  return null;
-}
-```
-
-#### 3. Modificar `expandirFigurinhas()`
-
-```javascript
-export function expandirFigurinhas(secoesDoCatalogo) {
-  const figurinhas = [];
-  for (const secao of secoesDoCatalogo) {
-    const inicio = secao.inicio ?? 1;
-    for (let posicao = inicio; posicao < inicio + secao.total; posicao += 1) {
-      const numero = String(posicao).padStart(2, "0");
-      figurinhas.push({
-        codigo: `${secao.sigla}${numero}`,
-        secao: secao.sigla,
-        posicao,
-        nome: obterNomeFigurinha(secao.sigla, posicao), // NOVO CAMPO
-        metalizada: secao.tipo === "selecao" && posicao === 1,
-        paisagem: secao.tipo === "selecao" && posicao === 13,
-      });
-    }
-  }
-  return figurinhas;
-}
-```
+## Arquivos impactados
+- `src/data/catalogo.js` — modificar
+- `src/data/catalogo.test.js` — modificar
+- `docs/model-dr/0006-catalogo-estatico-embutido.md` — modificar
+- `docs/modelo-memoria.md` — modificar (§ Catálogo)
+- `docs/tdr/0010-forma-do-catalogo-degradacao-do-checklist-e-sem-pipeline.md` —
+  modificar
+- `AGENTS.md` — modificar (§ Onde fica cada coisa)
 
 ## Critérios de aceite
-
-- [ ] Função `obterNomeFigurinha()` criada
-- [ ] Campo `nome` adicionado a todas as figurinhas
-- [ ] Mapeamento correto: posições 02-12 → jogadores 1-11, posições 14-20 → jogadores 12-18
-- [ ] FWC00-FWC19 com nomes corretos
-- [ ] COC01-COC14 com nomes corretos
-- [ ] Seleções com "Escudo do time" (01) e "Foto do time" (13)
-- [ ] `npm run test` passando
+- [ ] As 994 figurinhas expandidas têm `nome` não vazio (teste)
+- [ ] FWC indexa a partir de zero e COC a partir de um (teste com `FWC00` e
+      `COC01`)
+- [ ] Posições fixas 01/13 e as duas faixas de jogadores mapeadas corretamente
+      (teste)
+- [ ] MDR 0006, `modelo-memoria.md`, TDR 0010 e `AGENTS.md` atualizados no
+      mesmo commit

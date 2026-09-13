@@ -14,9 +14,9 @@ já levou o título a uma linha única (IDR 0018).
 ## Documentos de referência
 - `docs/idr/0018-usuario-especialista-e-minimalismo.md` § Decisão e
   § Consequências — "Título único, uma linha" e o cabeçalho comprimido
-- `docs/interface.md` § Controles — "uma única linha, logo abaixo do título"
-  e a regra de quebra: grupos segmentados fluem e quebram, botões de comando
-  colados à direita
+- `docs/interface.md` § Controles — "uma única linha, logo abaixo da faixa de
+  bandeiras" e a regra de quebra: grupos segmentados fluem e quebram, botões de
+  comando colados à direita
 - `docs/interface.md` § Cabeçalho — composição atual do cabeçalho sticky
 - `docs/idr/0015-paginas-do-album-empilham-em-tela-estreita.md` e
   `docs/idr/0043-padroes-de-primeira-abertura-por-faixa-de-tela.md` —
@@ -62,7 +62,7 @@ de bandeiras; mudar o conteúdo do menu de ações.
 
 ## Decisões em aberto nesta tarefa
 - **Muda decisão documentada**: `docs/idr/0018-usuario-especialista-e-minimalismo.md`
-  § Decisão e o trecho "uma única linha, logo abaixo do título" de
+  § Decisão e o trecho "uma única linha, logo abaixo da faixa de bandeiras" de
   `docs/interface.md` § Controles — título e controles em linhas separadas →
   título e controles no mesmo container, com quebra condicional pela largura;
   a decisão anterior vai para `## Histórico`. Decide também:
