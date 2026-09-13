@@ -3,7 +3,7 @@
 # Tarefa [0011-0004]: título e controles em uma única linha
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 A partir de 768px de largura, título e controles dividem uma única linha

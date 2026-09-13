@@ -4,6 +4,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/vitest';
 import { Cabecalho } from './Cabecalho.jsx';
+import { Controles } from './Controles.jsx';
 import { secoes } from '../data/catalogo.js';
 import {
   ordenarPorPagina,
@@ -145,5 +146,81 @@ describe('Cabecalho', () => {
     expect(
       document.querySelectorAll('.faixa-de-secoes__botao--inicio-de-grupo'),
     ).toHaveLength(0);
+  });
+
+  function renderComControles(propsDeControles = {}) {
+    return render(
+      <Cabecalho
+        coladas={0}
+        faltantes={994}
+        repetidas={0}
+        percentual={0}
+        secoes={secoes}
+        ordenacao="pagina"
+        onSaltar={vi.fn()}
+      >
+        <Controles
+          ordenacao="pagina"
+          onTrocarOrdenacao={vi.fn()}
+          onDesfazer={vi.fn()}
+          onSignOut={vi.fn()}
+          {...propsDeControles}
+        />
+      </Cabecalho>,
+    );
+  }
+
+  function estaAntes(elemento, seguinte) {
+    return Boolean(
+      elemento.compareDocumentPosition(seguinte) & Node.DOCUMENT_POSITION_FOLLOWING,
+    );
+  }
+
+  it('coloca título, controles e faixa dentro do cabeçalho, na ordem', () => {
+    const { container } = renderComControles({
+      disposicao: 'lista',
+      onTrocarDisposicao: vi.fn(),
+      filtro: 'todas',
+      onTrocarFiltro: vi.fn(),
+    });
+
+    const header = container.querySelector('header.cabecalho');
+    const titulo = screen.getByText('ICONULA 2026');
+    const grupos = container.querySelectorAll('.controles__segmentado');
+    const desfazer = screen.getByRole('button', { name: 'desfazer a última alteração' });
+    const menu = screen.getByRole('button', { name: /menu de ações/ });
+
+    expect(header).toContainElement(titulo);
+    expect(grupos).toHaveLength(3);
+    for (const grupo of grupos) {
+      expect(header).toContainElement(grupo);
+    }
+    expect(header).toContainElement(desfazer);
+    expect(header).toContainElement(menu);
+    expect(screen.getByRole('navigation', { name: 'Saltar para seção' })).toBeInTheDocument();
+
+    expect(estaAntes(titulo, grupos[0])).toBe(true);
+    expect(estaAntes(grupos[grupos.length - 1], desfazer)).toBe(true);
+    expect(estaAntes(desfazer, menu)).toBe(true);
+  });
+
+  it('mantém a ordem dos comandos sem o grupo de filtro', () => {
+    const { container } = renderComControles({
+      disposicao: 'album',
+      onTrocarDisposicao: vi.fn(),
+      filtro: 'todas',
+      onTrocarFiltro: vi.fn(),
+    });
+
+    const grupos = container.querySelectorAll('.controles__segmentado');
+    expect(grupos).toHaveLength(2);
+
+    const titulo = screen.getByText('ICONULA 2026');
+    const desfazer = screen.getByRole('button', { name: 'desfazer a última alteração' });
+    const menu = screen.getByRole('button', { name: /menu de ações/ });
+
+    expect(estaAntes(titulo, grupos[0])).toBe(true);
+    expect(estaAntes(grupos[grupos.length - 1], desfazer)).toBe(true);
+    expect(estaAntes(desfazer, menu)).toBe(true);
   });
 });

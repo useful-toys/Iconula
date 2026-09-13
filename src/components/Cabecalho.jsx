@@ -21,6 +21,9 @@ import './Cabecalho.css';
  * @param {string} props.ordenacao - ordenação vigente (`'pagina' | 'sigla'`),
  *   usada pela faixa para separar os grupos A–L na ordenação por página.
  * @param {(sigla: string) => void} props.onSaltar - callback para saltar até uma seção.
+ * @param {import('react').ReactNode} [props.children] - a linha de controles,
+ *   renderizada dentro do `<header>` para dividir a linha com o título a partir
+ *   de 768px (IDR 0018).
  */
 export function Cabecalho({
   coladas,
@@ -31,6 +34,7 @@ export function Cabecalho({
   secoes,
   ordenacao,
   onSaltar,
+  children,
 }) {
   const relogio = atualizadoEm ?? '—';
 
@@ -44,32 +48,35 @@ export function Cabecalho({
 
   return (
     <header className="cabecalho">
-      <h1 className="cabecalho__titulo" aria-label={nomeAcessivel}>
-        <span className="cabecalho__nome">ICONULA 2026</span>
-        <span className="cabecalho__sep" aria-hidden="true">
-          ·
-        </span>
-        <span className="cabecalho__numero">{coladas}/994</span>
-        <span className="cabecalho__sep" aria-hidden="true">
-          ·
-        </span>
-        <span className="cabecalho__numero">{percentual}%</span>
-        <span className="cabecalho__sep" aria-hidden="true">
-          ·
-        </span>
-        <span aria-hidden="true">▢</span>
-        <span className="cabecalho__numero">{faltantes}</span>
-        <span className="cabecalho__sep" aria-hidden="true">
-          ·
-        </span>
-        <span aria-hidden="true">×</span>
-        <span className="cabecalho__numero">{repetidas}</span>
-        <span className="cabecalho__sep" aria-hidden="true">
-          ·
-        </span>
-        <span className="cabecalho__relogio">{relogio}</span>
-      </h1>
-      <FaixaDeSecoes secoes={secoes} ordenacao={ordenacao} onSaltar={onSaltar} />
+      <div className="cabecalho__fixo">
+        <h1 className="cabecalho__titulo" aria-label={nomeAcessivel}>
+          <span className="cabecalho__nome">ICONULA 2026</span>
+          <span className="cabecalho__sep" aria-hidden="true">
+            ·
+          </span>
+          <span className="cabecalho__numero">{coladas}/994</span>
+          <span className="cabecalho__sep" aria-hidden="true">
+            ·
+          </span>
+          <span className="cabecalho__numero">{percentual}%</span>
+          <span className="cabecalho__sep" aria-hidden="true">
+            ·
+          </span>
+          <span aria-hidden="true">▢</span>
+          <span className="cabecalho__numero">{faltantes}</span>
+          <span className="cabecalho__sep" aria-hidden="true">
+            ·
+          </span>
+          <span aria-hidden="true">×</span>
+          <span className="cabecalho__numero">{repetidas}</span>
+          <span className="cabecalho__sep" aria-hidden="true">
+            ·
+          </span>
+          <span className="cabecalho__relogio">{relogio}</span>
+        </h1>
+        <FaixaDeSecoes secoes={secoes} ordenacao={ordenacao} onSaltar={onSaltar} />
+      </div>
+      {children}
     </header>
   );
 }

@@ -493,22 +493,23 @@ export default function App() {
         secoes={secoesOrdenadas}
         ordenacao={ordenacao}
         onSaltar={handleSaltar}
-      />
-      <Controles
-        ordenacao={ordenacao}
-        onTrocarOrdenacao={setOrdenacao}
-        disposicao={disposicao}
-        onTrocarDisposicao={setDisposicao}
-        filtro={filtro}
-        onTrocarFiltro={handleTrocarFiltro}
-        podeDesfazer={historico.length > 0}
-        onDesfazer={handleDesfazer}
-        onSignOut={handleSignOut}
-        onCopiarFaltantes={handleCopiarFaltantes}
-        onCopiarRepetidas={handleCopiarRepetidas}
-        onExportar={handleExportar}
-        onImportar={handleImportar}
-      />
+      >
+        <Controles
+          ordenacao={ordenacao}
+          onTrocarOrdenacao={setOrdenacao}
+          disposicao={disposicao}
+          onTrocarDisposicao={setDisposicao}
+          filtro={filtro}
+          onTrocarFiltro={handleTrocarFiltro}
+          podeDesfazer={historico.length > 0}
+          onDesfazer={handleDesfazer}
+          onSignOut={handleSignOut}
+          onCopiarFaltantes={handleCopiarFaltantes}
+          onCopiarRepetidas={handleCopiarRepetidas}
+          onExportar={handleExportar}
+          onImportar={handleImportar}
+        />
+      </Cabecalho>
       <input
         ref={arquivoImportacaoRef}
         type="file"
