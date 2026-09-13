@@ -54,7 +54,7 @@ aberto e § Camadas no cliente).
   (`users/{uid}`), com o SDK carregado sob demanda para não pesar no
   bundle de quem não faz login (ver
   [docs/adr/0005](docs/adr/0005-persistencia-no-firestore.md) e
-  [docs/mdr/0002](docs/mdr/0002-schema-do-documento-da-colecao.md))
+  [docs/model-dr/0002](docs/model-dr/0002-schema-do-documento-da-colecao.md))
 
 ## Onde fica cada coisa
 
@@ -115,7 +115,7 @@ aberto e § Camadas no cliente).
 | `docs/adr/` | Decisões de arquitetura (ADRs) — leia antes de propor mudanças estruturais. |
 | `docs/tdr/` | Decisões técnicas pontuais (TDRs). |
 | `docs/idr/` | Decisões de interface significantes (IDRs) — apresentação, interação, navegação; mesmo formato dos ADRs/TDRs. |
-| `docs/mdr/` | Decisões de modelagem de dados (MDRs) — schema, formato de documentos, transformações e validações de dados; mesmo formato dos ADRs/TDRs/IDRs. |
+| `docs/model-dr/` | Decisões de modelagem de dados (MDRs) — schema, formato de documentos, transformações e validações de dados; mesmo formato dos ADRs/TDRs/IDRs. |
 | `docs/devops-dr/` | Decisões de DevOps (DDRs) — CI/CD, pipelines, deploy, branch protection, ferramentas de segurança; mesmo formato dos ADRs/TDRs/IDRs/MDRs. |
 | `docs/firebase.md` | Tudo o que foi configurado no Firebase (projeto, Hosting, login) — como reproduzir. |
 | `docs/gcloud.md` | Tudo o que foi configurado no Google Cloud (APIs habilitadas, service account, IAM) — como reproduzir. |
@@ -129,7 +129,7 @@ aberto e § Camadas no cliente).
   tipo de arquivo: `//` em JS/JSX, `/* */` em CSS, `<!-- -->` em HTML/MD,
   `#` em YAML).
 - Registrar um novo ADR/TDR/IDR/MDR/DDR em `docs/adr/`, `docs/tdr/`,
-  `docs/idr/`, `docs/mdr/` ou `docs/devops-dr/` **no momento em
+  `docs/idr/`, `docs/model-dr/` ou `docs/devops-dr/` **no momento em
   que a decisão é tomada**, não depois — inclusive decisões tomadas
   durante o planejamento (antes de qualquer código existir) e decisões
   tomadas automaticamente por um agente de IA durante a execução (ex.:

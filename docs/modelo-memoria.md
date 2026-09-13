@@ -2,11 +2,11 @@
 
 # Modelo de dados — Representação em memória na SPA
 
-Como a aplicação representa a coleção do usuário em memória durante a execução da Single Page Application. As decisões de modelagem estão nos [MDRs](mdr/); este documento mostra o estado atual do modelo em runtime.
+Como a aplicação representa a coleção do usuário em memória durante a execução da Single Page Application. As decisões de modelagem estão nos [MDRs](model-dr/); este documento mostra o estado atual do modelo em runtime.
 
 ## Estado da coleção
 
-A coleção em memória é um mapa esparso `Record<string, number>` (código → contagem), espelhando o schema do Firestore ([MDR 0002](mdr/0002-schema-do-documento-da-colecao.md)).
+A coleção em memória é um mapa esparso `Record<string, number>` (código → contagem), espelhando o schema do Firestore ([MDR 0002](model-dr/0002-schema-do-documento-da-colecao.md)).
 
 - **Chave ausente = contagem 0** — zeros nunca são guardados
 - **Contagem chegando a 0 remove a chave** — o mapa só cresce com o que o usuário tem
@@ -41,7 +41,7 @@ Todo o estado da coleção vive em `App.jsx`, consumido por prop-drilling (sem C
 
 ## Preferências de vista
 
-Lidas uma vez do `localStorage` na abertura (chave `iconula.preferencias-vista.v1`), com padrões por faixa de tela na primeira abertura ([IDR 0043](idr/0043-padroes-de-primeira-abertura-por-faixa-de-tela.md)). Detalhes no [MDR 0007](mdr/0007-persistencia-no-armazenamento-local.md).
+Lidas uma vez do `localStorage` na abertura (chave `iconula.preferencias-vista.v1`), com padrões por faixa de tela na primeira abertura ([IDR 0043](idr/0043-padroes-de-primeira-abertura-por-faixa-de-tela.md)). Detalhes no [MDR 0007](model-dr/0007-persistencia-no-armazenamento-local.md).
 
 ```javascript
 // Exemplo de preferências gravadas no localStorage
@@ -62,7 +62,7 @@ Lidas uma vez do `localStorage` na abertura (chave `iconula.preferencias-vista.v
 
 ## Gravação agregada
 
-Instância criada uma única vez por sessão (inicializador preguiçoso do `useState`), acumulando as chaves alteradas desde a última gravação. Detalhes no [MDR 0003](mdr/0003-gravacao-agregada-da-colecao.md) e [MDR 0007](mdr/0007-persistencia-no-armazenamento-local.md).
+Instância criada uma única vez por sessão (inicializador preguiçoso do `useState`), acumulando as chaves alteradas desde a última gravação. Detalhes no [MDR 0003](model-dr/0003-gravacao-agregada-da-colecao.md) e [MDR 0007](model-dr/0007-persistencia-no-armazenamento-local.md).
 
 ```javascript
 // Estado interno da gravação agregada
@@ -81,7 +81,7 @@ Instância criada uma única vez por sessão (inicializador preguiçoso do `useS
 - **`descartarPendencias()`**: limpa alterações acumuladas e temporizadores antes da importação — para não reintroduzir dado já substituído
 - **`marcarTeamNameParaApagar(uid)`**: agenda `deleteField()` do campo legado `teamName` piggyback na próxima gravação de contagens — sem escrita à parte ([TDR 0018](tdr/0018-marca-de-apagar-teamname-via-chave-reservada.md))
 
-Detalhes no [MDR 0003](mdr/0003-gravacao-agregada-da-colecao.md).
+Detalhes no [MDR 0003](model-dr/0003-gravacao-agregada-da-colecao.md).
 
 ## Proteção de corrida na carga
 
@@ -108,7 +108,7 @@ Array imutável de `{codigo, contagemAnterior}`, com limite de 10 entradas (pilh
 
 ## Catálogo estático
 
-Embutido no bundle, nunca toca o Firestore — igual para todos os usuários. Detalhes no [MDR 0006](mdr/0006-catalogo-estatico-embutido.md).
+Embutido no bundle, nunca toca o Firestore — igual para todos os usuários. Detalhes no [MDR 0006](model-dr/0006-catalogo-estatico-embutido.md).
 
 - **`secoes`**: array de 50 seções — `sigla`, `nome`, `tipo` (`selecao` | `especial`), `icone` (emoji Unicode), `grupo` (A–L ou `null`), `paginas` (spread ou `null`), `total`, `inicio` (opcional, padrão 1)
 - **`figurinhas`**: array de 994 figurinhas expandidas por `expandirFigurinhas(secoes)` — `codigo`, `secao` (sigla), `posicao` (inteiro), `metalizada` (booleano), `paisagem` (booleano)
@@ -178,9 +178,9 @@ Fila com limite de empilhamento (3), severidade, expiração.
 ## O que persiste
 
 - **Coleção**: no Firestore (ver [modelo-firebase.md](modelo-firebase.md))
-- **Preferências de vista**: no `localStorage`, por dispositivo (ver [MDR 0007](mdr/0007-persistencia-no-armazenamento-local.md))
+- **Preferências de vista**: no `localStorage`, por dispositivo (ver [MDR 0007](model-dr/0007-persistencia-no-armazenamento-local.md))
 - **Atestação de menores**: no Firestore, uma única vez por conta
-- **Cache do Firestore**: no IndexedDB, multi-aba, escritas pendentes sobrevivem ao fechamento da aba (ver [MDR 0007](mdr/0007-persistencia-no-armazenamento-local.md))
+- **Cache do Firestore**: no IndexedDB, multi-aba, escritas pendentes sobrevivem ao fechamento da aba (ver [MDR 0007](model-dr/0007-persistencia-no-armazenamento-local.md))
 
 ## O que é calculado sob demanda
 

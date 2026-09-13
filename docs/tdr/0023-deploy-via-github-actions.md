@@ -23,7 +23,8 @@ Aceito.
 ## Consequências
 
 - Todo PR gera automaticamente uma URL de preview, facilitando revisão visual antes do merge.
-- O preview deploy é usado como required status check da branch `main` (ver [TDR 0024](0024-branch-protection-preview-required.md)).
+- O preview deploy é usado como required status check da branch `main`
+(ver [DDR 0005](../devops-dr/0005-protecao-da-branch-main.md)).
 - Credencial de deploy fica armazenada como secret do repositório (`FIREBASE_SERVICE_ACCOUNT_...`), gerada e registrada automaticamente pelo `firebase init hosting:github`.
 
 ## Alternativas consideradas

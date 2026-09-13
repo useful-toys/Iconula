@@ -4,7 +4,7 @@
 
 ## Status
 
-Aceito.
+**Substituído pelo [DDR 0005](../devops-dr/0005-protecao-da-branch-main.md)**: decisões de branch protection movidas para DevOps DRs.
 
 ## Contexto
 

@@ -50,12 +50,12 @@ O que procede da objeção independentemente: **no plano Blaze, São Paulo é ma
 
 ### Aplicação à coleção de figurinhas
 
-**Modelo de dados.** Os detalhes do modelo de dados (localização do documento, schema, mecanismo de gravação) estão nos [MDRs](../mdr/):
+**Modelo de dados.** Os detalhes do modelo de dados (localização do documento, schema, mecanismo de gravação) estão nos [MDRs](../model-dr/):
 
-- Localização do documento: [MDR 0001](../mdr/0001-localizacao-do-documento-no-firestore.md)
-- Schema do documento: [MDR 0002](../mdr/0002-schema-do-documento-da-colecao.md)
-- Gravação agregada: [MDR 0003](../mdr/0003-gravacao-agregada-da-colecao.md)
-- Persistência no armazenamento local: [MDR 0007](../mdr/0007-persistencia-no-armazenamento-local.md)
+- Localização do documento: [MDR 0001](../model-dr/0001-localizacao-do-documento-no-firestore.md)
+- Schema do documento: [MDR 0002](../model-dr/0002-schema-do-documento-da-colecao.md)
+- Gravação agregada: [MDR 0003](../model-dr/0003-gravacao-agregada-da-colecao.md)
+- Persistência no armazenamento local: [MDR 0007](../model-dr/0007-persistencia-no-armazenamento-local.md)
 
 **Política de erro visível.** Falha notificada na tela (IDR 0017), a interface segue utilizável, a gravação seguinte regrava o valor completo.
 
@@ -75,4 +75,4 @@ O que procede da objeção independentemente: **no plano Blaze, São Paulo é ma
 
 - **`localStorage`**: mais simples, sem rede, sem regras, sem custo. Não atende ao pedido — não acompanha o usuário entre dispositivos nem entre navegadores. Continua sendo a escolha certa para conveniências por dispositivo (preferências de vista).
 - **Realtime Database**: latência menor e modelo mais simples, mas árvore JSON única em vez de armazenamento estruturado, e exigiria abrir `wss:` na CSP (o SDK do RTDB usa WebSocket; o do Firestore não — ver [DDR 0001](../devops-dr/0001-csp-headers-e-configuracao-de-hosting.md)). Descartado.
-- **Subcoleção `users/{uid}/contagens/{código}`**: uma escrita por figurinha (cota em rajada), leitura em query, regras por subcaminho — só compensaria se a coleção não coubesse num documento. Decisão de modelagem detalhada no [MDR 0002](../mdr/0002-schema-do-documento-da-colecao.md).
+- **Subcoleção `users/{uid}/contagens/{código}`**: uma escrita por figurinha (cota em rajada), leitura em query, regras por subcaminho — só compensaria se a coleção não coubesse num documento. Decisão de modelagem detalhada no [MDR 0002](../model-dr/0002-schema-do-documento-da-colecao.md).

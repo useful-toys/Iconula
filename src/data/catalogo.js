@@ -135,10 +135,10 @@ export const secoes = [fwc, ...selecoes, coc];
  * seleção, e o campo `metalizada` já nasce pronto para recebê-las
  * (ver TDR 0010).
  *
- * Cada seção usa `inicio` (opcional, padrão `1`) como número da primeira
- * figurinha; `total` é sempre a quantidade, nunca o último número. O FWC
- * usa `inicio: 0` porque a numeração oficial vai de `FWC00` a `FWC19`
- * (ver TDR 0022).
+  * Cada seção usa `inicio` (opcional, padrão `1`) como número da primeira
+  * figurinha; `total` é sempre a quantidade, nunca o último número. O FWC
+  * usa `inicio: 0` porque a numeração oficial vai de `FWC00` a `FWC19`
+  * (ver TDR 0010).
  *
  * @param {typeof secoes} secoesDoCatalogo
  */

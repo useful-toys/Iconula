@@ -15,7 +15,7 @@ branch protection, ferramentas de segurança), é
 
 ## Arquivo
 
-- Caminho: `docs/mdr/NNNN-slug-em-kebab-case.md`.
+- Caminho: `docs/model-dr/NNNN-slug-em-kebab-case.md`.
 - `NNNN`: sequencial próprio do MDR, 4 dígitos com zero à esquerda,
   nunca reaproveitado.
 - Slug: resumo da decisão em poucas palavras. Se o status final for
@@ -80,7 +80,7 @@ Objetivo e sucinto, não narrativo:
 
 ## Índice (README.md)
 
-`docs/mdr/README.md` lista todo MDR numa tabela `Nº | Título | Status |
+`docs/model-dr/README.md` lista todo MDR numa tabela `Nº | Título | Status |
 Tags | Resumo` — é a única fonte de tags e resumo (sem front-matter nos
 arquivos). Ao criar um MDR ou mudar seu `## Status`, atualize a linha
 correspondente **no mesmo commit** (mesmo padrão do
