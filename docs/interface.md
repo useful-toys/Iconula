@@ -602,8 +602,9 @@ estádio. O app não segue `prefers-color-scheme` e não tem tema claro
   disposição lista e 20px entre as duas páginas na disposição álbum
 - Título de super-grupo: 13px/600 em `--gold`, com chevron `▾`/`▸`, sem
   painel
-- Cabeçalho de seção: painel com borda, raio 12px, `padding: 10px 14px`;
+- Cabeçalho de seção: painel com borda, raio 12px, `padding: 7px 12px`;
   ícone 18px, nome 14px/600 em `--cream`, números em `--muted`
+  (IDR 0050)
 - Cartão na lista: 52×66px, raio 5px
 - Código do cartão em Poppins 700, sigla acima do número: na lista,
   sigla 10px com `letter-spacing: .03em` sobre número 13px; no álbum, o
