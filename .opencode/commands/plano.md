@@ -50,9 +50,12 @@ planejar.
   toca diretamente — não leia todos
 
 ### Referência e ambiente (leia só se o tema do plano tocar)
-- `docs/persistencia.md` — se o plano mexe com dados
-- `docs/firebase.md`, `docs/gcloud.md`, `docs/github.md`, `docs/registrobr.md`
-  — se o plano mexe com deploy, infra ou configuração
+- `docs/modelo-firebase.md` — se o plano mexe com persistência no Firestore
+- `docs/modelo-intercambio.md` — se o plano mexe com export/import JSON
+- `docs/modelo-memoria.md` — se o plano mexe com a representação em memória na SPA
+- `docs/devops.md` — se o plano mexe com CI/CD, deploy, pipeline ou ferramentas
+- `docs/setup-firebase.md`, `docs/setup-gcloud.md`, `docs/setup-github.md`,
+  `docs/setup-registrobr.md` — se o plano mexe com configuração de ambiente
 - `docs/prototype/Iconula - Álbum de Figurinhas.html` — se o plano tem componente
   visual
 - Código atual em `src/` — se o plano propõe componentes, módulos ou regras novas
