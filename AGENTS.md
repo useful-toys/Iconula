@@ -117,10 +117,10 @@ aberto e § Camadas no cliente).
 | `docs/idr/` | Decisões de interface significantes (IDRs) — apresentação, interação, navegação; mesmo formato dos ADRs/TDRs. |
 | `docs/model-dr/` | Decisões de modelagem de dados (MDRs) — schema, formato de documentos, transformações e validações de dados; mesmo formato dos ADRs/TDRs/IDRs. |
 | `docs/devops-dr/` | Decisões de DevOps (DDRs) — CI/CD, pipelines, deploy, branch protection, ferramentas de segurança; mesmo formato dos ADRs/TDRs/IDRs/MDRs. |
-| `docs/firebase.md` | Tudo o que foi configurado no Firebase (projeto, Hosting, login) — como reproduzir. |
-| `docs/gcloud.md` | Tudo o que foi configurado no Google Cloud (APIs habilitadas, service account, IAM) — como reproduzir. |
-| `docs/github.md` | Tudo o que foi configurado no GitHub (repo, secrets, workflows, branch protection) — como reproduzir. |
-| `docs/registrobr.md` | Configuração de DNS no registro.br para o domínio customizado (`iconula.danielferber.com.br`) — como reproduzir. |
+| `docs/setup-firebase.md` | Tudo o que foi configurado no Firebase (projeto, Hosting, login) — como reproduzir. |
+| `docs/setup-gcloud.md` | Tudo o que foi configurado no Google Cloud (APIs habilitadas, service account, IAM) — como reproduzir. |
+| `docs/setup-github.md` | Tudo o que foi configurado no GitHub (repo, secrets, workflows, branch protection) — como reproduzir. |
+| `docs/setup-registrobr.md` | Configuração de DNS no registro.br para o domínio customizado (`iconula.danielferber.com.br`) — como reproduzir. |
 
 ## Convenções
 
@@ -162,9 +162,10 @@ aberto e § Camadas no cliente).
   build, mudança nos workflows, novas roles/permissões na service
   account, nova regra de branch protection, novos secrets, novo
   domínio/registro DNS, etc.) deve ser refletida no arquivo
-  correspondente — [docs/firebase.md](docs/firebase.md),
-  [docs/gcloud.md](docs/gcloud.md), [docs/github.md](docs/github.md) ou
-  [docs/registrobr.md](docs/registrobr.md) — na mesma alteração/PR que
+  correspondente — [docs/setup-firebase.md](docs/setup-firebase.md),
+  [docs/setup-gcloud.md](docs/setup-gcloud.md),
+  [docs/setup-github.md](docs/setup-github.md) ou
+  [docs/setup-registrobr.md](docs/setup-registrobr.md) — na mesma alteração/PR que
   muda a configuração. Esses arquivos devem sempre corresponder ao
   estado real de cada ambiente; se notar alguma divergência, corrigir o
   documento junto com a mudança de código.
@@ -197,11 +198,11 @@ autenticadas como `danielferber`/`danielferber@gmail.com` neste ambiente:
   Google/Firebase que o `firebase` CLI não cobre (ex.: Identity Platform
   Admin API para provedores de login e authorized domains, Firebase
   Hosting REST API para domínio customizado — ver
-  [docs/firebase.md](docs/firebase.md), seção "Domínio customizado", para
+  [docs/setup-firebase.md](docs/setup-firebase.md), seção "Domínio customizado", para
   um exemplo desse padrão já usado neste repositório).
 - **`gh`** — GitHub CLI, para secrets/variables do repositório
   (`gh secret set`, `gh variable set`), branch protection
-  (`gh api repos/.../protection`), etc. — ver [docs/github.md](docs/github.md).
+  (`gh api repos/.../protection`), etc. — ver [docs/setup-github.md](docs/setup-github.md).
 
 Qualquer configuração feita dessa forma continua sujeita à regra acima:
 refletir no `docs/*.md` correspondente na mesma alteração. Mudanças que
@@ -225,7 +226,7 @@ npm run preview    # serve o build de produção localmente
 JDK anterior ao 21 no `PATH`, ele falha por ambiente, não por regra.
 
 `npm run dev` exige um `.env.local` com as variáveis `VITE_FIREBASE_*` (ver
-[docs/firebase.md](docs/firebase.md#firebase-authentication)): o login é a
+[docs/setup-firebase.md](docs/setup-firebase.md#firebase-authentication)): o login é a
 guarda do app (`requisitos.md` § Acesso), e sem essas variáveis a tela de
 login aparece sem botão funcional — modo não suportado, sem caminho para o
 catálogo (ver Tarefa 0008-0001).

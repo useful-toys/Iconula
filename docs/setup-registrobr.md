@@ -6,7 +6,7 @@ Este documento descreve a configuração de DNS feita no
 [registro.br](https://registro.br) para o domínio customizado do projeto
 **Iconula Button**, para o caso de ser necessário reproduzir ou revisar a
 configuração. Para como o domínio foi registrado do lado do Firebase
-(e de onde vêm os valores abaixo), ver [docs/firebase.md](firebase.md#domínio-customizado).
+(e de onde vêm os valores abaixo), ver [docs/setup-firebase.md](setup-firebase.md#domínio-customizado).
 
 ## Domínio
 
@@ -29,7 +29,7 @@ executar, por ser uma mudança de conta/domínio de terceiros).
 | `TXT` | `_acme-challenge.iconula` | `cn6LzWmOG94cpT_KSGBRTT0ZJSXElaHErv7fbc_IKdA` | Validação para emissão do certificado TLS gerenciado pelo Firebase (específico desta instância de domínio; pode ser removido depois que o certificado ficar `ACTIVE`) |
 
 Esses valores foram obtidos consultando a Firebase Hosting REST API após
-criar o `CustomDomain` (ver [docs/firebase.md](firebase.md#domínio-customizado)
+criar o `CustomDomain` (ver [docs/setup-firebase.md](setup-firebase.md#domínio-customizado)
 para o comando exato). **Não são valores genéricos** — se o domínio for
 recriado no Firebase, uma nova consulta pode retornar um TXT diferente.
 
@@ -51,7 +51,7 @@ carregar ou mostrar aviso de certificado.
 
 ## Reproduzindo do zero (resumo)
 
-1. Criar o `CustomDomain` no Firebase (ver [docs/firebase.md](firebase.md#domínio-customizado))
+1. Criar o `CustomDomain` no Firebase (ver [docs/setup-firebase.md](setup-firebase.md#domínio-customizado))
    e obter os registros DNS exigidos (`requiredDnsUpdates` / `cert.verification`)
 2. No painel de DNS do registro.br para o domínio raiz, adicionar o
    `CNAME` do subdomínio apontando para `<site>.web.app` e o `TXT` de

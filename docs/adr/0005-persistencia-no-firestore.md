@@ -32,7 +32,7 @@ Com o carregamento tardio, o bundle principal fica em **366,70 KB** (+1%) e o Fi
 
 **Política de erro.** `src/lib/colecaoRemota.js` **nunca lança**. Devolve um resultado discriminado (`encontrado` / `vazio` / `erro` / `indisponivel`); offline, `permission-denied` e `resource-exhausted` caem todos no mesmo `catch`. As mensagens de log não incluem uid nem dados do usuário.
 
-**Segurança: a `apiKey` exposta não é um vazamento.** As `VITE_FIREBASE_*` vão para o bundle e são visíveis a qualquer visitante — isso é por desenho, não descuido, e já estava documentado em [docs/firebase.md](../firebase.md). **A `apiKey` identifica o projeto, não autentica ninguém**. A credencial é o ID token emitido pelo Firebase Auth, e o isolamento entre usuários é responsabilidade exclusiva das regras do Firestore, avaliadas no servidor.
+**Segurança: a `apiKey` exposta não é um vazamento.** As `VITE_FIREBASE_*` vão para o bundle e são visíveis a qualquer visitante — isso é por desenho, não descuido, e já estava documentado em [docs/setup-firebase.md](../setup-firebase.md). **A `apiKey` identifica o projeto, não autentica ninguém**. A credencial é o ID token emitido pelo Firebase Auth, e o isolamento entre usuários é responsabilidade exclusiva das regras do Firestore, avaliadas no servidor.
 
 Consequência prática: a garantia de isolamento **não pode** depender do código cliente, que é público e substituível por qualquer requisição forjada. Ela vive em `firestore.rules` e é comprovada por testes automatizados no emulador, rodando no CI a cada PR — ver [DDR 0004](../devops-dr/0004-deploy-e-teste-das-regras-do-firestore.md).
 

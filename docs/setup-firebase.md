@@ -6,8 +6,8 @@ Este documento descreve tudo o que foi configurado no **Firebase**
 (projeto, Hosting) para o projeto **Iconula Button**, para o caso de ser
 necessário reproduzir a configuração (novo projeto, migração, etc.). Para
 a service account e permissões no Google Cloud usadas pelo deploy via CI,
-ver [docs/gcloud.md](gcloud.md). Para o lado GitHub (secrets, workflows,
-branch protection), ver [docs/github.md](github.md).
+ver [docs/setup-gcloud.md](setup-gcloud.md). Para o lado GitHub (secrets, workflows,
+branch protection), ver [docs/setup-github.md](setup-github.md).
 
 ## Conta e CLI
 
@@ -186,7 +186,7 @@ idiomático de Vite via `import.meta.env.VITE_*`:
 Ver [`.env.example`](../.env.example) — cada dev copia para `.env.local`
 (já ignorado pelo git) com os valores reais. Em CI/deploy, essas mesmas
 variáveis já foram configuradas como **GitHub Actions Variables** (não
-Secrets — ver [docs/github.md](github.md)), via `gh variable set`.
+Secrets — ver [docs/setup-github.md](setup-github.md)), via `gh variable set`.
 
 ### `authDomain` e o fluxo de login (armadilha conhecida)
 
@@ -230,7 +230,7 @@ dados e o raciocínio.
 - **Banco**: `(default)`, edição `STANDARD`, modo **Native**
 - **Região**: `southamerica-east1` (São Paulo), **dentro da faixa
   gratuita** (a API do projeto reporta `freeTier: true` para este banco —
-  ver [docs/gcloud.md](gcloud.md#cloud-firestore))
+  ver [docs/setup-gcloud.md](setup-gcloud.md#cloud-firestore))
 - **Coleção**: `users`, um documento por conta (`users/{uid}`), com um
   único campo `teamName`
 
@@ -238,7 +238,7 @@ dados e o raciocínio.
 config do mesmo Web App já usada pelo Auth (as `VITE_FIREBASE_*` acima).
 
 Os comandos de criação do banco (e por que `gcloud` em vez do `firebase`
-CLI) estão em [docs/gcloud.md](gcloud.md#cloud-firestore), junto com a
+CLI) estão em [docs/setup-gcloud.md](setup-gcloud.md#cloud-firestore), junto com a
 API que precisa estar habilitada.
 
 ### Regras de segurança
@@ -360,11 +360,11 @@ Conferir o progresso reconsultando o `GET` acima e olhando os campos
 1. `firebase login` (interativo, conta Google correta)
 2. `firebase projects:create <project-id> --display-name "<nome>"`
 3. Criar `.firebaserc` e `firebase.json` apontando para `dist`
-4. Configurar a service account de deploy no Google Cloud — ver [docs/gcloud.md](gcloud.md)
+4. Configurar a service account de deploy no Google Cloud — ver [docs/setup-gcloud.md](setup-gcloud.md)
 5. Referenciar o secret dessa service account e o `projectId` nos
-   workflows do GitHub Actions — ver [docs/github.md](github.md)
+   workflows do GitHub Actions — ver [docs/setup-github.md](setup-github.md)
 6. Habilitar o provedor Google em Authentication → Sign-in method,
    registrar um Web App e configurar as variáveis `VITE_FIREBASE_*` (ver
    seção "Firebase Authentication" acima)
 7. Criar o banco `(default)` do Firestore e publicar as regras (ver
-   seção "Cloud Firestore" acima e [docs/gcloud.md](gcloud.md#cloud-firestore))
+   seção "Cloud Firestore" acima e [docs/setup-gcloud.md](setup-gcloud.md#cloud-firestore))

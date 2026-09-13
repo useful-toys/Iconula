@@ -458,7 +458,7 @@ export default function App() {
         <div className="app__auth">
           <p className="app__login-indisponivel">
             Login indisponível — configure as variáveis <code>VITE_FIREBASE_*</code>{" "}
-            para usar o app (ver <code>docs/firebase.md</code>).
+            para usar o app (ver <code>docs/setup-firebase.md</code>).
           </p>
         </div>
       </div>

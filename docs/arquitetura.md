@@ -130,9 +130,9 @@ Fluxos:
   (produção) e `firebase-hosting-pull-request.yml` (preview) —
   [TDR 0023](tdr/0023-deploy-via-github-actions.md),
   [DDR 0005](devops-dr/0005-protecao-da-branch-main.md)
-- Configuração dos ambientes: [firebase.md](firebase.md),
-  [gcloud.md](gcloud.md), [github.md](github.md),
-  [registrobr.md](registrobr.md); panorama DevOps em [devops.md](devops.md)
+- Configuração dos ambientes: [setup-firebase.md](setup-firebase.md),
+  [setup-gcloud.md](setup-gcloud.md), [setup-github.md](setup-github.md),
+  [setup-registrobr.md](setup-registrobr.md); panorama DevOps em [devops.md](devops.md)
 
 ## Decisões-chave e onde vivem
 

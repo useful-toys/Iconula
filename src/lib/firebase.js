@@ -48,7 +48,7 @@ if (isConfigured) {
   auth = getAuth(app);
 } else {
   console.error(
-    "Firebase não inicializado — configure VITE_FIREBASE_* em .env.local (ver docs/firebase.md). Login e persistência ficarão indisponíveis.",
+    "Firebase não inicializado — configure VITE_FIREBASE_* em .env.local (ver docs/setup-firebase.md). Login e persistência ficarão indisponíveis.",
   );
 }
 
