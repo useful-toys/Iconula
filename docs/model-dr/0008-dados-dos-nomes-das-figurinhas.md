@@ -15,14 +15,13 @@ A Fase 17 acrescenta o nome do jogador/elemento a cada figurinha do catálogo; a
 - **Arquivo**: o dado mora em `src/data/jogadores.js`, transcrito das listas abaixo e consumido só por `src/data/catalogo.js` (`expandirFigurinhas`); nenhum componente o importa direto — o catálogo continua a única fonte para o resto do app ([MDR 0006](0006-catalogo-estatico-embutido.md), [TDR 0010](../tdr/0010-forma-do-catalogo-degradacao-do-checklist-e-sem-pipeline.md)).
 - **Forma**: três exportações — `jogadoresPorSelecao` (48 siglas → 18 nomes), `jogadoresFWC` (20), `jogadoresCOC` (14).
 - **Mapeamento de posições**: nas seleções, figurinha 01 = "Escudo do time", 13 = "Foto do time", 02–12 = jogadores 1–11, 14–20 = jogadores 12–18; FWC indexa a partir de zero (`FWC00` → `jogadoresFWC[0]`), COC a partir de um.
-- **Fonte**: fornecimento do humano (fonte original do álbum), provisto e confirmado em 2026-09-13 para as 48 seleções, os Extras FIFA e a Coca-Cola, e registrado nas listas abaixo. A divergência FWC10–19 se resolveu em favor da fonte: FWC09 é a Taça Jules Rimet (FIFA Museum) e FWC10–19 são dez pôsteres históricos de campeãs, de Uruguai 1950 a Argentina 2022 — a descrição "onze campeãs históricas, de Itália 1934 a 2022" na seção da Fase 14 do README do plano era imprecisa e foi corrigida.
-- **Grafia**: as listas abaixo já trazem as correções óbvias e diacritics dos nomes de imprensa conhecida — Matt Freese; Édouard Mendy, Sadio Mané e Krépin Diatta; os 18 nomes da Turquia (Uğurcan Çakır, Mert Müldür, Zeki Çelik, Abdulkerim Bardakcı, Çağlar Soyuncü, Merih Demiral, Ferdi Kadıoğlu, Kaan Ayhan, İsmail Yüksek, Hakan Çalhanoğlu, Orkun Kökçü, Arda Güler, İrfan Can Kahveci, Yunus Akgün, Can Uzun, Barış Alper Yılmaz, Kerem Aktürkoğlu, Kenan Yıldız); José Sá, Rúben Dias, Rúben Neves e João Félix; Ricardo Rodríguez; Sebastián Cáceres, Mathías Olivera, Maxi Araújo e Ronald Araújo; Aïssa Laïdouni; Joško Gvardiol. Nomes não reconhecidos foram confirmados com o humano antes de entrar, como escritos: Orlando Gill (PAR 2) e Van Valery (TUN 3).
-- **Lacuna declarada**: o Paraguai tem 13 jogadores na fonte; PAR16–PAR20 ficam sem nome (`null`), lacuna explícita, completada quando a fonte trouxer os jogadores 14–18.
-- **Invariantes** (testes em `src/data/jogadores.test.js` e `catalogo.test.js`): 48 seleções; 47 com 18 nomes, Paraguai com 13; nenhum nome vazio; nenhuma duplicata na mesma seção; 20 FWC e 14 COC; 47×18 + 13 + 48 + 48 + 20 + 14 = 989 figurinhas com nome, 5 declaradamente sem (PAR16–PAR20), 994 no total.
+- **Fonte**: fornecimento do humano (fonte original do álbum), provisto e confirmado em 2026-09-13 para as 48 seleções, os Extras FIFA e a Coca-Cola, e registrado nas listas abaixo; o complemento do Paraguai, provisto depois e chaveado por posição (PAR-1 a PAR-20), coincidiu com o mapeamento nas 15 primeiras posições e fechou a lacuna das 16–20. A divergência FWC10–19 se resolveu em favor da fonte: FWC09 é a Taça Jules Rimet (FIFA Museum) e FWC10–19 são dez pôsteres históricos de campeãs, de Uruguai 1950 a Argentina 2022 — a descrição "onze campeãs históricas, de Itália 1934 a 2022" na seção da Fase 14 do README do plano era imprecisa e foi corrigida.
+- **Grafia**: as listas abaixo já trazem as correções óbvias e diacritics dos nomes de imprensa conhecida — Matt Freese; Édouard Mendy, Sadio Mané e Krépin Diatta; os 18 nomes da Turquia (Uğurcan Çakır, Mert Müldür, Zeki Çelik, Abdulkerim Bardakcı, Çağlar Soyuncü, Merih Demiral, Ferdi Kadıoğlu, Kaan Ayhan, İsmail Yüksek, Hakan Çalhanoğlu, Orkun Kökçü, Arda Güler, İrfan Can Kahveci, Yunus Akgün, Can Uzun, Barış Alper Yılmaz, Kerem Aktürkoğlu, Kenan Yıldız); José Sá, Rúben Dias, Rúben Neves e João Félix; Ricardo Rodríguez; Sebastián Cáceres, Mathías Olivera, Maxi Araújo e Ronald Araújo; Aïssa Laïdouni; Joško Gvardiol; Antonio Sanabria (a fonte do complemento traz "Antônio"); Mathías Villasanti e Damián Bobadilla seguem acentuados, como na provisão anterior. Nomes não reconhecidos foram confirmados com o humano antes de entrar, como escritos: Orlando Gill (PAR 3) e Van Valery (TUN 3).
+- **Invariantes** (testes em `src/data/jogadores.test.js` e `catalogo.test.js`): 48 seleções com 18 nomes cada; nenhum nome vazio; nenhuma duplicata na mesma seção; 20 FWC e 14 COC; 48×18 + 48 + 48 + 20 + 14 = 994 figurinhas com nome — nenhuma lacuna.
 
 ### Listas confirmadas (provisão de 2026-09-13)
 
-Jogadores por seleção na ordem 1–18 da fonte (o Paraguai, 1–13); o mapeamento acima os transforma nas figurinhas 02–12 e 14–20. Seleções em ordem alfabética de sigla, como no catálogo.
+Jogadores por seleção na ordem 1–18 da fonte (o Paraguai chegou depois, chaveado por posição PAR-1 a PAR-20, e coincide); o mapeamento acima os transforma nas figurinhas 02–12 e 14–20. Seleções em ordem alfabética de sigla, como no catálogo.
 
 - **ALG**: Alexis Guendouz, Ramy Bensebaini, Youcef Atal, Rayan Aït-Nouri, Mohamed Amine Tougai, Aïssa Mandi, Ismael Bennacer, Houssem Aouar, Hicham Boudaoui, Ramiz Zerrouki, Nabil Bentaleb, Farés Chaibi, Riyad Mahrez, Said Benrahma, Anis Hadj Moussa, Amine Gouiri, Baghdad Bounedjah, Mohammed Amoura
 - **ARG**: Emiliano Martínez, Nahuel Molina, Cristian Romero, Nicolás Otamendi, Nicolás Tagliafico, Leonardo Balerdi, Enzo Fernández, Alexis Mac Allister, Rodrigo De Paul, Exequiel Palacios, Leandro Paredes, Nico Paz, Franco Mastantuono, Nico González, Lionel Messi, Lautaro Martínez, Julián Álvarez, Giuliano Simeone
@@ -59,7 +58,7 @@ Jogadores por seleção na ordem 1–18 da fonte (o Paraguai, 1–13); o mapeame
 - **NOR**: Ørjan Nyland, Julian Ryerson, Leo Østigård, Kristoffer Ajer, Marcus Holmgren Pedersen, David Møller Wolfe, Torbjørn Heggem, Morten Thorsby, Martin Ødegaard, Sander Berge, Andreas Schjelderup, Patrick Berg, Erling Haaland, Alexander Sørloth, Aron Dønnum, Jørgen Strand Larsen, Antonio Nusa, Oscar Bobb
 - **NZL**: Max Crocombe-Payne, Alex Paulsen, Michael Boxall, Liberato Cacace, Tim Payne, Tyler Bindon, Francis de Vries, Finn Surman, Joe Bell, Sarpreet Singh, Ryan Thomas, Matthew Garbett, Marko Stamenić, Ben Old, Chris Wood, Elijah Just, Callum McCowatt, Kosta Barbarouses
 - **PAN**: Orlando Mosquera, Luis Mejía, Fidel Escobar, Andrés Andrade, Michael Amir Murillo, Eric Davis, José Córdoba, César Blackman, Cristian Martínez, Aníbal Godoy, Adalberto Carrasquilla, Édgar Bárcenas, Carlos Harvey, Ismael Díaz, José Fajardo, Cecilio Waterman, José Luis Rodríguez, Alberto Quintero
-- **PAR** (13 — lacuna declarada em PAR16–PAR20): Roberto Fernández, Orlando Gill, Gustavo Gómez, Fabián Balbuena, Juan José Cáceres, Omar Alderete, Junior Alonso, Mathías Villasanti, Diego Gómez, Damián Bobadilla, Andrés Cubas, Matías Galarza Fonda, Julio Enciso
+- **PAR**: Roberto Fernández, Orlando Gill, Gustavo Gómez, Fabián Balbuena, Juan José Cáceres, Omar Alderete, Junior Alonso, Mathías Villasanti, Diego Gómez, Damián Bobadilla, Andrés Cubas, Matías Galarza Fonda, Julio Enciso, Alejandro Romero Gamarra, Miguel Almirón, Ramón Sosa, Ángel Romero, Antonio Sanabria
 - **POR**: Diogo Costa, José Sá, Rúben Dias, João Cancelo, Diogo Dalot, Nuno Mendes, Gonçalo Inácio, Bernardo Silva, Bruno Fernandes, Rúben Neves, Vitinha, João Neves, Cristiano Ronaldo, Francisco Trincão, João Félix, Gonçalo Ramos, Pedro Neto, Rafael Leão
 - **QAT**: Meshaal Barsham, Sultan Albrake, Lucas Mendes, Homam Ahmed, Boualem Khoukhi, Pedro Miguel, Tarek Salman, Mohamed Al-Mannai, Karim Boudiaf, Assim Madibo, Ahmed Fatehi, Mohammed Waad, Abdulaziz Hatem, Hassan Al-Haydos, Edmilson Junior, Akram Hassan Afif, Ahmed Al Ganehi, Almoez Ali
 - **RSA**: Ronwen Williams, Sipho Chaine, Aubrey Modiba, Samukele Kabini, Mbekezeli Mbokazi, Khulumani Ndamane, Siyabonga Ngezana, Khuliso Mudau, Nkosinathi Sibisi, Teboho Mokoena, Thalente Mbatha, Bathuisi Aubaas, Yaya Sithole, Sipho Mbule, Lyle Foster, Ioraam Rayners, Mohau Nkota, Oswin Appolis
@@ -79,7 +78,7 @@ Jogadores por seleção na ordem 1–18 da fonte (o Paraguai, 1–13); o mapeame
 
 ## Consequências
 
-- 989 de 994 figurinhas exibem nome; as 5 do Paraguai exibem só o código até a lacuna ser completada
+- Todas as 994 figurinhas exibem nome
 - O catálogo ganha um campo (`nome`) e um arquivo de dado consumido só por ele — o resto do app, o Firestore e o formato de intercâmbio não mudam ([MDR 0002](0002-schema-do-documento-da-colecao.md), [MDR 0004](0004-formato-de-intercambio-da-colecao.md))
 - `src/data/jogadores.js` é transcrição direta das listas deste registro — a conferência da Tarefa 0017-0001 é contra ele
 
@@ -88,9 +87,20 @@ Jogadores por seleção na ordem 1–18 da fonte (o Paraguai, 1–13); o mapeame
 - **Listas no registro de interface (IDR 0047)**: Rejeitado - dado de 994 nomes não é decisão de interface; a casa do dado de catálogo é um MDR — e a primeira listagem embutida lá veio defeituosa, sem validação
 - **Provisão apenas em conversa, sem registro**: Rejeitado - a definição do dado ficaria sem casa durável; a execução transcreveria de memória, sem conferência
 - **Nomes como literais em `catalogo.js`**: Rejeitado - 859 nomes de jogadores tornariam o arquivo ilegível; arquivo próprio mantém o espírito da expansão por função pura (TDR 0010)
-- **Bloquear a fase até completar o Paraguai**: Rejeitado - 5 figurinhas sem nome não seguram 989; a lacuna é declarada e visível
+- **Bloquear a fase até completar o Paraguai**: Rejeitado - 5 figurinhas sem nome não justificavam segurar as demais; a lacuna foi declarada e fechada ainda no planejamento, com o complemento da fonte
 - **Grafia verbatim da fonte**: Rejeitado - erros de transcrição evidentes entrariam como dado
 
 ## Histórico
+
+- 2026-09-13 — Complemento do Paraguai: a fonte trouxe as posições
+  PAR16–PAR20 (Alejandro Romero Gamarra, Miguel Almirón, Ramón Sosa, Ángel
+  Romero, Antonio Sanabria), chaveadas por posição e coincidentes com o
+  mapeamento nas 15 primeiras — a lacuna declarada fecha e todas as 994
+  figurinhas passam a ter nome. A provisão do Paraguai nomeia as posições
+  fixas como "Escudo da Seleção" e "Foto do Time (Elenco)"; o rótulo
+  uniforme das 48 seleções ("Escudo do time" / "Foto do time") prevalece.
+  Grafia do complemento: "Antônio" corrigido para Antonio Sanabria;
+  Mathías Villasanti e Damián Bobadilla seguem acentuados, como na provisão
+  anterior.
 
 - 2026-09-13 — As listas confirmadas passam a morar neste registro, por decisão do humano: o MDR descreve o nome das figurinhas e a execução transcreve daqui para `src/data/jogadores.js`. A versão anterior descrevia só as decisões e mantinha a provisão fora do registro; a alternativa "provisão apenas em conversa" foi rejeitada.
