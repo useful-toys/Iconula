@@ -19,15 +19,22 @@ limite a reestruturação a esses registros/assunto; caso contrário, varra tudo
    o documento vivo `docs/arquitetura.md`; **todos** os TDRs de `docs/tdr/` e o
    índice `docs/tdr/README.md`. Se algum desses arquivos não existir, pare e diga
    o que faltou — não invente formato nem índice.
-2. Registre a **branch original**: `git branch --show-current`. Se for
-   `main`/`master`, detached HEAD ou vazia, pare e pergunte qual é a branch
-   original antes de continuar.
-3. `git status --short`: se houver alterações não commitadas, pare e peça para
-   resolver — não as carregue para a worktree.
-4. Sincronize a branch original seguindo a skill `git-remote-sync-guard`.
-5. Crie a worktree de trabalho a partir da branch original, com nome sugerido
-   pelas skills `git-branch-name` (tipo/assunto `docs-reestruturar-tdr`):
-   `git worktree add .worktrees/<nome> -b <nome> <branch-original>`.
+2. Invoque a skill `git-remote-sync-guard` para deixar a produção (`main`) em
+   dia e garantir que a branch de documentação `docs/documentacao_continua`
+   está presente e atual:
+   - se `docs/documentacao_continua` não existir (nem local nem em `origin`),
+     crie-a a partir de `main` com worktree próprio:
+     `git worktree add .worktrees/docs-documentacao_continua -b docs/documentacao_continua main`;
+   - se já existir, sincronize-a seguindo a skill `git-remote-sync-guard`
+     (fetch e fast-forward apenas; a integração nunca é rebaseada). Se ela não
+     contiver a produção ou tiver divergido, pare e peça orientação.
+3. `git status --short`: se houver alterações não commitadas na worktree da
+   integração, pare e peça para resolver — não as carregue para a worktree de
+   trabalho.
+4. Crie a **branch de trabalho** numa worktree separada, a partir de
+   `docs/documentacao_continua`, com nome sugerido pelas skills
+   `git-branch-name` (tipo/assunto `docs-reestruturar-tdr`):
+   `git worktree add .worktrees/<nome> -b <nome> docs/documentacao_continua`.
    Trabalhe **somente** dentro dela.
 
 ## 2. Diagnóstico (somente leitura)
@@ -103,10 +110,10 @@ explícita.**
 ## 5. Entregar
 - Commit com a mensagem proposta pela skill `git-commit-message` (somente se a
   proposta foi aprovada).
-- Rebase da branch de trabalho sobre a original
-  (`git rebase <branch-original>`); em conflito, pare e peça orientação.
-- Com a árvore principal limpa, avance a branch original para o resultado
-  (`git merge --ff-only <branch-de-trabalho>` ou
-  `git branch -f <original> <branch>`).
+- Rebase da branch de trabalho sobre a integração
+  (`git rebase docs/documentacao_continua`); em conflito, pare e peça orientação.
+- Com a worktree da integração limpa, avance `docs/documentacao_continua` para o
+  resultado da branch de trabalho (fast-forward a partir da worktree dela):
+  `git -C .worktrees/docs-documentacao_continua merge --ff-only <branch-de-trabalho>`.
 - Não faça push nem abra PR sem o usuário pedir.
 - Ofereça remover a worktree e a branch de trabalho ao final.
