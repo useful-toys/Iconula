@@ -18,7 +18,7 @@
   --page-gutter: clamp(16px, 4vw, 40px);
 
   --header-padding: 12px var(--page-gutter) 10px;
-  --body-padding: 20px var(--page-gutter) 60px;
+  --body-padding: 20px var(--page-gutter) 76px;
 
   --super-group-gap: 12px;
   --section-gap: 10px;

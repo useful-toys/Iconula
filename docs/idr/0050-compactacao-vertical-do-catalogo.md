@@ -29,8 +29,11 @@ Aceito — implementação na Fase 0012 (Tarefas 0012-0002 a 0012-0004).
 - **Inalterados**: 8px entre cartões na lista e 20px entre páginas no álbum
 - **Margem inferior do corpo**: altura da **pior faixa de aviso única** — a
   falha com o detalhe técnico expandido, medida na largura de celular —
-  mais 8px de folga; o valor medido fica anotado neste registro pela
-  tarefa que o mede
+  mais 8px de folga
+  - medição da Tarefa 0012-0004, a 375px, com a mensagem real de falha de
+    gravação: `border-top 2px` + `padding 12px + 12px` + mensagem
+    `16px × 1,4` (1 linha) + detalhe `11px × 1,4 + 4px` (1 linha) =
+    **67,78px**; `67,78 + 8 = 75,78` → adotado **76px**
   - a pilha de até três avisos
     ([IDR 0034](0034-limite-de-empilhamento-dos-avisos.md)) não entra na
     conta: é transitória e o usuário pode rolar
@@ -54,4 +57,6 @@ Aceito — implementação na Fase 0012 (Tarefas 0012-0002 a 0012-0004).
 
 ## Histórico
 
+- 2026-09-13 — Medição da margem inferior (Tarefa 0012-0004): faixa de falha
+  expandida a 375px = 67,78px; `+ 8px` → 76px.
 - 2026-09-13 — Criado no planejamento revisado das Fases 11–17.
