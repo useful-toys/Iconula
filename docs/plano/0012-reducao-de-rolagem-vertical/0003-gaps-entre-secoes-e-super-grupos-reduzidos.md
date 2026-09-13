@@ -6,75 +6,51 @@
 Pendente
 
 ## Objetivo
-Reduzir os espaçamentos entre blocos do catálogo — super-grupo a super-grupo,
-seção a seção, cabeçalho a grade — que se repetem dezenas de vezes e, somados,
-custam quase uma tela inteira de rolagem.
+Apertar os espaçamentos entre blocos do catálogo — 16→12px entre
+super-grupos, 14→10px entre seções, 10→8px do cabeçalho à grade —, que se
+repetem dezenas de vezes e somam quase uma tela de rolagem.
 
 ## Documentos de referência
-- `docs/interface.md` § Medidas — "Espaçamentos internos: 14px entre seções
-  dentro de um super-grupo, 10px entre o cabeçalho da seção e a sua grade, 8px
-  entre cartões na disposição lista e 20px entre as duas páginas na disposição
-  álbum" e "Corpo: … 16px entre super-grupos"
-- `docs/plano/0012-reducao-de-rolagem-vertical/logs/0002-log-cabecalho-de-secao-mais-compacto.md`
-  § Decisões tomadas — qual registro lastreia as medidas compactadas da fase
-  (gerado pela Tarefa 0012-0002)
-- `src/theme.css` — tokens `--super-group-gap` (16px), `--section-gap` (14px),
-  `--section-body-gap` (10px), `--card-gap-list` (8px), `--album-page-gap`
-  (20px)
-- Consumidores dos tokens: `--super-group-gap` em
-  `src/components/SuperGrupo.css`; `--section-gap` em
-  `src/components/Catalogo.css` (seções soltas na ordenação por sigla) e
-  `src/components/SuperGrupo.css`; `--section-body-gap` em
-  `src/components/Secao.css` e `src/components/SuperGrupo.css`
+- `docs/idr/0050-compactacao-vertical-do-catalogo.md` § Decisão — os três
+  valores e os dois espaçamentos que não mudam
+- `docs/interface.md` § Medidas — "Corpo: … 16px entre super-grupos" e
+  "Espaçamentos internos: 14px entre seções…, 10px entre o cabeçalho da seção
+  e a sua grade, 8px entre cartões… e 20px entre as duas páginas"
+- `src/theme.css` — tokens `--super-group-gap`, `--section-gap`,
+  `--section-body-gap`, `--card-gap-list`, `--album-page-gap`
+- Consumidores: `src/components/SuperGrupo.css`, `src/components/Catalogo.css`,
+  `src/components/Secao.css`
 
 ## Padrões e convenções aplicáveis
-- Cartão a cartão (`--card-gap-list`) e página a página (`--album-page-gap`)
-  não mudam: são espaçamentos dentro do conteúdo — `docs/interface.md`
-  § Medidas
 - Só os valores dos tokens mudam, não a arquitetura de espaçamento —
   `src/theme.css`
-- Dois blocos distintos continuam parecendo dois blocos —
-  `docs/interface.md` § Corpo
+- `--card-gap-list` e `--album-page-gap` não mudam — IDR 0050
+- Blocos distintos continuam parecendo distintos — IDR 0050
 
 ## Escopo e instruções de implementação
-1. Reduzir `--super-group-gap` de 16px para 10–12px.
-2. Reduzir `--section-gap` (entre seções num super-grupo e entre seções soltas
-   na ordenação por sigla) de 14px para 10–12px.
-3. Reduzir `--section-body-gap` (cabeçalho da seção → grade; também
-   `margin-top` do corpo do super-grupo) de 10px para 6–8px.
-4. Medir a economia total (cada token × número de ocorrências) e registrar no
-   log.
-5. Atualizar o registro escolhido na Tarefa 0012-0002 e `docs/interface.md`
-   § Medidas com os novos valores, citando-o.
+1. `--super-group-gap` 16px → 12px; `--section-gap` 14px → 10px;
+   `--section-body-gap` 10px → 8px.
+2. Registrar no log a economia estimada (token × ocorrências).
+3. Em `docs/interface.md` § Medidas, as linhas "Corpo" e "Espaçamentos
+   internos" passam a 12px, 10px e 8px, citando o IDR 0050.
 
-**Fora do escopo**: `--card-gap-list` e `--album-page-gap`; padding dentro do
-cartão ou do cabeçalho de seção (Tarefa 0012-0002).
+**Fora do escopo**: `--card-gap-list`, `--album-page-gap`; padding do cabeçalho
+de seção (Tarefa 0012-0002); margem inferior (Tarefa 0012-0004).
 
 ## Decisões já tomadas (não reabrir)
-- Os cinco tokens de espaçamento e onde cada um se aplica — ver
-  `docs/interface.md` § Medidas e `src/theme.css`
-- O registro que lastreia as medidas compactadas da fase — escolhido na
-  Tarefa 0012-0002 (ver o log dela)
-
-## Decisões em aberto nesta tarefa
-- **Muda decisão documentada**: o registro escolhido na Tarefa 0012-0002
-  (IDR 0022 ou o IDR da compactação vertical) — espaçamentos entre blocos
-  16px / 14px / 10px → os novos valores dos três tokens; entrada em
-  `## Histórico`.
+- Os novos valores e os que ficam — ver
+  `docs/idr/0050-compactacao-vertical-do-catalogo.md`
 
 ## Arquivos impactados
-- `src/theme.css` — modificar (tokens)
+- `src/theme.css` — modificar
 - `docs/interface.md` — modificar (§ Medidas)
-- `docs/idr/` — modificar (o registro escolhido na Tarefa 0012-0002)
 
 ## Critérios de aceite
-- [ ] `--super-group-gap`, `--section-gap` e `--section-body-gap` reduzidos
-      nas faixas do escopo
+- [ ] Os três tokens com 12px, 10px e 8px (conferido no CSS)
 - [ ] `--card-gap-list` e `--album-page-gap` inalterados (conferido no diff)
-- [ ] Super-grupos, seções e cabeçalho→grade continuam visualmente distintos
-- [ ] Economia total estimada registrada no log
+- [ ] Economia estimada registrada no log
+- [ ] `docs/interface.md` § Medidas com os novos valores, citando o IDR 0050
 
 ## Validação adicional
-Verificação visual em `npm run dev`: rolar pelas duas ordenações (página e
-sigla) e pelas duas disposições, conferindo que a separação entre blocos
-continua clara.
+Verificação visual em `npm run dev`: rolar pelas duas ordenações e pelas duas
+disposições, conferindo a separação entre blocos.

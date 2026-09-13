@@ -30,8 +30,10 @@ Aceito.
 - Nada disso vai para o Firestore: **zero requisições**, e a preferência
   é do dispositivo — celular na feira e navegador em casa podem abrir em
   modos diferentes
-- O estado de colapso de seções e super-grupos **continua volátil**
-  (IDR 0020): recarregar volta ao padrão aberto
+- As seções e os super-grupos **fechados à mão** também são guardados
+  no `localStorage` e voltam fechados; o resto abre
+  ([IDR 0020](0020-secoes-colapsaveis-em-qualquer-visualizacao.md) —
+  implementação na Fase 0012)
 - Sem interface de configuração: a preferência é o próprio último uso
   dos alternadores
 
@@ -53,5 +55,14 @@ Aceito.
 - **Persistir no Firestore junto da coleção**: sincronizaria entre
   dispositivos, mas custa escrita por toque de alternador e trata como
   dado do usuário o que é preferência do aparelho
-- **Persistir também o colapso**: o IDR 0020 já pesou e recusou —
-  restaurar 50 seções fechadas esconderia o catálogo na abertura
+- **Colapso volátil** (decisão original): evitava restaurar um catálogo
+  escondido, mas obrigava a refechar à mão a cada abertura; como só volta
+  fechado o que o próprio usuário fechou, o catálogo não abre escondido por
+  regra alguma
+
+## Histórico
+
+- 2026-09-13 — Planejamento revisado das Fases 11–17: o colapso manual
+  passa a ser persistido junto das preferências de vista. Antes: "o estado
+  de colapso de seções e super-grupos continua volátil", com a alternativa
+  "persistir também o colapso" recusada.
