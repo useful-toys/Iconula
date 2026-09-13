@@ -48,9 +48,9 @@ Como a aplicação representa a coleção do usuário em arquivos JSON de export
 
 - **Valida o arquivo inteiro antes de aplicar** (`validarImportacao` em `portabilidade.js`) — recusa quando:
   - Não é JSON válido
-  - Não é um objeto
+  - A raiz não é um objeto JSON (array é recusado)
   - `versao` não é a conhecida
-  - `contagens` está ausente ou não é um objeto
+  - `contagens` está ausente, não é um objeto JSON ou é um array
   - Algum valor de `contagens` não é um inteiro entre 1 e 99 (valores negativos são recusados; zero é descartado silenciosamente antes da checagem de intervalo)
 - **Normalizações não recusam o arquivo**:
   - Valor exatamente `0` some silenciosamente (mapa esparso)
