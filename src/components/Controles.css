@@ -8,6 +8,14 @@
   padding: 8px var(--page-gutter) 6px;
 }
 
+/* A partir de 768px, os controles dividem a linha sticky com o título
+ * (IDR 0018): o padding horizontal e vertical passa a ser do cabeçalho. */
+@media (min-width: 768px) {
+  .controles {
+    padding: 0;
+  }
+}
+
 .controles__segmentado {
   display: inline-flex;
   background: var(--panel);

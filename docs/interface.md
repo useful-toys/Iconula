@@ -48,16 +48,24 @@ demonstrar avisos) é andaime da prévia, não faz parte do produto.*
 - Menu de ações: botão na mesma linha de controles, abre popup com os
   comandos raros — listas de troca, export/import e sair da conta (ver
   [IDR 0024](idr/0024-acoes-raras-em-menu-do-cabecalho.md))
-- Faixa de bandeiras (salto para seção): logo abaixo do título, dentro
-  do cabeçalho sticky — uma linha com as 50 seções, bandeira da
-  seleção ou ícone temático do especial (🏆 Extras FIFA, 🥤
-  Coca-Cola), rolável para os lados; tocar salta até a seção (ver
-  [IDR 0016](idr/0016-salto-pela-faixa-de-bandeiras.md)) — a ordem
-  acompanha o catálogo: 🏆 no início, 🥤 no fim (IDR 0028)
+- A partir de 768px de largura, título e linha de controles dividem uma
+  única linha dentro do cabeçalho sticky — título à esquerda, controles à
+  direita; sem espaço, os controles quebram para a linha de baixo, ainda
+  no sticky. Abaixo de 768px, os controles ficam numa linha própria, fora
+  do cabeçalho sticky, rolando com o conteúdo (ver
+  [IDR 0018](idr/0018-usuario-especialista-e-minimalismo.md))
+- Faixa de bandeiras (salto para seção): última linha do cabeçalho,
+  abaixo do título (e dos controles, a partir de 768px) — uma linha com as
+  50 seções, bandeira da seleção ou ícone temático do especial (🏆
+  Extras FIFA, 🥤 Coca-Cola), rolável para os lados; tocar salta até a
+  seção (ver [IDR 0016](idr/0016-salto-pela-faixa-de-bandeiras.md)) — a
+  ordem acompanha o catálogo: 🏆 no início, 🥤 no fim (IDR 0028)
 
 ### Controles
-- Uma única linha, logo abaixo da faixa de bandeiras — fora do cabeçalho
-  sticky, rola com o conteúdo (IDR 0018)
+- A partir de 768px, na mesma linha do título, à direita, dentro do
+  cabeçalho sticky; sem espaço, quebra para a linha de baixo, ainda no
+  sticky. Abaixo de 768px, uma linha própria logo abaixo da faixa de
+  bandeiras — fora do cabeçalho sticky, rola com o conteúdo (IDR 0018)
 - Alternador de ordenação: página do álbum físico × sigla da seção —
   em ambas, os Extras FIFA abrem o catálogo e a Coca-Cola o fecha (ver
   [IDR 0028](idr/0028-fwc-abre-e-coca-cola-fecha-o-catalogo.md))
@@ -304,8 +312,9 @@ Esquemático em texto; cores indicadas são as do
 └──────────────────────────────────────────────────────────────┘
 ```
 
-- Uma única rolagem (IDR 0008); o cabeçalho sticky fixa o título e a
-  faixa de bandeiras — a linha de controles rola com o conteúdo
+- Uma única rolagem (IDR 0008); a partir de 768px o cabeçalho sticky fixa
+  título, controles e faixa de bandeiras; abaixo disso, fixa título e faixa,
+  e a linha de controles rola com o conteúdo (IDR 0018)
 - Faixa de bandeiras no cabeçalho (salto — IDR 0016): uma linha
   rolável horizontalmente — exceção pontual ao scroll único
 - `[⋯]` abre o menu de ações (IDR 0024): copiar faltantes, copiar

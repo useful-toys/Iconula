@@ -1,6 +1,15 @@
 /* Copyright (c) 2026 Daniel Felix Ferber */
 
+/* Até 768px, o cabeçalho não gera caixa: só o título e a faixa ficam sticky
+ * (`.cabecalho__fixo`); a linha de controles — irmã do bloco fixo dentro do
+ * `<header>` — rola com o conteúdo, como antes (IDR 0018). O bloco sticky
+ * precisa de ancestral alto para fixar a página inteira; com o `<header>` sem
+ * caixa, o ancestral passa a ser `.app`. */
 .cabecalho {
+  display: contents;
+}
+
+.cabecalho__fixo {
   position: sticky;
   top: 0;
   z-index: 10;
@@ -8,6 +17,50 @@
   color: var(--cream);
   background: var(--turf);
   border-bottom: 1px solid var(--border);
+}
+
+/* A partir de 768px, título e controles dividem uma única linha dentro do
+ * cabeçalho sticky — título à esquerda, controles à direita; sem espaço, os
+ * controles quebram para a linha de baixo, ainda no sticky, seguindo a regra
+ * de quebra dos grupos. A faixa de bandeiras segue como linha à parte,
+ * abaixo (IDR 0018). O `order` põe os controles antes da faixa mesmo com a
+ * faixa vindo antes no DOM (ordem que o móvel precisa). */
+@media (min-width: 768px) {
+  .cabecalho {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px var(--page-gutter);
+    padding: var(--header-padding);
+    color: var(--cream);
+    background: var(--turf);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .cabecalho__fixo {
+    display: contents;
+  }
+
+  .cabecalho__titulo {
+    order: 1;
+  }
+
+  .cabecalho .controles {
+    order: 2;
+    /* Cresce para ocupar o que sobra ao lado do título (ou a linha inteira,
+     * quando quebra); assim os grupos ficam após o título e os dois comandos
+     * seguem colados à direita, como na interface (§ Controles). */
+    flex: 1 1 auto;
+  }
+
+  .cabecalho .faixa-de-secoes {
+    order: 3;
+    flex-basis: 100%;
+  }
 }
 
 .cabecalho__titulo {

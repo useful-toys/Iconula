@@ -306,4 +306,48 @@ describe('Controles', () => {
       expect(opcao).toHaveAttribute('data-tooltip', opcao.getAttribute('aria-label'));
     }
   });
+
+  it('coloca os grupos antes da área de comandos, com o filtro', () => {
+    const { container } = render(
+      <Controles
+        ordenacao="pagina"
+        onTrocarOrdenacao={vi.fn()}
+        disposicao="lista"
+        onTrocarDisposicao={vi.fn()}
+        filtro="todas"
+        onTrocarFiltro={vi.fn()}
+        onDesfazer={vi.fn()}
+        onSignOut={vi.fn()}
+      />
+    );
+
+    const grupos = container.querySelectorAll('.controles__segmentado');
+    const direita = container.querySelector('.controles__direita');
+    expect(grupos).toHaveLength(3);
+    expect(
+      grupos[grupos.length - 1].compareDocumentPosition(direita) &
+        Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
+  });
+
+  it('mantém os comandos depois dos grupos sem o filtro', () => {
+    const { container } = render(
+      <Controles
+        ordenacao="pagina"
+        onTrocarOrdenacao={vi.fn()}
+        disposicao="album"
+        onTrocarDisposicao={vi.fn()}
+        onDesfazer={vi.fn()}
+        onSignOut={vi.fn()}
+      />
+    );
+
+    const grupos = container.querySelectorAll('.controles__segmentado');
+    const direita = container.querySelector('.controles__direita');
+    expect(grupos).toHaveLength(2);
+    expect(
+      grupos[grupos.length - 1].compareDocumentPosition(direita) &
+        Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
+  });
 });
