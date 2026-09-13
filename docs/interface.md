@@ -591,15 +591,16 @@ estádio. O app não segue `prefers-color-scheme` e não tem tema claro
   separa duas bandeiras vizinhas, para caber o máximo de seções na largura
   antes de precisar rolar; em tela sensível, área de toque ampliada de 1px
   em volta do ícone (IDR 0042)
-- Corpo: `padding: 20px clamp(16px, 4vw, 40px) 60px`, 16px entre
-  super-grupos
+- Corpo: `padding: 20px clamp(16px, 4vw, 40px) 60px`, 12px entre
+  super-grupos (IDR 0050)
 - Sem largura máxima de conteúdo: a página ocupa toda a largura
   disponível — quem dá o ritmo é a margem lateral
   `clamp(16px, 4vw, 40px)`, a mesma no cabeçalho, no corpo e na faixa
   de avisos, de modo que tudo alinha na mesma vertical
-- Espaçamentos internos: 14px entre seções dentro de um super-grupo,
-  10px entre o cabeçalho da seção e a sua grade, 8px entre cartões na
+- Espaçamentos internos: 10px entre seções dentro de um super-grupo,
+  8px entre o cabeçalho da seção e a sua grade, 8px entre cartões na
   disposição lista e 20px entre as duas páginas na disposição álbum
+  (IDR 0050)
 - Título de super-grupo: 13px/600 em `--gold`, com chevron `▾`/`▸`, sem
   painel
 - Cabeçalho de seção: painel com borda, raio 12px, `padding: 7px 12px`;
