@@ -61,6 +61,7 @@ Detalhes e status das tarefas no guia [CLAUDE.md](CLAUDE.md) § Status e ciclo d
 | 14 | [Correção urgente: renumeração do FWC](0014-numeracao-dos-extras-fifa/) | Extras FIFA de `FWC00` a `FWC19` (hoje `FWC01`–`FWC20`, deslocado em um); total do catálogo continua 994 | 10 | `fix: renumera os Extras FIFA para FWC00–FWC19` | Entregue |
 | 15 | [Identidade de cor por grupo](0015-identidade-de-cor-por-grupo/) | Associar uma cor distinta a cada grupo de seleções (A–L) e aos especiais (FWC, COC), aplicada no título do super-grupo, cabeçalho de seção e faixa de bandeiras | 10 | `feat: identidade de cor por grupo de seções` | Pendente |
 | 16 | [Identidade de cor por seleção](0016-identidade-de-cor-por-selecao/) | Associar uma cor individual a cada uma das 48 seleções, aplicada no cabeçalho de seção | 15 | `feat: identidade de cor por seleção` | Pendente |
+| 17 | [Nomes de jogadores nas figurinhas](0017-nomes-de-jogadores/) | Adicionar o nome do jogador/elemento abaixo do código em cada figurinha | — | `feat: nomes de jogadores nas figurinhas` | Pendente |
 
 ---
 
@@ -322,8 +323,6 @@ Coca-Cola. 14 cores em OKLCH, ajustadas para contraste no tema escuro.
 | `npm run dev` deixa de funcionar sem credenciais quando o login vira guarda | Achado da leitura: `requisitos.md` § Dados e isolamento × `AGENTS.md` § Como rodar | 8.1 | `requisitos.md` vence (modo não suportado); `AGENTS.md` passa a dizer que o desenvolvimento exige `.env.local` | — (correção de doc no mesmo PR) |
 | Extras FIFA numerados de `FWC01` a `FWC20`, quando a numeração oficial do álbum 2026 vai de `FWC00` a `FWC19` | Achado de uso: catálogo × numeração real do FWC (confirmada por múltiplas fontes após uma primeira leitura errada, com dados do Catar 2022) | 14.1 | Deslocar a seção para começar em zero (`inicio: 0`, `total: 20` inalterado), sem migração de dado por não haver uso real em produção ainda | TDR |
 
->>>>>>> d2730ef (docs(plano): fase 15 — identidade de cor por grupo de seções)
-=======
 ---
 
 ## Fase 16 — Identidade de cor por seleção
@@ -341,7 +340,24 @@ usa vermelho Coca-Cola. 50 cores em OKLCH.
 | 0002 | [Cor no cabeçalho de seção por seleção](0016-identidade-de-cor-por-selecao/0002-cor-no-cabecalho-de-secao-por-selecao.md) | Borda completa + fundo com opacidade reduzida da cor da seleção no cabeçalho de cada seção. | Pendente |
 | 0003 | [IDR 0046 e documentação](0016-identidade-de-cor-por-selecao/0003-idr-e-documentacao.md) | Criar IDR 0046 sobre cores por seleção; atualizar `interface.md` com as novas medidas e estilos. | Pendente |
 
->>>>>>> 5dbfefe (docs(plano): fase 16 — identidade de cor por seleção)
+---
+
+## Fase 17 — Nomes de jogadores nas figurinhas
+
+Adicionar o nome do jogador/elemento abaixo do código em cada figurinha,
+facilitando a identificação visual. Dados completos fornecidos: 48 seleções
+× 18 jogadores, 20 Extras FIFA (FWC00-FWC19) e 14 Coca-Cola (COC01-COC14).
+Posições fixas: 01 = "Escudo do time", 13 = "Foto do time".
+
+| # | Tarefa | Objetivo | Status |
+|---|---|---|---|
+| 0001 | [Dados dos jogadores](0017-nomes-de-jogadores/0001-dados-dos-jogadores.md) | Criar `src/data/jogadores.js` com nomes de todas as figurinhas. | Pendente |
+| 0002 | [Modificar catálogo](0017-nomes-de-jogadores/0002-modificar-catalogo.md) | Adicionar campo `nome` às figurinhas via `expandirFigurinhas()`. | Pendente |
+| 0003 | [Atualizar componente Figurinha](0017-nomes-de-jogadores/0003-atualizar-figurinha.md) | Exibir nome abaixo do código, com truncamento e aria-label. | Pendente |
+| 0004 | [Estilizar nome do jogador](0017-nomes-de-jogadores/0004-estilizar-nome.md) | CSS para nome: fonte menor, truncamento com ellipsis. | Pendente |
+| 0005 | [Atualizar testes](0017-nomes-de-jogadores/0005-atualizar-testes.md) | Testes de dados, catálogo e componente. | Pendente |
+| 0006 | [Documentar decisão](0017-nomes-de-jogadores/0006-documentar-decisao.md) | IDR 0047 sobre exibição de nomes; atualizar `interface.md`. | Pendente |
+
 ## Regras que valem em toda tarefa
 
 Ver o guia [CLAUDE.md](CLAUDE.md) § Regras que valem em toda tarefa e
