@@ -6,9 +6,9 @@
 Pendente
 
 ## Objetivo
-Criar `src/data/jogadores.js` com os nomes das figurinhas — 48 seleções (47 com
-18 jogadores e o Paraguai com 13, lacuna declarada), 20 Extras FIFA e 14
-Coca-Cola — transcrevendo as listas confirmadas do MDR 0008.
+Criar `src/data/jogadores.js` com os nomes das figurinhas — 48 seleções com 18
+jogadores cada, 20 Extras FIFA e 14 Coca-Cola — transcrevendo as listas
+confirmadas do MDR 0008.
 
 ## Documentos de referência
 - `docs/model-dr/0008-dados-dos-nomes-das-figurinhas.md` § Listas confirmadas
@@ -30,17 +30,16 @@ Coca-Cola — transcrevendo as listas confirmadas do MDR 0008.
 
 ## Escopo e instruções de implementação
 1. Transcrever as listas confirmadas do MDR 0008 para `src/data/jogadores.js`,
-   nas três exportações: `jogadoresPorSelecao` (48 siglas → 18 nomes; Paraguai
-   com 13), `jogadoresFWC` (20) e `jogadoresCOC` (14) — a grafia já está
-   corrigida no registro.
+   nas três exportações: `jogadoresPorSelecao` (48 siglas → 18 nomes),
+   `jogadoresFWC` (20) e `jogadoresCOC` (14) — a grafia já está corrigida no
+   registro.
 2. Criar `src/data/jogadores.test.js` com as invariantes do MDR 0008: 48
-   seleções; 47 com 18 nomes e o Paraguai com 13; nenhum nome vazio; nenhuma
-   duplicata na mesma seção; as 48 siglas conferem com `secoes` do catálogo;
-   20 nomes para FWC e 14 para COC.
+   seleções com 18 nomes; nenhum nome vazio; nenhuma duplicata na mesma
+   seção; as 48 siglas conferem com `secoes` do catálogo; 20 nomes para FWC
+   e 14 para COC.
 
 **Fora do escopo**: consumir o dado no catálogo (Tarefa 0002); exibir no
-cartão (Tarefa 0003); completar a lacuna PAR16–PAR20 (a fonte ainda não
-trouxe os jogadores 14–18 — ver MDR 0008).
+cartão (Tarefa 0003).
 
 ## Decisões já tomadas (não reabrir)
 - Fonte, forma do arquivo, mapeamento de posições, política de grafia, lacuna
@@ -53,7 +52,7 @@ trouxe os jogadores 14–18 — ver MDR 0008).
 - `src/data/jogadores.test.js` — criar
 
 ## Critérios de aceite
-- [ ] 48 seleções: 47 com 18 nomes e o Paraguai com 13 (teste)
+- [ ] 48 seleções com 18 nomes cada (teste)
 - [ ] Nenhum nome vazio e nenhuma duplicata na mesma seção (teste)
 - [ ] As 48 siglas conferem com as seções do catálogo (teste)
 - [ ] 20 nomes para FWC e 14 para COC (teste)

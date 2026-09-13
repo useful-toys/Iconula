@@ -41,10 +41,10 @@ refletir a nova forma do dado na documentação de modelo no mesmo commit.
    fixas 01 e 13; jogadores 1–11 e 12–18; FWC a partir de zero, COC a partir
    de um).
 2. `expandirFigurinhas` passa a emitir `nome` para cada figurinha.
-3. Testes em `catalogo.test.js`: 989 figurinhas com `nome` não vazio e
-   PAR16–PAR20 com `null` declarado (lacuna do MDR 0008); `BRA01` "Escudo do
-   time" e `BRA13` "Foto do time"; `FWC00` e `COC01` com os nomes da fonte;
-   um jogador de cada faixa (ex.: `BRA02` e `BRA14`) com o nome certo.
+3. Testes em `catalogo.test.js`: as 994 figurinhas com `nome` não vazio;
+   `BRA01` "Escudo do time" e `BRA13` "Foto do time"; `FWC00` e `COC01` com
+   os nomes da fonte; um jogador de cada faixa (ex.: `BRA02` e `BRA14`) com
+   o nome certo.
 4. Atualizar MDR 0006 (figurinha ganha `nome`; `jogadores.js` como dado de
    nomes), `docs/modelo-memoria.md` § Catálogo, TDR 0010 (a fonte dos nomes
    chegou por fornecimento do humano) e a linha de `src/data/jogadores.js` no
@@ -70,8 +70,7 @@ refletir a nova forma do dado na documentação de modelo no mesmo commit.
 - `AGENTS.md` — modificar (§ Onde fica cada coisa)
 
 ## Critérios de aceite
-- [ ] 989 figurinhas com `nome` não vazio; PAR16–PAR20 com `null` declarado
-      (teste)
+- [ ] As 994 figurinhas com `nome` não vazio (teste)
 - [ ] FWC indexa a partir de zero e COC a partir de um (teste com `FWC00` e
       `COC01`)
 - [ ] Posições fixas 01/13 e as duas faixas de jogadores mapeadas corretamente
