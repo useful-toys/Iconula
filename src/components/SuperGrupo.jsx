@@ -1,6 +1,6 @@
 // Copyright (c) 2026 Daniel Felix Ferber
 
-import { useState, useImperativeHandle, forwardRef, useMemo, memo } from 'react';
+import { useState, useMemo, memo } from 'react';
 import { calcularPlacar } from '../lib/progresso.js';
 import { filtraFigurinha } from '../lib/colecao.js';
 import { Secao } from './Secao.jsx';
@@ -13,7 +13,9 @@ import './SuperGrupo.css';
  * alguma das ~80 figurinhas deste super-grupo mudou de valor. `isExpandida`
  * entra na comparação por referência — muda ao colapsar/expandir qualquer
  * seção, o que aceita re-renderizar todos os super-grupos nesse caso (não é
- * o caminho que esta tarefa precisa otimizar).
+ * o caminho que esta tarefa precisa otimizar). `expandida` (do próprio
+ * super-grupo) e `onToggle` vêm controlados de `Catalogo` e reprovam a
+ * igualdade quando mudam.
  *
  * @param {object} anterior
  * @param {object} seguinte
@@ -28,6 +30,8 @@ function propsEquivalentes(anterior, seguinte) {
     anterior.isExpandida !== seguinte.isExpandida ||
     anterior.getToggleHandler !== seguinte.getToggleHandler ||
     anterior.setSecaoRef !== seguinte.setSecaoRef ||
+    anterior.expandida !== seguinte.expandida ||
+    anterior.onToggle !== seguinte.onToggle ||
     anterior.disposicao !== seguinte.disposicao ||
     anterior.filtro !== seguinte.filtro
   ) {
@@ -46,6 +50,10 @@ function propsEquivalentes(anterior, seguinte) {
  * Memoizado (Tarefa 0010-0002, TDR 0021): ajustar uma figurinha de outro
  * super-grupo não pode re-renderizar este — ver `propsEquivalentes`.
  *
+ * O colapso é controlado por `Catalogo` (Tarefa 0012-0001), como em `Secao`,
+ * para centralizar a persistência do colapso manual (IDR 0020, IDR 0026). Sem
+ * `expandida`, cai em estado interno (uso não controlado em testes).
+ *
  * @param {object} props
  * @param {string} props.grupo - letra do grupo (A–L).
  * @param {Array<object>} props.secoes - 4 seleções do grupo.
@@ -54,23 +62,30 @@ function propsEquivalentes(anterior, seguinte) {
  * @param {(codigo: string, delta: number) => void} props.onAjustar - callback de ajuste.
  * @param {(sigla: string) => boolean} props.isExpandida - função que retorna se uma seção está expandida.
  * @param {(sigla: string) => (() => void)} props.getToggleHandler - retorna o callback estável de alternar colapso de uma seção.
- * @param {import('react').RefObject<Map>} props.secaoRefs - mapa de refs das seções.
  * @param {(sigla: string, element: Element|null) => void} props.setSecaoRef - callback para registrar ref de uma seção.
+ * @param {boolean} [props.expandida] - se o super-grupo está expandido (controlado); se omitido, usa estado interno.
+ * @param {() => void} [props.onToggle] - callback para alternar o colapso (controlado).
  * @param {'lista'|'album'} [props.disposicao='lista'] - disposição vigente.
  * @param {'todas'|'faltantes'|'coladas'|'repetidas'} [props.filtro='todas'] - filtro vigente.
- * @param {import('react').Ref<{ expandir: () => void }>} [props.ref] - ref para abrir programaticamente.
  */
-export const SuperGrupo = memo(forwardRef(function SuperGrupo(
-  { grupo, secoes, figurinhas, contagens, onAjustar, isExpandida, getToggleHandler, setSecaoRef, disposicao = 'lista', filtro = 'todas' },
-  ref,
-) {
-  const [expandido, setExpandido] = useState(true);
-
-  useImperativeHandle(ref, () => ({
-    expandir() {
-      setExpandido(true);
-    },
-  }));
+export const SuperGrupo = memo(function SuperGrupo({
+  grupo,
+  secoes,
+  figurinhas,
+  contagens,
+  onAjustar,
+  isExpandida,
+  getToggleHandler,
+  setSecaoRef,
+  expandida: expandidaProp,
+  onToggle: onToggleProp,
+  disposicao = 'lista',
+  filtro = 'todas',
+}) {
+  const [expandidaInterna, setExpandidaInterna] = useState(true);
+  const isControlado = expandidaProp !== undefined;
+  const expandida = isControlado ? expandidaProp : expandidaInterna;
+  const onToggle = isControlado ? onToggleProp : () => setExpandidaInterna((e) => !e);
 
   const codigos = figurinhas.map((f) => f.codigo);
   const placar = calcularPlacar(contagens, codigos);
@@ -92,7 +107,7 @@ export const SuperGrupo = memo(forwardRef(function SuperGrupo(
     `${placar.percentual} por cento`,
     `${placar.faltantes} faltantes`,
     `${placar.repetidas} repetidas`,
-    expandido ? 'expandido' : 'colapsado',
+    expandida ? 'expandido' : 'colapsado',
   ].join(', ');
 
   // Filtra as seções visíveis: na lista, só as que têm alguma figurinha no estado filtrado
@@ -108,12 +123,12 @@ export const SuperGrupo = memo(forwardRef(function SuperGrupo(
       <button
         type="button"
         className="super-grupo__titulo"
-        aria-expanded={expandido}
+        aria-expanded={expandida}
         aria-label={nomeAcessivel}
-        onClick={() => setExpandido((e) => !e)}
+        onClick={onToggle}
       >
         <span className="super-grupo__chevron" aria-hidden="true">
-          {expandido ? '▾' : '▸'}
+          {expandida ? '▾' : '▸'}
         </span>
         <span className="super-grupo__nome">Grupo {grupo}</span>
         <span className="super-grupo__sep" aria-hidden="true">
@@ -137,7 +152,7 @@ export const SuperGrupo = memo(forwardRef(function SuperGrupo(
         <span aria-hidden="true">×</span>
         <span className="super-grupo__resumo">{placar.repetidas}</span>
       </button>
-      {expandido && (
+      {expandida && (
         <div className="super-grupo__corpo">
           {secoesVisiveis.map((secao) => (
             <div
@@ -160,4 +175,4 @@ export const SuperGrupo = memo(forwardRef(function SuperGrupo(
       )}
     </div>
   );
-}), propsEquivalentes);
+}, propsEquivalentes);

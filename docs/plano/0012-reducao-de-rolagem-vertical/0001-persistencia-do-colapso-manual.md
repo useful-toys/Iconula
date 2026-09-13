@@ -3,7 +3,7 @@
 # Tarefa [0012-0001]: persistência do colapso manual
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Lembrar entre sessões, por dispositivo, as seções e os super-grupos que o

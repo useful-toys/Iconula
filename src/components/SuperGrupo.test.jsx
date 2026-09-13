@@ -157,4 +157,34 @@ describe('SuperGrupo', () => {
     const tituloColapsado = screen.getByRole('button', { name: /Grupo C.*colapsado/ });
     expect(tituloColapsado).toBeInTheDocument();
   });
+
+  it('respeita o colapso controlado por props', async () => {
+    const user = userEvent.setup();
+    const onToggle = vi.fn();
+    const propsBase = {
+      grupo: 'C',
+      secoes: grupoC,
+      figurinhas: figurinhasGrupoC,
+      contagens: {},
+      onAjustar: vi.fn(),
+      isExpandida: isExpandidaMock,
+      getToggleHandler: getToggleHandlerMock,
+      setSecaoRef: setSecaoRefMock,
+      onToggle,
+    };
+    const { rerender } = render(<SuperGrupo {...propsBase} expandida={false} />);
+
+    const titulo = screen.getByRole('button', { name: /Grupo C/ });
+    expect(titulo).toHaveAttribute('aria-expanded', 'false');
+    expect(screen.queryByRole('button', { name: /Brasil/ })).not.toBeInTheDocument();
+
+    await user.click(titulo);
+    expect(onToggle).toHaveBeenCalledTimes(1);
+    // Controlado: sem a prop mudar, o título continua fechado.
+    expect(titulo).toHaveAttribute('aria-expanded', 'false');
+
+    rerender(<SuperGrupo {...propsBase} expandida />);
+    expect(screen.getByRole('button', { name: /Grupo C/ })).toHaveAttribute('aria-expanded', 'true');
+    expect(screen.getByRole('button', { name: /Brasil/ })).toBeInTheDocument();
+  });
 });

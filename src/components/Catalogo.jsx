@@ -1,8 +1,9 @@
 // Copyright (c) 2026 Daniel Felix Ferber
 
-import { useState, useCallback, useRef, useImperativeHandle, forwardRef, useMemo } from 'react';
+import { useState, useCallback, useRef, useImperativeHandle, forwardRef, useMemo, useEffect } from 'react';
 import { ordenarPorSigla, ordenarPorPagina } from '../data/catalogoOrdenacoes.js';
 import { filtraFigurinha } from '../lib/colecao.js';
+import { lerColapsoManual, gravarColapsoManual } from '../lib/colapsoManual.js';
 import { Secao } from './Secao.jsx';
 import { SuperGrupo } from './SuperGrupo.jsx';
 import './Catalogo.css';
@@ -14,7 +15,8 @@ import './Catalogo.css';
  * Na ordenação por página, as 48 seleções são agrupadas em 12 super-grupos
  * A–L (IDR 0019). Na ordenação por sigla, as seções ficam no mesmo nível.
  *
- * Gerencia o estado de colapso de cada seção por sigla (IDR 0020).
+ * Gerencia o colapso de seções e super-grupos, persistido no `localStorage`
+ * (IDR 0020, IDR 0026).
  *
  * @param {object} props
  * @param {Array<object>} props.secoes - seções do catálogo.
@@ -63,23 +65,43 @@ export const Catalogo = forwardRef(function Catalogo(
     return map;
   }, [estruturada, figurinhasPorSecao]);
 
-  // Estado de colapso por sigla: Set de siglas colapsadas
-  // Padrão: todas expandidas (ausentes do Set)
-  const [colapsadas, setColapsadas] = useState(new Set());
+  // Estado do colapso manual: o que o usuário fechou à mão, por sigla de
+  // seção e por letra de super-grupo (IDR 0020). Ausente do conjunto = aberto,
+  // o padrão. Lido do `localStorage` na abertura e gravado a cada mudança
+  // (IDR 0026, Tarefa 0012-0001); siglas e letras fora do catálogo são
+  // ignoradas.
+  const [colapsadas, setColapsadas] = useState(() => {
+    const salvo = lerColapsoManual();
+    const siglasValidas = new Set(secoes.map((sec) => sec.sigla));
+    const gruposValidos = new Set(secoes.map((sec) => sec.grupo).filter(Boolean));
+    return {
+      secoes: new Set([...salvo.secoes].filter((sigla) => siglasValidas.has(sigla))),
+      grupos: new Set([...salvo.grupos].filter((grupo) => gruposValidos.has(grupo))),
+    };
+  });
 
-  // Refs para seções e super-grupos
+  // Grava o conjunto a cada mudança — só o que foi fechado/aberto, nunca o
+  // catálogo inteiro (IDR 0020). Storage ausente ou bloqueado falha em
+  // silêncio dentro do módulo (IDR 0026).
+  useEffect(() => {
+    gravarColapsoManual({
+      secoes: [...colapsadas.secoes],
+      grupos: [...colapsadas.grupos],
+    });
+  }, [colapsadas]);
+
+  // Refs das seções, para o salto rolar até o alvo
   const secaoRefs = useRef(new Map());
-  const superGrupoRefs = useRef(new Map());
 
   const toggleSecao = useCallback((sigla) => {
     setColapsadas((prev) => {
-      const next = new Set(prev);
-      if (next.has(sigla)) {
-        next.delete(sigla);
+      const secoesColapsadas = new Set(prev.secoes);
+      if (secoesColapsadas.has(sigla)) {
+        secoesColapsadas.delete(sigla);
       } else {
-        next.add(sigla);
+        secoesColapsadas.add(sigla);
       }
-      return next;
+      return { ...prev, secoes: secoesColapsadas };
     });
   }, []);
 
@@ -102,15 +124,58 @@ export const Catalogo = forwardRef(function Catalogo(
 
   const expandirSecao = useCallback((sigla) => {
     setColapsadas((prev) => {
-      if (!prev.has(sigla)) return prev;
-      const next = new Set(prev);
-      next.delete(sigla);
-      return next;
+      if (!prev.secoes.has(sigla)) return prev;
+      const secoesColapsadas = new Set(prev.secoes);
+      secoesColapsadas.delete(sigla);
+      return { ...prev, secoes: secoesColapsadas };
     });
   }, []);
 
+  const toggleGrupo = useCallback((grupo) => {
+    setColapsadas((prev) => {
+      const gruposColapsados = new Set(prev.grupos);
+      if (gruposColapsados.has(grupo)) {
+        gruposColapsados.delete(grupo);
+      } else {
+        gruposColapsados.add(grupo);
+      }
+      return { ...prev, grupos: gruposColapsados };
+    });
+  }, []);
+
+  const expandirGrupo = useCallback((grupo) => {
+    setColapsadas((prev) => {
+      if (!prev.grupos.has(grupo)) return prev;
+      const gruposColapsados = new Set(prev.grupos);
+      gruposColapsados.delete(grupo);
+      return { ...prev, grupos: gruposColapsados };
+    });
+  }, []);
+
+  // Mesmo cuidado do `toggleHandlers`, mas para os super-grupos: um mapa de
+  // fechos estável por letra, para `SuperGrupo` memoizado (TDR 0021) ver
+  // `onToggle` estável entre renders.
+  const toggleGrupoHandlers = useMemo(() => {
+    const map = new Map();
+    for (const sec of secoes) {
+      if (sec.grupo && !map.has(sec.grupo)) {
+        map.set(sec.grupo, () => toggleGrupo(sec.grupo));
+      }
+    }
+    return map;
+  }, [secoes, toggleGrupo]);
+  const getToggleGrupoHandler = useCallback(
+    (grupo) => toggleGrupoHandlers.get(grupo),
+    [toggleGrupoHandlers],
+  );
+
   const isExpandida = useCallback(
-    (sigla) => !colapsadas.has(sigla),
+    (sigla) => !colapsadas.secoes.has(sigla),
+    [colapsadas],
+  );
+
+  const estaExpandidoGrupo = useCallback(
+    (grupo) => !colapsadas.grupos.has(grupo),
     [colapsadas],
   );
 
@@ -142,15 +207,11 @@ export const Catalogo = forwardRef(function Catalogo(
         onLimparFiltro();
       }
 
-      // Expande o super-grupo se estiver colapsado
+      // Expande o super-grupo e a seção se estiverem colapsados; a abertura
+      // também é gravada no `localStorage` (IDR 0020).
       if (superGrupoComSecao) {
-        const superGrupoRef = superGrupoRefs.current.get(superGrupoComSecao.grupo);
-        if (superGrupoRef) {
-          superGrupoRef.expandir();
-        }
+        expandirGrupo(superGrupoComSecao.grupo);
       }
-
-      // Expande a seção se estiver colapsada
       expandirSecao(sigla);
 
       // Rola até a seção após um pequeno delay para permitir a expansão
@@ -166,7 +227,7 @@ export const Catalogo = forwardRef(function Catalogo(
         }
       }, 50);
     },
-  }), [estruturada, expandirSecao, disposicao, filtro, contagens, onLimparFiltro, figurinhasPorSecao]);
+  }), [estruturada, expandirSecao, expandirGrupo, disposicao, filtro, contagens, onLimparFiltro, figurinhasPorSecao]);
 
   const setSecaoRef = useCallback((sigla, element) => {
     if (element) {
@@ -175,30 +236,6 @@ export const Catalogo = forwardRef(function Catalogo(
       secaoRefs.current.delete(sigla);
     }
   }, []);
-
-  const setSuperGrupoRef = useCallback((grupo, refValue) => {
-    if (refValue) {
-      superGrupoRefs.current.set(grupo, refValue);
-    } else {
-      superGrupoRefs.current.delete(grupo);
-    }
-  }, []);
-
-  // Mesmo cuidado do `toggleHandlers`, mas para o `ref` de cada
-  // `SuperGrupo`: `memo(forwardRef(...))` só pula a re-renderização se,
-  // além das props, o próprio `ref` também for o mesmo objeto entre
-  // renders (checagem interna do React) — um `ref` inline recriado a cada
-  // render de `Catalogo` anularia a memoização de todos os 12 super-grupos
-  // a cada ajuste de contagem, mesmo com `propsEquivalentes` (TDR 0021).
-  // Os 12 grupos (A–L) são fixos, então o mapa é montado uma única vez
-  // (inicializador preguiçoso do `useState`, nunca recalculado).
-  const [superGrupoRefHandlers] = useState(() => {
-    const map = new Map();
-    for (const letra of 'ABCDEFGHIJKL') {
-      map.set(letra, (refValue) => setSuperGrupoRef(letra, refValue));
-    }
-    return map;
-  });
 
   return (
     <main className="catalogo">
@@ -237,7 +274,6 @@ export const Catalogo = forwardRef(function Catalogo(
           return (
             <SuperGrupo
               key={item.grupo}
-              ref={superGrupoRefHandlers.get(item.grupo)}
               grupo={item.grupo}
               secoes={item.secoes}
               figurinhas={figurinhasDoGrupo}
@@ -245,7 +281,8 @@ export const Catalogo = forwardRef(function Catalogo(
               onAjustar={onAjustar}
               isExpandida={isExpandida}
               getToggleHandler={getToggleHandler}
-              secaoRefs={secaoRefs}
+              expandida={estaExpandidoGrupo(item.grupo)}
+              onToggle={getToggleGrupoHandler(item.grupo)}
               setSecaoRef={setSecaoRef}
               disposicao={disposicao}
               filtro={filtro}

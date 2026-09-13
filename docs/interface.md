@@ -97,10 +97,13 @@ demonstrar avisos) é andaime da prévia, não faz parte do produto.*
 - À direita da linha, os dois comandos: desfazer (`↺`) e o avatar do
   usuário que abre o menu de ações (ver
   [IDR 0049](idr/0049-avatar-como-gatilho-do-menu-de-acoes.md))
-- Ordenação, disposição e filtro são lembrados entre sessões
-  (`localStorage`, por dispositivo — ver
+- Ordenação, disposição, filtro e o colapso manual de seções e
+  super-grupos são lembrados entre sessões (`localStorage`, por
+  dispositivo — ver
   [IDR 0026](idr/0026-preferencias-de-vista-persistidas-no-navegador.md));
-  o colapso das seções, não
+  o padrão de quem nunca fechou nada é tudo aberto, e o salto que abre o
+  alvo também grava a abertura (ver
+  [IDR 0020](idr/0020-secoes-colapsaveis-em-qualquer-visualizacao.md))
 
 ### Menu de ações
 

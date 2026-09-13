@@ -60,6 +60,23 @@ Lidas uma vez do `localStorage` na abertura (chave `iconula.preferencias-vista.v
   - Filtro sempre começa em `'todas'`
 - **Campos inválidos**: se existe um objeto gravado mas algum campo está fora do domínio conhecido, a faixa é ignorada e o campo inválido cai no padrão neutro fixo (`ordenacao: 'pagina'`, `disposicao: 'lista'`, `filtro: 'todas'`)
 
+## Colapso manual
+
+O que o usuário fechou à mão vive em `Catalogo.jsx` como dois conjuntos — siglas de seção e letras de super-grupo — e persiste no `localStorage` (chave `iconula.colapso-manual.v1`), por dispositivo, restaurado na abertura ([IDR 0020](idr/0020-secoes-colapsaveis-em-qualquer-visualizacao.md), [IDR 0026](idr/0026-preferencias-de-vista-persistidas-no-navegador.md)). Detalhes no [MDR 0007](model-dr/0007-persistencia-no-armazenamento-local.md).
+
+```javascript
+// Exemplo de colapso gravado no localStorage
+{
+  "secoes": ["BRA", "FWC"],  // siglas fechadas à mão
+  "grupos": ["C"]            // letras de super-grupo fechadas à mão
+}
+```
+
+- **Ausente = aberto**: o padrão é tudo aberto; só entra no conjunto o que foi fechado à mão
+- **O salto grava a abertura**: ao abrir seção/super-grupo fechados, eles saem do conjunto
+- **Valores desconhecidos**: siglas e letras fora do catálogo são ignoradas
+- **Falha de leitura/escrita**: cai em tudo aberto, em silêncio
+
 ## Gravação agregada
 
 Instância criada uma única vez por sessão (inicializador preguiçoso do `useState`), acumulando as chaves alteradas desde a última gravação. Detalhes no [MDR 0003](model-dr/0003-gravacao-agregada-da-colecao.md) e [MDR 0007](model-dr/0007-persistencia-no-armazenamento-local.md).
@@ -172,13 +189,13 @@ Fila com limite de empilhamento (3), severidade, expiração.
 ## O que é volátil
 
 - **Histórico de desfazer**: descartado ao recarregar
-- **Estado de colapso** de seções e super-grupos: some ao recarregar
 - **Avisos**: expiram ou são dispensados
 
 ## O que persiste
 
 - **Coleção**: no Firestore (ver [modelo-firebase.md](modelo-firebase.md))
 - **Preferências de vista**: no `localStorage`, por dispositivo (ver [MDR 0007](model-dr/0007-persistencia-no-armazenamento-local.md))
+- **Colapso manual de seções e super-grupos**: no `localStorage`, por dispositivo (ver [MDR 0007](model-dr/0007-persistencia-no-armazenamento-local.md))
 - **Atestação de menores**: no Firestore, uma única vez por conta
 - **Cache do Firestore**: no IndexedDB, multi-aba, escritas pendentes sobrevivem ao fechamento da aba (ver [MDR 0007](model-dr/0007-persistencia-no-armazenamento-local.md))
 
