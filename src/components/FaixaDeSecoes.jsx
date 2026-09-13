@@ -26,14 +26,20 @@ export function FaixaDeSecoes({ secoes, ordenacao, onSaltar }) {
         const anterior = secoes[indice - 1];
         const inicioDeGrupo =
           ordenacao === 'pagina' && indice > 0 && secao.grupo !== anterior.grupo;
-        const classe = inicioDeGrupo
-          ? 'faixa-de-secoes__botao faixa-de-secoes__botao--inicio-de-grupo'
-          : 'faixa-de-secoes__botao';
+        const classes = ['faixa-de-secoes__botao'];
+        if (inicioDeGrupo) {
+          classes.push('faixa-de-secoes__botao--inicio-de-grupo');
+        }
+        if (ordenacao === 'pagina') {
+          const chave =
+            secao.tipo === 'especial' ? secao.sigla.toLowerCase() : secao.grupo.toLowerCase();
+          classes.push(`faixa-de-secoes__botao--grupo-${chave}`);
+        }
         return (
           <button
             key={secao.sigla}
             type="button"
-            className={classe}
+            className={classes.join(' ')}
             aria-label={`Saltar para ${secao.nome}`}
             onClick={() => onSaltar(secao.sigla)}
           >

@@ -77,4 +77,31 @@ describe('FaixaDeSecoes', () => {
 
     expect(marcados).toHaveLength(0);
   });
+
+  it('na ordenação por página, cada bandeira recebe a classe de cor do seu grupo', () => {
+    const ordenadas = extrairSecoes(ordenarPorPagina(secoes));
+    render(<FaixaDeSecoes secoes={ordenadas} ordenacao="pagina" onSaltar={vi.fn()} />);
+
+    const botoes = screen.getAllByRole('button');
+    expect(botoes).toHaveLength(50);
+
+    ordenadas.forEach((secao, indice) => {
+      const chave =
+        secao.tipo === 'especial' ? secao.sigla.toLowerCase() : secao.grupo.toLowerCase();
+      expect(botoes[indice]).toHaveClass(`faixa-de-secoes__botao--grupo-${chave}`);
+    });
+
+    expect(botoes[0]).toHaveClass('faixa-de-secoes__botao--grupo-fwc');
+    expect(botoes[49]).toHaveClass('faixa-de-secoes__botao--grupo-coc');
+  });
+
+  it('na ordenação por sigla, nenhuma bandeira recebe classe de cor de grupo', () => {
+    render(<FaixaDeSecoes secoes={secoes} ordenacao="sigla" onSaltar={vi.fn()} />);
+
+    const coloridas = screen
+      .getAllByRole('button')
+      .filter((botao) => /faixa-de-secoes__botao--grupo-/.test(botao.className));
+
+    expect(coloridas).toHaveLength(0);
+  });
 });
