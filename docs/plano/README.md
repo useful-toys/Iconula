@@ -60,6 +60,7 @@ Detalhes e status das tarefas no guia [CLAUDE.md](CLAUDE.md) § Status e ciclo d
 | 13 | [Interação por pressão longa](0013-interacao-por-pressao-longa/) | Segurar o cartão decrementa uma unidade no mobile, sem precisar mirar no botão de menos | 10 | `feat: pressão longa decrementa no mobile` | Pendente |
 | 14 | [Correção urgente: renumeração do FWC](0014-numeracao-dos-extras-fifa/) | Extras FIFA de `FWC00` a `FWC19` (hoje `FWC01`–`FWC20`, deslocado em um); total do catálogo continua 994 | 10 | `fix: renumera os Extras FIFA para FWC00–FWC19` | Entregue |
 | 15 | [Identidade de cor por grupo](0015-identidade-de-cor-por-grupo/) | Associar uma cor distinta a cada grupo de seleções (A–L) e aos especiais (FWC, COC), aplicada no título do super-grupo, cabeçalho de seção e faixa de bandeiras | 10 | `feat: identidade de cor por grupo de seções` | Pendente |
+| 16 | [Identidade de cor por seleção](0016-identidade-de-cor-por-selecao/) | Associar uma cor individual a cada uma das 48 seleções, aplicada no cabeçalho de seção | 15 | `feat: identidade de cor por seleção` | Pendente |
 
 ---
 
@@ -273,6 +274,7 @@ tempo) e segue sozinha.
 | 0001 | [Pressão longa decrementa no mobile](0013-interacao-por-pressao-longa/0001-pressao-longa-decrementa-no-mobile.md) | Segurar o cartão além de um limiar decrementa uma unidade, com retorno visual durante a espera e uma única entrada no histórico de desfazer. | Pendente |
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 ---
 
@@ -321,6 +323,25 @@ Coca-Cola. 14 cores em OKLCH, ajustadas para contraste no tema escuro.
 | Extras FIFA numerados de `FWC01` a `FWC20`, quando a numeração oficial do álbum 2026 vai de `FWC00` a `FWC19` | Achado de uso: catálogo × numeração real do FWC (confirmada por múltiplas fontes após uma primeira leitura errada, com dados do Catar 2022) | 14.1 | Deslocar a seção para começar em zero (`inicio: 0`, `total: 20` inalterado), sem migração de dado por não haver uso real em produção ainda | TDR |
 
 >>>>>>> d2730ef (docs(plano): fase 15 — identidade de cor por grupo de seções)
+=======
+---
+
+## Fase 16 — Identidade de cor por seleção
+
+Proposta discutida com o humano: associar uma cor individual a cada uma das
+48 seleções, aplicada no cabeçalho de seção com borda completa e fundo com
+opacidade reduzida. Hierarquia: cor do grupo no título do super-grupo
+(Fase 15), cor da seleção no cabeçalho da seção (Fase 16). Faixa de
+bandeiras mantém cores de grupo (Fase 15). FWC usa dourado (`--gold`), COC
+usa vermelho Coca-Cola. 50 cores em OKLCH.
+
+| # | Tarefa | Objetivo | Status |
+|---|---|---|---|
+| 0001 | [Tokens CSS das cores de seleção](0016-identidade-de-cor-por-selecao/0001-tokens-css-das-cores-de-selecao.md) | 50 tokens em `theme.css` (48 seleções + FWC + COC), convertidos para OKLCH. | Pendente |
+| 0002 | [Cor no cabeçalho de seção por seleção](0016-identidade-de-cor-por-selecao/0002-cor-no-cabecalho-de-secao-por-selecao.md) | Borda completa + fundo com opacidade reduzida da cor da seleção no cabeçalho de cada seção. | Pendente |
+| 0003 | [IDR 0046 e documentação](0016-identidade-de-cor-por-selecao/0003-idr-e-documentacao.md) | Criar IDR 0046 sobre cores por seleção; atualizar `interface.md` com as novas medidas e estilos. | Pendente |
+
+>>>>>>> 5dbfefe (docs(plano): fase 16 — identidade de cor por seleção)
 ## Regras que valem em toda tarefa
 
 Ver o guia [CLAUDE.md](CLAUDE.md) § Regras que valem em toda tarefa e
