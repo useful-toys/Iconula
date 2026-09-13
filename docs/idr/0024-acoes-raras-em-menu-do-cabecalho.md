@@ -32,8 +32,8 @@ fora, só que disparado por perda de foco em vez de clique (ver
 
 ## Decisão
 
-- Um **botão de ações no cabeçalho** abre um **popup** com cinco
-  comandos:
+- O **avatar do usuário** ([IDR 0049](0049-avatar-como-gatilho-do-menu-de-acoes.md)),
+  no cabeçalho, abre um **popup** com cinco comandos:
   - copiar lista de **faltantes** para a área de transferência
   - copiar lista de **repetidas** para a área de transferência
   - **exportar** a coleção em JSON
@@ -67,3 +67,10 @@ fora, só que disparado por perda de foco em vez de clique (ver
   exige rolar ~994 figurinhas para exportar
 - **Tela separada de ferramentas**: navegação a mais, contra a tela
   única
+
+## Histórico
+
+- 2026-09-13 — Planejamento revisado das Fases 11–17 (implementação na
+  Fase 0011, Tarefa 0011-0005): o gatilho do popup passa a ser o avatar do
+  usuário, que substitui o botão de ações. Antes: um botão de ações com
+  glifo próprio. O conteúdo e o comportamento do popup não mudam.

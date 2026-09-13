@@ -7,85 +7,69 @@ Pendente
 
 ## Objetivo
 Ao passar o mouse ou levar o foco de teclado a qualquer opção dos três grupos
-de controle (ordenação, disposição, filtro), exibir uma explicação curta do
-que a opção faz, reaproveitando o texto que já existe como `aria-label`.
+de controle, exibir abaixo dela a explicação por extenso que já existe como
+nome acessível — os rótulos curtos continuam, e quem tem dúvida descobre o
+sentido sem texto novo na tela.
 
 ## Documentos de referência
-- `src/components/Controles.jsx` — os arrays `ORDENACOES`, `DISPOSICOES` e
-  `FILTROS` já têm `nomeAcessivel` por extenso para cada opção (ex.: "ordenar
-  pela página do álbum")
-- `docs/idr/0018-usuario-especialista-e-minimalismo.md` § Decisão — "sem
-  rótulos explicativos" na tela; o tooltip é sob demanda (hover/foco), não
-  texto sempre visível
+- `docs/idr/0048-contorno-e-tooltip-nos-grupos-de-controles.md` § Decisão —
+  tooltip abaixo do botão, hover após ~400ms, foco imediato, sem toque,
+  alinhamento nas pontas, CSS sem biblioteca
+- `src/components/Controles.jsx` — `ORDENACOES`, `DISPOSICOES` e `FILTROS`
+  com `nomeAcessivel` por opção
+- `src/components/Controles.css` — estilos dos grupos
 - `docs/idr/0042-foco-visivel-e-area-de-toque.md` § Decisão — padrão de
-  `:focus-visible`; o tooltip responde também a foco de teclado
-- `docs/idr/0008-uma-unica-pagina-scrollavel.md` § Decisão — nenhum componente
-  com rolagem própria
+  `:focus-visible`
 - `docs/interface.md` § Controles — onde o tooltip passa a ser descrito
 
 ## Padrões e convenções aplicáveis
-- Um texto, duas saídas: o mesmo `nomeAcessivel` do `aria-label` alimenta o
-  tooltip — nunca duas fontes para a mesma frase — `src/components/Controles.jsx`
-- O tooltip não duplica a leitura do leitor de tela: texto em
-  `content: attr(...)` não entra na árvore de acessibilidade, e o
-  `aria-label` continua sendo a única fonte — IDR 0018
-- Aparece em `:hover` **e** em `:focus-visible` — IDR 0042
-- Sem biblioteca nem JS de posicionamento — CSS puro sobre os tokens
-  existentes (`--panel`, `--cream`, `--border`) — `src/theme.css`
-- Sem rolagem própria e sem corte pela borda da viewport em tela estreita —
-  IDR 0008
+- Um texto, duas saídas: o `nomeAcessivel` alimenta o `aria-label` e o
+  tooltip — nunca duas fontes — `src/components/Controles.jsx`
+- O tooltip não entra na árvore de acessibilidade: o leitor de tela lê só o
+  `aria-label` — IDR 0048
+- Nenhuma rolagem própria e nada cortado pela borda da viewport — IDR 0008,
+  IDR 0048
+- Sem biblioteca nem JS de posicionamento — IDR 0048
 
 ## Escopo e instruções de implementação
-1. Registrar a técnica do tooltip num IDR (ver "Decisões em aberto").
-2. Em `Controles.jsx`, acrescentar a cada botão dos três grupos o atributo
-   `data-tooltip`, com o `nomeAcessivel` da opção como valor, reaproveitando
-   os arrays existentes.
-3. Em `Controles.css`, implementar o tooltip: acima do botão, oculto por padrão
-   (`opacity: 0`/`visibility: hidden`), revelado em `:hover`/`:focus-visible`,
-   com transição curta para não piscar ao passar o mouse de raspão.
-4. Ajustar o ponto de ancoragem (`left`/`right`/`transform`) do primeiro e do
-   último botão de cada grupo para não estourar a borda da viewport em
-   celular.
-5. Testes em `Controles.test.jsx`: todo botão dos três grupos tem
-   `data-tooltip` igual ao seu `aria-label`.
-6. Descrever o tooltip em `docs/interface.md` § Controles, citando o IDR.
+1. Em `Controles.jsx`, expor o `nomeAcessivel` de cada opção dos três grupos
+   num atributo de dados do botão, lido pelo CSS do tooltip.
+2. Em `Controles.css`, o tooltip: abaixo do botão, oculto por padrão,
+   revelado no hover com atraso de ~400ms e no `:focus-visible` sem atraso;
+   nenhum gatilho em toque (`hover: none`); nas opções das pontas de cada
+   grupo, alinhado à borda do grupo em vez de centralizado.
+3. Testes em `Controles.test.jsx`: todo botão dos três grupos tem o atributo
+   do tooltip igual ao seu `aria-label`.
+4. Em `docs/interface.md` § Controles, acrescentar: cada opção mostra, abaixo
+   dela, o nome por extenso no hover (~400ms) e no foco por teclado; em
+   toque, não — citando o IDR 0048.
 
-**Fora do escopo**: tooltip no botão de desfazer, no menu de ações ou nos
-ícones da faixa de bandeiras.
+**Fora do escopo**: tooltip no desfazer, no avatar/menu ou na faixa de
+bandeiras; contorno dos grupos (Tarefa 0011-0001).
 
 ## Decisões já tomadas (não reabrir)
-- O texto de cada opção por extenso já existe (`nomeAcessivel`) — ver
-  `src/components/Controles.jsx`
-- Minimalismo não abre mão de acessibilidade — ver
+- Técnica, posição, atrasos e comportamento em toque — ver
+  `docs/idr/0048-contorno-e-tooltip-nos-grupos-de-controles.md`
+- Rótulos curtos com forma por extenso só no nome acessível — ver
   `docs/idr/0018-usuario-especialista-e-minimalismo.md`
 
-## Decisões em aberto nesta tarefa
-- Técnica do tooltip — encaminhamento: CSS puro (`::after` com
-  `content: attr(data-tooltip)`) em vez do `title` nativo, por consistência com
-  a paleta escura e leitura por teclado; o `title` nativo entra como
-  alternativa descartada. Registro: nasce um IDR sobre o tooltip nas opções de
-  controle.
-- Comportamento em toque (sem `:hover` persistente) — encaminhamento: tooltip
-  só com foco, não com toque solto; registrado como consequência no mesmo IDR.
-
 ## Arquivos impactados
-- `src/components/Controles.jsx` — modificar (`data-tooltip`)
-- `src/components/Controles.css` — modificar (regras do tooltip)
+- `src/components/Controles.jsx` — modificar
+- `src/components/Controles.css` — modificar
 - `src/components/Controles.test.jsx` — modificar
 - `docs/interface.md` — modificar (§ Controles)
-- `docs/idr/` — criar (tooltip nas opções de controle)
 
 ## Critérios de aceite
-- [ ] Toda opção dos três grupos revela seu `nomeAcessivel` em tooltip visual
-- [ ] Tooltip aparece em `:hover` e em `:focus-visible`
-- [ ] Nenhum texto novo foi escrito: teste confirma `data-tooltip` igual ao
-      `aria-label` em todos os botões
-- [ ] Tooltip não é cortado pela borda da viewport em celular
-- [ ] Nenhuma rolagem própria foi introduzida
-- [ ] O IDR registra a técnica, a alternativa descartada e o comportamento em
-      toque
+- [ ] Toda opção dos três grupos tem o atributo do tooltip igual ao
+      `aria-label` (teste)
+- [ ] Tooltip abaixo do botão, no hover após ~400ms e no `:focus-visible` sem
+      atraso (conferido no CSS e na verificação visual)
+- [ ] Nenhum tooltip em `hover: none` (conferido no CSS)
+- [ ] Em largura de celular, os tooltips das pontas não são cortados pela
+      viewport (verificação visual)
+- [ ] `docs/interface.md` § Controles descreve o tooltip citando o IDR 0048
 
 ## Validação adicional
 Verificação visual em `npm run dev`: passar o mouse por cada opção; tabular
-por teclado por cada opção e conferir que o tooltip aparece igual; em largura
-de celular, conferir os botões das pontas de cada grupo.
+por cada opção; em largura de celular (emulação de toque), conferir que o
+toque alterna sem tooltip e que as pontas não cortam com mouse.
