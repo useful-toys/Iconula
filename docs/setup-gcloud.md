@@ -116,6 +116,30 @@ não-interativo. A alternativa foi configurar cada peça manualmente com
    sobre o documento de todos os usuários, para uma tarefa que não toca
    em dado nenhum. Conferir as roles concedidas com:
 
+   E, para autorizar o host dos canais de preview no login do Firebase
+   Auth (ver [DDR 0007](devops-dr/0007-ciclo-de-vida-dos-canais-de-preview.md)),
+   uma role custom só com leitura e escrita da configuração do Auth:
+
+   ```bash
+   gcloud iam roles create authorizedDomainsEditor --project=iconula \
+     --title="Editor de authorized domains do Firebase Auth" \
+     --description="Lê e grava a config do Auth para manter os hosts de preview nos authorized domains" \
+     --permissions=firebaseauth.configs.get,firebaseauth.configs.update \
+     --stage=GA
+
+   gcloud projects add-iam-policy-binding iconula \
+     --member="serviceAccount:github-action-iconula@iconula.iam.gserviceaccount.com" \
+     --role="projects/iconula/roles/authorizedDomainsEditor" \
+     --condition=None
+   ```
+
+   **`roles/firebaseauth.admin` foi deliberadamente descartada**: além de
+   `firebaseauth.configs.*`, dá `firebaseauth.users.create/update/delete`
+   — a chave do CI poderia criar, alterar e apagar usuários para uma
+   tarefa que só edita a lista de domínios.
+
+   Conferir as roles concedidas com:
+
    ```bash
    gcloud projects get-iam-policy iconula \
      --flatten="bindings[].members" \
@@ -209,5 +233,6 @@ As regras de segurança e como elas são publicadas ficam em
    (Firestore) — ver seção "APIs habilitadas"
 3. Criar o banco `(default)` do Firestore — ver seção "Cloud Firestore"
 4. Criar a service account e conceder `roles/firebasehosting.admin` +
-   `roles/firebase.viewer` + `roles/firebaserules.admin`
+   `roles/firebase.viewer` + `roles/firebaserules.admin`; criar a role
+   custom `authorizedDomainsEditor` e concedê-la à mesma service account
 5. Gerar a chave JSON, registrar como secret no GitHub, apagar o arquivo local

@@ -34,13 +34,32 @@ jobs:
           VITE_FIREBASE_STORAGE_BUCKET: ${{ vars.VITE_FIREBASE_STORAGE_BUCKET }}
           VITE_FIREBASE_MESSAGING_SENDER_ID: ${{ vars.VITE_FIREBASE_MESSAGING_SENDER_ID }}
           VITE_FIREBASE_APP_ID: ${{ vars.VITE_FIREBASE_APP_ID }}
-      - uses: FirebaseExtended/action-hosting-deploy@500ac625ca2dd40cbd15f7659af953801858032a # v0
+      - id: deploy
+        uses: FirebaseExtended/action-hosting-deploy@500ac625ca2dd40cbd15f7659af953801858032a # v0
         with:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
           firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_ICONULA }}"
           projectId: iconula
           channelId: "pr${{ github.event.number }}"
           expires: 3d
+      # O host do canal (iconula--pr<N>-<hash>.web.app) não entra sozinho nos
+      # authorized domains do Firebase Auth, e sem ele o login no preview
+      # falha com auth/unauthorized-domain. A autorização dura o mesmo que o
+      # canal: sai quando o PR fecha (cleanup_preview) e na varredura diária
+      # de firebase-preview-domains-sweep.yml — ver DDR 0007.
+      - name: Preparar credencial da service account
+        env:
+          FIREBASE_SERVICE_ACCOUNT_ICONULA: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_ICONULA }}
+        run: |
+          echo "$FIREBASE_SERVICE_ACCOUNT_ICONULA" > "$RUNNER_TEMP/sa.json"
+          echo "SA_PATH=$RUNNER_TEMP/sa.json" >> "$GITHUB_ENV"
+      - name: Autorizar o domínio do preview no Firebase Auth
+        env:
+          PREVIEW_URL: ${{ steps.deploy.outputs.details_url }}
+        run: bash .github/scripts/dominios-autorizados-preview.sh adicionar "$PREVIEW_URL"
+      - name: Remover credencial da service account
+        if: always()
+        run: rm -f "$RUNNER_TEMP/sa.json"
 
   cleanup_preview:
     if: ${{ github.event.action == 'closed' && github.event.pull_request.head.repo.full_name == github.repository }}
@@ -64,6 +83,11 @@ jobs:
       - env:
           GOOGLE_APPLICATION_CREDENTIALS: ${{ env.SA_PATH }}
         run: npx --yes firebase-tools@15.29.0 hosting:channel:delete "pr${{ github.event.number }}" --project iconula --force
+      # Roda mesmo se o delete do canal falhar: o domínio não deve continuar
+      # autorizado sem um PR aberto por trás dele.
+      - name: Remover o domínio do preview dos authorized domains
+        if: always()
+        run: bash .github/scripts/dominios-autorizados-preview.sh remover-pr "${{ github.event.number }}"
       - name: Remover credencial da service account
         if: always()
         run: rm -f "$RUNNER_TEMP/sa.json"

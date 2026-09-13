@@ -1,0 +1,33 @@
+# Copyright (c) 2026 Daniel Felix Ferber
+#
+# Varredura diária dos authorized domains do Firebase Auth: remove todo host
+# de preview (iconula--*.web.app) que não tenha mais canal de Hosting ativo.
+# É a rede de segurança do cleanup_preview (firebase-hosting-pull-request.yml)
+# e acompanha a expiração de 3 dias dos canais, que o Firebase faz sozinho
+# no Hosting mas não reflete nos authorized domains — ver DDR 0007.
+
+name: Sweep preview authorized domains
+on:
+  schedule:
+    - cron: "17 6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  sweep_preview_domains:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - name: Preparar credencial da service account
+        env:
+          FIREBASE_SERVICE_ACCOUNT_ICONULA: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_ICONULA }}
+        run: |
+          echo "$FIREBASE_SERVICE_ACCOUNT_ICONULA" > "$RUNNER_TEMP/sa.json"
+          echo "SA_PATH=$RUNNER_TEMP/sa.json" >> "$GITHUB_ENV"
+      - name: Remover domínios de preview sem canal ativo
+        run: bash .github/scripts/dominios-autorizados-preview.sh varrer
+      - name: Remover credencial da service account
+        if: always()
+        run: rm -f "$RUNNER_TEMP/sa.json"

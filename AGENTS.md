@@ -242,16 +242,20 @@ catálogo (ver Tarefa 0008-0001).
 
 ## Como funciona o deploy
 
-Três workflows no `.github/workflows/`:
+Quatro workflows no `.github/workflows/`:
 
 - `ci.yml` (PR + push na `main`) → lint, testes (Vitest + emulador
   Firestore) e build
 - `firebase-hosting-merge.yml` (push na `main`) → deploy em produção
   no Firebase Hosting
 - `firebase-hosting-pull-request.yml` (PR) → preview deploy
-  temporário, comentado automaticamente no PR. Esse workflow é um
+  temporário, comentado automaticamente no PR, com o host do canal
+  autorizado no login do Firebase Auth. Esse workflow é um
   **required status check**: o PR só pode ser mesclado se ele passar
   (ver [docs/devops-dr/0005](docs/devops-dr/0005-protecao-da-branch-main.md))
+- `firebase-preview-domains-sweep.yml` (diário + manual) → remove dos
+  authorized domains os hosts de preview cujo canal expirou (ver
+  [docs/devops-dr/0007](docs/devops-dr/0007-ciclo-de-vida-dos-canais-de-preview.md))
 
 ## Cuidado
 
