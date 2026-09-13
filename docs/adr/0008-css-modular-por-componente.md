@@ -22,6 +22,8 @@ Cada componente React tem seu próprio arquivo CSS co-localizado, importado dire
 - `src/components/Catalogo.jsx` importa `./Catalogo.css`
 - E assim por diante para todos os componentes.
 
+**Exceção**: `Atestacao.jsx` reusa `TelaDeLogin.css` (mesmo cartão e tokens), sem arquivo CSS próprio.
+
 **Arquivos globais**:
 - `src/theme.css`: tokens de design (cores OKLCH, espaçamentos, tipografia) e padrões globais (box-sizing, foco visível).
 - `src/index.css`: `@font-face` da fonte Poppins vendorizada e reset mínimo.
@@ -51,3 +53,8 @@ Cada componente React tem seu próprio arquivo CSS co-localizado, importado dire
 - **CSS-in-JS** (styled-components, emotion): adicionaria dependência e complexidade, e a aplicação já tem uma estratégia de tokens que funciona bem.
 - **Arquivo CSS único**: dificultaria manutenção e escalabilidade — cada componente teria que encontrar seu espaço num arquivo gigante.
 - **Tailwind CSS**: adicionaria dependência e exigiria reescrita de toda a estratégia de tokens já estabelecida.
+
+## Histórico
+
+- 2026-09-12 — Sincronização com a base de código: registrada a exceção de
+  `Atestacao.jsx`, que reusa `TelaDeLogin.css` em vez de ter CSS próprio.

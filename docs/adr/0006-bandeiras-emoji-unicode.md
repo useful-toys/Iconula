@@ -14,19 +14,19 @@ Aceito (revisado após teste manual; revisado novamente para remover a dependên
 
 ## Decisão
 
-- Dado continua emoji Unicode em `src/data/teams.js` — forma mais simples de representar/ler.
-- O componente `Bandeira` converte o emoji em SVG do [Twemoji](https://github.com/jdecked/twemoji) (fork mantido do original do Twitter) — bandeiras visualmente consistentes em qualquer SO/navegador, incluindo as sequências "tag" de England/Scotland (sem código ISO próprio).
+- Dado continua emoji Unicode em `src/data/catalogo.js` — forma mais simples de representar/ler.
+- O módulo `src/lib/bandeira.js` (`urlDoIcone`) converte o emoji em SVG do [Twemoji](https://github.com/jdecked/twemoji) (fork mantido do original do Twitter) — bandeiras visualmente consistentes em qualquer SO/navegador, incluindo as sequências "tag" de England/Scotland (sem código ISO próprio).
 
 **Revisão — dependência de CDN externo removida**:
-- Os 48 SVGs foram baixados uma vez de `cdn.jsdelivr.net` e vendorizados em `src/assets/flags/`, nomeados pelo code point Unicode (ex.: `1f1e6-1f1f7.svg` para Argentina).
-- O componente `Bandeira` resolve o arquivo via `import.meta.glob` do Vite e renderiza um `<img>` normal — sem CDN em runtime, sem `dangerouslySetInnerHTML`.
+- Os SVGs — as 48 bandeiras mais os ícones dos especiais (troféu dos Extras FIFA e copo da Coca-Cola), 50 no total — foram baixados uma vez de `cdn.jsdelivr.net` e vendorizados em `src/assets/flags/`, nomeados pelo code point Unicode (ex.: `1f1e6-1f1f7.svg` para Argentina).
+- `src/lib/bandeira.js` resolve o arquivo via `import.meta.glob` do Vite; os componentes renderizam um `<img>` normal — sem CDN em runtime, sem `dangerouslySetInnerHTML`.
 - `twemoji.convert.toCodePoint` (`@twemoji/api`) segue em uso só para calcular o nome do arquivo — sem `twemoji.parse()` nem geração de HTML.
 
 ## Consequências
 
 - Nenhuma requisição de rede em runtime para exibir bandeiras: os SVGs fazem parte do bundle, servidos pelo mesmo Firebase Hosting do resto do app.
 - `Content-Security-Policy` do Hosting não precisa mais abrir `img-src` para `cdn.jsdelivr.net` — fica restrita a `'self' data:'`.
-- O dado em `teams.js` continua sendo só o caractere emoji — a lógica de renderização (e de resolução do SVG local) fica isolada no componente `Bandeira`.
+- O dado em `catalogo.js` continua sendo só o caractere emoji — a lógica de renderização (e de resolução do SVG local) fica isolada em `src/lib/bandeira.js`.
 - Adicionar um time novo no futuro exige também baixar o SVG correspondente para `src/assets/flags/` (nome do arquivo = code point Unicode do emoji, gerado com `twemoji.convert.toCodePoint`).
 
 ## Alternativas consideradas
@@ -34,3 +34,10 @@ Aceito (revisado após teste manual; revisado novamente para remover a dependên
 - **Emoji Unicode nativo sem Twemoji**: mais simples, mas quebra no Windows conforme descrito acima — descartado.
 - **CDN de bandeiras (flagcdn.com)**: bandeiras com aparência mais "realista" que emoji, mas exigiria mapear cada país para seu código ISO 3166-1 alpha-2 e não resolveria England/Scotland (sem código próprio) sem tratamento especial.
 - **Twemoji via CDN em runtime** (decisão original): simples de implementar, mas depende de rede em runtime e impede fechar a CSP — substituída pelos SVGs vendorizados acima.
+
+## Histórico
+
+- 2026-09-12 — Sincronização com a base de código: o dado de bandeira vive em
+  `src/data/catalogo.js` (não mais `src/data/teams.js`) e a resolução do SVG
+  ficou em `src/lib/bandeira.js`, não num componente `Bandeira`; contagem de
+  SVGs corrigida para 50 (48 bandeiras + troféu + copo).
