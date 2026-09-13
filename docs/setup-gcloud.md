@@ -25,7 +25,7 @@ Habilitadas explicitamente por este projeto:
 
 | API | Motivo |
 |---|---|
-| `identitytoolkit.googleapis.com` (Identity Toolkit API) | Usada pelo Firebase Auth (login com Google — ver [ADR 0005](adr/0005-login-google-sdk-modular.md) e [docs/setup-firebase.md](setup-firebase.md#firebase-authentication)); também é a API por trás do Identity Platform Admin API, usada para automatizar authorized domains via `curl` + token do `gcloud` (mesmo padrão da Firebase Hosting REST API já usado para o domínio customizado) — localmente e no CI, onde a service account mantém os hosts de preview na lista ([DDR 0007](devops-dr/0007-ciclo-de-vida-dos-canais-de-preview.md)). |
+| `identitytoolkit.googleapis.com` (Identity Toolkit API) | Usada pelo Firebase Auth (login com Google — ver [ADR 0005](adr/0005-login-google-sdk-modular.md) e [docs/setup-firebase.md](setup-firebase.md#firebase-authentication)); também é a API por trás do Identity Platform Admin API, usada para automatizar authorized domains via `curl` + token do `gcloud` (mesmo padrão da Firebase Hosting REST API já usado para o domínio customizado) — localmente e no CI, onde a service account mantém os hosts de preview na lista ([DDR 0008](devops-dr/0008-autorizacao-do-dominio-de-preview-no-firebase-auth.md)). |
 | `firestore.googleapis.com` (Cloud Firestore API) | Persistência do time visível por usuário — ver [ADR 0005](adr/0005-persistencia-no-firestore.md) e a seção "Cloud Firestore" abaixo. Sem ela, qualquer `gcloud firestore ...` falha com `SERVICE_DISABLED`. |
 
 Habilitadas com:
@@ -117,7 +117,8 @@ não-interativo. A alternativa foi configurar cada peça manualmente com
    em dado nenhum. Conferir as roles concedidas com:
 
    E, para autorizar o host dos canais de preview no login do Firebase
-   Auth (ver [DDR 0007](devops-dr/0007-ciclo-de-vida-dos-canais-de-preview.md)),
+   Auth (ver [DDR 0008](devops-dr/0008-autorizacao-do-dominio-de-preview-no-firebase-auth.md)
+   e, para a escolha da role, [DDR 0009](devops-dr/0009-role-custom-minima-para-authorized-domains.md)),
    uma role custom só com leitura e escrita da configuração do Auth:
 
    ```bash

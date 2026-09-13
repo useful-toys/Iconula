@@ -4,7 +4,7 @@
 # de preview (iconula--*.web.app) que não tenha mais canal de Hosting ativo.
 # É a rede de segurança do cleanup_preview (firebase-hosting-pull-request.yml)
 # e acompanha a expiração de 3 dias dos canais, que o Firebase faz sozinho
-# no Hosting mas não reflete nos authorized domains — ver DDR 0007.
+# no Hosting mas não reflete nos authorized domains — ver DDR 0008.
 
 name: Sweep preview authorized domains
 on:
