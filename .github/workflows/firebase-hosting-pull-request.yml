@@ -46,7 +46,7 @@ jobs:
       # authorized domains do Firebase Auth, e sem ele o login no preview
       # falha com auth/unauthorized-domain. A autorização dura o mesmo que o
       # canal: sai quando o PR fecha (cleanup_preview) e na varredura diária
-      # de firebase-preview-domains-sweep.yml — ver DDR 0007.
+      # de firebase-preview-domains-sweep.yml — ver DDR 0008.
       - name: Preparar credencial da service account
         env:
           FIREBASE_SERVICE_ACCOUNT_ICONULA: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_ICONULA }}

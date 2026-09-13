@@ -2,5 +2,6 @@
 #
 # Scripts de shell rodam no runner Linux do GitHub Actions: com CRLF, o bash
 # falha já na primeira linha. Força LF no repositório e no checkout,
-# independente do core.autocrlf de quem commita.
+# independente do core.autocrlf de quem commita — ver
+# docs/devops-dr/0010-scripts-de-shell-com-lf.md.
 *.sh text eol=lf

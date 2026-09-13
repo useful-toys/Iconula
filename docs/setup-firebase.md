@@ -233,7 +233,8 @@ service account do deploy (role custom `authorizedDomainsEditor` — ver
   canal.
 
 Decisão e alternativas em
-[DDR 0007](devops-dr/0007-ciclo-de-vida-dos-canais-de-preview.md).
+[DDR 0008](devops-dr/0008-autorizacao-do-dominio-de-preview-no-firebase-auth.md)
+(permissão em [DDR 0009](devops-dr/0009-role-custom-minima-para-authorized-domains.md)).
 
 Conferir a lista e simular uma operação localmente, sem gravar:
 

@@ -3,7 +3,7 @@
 #
 # Mantém os hosts dos canais de preview do Hosting nos authorized domains do
 # Firebase Auth, pelo tempo de vida do canal — ver
-# docs/devops-dr/0007-ciclo-de-vida-dos-canais-de-preview.md.
+# docs/devops-dr/0008-autorizacao-do-dominio-de-preview-no-firebase-auth.md.
 #
 # Uso:
 #   dominios-autorizados-preview.sh adicionar <url-do-canal>

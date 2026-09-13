@@ -126,10 +126,13 @@ Fluxos:
   ([DDR 0002](devops-dr/0002-workflow-de-ci-separado.md),
   [DDR 0004](devops-dr/0004-deploy-e-teste-das-regras-do-firestore.md));
   actions pinadas por SHA ([DDR 0003](devops-dr/0003-pinning-de-actions-por-sha.md))
-- Três workflows: `ci.yml` (lint + testes + build), `firebase-hosting-merge.yml`
-  (produção) e `firebase-hosting-pull-request.yml` (preview) —
+- Quatro workflows: `ci.yml` (lint + testes + build), `firebase-hosting-merge.yml`
+  (produção), `firebase-hosting-pull-request.yml` (preview, com o host do
+  canal autorizado no login) e `firebase-preview-domains-sweep.yml`
+  (varredura diária dos authorized domains de previews expirados) —
   [TDR 0023](tdr/0023-deploy-via-github-actions.md),
-  [DDR 0005](devops-dr/0005-protecao-da-branch-main.md)
+  [DDR 0005](devops-dr/0005-protecao-da-branch-main.md),
+  [DDR 0008](devops-dr/0008-autorizacao-do-dominio-de-preview-no-firebase-auth.md)
 - Configuração dos ambientes: [setup-firebase.md](setup-firebase.md),
   [setup-gcloud.md](setup-gcloud.md), [setup-github.md](setup-github.md),
   [setup-registrobr.md](setup-registrobr.md); panorama DevOps em [devops.md](devops.md)
@@ -153,6 +156,9 @@ Fluxos:
 | Regras: deploy e teste | [DDR 0004](devops-dr/0004-deploy-e-teste-das-regras-do-firestore.md) |
 | Proteção da branch main | [DDR 0005](devops-dr/0005-protecao-da-branch-main.md) |
 | Ferramentas de segurança do repositório | [DDR 0006](devops-dr/0006-ferramentas-de-seguranca-do-repositorio.md) |
+| Host do preview autorizado no login do Firebase Auth | [DDR 0008](devops-dr/0008-autorizacao-do-dominio-de-preview-no-firebase-auth.md) |
+| Role custom mínima da service account para authorized domains | [DDR 0009](devops-dr/0009-role-custom-minima-para-authorized-domains.md) |
+| Scripts de shell com LF (`.gitattributes`) | [DDR 0010](devops-dr/0010-scripts-de-shell-com-lf.md) |
 | Lint (oxlint) | [TDR 0003](tdr/0003-lint-proibe-dangerously-set-inner-html.md), [TDR 0025](tdr/0025-oxlint-para-lint.md) |
 | Regras: o que dá para validar no mapa | [TDR 0009](tdr/0009-validacao-do-mapa-nas-regras.md) |
 | Forma do catálogo, checklist incompleto e sem pipeline de geração | [TDR 0010](tdr/0010-forma-do-catalogo-degradacao-do-checklist-e-sem-pipeline.md) |

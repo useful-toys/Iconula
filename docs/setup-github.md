@@ -159,7 +159,7 @@ domains do Firebase Auth (`.github/scripts/dominios-autorizados-preview.sh
 adicionar`), e o job `cleanup_preview` o remove quando o PR fecha
 (`remover-pr`, com `if: always()`). Os dois autenticam pela chave da
 service account em `$RUNNER_TEMP`, apagada num passo `if: always()` — ver
-[DDR 0007](devops-dr/0007-ciclo-de-vida-dos-canais-de-preview.md).
+[DDR 0008](devops-dr/0008-autorizacao-do-dominio-de-preview-no-firebase-auth.md).
 
 ### `firebase-preview-domains-sweep.yml`
 

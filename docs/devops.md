@@ -28,6 +28,8 @@ Quatro workflows no `.github/workflows/`:
 - **Actions pinadas por SHA** em todos os workflows
   ([DDR 0003](devops-dr/0003-pinning-de-actions-por-sha.md))
 - **`firebase-tools@15.29.0`** fixado nos jobs que usam credencial
+- **Scripts de shell** em `.github/scripts/`, sempre com LF
+  (`.gitattributes`, [DDR 0010](devops-dr/0010-scripts-de-shell-com-lf.md))
 - **Node 22** em todos os workflows; JDK 21 para o emulador do Firestore
 - **Secrets**: `FIREBASE_SERVICE_ACCOUNT_ICONULA` (chave JSON da service
   account), usada em `$RUNNER_TEMP` e apagada em step `if: always()`
@@ -61,7 +63,7 @@ reproduzível localmente sem depender de push
 - **Login no preview**: o host do canal entra nos authorized domains do
   Firebase Auth no deploy e sai ao fechar o PR ou na varredura diária de
   canais expirados (`.github/scripts/dominios-autorizados-preview.sh`,
-  [DDR 0007](devops-dr/0007-ciclo-de-vida-dos-canais-de-preview.md))
+  [DDR 0008](devops-dr/0008-autorizacao-do-dominio-de-preview-no-firebase-auth.md))
 - **Regras do Firestore**: deploy só no merge (são globais do projeto,
   sem canal de preview) — ver
   [DDR 0004](devops-dr/0004-deploy-e-teste-das-regras-do-firestore.md)
@@ -109,7 +111,8 @@ e [TDR 0009](tdr/0009-validacao-do-mapa-nas-regras.md))
 
 - `FIREBASE_SERVICE_ACCOUNT_ICONULA`: chave JSON da service account com
   permissão de deploy (Hosting + regras do Firestore) e de editar os
-  authorized domains do Auth (role custom `authorizedDomainsEditor`)
+  authorized domains do Auth (role custom `authorizedDomainsEditor`,
+  [DDR 0009](devops-dr/0009-role-custom-minima-para-authorized-domains.md))
 
 ### Variáveis do repositório
 
