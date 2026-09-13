@@ -6,6 +6,7 @@ import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom/vitest';
 import { FaixaDeSecoes } from './FaixaDeSecoes.jsx';
 import { secoes } from '../data/catalogo.js';
+import { ordenarPorPagina, extrairSecoes } from '../data/catalogoOrdenacoes.js';
 
 describe('FaixaDeSecoes', () => {
   it('renderiza as 50 seções com FWC no início e COC no fim', () => {
@@ -49,5 +50,31 @@ describe('FaixaDeSecoes', () => {
     render(<FaixaDeSecoes secoes={secoes} onSaltar={vi.fn()} />);
 
     expect(screen.getByRole('navigation', { name: 'Saltar para seção' })).toBeInTheDocument();
+  });
+
+  it('na ordenação por página, marca o início de cada grupo e a COC', () => {
+    const ordenadas = extrairSecoes(ordenarPorPagina(secoes));
+    render(<FaixaDeSecoes secoes={ordenadas} ordenacao="pagina" onSaltar={vi.fn()} />);
+
+    const botoes = screen.getAllByRole('button');
+    const marcados = botoes.filter((botao) =>
+      botao.classList.contains('faixa-de-secoes__botao--inicio-de-grupo'),
+    );
+
+    expect(marcados).toHaveLength(13);
+    expect(botoes[0]).not.toHaveClass('faixa-de-secoes__botao--inicio-de-grupo');
+    expect(botoes[1]).toHaveClass('faixa-de-secoes__botao--inicio-de-grupo');
+    expect(botoes[2]).not.toHaveClass('faixa-de-secoes__botao--inicio-de-grupo');
+    expect(botoes[botoes.length - 1]).toHaveClass('faixa-de-secoes__botao--inicio-de-grupo');
+  });
+
+  it('na ordenação por sigla, não marca nenhuma bandeira', () => {
+    render(<FaixaDeSecoes secoes={secoes} ordenacao="sigla" onSaltar={vi.fn()} />);
+
+    const marcados = screen
+      .getAllByRole('button')
+      .filter((botao) => botao.classList.contains('faixa-de-secoes__botao--inicio-de-grupo'));
+
+    expect(marcados).toHaveLength(0);
   });
 });

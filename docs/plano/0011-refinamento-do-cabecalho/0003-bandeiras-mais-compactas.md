@@ -3,7 +3,7 @@
 # Tarefa [0011-0003]: bandeiras mais compactas
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Apertar a faixa de bandeiras para caber mais seções sem rolar: 2px entre

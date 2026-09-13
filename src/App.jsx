@@ -491,6 +491,7 @@ export default function App() {
         percentual={placar.percentual}
         atualizadoEm={atualizadoEm}
         secoes={secoesOrdenadas}
+        ordenacao={ordenacao}
         onSaltar={handleSaltar}
       />
       <Controles
