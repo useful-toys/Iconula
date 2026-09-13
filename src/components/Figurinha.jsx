@@ -1,7 +1,12 @@
 // Copyright (c) 2026 Daniel Felix Ferber
 
-import { memo, useRef } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
 import './Figurinha.css';
+
+// Pressão longa no corpo do cartão (IDR 0051): limiar para reconhecer o
+// gesto e folga de movimento que o cancela (vira rolagem).
+const LIMIAR_PRESSAO_MS = 500;
+const TOLERANCIA_MOVIMENTO_PX = 10;
 
 /**
  * Compara props para `memo`, ignorando deliberadamente `onIncrementar` e
@@ -55,6 +60,93 @@ export const Figurinha = memo(function Figurinha({
   onDecrementar,
 }) {
   const corpoRef = useRef(null);
+  // Retorno visual da espera (escurecimento progressivo, IDR 0051).
+  const [pressionando, setPressionando] = useState(false);
+  // Marcadores do gesto em curso: timer da espera, coordenadas de origem,
+  // ponteiro ativo e se a pressão longa já foi reconhecida (para suprimir o
+  // `click` que o navegador gera ao soltar).
+  const esperaRef = useRef(null);
+  const inicioRef = useRef(null);
+  const ponteiroRef = useRef(null);
+  const reconhecidoRef = useRef(false);
+  // Tipo do último `pointerdown` visto, para decidir se o `contextmenu`
+  // (toque longo no Android) deve ser suprimido.
+  const ultimoToqueRef = useRef(false);
+
+  // Descartar um timer pendente ao desmontar evita decremento tardio.
+  useEffect(
+    () => () => {
+      if (esperaRef.current !== null) clearTimeout(esperaRef.current);
+    },
+    [],
+  );
+
+  function cancelarEspera() {
+    if (esperaRef.current !== null) {
+      clearTimeout(esperaRef.current);
+      esperaRef.current = null;
+    }
+    ponteiroRef.current = null;
+    inicioRef.current = null;
+    setPressionando(false);
+  }
+
+  // Só o toque dispara o gesto (IDR 0051); a contagem 0 não inicia a espera
+  // — o piso de 0 vale também aqui.
+  function aoPointerDown(evento) {
+    ultimoToqueRef.current = evento.pointerType === 'touch';
+    if (evento.pointerType !== 'touch') return;
+    reconhecidoRef.current = false;
+    if (contagem < 1 || esperaRef.current !== null) return;
+    ponteiroRef.current = evento.pointerId;
+    inicioRef.current = { x: evento.clientX, y: evento.clientY };
+    setPressionando(true);
+    esperaRef.current = setTimeout(() => {
+      esperaRef.current = null;
+      ponteiroRef.current = null;
+      inicioRef.current = null;
+      reconhecidoRef.current = true;
+      setPressionando(false);
+      onDecrementar();
+    }, LIMIAR_PRESSAO_MS);
+  }
+
+  // Mover além da folga cancela: é rolagem, nada muda (IDR 0051).
+  function aoPointerMove(evento) {
+    if (esperaRef.current === null) return;
+    if (evento.pointerId !== ponteiroRef.current) return;
+    const dx = evento.clientX - inicioRef.current.x;
+    const dy = evento.clientY - inicioRef.current.y;
+    if (dx * dx + dy * dy > TOLERANCIA_MOVIMENTO_PX * TOLERANCIA_MOVIMENTO_PX) {
+      cancelarEspera();
+    }
+  }
+
+  function aoPointerUp(evento) {
+    if (evento.pointerType !== 'touch') return;
+    cancelarEspera();
+  }
+
+  function aoPointerCancel() {
+    cancelarEspera();
+  }
+
+  // Se a pressão longa já decrementou, o clique gerado ao soltar não soma.
+  function aoClique(evento) {
+    if (reconhecidoRef.current) {
+      reconhecidoRef.current = false;
+      evento.preventDefault();
+      return;
+    }
+    onIncrementar();
+  }
+
+  // Suprime o menu de contexto do navegador só quando o ponteiro ativo é de
+  // toque (Android); no mouse o menu continua disponível.
+  function aoContextMenu(evento) {
+    if (ultimoToqueRef.current) evento.preventDefault();
+  }
+
   const sigla = codigo.slice(0, 3);
   const numero = codigo.slice(3);
   const sobrando = Math.max(0, contagem - 1);
@@ -79,6 +171,7 @@ export const Figurinha = memo(function Figurinha({
     `figurinha--${variante}`,
     paisagem ? 'figurinha--paisagem' : '',
     estadoClasse,
+    pressionando ? 'figurinha--pressionando' : '',
   ].filter(Boolean).join(' ');
 
   return (
@@ -88,7 +181,12 @@ export const Figurinha = memo(function Figurinha({
         className="figurinha__corpo"
         ref={corpoRef}
         aria-label={`${sigla} ${numero}, ${estadoLabel}`}
-        onClick={onIncrementar}
+        onClick={aoClique}
+        onPointerDown={aoPointerDown}
+        onPointerMove={aoPointerMove}
+        onPointerUp={aoPointerUp}
+        onPointerCancel={aoPointerCancel}
+        onContextMenu={aoContextMenu}
       >
         {metalizada && (
           <span className="figurinha__metalizada" aria-hidden="true" />
