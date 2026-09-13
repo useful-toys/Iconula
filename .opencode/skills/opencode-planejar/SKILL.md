@@ -31,6 +31,8 @@ o comando, é o pedido feito na conversa.
 ## Leituras obrigatórias
 
 O OpenCode não carrega `CLAUDE.md` de subdiretório: leia cada guia pelo caminho indicado.
+Toda leitura e busca é feita na worktree do planejamento (passo 0), nunca no
+checkout de onde a skill foi chamada.
 
 **Inteiras:**
 
@@ -64,12 +66,22 @@ seções encontradas:
 | 4 | parte classificada **contraria requisito** | PARE: peça a decisão do humano |
 | 5 | fim do passo 2 (mapa de fases) | PARE: aprovação explícita do mapa e de cada decisão significativa |
 | 6 | fase que receberia tarefas tem branch ou PR aberto | pergunte antes de incluir |
-| 7 | árvore atual suja (passo 3) | PARE: peça para resolver |
+| 7 | branch ou worktree com o nome do planejamento já existe (passo 0 ou 3) | pergunte se reaproveita |
 | 8 | `.worktrees/` não está no ignore | PARE: avise |
 | 9 | vontade de criar código, teste, estilo, configuração ou `docs/*.md` para explicar ou adiantar o plano | não crie: descreva na tarefa, em texto ou pseudocódigo curto |
 | 10 | `git diff --name-only` com arquivo fora de `docs/plano/` e das pastas de decisão | desfaça esse arquivo antes do commit |
+| 11 | mapa recusado ou planejamento abandonado | ofereça remover a worktree e a branch provisórias (nada foi gravado) |
 
 ## Passos
+
+### 0. Worktree do planejamento — antes das leituras
+
+1. Sincronize a `main` — guia § Convenções de Git › Sincronização.
+2. Branch provisória — guia § Convenções de Git › Branch: tipo `docs`; nome pelo pedido; sem
+   sufixo, porque o número da fase só existe depois do mapa.
+3. `git worktree add .worktrees/<diretório> -b <branch> origin/main`, a partir
+   da `origin/main` e nunca da branch atual; daqui em diante, todo comando,
+   leitura, busca e arquivo dentro da worktree (caminho absoluto).
 
 ### 1. Verificar novidade
 
@@ -145,12 +157,13 @@ seções encontradas:
 
 ### 3. Gravar e entregar — após aprovação
 
-1. Sincronize a `main` — guia § Convenções de Git › Sincronização.
-2. Branch — guia § Convenções de Git › Branch: tipo `docs`; nome pelo que o plano entrega; sufixo
+1. Sincronize a branch do planejamento com a `main` — guia § Convenções de Git › Sincronização.
+2. Nome definitivo — guia § Convenções de Git › Branch: tipo `docs`; nome pelo que o plano entrega; sufixo
    = número da primeira fase nova (ou da fase existente que recebe tarefas).
-   Branch ou worktree com esse sufixo já existe → pergunte se reaproveita.
-3. `git worktree add .worktrees/<diretório> -b <branch> origin/main`; trabalhe
-   só nela.
+   Outra branch ou worktree com esse sufixo já existe → condição 7.
+3. Renomeie a provisória, ainda sem push: `git branch -m <provisória>
+   <definitiva>` e `git worktree move .worktrees/<provisório>
+   .worktrees/<definitivo>`; continue só na worktree renomeada.
 4. Registre as decisões confirmadas (guia § Registro de decisões › Decisões no
    planejamento): leia antes o guia da pasta de cada tipo; crie ou atualize o
    registro e a linha do índice; em "Consequências", a fase e a tarefa que o
@@ -182,7 +195,9 @@ seções encontradas:
 
 ## Proibições
 
-- Gravar arquivo ou criar branch antes da aprovação do mapa.
+- Ler, buscar ou gravar fora da worktree do planejamento; criá-la a partir de
+  outra base que não a `origin/main`.
+- Gravar arquivo antes da aprovação do mapa.
 - Criar, alterar ou remover código-fonte, testes, estilos, configuração,
   `firestore.rules`, workflows, assets ou qualquer `docs/*.md` — só
   `docs/plano/` e as pastas de decisão.
