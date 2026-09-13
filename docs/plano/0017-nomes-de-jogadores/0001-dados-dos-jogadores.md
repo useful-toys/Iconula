@@ -31,8 +31,8 @@ MDR 0008.
 ## Escopo e instruções de implementação
 1. Transcrever a provisão do humano (fonte original) aplicando a política de
    grafia do MDR 0008: correções óbvias e diacritics dos nomes de imprensa
-   conhecida; confirmar com o humano os nomes não reconhecidos antes de
-   entrar (pendentes: Orlando Gill, PAR 2; Van Valery, TUN 3).
+   conhecida (Orlando Gill, PAR 2, e Van Valery, TUN 3, já confirmados como
+   escritos).
 2. Criar `src/data/jogadores.js` exportando `jogadoresPorSelecao` (48 siglas →
    18 nomes; Paraguai com 13), `jogadoresFWC` (20) e `jogadoresCOC` (14).
 3. Criar `src/data/jogadores.test.js` com as invariantes do MDR 0008: 48
@@ -50,16 +50,6 @@ trouxe os jogadores 14–18 — ver MDR 0008).
   `docs/model-dr/0008-dados-dos-nomes-das-figurinhas.md`
 - FWC00–FWC19 — ver `docs/tdr/0022-renumeracao-do-fwc.md`
 
-## Impedimentos específicos
-- Bloqueia até o reenvio humano de FWC00–FWC19; até lá vale a lista FWC da
-  provisão anterior (MDR 0008 § Fonte), e a divergência FWC10–19 com a
-  descrição da Fase 14 se resolve no reenvio. COC01–COC14 foi reenviado e
-  confirmado em 2026-09-13 (idêntico à provisão anterior) — não bloqueia.
-- A provisão das 48 seleções (2026-09-13) já foi conferida contra os defeitos
-  da primeira listagem: 48/48 seleções, grupos idênticos ao catálogo,
-  QAT06/SCO04/TUN12 e SWE04/12/14/16 preenchidos, duplicatas resolvidas;
-  Paraguai com 13 jogadores — lacuna declarada (MDR 0008), não bloqueia.
-
 ## Arquivos impactados
 - `src/data/jogadores.js` — criar
 - `src/data/jogadores.test.js` — criar
@@ -69,4 +59,4 @@ trouxe os jogadores 14–18 — ver MDR 0008).
 - [ ] Nenhum nome vazio e nenhuma duplicata na mesma seção (teste)
 - [ ] As 48 siglas conferem com as seções do catálogo (teste)
 - [ ] 20 nomes para FWC e 14 para COC (teste)
-- [ ] Grafia conforme o MDR 0008, com os nomes incertos confirmados (log)
+- [ ] Grafia conforme o MDR 0008 — correções e diacritics aplicados (log)
