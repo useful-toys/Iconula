@@ -92,6 +92,11 @@ Questões recorrentes são marcadas como "Nota".*
   - 980 da numeração oficial: 48 seleções × 20 figurinhas (960) + 20
     extras FIFA
   - 14 da página especial Coca-Cola
+  - Cada figurinha mostra o código e o nome impresso no cromo — jogador,
+    escudo, foto do time ou elemento especial; a identidade continua
+    sendo o código (ver
+    [IDR 0047](idr/0047-nomes-de-jogadores-nas-figurinhas.md) e
+    [MDR 0008](model-dr/0008-dados-dos-nomes-das-figurinhas.md))
 - Navegar o catálogo por seção
   - 48 seleções e os especiais "Extras FIFA" e "Coca-Cola", exibidos
     como grupos nomeados, iguais a uma seleção
@@ -307,9 +312,11 @@ Questões recorrentes são marcadas como "Nota".*
 - Ao filtrar, seções (e super-grupos) sem nenhuma figurinha no estado
   filtrado somem da vista — o filtro não deixa cabeçalhos vazios para
   trás (ver [IDR 0025](idr/0025-filtro-oculta-secoes-vazias.md))
-- Ordenação, disposição e filtro persistem no navegador e são
-  restaurados na abertura seguinte; o colapso de seções, não (ver
-  [IDR 0026](idr/0026-preferencias-de-vista-persistidas-no-navegador.md))
+- Ordenação, disposição, filtro e as seções e super-grupos fechados à
+  mão persistem no navegador e são restaurados na abertura seguinte;
+  nada fecha sozinho (ver
+  [IDR 0026](idr/0026-preferencias-de-vista-persistidas-no-navegador.md)
+  e [IDR 0020](idr/0020-secoes-colapsaveis-em-qualquer-visualizacao.md))
 - Jamais scroll dentro de scroll: cada tela é uma única página
   scrollável; nenhum componente tem rolagem própria (ver
   [IDR 0008](idr/0008-uma-unica-pagina-scrollavel.md))
@@ -382,11 +389,13 @@ Nenhuma — as três pendências registradas durante o plano foram todas
 resolvidas, com registro próprio:
 
 - **Fonte do checklist**: degradação decidida sem bloquear a
-  implementação — nomes de figurinha não entram no dado (a interface
-  especificada não os exibe), a página do FWC fica `null` (omitida) e
+  implementação — a página do FWC fica `null` (omitida) e
   `metalizada` só nasce `true` na posição 01 de cada seleção; corrigir
   quando a fonte completa aparecer é mudança contida em
-  `expandirFigurinhas` — [TDR 0010](tdr/0010-forma-do-catalogo-degradacao-do-checklist-e-sem-pipeline.md)
+  `expandirFigurinhas` — [TDR 0010](tdr/0010-forma-do-catalogo-degradacao-do-checklist-e-sem-pipeline.md).
+  Os nomes das figurinhas, antes fora do dado por falta de fonte,
+  chegaram por fornecimento do humano e estão no
+  [MDR 0008](model-dr/0008-dados-dos-nomes-das-figurinhas.md)
 - **Política de privacidade depois de autenticado**: reaparece no
   rodapé da tela principal, ao lado do link já existente na tela de
   login — [IDR 0037](idr/0037-politica-no-rodape-depois-de-autenticado.md)
