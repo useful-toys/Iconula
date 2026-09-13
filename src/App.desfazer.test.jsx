@@ -1,8 +1,7 @@
 // Copyright (c) 2026 Daniel Felix Ferber
 
 import { act, cleanup, fireEvent, render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import "@testing-library/jest-dom/vitest";
 
 // Testes de integração do desfazer (Tarefa 0009-0001): histórico de 10,
@@ -65,7 +64,14 @@ function botaoDesfazer() {
   return screen.getByRole("button", { name: "desfazer a última alteração" });
 }
 
+// Temporizador falso no arquivo inteiro, como em App.gravacao.test.jsx: a
+// gravação agregada agenda escritas (debounce de 2s) que o App não cancela ao
+// desmontar. Com temporizador real, um agendamento deixado por um teste
+// disparava durante o seguinte e contava uma escrita a mais no mock
+// compartilhado — falha intermitente em runner lento. `useRealTimers` no
+// `afterEach` descarta o que ficou pendente.
 beforeEach(() => {
+  vi.useFakeTimers();
   authState.user = null;
   authState.callback = null;
   catalogo.props = null;
@@ -85,6 +91,10 @@ beforeEach(() => {
   signOutMock.mockResolvedValue(undefined);
   limparAvisos();
   localStorage.clear();
+});
+
+afterEach(() => {
+  vi.useRealTimers();
 });
 
 async function montarLogado() {
@@ -113,7 +123,6 @@ describe("App — desfazer", () => {
   });
 
   it("desfazer reverte o último ajuste e volta a desabilitar o botão", async () => {
-    const user = userEvent.setup();
     await montarLogado();
 
     await act(async () => {
@@ -121,14 +130,13 @@ describe("App — desfazer", () => {
     });
     expect(catalogo.props.contagens).toEqual({ BRA01: 1 });
 
-    await user.click(botaoDesfazer());
+    await act(async () => fireEvent.click(botaoDesfazer()));
 
     expect(catalogo.props.contagens).toEqual({});
     expect(botaoDesfazer()).toBeDisabled();
   });
 
   it("dez ajustes seguidos de dez desfazer voltam ao estado inicial", async () => {
-    const user = userEvent.setup();
     await montarLogado();
 
     for (let i = 0; i < 10; i += 1) {
@@ -139,7 +147,7 @@ describe("App — desfazer", () => {
     expect(catalogo.props.contagens).toEqual({ BRA01: 10 });
 
     for (let i = 0; i < 10; i += 1) {
-      await user.click(botaoDesfazer());
+      await act(async () => fireEvent.click(botaoDesfazer()));
     }
 
     expect(catalogo.props.contagens).toEqual({});
@@ -147,7 +155,6 @@ describe("App — desfazer", () => {
   });
 
   it("o décimo primeiro desfazer não altera nada", async () => {
-    const user = userEvent.setup();
     await montarLogado();
 
     for (let i = 0; i < 10; i += 1) {
@@ -157,18 +164,17 @@ describe("App — desfazer", () => {
     }
 
     for (let i = 0; i < 10; i += 1) {
-      await user.click(botaoDesfazer());
+      await act(async () => fireEvent.click(botaoDesfazer()));
     }
     expect(catalogo.props.contagens).toEqual({});
 
     // Décimo primeiro clique: o botão já está desabilitado — o clique não
     // dispara o handler (jsdom respeita `disabled`), então nada muda.
-    await user.click(botaoDesfazer());
+    await act(async () => fireEvent.click(botaoDesfazer()));
     expect(catalogo.props.contagens).toEqual({});
   });
 
   it("reverte ajustes diferentes na ordem inversa em que foram feitos", async () => {
-    const user = userEvent.setup();
     await montarLogado();
 
     await act(async () => {
@@ -180,40 +186,35 @@ describe("App — desfazer", () => {
     expect(catalogo.props.contagens).toEqual({ BRA01: 1, FWC01: 1 });
 
     // Primeiro desfazer reverte FWC01 (o mais recente), não BRA01.
-    await user.click(botaoDesfazer());
+    await act(async () => fireEvent.click(botaoDesfazer()));
     expect(catalogo.props.contagens).toEqual({ BRA01: 1 });
 
-    await user.click(botaoDesfazer());
+    await act(async () => fireEvent.click(botaoDesfazer()));
     expect(catalogo.props.contagens).toEqual({});
   });
 
   it("a reversão é gravada pela agregação, sem escrita própria", async () => {
-    vi.useFakeTimers();
-    try {
-      await montarLogado();
+    await montarLogado();
 
-      await act(async () => {
-        catalogo.props.onAjustar("BRA01", 1);
-      });
-      await act(async () => {
-        catalogo.props.onAjustar("BRA01", 1);
-      });
+    await act(async () => {
+      catalogo.props.onAjustar("BRA01", 1);
+    });
+    await act(async () => {
+      catalogo.props.onAjustar("BRA01", 1);
+    });
 
-      await act(async () => {
-        fireEvent.click(botaoDesfazer());
-      });
+    await act(async () => {
+      fireEvent.click(botaoDesfazer());
+    });
 
-      await act(async () => {
-        await vi.advanceTimersByTimeAsync(2000);
-      });
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(2000);
+    });
 
-      // Uma única escrita, com o valor final (1) já refletindo a reversão —
-      // nenhuma escrita própria disparada pelo desfazer.
-      expect(colecao.gravarAlteracoes).toHaveBeenCalledTimes(1);
-      expect(colecao.gravarAlteracoes).toHaveBeenCalledWith("uid1", { BRA01: 1 });
-    } finally {
-      vi.useRealTimers();
-    }
+    // Uma única escrita, com o valor final (1) já refletindo a reversão —
+    // nenhuma escrita própria disparada pelo desfazer.
+    expect(colecao.gravarAlteracoes).toHaveBeenCalledTimes(1);
+    expect(colecao.gravarAlteracoes).toHaveBeenCalledWith("uid1", { BRA01: 1 });
   });
 
   it("recarregar a página (remontar o App) limpa o histórico", async () => {
