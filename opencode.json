@@ -1,0 +1,10 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "permission": {
+    "skill": {
+      "planejar": "deny",
+      "executar-plano": "deny",
+      "executar-tarefa": "deny"
+    }
+  }
+}

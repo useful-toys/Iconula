@@ -17,14 +17,15 @@ e os logs de execução em `docs/plano/[NNNN-nome-da-fase]/logs/[XXXX-log-nome].
 
 ## Como o plano é produzido e executado
 
-| Comando | Faz |
+| Skill | Faz |
 |---|---|
-| `/planejar` (`.opencode/commands/planejar.md`) | Propõe fases e tarefas novas; grava os arquivos de tarefa e este README só depois da aprovação humana |
-| `/executar-plano NNNN` (`.opencode/commands/executar-plano.md`) | Executa uma fase numa branch e worktree próprias, tarefa a tarefa em subagentes, e entrega num PR |
-| `/executar-tarefa NNNN-XXXX` (`.opencode/commands/executar-tarefa.md`) | Executa uma tarefa e termina num commit válido, com testes, critérios de aceite verificados, decisões registradas, `docs/*.md` atualizados, setup registrado, log e status |
+| `/planejar` (`.claude/skills/planejar/`) | Propõe fases e tarefas novas; grava os arquivos de tarefa e este README só depois da aprovação humana |
+| `/executar-plano NNNN` (`.claude/skills/executar-plano/`) | Executa uma fase numa branch e worktree próprias, tarefa a tarefa em subagentes, e entrega num PR |
+| `/executar-tarefa NNNN-XXXX` (`.claude/skills/executar-tarefa/`) | Executa uma tarefa e termina num commit válido, com testes, critérios de aceite verificados, decisões registradas, `docs/*.md` atualizados, setup registrado, log e status |
 
-Os comandos têm duas versões sincronizadas, uma por ferramenta:
-`.opencode/commands/` (OpenCode) e `.claude/commands/` (Claude Code).
+As skills têm duas versões sincronizadas, uma por ferramenta:
+`.claude/skills/<nome>/` (Claude Code) e `.opencode/skills/opencode-<nome>/`
+(OpenCode, chamadas pelos comandos finos de `.opencode/commands/`).
 
 Estrutura, status e ciclo de vida, regras que valem em toda tarefa,
 comportamento padrão, formato da tarefa e formato do log estão no guia

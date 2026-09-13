@@ -113,7 +113,9 @@ aberto e § Camadas no cliente).
 | `docs/modelo-memoria.md` | Modelo de dados da representação em memória na SPA. |
 | `docs/plano/` | Plano de implementação em fases e tarefas; `docs/plano/README.md` é o índice e o mapa de status das fases. |
 | `docs/plano/CLAUDE.md` | Guia único do plano: estrutura, status, dependências, comportamento padrão de toda tarefa, impedimentos, registro de decisões, documentação viva, setup, convenções de Git e formatos de tarefa, log e relatório. Ler pelo caminho — não é carregado automaticamente por todas as ferramentas. |
-| `.opencode/commands/`, `.claude/commands/` | Comandos de agente em duas versões sincronizadas (OpenCode e Claude Code): `/planejar`, `/executar-plano` e `/executar-tarefa` para o plano; `/sincronizar-*` e `/reestruturar-*` para os registros de decisão. |
+| `.claude/skills/`, `.opencode/skills/` | Skills do plano em duas versões sincronizadas (Claude Code e OpenCode, esta com prefixo `opencode-`): `/planejar`, `/executar-plano` e `/executar-tarefa`. |
+| `.opencode/commands/` | Comandos do OpenCode: os comandos finos que carregam as skills do plano; `/sincronizar-*` e `/reestruturar-*` para os registros de decisão. |
+| `opencode.json` | Configuração do OpenCode: oculta do agente as skills de `.claude/skills/`, que o OpenCode também descobre. |
 | `docs/adr/` | Decisões de arquitetura (ADRs) — leia antes de propor mudanças estruturais. |
 | `docs/tdr/` | Decisões técnicas pontuais (TDRs). |
 | `docs/idr/` | Decisões de interface significantes (IDRs) — apresentação, interação, navegação; mesmo formato dos ADRs/TDRs. |
@@ -157,10 +159,10 @@ aberto e § Camadas no cliente).
   esse tipo de achado se acumular a ponto de não caber bem em ADRs/TDRs
   individuais.
 - **Trabalho do plano de implementação** (planejar, executar fase ou tarefa)
-  segue os comandos `/planejar`, `/executar-plano` e `/executar-tarefa` e as
-  regras de [docs/plano/CLAUDE.md](docs/plano/CLAUDE.md). Mudança num desses
-  comandos é feita nas duas versões (`.opencode/commands/` e
-  `.claude/commands/`) no mesmo commit.
+  segue as skills `/planejar`, `/executar-plano` e `/executar-tarefa` e as
+  regras de [docs/plano/CLAUDE.md](docs/plano/CLAUDE.md). Mudança numa dessas
+  skills é feita nas duas versões (`.claude/skills/` e `.opencode/skills/`)
+  no mesmo commit.
 - Novos componentes vão em `src/components/`; novos conjuntos de dados
   em `src/data/`. Evitar introduzir router ou state manager global até
   que a SPA realmente precise.
