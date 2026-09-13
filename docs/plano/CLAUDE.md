@@ -9,6 +9,7 @@ remetem a este guia; em conflito, **o guia vence** e a skill é corrigida.
 
 | Chamada | Faz |
 |---|---|
+| `/esmiucar <pedido>` | antes do planejamento, compara o pedido com o existente, pergunta com sugestões até eliminar dúvidas, lacunas, contradições e impedimentos, registra as decisões confirmadas, grava numa branch `docs` e abre PR |
 | `/planejar <pedido>` | verifica se o pedido é novo, propõe tarefas e decisões significativas, registra as decisões confirmadas, grava numa branch `docs` e abre PR |
 | `/executar-plano NNNN` | executa as tarefas pendentes de uma fase, uma por subagente, entrega num PR e acompanha CI e preview |
 | `/executar-tarefa NNNN-XXXX` | discovery, plano da alteração, implementação e um commit de estado válido |
@@ -20,6 +21,8 @@ leituras, condições de parada, passos, saída e proibições são iguais; só
 variam:
 - a ferramenta de subagente (OpenCode: `task` com o agente `general`; Claude
   Code: `Agent` com o subagente `general-purpose`);
+- a ferramenta de pergunta com opções ao humano (OpenCode: `question`; Claude
+  Code: `AskUserQuestion`);
 - o uso de skills de Git (Claude Code usa as skills quando disponíveis;
   OpenCode aplica § Convenções de Git);
 - o caminho das skills citado nas leituras e na delegação;
@@ -253,11 +256,27 @@ repassada a uma tarefa para ser "decidida" de novo.
 
 | Decisão | Exemplos | Quando é confirmada | Quem registra |
 |---|---|---|---|
-| **Significativa** | arquitetura ou tecnologia; interface visível relevante (layout, interação, navegação); schema ou formato de dados; CI/CD e deploy; qualquer mudança em decisão documentada | na aprovação do mapa de fases | `/planejar`, no PR do plano |
+| **Significativa** | arquitetura ou tecnologia; interface visível relevante (layout, interação, navegação); schema ou formato de dados; CI/CD e deploy; qualquer mudança em decisão documentada | na resposta a uma pergunta do esmiuçamento, ou na aprovação do mapa de fases | `/esmiucar`, no PR do esmiuçamento; `/planejar`, no PR do plano |
 | Significativa que depende de evidência da execução | medição de largura, altura ou desempenho que decide entre alternativas | quando o humano responde ao ponto de parada | `/executar-tarefa`, citando a resposta |
 | Nível 3 surgida na execução | § Impedimentos | quando o humano responde | `/executar-tarefa`, citando a resposta |
 | Nível 1 | estrutura de dado, nome de módulo, API interna, contorno de bug ou limitação | na execução | `/executar-tarefa` |
 | Nível 2 | premissa conservadora num detalhe visível não previsto | na execução | `/executar-tarefa`, sinalizada no relatório |
+
+### Decisões no esmiuçamento
+
+- O `/esmiucar` pergunta cada decisão significativa com evidência, opções,
+  prós e contras e uma recomendação; o humano confirma na resposta.
+- Confirmada → o `/esmiucar` cria ou atualiza o registro e a linha do índice
+  na hora, e todos vão num commit do PR do esmiuçamento. Ainda não há fase:
+  "Consequências" traz `Implementação: a planejar (/planejar).`; mudança em
+  decisão vigente leva a anterior para `## Histórico` com a nota
+  "implementação a planejar".
+- O `/planejar` trata o registro como decisão já confirmada: não a repropõe e
+  troca a linha "a planejar" pela fase e tarefa que a implementam. Mudar a
+  decisão de novo é mudança em decisão documentada.
+- O esmiuçamento só escreve nas pastas de decisão e seus índices; o pedido
+  refinado, as orientações de nível 1 ou 2 e as questões em aberto vão para a
+  descrição do PR, que é a entrada do `/planejar`.
 
 ### Decisões no planejamento
 
