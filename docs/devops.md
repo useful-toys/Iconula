@@ -32,7 +32,9 @@ Quatro workflows no `.github/workflows/`:
   (`.gitattributes`, [DDR 0010](devops-dr/0010-scripts-de-shell-com-lf.md))
 - **Node 22** em todos os workflows; JDK 21 para o emulador do Firestore
 - **Secrets**: `FIREBASE_SERVICE_ACCOUNT_ICONULA` (chave JSON da service
-  account), usada em `$RUNNER_TEMP` e apagada em step `if: always()`
+  account), usada em `$RUNNER_TEMP` e apagada em step `if: always()`; o
+  script dos authorized domains ativa a conta no `gcloud` do runner e a
+  revoga ao terminar
 
 ## Validação local
 
@@ -63,12 +65,31 @@ reproduzível localmente sem depender de push
 - **Login no preview**: o host do canal entra nos authorized domains do
   Firebase Auth no deploy e sai ao fechar o PR ou na varredura diária de
   canais expirados (`.github/scripts/dominios-autorizados-preview.sh`,
-  [DDR 0008](devops-dr/0008-autorizacao-do-dominio-de-preview-no-firebase-auth.md))
+  [DDR 0008](devops-dr/0008-autorizacao-do-dominio-de-preview-no-firebase-auth.md));
+  se a autorização falhar, o `build_and_preview` falha e o merge do PR
+  fica bloqueado
 - **Regras do Firestore**: deploy só no merge (são globais do projeto,
   sem canal de preview) — ver
   [DDR 0004](devops-dr/0004-deploy-e-teste-das-regras-do-firestore.md)
 - **PRs de fork**: não têm preview deploy (protege secrets), mas
   continuam tendo lint/testes via `ci.yml`
+
+### Authorized domains do Firebase Auth
+
+| Domínio | Origem |
+|---|---|
+| `localhost`, `iconula.firebaseapp.com`, `iconula.web.app` | Padrão do Firebase |
+| `iconula.danielferber.com.br` | Adicionado via API no setup ([setup-firebase.md](setup-firebase.md#firebase-authentication)) |
+| `iconula--pr<N>-<hash>.web.app` | Mantido pelo CI enquanto o canal existir ([DDR 0008](devops-dr/0008-autorizacao-do-dominio-de-preview-no-firebase-auth.md)) |
+
+- **Adicionar**: job `build_and_preview`, logo após o deploy
+- **Remover**: job `cleanup_preview` ao fechar o PR, e job
+  `sweep_preview_domains` (diário, 06:17 UTC) para hosts sem canal ativo
+- **Varredura sob demanda**: `gh workflow run firebase-preview-domains-sweep.yml`
+- **Simulação local** (só leitura, exige `jq`):
+  `ACCESS_TOKEN=$(gcloud auth print-access-token) SIMULAR=1 bash .github/scripts/dominios-autorizados-preview.sh varrer`
+- **Regravação manual** da lista precisa preservar os hosts de preview em
+  uso — a API substitui a lista inteira
 
 ## Segurança
 
@@ -105,6 +126,23 @@ reproduzível localmente sem depender de push
 (ver [DDR 0004](devops-dr/0004-deploy-e-teste-das-regras-do-firestore.md)
 e [TDR 0009](tdr/0009-validacao-do-mapa-nas-regras.md))
 
+### Service account do CI
+
+`github-action-iconula@iconula.iam.gserviceaccount.com`, com a chave no
+secret `FIREBASE_SERVICE_ACCOUNT_ICONULA`. Só as roles que cada job usa:
+
+| Role | Para quê | Registro |
+|---|---|---|
+| `roles/firebasehosting.admin` | Deploy de produção e preview, delete e listagem de canais | [setup-gcloud.md](setup-gcloud.md) |
+| `roles/firebase.viewer` | Leitura do projeto no deploy das regras | [DDR 0004](devops-dr/0004-deploy-e-teste-das-regras-do-firestore.md) |
+| `roles/firebaserules.admin` | Deploy das regras do Firestore | [DDR 0004](devops-dr/0004-deploy-e-teste-das-regras-do-firestore.md) |
+| `projects/iconula/roles/authorizedDomainsEditor` (custom: `firebaseauth.configs.get`, `firebaseauth.configs.update`) | Manter os hosts de preview nos authorized domains | [DDR 0009](devops-dr/0009-role-custom-minima-para-authorized-domains.md) |
+
+- **Descartadas de propósito**: `roles/datastore.owner` (acesso aos dados
+  dos usuários) e `roles/firebaseauth.admin` (acesso aos usuários do Auth)
+- **Risco aceito**: `firebaseauth.configs.update` permite alterar qualquer
+  campo da configuração do Auth, não só os authorized domains
+
 ## Secrets e variáveis
 
 ### Secrets do repositório
@@ -135,5 +173,6 @@ e [TDR 0009](tdr/0009-validacao-do-mapa-nas-regras.md))
 
 - [docs/setup-firebase.md](setup-firebase.md): projeto Firebase, Hosting, Auth
 - [docs/setup-gcloud.md](setup-gcloud.md): APIs, service account, IAM
+  (inclusive a role custom `authorizedDomainsEditor`)
 - [docs/setup-github.md](setup-github.md): secrets, workflows, branch protection
 - [docs/setup-registrobr.md](setup-registrobr.md): DNS do domínio customizado
