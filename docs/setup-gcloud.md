@@ -25,7 +25,7 @@ Habilitadas explicitamente por este projeto:
 
 | API | Motivo |
 |---|---|
-| `identitytoolkit.googleapis.com` (Identity Toolkit API) | Usada pelo Firebase Auth (login com Google — ver [ADR 0005](adr/0005-login-google-sdk-modular.md) e [docs/setup-firebase.md](setup-firebase.md#firebase-authentication)); também é a API por trás do Identity Platform Admin API, usada para automatizar authorized domains via `curl` + token do `gcloud` (mesmo padrão da Firebase Hosting REST API já usado para o domínio customizado). |
+| `identitytoolkit.googleapis.com` (Identity Toolkit API) | Usada pelo Firebase Auth (login com Google — ver [ADR 0005](adr/0005-login-google-sdk-modular.md) e [docs/setup-firebase.md](setup-firebase.md#firebase-authentication)); também é a API por trás do Identity Platform Admin API, usada para automatizar authorized domains via `curl` + token do `gcloud` (mesmo padrão da Firebase Hosting REST API já usado para o domínio customizado) — localmente e no CI, onde a service account mantém os hosts de preview na lista ([DDR 0007](devops-dr/0007-ciclo-de-vida-dos-canais-de-preview.md)). |
 | `firestore.googleapis.com` (Cloud Firestore API) | Persistência do time visível por usuário — ver [ADR 0005](adr/0005-persistencia-no-firestore.md) e a seção "Cloud Firestore" abaixo. Sem ela, qualquer `gcloud firestore ...` falha com `SERVICE_DISABLED`. |
 
 Habilitadas com:
@@ -131,6 +131,31 @@ não-interativo. A alternativa foi configurar cada peça manualmente com
      --member="serviceAccount:github-action-iconula@iconula.iam.gserviceaccount.com" \
      --role="projects/iconula/roles/authorizedDomainsEditor" \
      --condition=None
+   ```
+
+   Executado em 2026-09-13, com a role criada no estágio `GA` e o binding
+   sem condição. Estado conferido depois:
+
+   ```bash
+   $ gcloud projects get-iam-policy iconula --flatten="bindings[].members" \
+       --filter="bindings.members:github-action-iconula@iconula.iam.gserviceaccount.com" \
+       --format="value(bindings.role)"
+   projects/iconula/roles/authorizedDomainsEditor
+   roles/firebase.viewer
+   roles/firebasehosting.admin
+   roles/firebaserules.admin
+   ```
+
+   No Windows, o `gcloud` exibe acentos da descrição como `?`; o valor
+   gravado está correto (conferir pela IAM API:
+   `GET https://iam.googleapis.com/v1/projects/iconula/roles/authorizedDomainsEditor`).
+   Para desfazer:
+
+   ```bash
+   gcloud projects remove-iam-policy-binding iconula \
+     --member="serviceAccount:github-action-iconula@iconula.iam.gserviceaccount.com" \
+     --role="projects/iconula/roles/authorizedDomainsEditor"
+   gcloud iam roles delete authorizedDomainsEditor --project=iconula
    ```
 
    **`roles/firebaseauth.admin` foi deliberadamente descartada**: além de
