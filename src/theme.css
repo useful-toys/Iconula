@@ -14,6 +14,26 @@
   --ink-on-light: oklch(0.2 0.02 90);
   --notif-red: oklch(0.6 0.18 25);
 
+  /* Cores de grupo — IDR 0045 e docs/interface.md § Paleta.
+   * Identidade dos 12 super-grupos da Copa (A–L) e dos dois especiais: FWC é
+   * alias de --gold e COC de --coc-red (o vermelho da marca, separado de
+   * --notif-red). Usadas no título do super-grupo e na faixa de bandeiras. */
+  --group-a: oklch(0.67 0.162 144);
+  --group-b: oklch(0.61 0.209 27);
+  --group-c: oklch(0.81 0.165 113);
+  --group-d: oklch(0.53 0.159 271);
+  --group-e: oklch(0.65 0.208 36);
+  --group-f: oklch(0.51 0.084 180);
+  --group-g: oklch(0.74 0.091 300);
+  --group-h: oklch(0.66 0.107 185);
+  --group-i: oklch(0.54 0.19 308);
+  --group-j: oklch(0.81 0.063 33);
+  --group-k: oklch(0.64 0.21 5);
+  --group-l: oklch(0.53 0.129 24);
+  --coc-red: oklch(0.55 0.2 29);
+  --group-fwc: var(--gold);
+  --group-coc: var(--coc-red);
+
   /* Espaçamentos reutilizáveis — docs/interface.md § Medidas */
   --page-gutter: clamp(16px, 4vw, 40px);
 

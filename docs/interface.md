@@ -559,6 +559,28 @@ estádio. O app não segue `prefers-color-scheme` e não tem tema claro
 | `--orange-card` | `oklch(0.68 0.15 55)` | cartão repetida e selo `×N` |
 | `--ink-on-light` | `oklch(0.2 0.02 90)` | texto sobre cartão colorido |
 | `--notif-red` | `oklch(0.6 0.18 25)` | borda da faixa de falha (fundo `oklch(0.3 0.15 25)`) |
+| `--group-a` | `oklch(0.67 0.162 144)` | identidade do grupo (título do super-grupo, faixa de bandeiras) |
+| `--group-b` | `oklch(0.61 0.209 27)` | identidade do grupo (título do super-grupo, faixa de bandeiras) |
+| `--group-c` | `oklch(0.81 0.165 113)` | identidade do grupo (título do super-grupo, faixa de bandeiras) |
+| `--group-d` | `oklch(0.53 0.159 271)` | identidade do grupo (título do super-grupo, faixa de bandeiras) |
+| `--group-e` | `oklch(0.65 0.208 36)` | identidade do grupo (título do super-grupo, faixa de bandeiras) |
+| `--group-f` | `oklch(0.51 0.084 180)` | identidade do grupo (título do super-grupo, faixa de bandeiras) |
+| `--group-g` | `oklch(0.74 0.091 300)` | identidade do grupo (título do super-grupo, faixa de bandeiras) |
+| `--group-h` | `oklch(0.66 0.107 185)` | identidade do grupo (título do super-grupo, faixa de bandeiras) |
+| `--group-i` | `oklch(0.54 0.19 308)` | identidade do grupo (título do super-grupo, faixa de bandeiras) |
+| `--group-j` | `oklch(0.81 0.063 33)` | identidade do grupo (título do super-grupo, faixa de bandeiras) |
+| `--group-k` | `oklch(0.64 0.21 5)` | identidade do grupo (título do super-grupo, faixa de bandeiras) |
+| `--group-l` | `oklch(0.53 0.129 24)` | identidade do grupo (título do super-grupo, faixa de bandeiras) |
+| `--coc-red` | `oklch(0.55 0.2 29)` | identidade da Coca-Cola (título do super-grupo, faixa de bandeiras) |
+| `--group-fwc` | `var(--gold)` | alias de `--gold` para os Extras FIFA |
+| `--group-coc` | `var(--coc-red)` | alias de `--coc-red` para a Coca-Cola |
+
+Os 12 super-grupos da Copa (A–L) e os especiais (FWC, COC) têm cor de
+identidade com os valores do
+[IDR 0045](idr/0045-cores-de-super-grupos.md): as 12 cores de grupo, o
+`--coc-red` e os alias `--group-fwc` (de `--gold`) e `--group-coc` (de
+`--coc-red`). As cores são aplicadas no título do super-grupo e na faixa de
+bandeiras.
 
 ### Tipografia
 
