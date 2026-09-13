@@ -195,10 +195,14 @@ Fase fora da progressão, aberta por correção de dado. A seção "Extras FIFA"
 entrou no catálogo com os códigos `FWC01`–`FWC20`; a numeração oficial dos 20
 especiais do álbum 2026 vai de **`FWC00` a `FWC19`** (indexada a partir de
 zero) — logo da Panini (00), emblema oficial em duas partes (1–2), mascotes
-(3), slogan (4), bola oficial Trionda (5), três cartões de países-sede (6–8) e
-onze campeãs históricas do FIFA Museum (9–19), de Itália 1934 a Argentina
-2022. Confirmado por múltiplas fontes independentes depois que a primeira
-leitura desta pendência citou por engano dados do álbum do Catar 2022.
+(3), slogan (4), bola oficial Trionda (5), três cartões de países-sede (6–8),
+a Taça Jules Rimet do FIFA Museum (9) e dez pôsteres históricos de campeãs
+(10–19), de Uruguai 1950 a Argentina 2022 — conforme a fonte do checklist
+confirmada na Fase 17 ([MDR 0008](../model-dr/0008-dados-dos-nomes-das-figurinhas.md);
+a primeira descrição destes itens, "onze campeãs históricas, de Itália 1934
+a 2022", era imprecisa). Confirmado por múltiplas fontes independentes depois
+que a primeira leitura desta pendência citou por engano dados do álbum do
+Catar 2022.
 
 O número da fase é ordem de registro, não de execução: esta entra **antes**
 das Fases 11, 12 e 13, que são refinamentos de interface e podem esperar.
@@ -315,8 +319,11 @@ disposições, com truncamento e nome no aria-label. A fonte é o fornecimento
 do humano (fonte original): as 48 seleções já foram provistas e conferidas
 contra os defeitos da primeira listagem (48/48, grupos idênticos ao
 catálogo, buracos e duplicatas resolvidos), com o Paraguai trazendo só 13
-dos 18 jogadores — lacuna declarada em PAR16–PAR20; a Coca-Cola já foi
-reenviada e confirmada, e a Tarefa 0001 bloqueia só pelo reenvio do FWC.
+dos 18 jogadores — lacuna declarada em PAR16–PAR20; Coca-Cola e Extras FIFA
+foram reenviados e confirmados, a divergência FWC10–19 se resolveu em favor
+da fonte (ver Fase 14 e MDR 0008) e os dois nomes pontuais da grafia foram
+confirmados — a fase está desbloqueada, pronta para executar depois da
+Fase 13.
 
 Executar depois da Fase 13: as duas tocam `Figurinha.jsx`, `Figurinha.css` e
 `Figurinha.test.jsx`.
