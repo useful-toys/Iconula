@@ -290,7 +290,7 @@ cabeçalho de seção ganha a cor da seleção na Fase 16
 |---|---|---|---|
 | 0001 | [Tokens CSS das cores de grupo](0015-identidade-de-cor-por-grupo/0001-tokens-css-das-cores-de-grupo.md) | 15 tokens em `theme.css` com os valores do IDR 0045: 12 grupos, `--coc-red` e os alias de FWC e COC. | Concluída |
 | 0002 | [Cor no título do super-grupo](0015-identidade-de-cor-por-grupo/0002-cor-no-titulo-do-super-grupo.md) | Borda esquerda 3px + fundo com 15% de opacidade da cor do grupo no título do `SuperGrupo.jsx`; texto continua em `--gold`. | Concluída |
-| 0003 | [Cor na faixa de bandeiras](0015-identidade-de-cor-por-grupo/0003-cor-na-faixa-de-bandeiras.md) | Fundo com 20% de opacidade da cor do grupo em cada bandeira, somente na ordenação por página (FWC e COC incluídos); na ordenação por sigla, fundo neutro. | Pendente |
+| 0003 | [Cor na faixa de bandeiras](0015-identidade-de-cor-por-grupo/0003-cor-na-faixa-de-bandeiras.md) | Fundo com 20% de opacidade da cor do grupo em cada bandeira, somente na ordenação por página (FWC e COC incluídos); na ordenação por sigla, fundo neutro. | Concluída |
 
 ## Fase 16 — Identidade de cor por seleção
 

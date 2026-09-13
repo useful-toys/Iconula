@@ -31,12 +31,74 @@
   padding: 0;
   border: none;
   border-radius: 8px;
-  background: var(--panel);
+  background: color-mix(in oklch, var(--group-color, var(--panel)) 20%, var(--panel));
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: background-color 0.15s;
+}
+
+/* Identidade de grupo na faixa (IDR 0045): só na ordenação por página cada
+ * bandeira soma a classe `--grupo-<chave>` (a letra A–L da seleção, ou FWC /
+ * COC nos especiais) e define `--group-color`; o `background` mistura 20%
+ * dessa cor a `--panel`. Sem a classe — ordenação por sigla — `--group-color`
+ * cai no `--panel` e o fundo fica neutro. As classes de cor não mexem em
+ * hover, foco, área de toque nem espaçamento. */
+.faixa-de-secoes__botao--grupo-a {
+  --group-color: var(--group-a);
+}
+
+.faixa-de-secoes__botao--grupo-b {
+  --group-color: var(--group-b);
+}
+
+.faixa-de-secoes__botao--grupo-c {
+  --group-color: var(--group-c);
+}
+
+.faixa-de-secoes__botao--grupo-d {
+  --group-color: var(--group-d);
+}
+
+.faixa-de-secoes__botao--grupo-e {
+  --group-color: var(--group-e);
+}
+
+.faixa-de-secoes__botao--grupo-f {
+  --group-color: var(--group-f);
+}
+
+.faixa-de-secoes__botao--grupo-g {
+  --group-color: var(--group-g);
+}
+
+.faixa-de-secoes__botao--grupo-h {
+  --group-color: var(--group-h);
+}
+
+.faixa-de-secoes__botao--grupo-i {
+  --group-color: var(--group-i);
+}
+
+.faixa-de-secoes__botao--grupo-j {
+  --group-color: var(--group-j);
+}
+
+.faixa-de-secoes__botao--grupo-k {
+  --group-color: var(--group-k);
+}
+
+.faixa-de-secoes__botao--grupo-l {
+  --group-color: var(--group-l);
+}
+
+.faixa-de-secoes__botao--grupo-fwc {
+  --group-color: var(--group-fwc);
+}
+
+.faixa-de-secoes__botao--grupo-coc {
+  --group-color: var(--group-coc);
 }
 
 /* Início de grupo na ordenação por página: soma 2px à folga de 2px do `gap`,

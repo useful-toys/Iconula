@@ -3,7 +3,7 @@
 # Tarefa [0015-0003]: cor na faixa de bandeiras
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Fundo de cada bandeira com 20% da cor do seu grupo misturada a `--panel`,
