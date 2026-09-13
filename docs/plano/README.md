@@ -23,8 +23,8 @@ e os logs de execução em `docs/plano/[NNNN-nome-da-fase]/logs/[XXXX-log-nome].
 | `/executar-plano NNNN` (`.opencode/commands/executar-plano.md`) | Executa uma fase numa branch e worktree próprias, tarefa a tarefa em subagentes, e entrega num PR |
 | `/executar-tarefa NNNN-XXXX` (`.opencode/commands/executar-tarefa.md`) | Executa uma tarefa e termina num commit válido, com testes, critérios de aceite verificados, decisões registradas, `docs/*.md` atualizados, setup registrado, log e status |
 
-Os comandos existem com o mesmo conteúdo em `.opencode/commands/` e
-`.claude/commands/`.
+Os comandos têm duas versões sincronizadas, uma por ferramenta:
+`.opencode/commands/` (OpenCode) e `.claude/commands/` (Claude Code).
 
 Estrutura, status e ciclo de vida, regras que valem em toda tarefa,
 comportamento padrão, formato da tarefa e formato do log estão no guia

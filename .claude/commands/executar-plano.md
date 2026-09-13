@@ -1,298 +1,180 @@
 ---
-description: Executa uma fase do plano (docs/plano/) numa branch e worktree próprias, tarefa a tarefa em subagentes, entrega num PR e acompanha CI e preview
+description: Executa uma fase do plano (docs/plano/) — tarefa a tarefa em subagentes, numa branch e worktree próprias — entrega num PR e acompanha CI e preview
+argument-hint: NNNN
 ---
 
 <!-- Copyright (c) 2026 Daniel Felix Ferber -->
 
-Execute **uma fase** do plano de implementação (`docs/plano/`) do começo à
-entrega. Você é o **orquestrador**: prepara a branch e a worktree da fase,
-delega cada tarefa não concluída a um subagente que roda `/executar-tarefa`,
-confere o resultado de cada uma, entrega a fase num Pull Request para a `main`
-e acompanha os checks até ficarem verdes.
+# /executar-plano
 
-Você **não implementa tarefas** diretamente: todo código, registro de decisão
-e log de tarefa nasce dentro do subagente. Seu trabalho é preparar, sequenciar,
-verificar, entregar e acompanhar.
+## Objetivo
 
-Status, formato do log e regras comuns estão em **`docs/plano/CLAUDE.md`** (o
-guia). Em conflito, o guia vence.
+Executar as tarefas não concluídas de **uma** fase `NNNN` numa branch e
+worktree próprias — cada tarefa num subagente com `/executar-tarefa` —,
+entregar a fase num PR para a `main` e acompanhar os checks até ficarem
+verdes. Você é o orquestrador: prepara, delega, confere, entrega e acompanha;
+não implementa tarefa. As regras estão em `docs/plano/CLAUDE.md` (o guia); em
+conflito, o guia vence.
 
 ## Entrada
 
-`$ARGUMENTS` traz o **número da fase** (ex.: `11` ou `0011`).
+- `$ARGUMENTS` = número da fase (`11` ou `0011`).
+- Vazio → liste as fases não `Entregue` (número, nome, status, tarefas
+  pendentes, dependências) e pergunte qual executar.
 
-Se vier vazio, liste as fases do `docs/plano/README.md` que não estão
-`Entregue` (número, nome, status, tarefas pendentes, dependências) e pergunte
-qual executar. Não escolha sozinho.
+## Leituras obrigatórias
 
-## 1. Preparação (somente leitura)
+Leia cada guia pelo caminho indicado, sem contar com o carregamento automático de `CLAUDE.md`.
 
-1. Leia `AGENTS.md`, o guia `docs/plano/CLAUDE.md` e `docs/plano/README.md`.
-   Guias `CLAUDE.md` de subdiretório **não são carregados automaticamente**:
-   todo guia citado neste comando é lido explicitamente, pelo caminho.
-2. `git fetch origin` e localize a pasta `docs/plano/[NNNN-nome-da-fase]/`
-   **na `origin/main`** (`git ls-tree -r --name-only origin/main docs/plano/`).
-   - Se a fase não existir na `origin/main`, pare: o plano dela ainda não foi
-     mesclado (o `/planejar` entrega o plano num PR próprio).
-   - Se a cópia local da fase divergir da `origin/main`, avise; a execução usa
-     a versão da `origin/main`.
-3. Leia o `## Status` de **cada** arquivo de tarefa da fase e monte a lista
-   em ordem numérica: `NNNN-XXXX · título · status`.
-   - O arquivo da tarefa é a fonte da verdade (guia § Status e ciclo de vida);
-     divergência com o README é apontada.
-   - Fase `Entregue` na `origin/main` → diga isso e pare: fase fechada não é
-     executada de novo; mudança nela é fase nova, via `/planejar`.
-   - Todas as tarefas `Concluída` mas a fase não `Entregue` → não há tarefa a
-     executar; retome pela branch da fase direto no fechamento (seção 4) e na
-     entrega (seção 5).
-   - Alguma `Bloqueada` → mostre a pergunta registrada e pare até o humano
-     responder.
-   - Alguma `Em andamento` → uma execução anterior não terminou; na retomada
-     (seção 2), confira a worktree antes de relançar.
-4. Confira as **dependências da fase** na tabela de fases. Se alguma fase de
-   que esta depende não está `Entregue` na `origin/main`, pare e pergunte se
-   deve seguir mesmo assim.
-5. Apresente em poucas linhas: a fase, as tarefas que serão executadas (em
-   ordem), as que serão puladas por já estarem concluídas, e as tarefas com
-   passos de setup ou configuração pública (que vão pedir confirmação).
+1. `AGENTS.md`, `docs/plano/CLAUDE.md` e `docs/plano/README.md`.
+2. O `## Status` de cada tarefa da fase.
+3. Na renumeração (passo 5.2): o guia de cada pasta de decisão envolvida.
 
-## 2. Branch e worktree da fase
+## Condições de parada
 
-1. `git status --short` na árvore atual: se houver alteração não commitada,
-   pare e peça para resolver — não a carregue para a worktree.
-2. Sincronize a `main` com o remoto seguindo a skill `git-remote-sync-guard`.
-3. **Nome da branch** pela skill `git-branch-name`, com:
-   - **task-id** = número da fase com 4 dígitos (ex.: `0011`);
-   - **name** = slug que descreve o **objetivo da fase** (coluna "Objetivo"
-     da tabela de fases), não o nome da primeira tarefa;
-   - **type** pela natureza da fase (em geral `feature` ou `bugfix`; `docs`
-     se a fase só mexe em documentação).
+| # | Condição | Ação |
+|---|---|---|
+| 1 | fase ausente em `origin/main` | PARE: o plano dela não foi mesclado |
+| 2 | cópia local da fase difere da `origin/main` | avise; use a `origin/main` |
+| 3 | fase `Entregue` | PARE: mudança vira fase nova, via `/planejar` |
+| 4 | tarefa `Bloqueada` sem resposta do humano | PARE: mostre pergunta e alternativas |
+| 5 | fase de "Depende de" não `Entregue` na `origin/main` | pergunte se segue |
+| 6 | árvore atual suja | PARE: peça para resolver |
+| 7 | `.worktrees/` não está no ignore | PARE: avise |
+| 8 | worktree da fase com arquivo sujo fora do conjunto permitido (guia § Impedimentos › Arquivos parciais e retomada) | PARE: mostre |
+| 9 | conflito de sincronização fora de `docs/<tipo>/README.md` e de linhas de tabela de `docs/plano/README.md` | PARE: peça orientação |
+| 10 | relatório `falhou`, ou conferência encontrou problema | PARE: pergunte — continuar do parcial, descartar, relançar com orientação, pular ou interromper |
+| 11 | check com falha de ambiente (secret, cota, permissão, instabilidade) | PARE: mostre causa e log; rodar de novo só com autorização |
+| 12 | 3 ciclos de correção pós-PR sem verde | PARE: mostre o histórico |
 
-   Exemplo: `feature/refina_cabecalho_controles-0011`, worktree
-   `.worktrees/feature-refina_cabecalho_controles-0011`.
-4. **Retomada**: antes de criar, procure branch local ou remota e worktree
-   que já terminem em `-NNNN` desta fase (`git branch -a --list '*-NNNN'`,
-   `git worktree list`). Se existir, **reaproveite-a**: confira
-   `git status --short` nela (alterações sem commit de uma execução que falhou
-   → pare e mostre), sincronize-a com a `main` pela skill
-   `git-remote-sync-guard` e verifique se já há PR aberto
-   (`gh pr list --head <branch>`).
-5. Confirme que `.worktrees/` é ignorado pelo Git
-   (`git check-ignore -q .worktrees/x`). Se não for, pare e avise.
-6. Crie a worktree a partir da `main` sincronizada, na raiz do repositório
-   principal:
-   `git worktree add .worktrees/<diretório> -b <branch> origin/main`.
-7. Dentro da worktree, rode `npm install`. Se existir `.env.local` na raiz do
-   repositório principal, copie-o para a worktree (é ignorado pelo Git; serve à
-   verificação visual em `npm run dev`).
-8. A partir daqui, **todo** comando de Git, npm e leitura/escrita de arquivo
-   acontece dentro da worktree. Guarde o **caminho absoluto** dela.
+## Passos
 
-## 3. Execução das tarefas (uma por vez, cada uma num subagente)
+### 1. Preparar
 
-Para cada tarefa não concluída, **na ordem numérica e sequencialmente** —
-nunca duas ao mesmo tempo, porque cada tarefa parte do commit da anterior.
+1. `git fetch origin`; localize `docs/plano/NNNN-*/` na `origin/main`
+   (`git ls-tree -r --name-only origin/main docs/plano/`).
+2. Monte `NNNN-XXXX · título · status`, em ordem. Todas `Concluída` e fase não
+   `Entregue` → vá ao passo 4.
+3. Mostre: fase, tarefas a executar, tarefas puladas e tarefas com setup ou
+   configuração pública (vão pedir aprovação).
 
-### 3.1 Delegar
+### 2. Branch e worktree
 
-Inicie um subagente com a ferramenta de subagente da sua ferramenta (no
-OpenCode, `task` com o agente `general`; no Claude Code, o subagente de
-propósito geral) e **espere-o terminar** antes de seguir. O subagente começa
-sem o contexto desta conversa: o prompt precisa ser autocontido. Use este
-modelo:
+1. Sincronize a `main` — skill `git-remote-sync-guard` (sem a skill: guia § Convenções de Git › Sincronização).
+2. Nome da branch — skill `git-branch-name` (sem a skill: guia § Convenções de Git › Branch): tipo pela natureza da fase; nome pelo
+   objetivo da fase (coluna "Objetivo"); sufixo `-NNNN`. Worktree
+   `.worktrees/<tipo>-<nome>-NNNN`.
+3. Retomada: branch ou worktree terminando em `-NNNN` existe → reaproveite,
+   sincronize com a `main` e veja PR aberto (`gh pr list --head <branch>`).
+4. Senão: `git worktree add .worktrees/<diretório> -b <branch> origin/main`.
+5. Na worktree: `npm install`; copie `.env.local` da raiz do repositório
+   principal, se existir.
+6. Daqui em diante, todo comando e arquivo dentro da worktree (caminho
+   absoluto).
 
-```
-Execute a Tarefa NNNN-XXXX do plano do Iconula seguindo integralmente o
-comando /executar-tarefa (`.opencode/commands/executar-tarefa.md`, mesmo
-conteúdo em `.claude/commands/executar-tarefa.md`), com `$ARGUMENTS` =
-`NNNN-XXXX`. Leia explicitamente o guia `docs/plano/CLAUDE.md` e, antes de
-registrar decisões, o guia da pasta do tipo (`docs/adr/CLAUDE.md`,
-`docs/tdr/CLAUDE.md`, `docs/idr/CLAUDE.md`, `docs/model-dr/CLAUDE.md`,
-`docs/devops-dr/CLAUDE.md`) — nenhum deles é carregado automaticamente.
+### 3. Executar as tarefas — em sequência, uma por subagente
 
-Diretório de trabalho: <caminho absoluto da worktree>. Rode todo comando e
-leia/escreva todo arquivo apenas dentro dele.
-Branch: <branch da fase>, já criada e sincronizada — não crie, troque,
-rebaseie nem apague branch ou worktree.
+Para cada tarefa não `Concluída`, em ordem numérica:
 
-Modo delegado: você não conversa com o humano. Não faça push, não abra PR e
-não execute outras tarefas além desta.
+1. **Delegar** com a ferramenta `Agent`, subagente `general-purpose` e esperar terminar. Prompt:
 
-Tarefas desta fase já concluídas nesta branch: <lista NNNN-XXXX · título ·
-SHA do commit>, para contexto.
-Observações das tarefas anteriores: <observações relevantes>.
+   ```
+   Execute a Tarefa NNNN-XXXX seguindo .claude/commands/executar-tarefa.md,
+   com $ARGUMENTS = NNNN-XXXX. Modo delegado.
+   Worktree: <caminho absoluto>. Branch: <branch>.
+   Não crie, troque, rebaseie nem apague branch ou worktree. Sem push nem PR.
+   Tarefas já concluídas nesta branch: <NNNN-XXXX · título · SHA>.
+   Observações das tarefas anteriores: <observacoes>.
+   [Resposta do humano (AAAA-MM-DD): <resposta>]
+   [Confirmação do humano (AAAA-MM-DD): autorizo exatamente `<comando>` em <ambiente>.]
+   [Arquivos parciais a retomar: <lista>]
+   Responda só com o bloco YAML de docs/plano/CLAUDE.md § Relatório da tarefa.
+   ```
 
-<se a tarefa estava Bloqueada e o humano respondeu:
-Resposta do humano (AAAA-MM-DD) à pergunta da tarefa: ...>
+2. **Conferir** — não confie só no relatório:
+   - `concluida`: árvore limpa; `git log -1` = `commit`; tarefa e linha do
+     README `Concluída`; log no mesmo commit, com as seções do guia § Formato
+     do log; commit sem arquivo de outra tarefa;
+     `criterios.atendidos == criterios.total` (pendência aceita: só a
+     verificação visual); cada caminho de `registros` existe e tem linha no
+     índice.
+   - `bloqueada`: commit só com arquivo da tarefa, README e log; pergunta e
+     `## Execução interrompida` registrados.
 
-<se o humano confirmou um comando:
-Confirmação do humano (AAAA-MM-DD): autorizo executar exatamente
-`<comando>` no ambiente <ambiente>. Qualquer outro comando que exija
-confirmação continua bloqueado.>
+3. **Decidir**:
 
-Ao terminar, responda apenas com o relatório final no formato da seção
-"Relatório final" do /executar-tarefa.
-```
+   | Relatório | Ação |
+   |---|---|
+   | `concluida` e conferida | próxima tarefa, repassando `observacoes` |
+   | `bloqueada`, `bloqueio.tipo: pergunta` | mostre ao humano; com a resposta, relance com `Resposta do humano` |
+   | `bloqueada`, `bloqueio.tipo: confirmacao` | mostre comando, ambiente, efeito e reversão; autorizou → relance com `Confirmação do humano`; negou → pergunte: ajustar via `/planejar`, pular ou interromper |
+   | `falhou`, ou conferência com problema | condição 10 |
 
-### 3.2 Conferir
+   Nunca relance o mesmo prompt sem mudança. Descartar parciais segue o guia
+   § Impedimentos › Arquivos parciais e retomada.
 
-Não confie só no relatório. Depois de cada subagente, na worktree:
+### 4. Fechar a fase
 
-1. **Concluída**: `git status --short` limpo e `git log -1` mostrando o
-   commit informado, na branch da fase.
-2. O `## Status` do arquivo da tarefa e a linha dela no `docs/plano/README.md`
-   dizem `Concluída`, e o log existe — tudo no mesmo commit do trabalho.
-3. O commit não toca arquivos de outras tarefas nem de tarefas já concluídas.
-4. O relatório diz todos os critérios de aceite atendidos (a única pendência
-   aceita é a verificação visual declarada), e o log segue o guia
-   (§ Formato do log): `## Discovery` e `## Plano da alteração` preenchidos
-   (com os desvios explicados), `## Decisões tomadas`, `## Setup realizado` com o
-   comando exato de cada passo e sem segredos em claro (ou "Nenhum"),
-   `## Validação` com saída real e `## Critérios de aceite` com evidência por
-   item.
-5. Todo registro de decisão citado no relatório existe no commit, com a linha
-   no índice da pasta.
-6. **Bloqueada**: existe um commit só com a mudança de status, e a pergunta
-   está no arquivo da tarefa. Código parcial não commitado listado no
-   relatório não é descartado nem commitado.
+1. `npm run lint && npm run test && npm run build`; `npm run test:rules` se
+   algum commit da fase tocou `firestore.rules`.
+2. `git diff --name-only origin/main...HEAD` ⊆ "Arquivos impactados" das
+   tarefas + registros, índices, `docs/*.md`, logs e `docs/plano/`. Sem
+   `docs/requisitos.md`; `docs/setup-*.md` só com setup. Arquivo novo com
+   copyright; `docs/*.md` alterado cita registro; links relativos válidos.
+   Violação → PARE e mostre.
+3. Fase → `Entregue` no `docs/plano/README.md`, em commit próprio —
+   mensagem pela skill `git-commit-message` (sem a skill: guia § Convenções de Git › Commit).
 
-### 3.3 Decidir o próximo passo
+### 5. Entregar
 
-- **Concluída e conferida** → siga para a próxima tarefa, passando adiante as
-  observações relevantes do subagente.
-- **Bloqueada por pergunta** → pare a fase. Mostre ao humano a pergunta e as
-  alternativas e espere a resposta. Não execute as tarefas seguintes. Com a
-  resposta, relance a mesma tarefa incluindo a resposta no prompt.
-- **Bloqueada por confirmação pendente** → mostre ao humano o comando exato,
-  o ambiente, o efeito e como reverter, e pergunte se autoriza.
-  - Autorizou → relance a mesma tarefa com a `Confirmação do humano` cobrindo
-    **exatamente** aquele comando.
-  - Não autorizou → pergunte se deve ajustar a tarefa (via `/planejar`), pular
-    ou interromper a fase.
-- **Falhou**, ou a conferência encontrou problema → não tente mascarar nem
-  corrigir no lugar do subagente. Pare, mostre o que falhou (comando e saída)
-  e pergunte se deve relançar a tarefa com orientação adicional, pular ou
-  interromper a fase. Nunca relance o mesmo prompt sem mudar nada.
+1. Sincronize com a `main` — skill `git-remote-sync-guard` (sem a skill: guia § Convenções de Git › Sincronização). Conflito só em
+   `docs/<tipo>/README.md` ou em linhas de tabela de `docs/plano/README.md` →
+   mantenha as linhas dos dois lados, em ordem numérica. Outro conflito →
+   condição 9.
+2. Renumere registros que colidem com a `main`:
+   1. Criados na fase:
+      `git diff --name-status --diff-filter=A origin/main...HEAD -- docs/adr docs/tdr docs/idr docs/model-dr docs/devops-dr`
+      (sem `README.md` e `CLAUDE.md`).
+   2. Colisão = mesmo número na mesma pasta da `origin/main`.
+   3. Novo número = próximo livre após o maior entre `origin/main` e a branch,
+      em ordem de criação: `git mv`; título; links e menções `TIPO NNNN` nos
+      arquivos alterados pela fase; linha do índice na posição; busca sem
+      referência antiga.
+   4. Commit próprio — mensagem pela skill `git-commit-message` (sem a skill: guia § Convenções de Git › Commit) —; guarde a tabela `antigo → novo`.
+   5. Houve mudança na sincronização ou renumeração → repita o passo 4.1.
+3. `git push -u origin <branch>`; `--force-with-lease` só se a branch já estava
+   no remoto e foi rebaseada.
+4. PR — skill `git-pull-request-message` (sem a skill: guia § Convenções de Git › PR) —, a partir de "PR previsto": objetivo; tarefas com link
+   para arquivo e log; registros (e a tabela de renumeração); setups com link
+   para o log; verificações visuais pendentes com roteiro; como verificar no
+   preview. PR aberto → `gh pr edit`; senão
+   `gh pr create --base main --head <branch>`.
 
-## 4. Fechamento da fase
+### 6. Acompanhar CI e preview
 
-Quando todas as tarefas estiverem `Concluída`:
+1. `gh pr checks <PR> --watch`.
+2. Tudo verde → URL do preview (`gh pr view <PR> --comments`) → Saída.
+3. Falhou → `gh run view <run-id> --log-failed`:
+   - ambiente ou infraestrutura → condição 11;
+   - código, teste, lint ou build → corrija na worktree seguindo o guia como
+     uma tarefa; registre em `## Correções pós-PR` do log da tarefa causadora
+     (ou na descrição do PR); commit — mensagem pela skill `git-commit-message` (sem a skill: guia § Convenções de Git › Commit) —; `git push`; volte ao
+     item 1. Limite: condição 12.
+4. `main` avançou e o PR pede atualização → repita 5.1 e 5.2 antes de
+   corrigir.
 
-1. Na worktree, rode a validação completa da fase:
-   `npm run lint && npm run test && npm run build`. Se algum commit da fase
-   tocou `firestore.rules`, rode também `npm run test:rules` (exige JDK 21+;
-   falha por JDK antigo é de ambiente — informe, não mascare).
-2. Confira o escopo: `git diff --stat origin/main...HEAD` só contém o que as
-   tarefas da fase previam em "Arquivos impactados", mais registros de
-   decisão e índices, `docs/*.md` atualizados, logs e `docs/plano/`. Arquivo
-   inesperado → pare e mostre.
-3. Confira as convenções que atravessam tarefas: todo arquivo novo tem o
-   cabeçalho de copyright; os `docs/*.md` refletem o estado da fase e cada
-   trecho alterado cita o registro que o lastreia;
-   `git diff --name-only origin/main...HEAD` não lista `docs/requisitos.md`,
-   nem `docs/setup-*.md` se nenhuma tarefa da fase tinha passos de setup;
-   links relativos novos não estão quebrados. Violação → pare e mostre.
-4. Atualize o status da fase na tabela de fases do `docs/plano/README.md` para
-   `Entregue` num commit próprio (mensagem pela skill `git-commit-message`).
-   O merge do PR é o que efetiva a entrega na `main` (guia § Status e ciclo de
-   vida › Fase); se o PR for fechado sem merge, a fase não foi entregue.
+## Saída
 
-## 5. Entrega
+Resumo ao humano: tarefas e commits; registros (e renumeração); setups;
+correções pós-PR; verificações visuais pendentes; URL do preview; URL do PR e
+estado dos checks. Ofereça remover a worktree depois do merge.
 
-### 5.1 Sincronizar
+## Proibições
 
-Sincronize a branch da fase com a `main` pela skill `git-remote-sync-guard`.
-Conflitos:
-- **só em índices de decisão** (`docs/<tipo>/README.md`) ou em linhas de
-  tabela do `docs/plano/README.md` → resolva mantendo as linhas das duas
-  lados, na ordem numérica, e siga para a renumeração;
-- **qualquer outro arquivo** → pare e peça orientação.
-
-### 5.2 Renumerar registros de decisão
-
-Outra branch pode ter mesclado na `main` um registro com o mesmo número que
-esta fase criou. Antes de renumerar, leia o guia de cada pasta envolvida —
-`docs/adr/CLAUDE.md`, `docs/tdr/CLAUDE.md`, `docs/idr/CLAUDE.md`,
-`docs/model-dr/CLAUDE.md`, `docs/devops-dr/CLAUDE.md` — para o formato do
-título, dos links e da linha do índice.
-
-1. Liste os registros **criados** pela fase:
-   `git diff --name-status --diff-filter=A origin/main...HEAD -- docs/adr docs/tdr docs/idr docs/model-dr docs/devops-dr`
-   (ignore `README.md` e `CLAUDE.md`).
-2. Para cada um, confira se a `origin/main` já tem arquivo com o mesmo número
-   na mesma pasta (`git ls-tree --name-only origin/main docs/<tipo>/`).
-3. Havendo colisão, dê ao registro da fase o próximo número livre depois do
-   maior entre `origin/main` e a branch, em ordem de criação:
-   - `git mv` do arquivo e troca do número no título (`# IDR NNNN: …`);
-   - atualize todas as referências nos arquivos alterados pela fase — links
-     com o nome do arquivo e menções como `IDR NNNN` — incluindo logs,
-     `docs/*.md`, arquivos de tarefa da fase e o índice da pasta (linha na
-     posição numérica certa);
-   - confira que nenhuma referência antiga ficou (busca pelo nome antigo e
-     por `TIPO NNNN` nos arquivos da fase).
-4. Commite a renumeração num commit próprio (mensagem pela skill
-   `git-commit-message`) e registre, na descrição do PR, a tabela
-   `número antigo → número novo`.
-5. Se houve sincronização com mudanças ou renumeração, repita a validação do
-   passo 4.1.
-
-### 5.3 PR
-
-1. `git push -u origin <branch>` (use `--force-with-lease` apenas se a branch
-   já estava no remoto e foi rebaseada).
-2. Título, descrição e labels pela skill `git-pull-request-message`, partindo
-   da coluna **PR previsto** da tabela de fases. A descrição traz: objetivo da
-   fase; tarefas entregues com link para o arquivo de cada uma e para o log;
-   registros de decisão criados ou atualizados (e a renumeração, se houve);
-   setups realizados (ambiente, objetivo e link para a seção do log com os
-   comandos); verificações visuais pendentes com o roteiro; pendências que
-   ficaram abertas; como verificar no preview deploy.
-3. Se já existe PR aberto para a branch, atualize-o (`gh pr edit`) em vez de
-   abrir outro. Senão, `gh pr create --base main --head <branch>`.
-4. Não faça merge nem ative auto-merge.
-
-## 6. Acompanhar CI e preview
-
-1. Espere os checks do PR terminarem (`gh pr checks <PR> --watch`),
-   incluindo os required checks e o preview deploy.
-2. **Tudo verde** → pegue a URL do preview no comentário do workflow
-   (`gh pr view <PR> --comments`) e siga para o resumo.
-3. **Algum check falhou** → leia o log da falha
-   (`gh run view <run-id> --log-failed`) e classifique:
-   - **ambiente ou infraestrutura** (secret ausente, cota, permissão,
-     instabilidade do serviço) → não corrija; pare e mostre ao humano a causa
-     e o trecho do log. Se parecer instabilidade, pergunte antes de rodar de
-     novo (`gh run rerun <run-id> --failed`);
-   - **código, teste, lint ou build** → corrija na worktree:
-     - a correção segue o guia `docs/plano/CLAUDE.md` como uma tarefa (escopo
-       mínimo, decisões registradas pelo guia da pasta do tipo, `docs/*.md`
-       lastreados, validação completa verde);
-     - registre em `## Correções pós-PR` do log da tarefa cuja mudança causou
-       a falha (ou na descrição do PR, se não for atribuível a uma tarefa);
-     - commit com mensagem pela skill `git-commit-message`, citando a fase e o
-       check; `git push`;
-     - volte ao passo 1.
-4. **No máximo 3 ciclos de correção.** Se ainda falhar, pare e mostre ao
-   humano o histórico das tentativas.
-5. Main avançou enquanto o PR estava aberto e o GitHub pede atualização →
-   repita as seções 5.1 e 5.2 antes de corrigir qualquer outra coisa.
-
-## 7. Resumo ao humano
-
-Tarefas executadas e commits, registros de decisão (e renumeração),
-setups realizados, correções pós-PR, verificações visuais pendentes com a URL
-do preview, pendências e a URL do PR com o estado dos checks. Ofereça remover
-a worktree **depois** do merge.
-
-## Restrições
-
-- Uma fase por execução; uma branch e um PR por fase.
-- Tarefas sempre em sequência, cada uma num subagente próprio, esperando o
-  anterior terminar.
-- Nunca altere tarefas com status `Concluída`, nem as de outras fases.
-- Nenhum comando que exija confirmação (guia § Impedimentos › Confirmação do
-  humano) sem a confirmação explícita do humano para aquele comando.
-- Não reabra decisões registradas; não invente caminhos, números de decisão
-  nem requisitos.
-- Nunca faça merge nem ative auto-merge.
-- Toda comunicação com o humano em português do Brasil.
+- Implementar tarefa fora do subagente ou executar tarefas em paralelo.
+- Alterar tarefa `Concluída` ou de outra fase.
+- Executar comando que exige aprovação sem `Confirmação do humano` para aquele
+  comando.
+- Reabrir decisão registrada; inventar caminho, número de decisão ou requisito.
+- Merge ou auto-merge.
+- Texto fora do português do Brasil.
