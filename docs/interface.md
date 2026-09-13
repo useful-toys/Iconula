@@ -550,9 +550,10 @@ estádio. O app não segue `prefers-color-scheme` e não tem tema claro
   inferior `--border`; título 15px, com os números em `--cream`, os
   separadores `·` em `--muted` peso 400 e o relógio um ponto menor
   (13px) também em `--muted` — o placar pesa mais que a hora
-- Controles: grupos segmentados sobre `--panel`, raio 9px, item
-  `5px 12px` em 12px/600 — ativo com fundo `--gold` e texto
-  `--turf-deep`, inativo transparente em `--muted`
+- Controles: grupos segmentados sobre `--panel` com contorno de 1px em
+  `--border` (IDR 0048), raio 9px, item `5px 12px` em 12px/600 — ativo
+  com fundo `--gold` e texto `--turf-deep`, inativo transparente em
+  `--muted`
 - Desfazer e menu de ações: botões de 30×30px, raio 8px, borda e texto
   em `--gold`, alinhados à direita da linha; em tela sensível, área de
   toque ampliada até a metade do espaçamento entre os dois, sem crescer

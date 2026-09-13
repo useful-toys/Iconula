@@ -11,6 +11,7 @@
 .controles__segmentado {
   display: inline-flex;
   background: var(--panel);
+  border: 1px solid var(--border);
   border-radius: 9px;
 }
 
