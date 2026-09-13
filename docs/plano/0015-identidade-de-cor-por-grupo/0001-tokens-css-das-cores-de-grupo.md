@@ -3,7 +3,7 @@
 # Tarefa [0015-0001]: tokens CSS das cores de grupo
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Criar em `theme.css` os tokens de identidade dos 12 grupos (A–L), o vermelho
