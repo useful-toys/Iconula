@@ -37,6 +37,13 @@ Subsets escolhidos: latin e latin-ext são suficientes para PT-BR e para
 os nomes das seções do catálogo (todos em ASCII estendido latino). Os
 demais subsets (devanagari, etc.) ficaram de fora — o app não os usa.
 
+**Roboto Condensed** (implementação na Fase 0017, Tarefa 0017-0003):
+mesma regra para o nome das figurinhas
+([IDR 0047](../idr/0047-nomes-de-jogadores-nas-figurinhas.md)) — peso 500,
+subsets latin e latin-ext (cobrem ğ ı ş İ ø č š ž ć dos nomes), `.woff2` em
+`src/assets/fonts/`, `@font-face` em `src/index.css` com
+`font-display: swap`, licença OFL 1.1 junto dos arquivos.
+
 ## Consequências
 
 - **Nenhuma requisição de rede em runtime para carregar a fonte.** Os
@@ -65,3 +72,11 @@ demais subsets (devanagari, etc.) ficaram de fora — o app não os usa.
 - **Incluir todos os subsets do Google Fonts** (devanagari, etc.):
   rejeitado — o app é em PT-BR com nomes em ASCII estendido; os outros
   subsets aumentariam o bundle sem benefício.
+- **Nome das figurinhas em `system-ui` com `font-stretch`**: largura
+  condensada não garantida nas fontes do sistema.
+
+## Histórico
+
+- 2026-09-13 — Planejamento revisado das Fases 11–17: acrescentada a
+  Roboto Condensed 500 para o nome das figurinhas, na mesma regra de
+  vendorização. Antes: só a Poppins 600/700.

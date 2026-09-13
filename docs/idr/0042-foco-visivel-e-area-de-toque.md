@@ -65,8 +65,7 @@ muda de tamanho nem de posição:
 |---|---|---|---|---|
 | Desfazer / menu de ações | 30×30px | um ao outro, gap 8px | −4px | 38×38px, sem se sobrepor |
 | Ícone da faixa de bandeiras | 30×30px | a bandeira vizinha, gap 2px (4px entre grupos na ordenação por página) | −1px | 32×32px, sem se sobrepor |
-| Menos, na lista | 18×18px | o próprio cartão (52×66px) | −4px | 26×26px, contido no cartão |
-| Menos, no álbum | 16×16px | o próprio cartão (52×52px) | −3px | 22×22px, contido no cartão |
+| Menos | 18×18px | o próprio cartão (60×84px, lista e álbum) | −4px | 26×26px, contido no cartão |
 
 A expansão de cada alvo isolado (desfazer, menu, faixa) para exatamente na
 metade do espaçamento que o separa do vizinho — nenhum dos dois lados chega
@@ -118,6 +117,12 @@ Contexto do IDR 0024.
 
 ## Histórico
 
+- 2026-09-13 — Planejamento revisado das Fases 11–17 (implementação na
+  Fase 0017, Tarefa 0017-0004): com o cartão de 60×84px igual nas duas
+  disposições ([IDR 0047](0047-nomes-de-jogadores-nas-figurinhas.md)), o
+  controle de menos passa a 18px também no álbum e a área de toque fica
+  uma só, de 26×26px. Antes: 18px na lista (cartão 52×66px, −4px) e 16px no
+  álbum (cartão 52×52px, −3px, alvo 22×22px).
 - 2026-09-13 — Planejamento revisado das Fases 11–17 (implementação na
   Fase 0011, Tarefa 0011-0003): a faixa de bandeiras passa de 4px para 2px
   entre bandeiras, com 4px entre grupos na ordenação por página (FWC antes

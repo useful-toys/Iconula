@@ -14,8 +14,8 @@ com a seção `FWC` expandida de `FWC01` a `FWC20`. A numeração oficial dos 20
 especiais do álbum Panini da Copa 2026, porém, vai de **`FWC00` a `FWC19`**:
 é indexada a partir de zero e o primeiro cartão é o logo da Panini (00),
 seguido do emblema oficial em duas partes (1–2), mascotes (3), slogan (4),
-bola oficial Trionda (5), três cartões de países-sede (6–8) e onze campeãs
-históricas do FIFA Museum (9–19). A numeração correta foi confirmada por
+bola oficial Trionda (5), três cartões de países-sede (6–8), a Taça Jules
+Rimet do FIFA Museum (9) e dez pôsteres históricos de campeãs (10–19). A numeração correta foi confirmada por
 múltiplas fontes independentes, depois que uma primeira leitura desta
 pendência citou por engano dados do álbum do Catar 2022.
 

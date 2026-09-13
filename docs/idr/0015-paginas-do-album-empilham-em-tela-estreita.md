@@ -23,7 +23,7 @@ Aceito.
 - Na disposição álbum, as duas páginas do spread ficam lado a lado
   quando cabem na largura da tela
 - Quando não cabem, empilham: página 1 (fig. 01–10) acima da página 2
-  (fig. 11–20), trilhas de 52px preservadas
+  (fig. 11–20), trilhas de 60px preservadas
 - Em nenhuma largura a disposição álbum cai para a lista; a lista é
   disposição à parte, escolhida pelo alternador
 
@@ -44,3 +44,11 @@ Aceito.
   perderia a comparação física — o motivo de existir da disposição
 - **Escalar as trilhas até caber** (~38px por trilha em 360px): cartões
   pequenos demais para o código em duas linhas
+
+## Histórico
+
+- 2026-09-13 — Planejamento revisado das Fases 11–17 (implementação na
+  Fase 0017): as trilhas passam de 52px para 60px, com o cartão de 60×84px
+  do [IDR 0047](0047-nomes-de-jogadores-nas-figurinhas.md); cada página
+  vai a 4 × 60 + 3 × 6 = 258px e o spread a 536px, empilhando um pouco
+  antes. A regra de empilhar não muda.
