@@ -3,7 +3,7 @@
 # Tarefa [0011-0005]: avatar do usuário como botão do menu
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Mostrar qual conta Google está autenticada: a foto de perfil substitui o botão

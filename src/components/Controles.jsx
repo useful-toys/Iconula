@@ -74,6 +74,8 @@ const FILTROS = [
  * @param {() => void} [props.onCopiarRepetidas] - copia o texto de troca das repetidas (Tarefa 0009-0003); sem ele, o item do menu fica desabilitado.
  * @param {() => void} [props.onExportar] - exporta a coleção em JSON (Tarefa 0009-0004); sem ele, o item do menu fica desabilitado.
  * @param {() => void} [props.onImportar] - importa a coleção de um arquivo JSON (Tarefa 0009-0005); sem ele, o item do menu fica desabilitado.
+ * @param {string} [props.photoURL] - foto da conta Google para o avatar (IDR 0049).
+ * @param {string} [props.displayName] - nome da conta para a inicial e o nome acessível do avatar.
  */
 export function Controles({
   ordenacao,
@@ -89,6 +91,8 @@ export function Controles({
   onCopiarRepetidas,
   onExportar,
   onImportar,
+  photoURL,
+  displayName,
 }) {
   return (
     <div className="controles">
@@ -169,6 +173,8 @@ export function Controles({
             onCopiarRepetidas={onCopiarRepetidas}
             onExportar={onExportar}
             onImportar={onImportar}
+            photoURL={photoURL}
+            displayName={displayName}
           />
         )}
       </div>

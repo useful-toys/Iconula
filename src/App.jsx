@@ -508,6 +508,8 @@ export default function App() {
           onCopiarRepetidas={handleCopiarRepetidas}
           onExportar={handleExportar}
           onImportar={handleImportar}
+          photoURL={user.photoURL}
+          displayName={user.displayName}
         />
       </Cabecalho>
       <input

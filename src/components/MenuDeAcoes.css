@@ -28,6 +28,30 @@
   outline-offset: 2px;
 }
 
+/* Foto da conta Google: circular de 30×30px, sem borda — a foto é o próprio
+ * desenho; o `overflow: hidden` recorta o círculo (IDR 0049). */
+.menu-de-acoes__botao--foto {
+  border: none;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.menu-de-acoes__foto {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Sem foto: inicial maiúscula do nome em --gold sobre --panel, com a borda
+ * --gold do botão atual (IDR 0049). */
+.menu-de-acoes__botao--inicial {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--gold);
+  background: var(--panel);
+}
+
 /* Área de toque ampliada em tela sensível (docs/interface.md § Pendências de
  * interface, IDR 0042) — o botão visível continua 30×30px; um `::before`
  * invisível estende a zona clicável até a metade do espaçamento de 8px que

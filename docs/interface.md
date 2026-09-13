@@ -45,8 +45,10 @@ demonstrar avisos) é andaime da prévia, não faz parte do produto.*
   desabilitado quando não há histórico — reverte a última alteração;
   repetido, as últimas 10
   (ver [IDR 0012](idr/0012-desfazer-no-cabecalho-historico-de-10.md))
-- Menu de ações: botão na mesma linha de controles, abre popup com os
+- Avatar do usuário: foto da conta Google (ou a inicial do nome; sem nome, o
+  glifo) de 30×30px na mesma linha de controles, abre o popup com os
   comandos raros — listas de troca, export/import e sair da conta (ver
+  [IDR 0049](idr/0049-avatar-como-gatilho-do-menu-de-acoes.md) e
   [IDR 0024](idr/0024-acoes-raras-em-menu-do-cabecalho.md))
 - A partir de 768px de largura, título e linha de controles dividem uma
   única linha dentro do cabeçalho sticky — título à esquerda, controles à
@@ -92,7 +94,9 @@ demonstrar avisos) é andaime da prévia, não faz parte do produto.*
   comando ficam sempre colados à direita, separados dos alternadores
   pelo espaço que sobrar — some o filtro (disposição álbum) e eles não
   se movem
-- À direita da linha, os dois comandos: desfazer (`↺`) e menu de ações
+- À direita da linha, os dois comandos: desfazer (`↺`) e o avatar do
+  usuário que abre o menu de ações (ver
+  [IDR 0049](idr/0049-avatar-como-gatilho-do-menu-de-acoes.md))
 - Ordenação, disposição e filtro são lembrados entre sessões
   (`localStorage`, por dispositivo — ver
   [IDR 0026](idr/0026-preferencias-de-vista-persistidas-no-navegador.md));
@@ -100,7 +104,8 @@ demonstrar avisos) é andaime da prévia, não faz parte do produto.*
 
 ### Menu de ações
 
-Popup aberto pelo botão do cabeçalho, com cinco comandos (IDR 0024):
+Popup aberto pelo avatar do usuário no cabeçalho, com cinco comandos (IDR 0024,
+IDR 0049):
 
 - Copiar lista de **faltantes** para a área de transferência
 - Copiar lista de **repetidas** para a área de transferência
@@ -115,7 +120,7 @@ Os cinco itens vêm em três blocos separados por filete: as duas
 cópias, a dupla exportar/importar e, isolado no fim, sair da conta —
 este último em `--notif-red`, o único item vermelho da tela principal,
 porque é o único que tira o usuário de onde ele está. O popup é
-ancorado ao botão que o abriu: alinhado pela borda direita, logo abaixo
+ancorado ao avatar que o abriu: alinhado pela borda direita, logo abaixo
 da linha de controles, painel `--panel` sobre borda `--border`, com
 sombra projetada que o descola do conteúdo por baixo.
 
@@ -568,10 +573,14 @@ estádio. O app não segue `prefers-color-scheme` e não tem tema claro
   `--border` (IDR 0048), raio 9px, item `5px 12px` em 12px/600 — ativo
   com fundo `--gold` e texto `--turf-deep`, inativo transparente em
   `--muted`
-- Desfazer e menu de ações: botões de 30×30px, raio 8px, borda e texto
-  em `--gold`, alinhados à direita da linha; em tela sensível, área de
-  toque ampliada até a metade do espaçamento entre os dois, sem crescer
+- Desfazer: botão de 30×30px, raio 8px, borda e texto em `--gold`,
+  alinhado à direita da linha; em tela sensível, área de toque ampliada
+  até a metade do espaçamento que o separa do avatar, sem crescer
   visualmente (IDR 0042)
+- Avatar do usuário: foto circular de 30×30px, sem borda; sem foto, a
+  inicial maiúscula do nome em `--gold` sobre `--panel` com borda `--gold`;
+  sem nome, o glifo do menu; mesma área de toque ampliada e mesmo foco
+  visível do antigo botão (IDR 0049, IDR 0024, IDR 0042)
 - Faixa de bandeiras: ícones de 30×30px, raio 8px, fundo `--panel`
   (`--border` sob o cursor), espaçamento de 2px e 4px entre os grupos na
   ordenação por página, rolagem horizontal; o glifo da bandeira em 15px,
