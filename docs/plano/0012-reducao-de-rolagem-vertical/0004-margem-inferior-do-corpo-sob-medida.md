@@ -3,7 +3,7 @@
 # Tarefa [0012-0004]: margem inferior do corpo sob medida
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Trocar os 60px fixos de margem inferior do catálogo pela altura medida da pior

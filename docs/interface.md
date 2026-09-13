@@ -591,7 +591,7 @@ estádio. O app não segue `prefers-color-scheme` e não tem tema claro
   separa duas bandeiras vizinhas, para caber o máximo de seções na largura
   antes de precisar rolar; em tela sensível, área de toque ampliada de 1px
   em volta do ícone (IDR 0042)
-- Corpo: `padding: 20px clamp(16px, 4vw, 40px) 60px`, 12px entre
+- Corpo: `padding: 20px clamp(16px, 4vw, 40px) 76px`, 12px entre
   super-grupos (IDR 0050)
 - Sem largura máxima de conteúdo: a página ocupa toda a largura
   disponível — quem dá o ritmo é a margem lateral
