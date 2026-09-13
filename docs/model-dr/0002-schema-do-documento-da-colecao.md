@@ -21,7 +21,7 @@ Aceito.
 - **Teto de 99 por contagem**, imposto pelas regras e respeitado pela interface — é o que torna os valores validáveis no servidor.
 - **Nada além disso**: os únicos campos são `contagens`, `updatedAt` e `atestadoEm`.
 
-## Evolução do schema
+### Evolução do schema
 
 - **Campo legado `teamName`**: documentos da era do botão (antes do schema atual) ainda têm o campo `teamName`. A carga (`carregarColecao`) detecta sua presença (`temTeamName`) e agenda sua remoção na próxima gravação agregada — `deleteField()` piggyback na mesma escrita de contagens, sem escrita à parte (ver [MDR 0003](0003-gravacao-agregada-da-colecao.md) e [TDR 0018](../tdr/0018-marca-de-apagar-teamname-via-chave-reservada.md)).
 - **Regras `create` vs `update`**: o `firestore.rules` tem regras separadas para `create` e `update`. No `create`, `request.resource.data` é só o que está sendo escrito. No `update` com `merge: true`, `request.resource.data` é o documento resultante inteiro (campos antigos preservados pelo merge aparecem junto) — por isso cada cláusula de validação pergunta "esta operação escreveu este campo?" via `diff(resource.data).affectedKeys()`, não "este campo está no resultado?" (ver [TDR 0009](../tdr/0009-validacao-do-mapa-nas-regras.md)).

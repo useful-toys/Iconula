@@ -16,11 +16,11 @@ Aceito.
 
 - **JSON com três campos**: `versao` (inteiro, começando em 1), `geradoEm` (ISO 8601), `contagens` (mapa esparso, mesmo formato do Firestore — chave ausente = contagem 0, zeros nunca aparecem).
 - **Exportação**: lê o estado em memória, zero requisição ao Firestore.
-- **Importação**: valida o arquivo inteiro antes de aplicar; recusa quando: não é JSON válido; não é um objeto; `versao` não é a conhecida; `contagens` está ausente ou não é um objeto; ou algum valor de `contagens` não é um inteiro entre 1 e 99.
+- **Importação**: valida o arquivo inteiro antes de aplicar; recusa quando: não é JSON válido; a raiz não é um objeto JSON (array é recusado); `versao` não é a conhecida; `contagens` está ausente, não é um objeto JSON ou é um array; ou algum valor de `contagens` não é um inteiro entre 1 e 99.
 - **Normalizações não recusam o arquivo**: valor exatamente `0` some silenciosamente (mapa esparso); código fora do catálogo atual (`codigosValidos`) some e entra na contagem de `descartadas`, avisada ao usuário.
 - **Nome de arquivo previsível e ordenável**: `iconula-AAAA-MM-DD.json`, na data local de quem exporta.
 
-## Fronteira de validação
+### Fronteira de validação
 
 - **`validarImportacao`** (em `portabilidade.js`) é a única função que valida o conteúdo do arquivo — recusa ou normaliza antes de qualquer gravação.
 - **`gravarImportacao`** (em `colecaoRemota.js`) não valida nada — confia que o mapa já chega normalizado (sem zeros, sem códigos desconhecidos, valores 1–99). Se alguém chamar `gravarImportacao` diretamente sem passar por `validarImportacao`, dado inválido chega ao Firestore.
