@@ -56,7 +56,7 @@ Detalhes e status das tarefas no guia [CLAUDE.md](CLAUDE.md) § Status e ciclo d
 | 9 | [Desfazer, menu de ações e portabilidade](0009-desfazer-menu-e-portabilidade/) | Desfazer, popup de comandos raros, listas de troca e export/import JSON | 7, 8 | `feat: desfazer, menu de ações, listas de troca e export/import` | Entregue |
 | 10 | [Acabamento: acessibilidade, desempenho e docs](0010-acabamento-acessibilidade-e-docs/) | Fechar acessibilidade, desempenho das 994, faixas de tela e a documentação | 9 | `chore: acessibilidade, desempenho e fechamento da documentação` | Entregue |
 | 11 | [Refinamento do cabeçalho](0011-refinamento-do-cabecalho/) | Contorno e tooltip nos controles, bandeiras mais compactas, título e controles numa linha a partir de 768px e avatar do usuário como botão do menu | 10 | `feat: refinamento do cabeçalho e dos controles` | Pendente |
-| 12 | [Redução de rolagem vertical](0012-reducao-de-rolagem-vertical/) | Colapsar por padrão o que já está completo, com colapso manual persistido, e apertar os espaçamentos repetidos do catálogo | 10 | `feat: colapso inteligente e catálogo mais compacto` | Pendente |
+| 12 | [Redução de rolagem vertical](0012-reducao-de-rolagem-vertical/) | Lembrar o colapso manual entre sessões e apertar os espaçamentos repetidos do catálogo | 11 | `feat: colapso lembrado e catálogo mais compacto` | Pendente |
 | 13 | [Interação por pressão longa](0013-interacao-por-pressao-longa/) | Segurar o cartão decrementa uma unidade no mobile, sem precisar mirar no botão de menos | 10 | `feat: pressão longa decrementa no mobile` | Pendente |
 | 14 | [Correção urgente: renumeração do FWC](0014-numeracao-dos-extras-fifa/) | Extras FIFA de `FWC00` a `FWC19` (hoje `FWC01`–`FWC20`, deslocado em um); total do catálogo continua 994 | 10 | `fix: renumera os Extras FIFA para FWC00–FWC19` | Entregue |
 | 15 | [Identidade de cor por grupo](0015-identidade-de-cor-por-grupo/) | Cor distinta por grupo de seleções (A–L) e especiais (FWC, COC), aplicada no título do super-grupo e na faixa de bandeiras — o cabeçalho de seção fica para a cor da seleção (Fase 16) | 10 | `feat: identidade de cor por grupo de seções` | Pendente |
@@ -251,20 +251,19 @@ e no [IDR 0024](../idr/0024-acoes-raras-em-menu-do-cabecalho.md).
 
 Proposta feita depois de mapear para onde vai a altura da tela: o cabeçalho
 sticky reduz a área útil o tempo todo, e cada seção/super-grupo carrega
-respiro fixo que se repete até 50 vezes. A maior alavanca, porém, não é
-nenhuma medida isolada — é que seções já 100% completas continuam abertas por
-padrão, ocupando tela mesmo quando não sobra nada a fazer nelas. A Tarefa
-0001 ataca isso e revisa os IDRs 0020, 0019 e 0026, atualizando os próprios
-registros; as Tarefas 0002-0004 são ajustes finos de medida já registrada em
-`docs/interface.md`, lastreados num único registro escolhido na Tarefa 0002
-(IDR 0022 atualizado ou IDR próprio da compactação vertical).
+respiro fixo que se repete até 50 vezes. O colapso manual passa a ser
+lembrado ([IDR 0020](../idr/0020-secoes-colapsaveis-em-qualquer-visualizacao.md),
+[IDR 0026](../idr/0026-preferencias-de-vista-persistidas-no-navegador.md)) e as
+medidas repetidas encolhem
+([IDR 0050](../idr/0050-compactacao-vertical-do-catalogo.md)). O auto-colapso
+de seções completas foi descartado no planejamento.
 
 | # | Tarefa | Objetivo | Status |
 |---|---|---|---|
-| 0001 | [Colapso automático de completas e persistência manual](0012-reducao-de-rolagem-vertical/0001-colapso-automatico-de-completas-e-persistencia-manual.md) | Seção/super-grupo 100% completos abrem colapsados; o toque manual do usuário passa a ser lembrado entre sessões — revisa o IDR 0026. | Pendente |
-| 0002 | [Cabeçalho de seção mais compacto](0012-reducao-de-rolagem-vertical/0002-cabecalho-de-secao-mais-compacto.md) | Reduzir o padding do cabeçalho de seção, repetido 50 vezes no catálogo. | Pendente |
-| 0003 | [Gaps entre seções e super-grupos reduzidos](0012-reducao-de-rolagem-vertical/0003-gaps-entre-secoes-e-super-grupos-reduzidos.md) | Apertar os tokens de espaçamento entre blocos do catálogo, sem tocar no espaçamento dentro do conteúdo. | Pendente |
-| 0004 | [Margem inferior do corpo sob medida](0012-reducao-de-rolagem-vertical/0004-margem-inferior-do-corpo-sob-medida.md) | Calibrar a margem reservada à faixa de avisos pela altura real dela, em vez de um valor fixo maior que o necessário. | Pendente |
+| 0001 | [Persistência do colapso manual](0012-reducao-de-rolagem-vertical/0001-persistencia-do-colapso-manual.md) | Seções e super-grupos fechados à mão voltam fechados na próxima abertura; o salto grava a abertura. | Pendente |
+| 0002 | [Cabeçalho de seção mais compacto](0012-reducao-de-rolagem-vertical/0002-cabecalho-de-secao-mais-compacto.md) | `padding` do cabeçalho de seção de `10px 14px` para `7px 12px`. | Pendente |
+| 0003 | [Gaps entre seções e super-grupos reduzidos](0012-reducao-de-rolagem-vertical/0003-gaps-entre-secoes-e-super-grupos-reduzidos.md) | Espaços entre blocos: super-grupos 16→12px, seções 14→10px, cabeçalho→grade 10→8px. | Pendente |
+| 0004 | [Margem inferior do corpo sob medida](0012-reducao-de-rolagem-vertical/0004-margem-inferior-do-corpo-sob-medida.md) | Margem inferior = altura medida da falha expandida + 8px, em vez de 60px fixos. | Pendente |
 
 ## Fase 13 — Interação por pressão longa
 

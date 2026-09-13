@@ -26,6 +26,13 @@ Aceito.
 - Padrão: abertas — tanto super-grupos (IDR 0019) quanto seções
 - O salto para seção (IDR 0016) expande super-grupo e seção no
   caminho até o alvo
+- **Colapso manual lembrado** (implementação na Fase 0012, Tarefa
+  0012-0001): seções e super-grupos fechados à mão são lembrados entre
+  sessões, por dispositivo
+  ([IDR 0026](0026-preferencias-de-vista-persistidas-no-navegador.md));
+  o padrão continua aberto para todo o resto
+- Quando o salto abre uma seção ou super-grupo fechados, a abertura também
+  é gravada — o que está na tela é o que volta na próxima abertura
 
 ## Consequências
 
@@ -33,8 +40,8 @@ Aceito.
   ~50 linhas de resumo cobrem o catálogo inteiro
 - Ajuste de contagem exige seção aberta — o cadastro em rajada anda
   com tudo aberto, que é o padrão
-- Estado aberto/fechado vive em memória; recarregar volta ao padrão
-  (aberto) — nada gravado
+- Só o que o usuário fechou à mão volta fechado; nada fecha sozinho —
+  o catálogo nunca abre escondido por uma regra automática
 - Sem conflito de gesto: título da seção = colapso; ícone da faixa
   (IDR 0016) = salto
 
@@ -44,5 +51,19 @@ Aceito.
   um nível de interação, perde a consulta resumida por seção
 - **Seções fechadas por padrão**: página curta, mas o cadastro em
   rajada exigiria abrir seção a seção
-- **Persistir estado de colapso**: estado além de contagens, contra o
-  minimalismo de dados
+- **Não persistir o colapso** (decisão original): quem trabalha com
+  parte do catálogo fechada refazia os toques a cada abertura
+- **Fechar automaticamente seções completas**: descartado no planejamento
+  das Fases 11–17 — colidia com os filtros de coladas e repetidas, em que
+  as completas são justamente as relevantes
+- **Salto sem gravar a abertura**: a recarga mostraria fechado o que o
+  usuário acabou de ver aberto
+
+## Histórico
+
+- 2026-09-13 — Planejamento revisado das Fases 11–17: o colapso manual de
+  seções e super-grupos passa a ser lembrado por dispositivo, e o salto
+  grava a abertura. Antes: estado só em memória, recarregar voltava tudo
+  aberto; "persistir estado de colapso" era alternativa recusada por
+  minimalismo de dados — revista porque o dado é só a lista do que o
+  usuário fechou, sem regra automática.
