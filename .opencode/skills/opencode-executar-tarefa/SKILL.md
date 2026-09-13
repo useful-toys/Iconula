@@ -1,6 +1,6 @@
 ---
-description: Executa uma tarefa do plano (docs/plano/) — discovery, plano da alteração, implementação e um commit de estado válido
-argument-hint: NNNN-XXXX
+name: opencode-executar-tarefa
+description: Executa uma tarefa do plano (docs/plano/) — discovery, plano da alteração, implementação e um commit de estado válido. Só use quando carregada pelo comando /executar-tarefa, quando o prompt de delegação do /executar-plano mandar, ou quando o humano pedir explicitamente para executar uma tarefa.
 ---
 
 <!-- Copyright (c) 2026 Daniel Felix Ferber -->
@@ -20,10 +20,13 @@ em conflito, o guia vence.
 - **Modo delegado**: o prompt do `/executar-plano` traz worktree, branch e,
   se houver, `Resposta do humano`, `Confirmação do humano` e arquivos parciais.
 - **Modo avulso**: o humano chama na branch atual.
+- Skill do OpenCode não recebe argumento: `$ARGUMENTS` é o texto que o
+  comando `.opencode/commands/executar-tarefa.md` repassa ao carregar esta
+  skill, ou o valor dado no prompt de delegação.
 
 ## Leituras obrigatórias
 
-Leia cada guia pelo caminho indicado, sem contar com o carregamento automático de `CLAUDE.md`.
+O OpenCode não carrega `CLAUDE.md` de subdiretório: leia cada guia pelo caminho indicado.
 
 1. `AGENTS.md`.
 2. `docs/plano/CLAUDE.md`, inteiro.
@@ -56,7 +59,7 @@ durante toda a execução.
 
 ### 1. Preparar
 
-1. Modo avulso: sincronize a branch — skill `git-remote-sync-guard` (sem a skill: guia § Convenções de Git › Sincronização). Modo delegado: não
+1. Modo avulso: sincronize a branch — guia § Convenções de Git › Sincronização. Modo delegado: não
    sincronize, não rebaseie, não crie nem troque branch ou worktree.
 2. Descubra a última numeração de cada tipo em `docs/adr`, `docs/tdr`,
    `docs/idr`, `docs/model-dr` e `docs/devops-dr` (índice e arquivos).
@@ -117,7 +120,7 @@ durante toda a execução.
 3. Confira: discovery e plano no log; validação verde sobre o conteúdo exato;
    decisões registradas; nenhuma decisão documentada mudada sem previsão;
    critérios com evidência; `docs/*.md` com lastro; setup sem segredos; status.
-4. Um único commit — mensagem pela skill `git-commit-message` (sem a skill: guia § Convenções de Git › Commit) —, com `Tarefa NNNN-XXXX` no corpo. Hook
+4. Um único commit — mensagem pelo guia § Convenções de Git › Commit —, com `Tarefa NNNN-XXXX` no corpo. Hook
    falhou → corrija a causa e crie o commit de novo.
 5. `git status --short` limpo; `git log -1`.
 

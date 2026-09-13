@@ -1,5 +1,6 @@
 ---
-description: Planeja funcionalidades e correções em tarefas executáveis pelo /executar-plano e /executar-tarefa, verificando antes se o pedido é novo, e entrega o plano numa branch docs com PR
+name: planejar
+description: Planeja funcionalidades e correções em fases e tarefas do plano (docs/plano/) executáveis pelo /executar-plano e /executar-tarefa — verifica antes se o pedido é novo, propõe o mapa de fases e as decisões significativas para aprovação e entrega o plano numa branch docs com PR. Use quando o humano pedir para planejar, fatiar em tarefas ou incluir trabalho no plano; não use para executar tarefa ou fase já planejada.
 argument-hint: <descrição do pedido>
 ---
 
@@ -32,7 +33,7 @@ Leia cada guia pelo caminho indicado, sem contar com o carregamento automático 
 
 1. `docs/plano/CLAUDE.md`.
 2. `AGENTS.md`.
-3. `.claude/commands/executar-tarefa.md` e `.claude/commands/executar-plano.md`.
+3. `.claude/skills/executar-tarefa/SKILL.md` e `.claude/skills/executar-plano/SKILL.md`.
 
 **Dirigidas** — leia os títulos, busque os termos do pedido e leia só as
 seções encontradas:

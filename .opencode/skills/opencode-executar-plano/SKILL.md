@@ -1,6 +1,6 @@
 ---
-description: Executa uma fase do plano (docs/plano/) — tarefa a tarefa em subagentes, numa branch e worktree próprias — entrega num PR e acompanha CI e preview
-argument-hint: NNNN
+name: opencode-executar-plano
+description: Executa uma fase do plano (docs/plano/) — tarefa a tarefa em subagentes, numa branch e worktree próprias — entrega num PR e acompanha CI e preview. Só use quando carregada pelo comando /executar-plano ou quando o humano pedir explicitamente para executar uma fase.
 ---
 
 <!-- Copyright (c) 2026 Daniel Felix Ferber -->
@@ -21,10 +21,13 @@ conflito, o guia vence.
 - `$ARGUMENTS` = número da fase (`11` ou `0011`).
 - Vazio → liste as fases não `Entregue` (número, nome, status, tarefas
   pendentes, dependências) e pergunte qual executar.
+- Skill do OpenCode não recebe argumento: `$ARGUMENTS` é o texto que o
+  comando `.opencode/commands/executar-plano.md` repassa ao carregar esta
+  skill.
 
 ## Leituras obrigatórias
 
-Leia cada guia pelo caminho indicado, sem contar com o carregamento automático de `CLAUDE.md`.
+O OpenCode não carrega `CLAUDE.md` de subdiretório: leia cada guia pelo caminho indicado.
 
 1. `AGENTS.md`, `docs/plano/CLAUDE.md` e `docs/plano/README.md`.
 2. O `## Status` de cada tarefa da fase.
@@ -60,8 +63,8 @@ Leia cada guia pelo caminho indicado, sem contar com o carregamento automático 
 
 ### 2. Branch e worktree
 
-1. Sincronize a `main` — skill `git-remote-sync-guard` (sem a skill: guia § Convenções de Git › Sincronização).
-2. Nome da branch — skill `git-branch-name` (sem a skill: guia § Convenções de Git › Branch): tipo pela natureza da fase; nome pelo
+1. Sincronize a `main` — guia § Convenções de Git › Sincronização.
+2. Nome da branch — guia § Convenções de Git › Branch: tipo pela natureza da fase; nome pelo
    objetivo da fase (coluna "Objetivo"); sufixo `-NNNN`. Worktree
    `.worktrees/<tipo>-<nome>-NNNN`.
 3. Retomada: branch ou worktree terminando em `-NNNN` existe → reaproveite,
@@ -76,10 +79,10 @@ Leia cada guia pelo caminho indicado, sem contar com o carregamento automático 
 
 Para cada tarefa não `Concluída`, em ordem numérica:
 
-1. **Delegar** com a ferramenta `Agent`, subagente `general-purpose` e esperar terminar. Prompt:
+1. **Delegar** com a ferramenta `task`, agente `general` e esperar terminar. Prompt:
 
    ```
-   Execute a Tarefa NNNN-XXXX seguindo .claude/commands/executar-tarefa.md,
+   Execute a Tarefa NNNN-XXXX seguindo .opencode/skills/opencode-executar-tarefa/SKILL.md,
    com $ARGUMENTS = NNNN-XXXX. Modo delegado.
    Worktree: <caminho absoluto>. Branch: <branch>.
    Não crie, troque, rebaseie nem apague branch ou worktree. Sem push nem PR.
@@ -123,20 +126,20 @@ Para cada tarefa não `Concluída`, em ordem numérica:
    copyright; `docs/*.md` alterado cita registro; links relativos válidos.
    Violação → PARE e mostre.
 3. Fase → `Entregue` no `docs/plano/README.md`, em commit próprio —
-   mensagem pela skill `git-commit-message` (sem a skill: guia § Convenções de Git › Commit).
+   mensagem pelo guia § Convenções de Git › Commit.
 
 ### 5. Entregar
 
-1. Sincronize com a `main` — skill `git-remote-sync-guard` (sem a skill: guia § Convenções de Git › Sincronização). Conflito só em
+1. Sincronize com a `main` — guia § Convenções de Git › Sincronização. Conflito só em
    `docs/<tipo>/README.md` ou em linhas de tabela de `docs/plano/README.md` →
    mantenha as linhas dos dois lados, em ordem numérica. Outro conflito →
    condição 9.
 2. Renumere registros que colidem com a `main` — guia § Convenções de Git ›
-   Renumeração; commit — mensagem pela skill `git-commit-message` (sem a skill: guia § Convenções de Git › Commit). Houve mudança na sincronização ou
+   Renumeração; commit — mensagem pelo guia § Convenções de Git › Commit. Houve mudança na sincronização ou
    renumeração → repita o passo 4.1.
 3. `git push -u origin <branch>`; `--force-with-lease` só se a branch já estava
    no remoto e foi rebaseada.
-4. PR — skill `git-pull-request-message` (sem a skill: guia § Convenções de Git › PR) —, a partir de "PR previsto": objetivo; tarefas com link
+4. PR — guia § Convenções de Git › PR —, a partir de "PR previsto": objetivo; tarefas com link
    para arquivo e log; registros (e a tabela de renumeração); setups com link
    para o log; verificações visuais pendentes com roteiro; como verificar no
    preview. PR aberto → `gh pr edit`; senão
@@ -150,7 +153,7 @@ Para cada tarefa não `Concluída`, em ordem numérica:
    - ambiente ou infraestrutura → condição 11;
    - código, teste, lint ou build → corrija na worktree seguindo o guia como
      uma tarefa; registre em `## Correções pós-PR` do log da tarefa causadora
-     (ou na descrição do PR); commit — mensagem pela skill `git-commit-message` (sem a skill: guia § Convenções de Git › Commit) —; `git push`; volte ao
+     (ou na descrição do PR); commit — mensagem pelo guia § Convenções de Git › Commit —; `git push`; volte ao
      item 1. Limite: condição 12.
 4. `main` avançou e o PR pede atualização → repita 5.1 e 5.2 antes de
    corrigir.

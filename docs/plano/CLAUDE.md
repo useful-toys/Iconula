@@ -2,27 +2,37 @@
 
 # Plano de implementação — guia
 
-Fonte única das regras de `docs/plano/`. Os comandos contêm só o fluxo e
-remetem a este guia; em conflito, **o guia vence** e o comando é corrigido.
+Fonte única das regras de `docs/plano/`. As skills contêm só o fluxo e
+remetem a este guia; em conflito, **o guia vence** e a skill é corrigida.
 
-## Comandos
+## Skills
 
-| Comando | Faz |
+| Chamada | Faz |
 |---|---|
 | `/planejar <pedido>` | verifica se o pedido é novo, propõe tarefas e decisões significativas, registra as decisões confirmadas, grava numa branch `docs` e abre PR |
 | `/executar-plano NNNN` | executa as tarefas pendentes de uma fase, uma por subagente, entrega num PR e acompanha CI e preview |
 | `/executar-tarefa NNNN-XXXX` | discovery, plano da alteração, implementação e um commit de estado válido |
 
-Cada comando tem **duas versões sincronizadas**: `.opencode/commands/<nome>.md`
-(OpenCode) e `.claude/commands/<nome>.md` (Claude Code). Objetivo, entrada,
+Cada skill tem **duas versões sincronizadas**:
+`.claude/skills/<nome>/SKILL.md` (Claude Code) e
+`.opencode/skills/opencode-<nome>/SKILL.md` (OpenCode). Objetivo, entrada,
 leituras, condições de parada, passos, saída e proibições são iguais; só
 variam:
 - a ferramenta de subagente (OpenCode: `task` com o agente `general`; Claude
   Code: `Agent` com o subagente `general-purpose`);
 - o uso de skills de Git (Claude Code usa as skills quando disponíveis;
   OpenCode aplica § Convenções de Git);
-- o diretório do próprio comando citado nas leituras e na delegação;
-- o frontmatter.
+- o caminho das skills citado nas leituras e na delegação;
+- a entrada: no Claude Code, `/<nome>` chama a skill e preenche `$ARGUMENTS`;
+  skill do OpenCode não recebe argumento, então `.opencode/commands/<nome>.md`
+  é um comando fino que carrega a skill e repassa `$ARGUMENTS`;
+- o frontmatter: no Claude Code, `argument-hint` e, em `executar-plano` e
+  `executar-tarefa`, `disable-model-invocation: true`; no OpenCode, `name`
+  com o prefixo `opencode-`.
+
+O prefixo existe porque o OpenCode também descobre `.claude/skills/` e exige
+nomes únicos; o `opencode.json` da raiz nega (`permission.skill`) as versões
+do Claude Code, que ficam ocultas ao agente do OpenCode.
 
 Mudou uma versão → aplique a mesma mudança na outra, no mesmo commit.
 
@@ -364,7 +374,7 @@ Usadas quando as skills de Git não estão disponíveis (sempre no OpenCode).
 2. Nunca commit direto na `main`; branch e worktree nascem de `origin/main`.
 3. Branch atrás da `main` → `git rebase origin/main`; já publicada →
    `git push --force-with-lease`. Nunca force push na `main`.
-4. Conflito → regra do comando; sem regra, pare e peça orientação.
+4. Conflito → regra da skill; sem regra, pare e peça orientação.
 
 ### Branch
 
@@ -380,7 +390,7 @@ Usadas quando as skills de Git não estão disponíveis (sempre no OpenCode).
 ### Commit
 
 - `tipo(escopo): resumo` em pt-BR, minúsculo, verbo na 3ª pessoa do presente.
-- `tipo`, primeiro que couber: `ai` (só comandos, guias de agente,
+- `tipo`, primeiro que couber: `ai` (só skills, comandos, guias de agente,
   `AGENTS.md`), `security`, `perf`, `test`, `docs`, `ci`, `build`, `feat`
   (inclui os testes dela), `fix`, `refactor`, `chore`.
 - `escopo`: um dos já usados em `git log --oneline -50`; nenhum cabe → omita.
