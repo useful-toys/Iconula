@@ -167,6 +167,12 @@ curl -X PATCH "https://identitytoolkit.googleapis.com/admin/v2/projects/iconula/
   -d '{"authorizedDomains": ["localhost","iconula.firebaseapp.com","iconula.web.app","iconula.danielferber.com.br"]}'
 ```
 
+Esses quatro são os domínios fixos. Os hosts dos canais de preview
+(`iconula--pr<N>-<hash>.web.app`) entram e saem da lista pelo CI — ver
+"Authorized domains dos previews por PR" abaixo. Ao regravar a lista à
+mão com o `PATCH` acima, incluir os hosts de preview em uso, senão o login
+nesses previews para até o próximo deploy do PR.
+
 ### Variáveis de ambiente
 
 O config do Web App **não é secreto por natureza** (é enviado ao
@@ -388,3 +394,7 @@ Conferir o progresso reconsultando o `GET` acima e olhando os campos
    seção "Firebase Authentication" acima)
 7. Criar o banco `(default)` do Firestore e publicar as regras (ver
    seção "Cloud Firestore" acima e [docs/setup-gcloud.md](setup-gcloud.md#cloud-firestore))
+8. Adicionar os domínios fixos às Authorized domains; os hosts de preview
+   ficam por conta do CI, desde que a service account tenha a role custom
+   `authorizedDomainsEditor` (ver seção "Authorized domains dos previews
+   por PR" acima e [docs/setup-gcloud.md](setup-gcloud.md))

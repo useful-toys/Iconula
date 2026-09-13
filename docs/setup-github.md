@@ -64,7 +64,7 @@ gh api repos/useful-toys/Iconula --jq .security_and_analysis
 
 | Secret | Origem | Uso |
 |---|---|---|
-| `FIREBASE_SERVICE_ACCOUNT_ICONULA` | Chave JSON da service account `github-action-iconula@iconula.iam.gserviceaccount.com` (ver [docs/setup-gcloud.md](setup-gcloud.md)) | Autenticar o `FirebaseExtended/action-hosting-deploy@v0` nos workflows de deploy; e, via `GOOGLE_APPLICATION_CREDENTIALS`, o `firebase deploy --only firestore:rules` no merge e o `hosting:channel:delete` no fechamento de PR |
+| `FIREBASE_SERVICE_ACCOUNT_ICONULA` | Chave JSON da service account `github-action-iconula@iconula.iam.gserviceaccount.com` (ver [docs/setup-gcloud.md](setup-gcloud.md)) | Autenticar o `FirebaseExtended/action-hosting-deploy@v0` nos workflows de deploy; e, via `GOOGLE_APPLICATION_CREDENTIALS`, o `firebase deploy --only firestore:rules` no merge e o `hosting:channel:delete` no fechamento de PR; via `gcloud auth activate-service-account`, o `.github/scripts/dominios-autorizados-preview.sh` que mantém os hosts de preview nos authorized domains do Auth (preview, fechamento de PR e varredura diária) |
 
 Como foi criado (a partir do arquivo de chave gerado no lado do Google
 Cloud — ver `docs/setup-gcloud.md`):
@@ -358,10 +358,13 @@ passar; o PR foi então mesclado (squash) e a branch de teste removida.
 2. Criar/obter o projeto Firebase (ver [docs/setup-firebase.md](setup-firebase.md)) e
    a service account/chave JSON no Google Cloud (ver [docs/setup-gcloud.md](setup-gcloud.md))
 3. `gh secret set FIREBASE_SERVICE_ACCOUNT_<NOME> --repo <org>/<repo> < key.json`
-4. Commitar os dois workflows em `.github/workflows/` apontando para esse
-   secret e para o `projectId` correto
+4. Commitar os quatro workflows em `.github/workflows/` e o script
+   `.github/scripts/dominios-autorizados-preview.sh`, apontando para esse
+   secret e para o `projectId` correto; a service account precisa da role
+   custom `authorizedDomainsEditor` (ver [docs/setup-gcloud.md](setup-gcloud.md))
 5. Push para `main` (dispara o deploy de produção) e abrir um PR de teste
-   (dispara o preview deploy)
+   (dispara o preview deploy); conferir que o login funciona no preview,
+   isto é, que o host do canal entrou nos authorized domains
 6. Aplicar a regra de proteção de branch referenciando o nome do job do
    workflow de PR, usando `gh api .../protection` com um payload JSON
 7. Habilitar os recursos de segurança gratuitos (ver seção "Segurança e
