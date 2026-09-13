@@ -55,7 +55,7 @@ Detalhes e status das tarefas no guia [CLAUDE.md](CLAUDE.md) § Status e ciclo d
 | 8 | [Acesso, atestação e privacidade](0008-acesso-atestacao-e-privacidade/) | Login como guarda do app, atestação de menores e política de privacidade | 7 | `feat: guarda de login, atestação de menores e política de privacidade` | Entregue |
 | 9 | [Desfazer, menu de ações e portabilidade](0009-desfazer-menu-e-portabilidade/) | Desfazer, popup de comandos raros, listas de troca e export/import JSON | 7, 8 | `feat: desfazer, menu de ações, listas de troca e export/import` | Entregue |
 | 10 | [Acabamento: acessibilidade, desempenho e docs](0010-acabamento-acessibilidade-e-docs/) | Fechar acessibilidade, desempenho das 994, faixas de tela e a documentação | 9 | `chore: acessibilidade, desempenho e fechamento da documentação` | Entregue |
-| 11 | [Refinamento do cabeçalho](0011-refinamento-do-cabecalho/) | Agrupar visualmente os controles, tooltip nas opções, bandeiras mais compactas, e avaliar fundir título/controles numa linha e mostrar a identidade do usuário | 10 | `feat: refinamento do cabeçalho e dos controles` | Pendente |
+| 11 | [Refinamento do cabeçalho](0011-refinamento-do-cabecalho/) | Contorno e tooltip nos controles, bandeiras mais compactas, título e controles numa linha a partir de 768px e avatar do usuário como botão do menu | 10 | `feat: refinamento do cabeçalho e dos controles` | Pendente |
 | 12 | [Redução de rolagem vertical](0012-reducao-de-rolagem-vertical/) | Colapsar por padrão o que já está completo, com colapso manual persistido, e apertar os espaçamentos repetidos do catálogo | 10 | `feat: colapso inteligente e catálogo mais compacto` | Pendente |
 | 13 | [Interação por pressão longa](0013-interacao-por-pressao-longa/) | Segurar o cartão decrementa uma unidade no mobile, sem precisar mirar no botão de menos | 10 | `feat: pressão longa decrementa no mobile` | Pendente |
 | 14 | [Correção urgente: renumeração do FWC](0014-numeracao-dos-extras-fifa/) | Extras FIFA de `FWC00` a `FWC19` (hoje `FWC01`–`FWC20`, deslocado em um); total do catálogo continua 994 | 10 | `fix: renumera os Extras FIFA para FWC00–FWC19` | Entregue |
@@ -231,20 +231,21 @@ Proposta feita após o primeiro uso real do app (achados de UX, não de bug):
 os três grupos de controles não se leem como grupos, as opções não explicam a
 si mesmas ao passar o mouse, a faixa de bandeiras ainda pode ficar mais
 compacta, e há espaço para economizar altura de tela e mostrar a identidade de
-quem está logado. As duas primeiras tarefas e a de bandeiras são refinamentos
-de baixo risco sobre decisões já tomadas; a Tarefa 0004 revisa o IDR 0018,
-atualizando o próprio registro, e a Tarefa 0005 abre um IDR para o avatar e
-atualiza o IDR 0024 se mudar o gatilho do menu. Toda medida alterada em
-`docs/interface.md` é lastreada por registro (IDR 0022, IDR 0042 ou IDR
-próprio).
+quem está logado. As decisões estão registradas: contorno e tooltip no
+[IDR 0048](../idr/0048-contorno-e-tooltip-nos-grupos-de-controles.md),
+espaçamento da faixa no [IDR 0042](../idr/0042-foco-visivel-e-area-de-toque.md),
+título e controles numa linha no
+[IDR 0018](../idr/0018-usuario-especialista-e-minimalismo.md) e o avatar como
+botão do menu no [IDR 0049](../idr/0049-avatar-como-gatilho-do-menu-de-acoes.md)
+e no [IDR 0024](../idr/0024-acoes-raras-em-menu-do-cabecalho.md).
 
 | # | Tarefa | Objetivo | Status |
 |---|---|---|---|
-| 0001 | [Grupos de controles como toggle visível](0011-refinamento-do-cabecalho/0001-grupos-de-controles-como-toggle-visivel.md) | Contorno nos três grupos segmentados, para que se leiam como grupos de alternância. | Pendente |
-| 0002 | [Tooltip nas opções de controle](0011-refinamento-do-cabecalho/0002-tooltip-nas-opcoes-de-controle.md) | Explicação da opção ao passar o mouse ou focar por teclado, reaproveitando o `nomeAcessivel` já existente. | Pendente |
-| 0003 | [Bandeiras mais compactas](0011-refinamento-do-cabecalho/0003-bandeiras-mais-compactas.md) | Reduzir ainda mais o espaçamento entre bandeiras, ajustando a área de toque ampliada do IDR 0042 na mesma proporção. | Pendente |
-| 0004 | [Título e controles em uma única linha](0011-refinamento-do-cabecalho/0004-titulo-e-controles-em-uma-linha.md) | Avaliar e, se aprovado, fundir as duas linhas com quebra condicional pela largura — revisa o IDR 0018. | Pendente |
-| 0005 | [Avatar do usuário no título](0011-refinamento-do-cabecalho/0005-avatar-do-usuario-no-titulo.md) | Foto de perfil do Google no cabeçalho, decidindo a relação com o menu de ações e o fallback sem foto — revisa o IDR 0018/0024. | Pendente |
+| 0001 | [Grupos de controles como toggle visível](0011-refinamento-do-cabecalho/0001-grupos-de-controles-como-toggle-visivel.md) | Contorno de 1px em `--border` nos três grupos segmentados, para que se leiam como grupos de alternância. | Pendente |
+| 0002 | [Tooltip nas opções de controle](0011-refinamento-do-cabecalho/0002-tooltip-nas-opcoes-de-controle.md) | Nome por extenso abaixo da opção no hover (~400ms) e no foco por teclado, a partir do `nomeAcessivel`; sem toque. | Pendente |
+| 0003 | [Bandeiras mais compactas](0011-refinamento-do-cabecalho/0003-bandeiras-mais-compactas.md) | 2px entre bandeiras e 4px entre grupos na ordenação por página; área de toque ampliada de 1px. | Pendente |
+| 0004 | [Título e controles em uma única linha](0011-refinamento-do-cabecalho/0004-titulo-e-controles-em-uma-linha.md) | A partir de 768px, título e controles na mesma linha sticky; abaixo disso, como hoje. | Pendente |
+| 0005 | [Avatar do usuário como botão do menu](0011-refinamento-do-cabecalho/0005-avatar-do-usuario-no-titulo.md) | Foto do Google (ou inicial do nome) de 30×30px substitui o botão do menu de ações e abre o mesmo popup. | Pendente |
 
 ## Fase 12 — Redução de rolagem vertical
 

@@ -64,7 +64,7 @@ muda de tamanho nem de posição:
 | Alvo | Visual | Vizinho mais próximo | Expansão (`inset`) | Alvo de toque final |
 |---|---|---|---|---|
 | Desfazer / menu de ações | 30×30px | um ao outro, gap 8px | −4px | 38×38px, sem se sobrepor |
-| Ícone da faixa de bandeiras | 30×30px | a bandeira vizinha, gap 4px | −2px | 34×34px, sem se sobrepor |
+| Ícone da faixa de bandeiras | 30×30px | a bandeira vizinha, gap 2px (4px entre grupos na ordenação por página) | −1px | 32×32px, sem se sobrepor |
 | Menos, na lista | 18×18px | o próprio cartão (52×66px) | −4px | 26×26px, contido no cartão |
 | Menos, no álbum | 16×16px | o próprio cartão (52×52px) | −3px | 22×22px, contido no cartão |
 
@@ -115,3 +115,12 @@ Contexto do IDR 0024.
   encosta no corpo do cartão não tem como não crescer sobre ele; tentar
   ampliar só "para fora" do cartão inverteria o problema, invadindo o
   espaçamento entre cartões vizinhos em vez do próprio cartão
+
+## Histórico
+
+- 2026-09-13 — Planejamento revisado das Fases 11–17 (implementação na
+  Fase 0011, Tarefa 0011-0003): a faixa de bandeiras passa de 4px para 2px
+  entre bandeiras, com 4px entre grupos na ordenação por página (FWC antes
+  do Grupo A e COC depois do L também separados por 4px); na ordenação por
+  sigla, 2px uniforme. A expansão da área de toque cai de −2px para −1px
+  (metade do menor espaçamento) e o alvo final de 34×34px para 32×32px.

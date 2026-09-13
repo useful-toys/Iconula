@@ -41,6 +41,15 @@ pelo [IDR 0027](0027-relogio-do-titulo-e-o-updatedat-do-documento.md):
 - Acessibilidade não depende da expertise: o nome acessível (aria)
   sempre escreve por extenso — "Brasil: 12 de 20, 8 faltantes, 3
   repetidas"
+- **Título e controles** (implementação na Fase 0011, Tarefa 0011-0004):
+  - a partir de 768px de largura, título e linha de controles dividem uma
+    única linha dentro do cabeçalho sticky — título à esquerda, controles
+    à direita; a faixa de bandeiras segue como linha à parte, abaixo
+  - se não couberem, os controles quebram para a linha de baixo, ainda
+    dentro do cabeçalho sticky; os grupos seguem a regra de quebra de
+    `interface.md` § Controles e os dois comandos seguem colados à direita
+  - abaixo de 768px, como antes: título na área sticky e controles numa
+    linha própria, fora dela, que rola com o conteúdo
 
 ## Consequências
 
@@ -66,3 +75,15 @@ pelo [IDR 0027](0027-relogio-do-titulo-e-o-updatedat-do-documento.md):
   inconsistente com texto
 - **Omitir zeros** (`12/20 · ▢8` quando não há repetidas): mais curto,
   quebra o alinhamento visual
+- **Título e controles numa linha em qualquer largura**: no celular os
+  dois quase nunca cabem juntos — a linha quebraria sempre e ainda levaria
+  os controles para a área sticky, que tira altura útil do catálogo
+- **Não fundir título e controles**: desperdiça uma linha inteira em
+  tablet e navegador, onde os dois cabem lado a lado
+
+## Histórico
+
+- 2026-09-13 — Planejamento revisado das Fases 11–17: título e controles
+  passam a dividir uma linha sticky a partir de 768px. Antes: controles
+  sempre numa linha própria, logo abaixo da faixa de bandeiras, fora do
+  cabeçalho sticky.
