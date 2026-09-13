@@ -16,6 +16,7 @@
 }
 
 .controles__opcao {
+  position: relative;
   padding: 5px 12px;
   font-family: 'Poppins', system-ui, sans-serif;
   font-size: 12px;
@@ -32,6 +33,61 @@
 .controles__opcao--ativa {
   background: var(--gold);
   color: var(--turf-deep);
+}
+
+/* Tooltip da opção — IDR 0048: o nome acessível por extenso, abaixo do botão,
+ * no hover depois de ~400ms e na hora no foco por teclado; sem gatilho em
+ * toque. Fora da árvore de acessibilidade: é só reforço visual do `aria-label`
+ * (`attr(data-tooltip)` é o mesmo texto), sem JS de posicionamento. */
+.controles__opcao::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 4px 8px;
+  font-family: 'Poppins', system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+  color: var(--cream);
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  box-shadow: 0 6px 16px oklch(0.1 0.02 150 / 0.5);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.12s ease, visibility 0.12s ease;
+  z-index: 20;
+}
+
+@media (hover: hover) {
+  .controles__opcao:hover::after {
+    opacity: 1;
+    visibility: visible;
+    transition-delay: 0.4s;
+  }
+}
+
+.controles__opcao:focus-visible::after {
+  opacity: 1;
+  visibility: visible;
+  transition-delay: 0s;
+}
+
+/* Nas pontas de cada grupo, o tooltip alinha à borda do grupo em vez de
+ * centralizar, para não estourar a viewport em celular — IDR 0048. */
+.controles__opcao:first-child::after {
+  left: 0;
+  transform: none;
+}
+
+.controles__opcao:last-child::after {
+  left: auto;
+  right: 0;
+  transform: none;
 }
 
 .controles__direita {
