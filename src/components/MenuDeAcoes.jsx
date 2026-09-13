@@ -4,9 +4,10 @@ import { useEffect, useRef, useState } from 'react';
 import './MenuDeAcoes.css';
 
 /**
- * Botão de ações no cabeçalho e o popup de comandos raros (IDR 0024): duas
- * cópias para a área de transferência, exportar/importar e sair da conta,
- * em três blocos separados por filete.
+ * Avatar do usuário no cabeçalho e o popup de comandos raros (IDR 0024,
+ * IDR 0049): a foto da conta Google (ou a inicial do nome; sem nome, o glifo)
+ * é o gatilho do popup, que traz duas cópias para a área de transferência,
+ * exportar/importar e sair da conta, em três blocos separados por filete.
  *
  * Todos os cinco comandos têm ação real desde a Tarefa 0009-0005: copiar
  * faltantes/repetidas (0009-0003), exportar (0009-0004), importar
@@ -28,11 +29,36 @@ import './MenuDeAcoes.css';
  * @param {() => void} [props.onCopiarRepetidas] - sem ele, o item fica desabilitado.
  * @param {() => void} [props.onExportar] - sem ele, o item fica desabilitado.
  * @param {() => void} [props.onImportar] - sem ele, o item fica desabilitado.
+ * @param {string} [props.photoURL] - foto da conta Google; sem ela (ou se falhar), cai na inicial (IDR 0049).
+ * @param {string} [props.displayName] - nome da conta; a inicial e o nome acessível saem dele.
  */
-export function MenuDeAcoes({ onSignOut, onCopiarFaltantes, onCopiarRepetidas, onExportar, onImportar }) {
+export function MenuDeAcoes({
+  onSignOut,
+  onCopiarFaltantes,
+  onCopiarRepetidas,
+  onExportar,
+  onImportar,
+  photoURL,
+  displayName,
+}) {
   const [aberto, setAberto] = useState(false);
+  // A foto do Google pode não carregar (perfil sem foto acessível, rede) —
+  // cai na inicial sem tentar de novo (IDR 0049).
+  const [falhouFoto, setFalhouFoto] = useState(false);
   const containerRef = useRef(null);
   const botaoRef = useRef(null);
+
+  const nomeConta = displayName?.trim() ? displayName.trim() : null;
+  const inicial = nomeConta ? nomeConta.charAt(0).toUpperCase() : null;
+  const mostrarFoto = Boolean(photoURL) && !falhouFoto;
+  const classeBotao = mostrarFoto
+    ? 'menu-de-acoes__botao menu-de-acoes__botao--foto'
+    : inicial
+      ? 'menu-de-acoes__botao menu-de-acoes__botao--inicial'
+      : 'menu-de-acoes__botao';
+  const nomeAcessivel = `menu de ações${nomeConta ? ` de ${nomeConta}` : ''}, ${
+    aberto ? 'aberto' : 'fechado'
+  }`;
 
   function fechar() {
     setAberto(false);
@@ -93,13 +119,27 @@ export function MenuDeAcoes({ onSignOut, onCopiarFaltantes, onCopiarRepetidas, o
       <button
         ref={botaoRef}
         type="button"
-        className="menu-de-acoes__botao"
+        className={classeBotao}
         aria-haspopup="menu"
         aria-expanded={aberto}
-        aria-label={`menu de ações, ${aberto ? 'aberto' : 'fechado'}`}
+        aria-label={nomeAcessivel}
         onClick={() => setAberto((atual) => !atual)}
       >
-        ⋯
+        {mostrarFoto ? (
+          <img
+            className="menu-de-acoes__foto"
+            src={photoURL}
+            alt=""
+            referrerPolicy="no-referrer"
+            onError={() => setFalhouFoto(true)}
+          />
+        ) : inicial ? (
+          <span className="menu-de-acoes__inicial" aria-hidden="true">
+            {inicial}
+          </span>
+        ) : (
+          '⋯'
+        )}
       </button>
       {aberto && (
         <div className="menu-de-acoes__painel" role="menu">

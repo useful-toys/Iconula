@@ -246,7 +246,7 @@ e no [IDR 0024](../idr/0024-acoes-raras-em-menu-do-cabecalho.md).
 | 0002 | [Tooltip nas opções de controle](0011-refinamento-do-cabecalho/0002-tooltip-nas-opcoes-de-controle.md) | Nome por extenso abaixo da opção no hover (~400ms) e no foco por teclado, a partir do `nomeAcessivel`; sem toque. | Concluída |
 | 0003 | [Bandeiras mais compactas](0011-refinamento-do-cabecalho/0003-bandeiras-mais-compactas.md) | 2px entre bandeiras e 4px entre grupos na ordenação por página; área de toque ampliada de 1px. | Concluída |
 | 0004 | [Título e controles em uma única linha](0011-refinamento-do-cabecalho/0004-titulo-e-controles-em-uma-linha.md) | A partir de 768px, título e controles na mesma linha sticky; abaixo disso, como hoje. | Concluída |
-| 0005 | [Avatar do usuário como botão do menu](0011-refinamento-do-cabecalho/0005-avatar-do-usuario-no-titulo.md) | Foto do Google (ou inicial do nome) de 30×30px substitui o botão do menu de ações e abre o mesmo popup. | Pendente |
+| 0005 | [Avatar do usuário como botão do menu](0011-refinamento-do-cabecalho/0005-avatar-do-usuario-no-titulo.md) | Foto do Google (ou inicial do nome) de 30×30px substitui o botão do menu de ações e abre o mesmo popup. | Concluída |
 
 ## Fase 12 — Redução de rolagem vertical
 

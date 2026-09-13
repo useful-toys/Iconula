@@ -1,7 +1,7 @@
 // Copyright (c) 2026 Daniel Felix Ferber
 
 import { describe, expect, it, vi } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom/vitest';
 import { MenuDeAcoes } from './MenuDeAcoes.jsx';
@@ -175,6 +175,56 @@ describe('MenuDeAcoes', () => {
 
     expect(screen.queryByRole('menu')).not.toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'depois' })).toHaveFocus();
+  });
+
+  it('com photoURL, o botão mostra a foto da conta e abre o popup', async () => {
+    const user = userEvent.setup();
+    const photoURL = 'https://lh3.googleusercontent.com/foto.jpg';
+    renderizar({ photoURL, displayName: 'Daniel Ferber' });
+
+    const botao = botaoDoMenu();
+    const foto = botao.querySelector('img.menu-de-acoes__foto');
+    expect(foto).toBeInTheDocument();
+    expect(foto).toHaveAttribute('src', photoURL);
+    expect(foto).toHaveAttribute('referrerpolicy', 'no-referrer');
+    expect(botao).not.toHaveTextContent('⋯');
+
+    await user.click(botao);
+    expect(screen.getByRole('menu')).toBeInTheDocument();
+  });
+
+  it('sem photoURL, o botão mostra a inicial maiúscula do displayName', () => {
+    renderizar({ displayName: 'daniel ferber' });
+
+    const botao = botaoDoMenu();
+    expect(botao).toHaveTextContent('D');
+    expect(botao).toHaveClass('menu-de-acoes__botao--inicial');
+    expect(botao.querySelector('img')).toBeNull();
+  });
+
+  it('sem displayName, o botão mantém o glifo do menu', () => {
+    renderizar();
+
+    expect(botaoDoMenu()).toHaveTextContent('⋯');
+    expect(botaoDoMenu().querySelector('img')).toBeNull();
+  });
+
+  it('se a foto falhar ao carregar, o botão cai na inicial', () => {
+    renderizar({ photoURL: 'https://lh3.googleusercontent.com/quebrada.jpg', displayName: 'Daniel Ferber' });
+
+    const foto = botaoDoMenu().querySelector('img.menu-de-acoes__foto');
+    fireEvent.error(foto);
+
+    expect(botaoDoMenu()).toHaveTextContent('D');
+    expect(botaoDoMenu().querySelector('img')).toBeNull();
+  });
+
+  it('o nome acessível do avatar inclui o nome da conta', () => {
+    renderizar({ photoURL: 'https://lh3.googleusercontent.com/foto.jpg', displayName: 'Daniel Ferber' });
+
+    expect(
+      screen.getByRole('button', { name: /menu de ações de Daniel Ferber/ }),
+    ).toBeInTheDocument();
   });
 
   it('o painel não declara rolagem própria', async () => {
