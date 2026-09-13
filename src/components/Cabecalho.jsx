@@ -18,6 +18,8 @@ import './Cabecalho.css';
  * @param {string|null} [props.atualizadoEm] - `updatedAt` do documento, já
  *   formatado para o relógio (IDR 0027); `null` exibe `—`.
  * @param {Array<object>} props.secoes - seções na ordem vigente para a faixa.
+ * @param {string} props.ordenacao - ordenação vigente (`'pagina' | 'sigla'`),
+ *   usada pela faixa para separar os grupos A–L na ordenação por página.
  * @param {(sigla: string) => void} props.onSaltar - callback para saltar até uma seção.
  */
 export function Cabecalho({
@@ -27,6 +29,7 @@ export function Cabecalho({
   percentual,
   atualizadoEm,
   secoes,
+  ordenacao,
   onSaltar,
 }) {
   const relogio = atualizadoEm ?? '—';
@@ -66,7 +69,7 @@ export function Cabecalho({
         </span>
         <span className="cabecalho__relogio">{relogio}</span>
       </h1>
-      <FaixaDeSecoes secoes={secoes} onSaltar={onSaltar} />
+      <FaixaDeSecoes secoes={secoes} ordenacao={ordenacao} onSaltar={onSaltar} />
     </header>
   );
 }

@@ -5,6 +5,11 @@ import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/vitest';
 import { Cabecalho } from './Cabecalho.jsx';
 import { secoes } from '../data/catalogo.js';
+import {
+  ordenarPorPagina,
+  ordenarPorSigla,
+  extrairSecoes,
+} from '../data/catalogoOrdenacoes.js';
 
 function textoDaTela() {
   return document.body.textContent;
@@ -102,5 +107,43 @@ describe('Cabecalho', () => {
     expect(screen.getByRole('navigation', { name: 'Saltar para seção' })).toBeInTheDocument();
     const botoes = screen.getAllByRole('button');
     expect(botoes.length).toBeGreaterThanOrEqual(50);
+  });
+
+  it('repassa a ordenação por página para a faixa de bandeiras', () => {
+    const ordenadas = extrairSecoes(ordenarPorPagina(secoes));
+    render(
+      <Cabecalho
+        coladas={0}
+        faltantes={994}
+        repetidas={0}
+        percentual={0}
+        secoes={ordenadas}
+        ordenacao="pagina"
+        onSaltar={vi.fn()}
+      />,
+    );
+
+    expect(
+      document.querySelectorAll('.faixa-de-secoes__botao--inicio-de-grupo'),
+    ).toHaveLength(13);
+  });
+
+  it('repassa a ordenação por sigla para a faixa de bandeiras', () => {
+    const ordenadas = extrairSecoes(ordenarPorSigla(secoes));
+    render(
+      <Cabecalho
+        coladas={0}
+        faltantes={994}
+        repetidas={0}
+        percentual={0}
+        secoes={ordenadas}
+        ordenacao="sigla"
+        onSaltar={vi.fn()}
+      />,
+    );
+
+    expect(
+      document.querySelectorAll('.faixa-de-secoes__botao--inicio-de-grupo'),
+    ).toHaveLength(0);
   });
 });

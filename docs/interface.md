@@ -564,11 +564,12 @@ estádio. O app não segue `prefers-color-scheme` e não tem tema claro
   toque ampliada até a metade do espaçamento entre os dois, sem crescer
   visualmente (IDR 0042)
 - Faixa de bandeiras: ícones de 30×30px, raio 8px, fundo `--panel`
-  (`--border` sob o cursor), espaçamento 4px, rolagem horizontal; o glifo
-  da bandeira em 15px, centralizado no quadrado — o espaçamento é o
-  mais apertado que ainda separa duas bandeiras vizinhas, para caber o
-  máximo de seções na largura antes de precisar rolar; em tela sensível,
-  área de toque ampliada até a metade desse espaçamento (IDR 0042)
+  (`--border` sob o cursor), espaçamento de 2px e 4px entre os grupos na
+  ordenação por página, rolagem horizontal; o glifo da bandeira em 15px,
+  centralizado no quadrado — o espaçamento é o mais apertado que ainda
+  separa duas bandeiras vizinhas, para caber o máximo de seções na largura
+  antes de precisar rolar; em tela sensível, área de toque ampliada de 1px
+  em volta do ícone (IDR 0042)
 - Corpo: `padding: 20px clamp(16px, 4vw, 40px) 60px`, 16px entre
   super-grupos
 - Sem largura máxima de conteúdo: a página ocupa toda a largura
