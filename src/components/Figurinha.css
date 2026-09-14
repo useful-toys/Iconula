@@ -12,12 +12,12 @@
   filter: brightness(0.6);
 }
 
-/* Cartão de 60×84px igual nas duas disposições (IDR 0047) — a variante
+/* Cartão de 60×76px igual nas duas disposições (IDR 0047) — a variante
  * permanece só como gancho de classe. */
 .figurinha--lista,
 .figurinha--album {
   width: 60px;
-  height: 84px;
+  height: 76px;
 }
 
 /* Figurinha 13: paisagem, duas trilhas de 60px mais o gap de 6px entre elas. */
@@ -208,7 +208,7 @@
 /* Área de toque ampliada em tela sensível (docs/interface.md § Pendências de
  * interface, IDR 0042) — o círculo visível continua 18px (não muda o desenho
  * nem as medidas): um `::before` invisível estende só a zona clicável. A
- * expansão de 4px leva o alvo a 26×26px, contido no cartão de 60×84px,
+ * expansão de 4px leva o alvo a 26×26px, contido no cartão de 60×76px,
  * evitando disputar toque com o cartão vizinho.
  */
 @media (pointer: coarse) {
