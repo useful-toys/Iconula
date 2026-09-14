@@ -3,7 +3,7 @@
 # Tarefa [0017-0003]: vendorizar a Roboto Condensed
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Colocar no repositório a Roboto Condensed (peso 500, subsets latin e
