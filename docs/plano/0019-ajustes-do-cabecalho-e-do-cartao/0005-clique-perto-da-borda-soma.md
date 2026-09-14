@@ -3,7 +3,7 @@
 # Tarefa [0019-0005]: clique perto da borda do cartão soma
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Fazer o clique perto da borda do cartão somar uma unidade. Hoje o corpo do

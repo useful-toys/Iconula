@@ -23,6 +23,13 @@ O toque no cartão (`figurinha__corpo`) só se manifestava pela mudança de
 cor do estado (faltante → colada) — sem retorno perceptível no instante do
 toque, antes mesmo de o dedo soltar.
 
+O retorno de toque precisa encolher algo que não seja o elemento que recebe
+o ponteiro. A escala aplicada ao próprio `.figurinha__corpo` no `:active`
+reduz a caixa de hit-test no instante do pressionar; perto da borda, o ponto
+do soltar cai fora do botão encolhido, o navegador não gera o `click` e a
+unidade não é somada (Tarefa 0019-0005). A pintura e a escala passam a um
+filho visual do botão, que mantém o tamanho durante o pressionar.
+
 Os alvos de 30×30px (desfazer, menu de ações, ícones da faixa de
 bandeiras) e o controle de menos do cartão (18px na lista, 16px no álbum,
 IDR 0032) são pequenos para toque em tela sensível, mas `interface.md`
@@ -53,8 +60,10 @@ valendo — mais específicas, seguem vencendo a regra global sem contradizê-la
 (mesma cor, mesma espessura).
 
 **Retorno de toque no cartão.** `.figurinha__corpo:active` aplica
-`transform: scale(0.92)` com transição de 60ms — encolhe e volta,
-percebido no instante do toque, independente da cor do estado.
+`transform: scale(0.92)` no elemento visual interno (`.figurinha__visual`)
+com transição de 60ms — encolhe e volta, percebido no instante do toque,
+independente da cor do estado. A escala fica nesse filho, não no próprio
+botão, para não encolher a caixa que recebe o clique (ver Contexto).
 
 **Área de toque ampliada, só em tela sensível.** `@media (pointer: coarse)`
 acrescenta um `::before` invisível (`position: absolute`, sem conteúdo
@@ -117,6 +126,10 @@ Contexto do IDR 0024.
 
 ## Histórico
 
+- 2026-09-14 — Fase 0019, Tarefa 0019-0005: a pintura e a escala do retorno
+  de toque passam do próprio `.figurinha__corpo` para um filho visual
+  (`.figurinha__visual`), preservando o efeito de encolher e voltar sem
+  perder o `click` perto da borda do cartão.
 - 2026-09-14 — Revisão do PR da Fase 17: optamos por ajustar o layout do
   cartão ([IDR 0047](0047-nomes-de-jogadores-nas-figurinhas.md)) — duas
   metades, altura de 84px para 68px. O menos continua 18px com alvo de

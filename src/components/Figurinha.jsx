@@ -202,32 +202,34 @@ export const Figurinha = memo(function Figurinha({
         onPointerCancel={aoPointerCancel}
         onContextMenu={aoContextMenu}
       >
-        {metalizada && (
-          <span className="figurinha__metalizada" aria-hidden="true" />
-        )}
-        <span className="figurinha__codigo" aria-hidden="true">
-          <span className="figurinha__sigla">{sigla}</span>
-          <span className="figurinha__numero">{numero}</span>
+        <span className="figurinha__visual" aria-hidden="true">
+          {metalizada && (
+            <span className="figurinha__metalizada" aria-hidden="true" />
+          )}
+          <span className="figurinha__codigo" aria-hidden="true">
+            <span className="figurinha__sigla">{sigla}</span>
+            <span className="figurinha__numero">{numero}</span>
+          </span>
+          {exibeNome && (
+            <span className="figurinha__nome" aria-hidden="true">
+              {nomeLinhas ? (
+                <>
+                  {nomeLinhas[0] && (
+                    <span className="figurinha__nome-prenomes">{nomeLinhas[0]}</span>
+                  )}
+                  <span className="figurinha__nome-sobrenome">{nomeLinhas[1]}</span>
+                </>
+              ) : (
+                <span className="figurinha__nome-unico">{nome}</span>
+              )}
+            </span>
+          )}
+          {contagem >= 2 && (
+            <span className="figurinha__selo" aria-hidden="true">
+              ×{sobrando}
+            </span>
+          )}
         </span>
-        {exibeNome && (
-          <span className="figurinha__nome" aria-hidden="true">
-            {nomeLinhas ? (
-              <>
-                {nomeLinhas[0] && (
-                  <span className="figurinha__nome-prenomes">{nomeLinhas[0]}</span>
-                )}
-                <span className="figurinha__nome-sobrenome">{nomeLinhas[1]}</span>
-              </>
-            ) : (
-              <span className="figurinha__nome-unico">{nome}</span>
-            )}
-          </span>
-        )}
-        {contagem >= 2 && (
-          <span className="figurinha__selo" aria-hidden="true">
-            ×{sobrando}
-          </span>
-        )}
       </button>
       {contagem >= 1 && (
         <button
