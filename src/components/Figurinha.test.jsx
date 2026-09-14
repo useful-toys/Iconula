@@ -360,8 +360,41 @@ describe('Figurinha — nome no cartão (IDR 0047)', () => {
     );
   });
 
-  it('mostra nome sem corte numa caixa única, sem as linhas de jogador', () => {
-    const { container } = render(
+  it('mostra nome sem corte de FWC e COC numa caixa única, sem as linhas de jogador', () => {
+    const { container, rerender } = render(
+      <Figurinha
+        codigo="FWC01"
+        contagem={0}
+        nome="Emblema oficial"
+        nomeLinhas={null}
+        onIncrementar={vi.fn()}
+        onDecrementar={vi.fn()}
+      />,
+    );
+
+    expect(container.querySelector('.figurinha__nome-unico')).toHaveTextContent(
+      'Emblema oficial',
+    );
+    expect(container.querySelector('.figurinha__nome-prenomes')).not.toBeInTheDocument();
+    expect(container.querySelector('.figurinha__nome-sobrenome')).not.toBeInTheDocument();
+
+    rerender(
+      <Figurinha
+        codigo="COC13"
+        contagem={0}
+        nome="Jogador Coca-Cola"
+        nomeLinhas={null}
+        onIncrementar={vi.fn()}
+        onDecrementar={vi.fn()}
+      />,
+    );
+    expect(container.querySelector('.figurinha__nome-unico')).toHaveTextContent(
+      'Jogador Coca-Cola',
+    );
+  });
+
+  it('escudo e foto do time da seleção mostram só o código, com o nome no rótulo', () => {
+    const { container, rerender } = render(
       <Figurinha
         codigo="BRA01"
         contagem={0}
@@ -372,11 +405,23 @@ describe('Figurinha — nome no cartão (IDR 0047)', () => {
       />,
     );
 
-    expect(container.querySelector('.figurinha__nome-unico')).toHaveTextContent(
-      'Escudo do time',
+    expect(container.querySelector('.figurinha__nome')).not.toBeInTheDocument();
+    expect(container.querySelector('.figurinha__codigo')).toBeInTheDocument();
+    expect(screen.getByLabelText('BRA 01, Escudo do time, faltante')).toBeInTheDocument();
+
+    rerender(
+      <Figurinha
+        codigo="BRA13"
+        contagem={0}
+        nome="Foto do time"
+        nomeLinhas={null}
+        paisagem
+        onIncrementar={vi.fn()}
+        onDecrementar={vi.fn()}
+      />,
     );
-    expect(container.querySelector('.figurinha__nome-prenomes')).not.toBeInTheDocument();
-    expect(container.querySelector('.figurinha__nome-sobrenome')).not.toBeInTheDocument();
+    expect(container.querySelector('.figurinha__nome')).not.toBeInTheDocument();
+    expect(screen.getByLabelText('BRA 13, Foto do time, faltante')).toBeInTheDocument();
   });
 
   it('sem nome, não renderiza o bloco de nome e mantém os rótulos do código', () => {

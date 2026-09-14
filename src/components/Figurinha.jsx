@@ -50,7 +50,7 @@ function propsEquivalentes(anterior, seguinte) {
  * @param {'lista' | 'album'} [props.variante='lista'] - tamanho do cartão.
  * @param {boolean} [props.paisagem=false] - figurinha em paisagem (ocupa 2 trilhas).
  * @param {string} [props.nome] - nome completo (ex.: "Gabriel Magalhães"), no nome acessível.
- * @param {[string | null, string] | null} [props.nomeLinhas] - par [prenomes, sobrenome] para jogador com corte; [null, nome] para nome único; ausente/`null` sem corte (IDR 0047, MDR 0008).
+ * @param {[string | null, string] | null} [props.nomeLinhas] - par [prenomes, sobrenome] para jogador com corte; [null, nome] para nome único; ausente/`null` sem corte — exibido só em FWC e COC; nas seleções (escudo e foto do time) o cartão mostra só o código (IDR 0047, MDR 0008).
  * @param {() => void} props.onIncrementar - chamado ao tocar no cartão.
  * @param {() => void} props.onDecrementar - chamado ao tocar no controle de menos.
  */
@@ -158,6 +158,12 @@ export const Figurinha = memo(function Figurinha({
   const sobrando = Math.max(0, contagem - 1);
   // O nome entra no nome acessível entre o código e o estado (IDR 0047).
   const nomeNoRotulo = nome ? `, ${nome}` : '';
+  // Escudo (01) e foto do time (13) das seleções mostram só o código, no
+  // cartão inteiro; o nome continua no nome acessível (IDR 0047). Nas
+  // seleções, só essas duas posições chegam sem corte (`nomeLinhas` nulo);
+  // Extras FIFA e Coca-Cola também, mas exibem o nome.
+  const especial = sigla === 'FWC' || sigla === 'COC';
+  const exibeNome = Boolean(nomeLinhas) || (Boolean(nome) && especial);
 
   let estadoClasse = 'figurinha--faltante';
   let estadoLabel = 'faltante';
@@ -203,7 +209,7 @@ export const Figurinha = memo(function Figurinha({
           <span className="figurinha__sigla">{sigla}</span>
           <span className="figurinha__numero">{numero}</span>
         </span>
-        {(nome || nomeLinhas) && (
+        {exibeNome && (
           <span className="figurinha__nome" aria-hidden="true">
             {nomeLinhas ? (
               <>

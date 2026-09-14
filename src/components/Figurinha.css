@@ -32,10 +32,11 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  /* Faixa inferior de ~22px reservada ao menos (esquerda) e ao selo
-   * (direita); o código — e, na Tarefa 0017-0005, o nome — fica
-   * centralizado no espaço acima dela (IDR 0047). */
-  padding: 0 0 22px;
+  /* Duas metades de mesma altura (IDR 0047): código centralizado na de
+   * cima, nome na de baixo — o menos e o selo podem se sobrepor ao nome.
+   * Sem nome exibido (escudo e foto do time), o código ocupa o cartão
+   * inteiro. */
+  padding: 0;
   font-family: 'Poppins', system-ui, sans-serif;
   border: 2px solid transparent;
   border-radius: 5px;
@@ -55,8 +56,11 @@
 
 .figurinha__codigo {
   display: flex;
+  flex: 1 1 0;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  min-height: 0;
   line-height: 1.1;
 }
 
@@ -73,14 +77,16 @@
   font-weight: 700;
 }
 
-/* Nome da figurinha entre o código e a faixa inferior do menos e do selo
- * (IDR 0047): Roboto Condensed 500 de 10px, centralizado, na cor de texto do
- * estado (`color: inherit`, como o código). */
+/* Nome da figurinha na metade de baixo (IDR 0047): Roboto Condensed 500 de
+ * 10px, centralizado nos dois eixos, na cor de texto do estado
+ * (`color: inherit`, como o código). */
 .figurinha__nome {
   display: flex;
+  flex: 1 1 0;
   flex-direction: column;
   align-items: center;
-  flex-shrink: 0;
+  justify-content: center;
+  min-height: 0;
   width: 100%;
   padding: 0 3px;
   font-family: 'Roboto Condensed', 'Poppins', system-ui, sans-serif;
