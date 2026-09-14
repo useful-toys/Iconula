@@ -3,7 +3,7 @@
 # Tarefa [0019-0004]: controle de menos no canto, revelado só por hover e teclado
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Encostar o controle de menos no canto inferior esquerdo do cartão (recuo 0,

@@ -170,11 +170,12 @@
   border-radius: 8px;
 }
 
-/* Controle de menos — 18px nas duas disposições (IDR 0042, IDR 0047) */
+/* Controle de menos — 18px encostado no canto inferior esquerdo, recuo 0
+ * sobre a borda de 2px, sem transbordar (IDR 0032, IDR 0042, IDR 0047). */
 .figurinha__menos {
   position: absolute;
-  left: 3px;
-  bottom: 3px;
+  left: 0;
+  bottom: 0;
   width: 18px;
   height: 18px;
   display: flex;
@@ -193,9 +194,13 @@
   transition: opacity 0.08s ease;
 }
 
+/* O menos acende no cartão sob o cursor e no foco por teclado — do corpo
+ * (irmão anterior, alcançado por `~`) ou do próprio controle. `:focus-visible`
+ * não acende com o foco deixado por clique de mouse, que era o que mantinha o
+ * menos aceso no cartão anterior (IDR 0032). */
 .figurinha:hover .figurinha__menos,
-.figurinha:focus-within .figurinha__menos,
-.figurinha__menos:focus {
+.figurinha__corpo:focus-visible ~ .figurinha__menos,
+.figurinha__menos:focus-visible {
   opacity: 1;
 }
 
@@ -205,16 +210,16 @@
   }
 }
 
-/* Área de toque ampliada em tela sensível (docs/interface.md § Pendências de
- * interface, IDR 0042) — o círculo visível continua 18px (não muda o desenho
- * nem as medidas): um `::before` invisível estende só a zona clicável. A
- * expansão de 4px leva o alvo a 26×26px, contido no cartão de 60×68px,
- * evitando disputar toque com o cartão vizinho.
+/* Área de toque ampliada em tela sensível (IDR 0042) — o círculo visível
+ * continua 18px (não muda o desenho nem as medidas): um `::before` invisível
+ * estende só a zona clicável. Encostado nas bordas, o alvo cresce só para
+ * dentro do cartão — 4px para cima e para a direita —, contido no cartão de
+ * 60×68px e sem disputar toque com o cartão vizinho.
  */
 @media (pointer: coarse) {
   .figurinha__menos::before {
     content: '';
     position: absolute;
-    inset: -4px;
+    inset: -4px -4px 0 0;
   }
 }
