@@ -574,6 +574,9 @@ estádio. O app não segue `prefers-color-scheme` e não tem tema claro
 | `--coc-red` | `oklch(0.55 0.2 29)` | identidade da Coca-Cola (título do super-grupo, faixa de bandeiras) |
 | `--group-fwc` | `var(--gold)` | alias de `--gold` para os Extras FIFA |
 | `--group-coc` | `var(--coc-red)` | alias de `--coc-red` para a Coca-Cola |
+| `--selection-<sigla>` | tabela do IDR 0046 | identidade da seleção (cabeçalho de seção) |
+| `--selection-fwc` | `var(--group-fwc)` | alias de `--group-fwc` para os Extras FIFA |
+| `--selection-coc` | `var(--group-coc)` | alias de `--group-coc` para a Coca-Cola |
 
 Os 12 super-grupos da Copa (A–L) e os especiais (FWC, COC) têm cor de
 identidade com os valores do
@@ -581,6 +584,11 @@ identidade com os valores do
 `--coc-red` e os alias `--group-fwc` (de `--gold`) e `--group-coc` (de
 `--coc-red`). As cores são aplicadas no título do super-grupo e na faixa de
 bandeiras.
+
+As 48 seleções têm cor de identidade no cabeçalho de seção, com os valores da
+tabela do [IDR 0046](idr/0046-cores-de-selecoes.md): os 48 tokens
+`--selection-<sigla>`. Os especiais FWC e COC usam os alias `--selection-fwc`
+(de `--group-fwc`) e `--selection-coc` (de `--group-coc`).
 
 ### Tipografia
 

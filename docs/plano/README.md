@@ -61,7 +61,7 @@ Detalhes e status das tarefas no guia [CLAUDE.md](CLAUDE.md) § Status e ciclo d
 | 13 | [Interação por pressão longa](0013-interacao-por-pressao-longa/) | Segurar o cartão decrementa uma unidade no mobile, sem precisar mirar no botão de menos | 12 | `feat: pressão longa decrementa no mobile` | Entregue |
 | 14 | [Correção urgente: renumeração do FWC](0014-numeracao-dos-extras-fifa/) | Extras FIFA de `FWC00` a `FWC19` (hoje `FWC01`–`FWC20`, deslocado em um); total do catálogo continua 994 | 10 | `fix: renumera os Extras FIFA para FWC00–FWC19` | Entregue |
 | 15 | [Identidade de cor por grupo](0015-identidade-de-cor-por-grupo/) | Cor distinta por grupo de seleções (A–L) e especiais (FWC, COC), aplicada no título do super-grupo e na faixa de bandeiras — o cabeçalho de seção fica para a cor da seleção (Fase 16) | 13 | `feat: identidade de cor por grupo de seções` | Entregue |
-| 16 | [Identidade de cor por seleção](0016-identidade-de-cor-por-selecao/) | Cor individual para cada uma das 48 seleções, aplicada no cabeçalho de seção | 15 | `feat: identidade de cor por seleção` | Pendente |
+| 16 | [Identidade de cor por seleção](0016-identidade-de-cor-por-selecao/) | Cor individual para cada uma das 48 seleções, aplicada no cabeçalho de seção | 15 | `feat: identidade de cor por seleção` | Em andamento |
 | 17 | [Nomes de jogadores nas figurinhas](0017-nomes-de-jogadores/) | Nome do jogador/elemento em cada figurinha, num cartão de 60×84px igual em todas as vistas | 14, 16 | `feat: nomes de jogadores nas figurinhas` | Pendente |
 | 18 | [Ajustes da identidade de cor por grupo](0018-ajustes-da-identidade-de-cor-por-grupo/) | Deixar a cor do grupo mais reconhecível na faixa de bandeiras e dar moldura ao título do super-grupo | 15 | `feat: cor de grupo mais reconhecível` | Entregue |
 
@@ -303,7 +303,7 @@ aceitas.
 
 | # | Tarefa | Objetivo | Status |
 |---|---|---|---|
-| 0001 | [Tokens CSS das cores de seleção](0016-identidade-de-cor-por-selecao/0001-tokens-css-das-cores-de-selecao.md) | 50 tokens em `theme.css` com os valores do IDR 0046: 48 seleções e os alias de FWC e COC. | Pendente |
+| 0001 | [Tokens CSS das cores de seleção](0016-identidade-de-cor-por-selecao/0001-tokens-css-das-cores-de-selecao.md) | 50 tokens em `theme.css` com os valores do IDR 0046: 48 seleções e os alias de FWC e COC. | Concluída |
 | 0002 | [Cor no cabeçalho de seção por seleção](0016-identidade-de-cor-por-selecao/0002-cor-no-cabecalho-de-secao-por-selecao.md) | Borda completa 1px + fundo 15% da cor da seleção no cabeçalho de cada seção, nas duas disposições; FWC e COC com suas cores. | Pendente |
 
 ## Fase 17 — Nomes de jogadores nas figurinhas
