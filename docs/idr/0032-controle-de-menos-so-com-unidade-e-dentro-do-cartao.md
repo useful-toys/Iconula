@@ -82,7 +82,8 @@ com o catálogo inteiro em tela.
   segue contida no cartão, agora ancorada no canto
 - `interface.md` § Figurinha e § Medidas mudam o recuo (3px/2px → 0) e o
   gatilho de foco
-- Implementação: a planejar (/planejar).
+- Implementação: Fase 0019, Tarefa 0019-0004; no cartão de 60×84px, Tarefa
+  0017-0004.
 
 ## Alternativas consideradas
 

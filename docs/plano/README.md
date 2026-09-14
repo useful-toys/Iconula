@@ -62,8 +62,9 @@ Detalhes e status das tarefas no guia [CLAUDE.md](CLAUDE.md) § Status e ciclo d
 | 14 | [Correção urgente: renumeração do FWC](0014-numeracao-dos-extras-fifa/) | Extras FIFA de `FWC00` a `FWC19` (hoje `FWC01`–`FWC20`, deslocado em um); total do catálogo continua 994 | 10 | `fix: renumera os Extras FIFA para FWC00–FWC19` | Entregue |
 | 15 | [Identidade de cor por grupo](0015-identidade-de-cor-por-grupo/) | Cor distinta por grupo de seleções (A–L) e especiais (FWC, COC), aplicada no título do super-grupo e na faixa de bandeiras — o cabeçalho de seção fica para a cor da seleção (Fase 16) | 13 | `feat: identidade de cor por grupo de seções` | Entregue |
 | 16 | [Identidade de cor por seleção](0016-identidade-de-cor-por-selecao/) | Cor individual para cada uma das 48 seleções, aplicada no cabeçalho de seção | 15 | `feat: identidade de cor por seleção` | Entregue |
-| 17 | [Nomes de jogadores nas figurinhas](0017-nomes-de-jogadores/) | Nome do jogador/elemento em cada figurinha, num cartão de 60×84px igual em todas as vistas | 14, 16 | `feat: nomes de jogadores nas figurinhas` | Pendente |
+| 17 | [Nomes de jogadores nas figurinhas](0017-nomes-de-jogadores/) | Nome do jogador/elemento em cada figurinha, num cartão de 60×84px igual em todas as vistas | 14, 16, 19 | `feat: nomes de jogadores nas figurinhas` | Pendente |
 | 18 | [Ajustes da identidade de cor por grupo](0018-ajustes-da-identidade-de-cor-por-grupo/) | Deixar a cor do grupo mais reconhecível na faixa de bandeiras e dar moldura ao título do super-grupo | 15 | `feat: cor de grupo mais reconhecível` | Entregue |
+| 19 | [Ajustes do cabeçalho e do cartão](0019-ajustes-do-cabecalho-e-do-cartao/) | Cabeçalho todo sticky, tooltip nas bandeiras, aviso mais baixo e as correções do controle de menos, do clique perto da borda e do selo cortado | 18 | `feat: ajustes do cabeçalho, tooltip nas bandeiras e correções do cartão` | Pendente |
 
 ---
 
@@ -341,6 +342,30 @@ mantendo a barra esquerda de 3px. Decisão revisada no
 |---|---|---|---|
 | 0001 | [Faixa de bandeiras com cor mais reconhecível](0018-ajustes-da-identidade-de-cor-por-grupo/0001-faixa-de-bandeiras-com-cor-mais-reconhecivel.md) | Fundo 60% + barra inferior de 2px a 80% e hover a 80% em cada bandeira, só na ordenação por página. | Concluída |
 | 0002 | [Título do super-grupo com moldura da seção](0018-ajustes-da-identidade-de-cor-por-grupo/0002-titulo-do-super-grupo-com-moldura-da-secao.md) | Moldura arredondada (`--panel` + raio 12px + padding 7px 12px) com barra esquerda de 3px e fundo a 30%; texto em `--gold`. | Concluída |
+
+## Fase 19 — Ajustes do cabeçalho e do cartão
+
+Pequenos ajustes e correções observados em uso. Decisões do esmiuçamento:
+cabeçalho todo sticky com o avatar na primeira linha
+([IDR 0018](../idr/0018-usuario-especialista-e-minimalismo.md)), tooltip com
+sigla, nome e progresso nas bandeiras
+([IDR 0052](../idr/0052-tooltip-nas-bandeiras-da-faixa.md)), faixa de aviso
+com respiro de 6px ([IDR 0050](../idr/0050-compactacao-vertical-do-catalogo.md))
+e controle de menos encostado no canto, revelado só por hover e teclado
+([IDR 0032](../idr/0032-controle-de-menos-so-com-unidade-e-dentro-do-cartao.md)).
+As duas correções do cartão — clique perto da borda e selo cortado na última
+linha — mantêm o [IDR 0042](../idr/0042-foco-visivel-e-area-de-toque.md) e o
+[TDR 0021](../tdr/0021-desempenho-do-catalogo.md). Vem antes da Fase 17, que
+redesenha o mesmo cartão.
+
+| # | Tarefa | Objetivo | Status |
+|---|---|---|---|
+| 0001 | [Cabeçalho todo sticky](0019-ajustes-do-cabecalho-e-do-cartao/0001-cabecalho-todo-sticky.md) | Título → grupos → bandeiras no sticky em qualquer largura; avatar à direita da primeira linha, desfazer à direita dos grupos. | Pendente |
+| 0002 | [Tooltip nas bandeiras](0019-ajustes-do-cabecalho-e-do-cartao/0002-tooltip-nas-bandeiras.md) | `BRA · Brasil · 12/20 · 60% · ▢8 · ×3` abaixo da bandeira, num tooltip único posicionado fora da faixa. | Pendente |
+| 0003 | [Aviso com respiro de 6px](0019-ajustes-do-cabecalho-e-do-cartao/0003-aviso-com-respiro-de-6px.md) | Faixa de aviso com 6px em cima e embaixo e margem inferior do corpo remedida. | Pendente |
+| 0004 | [Menos no canto, revelado por hover e teclado](0019-ajustes-do-cabecalho-e-do-cartao/0004-menos-no-canto-revelado-por-teclado.md) | Controle de menos com recuo 0 no canto e sem acender pelo foco de clique de mouse. | Pendente |
+| 0005 | [Clique perto da borda soma](0019-ajustes-do-cabecalho-e-do-cartao/0005-clique-perto-da-borda-soma.md) | O encolhimento do toque deixa de reduzir a área que recebe o clique. | Pendente |
+| 0006 | [Selo inteiro na última linha](0019-ajustes-do-cabecalho-e-do-cartao/0006-selo-inteiro-na-ultima-linha.md) | Selo `×N` sem corte pela contenção de pintura da seção, sem mudar espaçamentos. | Pendente |
 
 ## Regras que valem em toda tarefa
 
