@@ -1,6 +1,14 @@
 /* Copyright (c) 2026 Daniel Felix Ferber */
 
+/* Contêiner da faixa: é ele o flex-item do cabeçalho (largura cheia) e o
+ * ponto de referência do tooltip. A rolagem fica na trilha interna, para que
+ * o tooltip (posicionado fora dela) não seja recortado pelo `overflow`
+ * (Tarefa 0019-0002, IDR 0052). */
 .faixa-de-secoes {
+  position: relative;
+}
+
+.faixa-de-secoes__trilha {
   display: flex;
   gap: 2px;
   overflow-x: auto;
@@ -10,17 +18,41 @@
   scrollbar-color: var(--border) transparent;
 }
 
-.faixa-de-secoes::-webkit-scrollbar {
+.faixa-de-secoes__trilha::-webkit-scrollbar {
   height: 6px;
 }
 
-.faixa-de-secoes::-webkit-scrollbar-track {
+.faixa-de-secoes__trilha::-webkit-scrollbar-track {
   background: transparent;
 }
 
-.faixa-de-secoes::-webkit-scrollbar-thumb {
+.faixa-de-secoes__trilha::-webkit-scrollbar-thumb {
   background: var(--border);
   border-radius: 3px;
+}
+
+/* Tooltip único da faixa (Tarefa 0019-0002, IDR 0052): visual do tooltip dos
+ * controles (IDR 0048), posicionado por JS logo abaixo da bandeira sob o
+ * cursor ou o foco. Fica fora do contêiner rolável e some do fluxo
+ * (`position: fixed`); não cria rolagem própria (IDR 0008). Entra entre o
+ * cabeçalho sticky (z-index 10) e o menu de ações (z-index 30), por isso
+ * `z-index: 20`, o mesmo do tooltip dos controles. */
+.faixa-de-secoes__tooltip {
+  position: fixed;
+  z-index: 20;
+  transform: translateX(-50%);
+  padding: 4px 8px;
+  font-family: 'Poppins', system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+  color: var(--cream);
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  box-shadow: 0 6px 16px oklch(0.1 0.02 150 / 0.5);
+  pointer-events: none;
 }
 
 .faixa-de-secoes__botao {

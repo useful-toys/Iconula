@@ -28,6 +28,9 @@ import './Cabecalho.css';
  * @param {string} props.ordenacao - ordenação vigente (`'pagina' | 'sigla'`),
  *   usada pela faixa para separar os grupos A–L na ordenação por página.
  * @param {(sigla: string) => void} props.onSaltar - callback para saltar até uma seção.
+ * @param {Map<string, {coladas: number; faltantes: number; repetidas: number; percentual: number}>} [props.placarPorSecao] -
+ *   progresso de cada seção (sigla → placar) para o tooltip da faixa
+ *   (Tarefa 0019-0002, IDR 0052).
  * @param {import('react').ReactNode} [props.avatar] - o avatar do usuário
  *   (menu de ações), preso à direita da primeira linha, ao lado do título
  *   (IDR 0049).
@@ -43,6 +46,7 @@ export function Cabecalho({
   secoes,
   ordenacao,
   onSaltar,
+  placarPorSecao,
   avatar,
   children,
 }) {
@@ -85,7 +89,12 @@ export function Cabecalho({
       </h1>
       {avatar && <div className="cabecalho__avatar">{avatar}</div>}
       {children}
-      <FaixaDeSecoes secoes={secoes} ordenacao={ordenacao} onSaltar={onSaltar} />
+      <FaixaDeSecoes
+        secoes={secoes}
+        ordenacao={ordenacao}
+        onSaltar={onSaltar}
+        placarPorSecao={placarPorSecao}
+      />
     </header>
   );
 }

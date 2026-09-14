@@ -63,6 +63,12 @@ demonstrar avisos) é andaime da prévia, não faz parte do produto.*
   lados; tocar salta até a seção (ver
   [IDR 0016](idr/0016-salto-pela-faixa-de-bandeiras.md)) — a ordem acompanha
   o catálogo: 🏆 no início, 🥤 no fim (IDR 0028)
+- Cada bandeira da faixa mostra, abaixo dela, um tooltip com sigla, nome e
+  progresso da seção na notação compacta — `BRA · Brasil · 12/20 · 60% ·
+  ▢8 · ×3`; aparece no hover depois de ~400ms e na hora no foco por
+  teclado, nunca em toque (tocar já salta). É um único elemento, fora da
+  faixa rolável, preso à largura da janela (ver
+  [IDR 0052](idr/0052-tooltip-nas-bandeiras-da-faixa.md))
 
 ### Controles
 - Dentro do cabeçalho sticky, em qualquer largura: na mesma linha do
@@ -306,9 +312,12 @@ Só três coisas saem do fluxo da página, e nesta ordem de empilhamento:
 
 1. o **cabeçalho sticky**, que corre por cima do corpo enquanto a
    página rola;
-2. a **área de avisos**, colada à borda inferior — passa por cima do
+2. o **tooltip da faixa de bandeiras** — logo abaixo da bandeira sob o
+   cursor ou o foco, acima do cabeçalho e abaixo do menu de ações (ver
+   [IDR 0052](idr/0052-tooltip-nas-bandeiras-da-faixa.md));
+3. a **área de avisos**, colada à borda inferior — passa por cima do
    cabeçalho se um dia se encontrarem numa janela baixa;
-3. o **menu de ações**, acima de tudo — enquanto está aberto, nada o
+4. o **menu de ações**, acima de tudo — enquanto está aberto, nada o
    cobre.
 
 O rodapé não flutua: rola com o conteúdo e aparece no fim da página.
@@ -647,6 +656,10 @@ tabela do [IDR 0046](idr/0046-cores-de-selecoes.md): os 48 tokens
   no quadrado — o espaçamento é o mais apertado que ainda separa duas bandeiras
   vizinhas, para caber o máximo de seções na largura antes de precisar rolar;
   em tela sensível, área de toque ampliada de 1px em volta do ícone (IDR 0042)
+- Tooltip da faixa: abaixo da bandeira, no visual do tooltip dos grupos
+  (IDR 0048) — painel `--panel`, borda `--border`, texto `--cream`,
+  11px/600, raio 6px e sombra; posicionado por JS fora da faixa rolável,
+  centralizado na bandeira e preso à largura da janela (IDR 0052)
 - Corpo: `padding: 20px clamp(16px, 4vw, 40px) 76px`, 12px entre
   super-grupos (IDR 0050)
 - Sem largura máxima de conteúdo: a página ocupa toda a largura

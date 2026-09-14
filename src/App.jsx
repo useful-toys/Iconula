@@ -40,6 +40,20 @@ const codigosValidos = new Set(codigosTodasFigurinhas);
 // lista colada seja comparável entre pessoas (IDR 0039).
 const secoesNaOrdemDoAlbum = extrairSecoes(ordenarPorPagina(secoes));
 
+// Códigos de cada seção, agrupados uma única vez a partir do catálogo estático
+// (Tarefa 0019-0002): alimenta o progresso por seção mostrado no tooltip da
+// faixa de bandeiras. O catálogo nunca muda em execução, então o agrupamento
+// mora fora do componente.
+const codigosPorSecao = (() => {
+  const mapa = new Map();
+  for (const figurinha of figurinhas) {
+    const lista = mapa.get(figurinha.secao) ?? [];
+    lista.push(figurinha.codigo);
+    mapa.set(figurinha.secao, lista);
+  }
+  return mapa;
+})();
+
 export default function App() {
   const [user, setUser] = useState(null);
   // Torna-se `true` na primeira emissão de `onAuthStateChanged` (login
@@ -440,6 +454,21 @@ export default function App() {
 
   const placar = calcularPlacar(contagens, codigosTodasFigurinhas);
 
+  // Progresso por seção para o tooltip da faixa de bandeiras (Tarefa
+  // 0019-0002, IDR 0052): recalculado só quando as contagens mudam. Enquanto
+  // o tooltip está visível, ele lê daqui, então o texto acompanha a contagem
+  // vigente sem estado próprio.
+  const placarPorSecao = useMemo(() => {
+    const mapa = new Map();
+    for (const secao of secoes) {
+      mapa.set(
+        secao.sigla,
+        calcularPlacar(contagens, codigosPorSecao.get(secao.sigla) ?? []),
+      );
+    }
+    return mapa;
+  }, [contagens]);
+
   // Vista da política de privacidade (Tarefa 0008-0004, TDR 0020): checada
   // antes de qualquer outro ramo — fechar (`onVoltar`) apenas desliga o
   // estado e devolve para a tela que os ramos abaixo já mostrariam.
@@ -494,6 +523,7 @@ export default function App() {
         secoes={secoesOrdenadas}
         ordenacao={ordenacao}
         onSaltar={handleSaltar}
+        placarPorSecao={placarPorSecao}
         avatar={
           <MenuDeAcoes
             onSignOut={handleSignOut}
