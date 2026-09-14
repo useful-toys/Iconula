@@ -314,7 +314,9 @@ aceitas.
 Exibição no [IDR 0047](../idr/0047-nomes-de-jogadores-nas-figurinhas.md):
 cartão de 60×84px igual na lista e no álbum, código em cima, nome em duas
 linhas de Roboto Condensed 10px (prenomes; sobrenome em caixa alta) e faixa
-inferior para o menos e o selo. Dado no
+inferior para o menos e o selo. Na revisão do PR, o layout foi ajustado para
+um cartão de 60×68px em duas metades (código em cima, nome embaixo, com o
+menos e o selo sobre o nome) e escudo e foto do time só com o código. Dado no
 [MDR 0008](../model-dr/0008-dados-dos-nomes-das-figurinhas.md), com os campos
 `nome` e `nomeLinhas` e as listas confirmadas das 994 figurinhas. Seguem da
 mudança de medida o [IDR 0015](../idr/0015-paginas-do-album-empilham-em-tela-estreita.md)

@@ -117,6 +117,12 @@ Contexto do IDR 0024.
 
 ## Histórico
 
+- 2026-09-14 — Revisão do PR da Fase 17: optamos por ajustar o layout do
+  cartão ([IDR 0047](0047-nomes-de-jogadores-nas-figurinhas.md)) — duas
+  metades, altura de 84px para 68px. O menos continua 18px com alvo de
+  26×26px contido no cartão, agora de 60×68px; o alvo passa a ficar sobre a
+  metade do nome. Antes: cartão de 60×84px, menos sobre a faixa inferior
+  livre.
 - 2026-09-13 — Planejamento revisado das Fases 11–17 (implementação na
   Fase 0017, Tarefa 0017-0004): com o cartão de 60×84px igual nas duas
   disposições ([IDR 0047](0047-nomes-de-jogadores-nas-figurinhas.md)), o
