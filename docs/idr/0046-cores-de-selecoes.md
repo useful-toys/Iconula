@@ -4,7 +4,7 @@
 
 ## Status
 
-Aceito — implementação na Fase 0016.
+Aceito (revisado) — implementação na Fase 0016.
 
 ## Contexto
 
@@ -18,7 +18,7 @@ Aceito — implementação na Fase 0016.
 ## Decisão
 
 - **Cabeçalho de seção**: borda completa de 1px na cor da seleção, no lugar
-  da borda `--border`, e fundo com 15% dela misturada a `--panel`; raio,
+  da borda `--border`, e fundo com 45% dela misturada a `--panel`; raio,
   padding, texto em `--cream` e números em `--muted` não mudam
 - Vale **nas duas ordenações e nas duas disposições**
 - **Especiais**: `--selection-fwc` e `--selection-coc` são alias de
@@ -85,10 +85,11 @@ elevada até ≥ 3:1 contra `--turf`, mantendo croma e matiz.
 
 ### Hierarquia de cores
 
-- **Super-grupo**: borda esquerda 3px + fundo 15% (título do super-grupo)
-- **Seleção**: borda completa 1px + fundo 15% (cabeçalho de seção)
-- **Faixa de bandeiras**: cor do super-grupo com 20% (só na ordenação por
-  página)
+- **Super-grupo**: moldura da seção + barra esquerda 3px + fundo 30% (título
+  do super-grupo)
+- **Seleção**: borda completa 1px + fundo 45% (cabeçalho de seção)
+- **Faixa de bandeiras**: fundo 60% + barra inferior 2px a 80% (só na
+  ordenação por página)
 
 ## Consequências
 
@@ -110,6 +111,10 @@ elevada até ≥ 3:1 contra `--turf`, mantendo croma e matiz.
 
 ## Histórico
 
+- 2026-09-13 — Esmiuçamento: o fundo de 15% ficou sutil demais (mesmo problema
+  dos 20% antigos da faixa); passa a 45% da cor da seleção misturada a
+  `--panel`, mantendo a borda completa de 1px. Implementação a planejar
+  (/planejar).
 - 2026-09-13 — Revisão do planejamento das Fases 11–17: valores OKLCH finais
   decididos aqui (HAI e KOR com luminosidade elevada); aplicação nas duas
   disposições, sem a antiga alternativa "cores em todas as disposições:
