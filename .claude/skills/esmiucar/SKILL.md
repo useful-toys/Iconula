@@ -17,9 +17,10 @@ ajuste poderia ficar melhor** e as explora com o humano, pergunta apresentando
 sugestões e **registra cada decisão significativa no momento em que o humano
 a confirma**,
 tudo numa worktree e branch `docs` com PR. `docs/` é a base de conhecimento e a
-base das decisões. **Nunca cria nem altera código-fonte, `docs/*.md` nem
-`docs/plano/`**: escreve só nas pastas de decisão (guia § Registro de decisões ›
-Decisões no esmiuçamento). As regras estão em `docs/plano/CLAUDE.md` (o guia);
+base das decisões. **Nunca cria nem altera código-fonte, `docs/plano/` nem
+`docs/*.md`**, salvo `docs/requisitos.md` com confirmação do humano: escreve
+só nas pastas de decisão e em `docs/requisitos.md` (guia § Registro de
+decisões › Decisões no esmiuçamento e › Mudança de requisitos). As regras estão em `docs/plano/CLAUDE.md` (o guia);
 em conflito, o guia vence.
 
 ## Entrada
@@ -71,12 +72,12 @@ seções encontradas:
 | 1 | `$ARGUMENTS` vazio e nada no contexto que seja pedido | PARE: peça a descrição |
 | 2 | contexto acabou antes das leituras | PARE: diga o que faltou, não pergunte com leitura parcial |
 | 3 | pedido inteiro **já entregue** | PARE: mostre tarefa, log e código; pergunte se há algo a mudar no que existe |
-| 4 | pedido **contraria requisito** e o humano mantém o pedido | PARE essa parte: `docs/requisitos.md` só é alterado pelo humano, fora da skill |
+| 4 | pedido ou decisão **muda requisito** (fora de escopo, contradição ou funcionalidade nova sem requisito) | alerte, mostre o trecho antes e depois, sugira opções e peça confirmação (guia § Mudança de requisitos); confirmada, altere `docs/requisitos.md` |
 | 5 | resposta ambígua, ou "Outro" que não decide | pergunte de novo, mais estreito; nunca registre interpretação própria |
 | 6 | branch ou worktree com o nome do esmiuçamento já existe | pergunte se reaproveita |
 | 7 | `.worktrees/` não está no ignore | PARE: avise |
-| 8 | vontade de escrever tarefa, fase, código, teste, estilo, configuração ou `docs/*.md` | não escreva: vai para o resumo, e o `/planejar` e a tarefa fazem |
-| 9 | `git status --short` com arquivo fora das pastas de decisão | desfaça esse arquivo antes do commit |
+| 8 | vontade de escrever tarefa, fase, código, teste, estilo, configuração ou `docs/*.md` além de `docs/requisitos.md` | não escreva: vai para o resumo, e o `/planejar` e a tarefa fazem |
+| 9 | `git status --short` com arquivo fora das pastas de decisão e de `docs/requisitos.md` | desfaça esse arquivo antes do commit |
 | 10 | nenhuma decisão registrada no fim | ofereça remover a worktree e a branch (nada foi gravado) |
 
 ## Passos
@@ -139,7 +140,8 @@ criatividade: propõe, desenvolve e critica ideias junto com o humano.
    § Requisitos futuros; o perfil de usuário especialista e o minimalismo
    (`docs/idr/0018-usuario-especialista-e-minimalismo.md`); os padrões de
    interação vigentes; o protótipo. Ideia contra § Fora de Escopo pode
-   aparecer, marcada "fora de escopo": só o humano muda requisitos.
+   aparecer, marcada "fora de escopo"; se entrar no pedido, é mudança de
+   requisito (condição 4).
 4. Imprima as ideias no chat e pergunte, em múltipla escolha, quais explorar;
    nenhuma escolhida → siga com o pedido original.
 5. Cada ideia escolhida é desenvolvida em conversa — variações, combinações
@@ -193,7 +195,7 @@ Levante as questões por categoria, cada uma com evidência:
    | orientação de nível 1 ou 2, ou esclarecimento sem decisão | anote para o resumo |
    | "decida você" ou equivalente | aplique a recomendada, diga isso na hora e trate como confirmada |
    | adiada pelo humano | anote como questão em aberto no resumo |
-   | mantém contradição com requisito | condição 4 |
+   | muda ou cria requisito | condição 4 |
    | ambígua | condição 5 |
 
 4. Cada resposta pode abrir questões novas (lacuna revelada, efeito em outra
@@ -222,6 +224,8 @@ Levante as questões por categoria, cada uma com evidência:
 5. Linha do índice `docs/<tipo>/README.md`, reaproveitando tags existentes.
 6. Mostre no chat o caminho e a Decisão em até 3 linhas; correção pedida pelo
    humano é aplicada no mesmo registro. Sem commit por decisão.
+7. Decisão que muda ou cria requisito → condição 4; confirmada, altere
+   `docs/requisitos.md` citando o registro e mostre o trecho no chat.
 
 ### 6. Fechar e entregar
 
@@ -235,12 +239,13 @@ Levante as questões por categoria, cada uma com evidência:
    - orientações de nível 1 ou 2 e esclarecimentos;
    - pontos que dependem de evidência da execução (medição), com alternativas;
    - setup ou configuração pública prevista;
-   - questões em aberto e mudanças de `docs/requisitos.md` que cabem ao humano.
+   - questões em aberto; mudanças de `docs/requisitos.md` aplicadas (seção e
+     trecho) e as recusadas.
 2. Nada registrado → condição 10.
 3. Sincronize a branch com a `main` — skill `git-remote-sync-guard` (sem a
    skill: guia § Convenções de Git › Sincronização).
 4. Confira `git status --short`: só `docs/adr`, `docs/tdr`, `docs/idr`,
-   `docs/model-dr`, `docs/devops-dr` — condição 9.
+   `docs/model-dr`, `docs/devops-dr` e `docs/requisitos.md` — condição 9.
 5. Um commit — mensagem pela skill `git-commit-message` (sem a skill: guia
    § Convenções de Git › Commit).
 6. Mostre os arquivos e pergunte se abre o PR.
@@ -264,8 +269,9 @@ Levante as questões por categoria, cada uma com evidência:
   outra base que não a `origin/main`.
 - Criar, alterar ou remover código-fonte, testes, estilos, configuração,
   `firestore.rules`, workflows, assets, `docs/plano/` ou qualquer `docs/*.md` —
-  só as pastas de decisão e seus índices.
-- Alterar `docs/requisitos.md`, mesmo com a concordância do humano.
+  só as pastas de decisão, seus índices e `docs/requisitos.md`.
+- Alterar `docs/requisitos.md` sem alertar, mostrar o trecho antes e depois,
+  sugerir opções e obter confirmação explícita do humano.
 - Registrar decisão não confirmada pelo humano, interpretação de resposta
   ambígua ou recomendação sem o "decida você".
 - Registro novo "substituído por" ou para "revisar" outro; reabrir decisão

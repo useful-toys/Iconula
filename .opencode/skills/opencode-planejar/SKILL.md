@@ -13,8 +13,10 @@ Transformar `$ARGUMENTS` num plano que o `/executar-plano` e o
 `/executar-tarefa` executam **sem interpretação**: tarefas em fases existentes
 ou novas, no formato do guia, e as **decisões significativas confirmadas**
 pelo humano já registradas, tudo numa branch `docs` com PR. **Nunca cria nem
-altera código-fonte nem `docs/*.md`**: escreve só em `docs/plano/` e nas pastas
-de decisão (guia § Documentação viva › Especificação no planejamento). As regras estão
+altera código-fonte nem `docs/*.md`**, salvo `docs/requisitos.md` com
+confirmação do humano: escreve só em `docs/plano/`, nas pastas de decisão e em
+`docs/requisitos.md` (guia § Documentação viva › Especificação no planejamento
+e § Registro de decisões › Mudança de requisitos). As regras estão
 em `docs/plano/CLAUDE.md` (o guia); em conflito, o guia vence.
 
 ## Entrada
@@ -63,13 +65,13 @@ seções encontradas:
 | 1 | `$ARGUMENTS` vazio | PARE: peça a descrição |
 | 2 | contexto acabou antes das leituras | PARE: diga o que faltou, não planeje com leitura parcial |
 | 3 | parte classificada **já entregue** | não planeje essa parte: mostre tarefa, log e código |
-| 4 | parte classificada **contraria requisito** | PARE: peça a decisão do humano |
+| 4 | parte classificada **muda requisito** | alerte, mostre o trecho antes e depois, sugira opções e peça confirmação (guia § Mudança de requisitos); confirmada, a mudança entra no plano |
 | 5 | fim do passo 2 (mapa de fases) | PARE: aprovação explícita do mapa e de cada decisão significativa |
 | 6 | fase que receberia tarefas tem branch ou PR aberto | pergunte antes de incluir |
 | 7 | branch ou worktree com o nome do planejamento já existe (passo 0 ou 3) | pergunte se reaproveita |
 | 8 | `.worktrees/` não está no ignore | PARE: avise |
-| 9 | vontade de criar código, teste, estilo, configuração ou `docs/*.md` para explicar ou adiantar o plano | não crie: descreva na tarefa, em texto ou pseudocódigo curto |
-| 10 | `git diff --name-only` com arquivo fora de `docs/plano/` e das pastas de decisão | desfaça esse arquivo antes do commit |
+| 9 | vontade de criar código, teste, estilo, configuração ou `docs/*.md` (além de `docs/requisitos.md` confirmado) para explicar ou adiantar o plano | não crie: descreva na tarefa, em texto ou pseudocódigo curto |
+| 10 | `git diff --name-only` com arquivo fora de `docs/plano/`, das pastas de decisão e de `docs/requisitos.md` | desfaça esse arquivo antes do commit |
 | 11 | mapa recusado ou planejamento abandonado | ofereça remover a worktree e a branch provisórias (nada foi gravado) |
 
 ## Passos
@@ -99,7 +101,7 @@ seções encontradas:
    | já planejado | tarefa `Pendente` já cobre | aponta a tarefa; se o pedido difere, propõe ajustá-la |
    | muda o que já foi feito | altera comportamento entregue, decisão documentada ou alternativa recusada | decisão significativa proposta (registro atualizado ao confirmar) e tarefas novas que a implementam, citando a tarefa entregue como precedente |
    | já decidido, a planejar | registro com `Implementação: a planejar` (guia § Registro de decisões › Decisões no esmiuçamento) cobre | decisão não é reproposta; tarefas novas a implementam |
-   | contraria requisito | fora de escopo em `docs/requisitos.md`, ou exige mudá-lo | condição 4 |
+   | muda requisito | fora de escopo em `docs/requisitos.md`, contradiz um requisito ou é funcionalidade nova ainda sem requisito | condição 4 |
 
 3. Resuma: classificação com evidência; fases `Pendente` ou `Em andamento`
    candidatas; última fase e a próxima livre; registros que restringem;
@@ -135,7 +137,8 @@ seções encontradas:
    - ponto de `docs/arquitetura.md` § Pontos em aberto ou `docs/interface.md`
      § Pendências de interface resolvido pelo plano é alocado numa tarefa;
    - requisito não funcional que a tarefa pode quebrar vira critério específico;
-   - `docs/*.md` impactado tem registro de lastro; `docs/requisitos.md` nunca;
+   - `docs/*.md` impactado tem registro de lastro; `docs/requisitos.md` nunca
+     muda em tarefa — muda no planejamento (condição 4);
      `docs/setup-*.md` só com passos de setup;
    - mudança de especificação em `docs/*.md` é descrita na tarefa (documento,
      seção, o que passa a dizer) e feita pela tarefa; se é decisão, o registro
@@ -153,7 +156,9 @@ seções encontradas:
      contras; tarefa que a implementa;
    - pontos de decisão que dependem de evidência da execução, com a tarefa;
    - tarefas com setup ou configuração pública;
-   - ajustes em tarefas pendentes existentes.
+   - ajustes em tarefas pendentes existentes;
+   - mudanças de `docs/requisitos.md` propostas, com seção e trecho antes e
+     depois.
 4. Condição 5.
 
 ### 3. Gravar e entregar — após aprovação
@@ -169,7 +174,8 @@ seções encontradas:
    planejamento): leia antes o guia da pasta de cada tipo; crie ou atualize o
    registro e a linha do índice; em "Consequências", a fase e a tarefa que o
    implementam — também nos registros "a planejar" do esmiuçamento, trocando
-   essa linha.
+   essa linha. Mudança de requisito confirmada → aplique em
+   `docs/requisitos.md`, citando o registro que a motiva.
 5. Escreva em `docs/plano/`:
    - fases novas: pasta `docs/plano/NNNN-nome-da-fase/` e tarefas no guia
      § Formato da tarefa, citando em "Decisões já tomadas" os registros do
@@ -179,15 +185,17 @@ seções encontradas:
    - `docs/plano/README.md`: linha da fase nova (`Pendente`) e tabela de
      tarefas (`Pendente`); sem regras do guia, sem pendências.
 6. Passe cada tarefa pelo guia § Conferência da tarefa e corrija. Confira
-   `git status --short`: só `docs/plano/` e `docs/adr`, `docs/tdr`,
-   `docs/idr`, `docs/model-dr`, `docs/devops-dr` — condição 10.
+   `git status --short`: só `docs/plano/`, `docs/adr`, `docs/tdr`,
+   `docs/idr`, `docs/model-dr`, `docs/devops-dr` e `docs/requisitos.md` —
+   condição 10.
 7. Um commit — mensagem pelo guia § Convenções de Git › Commit.
 8. Mostre arquivos, registros e resultado da conferência; pergunte se abre o
    PR.
 9. Autorizado → sincronize com a `main` e renumere registros que colidem (guia
    § Convenções de Git › Renumeração); `git push -u origin <branch>`; PR —
    guia § Convenções de Git › PR —, label `documentation`, descrição com classificação, fases e
-   tarefas, decisões registradas (e renumeração) e tarefas com setup.
+   tarefas, decisões registradas (e renumeração), mudanças de
+   `docs/requisitos.md` (seção e trecho antes e depois) e tarefas com setup.
 
 ## Saída
 
@@ -202,12 +210,14 @@ seções encontradas:
 - Gravar arquivo antes da aprovação do mapa.
 - Criar, alterar ou remover código-fonte, testes, estilos, configuração,
   `firestore.rules`, workflows, assets ou qualquer `docs/*.md` — só
-  `docs/plano/` e as pastas de decisão.
+  `docs/plano/`, as pastas de decisão e `docs/requisitos.md`.
 - Código pronto nas tarefas; no máximo pseudocódigo curto.
 - Registrar decisão não confirmada pelo humano, ou deixar decisão
   significativa em aberto para a tarefa.
 - Editar tarefa `Concluída`; acrescentar tarefa a fase `Entregue`.
-- Prever alteração em `docs/requisitos.md`.
+- Alterar `docs/requisitos.md` sem alertar, mostrar o trecho antes e depois,
+  sugerir opções e obter confirmação explícita; prever numa tarefa alteração
+  de `docs/requisitos.md`.
 - Repetir ou contradizer o comportamento padrão do guia; fixar número de
   registro novo; registro novo para "revisar" outro.
 - Inventar caminho, número de decisão ou requisito; reabrir decisão sem

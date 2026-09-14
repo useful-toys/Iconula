@@ -256,7 +256,7 @@ repassada a uma tarefa para ser "decidida" de novo.
 
 | Decisão | Exemplos | Quando é confirmada | Quem registra |
 |---|---|---|---|
-| **Significativa** | arquitetura ou tecnologia; interface visível relevante (layout, interação, navegação); schema ou formato de dados; CI/CD e deploy; qualquer mudança em decisão documentada | na resposta a uma pergunta do esmiuçamento, ou na aprovação do mapa de fases | `/esmiucar`, no PR do esmiuçamento; `/planejar`, no PR do plano |
+| **Significativa** | arquitetura ou tecnologia; interface visível relevante (layout, interação, navegação); schema ou formato de dados; CI/CD e deploy; qualquer mudança em decisão documentada; mudança ou criação de requisito | na resposta a uma pergunta do esmiuçamento, ou na aprovação do mapa de fases | `/esmiucar`, no PR do esmiuçamento; `/planejar`, no PR do plano |
 | Significativa que depende de evidência da execução | medição de largura, altura ou desempenho que decide entre alternativas | quando o humano responde ao ponto de parada | `/executar-tarefa`, citando a resposta |
 | Nível 3 surgida na execução | § Impedimentos | quando o humano responde | `/executar-tarefa`, citando a resposta |
 | Nível 1 | estrutura de dado, nome de módulo, API interna, contorno de bug ou limitação | na execução | `/executar-tarefa` |
@@ -274,8 +274,8 @@ repassada a uma tarefa para ser "decidida" de novo.
 - O `/planejar` trata o registro como decisão já confirmada: não a repropõe e
   troca a linha "a planejar" pela fase e tarefa que a implementam. Mudar a
   decisão de novo é mudança em decisão documentada.
-- O esmiuçamento só escreve nas pastas de decisão e seus índices; o pedido
-  refinado, as orientações de nível 1 ou 2 e as questões em aberto vão para a
+- O esmiuçamento só escreve nas pastas de decisão, seus índices e
+  `docs/requisitos.md` (§ Mudança de requisitos); o pedido refinado, as orientações de nível 1 ou 2 e as questões em aberto vão para a
   descrição do PR, que é a entrada do `/planejar`.
 
 ### Decisões no planejamento
@@ -302,6 +302,28 @@ sem registro do planejamento é nível 3. Exemplos de nível 1: escolher
 estrutura de dado, nome de módulo, API interna ou biblioteca; contornar bug ou
 limitação (descoberta no Contexto); interpretar ambiguidade menor; desviar da
 tarefa por causa do código atual sem mudar o resultado.
+
+### Mudança de requisitos
+
+`docs/requisitos.md` evolui com o produto: é esperado que o esmiuçamento e o
+planejamento revejam requisitos e que funcionalidades novas entrem como
+requisito.
+
+| Skill | Pode alterar `docs/requisitos.md` |
+|---|---|
+| `/esmiucar`, `/planejar` | sim, com alerta e confirmação do humano |
+| `/executar-plano`, `/executar-tarefa` | nunca — precisar mudar é nível 3 (§ Impedimentos) |
+
+- **Alerte** antes de alterar: diga que a mudança é de requisito e por quê
+  (pedido fora de escopo, contradição, funcionalidade nova sem requisito).
+- **Mostre** a seção e o trecho atual e o proposto (antes e depois).
+- **Sugira opções**, a recomendada primeiro: mudar o requisito; ajustar o
+  pedido ao requisito vigente; guardar como § Requisitos futuros.
+- **Peça confirmação explícita**; a skill não impede a mudança confirmada.
+- Confirmada → altere `docs/requisitos.md` no PR do esmiuçamento ou do plano,
+  citando o registro de decisão que a motiva; liste os trechos na descrição
+  do PR.
+- Recusada → siga a opção escolhida; o que ficou fora vai ao resumo.
 
 ### Como registrar
 
@@ -345,7 +367,8 @@ commit.
    (§ Registro de decisões › Quem registra), senão nível 3; existe e é
    contrariado → só se o planejamento já atualizou o registro.
    Correção redacional (digitação, link) dispensa registro.
-2. `docs/requisitos.md` não é alterado por tarefa.
+2. `docs/requisitos.md` não é alterado por tarefa; muda só no esmiuçamento
+   ou no planejamento (§ Registro de decisões › Mudança de requisitos).
 3. `docs/setup-*.md` só muda com passos de setup no escopo.
 4. Divergência antiga fora do que a tarefa toca vai para `observacoes` do
    relatório, não é corrigida.
@@ -355,10 +378,12 @@ commit.
 O `/planejar` **só produz documentação de planejamento**:
 - arquivos de tarefa e `docs/plano/README.md`;
 - registros de decisão confirmados e seus índices (§ Registro de decisões ›
-  Decisões no planejamento).
+  Decisões no planejamento);
+- mudanças de `docs/requisitos.md` confirmadas (§ Registro de decisões ›
+  Mudança de requisitos).
 
 Nunca cria, altera ou remove código-fonte, testes, estilos, configuração,
-`firestore.rules`, workflows, assets nem `docs/*.md`.
+`firestore.rules`, workflows, assets nem os demais `docs/*.md`.
 
 - **Mudança de especificação** num `docs/*.md` (interface, arquitetura,
   modelos, DevOps) é **descrita na tarefa** — documento, seção e o que passa a

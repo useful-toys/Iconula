@@ -104,7 +104,7 @@ aberto e § Camadas no cliente).
 | `.oxlintrc.json` | Configuração do oxlint: plugins `react` e `oxc`, regras `react/rules-of-hooks` (erro), `react/no-danger` (erro) e `react/only-export-components` (aviso). |
 | `.env.example` | Template das variáveis `VITE_FIREBASE_*` necessárias para o login. |
 | `.github/workflows/` | Workflows de deploy (produção em merge na `main`, preview em PRs). |
-| `docs/requisitos.md` | Requisitos do produto (o que é, diferenciais, MVP, futuros, fora de escopo) — ler antes de propor funcionalidades. Descreve o produto implementado; § Requisitos futuros lista o que ainda não foi comprometido. |
+| `docs/requisitos.md` | Requisitos do produto (o que é, diferenciais, MVP, futuros, fora de escopo) — ler antes de propor funcionalidades. Descreve o produto implementado; § Requisitos futuros lista o que ainda não foi comprometido. Muda no `/esmiucar` e no `/planejar`, com confirmação do humano; nunca na execução ([docs/plano/CLAUDE.md](docs/plano/CLAUDE.md) § Mudança de requisitos). |
 | `docs/interface.md` | Decisões de interface (o "como" da UI: telas, faixas de tela, identidade visual, interações) — todas as telas do produto especificadas e implementadas, sem pendências abertas; em conflito com requisitos, requisitos vence. |
 | `docs/arquitetura.md` | Visão de conjunto da arquitetura — serviços, camadas, fluxo de dados e índice das decisões (ADRs/TDRs/IDRs/MDRs/DDRs). |
 | `docs/devops.md` | Panorama de DevOps: estado atual de CI/CD, deploy, workflows, ferramentas de validação local e segurança — referenciando os DDRs. Atualize sempre que mudar workflows, build, deploy, pipeline ou ferramentas de validação. |
