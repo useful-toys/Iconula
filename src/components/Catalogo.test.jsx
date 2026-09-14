@@ -37,7 +37,7 @@ describe('Catalogo', () => {
       />,
     );
 
-    const secoesRenderizadas = screen.getAllByRole('button', { name: /Extras FIFA|Brasil|Coca-Cola/ });
+    const secoesRenderizadas = screen.getAllByRole('button', { name: /^(Extras FIFA|Brasil|Coca-Cola):/ });
     expect(secoesRenderizadas).toHaveLength(3);
     expect(secoesRenderizadas[0].textContent).toContain('Extras FIFA');
     expect(secoesRenderizadas[1].textContent).toContain('Brasil');
@@ -55,7 +55,7 @@ describe('Catalogo', () => {
       />,
     );
 
-    const secoesRenderizadas = screen.getAllByRole('button', { name: /Extras FIFA|Brasil|Coca-Cola/ });
+    const secoesRenderizadas = screen.getAllByRole('button', { name: /^(Extras FIFA|Brasil|Coca-Cola):/ });
     expect(secoesRenderizadas).toHaveLength(3);
     expect(secoesRenderizadas[0].textContent).toContain('Extras FIFA');
     expect(secoesRenderizadas[1].textContent).toContain('Brasil');
@@ -74,10 +74,10 @@ describe('Catalogo', () => {
       />,
     );
 
-    const brasil = screen.getByText(/Brasil/);
+    const brasil = screen.getByText('Brasil BRA 24');
     expect(brasil.closest('section').textContent).toContain('0/20');
 
-    const figurinhaBra01 = screen.getByLabelText('BRA 01, faltante, metalizada');
+    const figurinhaBra01 = screen.getByLabelText(/^BRA 01, .+, faltante, metalizada$/);
     await user.click(figurinhaBra01);
 
     // O callback foi chamado; a tela reflete a contagem passada via props.
@@ -96,14 +96,14 @@ describe('Catalogo', () => {
       />,
     );
 
-    const brasilCabecalho = screen.getByRole('button', { name: /Brasil/ });
+    const brasilCabecalho = screen.getByRole('button', { name: /^Brasil:/ });
     expect(brasilCabecalho).toHaveAttribute('aria-expanded', 'true');
-    expect(screen.getByLabelText('BRA 01, faltante, metalizada')).toBeInTheDocument();
+    expect(screen.getByLabelText(/^BRA 01, .+, faltante, metalizada$/)).toBeInTheDocument();
 
     await user.click(brasilCabecalho);
 
     expect(brasilCabecalho).toHaveAttribute('aria-expanded', 'false');
-    expect(screen.queryByLabelText('BRA 01, faltante, metalizada')).not.toBeInTheDocument();
+    expect(screen.queryByLabelText(/^BRA 01, .+, faltante, metalizada$/)).not.toBeInTheDocument();
   });
 
   it('preserva o colapso da seção ao trocar de ordenação', async () => {
@@ -119,7 +119,7 @@ describe('Catalogo', () => {
     );
 
     // Colapsa Brasil
-    const brasilCabecalho = screen.getByRole('button', { name: /Brasil/ });
+    const brasilCabecalho = screen.getByRole('button', { name: /^Brasil:/ });
     await user.click(brasilCabecalho);
     expect(brasilCabecalho).toHaveAttribute('aria-expanded', 'false');
 
@@ -135,9 +135,9 @@ describe('Catalogo', () => {
     );
 
     // Brasil continua colapsado
-    const brasilCabecalhoAposTroca = screen.getByRole('button', { name: /Brasil/ });
+    const brasilCabecalhoAposTroca = screen.getByRole('button', { name: /^Brasil:/ });
     expect(brasilCabecalhoAposTroca).toHaveAttribute('aria-expanded', 'false');
-    expect(screen.queryByLabelText('BRA 01, faltante, metalizada')).not.toBeInTheDocument();
+    expect(screen.queryByLabelText(/^BRA 01, .+, faltante, metalizada$/)).not.toBeInTheDocument();
   });
 
   describe('filtro de status', () => {
@@ -154,8 +154,8 @@ describe('Catalogo', () => {
         />,
       );
 
-      expect(screen.getByLabelText('BRA 01, faltante, metalizada')).toBeInTheDocument();
-      expect(screen.getByLabelText('FWC 00, faltante')).toBeInTheDocument();
+      expect(screen.getByLabelText(/^BRA 01, .+, faltante, metalizada$/)).toBeInTheDocument();
+      expect(screen.getByLabelText(/^FWC 00, .+, faltante$/)).toBeInTheDocument();
     });
 
     it('com "faltantes" mostra apenas contagem 0 e esconde seções completas', () => {
@@ -174,11 +174,11 @@ describe('Catalogo', () => {
       );
 
       // BRA01 e BRA02 não devem aparecer (são coladas)
-      expect(screen.queryByLabelText('BRA 01, faltante, metalizada')).not.toBeInTheDocument();
-      expect(screen.queryByLabelText('BRA 02, colada')).not.toBeInTheDocument();
+      expect(screen.queryByLabelText(/^BRA 01, .+, faltante, metalizada$/)).not.toBeInTheDocument();
+      expect(screen.queryByLabelText(/^BRA 02, .+, colada$/)).not.toBeInTheDocument();
 
       // BRA03 deve aparecer (é faltante)
-      expect(screen.getByLabelText('BRA 03, faltante')).toBeInTheDocument();
+      expect(screen.getByLabelText(/^BRA 03, .+, faltante$/)).toBeInTheDocument();
     });
 
     it('com "repetidas" mostra apenas contagem >= 2', () => {
@@ -195,11 +195,11 @@ describe('Catalogo', () => {
         />,
       );
 
-      expect(screen.getByLabelText('BRA 01, colada, 1 sobrando, metalizada')).toBeInTheDocument();
-      expect(screen.getByLabelText('BRA 02, colada, 2 sobrando')).toBeInTheDocument();
+      expect(screen.getByLabelText(/^BRA 01, .+, colada, 1 sobrando, metalizada$/)).toBeInTheDocument();
+      expect(screen.getByLabelText(/^BRA 02, .+, colada, 2 sobrando$/)).toBeInTheDocument();
 
       // BRA03 é faltante (contagem 0), não deve aparecer
-      expect(screen.queryByLabelText('BRA 03, faltante')).not.toBeInTheDocument();
+      expect(screen.queryByLabelText(/^BRA 03, .+, faltante$/)).not.toBeInTheDocument();
     });
 
     it('com "coladas" mostra contagem >= 1 e esconde os 0', () => {
@@ -216,9 +216,9 @@ describe('Catalogo', () => {
         />,
       );
 
-      expect(screen.getByLabelText('BRA 01, colada, metalizada')).toBeInTheDocument();
-      expect(screen.getByLabelText('BRA 02, colada, 2 sobrando')).toBeInTheDocument();
-      expect(screen.queryByLabelText('BRA 03, faltante')).not.toBeInTheDocument();
+      expect(screen.getByLabelText(/^BRA 01, .+, colada, metalizada$/)).toBeInTheDocument();
+      expect(screen.getByLabelText(/^BRA 02, .+, colada, 2 sobrando$/)).toBeInTheDocument();
+      expect(screen.queryByLabelText(/^BRA 03, .+, faltante$/)).not.toBeInTheDocument();
     });
 
     it('com "repetidas" mostra subconjunto do que "coladas" mostrou', () => {
@@ -236,8 +236,8 @@ describe('Catalogo', () => {
       );
 
       // BRA01 tem contagem 1: é colada, mas não repetida
-      expect(screen.queryByLabelText('BRA 01, colada, metalizada')).not.toBeInTheDocument();
-      expect(screen.getByLabelText('BRA 02, colada, 2 sobrando')).toBeInTheDocument();
+      expect(screen.queryByLabelText(/^BRA 01, .+, colada, metalizada$/)).not.toBeInTheDocument();
+      expect(screen.getByLabelText(/^BRA 02, .+, colada, 2 sobrando$/)).toBeInTheDocument();
     });
 
     it('seção sem nenhuma colada some inteira com filtro "coladas"', () => {
@@ -255,10 +255,10 @@ describe('Catalogo', () => {
       );
 
       // FWC e Coca-Cola não têm nenhuma colada
-      expect(screen.queryByRole('button', { name: /Extras FIFA/ })).not.toBeInTheDocument();
-      expect(screen.queryByRole('button', { name: /Coca-Cola/ })).not.toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: /^Extras FIFA:/ })).not.toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: /^Coca-Cola:/ })).not.toBeInTheDocument();
       // Brasil tem BRA01 colada
-      expect(screen.getByRole('button', { name: /Brasil/ })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /^Brasil:/ })).toBeInTheDocument();
     });
 
     it('o resumo numérico da seção não muda ao filtrar', () => {
@@ -272,11 +272,11 @@ describe('Catalogo', () => {
         disposicao: 'lista',
       };
       const { rerender } = render(<Catalogo {...props} filtro="coladas" />);
-      expect(screen.getByText(/Brasil/).closest('section').textContent).toContain('2/20');
+      expect(screen.getByText('Brasil BRA 24').closest('section').textContent).toContain('2/20');
 
       rerender(<Catalogo {...props} filtro="repetidas" />);
-      expect(screen.getByText(/Brasil/).closest('section').textContent).toContain('2/20');
-      expect(screen.getByText(/Brasil/).closest('section').textContent).toContain('10%');
+      expect(screen.getByText('Brasil BRA 24').closest('section').textContent).toContain('2/20');
+      expect(screen.getByText('Brasil BRA 24').closest('section').textContent).toContain('10%');
     });
 
     it('super-grupo sem nenhuma colada some inteiro', () => {
@@ -306,7 +306,7 @@ describe('Catalogo', () => {
 
       // Nenhuma figurinha colada: o super-grupo A some inteiro
       expect(screen.queryByRole('button', { name: /Grupo A/ })).not.toBeInTheDocument();
-      expect(screen.queryByRole('button', { name: /México/ })).not.toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: /^México:/ })).not.toBeInTheDocument();
     });
 
     it('seção completa some com filtro "faltantes"', () => {
@@ -329,10 +329,10 @@ describe('Catalogo', () => {
       );
 
       // FWC some inteira (todas as figurinhas coladas, nenhuma faltante)
-      expect(screen.queryByRole('button', { name: /Extras FIFA/ })).not.toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: /^Extras FIFA:/ })).not.toBeInTheDocument();
 
       // Brasil ainda aparece (tem faltantes)
-      expect(screen.getByRole('button', { name: /Brasil/ })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /^Brasil:/ })).toBeInTheDocument();
     });
 
     it('voltar para "todas" restaura tudo com o colapso preservado', async () => {
@@ -350,7 +350,7 @@ describe('Catalogo', () => {
       );
 
       // Com "repetidas", apenas BRA 01 e BRA 02 aparecem
-      expect(screen.getByLabelText('BRA 01, colada, 1 sobrando, metalizada')).toBeInTheDocument();
+      expect(screen.getByLabelText(/^BRA 01, .+, colada, 1 sobrando, metalizada$/)).toBeInTheDocument();
 
       // Volta para "todas"
       rerender(
@@ -366,8 +366,8 @@ describe('Catalogo', () => {
       );
 
       // Tudo volta
-      expect(screen.getByLabelText('BRA 01, colada, 1 sobrando, metalizada')).toBeInTheDocument();
-      expect(screen.getByLabelText('BRA 03, faltante')).toBeInTheDocument();
+      expect(screen.getByLabelText(/^BRA 01, .+, colada, 1 sobrando, metalizada$/)).toBeInTheDocument();
+      expect(screen.getByLabelText(/^BRA 03, .+, faltante$/)).toBeInTheDocument();
     });
 
     it('saltar para seção oculta limpa o filtro', () => {
@@ -389,7 +389,7 @@ describe('Catalogo', () => {
 
       // Com "repetidas", nenhuma seção tem repetidas (todas contagens 0)
       // FWC e Coca-Cola sumiram (não têm repetidas)
-      expect(screen.queryByRole('button', { name: /Extras FIFA/ })).not.toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: /^Extras FIFA:/ })).not.toBeInTheDocument();
 
       // Salta para FWC, que está oculta pelo filtro
       if (ref.current) {
@@ -432,7 +432,7 @@ describe('Catalogo', () => {
 
       // O super-grupo A some inteiro (nenhuma seção tem faltantes)
       expect(screen.queryByRole('button', { name: /Grupo A/ })).not.toBeInTheDocument();
-      expect(screen.queryByRole('button', { name: /México/ })).not.toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: /^México:/ })).not.toBeInTheDocument();
     });
   });
 
@@ -449,29 +449,29 @@ describe('Catalogo', () => {
       const user = userEvent.setup();
       const { unmount } = render(<Catalogo {...propsBase} />);
 
-      await user.click(screen.getByRole('button', { name: /Brasil/ }));
-      expect(screen.getByRole('button', { name: /Brasil/ })).toHaveAttribute('aria-expanded', 'false');
+      await user.click(screen.getByRole('button', { name: /^Brasil:/ }));
+      expect(screen.getByRole('button', { name: /^Brasil:/ })).toHaveAttribute('aria-expanded', 'false');
 
       unmount();
       render(<Catalogo {...propsBase} />);
 
-      expect(screen.getByRole('button', { name: /Brasil/ })).toHaveAttribute('aria-expanded', 'false');
-      expect(screen.queryByLabelText('BRA 01, faltante, metalizada')).not.toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /^Brasil:/ })).toHaveAttribute('aria-expanded', 'false');
+      expect(screen.queryByLabelText(/^BRA 01, .+, faltante, metalizada$/)).not.toBeInTheDocument();
     });
 
     it('seção reaberta à mão continua aberta após recarregar', async () => {
       const user = userEvent.setup();
       const { unmount } = render(<Catalogo {...propsBase} />);
 
-      await user.click(screen.getByRole('button', { name: /Brasil/ }));
-      await user.click(screen.getByRole('button', { name: /Brasil/ }));
-      expect(screen.getByRole('button', { name: /Brasil/ })).toHaveAttribute('aria-expanded', 'true');
+      await user.click(screen.getByRole('button', { name: /^Brasil:/ }));
+      await user.click(screen.getByRole('button', { name: /^Brasil:/ }));
+      expect(screen.getByRole('button', { name: /^Brasil:/ })).toHaveAttribute('aria-expanded', 'true');
 
       unmount();
       render(<Catalogo {...propsBase} />);
 
-      expect(screen.getByRole('button', { name: /Brasil/ })).toHaveAttribute('aria-expanded', 'true');
-      expect(screen.getByLabelText('BRA 01, faltante, metalizada')).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /^Brasil:/ })).toHaveAttribute('aria-expanded', 'true');
+      expect(screen.getByLabelText(/^BRA 01, .+, faltante, metalizada$/)).toBeInTheDocument();
     });
 
     it('super-grupo fechado à mão continua fechado após recarregar', async () => {
@@ -486,7 +486,7 @@ describe('Catalogo', () => {
       render(<Catalogo {...props} />);
 
       expect(screen.getByRole('button', { name: /Grupo C/ })).toHaveAttribute('aria-expanded', 'false');
-      expect(screen.queryByRole('button', { name: /Brasil/ })).not.toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: /^Brasil:/ })).not.toBeInTheDocument();
     });
 
     it('salto abre seção e super-grupo fechados e a recarga os mantém abertos', async () => {
@@ -496,7 +496,7 @@ describe('Catalogo', () => {
       const { unmount } = render(<Catalogo ref={ref} {...props} />);
 
       // Fecha a seção Brasil e, em seguida, o Grupo C que a contém.
-      await user.click(screen.getByRole('button', { name: /Brasil/ }));
+      await user.click(screen.getByRole('button', { name: /^Brasil:/ }));
       await user.click(screen.getByRole('button', { name: /Grupo C/ }));
       expect(screen.getByRole('button', { name: /Grupo C/ })).toHaveAttribute('aria-expanded', 'false');
 
@@ -505,13 +505,13 @@ describe('Catalogo', () => {
       });
 
       expect(screen.getByRole('button', { name: /Grupo C/ })).toHaveAttribute('aria-expanded', 'true');
-      expect(screen.getByRole('button', { name: /Brasil/ })).toHaveAttribute('aria-expanded', 'true');
+      expect(screen.getByRole('button', { name: /^Brasil:/ })).toHaveAttribute('aria-expanded', 'true');
 
       unmount();
       render(<Catalogo {...props} />);
 
       expect(screen.getByRole('button', { name: /Grupo C/ })).toHaveAttribute('aria-expanded', 'true');
-      expect(screen.getByRole('button', { name: /Brasil/ })).toHaveAttribute('aria-expanded', 'true');
+      expect(screen.getByRole('button', { name: /^Brasil:/ })).toHaveAttribute('aria-expanded', 'true');
     });
 
     it('sem localStorage disponível, tudo abre e nada quebra', () => {
@@ -524,8 +524,8 @@ describe('Catalogo', () => {
 
       render(<Catalogo {...propsBase} />);
 
-      expect(screen.getByRole('button', { name: /Brasil/ })).toHaveAttribute('aria-expanded', 'true');
-      expect(screen.getByLabelText('BRA 01, faltante, metalizada')).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /^Brasil:/ })).toHaveAttribute('aria-expanded', 'true');
+      expect(screen.getByLabelText(/^BRA 01, .+, faltante, metalizada$/)).toBeInTheDocument();
     });
 
     it('siglas e letras desconhecidas no armazenamento são ignoradas', () => {
@@ -537,8 +537,8 @@ describe('Catalogo', () => {
       render(<Catalogo {...propsBase} />);
 
       // BRA é válida e volta fechada; FWC (a outra seção da amostra) abre.
-      expect(screen.getByRole('button', { name: /Brasil/ })).toHaveAttribute('aria-expanded', 'false');
-      expect(screen.getByRole('button', { name: /Extras FIFA/ })).toHaveAttribute('aria-expanded', 'true');
+      expect(screen.getByRole('button', { name: /^Brasil:/ })).toHaveAttribute('aria-expanded', 'false');
+      expect(screen.getByRole('button', { name: /^Extras FIFA:/ })).toHaveAttribute('aria-expanded', 'true');
     });
   });
 });

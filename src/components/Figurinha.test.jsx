@@ -6,6 +6,9 @@ import { act, createEvent, fireEvent, render, screen } from '@testing-library/re
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom/vitest';
 import { Figurinha } from './Figurinha.jsx';
+import { Secao } from './Secao.jsx';
+import { PaginaDoAlbum } from './PaginaDoAlbum.jsx';
+import { layoutDeSecao } from '../data/catalogoLayout.js';
 
 function FigurinhaControlada({ inicial = 0 }) {
   const [contagem, setContagem] = useState(inicial);
@@ -314,6 +317,161 @@ describe('Figurinha', () => {
     expect(
       screen.getByRole('button', { name: 'remover uma unidade de FWC 00' }),
     ).toBeInTheDocument();
+  });
+});
+
+describe('Figurinha — nome no cartão (IDR 0047)', () => {
+  it('renderiza prenomes e sobrenome em linhas distintas com classes próprias', () => {
+    const { container } = render(
+      <Figurinha
+        codigo="BRA14"
+        contagem={1}
+        nome="Vinícius Júnior"
+        nomeLinhas={['Vinícius', 'Júnior']}
+        onIncrementar={vi.fn()}
+        onDecrementar={vi.fn()}
+      />,
+    );
+
+    expect(container.querySelector('.figurinha__nome-prenomes')).toHaveTextContent(
+      'Vinícius',
+    );
+    expect(container.querySelector('.figurinha__nome-sobrenome')).toHaveTextContent(
+      'Júnior',
+    );
+    expect(container.querySelector('.figurinha__nome-unico')).not.toBeInTheDocument();
+  });
+
+  it('põe nome único só na linha do sobrenome, sem a linha dos prenomes', () => {
+    const { container } = render(
+      <Figurinha
+        codigo="BRA02"
+        contagem={0}
+        nome="Alisson"
+        nomeLinhas={[null, 'Alisson']}
+        onIncrementar={vi.fn()}
+        onDecrementar={vi.fn()}
+      />,
+    );
+
+    expect(container.querySelector('.figurinha__nome-prenomes')).not.toBeInTheDocument();
+    expect(container.querySelector('.figurinha__nome-sobrenome')).toHaveTextContent(
+      'Alisson',
+    );
+  });
+
+  it('mostra nome sem corte numa caixa única, sem as linhas de jogador', () => {
+    const { container } = render(
+      <Figurinha
+        codigo="BRA01"
+        contagem={0}
+        nome="Escudo do time"
+        nomeLinhas={null}
+        onIncrementar={vi.fn()}
+        onDecrementar={vi.fn()}
+      />,
+    );
+
+    expect(container.querySelector('.figurinha__nome-unico')).toHaveTextContent(
+      'Escudo do time',
+    );
+    expect(container.querySelector('.figurinha__nome-prenomes')).not.toBeInTheDocument();
+    expect(container.querySelector('.figurinha__nome-sobrenome')).not.toBeInTheDocument();
+  });
+
+  it('sem nome, não renderiza o bloco de nome e mantém os rótulos do código', () => {
+    const { container } = render(
+      <Figurinha
+        codigo="BRA05"
+        contagem={1}
+        onIncrementar={vi.fn()}
+        onDecrementar={vi.fn()}
+      />,
+    );
+
+    expect(container.querySelector('.figurinha__nome')).not.toBeInTheDocument();
+    expect(screen.getByLabelText('BRA 05, colada')).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: 'remover uma unidade de BRA 05' }),
+    ).toBeInTheDocument();
+  });
+
+  it('inclui o nome no nome acessível do corpo e do menos', () => {
+    render(
+      <Figurinha
+        codigo="BRA05"
+        contagem={1}
+        nome="Gabriel Magalhães"
+        nomeLinhas={['Gabriel', 'Magalhães']}
+        onIncrementar={vi.fn()}
+        onDecrementar={vi.fn()}
+      />,
+    );
+
+    expect(screen.getByLabelText('BRA 05, Gabriel Magalhães, colada')).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', {
+        name: 'remover uma unidade de BRA 05, Gabriel Magalhães',
+      }),
+    ).toBeInTheDocument();
+  });
+
+  it('Secao repassa nome e nomeLinhas ao cartão', () => {
+    const secao = {
+      sigla: 'BRA',
+      nome: 'Brasil',
+      icone: '🇧🇷',
+      paginas: [24, 25],
+      total: 1,
+    };
+    const figurinhas = [
+      {
+        codigo: 'BRA02',
+        secao: 'BRA',
+        metalizada: false,
+        nome: 'Alisson',
+        nomeLinhas: [null, 'Alisson'],
+      },
+    ];
+
+    const { container } = render(
+      <Secao
+        secao={secao}
+        figurinhas={figurinhas}
+        contagens={{}}
+        onAjustar={vi.fn()}
+      />,
+    );
+
+    expect(container.querySelector('.figurinha__nome-sobrenome')).toHaveTextContent(
+      'Alisson',
+    );
+  });
+
+  it('PaginaDoAlbum repassa nome e nomeLinhas ao cartão', () => {
+    const secao = { sigla: 'BRA', nome: 'Brasil', icone: '🇧🇷', paginas: [4, 5] };
+    const figurinhas = Array.from({ length: 20 }, (_, i) => ({
+      codigo: `BRA${String(i + 1).padStart(2, '0')}`,
+      metalizada: i === 0,
+      nome: i === 1 ? 'Alisson' : undefined,
+      nomeLinhas: i === 1 ? [null, 'Alisson'] : undefined,
+    }));
+    const layout = layoutDeSecao(secao);
+    const posicoesPagina1 = layout.filter((p) => p.pagina === 1);
+
+    const { container } = render(
+      <PaginaDoAlbum
+        secao={secao}
+        figurinhas={figurinhas}
+        posicoes={posicoesPagina1}
+        contagens={{}}
+        onAjustar={vi.fn()}
+      />,
+    );
+
+    expect(container.querySelector('.figurinha__nome-sobrenome')).toHaveTextContent(
+      'Alisson',
+    );
   });
 });
 

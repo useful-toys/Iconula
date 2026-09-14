@@ -218,6 +218,12 @@ Páginas 112–113 do álbum (requisitos.md, Anexo):
 - Cartão retangular com bordas perfuradas (efeito selo)
 - Código em duas linhas: sigla + número, como impresso na figurinha
   física
+- Nome entre o código e a faixa inferior, em Roboto Condensed 500 de
+  10px, centralizado e com ellipsis por linha: nos jogadores, duas linhas
+  — prenomes em caixa normal e sobrenome em caixa alta (caixa alta só
+  visual); nos nomes sem corte (posições fixas, Extras FIFA,
+  Coca-Cola), uma caixa de até duas linhas (ver
+  [IDR 0047](idr/0047-nomes-de-jogadores-nas-figurinhas.md))
 - Estados visuais por cor: cinza (faltante), verde (uma unidade),
   laranja com selo `×N` (repetidas)
 - O selo `×N` conta as **unidades sobrando** (contagem − 1): `×1` = uma
@@ -423,6 +429,8 @@ primeira e na segunda posição da linha 3 (IDR 0023).
 
 - Código em duas linhas (sigla + número), como impresso na figurinha
   física; bordas perfuradas (efeito selo)
+- Nome abaixo do código, entre ele e a faixa do menos e do selo, em
+  Roboto Condensed 500 de 10px (IDR 0047)
 - `●` = metalizada/especial (marca dourada no canto); `×N` = unidades
   sobrando, contagem − 1 (IDR 0021)
 
@@ -596,6 +604,8 @@ tabela do [IDR 0046](idr/0046-cores-de-selecoes.md): os 48 tokens
 
 - Poppins (600/700) no título, nos códigos dos cartões e nos nomes de
   seção; `system-ui` no restante
+- Roboto Condensed 500 no nome das figurinhas, em 10px (IDR 0047) —
+  vendorizada (TDR 0013)
 - `font-variant-numeric: tabular-nums` no título e nos resumos — os
   números não dançam quando a contagem muda
 
