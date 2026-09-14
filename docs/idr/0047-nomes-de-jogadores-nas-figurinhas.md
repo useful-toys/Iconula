@@ -26,13 +26,18 @@ Aceito — implementação na Fase 0017.
 
 - **Cartão de 60×84px, igual nas disposições lista e álbum**; na paisagem
   (figurinha 13), 126px de largura (2 × 60 + 6); raio 5px
-- **Composição, de cima para baixo** (84 − 2 × 2 de borda = 80px úteis):
-  - código em Poppins 700, sigla (10px) sobre número (13px), centralizado —
-    ~25px
-  - nome em duas linhas, centralizado logo abaixo — ~22px
-  - faixa inferior de ~22px livre para o controle de menos (esquerda) e o
-    selo `×N` (direita)
-  - código e nome centralizados verticalmente no espaço acima da faixa
+- **Composição em duas metades de mesma altura** (84 − 2 × 2 de borda =
+  80px úteis → 40px cada):
+  - metade de cima: código em Poppins 700, sigla (10px) na linha 1 e número
+    (13px) na linha 2, centralizado na horizontal e na vertical
+  - metade de baixo: nome em duas linhas, centralizado na horizontal e na
+    vertical
+  - controle de menos (canto inferior esquerdo) e selo `×N` (canto inferior
+    direito) ficam sobre a metade de baixo e podem se sobrepor ao nome —
+    aceito para manter a divisão em metades
+- **Escudo (01) e foto do time (13) das seleções**: sem nome visível; o
+  código (sigla na linha 1, número na linha 2) fica centralizado na
+  horizontal e na vertical no cartão inteiro
 - **Tipografia única** nas duas disposições (antes o álbum usava um ponto
   a menos): sigla 10px, número 13px; menos 18px; selo 10px; marca de
   metalizada 6px
@@ -40,13 +45,14 @@ Aceito — implementação na Fase 0017.
   10px, em `--cream` sobre o fundo do estado
   - **Jogadores**: primeira linha com os prenomes em caixa normal; segunda
     com o sobrenome em caixa alta (só visual — o dado mantém a grafia);
-    nome único só na segunda linha, em caixa alta
-  - **Nomes de figurinha** (escudo, foto do time, Extras FIFA, Coca-Cola):
-    sem corte, em caixa normal, quebrando naturalmente em até duas linhas
+    nome único numa linha só, em caixa alta
+  - **Extras FIFA e Coca-Cola**: nome sem corte, em caixa normal, quebrando
+    naturalmente em até duas linhas
   - **Truncamento**: ellipsis por linha
 - **Acessibilidade**: o nome completo, em caixa normal, entra no nome
   acessível do corpo e do controle de menos, entre o código e o estado
-  (`BRA 05, Gabriel Magalhães, faltante`)
+  (`BRA 05, Gabriel Magalhães, faltante`) — inclusive no escudo e na foto
+  do time, que não o exibem (`BRA 01, Escudo do time, faltante`)
 - O dado que alimenta o nome (fonte, forma, corte, mapeamento, campos do
   catálogo) é do [MDR 0008](../model-dr/0008-dados-dos-nomes-das-figurinhas.md)
 
@@ -64,6 +70,11 @@ Aceito — implementação na Fase 0017.
   ([IDR 0042](0042-foco-visivel-e-area-de-toque.md))
 - Nomes longos truncam por linha (~11 maiúsculas condensadas); o nome
   completo fica no nome acessível
+- Com unidade, o menos (e, com repetidas, o selo) cobre parte do início
+  (e do fim) da metade de baixo — em nomes largos, esconde letras da
+  segunda linha
+- Escudo e foto do time não repetem no cartão o texto genérico ("Escudo do
+  time", "Foto do time"): o código ganha o cartão inteiro
 - Um arquivo de fonte a mais no bundle
 
 ## Alternativas consideradas
@@ -75,8 +86,11 @@ Aceito — implementação na Fase 0017.
 - **Cartão de 56×80px**: menor impacto no álbum, nome no limite do legível
 - **Cartão de 64×88px**: mais letras por linha, mas o álbum empilha páginas
   cedo demais em tablet
-- **Menos sobreposto ao nome**: cobre o início da segunda linha quando há
-  unidade
+- **Faixa inferior de ~22px reservada ao menos e ao selo, com código e nome
+  empilhados acima dela**: evita a sobreposição, mas desloca código e nome
+  para o alto e quebra a divisão em metades pedida pelo humano
+- **Nome genérico visível no escudo e na foto do time**: repete o que o
+  cartão já diz pela posição e disputa espaço com o código
 - **Menos pendurado fora do cartão**: contraria o
   [IDR 0032](0032-controle-de-menos-so-com-unidade-e-dentro-do-cartao.md)
   e invade o vão entre cartões
@@ -94,6 +108,14 @@ Aceito — implementação na Fase 0017.
 
 ## Histórico
 
+- 2026-09-14 — Ajuste do humano na revisão do PR da Fase 17: o cartão passa
+  a ter duas metades de mesma altura — código (sigla, número) centralizado
+  na de cima e nome centralizado na de baixo —, aceitando que o menos e o
+  selo se sobreponham ao nome; escudo (01) e foto do time (13) das seleções
+  deixam de exibir o nome e mostram só o código, centralizado no cartão
+  inteiro. Antes: código e nome empilhados e centralizados acima de uma
+  faixa inferior de ~22px reservada ao menos e ao selo, com o nome sem
+  corte também no escudo e na foto do time.
 - 2026-09-13 — Segunda revisão do planejamento das Fases 11–17: cartão de
   60×84px igual nas duas disposições, com o nome em Roboto Condensed 10px
   entre o código e a faixa do menos e do selo; tipografia do álbum igualada
