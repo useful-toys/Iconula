@@ -4,7 +4,7 @@
 
 ## Status
 
-Aceito — implementação na Fase 0015.
+Aceito (revisado) — implementação na Fase 0015; ajustes na Fase 0018.
 
 ## Contexto
 
@@ -21,12 +21,15 @@ Aceito — implementação na Fase 0015.
 
 ## Decisão
 
-- **Título do super-grupo**: borda esquerda de 3px na cor do grupo e fundo
-  com 15% dela misturada ao transparente — o título não tem painel e fica
-  sobre `--turf`; o texto continua em `--gold`
-- **Faixa de bandeiras**: fundo de cada bandeira com 20% da cor do grupo
-  misturada a `--panel`, **só na ordenação por página**; na ordenação por
-  sigla, fundo neutro `--panel`, inclusive FWC e COC
+- **Título do super-grupo**: moldura arredondada como a do cabeçalho de seção
+  (`--panel`, `border-radius: 12px`, `padding: 7px 12px`), com a **barra
+  esquerda de 3px na cor do grupo** no lugar da borda esquerda de 1px e fundo
+  com 30% da cor misturada a `--panel`; o texto continua em `--gold`
+- **Faixa de bandeiras**: fundo de cada bandeira com 60% da cor do grupo
+  misturada a `--panel` e **barra inferior de 2px com 80% da cor**, **só na
+  ordenação por página**; no hover, o fundo intensifica para 80% da cor e a
+  barra permanece; na ordenação por sigla, fundo neutro `--panel` e hover
+  cinza `--border`, inclusive FWC e COC
 - O cabeçalho de seção não recebe cor de grupo: recebe a cor da sua seleção
   ([IDR 0046](0046-cores-de-selecoes.md))
 
@@ -63,7 +66,10 @@ duas), mantendo croma e matiz.
 
 - Identificação visual imediata do super-grupo
 - Hierarquia: grupo (título do super-grupo, faixa de bandeiras) → seleção
-  (cabeçalho de seção, [IDR 0046](0046-cores-de-selecoes.md)) → figurinha
+  (cabeçalho de seção, [IDR 0046](0046-cores-de-selecoes.md)) → figurinha;
+  super-grupo e seção compartilham a moldura arredondada — a hierarquia
+  permanece pela barra esquerda, pela cor (grupo × seleção) e pelo texto
+  (`--gold` × `--cream`)
 - 15 tokens novos em `theme.css`: 12 cores de grupo, `--coc-red` e 2 alias
 - A cor reforça; o nome "Grupo A" continua no título — cor nunca é o único
   sinal
@@ -79,10 +85,15 @@ duas), mantendo croma e matiz.
 - **Hex de origem sem ajuste**: D, F, I e L ficariam entre 1,8:1 e 2,6:1
   sobre o fundo
 - **COC em `--notif-red`**: a identidade da Coca-Cola se leria como falha
-- **Fundo tingido sempre sobre `--panel`**: o título do super-grupo ganharia
-  um painel que hoje não tem, mais pesado que o resto
 
 ## Histórico
+
+- 2026-09-13 — Esmiuçamento pós-entrega da Fase 0015: a cor ficou sutil demais
+  na faixa e o título não tinha moldura. A faixa passa de 20% para 60% de
+  mistura, ganha barra inferior de 2px a 80% e o hover intensifica para 80%;
+  o título ganha a moldura arredondada da seção, mantém a barra esquerda de
+  3px, o tingimento de fundo sobe de 15% (sobre transparente) para 30% (sobre
+  `--panel`) e o texto segue `--gold`. Implementação na Fase 0018.
 
 - 2026-09-13 — Segunda revisão do planejamento das Fases 11–17: os valores
   OKLCH finais passam a ser decididos aqui (D, F, I e L com luminosidade
