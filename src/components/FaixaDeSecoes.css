@@ -31,7 +31,7 @@
   padding: 0;
   border: none;
   border-radius: 8px;
-  background: color-mix(in oklch, var(--group-color, var(--panel)) 20%, var(--panel));
+  background: color-mix(in oklch, var(--group-color, var(--panel)) 60%, var(--panel));
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -41,10 +41,10 @@
 
 /* Identidade de grupo na faixa (IDR 0045): só na ordenação por página cada
  * bandeira soma a classe `--grupo-<chave>` (a letra A–L da seleção, ou FWC /
- * COC nos especiais) e define `--group-color`; o `background` mistura 20%
+ * COC nos especiais) e define `--group-color`; o `background` mistura 60%
  * dessa cor a `--panel`. Sem a classe — ordenação por sigla — `--group-color`
- * cai no `--panel` e o fundo fica neutro. As classes de cor não mexem em
- * hover, foco, área de toque nem espaçamento. */
+ * cai no `--panel`, o fundo fica neutro e não há barra nem hover colorido.
+ * As classes de cor não mexem em foco, área de toque nem espaçamento. */
 .faixa-de-secoes__botao--grupo-a {
   --group-color: var(--group-a);
 }
@@ -101,6 +101,42 @@
   --group-color: var(--group-coc);
 }
 
+/* Barra inferior com 80% da cor (IDR 0045), só nas bandeiras com classe de
+ * cor (ordenação por página). O `::after` cobre o botão com o mesmo raio de
+ * 8px (`border-radius: inherit`) e só os últimos 2px recebem a cor, por
+ * gradiente: assim a barra acompanha os cantos arredondados sem estourar para
+ * fora do botão — um `::after` de 2px de altura teria o raio achatado pelo
+ * navegador e os cantos apareceriam fora da curva. `pointer-events: none`
+ * preserva a área de toque do `::before` (IDR 0042); a lista `:is()` repete as
+ * classes que definem `--group-color` e, sem elas, nenhuma barra é desenhada. */
+:is(
+    .faixa-de-secoes__botao--grupo-a,
+    .faixa-de-secoes__botao--grupo-b,
+    .faixa-de-secoes__botao--grupo-c,
+    .faixa-de-secoes__botao--grupo-d,
+    .faixa-de-secoes__botao--grupo-e,
+    .faixa-de-secoes__botao--grupo-f,
+    .faixa-de-secoes__botao--grupo-g,
+    .faixa-de-secoes__botao--grupo-h,
+    .faixa-de-secoes__botao--grupo-i,
+    .faixa-de-secoes__botao--grupo-j,
+    .faixa-de-secoes__botao--grupo-k,
+    .faixa-de-secoes__botao--grupo-l,
+    .faixa-de-secoes__botao--grupo-fwc,
+    .faixa-de-secoes__botao--grupo-coc
+  )::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    to top,
+    color-mix(in oklch, var(--group-color) 80%, var(--panel)) 2px,
+    transparent 2px
+  );
+  pointer-events: none;
+}
+
 /* Início de grupo na ordenação por página: soma 2px à folga de 2px do `gap`,
  * resultando em 4px antes da primeira bandeira de cada grupo A–L e da COC
  * (IDR 0042). */
@@ -123,6 +159,28 @@
 
 .faixa-de-secoes__botao:hover {
   background: var(--border);
+}
+
+/* Hover das bandeiras com cor: intensifica o fundo para 80% da cor (IDR
+ * 0045). Vem depois da regra base, com a mesma especificidade, para vencê-la;
+ * na ordenação por sigla, sem classe de cor, vale o `--border` acima. */
+:is(
+    .faixa-de-secoes__botao--grupo-a,
+    .faixa-de-secoes__botao--grupo-b,
+    .faixa-de-secoes__botao--grupo-c,
+    .faixa-de-secoes__botao--grupo-d,
+    .faixa-de-secoes__botao--grupo-e,
+    .faixa-de-secoes__botao--grupo-f,
+    .faixa-de-secoes__botao--grupo-g,
+    .faixa-de-secoes__botao--grupo-h,
+    .faixa-de-secoes__botao--grupo-i,
+    .faixa-de-secoes__botao--grupo-j,
+    .faixa-de-secoes__botao--grupo-k,
+    .faixa-de-secoes__botao--grupo-l,
+    .faixa-de-secoes__botao--grupo-fwc,
+    .faixa-de-secoes__botao--grupo-coc
+  ):hover {
+  background: color-mix(in oklch, var(--group-color) 80%, var(--panel));
 }
 
 .faixa-de-secoes__botao:focus-visible {

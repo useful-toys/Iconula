@@ -612,10 +612,11 @@ bandeiras.
   visível do antigo botão (IDR 0049, IDR 0024, IDR 0042)
 - Faixa de bandeiras: ícones de 30×30px, raio 8px, espaçamento de 2px e 4px
   entre os grupos na ordenação por página, rolagem horizontal; na ordenação
-  por página o fundo mistura 20% da cor do grupo a `--panel` (FWC e COC
-  incluídos), e na ordenação por sigla fica neutro em `--panel` — `--border`
-  sob o cursor (IDR 0045); o glifo da bandeira em 15px, centralizado no
-  quadrado — o espaçamento é o mais apertado que ainda separa duas bandeiras
+  por página o fundo mistura 60% da cor do grupo a `--panel` (FWC e COC
+  incluídos), com barra inferior de 2px a 80% e hover que intensifica o fundo
+  a 80%; na ordenação por sigla fica neutro em `--panel`, sem barra —
+  `--border` sob o cursor (IDR 0045); o glifo da bandeira em 15px, centralizado
+  no quadrado — o espaçamento é o mais apertado que ainda separa duas bandeiras
   vizinhas, para caber o máximo de seções na largura antes de precisar rolar;
   em tela sensível, área de toque ampliada de 1px em volta do ícone (IDR 0042)
 - Corpo: `padding: 20px clamp(16px, 4vw, 40px) 76px`, 12px entre
