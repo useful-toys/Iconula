@@ -25,7 +25,8 @@ Aceito — implementação na Fase 0017.
 ## Decisão
 
 - **Cartão de 60×68px, igual nas disposições lista e álbum**; na paisagem
-  (figurinha 13), 126px de largura (2 × 60 + 6); raio 5px
+  (figurinha 13 das seleções), 126×68px (2 × 60 + 6) também nas duas — na
+  lista a paisagem mantém a proporção do álbum; raio 5px
 - **Composição em duas metades de mesma altura** (68 − 2 × 2 de borda =
   64px úteis → 32px cada; código ~25px e nome ~22px cabem em cada uma):
   - metade de cima: código em Poppins 700, sigla (10px) na linha 1 e número
@@ -121,8 +122,10 @@ Aceito — implementação na Fase 0017.
   - altura reduzida duas vezes em 10%: 84 × 0,9 = 75,6 → 76px;
     76 × 0,9 = 68,4 → 68px; linhas do álbum acompanham (68px); largura,
     tipografia e limite celular/tablet do IDR 0043 inalterados
+  - na lista, a figurinha paisagem (13) mantém a proporção paisagem do
+    álbum (126×68px)
 
-  Antes: cartão de 60×84px, código e nome empilhados e centralizados acima
+  Antes: na lista, a 13 em retrato como as demais (60px); cartão de 60×84px, código e nome empilhados e centralizados acima
   de uma faixa inferior de ~22px reservada ao menos e ao selo, com o nome
   sem corte também no escudo e na foto do time.
 - 2026-09-13 — Segunda revisão do planejamento das Fases 11–17: cartão de

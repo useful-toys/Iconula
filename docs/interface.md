@@ -163,7 +163,9 @@ efêmero como qualquer sucesso (ver
   desaparece inteira — cabeçalho e corpo —, e o super-grupo que fica
   sem seções visíveis também (ver
   [IDR 0025](idr/0025-filtro-oculta-secoes-vazias.md))
-- Dentro do grupo, grade de figurinhas
+- Dentro do grupo, grade de figurinhas; na lista, a figurinha paisagem (13
+  das seleções) mantém a proporção paisagem, com a mesma largura de duas
+  trilhas do álbum (IDR 0047)
 
 ### Disposição "Como no álbum"
 
@@ -666,8 +668,8 @@ tabela do [IDR 0046](idr/0046-cores-de-selecoes.md): os 48 tokens
   `--panel` (FWC e COC incluídos), raio 12px, `padding: 7px 12px`;
   ícone 18px, nome 14px/600 em `--cream`, números em `--muted`
   (IDR 0046, IDR 0050)
-- Cartão: 60×68px na lista e no álbum, paisagem 126px (duas trilhas mais
-  o gap de 6px), raio 5px — duas metades de 32px úteis cada: código
+- Cartão: 60×68px na lista e no álbum, paisagem 126×68px também nas duas
+  (duas trilhas mais o gap de 6px), raio 5px — duas metades de 32px úteis cada: código
   centrado na de cima, nome na de baixo, com menos e selo por cima do nome;
   sem nome visível (escudo e foto do time), código centrado no cartão
   inteiro (IDR 0047)
