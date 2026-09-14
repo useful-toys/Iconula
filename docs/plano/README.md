@@ -340,7 +340,7 @@ mantendo a barra esquerda de 3px. Decisão revisada no
 | # | Tarefa | Objetivo | Status |
 |---|---|---|---|
 | 0001 | [Faixa de bandeiras com cor mais reconhecível](0018-ajustes-da-identidade-de-cor-por-grupo/0001-faixa-de-bandeiras-com-cor-mais-reconhecivel.md) | Fundo 60% + barra inferior de 2px a 80% e hover a 80% em cada bandeira, só na ordenação por página. | Concluída |
-| 0002 | [Título do super-grupo com moldura da seção](0018-ajustes-da-identidade-de-cor-por-grupo/0002-titulo-do-super-grupo-com-moldura-da-secao.md) | Moldura arredondada (`--panel` + raio 12px + padding 7px 12px) com barra esquerda de 3px e fundo a 30%; texto em `--gold`. | Pendente |
+| 0002 | [Título do super-grupo com moldura da seção](0018-ajustes-da-identidade-de-cor-por-grupo/0002-titulo-do-super-grupo-com-moldura-da-secao.md) | Moldura arredondada (`--panel` + raio 12px + padding 7px 12px) com barra esquerda de 3px e fundo a 30%; texto em `--gold`. | Concluída |
 
 ## Regras que valem em toda tarefa
 

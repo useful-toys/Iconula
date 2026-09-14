@@ -3,7 +3,7 @@
 # Tarefa [0018-0002]: título do super-grupo com moldura da seção
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 O título do super-grupo ganha a moldura arredondada do cabeçalho de seção

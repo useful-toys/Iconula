@@ -12,13 +12,14 @@
 .super-grupo__titulo {
   display: flex;
   flex-wrap: wrap;
-  align-items: baseline;
+  align-items: center;
   gap: 0.35em;
-  padding: 0;
+  padding: 7px 12px;
   margin: 0;
-  border: none;
+  border: 1px solid var(--border);
   border-left: 3px solid var(--group-color, transparent);
-  background: color-mix(in oklch, var(--group-color, transparent) 15%, transparent);
+  border-radius: 12px;
+  background: color-mix(in oklch, var(--group-color, transparent) 30%, var(--panel));
   cursor: pointer;
   font-family: 'Poppins', system-ui, sans-serif;
   font-size: 13px;
@@ -31,8 +32,8 @@
 
 /* Cor de identidade do grupo no título (IDR 0045): cada letra A–L define
  * `--group-color`, consumido pela borda esquerda de 3px e pelo fundo com
- * 15% sobre transparente. O texto permanece em `--gold`. A letra vem da
- * prop `grupo` do `SuperGrupo`. */
+ * 30% sobre `--panel`, dentro da moldura arredondada da seção. O texto
+ * permanece em `--gold`. A letra vem da prop `grupo` do `SuperGrupo`. */
 .super-grupo__titulo--a {
   --group-color: var(--group-a);
 }
