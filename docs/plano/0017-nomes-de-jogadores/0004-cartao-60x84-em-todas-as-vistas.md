@@ -32,8 +32,10 @@ altura acompanham.
 
 ## Padrões e convenções aplicáveis
 - Posições explícitas no grid do álbum não mudam, só as medidas — IDR 0009
-- Menos dentro do cartão, canto inferior esquerdo; selo transbordando no
-  inferior direito — IDR 0032
+- Menos dentro do cartão, encostado no canto inferior esquerdo (recuo 0, sem
+  transbordar), revelado por hover e foco por teclado; selo transbordando no
+  inferior direito — IDR 0032 (aplicado no cartão atual pela Tarefa
+  0019-0004)
 - Estados visuais e reforço não-cromático intactos — IDR 0006
 - `--secao-altura-estimada` aproxima a altura real, para o
   `content-visibility` não saltar — TDR 0021
@@ -42,7 +44,8 @@ altura acompanham.
 1. Em `Figurinha.css`: cartão de 60×84px nas duas variantes; paisagem com
    126px; código (sigla 10px sobre número 13px) centralizado no espaço acima
    de uma faixa inferior de ~22px; menos 18px, selo 10px e metalizada 6px nas
-   duas variantes.
+   duas variantes; o menos segue encostado no canto inferior esquerdo, com
+   recuo 0 e a área de toque ampliada só para dentro do cartão.
 2. Álbum: trilhas de 60px e linhas de 84px (seleções e Coca-Cola).
 3. `LIMITE_CELULAR` passa a 582, com o comentário da conta do IDR 0043.
 4. Recalibrar `--secao-altura-estimada` para a nova altura média de seção
@@ -66,6 +69,8 @@ e 0017-0005); estados, cores e comportamento do toque.
   `docs/idr/0043-padroes-de-primeira-abertura-por-faixa-de-tela.md`
 - Área de toque do menos — ver
   `docs/idr/0042-foco-visivel-e-area-de-toque.md`
+- Menos encostado no canto, revelado por hover e foco por teclado — ver
+  `docs/idr/0032-controle-de-menos-so-com-unidade-e-dentro-do-cartao.md`
 
 ## Arquivos impactados
 - `src/components/Figurinha.css` — modificar

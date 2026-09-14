@@ -48,7 +48,7 @@ Aceito.
 - Não muda a altura da faixa nem do cabeçalho sticky
 - O tooltip some ao rolar a faixa ou a página, e ao sair o cursor ou o foco
 - Em celular não há tooltip — o mesmo aceite do IDR 0048
-- Implementação: a planejar (/planejar).
+- Implementação: Fase 0019, Tarefa 0019-0002.
 
 ## Alternativas consideradas
 

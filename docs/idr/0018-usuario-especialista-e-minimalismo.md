@@ -74,7 +74,7 @@ pelo [IDR 0027](0027-relogio-do-titulo-e-o-updatedat-do-documento.md):
   a do outro
 - `interface.md` § Cabeçalho e § Controles perdem o ponto de quebra de
   768px e a linha de controles fora do sticky
-- Implementação: a planejar (/planejar).
+- Implementação: Fase 0019, Tarefa 0019-0001.
 
 ## Alternativas consideradas
 

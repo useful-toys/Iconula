@@ -53,7 +53,7 @@ Aceito — implementação na Fase 0012 (Tarefas 0012-0002 a 0012-0004).
   altura
 - `interface.md` § Medidas (área de avisos e corpo) muda o `padding` da
   faixa e a margem inferior
-- Implementação do respiro de 6px: a planejar (/planejar).
+- Implementação do respiro de 6px: Fase 0019, Tarefa 0019-0003.
 
 ## Alternativas consideradas
 
