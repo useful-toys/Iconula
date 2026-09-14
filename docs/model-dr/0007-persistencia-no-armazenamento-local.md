@@ -23,8 +23,8 @@ Aceito.
   - `disposicao`: `'lista' | 'album'`
   - `filtro`: `'todas' | 'faltantes' | 'coladas' | 'repetidas'`
 - **Padrões por faixa de tela** (primeira abertura, sem preferência gravada):
-  - Celular (≤512px): `ordenacao: 'pagina'`, `disposicao: 'album'`
-  - Tablet (513–1024px): `ordenacao: 'pagina'`, `disposicao: 'album'`
+  - Celular (≤582px): `ordenacao: 'pagina'`, `disposicao: 'album'`
+  - Tablet (583–1024px): `ordenacao: 'pagina'`, `disposicao: 'album'`
   - Navegador (>1024px): `ordenacao: 'sigla'`, `disposicao: 'lista'`
   - Filtro sempre começa em `'todas'`
 - **Campos inválidos**: se existe um objeto gravado mas algum campo está fora do domínio conhecido, a faixa é ignorada e o campo inválido cai no padrão neutro fixo (`ordenacao: 'pagina'`, `disposicao: 'lista'`, `filtro: 'todas'`).
@@ -77,6 +77,11 @@ Aceito.
 
 ## Histórico
 
+- 2026-09-14 — Fase 0017, Tarefa 0017-0004: o limite celular/tablet passa
+  de 512px para 582px, com o cartão de 60×84px e as trilhas de 60px do
+  [IDR 0047](../idr/0047-nomes-de-jogadores-nas-figurinhas.md); os padrões
+  por faixa não mudam, só o ponto de quebra, recalculado no
+  [IDR 0043](../idr/0043-padroes-de-primeira-abertura-por-faixa-de-tela.md).
 - 2026-09-13 — Fase 0012, Tarefa 0012-0001: o colapso manual de seções e
   super-grupos passa a persistir numa segunda chave versionada
   (`iconula.colapso-manual.v1`); antes era volátil (decisão original do

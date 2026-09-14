@@ -3,7 +3,7 @@
 # Tarefa [0017-0004]: cartão de 60×84px em todas as vistas
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Levar o cartão a 60×84px, igual na lista e no álbum, com o código na parte de

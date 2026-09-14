@@ -54,8 +54,8 @@ Lidas uma vez do `localStorage` na abertura (chave `iconula.preferencias-vista.v
 
 - **Persistência**: `localStorage`, por dispositivo, zero requisição ao Firestore
 - **Padrões por faixa de tela** (primeira abertura):
-  - Celular (≤512px): `ordenacao: 'pagina'`, `disposicao: 'album'`
-  - Tablet (513–1024px): `ordenacao: 'pagina'`, `disposicao: 'album'`
+  - Celular (≤582px): `ordenacao: 'pagina'`, `disposicao: 'album'`
+  - Tablet (583–1024px): `ordenacao: 'pagina'`, `disposicao: 'album'`
   - Navegador (>1024px): `ordenacao: 'sigla'`, `disposicao: 'lista'`
   - Filtro sempre começa em `'todas'`
 - **Campos inválidos**: se existe um objeto gravado mas algum campo está fora do domínio conhecido, a faixa é ignorada e o campo inválido cai no padrão neutro fixo (`ordenacao: 'pagina'`, `disposicao: 'lista'`, `filtro: 'todas'`)

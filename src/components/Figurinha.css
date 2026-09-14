@@ -12,18 +12,17 @@
   filter: brightness(0.6);
 }
 
-.figurinha--lista {
-  width: 52px;
-  height: 66px;
-}
-
+/* Cartão de 60×84px igual nas duas disposições (IDR 0047) — a variante
+ * permanece só como gancho de classe. */
+.figurinha--lista,
 .figurinha--album {
-  width: 52px;
-  height: 52px;
+  width: 60px;
+  height: 84px;
 }
 
+/* Figurinha 13: paisagem, duas trilhas de 60px mais o gap de 6px entre elas. */
 .figurinha--paisagem {
-  width: 110px;
+  width: 126px;
 }
 
 .figurinha__corpo {
@@ -33,7 +32,10 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 0;
+  /* Faixa inferior de ~22px reservada ao menos (esquerda) e ao selo
+   * (direita); o código — e, na Tarefa 0017-0005, o nome — fica
+   * centralizado no espaço acima dela (IDR 0047). */
+  padding: 0 0 22px;
   font-family: 'Poppins', system-ui, sans-serif;
   border: 2px solid transparent;
   border-radius: 5px;
@@ -58,25 +60,16 @@
   line-height: 1.1;
 }
 
-.figurinha--lista .figurinha__sigla {
+/* Tipografia única nas duas disposições (IDR 0047): sigla 10px sobre
+ * número 13px. */
+.figurinha__sigla {
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.03em;
 }
 
-.figurinha--lista .figurinha__numero {
+.figurinha__numero {
   font-size: 13px;
-  font-weight: 700;
-}
-
-.figurinha--album .figurinha__sigla {
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.03em;
-}
-
-.figurinha--album .figurinha__numero {
-  font-size: 12px;
   font-weight: 700;
 }
 
@@ -102,7 +95,7 @@
   opacity: 1;
 }
 
-/* Marca de metalizada */
+/* Marca de metalizada — 6px nas duas disposições (IDR 0047) */
 .figurinha__metalizada {
   position: absolute;
   top: 3px;
@@ -113,14 +106,7 @@
   background: var(--gold);
 }
 
-.figurinha--album .figurinha__metalizada {
-  top: 2px;
-  right: 2px;
-  width: 5px;
-  height: 5px;
-}
-
-/* Selo de unidades sobrando */
+/* Selo de unidades sobrando — 10px nas duas disposições (IDR 0047) */
 .figurinha__selo {
   position: absolute;
   right: -6px;
@@ -137,16 +123,7 @@
   border-radius: 8px;
 }
 
-.figurinha--album .figurinha__selo {
-  right: -5px;
-  bottom: -5px;
-  min-width: 24px;
-  padding: 1px 3px;
-  font-size: 9px;
-  border-radius: 7px;
-}
-
-/* Controle de menos */
+/* Controle de menos — 18px nas duas disposições (IDR 0042, IDR 0047) */
 .figurinha__menos {
   position: absolute;
   left: 3px;
@@ -169,14 +146,6 @@
   transition: opacity 0.08s ease;
 }
 
-.figurinha--album .figurinha__menos {
-  left: 2px;
-  bottom: 2px;
-  width: 16px;
-  height: 16px;
-  font-size: 12px;
-}
-
 .figurinha:hover .figurinha__menos,
 .figurinha:focus-within .figurinha__menos,
 .figurinha__menos:focus {
@@ -190,21 +159,15 @@
 }
 
 /* Área de toque ampliada em tela sensível (docs/interface.md § Pendências de
- * interface, IDR 0042) — o círculo visível continua 18px/16px (não muda o
- * desenho nem as medidas): um `::before` invisível estende só a zona
- * clicável. O avanço fica contido dentro do cartão (52×66px na lista,
- * 52×52px no álbum), evitando disputar toque com o cartão vizinho.
+ * interface, IDR 0042) — o círculo visível continua 18px (não muda o desenho
+ * nem as medidas): um `::before` invisível estende só a zona clicável. A
+ * expansão de 4px leva o alvo a 26×26px, contido no cartão de 60×84px,
+ * evitando disputar toque com o cartão vizinho.
  */
 @media (pointer: coarse) {
-  .figurinha--lista .figurinha__menos::before {
+  .figurinha__menos::before {
     content: '';
     position: absolute;
     inset: -4px;
-  }
-
-  .figurinha--album .figurinha__menos::before {
-    content: '';
-    position: absolute;
-    inset: -3px;
   }
 }

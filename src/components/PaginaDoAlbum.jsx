@@ -28,7 +28,7 @@ export function PaginaDoAlbum({ secao, figurinhas, posicoes, contagens, onAjusta
   return (
     <div
       className="pagina-album"
-      style={{ gridTemplateColumns: `repeat(${numTrilhas}, 52px)` }}
+      style={{ gridTemplateColumns: `repeat(${numTrilhas}, 60px)` }}
     >
       {posicoes.map((pos) => {
         const figurinha = figurinhaPorPosicao.get(pos.posicao);
