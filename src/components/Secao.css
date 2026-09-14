@@ -5,6 +5,20 @@
   flex-direction: column;
   gap: var(--section-body-gap);
 
+  /* Folga da contenção de pintura (TDR 0021). `content-visibility: auto`
+   * implica contenção de pintura, que recorta a seção na sua caixa de
+   * padding — e o selo `×N` transborda o canto inferior direito do cartão
+   * (nominal ~6px, IDR 0021), sendo cortado na última linha e no cartão
+   * encostado à borda direita, na lista e no álbum. O padding estende a
+   * caixa de pintura nessa medida; a margem negativa equivalente devolve o
+   * espaço ao fluxo, para as distâncias visíveis entre seções (10px),
+   * super-grupos (12px) e cabeçalho/grade (8px) não mudarem (IDR 0050) e a
+   * largura do conteúdo (e do cabeçalho colorido, `width: 100%`) seguir a
+   * mesma (Tarefa 0019-0006). */
+  --secao-folga-selo: 6px;
+  padding: 0 var(--secao-folga-selo) var(--secao-folga-selo) 0;
+  margin: 0 calc(-1 * var(--secao-folga-selo)) calc(-1 * var(--secao-folga-selo)) 0;
+
   /* Adia o layout/pintura das seções fora da tela sem criar rolagem
    * própria (IDR 0008) — segunda técnica mais barata de desempenho para
    * as 994 figurinhas, depois da memoização de cartão/seção (Tarefa
