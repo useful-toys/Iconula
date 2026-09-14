@@ -37,8 +37,9 @@ com o catálogo inteiro em tela.
 - O controle fica **dentro do retângulo do cartão, encostado no canto
   inferior esquerdo** — recuo 0, cobrindo a borda de 2px do cartão, sem
   transbordar; ao contrário do selo `×N`, que transborda no canto
-  inferior direito. Vale para o cartão atual e para o de 60×84px
-  ([IDR 0047](0047-nomes-de-jogadores-nas-figurinhas.md))
+  inferior direito. Vale para o cartão de 60×68px em metades
+  ([IDR 0047](0047-nomes-de-jogadores-nas-figurinhas.md)), onde o controle
+  fica sobre a metade de baixo e pode cobrir parte do nome
 - O controle fica **visualmente oculto por padrão** no cartão, para não
   competir com o gesto principal (tocar para somar) nem poluir
   visualmente a grade densa de figurinhas. Ele se torna visível quando:
@@ -64,9 +65,12 @@ com o catálogo inteiro em tela.
   guarda
 - O cartão faltante fica limpo, sem adorno algum, o que reforça o
   "cartão esvaziado" do IDR 0006 como sinal não-cromático
-- Os três adornos passam a ocupar cantos distintos e sem colisão:
-  metalizada em cima à direita, selo `×N` embaixo à direita
+- Os três adornos passam a ocupar cantos distintos e sem colisão entre
+  si: metalizada em cima à direita, selo `×N` embaixo à direita
   (transbordando), menos embaixo à esquerda (dentro)
+- Menos e selo ficam sobre a metade de baixo do cartão e podem cobrir o
+  início e o fim da segunda linha do nome — aceito para manter o cartão
+  dividido em metades ([IDR 0047](0047-nomes-de-jogadores-nas-figurinhas.md))
 - Por caber dentro do cartão, o controle encolhe; as medidas ficam em
   `interface.md` § Medidas, e a pendência de área de toque ampliada
   (Fase 10) passa a cobri-lo junto com os alvos de 30×30px
@@ -104,6 +108,12 @@ com o catálogo inteiro em tela.
 
 ## Histórico
 
+- 2026-09-14 — Revisão do PR da Fase 17: optamos por ajustar o layout do
+  cartão ([IDR 0047](0047-nomes-de-jogadores-nas-figurinhas.md)) — duas
+  metades (código em cima, nome embaixo), altura de 84px para 68px e escudo
+  e foto do time só com o código. O canto do menos não muda, mas ele deixa
+  de ter faixa inferior própria e pode cobrir parte do nome. Antes: cartão
+  de 60×84px com faixa inferior de ~22px livre para o menos e o selo.
 - 2026-09-13 — Esmiuçamento de ajustes de interface: controle encostado no
   canto inferior esquerdo (recuo 0, sobre a borda, sem transbordar) e foco
   que o revela passa a ser só o de teclado (`:focus-visible`);

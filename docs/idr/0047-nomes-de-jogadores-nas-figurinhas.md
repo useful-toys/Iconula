@@ -111,21 +111,20 @@ Aceito — implementação na Fase 0017.
 
 ## Histórico
 
-- 2026-09-14 — Novo ajuste do humano na revisão do PR da Fase 17: altura
-  reduzida em mais 10%, de 76px para 68px (76 × 0,9 = 68,4 → 68); linhas do
-  álbum acompanham (68px). Antes: cartão de 60×76px, metades de 36px úteis.
-- 2026-09-14 — Ajuste do humano na revisão do PR da Fase 17: altura do
-  cartão reduzida em 10%, de 84px para 76px (84 × 0,9 = 75,6 → 76); linhas
-  do álbum acompanham (76px); largura, tipografia e limite celular/tablet
-  do IDR 0043 inalterados. Antes: cartão de 60×84px, metades de 40px úteis.
-- 2026-09-14 — Ajuste do humano na revisão do PR da Fase 17: o cartão passa
-  a ter duas metades de mesma altura — código (sigla, número) centralizado
-  na de cima e nome centralizado na de baixo —, aceitando que o menos e o
-  selo se sobreponham ao nome; escudo (01) e foto do time (13) das seleções
-  deixam de exibir o nome e mostram só o código, centralizado no cartão
-  inteiro. Antes: código e nome empilhados e centralizados acima de uma
-  faixa inferior de ~22px reservada ao menos e ao selo, com o nome sem
-  corte também no escudo e na foto do time.
+- 2026-09-14 — Revisão do PR da Fase 17: optamos por estes ajustes de
+  layout do cartão, pedidos pelo humano ao ver a entrega:
+  - duas metades de mesma altura — código (sigla, número) centralizado na
+    de cima e nome centralizado na de baixo —, aceitando que o menos e o
+    selo se sobreponham ao nome
+  - escudo (01) e foto do time (13) das seleções só com o código,
+    centralizado no cartão inteiro; o nome fica só no nome acessível
+  - altura reduzida duas vezes em 10%: 84 × 0,9 = 75,6 → 76px;
+    76 × 0,9 = 68,4 → 68px; linhas do álbum acompanham (68px); largura,
+    tipografia e limite celular/tablet do IDR 0043 inalterados
+
+  Antes: cartão de 60×84px, código e nome empilhados e centralizados acima
+  de uma faixa inferior de ~22px reservada ao menos e ao selo, com o nome
+  sem corte também no escudo e na foto do time.
 - 2026-09-13 — Segunda revisão do planejamento das Fases 11–17: cartão de
   60×84px igual nas duas disposições, com o nome em Roboto Condensed 10px
   entre o código e a faixa do menos e do selo; tipografia do álbum igualada

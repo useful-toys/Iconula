@@ -94,9 +94,10 @@ Questões recorrentes são marcadas como "Nota".*
   - 980 da numeração oficial: 48 seleções × 20 figurinhas (960) + 20
     extras FIFA
   - 14 da página especial Coca-Cola
-  - Cada figurinha mostra o código e o nome impresso no cromo — jogador,
-    escudo, foto do time ou elemento especial; a identidade continua
-    sendo o código (ver
+  - Cada figurinha mostra o código e o nome impresso no cromo — jogador
+    ou elemento especial (Extras FIFA, Coca-Cola); escudo e foto do time
+    das seleções mostram só o código, com o nome apenas no nome
+    acessível; a identidade continua sendo o código (ver
     [IDR 0047](idr/0047-nomes-de-jogadores-nas-figurinhas.md) e
     [MDR 0008](model-dr/0008-dados-dos-nomes-das-figurinhas.md))
 - Navegar o catálogo por seção
