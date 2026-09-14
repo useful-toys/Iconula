@@ -641,9 +641,10 @@ tabela do [IDR 0046](idr/0046-cores-de-selecoes.md): os 48 tokens
   arredondada (`--panel` com borda, raio 12px, `padding: 7px 12px`), barra
   esquerda de 3px e fundo com 30% da cor do grupo sobre `--panel`
   (IDR 0045)
-- Cabeçalho de seção: painel com borda, raio 12px, `padding: 7px 12px`;
+- Cabeçalho de seção: borda de 1px e fundo com 45% da cor da seleção sobre
+  `--panel` (FWC e COC incluídos), raio 12px, `padding: 7px 12px`;
   ícone 18px, nome 14px/600 em `--cream`, números em `--muted`
-  (IDR 0050)
+  (IDR 0046, IDR 0050)
 - Cartão na lista: 52×66px, raio 5px
 - Código do cartão em Poppins 700, sigla acima do número: na lista,
   sigla 10px com `letter-spacing: .03em` sobre número 13px; no álbum, o

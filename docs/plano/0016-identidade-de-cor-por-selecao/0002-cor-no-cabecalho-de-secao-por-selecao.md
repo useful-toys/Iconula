@@ -3,7 +3,7 @@
 # Tarefa [0016-0002]: cor no cabeçalho de seção por seleção
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Aplicar a cor da seleção no cabeçalho de cada seção — borda completa de 1px e

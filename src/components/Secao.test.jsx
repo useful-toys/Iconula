@@ -398,4 +398,46 @@ describe('Secao', () => {
       }
     });
   });
+
+  describe('cor da seleção no cabeçalho', () => {
+    const figurinhasDe = (sigla, total) =>
+      Array.from({ length: total }, (_, i) => ({
+        codigo: `${sigla}${String(i + 1).padStart(2, '0')}`,
+        secao: sigla,
+        metalizada: false,
+      }));
+
+    const secoes = {
+      BRA: { sigla: 'BRA', nome: 'Brasil', icone: '🇧🇷', paginas: [24, 25], total: 20 },
+      FWC: { sigla: 'FWC', nome: 'Extras FIFA', icone: '🏆', paginas: null, total: 20 },
+      COC: { sigla: 'COC', nome: 'Coca-Cola', icone: '🥤', paginas: [112, 113], total: 14 },
+    };
+
+    it.each([
+      ['BRA', 'lista', 'secao__cabecalho--bra'],
+      ['BRA', 'album', 'secao__cabecalho--bra'],
+      ['FWC', 'lista', 'secao__cabecalho--fwc'],
+      ['FWC', 'album', 'secao__cabecalho--fwc'],
+      ['COC', 'lista', 'secao__cabecalho--coc'],
+      ['COC', 'album', 'secao__cabecalho--coc'],
+    ])(
+      '%s na disposição %s recebe a classe %s',
+      (sigla, disposicao, classe) => {
+        const total = secoes[sigla].total;
+        render(
+          <Secao
+            secao={secoes[sigla]}
+            figurinhas={figurinhasDe(sigla, total)}
+            contagens={{}}
+            onAjustar={vi.fn()}
+            disposicao={disposicao}
+          />,
+        );
+
+        const cabecalho = document.querySelector('.secao__cabecalho');
+        expect(cabecalho).toHaveClass('secao__cabecalho');
+        expect(cabecalho).toHaveClass(classe);
+      },
+    );
+  });
 });
