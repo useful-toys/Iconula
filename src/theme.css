@@ -108,8 +108,8 @@
    * medição real — o modificador `auto` faz o navegador lembrar a altura
    * de fato renderizada e reusá-la depois, então não precisa ser exata.
    * Recalibrada na Tarefa 0017-0004 com o cartão de 60×84px do IDR 0047
-   * (conta no log) e escalada ao cartão de 76px (460 × 76/84 ≈ 416 → 420). */
-  --secao-altura-estimada: 420px;
+   * (conta no log) e escalada ao cartão de 68px (460 × 68/84 ≈ 372 → 370). */
+  --secao-altura-estimada: 370px;
 }
 
 /* Padrões de página */
