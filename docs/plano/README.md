@@ -304,7 +304,7 @@ aceitas.
 | # | Tarefa | Objetivo | Status |
 |---|---|---|---|
 | 0001 | [Tokens CSS das cores de seleção](0016-identidade-de-cor-por-selecao/0001-tokens-css-das-cores-de-selecao.md) | 50 tokens em `theme.css` com os valores do IDR 0046: 48 seleções e os alias de FWC e COC. | Concluída |
-| 0002 | [Cor no cabeçalho de seção por seleção](0016-identidade-de-cor-por-selecao/0002-cor-no-cabecalho-de-secao-por-selecao.md) | Borda completa 1px + fundo 15% da cor da seleção no cabeçalho de cada seção, nas duas disposições; FWC e COC com suas cores. | Pendente |
+| 0002 | [Cor no cabeçalho de seção por seleção](0016-identidade-de-cor-por-selecao/0002-cor-no-cabecalho-de-secao-por-selecao.md) | Borda completa 1px + fundo 15% da cor da seleção no cabeçalho de cada seção, nas duas disposições; FWC e COC com suas cores. | Concluída |
 
 ## Fase 17 — Nomes de jogadores nas figurinhas
 

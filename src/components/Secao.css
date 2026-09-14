@@ -22,8 +22,15 @@
   align-items: center;
   gap: 8px;
   padding: 7px 12px;
-  background: var(--panel);
-  border: 1px solid var(--border);
+
+  /* Cor de identidade da seleção no cabeçalho (IDR 0046): borda completa de
+   * 1px na cor da seleção e fundo com 45% dela misturada a `--panel`. Cada
+   * seção define `--selection-color` por uma classe modificadora
+   * `secao__cabecalho--<sigla>` (48 seleções, FWC e COC); sem modificador,
+   * cai no `--border`/`--panel` anteriores. Raio, padding, texto e números
+   * não mudam. */
+  background: color-mix(in oklch, var(--selection-color, var(--panel)) 45%, var(--panel));
+  border: 1px solid var(--selection-color, var(--border));
   border-radius: 12px;
   cursor: pointer;
   width: 100%;
@@ -31,6 +38,60 @@
   font: inherit;
   color: inherit;
 }
+
+/* Identidade de cor por seleção (IDR 0046): cada classe modificadora liga
+ * `--selection-color` ao token `--selection-<sigla>`; FWC e COC apontam para
+ * os alias das cores de grupo. */
+.secao__cabecalho--alg { --selection-color: var(--selection-alg); }
+.secao__cabecalho--arg { --selection-color: var(--selection-arg); }
+.secao__cabecalho--aus { --selection-color: var(--selection-aus); }
+.secao__cabecalho--aut { --selection-color: var(--selection-aut); }
+.secao__cabecalho--bel { --selection-color: var(--selection-bel); }
+.secao__cabecalho--bih { --selection-color: var(--selection-bih); }
+.secao__cabecalho--bra { --selection-color: var(--selection-bra); }
+.secao__cabecalho--can { --selection-color: var(--selection-can); }
+.secao__cabecalho--civ { --selection-color: var(--selection-civ); }
+.secao__cabecalho--cod { --selection-color: var(--selection-cod); }
+.secao__cabecalho--col { --selection-color: var(--selection-col); }
+.secao__cabecalho--cpv { --selection-color: var(--selection-cpv); }
+.secao__cabecalho--cro { --selection-color: var(--selection-cro); }
+.secao__cabecalho--cuw { --selection-color: var(--selection-cuw); }
+.secao__cabecalho--cze { --selection-color: var(--selection-cze); }
+.secao__cabecalho--ecu { --selection-color: var(--selection-ecu); }
+.secao__cabecalho--egy { --selection-color: var(--selection-egy); }
+.secao__cabecalho--eng { --selection-color: var(--selection-eng); }
+.secao__cabecalho--esp { --selection-color: var(--selection-esp); }
+.secao__cabecalho--fra { --selection-color: var(--selection-fra); }
+.secao__cabecalho--ger { --selection-color: var(--selection-ger); }
+.secao__cabecalho--gha { --selection-color: var(--selection-gha); }
+.secao__cabecalho--hai { --selection-color: var(--selection-hai); }
+.secao__cabecalho--irn { --selection-color: var(--selection-irn); }
+.secao__cabecalho--irq { --selection-color: var(--selection-irq); }
+.secao__cabecalho--jor { --selection-color: var(--selection-jor); }
+.secao__cabecalho--jpn { --selection-color: var(--selection-jpn); }
+.secao__cabecalho--kor { --selection-color: var(--selection-kor); }
+.secao__cabecalho--ksa { --selection-color: var(--selection-ksa); }
+.secao__cabecalho--mar { --selection-color: var(--selection-mar); }
+.secao__cabecalho--mex { --selection-color: var(--selection-mex); }
+.secao__cabecalho--ned { --selection-color: var(--selection-ned); }
+.secao__cabecalho--nor { --selection-color: var(--selection-nor); }
+.secao__cabecalho--nzl { --selection-color: var(--selection-nzl); }
+.secao__cabecalho--pan { --selection-color: var(--selection-pan); }
+.secao__cabecalho--par { --selection-color: var(--selection-par); }
+.secao__cabecalho--por { --selection-color: var(--selection-por); }
+.secao__cabecalho--qat { --selection-color: var(--selection-qat); }
+.secao__cabecalho--rsa { --selection-color: var(--selection-rsa); }
+.secao__cabecalho--sco { --selection-color: var(--selection-sco); }
+.secao__cabecalho--sen { --selection-color: var(--selection-sen); }
+.secao__cabecalho--sui { --selection-color: var(--selection-sui); }
+.secao__cabecalho--swe { --selection-color: var(--selection-swe); }
+.secao__cabecalho--tun { --selection-color: var(--selection-tun); }
+.secao__cabecalho--tur { --selection-color: var(--selection-tur); }
+.secao__cabecalho--uru { --selection-color: var(--selection-uru); }
+.secao__cabecalho--usa { --selection-color: var(--selection-usa); }
+.secao__cabecalho--uzb { --selection-color: var(--selection-uzb); }
+.secao__cabecalho--fwc { --selection-color: var(--selection-fwc); }
+.secao__cabecalho--coc { --selection-color: var(--selection-coc); }
 
 .secao__chevron {
   flex-shrink: 0;

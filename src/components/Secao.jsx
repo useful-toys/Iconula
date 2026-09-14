@@ -43,7 +43,7 @@ function CabecalhoSecao({ secao, codigos, contagens, expandida, onToggle, corpoI
   return (
     <button
       type="button"
-      className="secao__cabecalho"
+      className={`secao__cabecalho secao__cabecalho--${secao.sigla.toLowerCase()}`}
       aria-expanded={expandida}
       aria-controls={corpoId}
       aria-label={nomeAcessivel}
