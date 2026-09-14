@@ -177,9 +177,10 @@ em vez de grade uniforme que se ajusta à largura da tela.
   (FWC) exibem-se em lista contínua mesmo nesta disposição — e sem
   filtro (ver
   [IDR 0023](idr/0023-coca-cola-no-modo-album-fwc-sempre-lista.md))
-- Cada página é um grid interno de trilhas de largura fixa (52px por
+- Cada página é um grid interno de trilhas de largura fixa (60px por
   trilha, 6px de espaçamento); as páginas ficam lado a lado quando
-  cabem na largura da tela e empilham quando não cabem (IDR 0015)
+  cabem na largura da tela e empilham quando não cabem (IDR 0015,
+  IDR 0047)
 
 #### Seleções — 4 trilhas por página
 
@@ -385,7 +386,7 @@ Trilhas de largura fixa, posições explícitas de linha/coluna — o
 recorte da página impressa (IDR 0009). As duas páginas do spread ficam
 lado a lado quando cabem na largura da tela; quando não cabem,
 empilham — página 1 (fig. 01–10) acima da página 2 (fig. 11–20),
-trilhas de 52px preservadas. A disposição álbum nunca cai para a lista
+trilhas de 60px preservadas. A disposição álbum nunca cai para a lista
 (ver [IDR 0015](idr/0015-paginas-do-album-empilham-em-tela-estreita.md)).
 
 ### Grupo na disposição álbum — Coca-Cola
@@ -527,7 +528,7 @@ Decidido até aqui, válido em qualquer faixa:
 Padrão da primeira abertura, sem preferência guardada — a partir daí vale
 o que ficou guardado (IDR 0026):
 
-- Celular (até 512px de largura) e tablet (513–1024px): ordenação pela
+- Celular (até 582px de largura) e tablet (583–1024px): ordenação pela
   página do álbum, disposição álbum — aparelhos portáteis, onde comparar
   com a página física é o valor
 - Navegador (acima de 1024px): ordenação por sigla, disposição em lista —
@@ -535,8 +536,9 @@ o que ficou guardado (IDR 0026):
 
 Os limites reaproveitam o único ponto de quebra que o próprio spread do
 álbum já produz de forma fluida (sem media query): a largura em que as
-duas páginas (472px de conteúdo) deixam de caber ao lado da margem lateral
-mínima do app (IDR 0043).
+duas páginas (536px de conteúdo) deixam de caber ao lado da margem lateral
+mínima do app (IDR 0043, recalculado com as trilhas de 60px na
+Tarefa 0017-0004).
 
 ## Identidade visual
 
@@ -645,13 +647,13 @@ tabela do [IDR 0046](idr/0046-cores-de-selecoes.md): os 48 tokens
   `--panel` (FWC e COC incluídos), raio 12px, `padding: 7px 12px`;
   ícone 18px, nome 14px/600 em `--cream`, números em `--muted`
   (IDR 0046, IDR 0050)
-- Cartão na lista: 52×66px, raio 5px
-- Código do cartão em Poppins 700, sigla acima do número: na lista,
-  sigla 10px com `letter-spacing: .03em` sobre número 13px; no álbum, o
-  mesmo cartão com tipografia um ponto menor — sigla 9px sobre número
-  12px
-- Cartão no álbum: grade de trilhas de 52px e linhas de 52px, 6px de
-  espaçamento; a figurinha 13 ocupa duas trilhas
+- Cartão: 60×84px na lista e no álbum, paisagem 126px (duas trilhas mais
+  o gap de 6px), raio 5px — o código fica centrado acima de uma faixa
+  inferior de ~22px reservada ao menos e ao selo (IDR 0047)
+- Código do cartão em Poppins 700, sigla 10px com `letter-spacing: .03em`
+  sobre número 13px, tipografia única nas duas disposições (IDR 0047)
+- Cartão no álbum: grade de trilhas de 60px e linhas de 84px, 6px de
+  espaçamento; a figurinha 13 ocupa duas trilhas (IDR 0015, IDR 0047)
 - Faltante: fundo `--panel`, borda 2px tracejada `--muted`, texto
   `--muted`, opacidade 0.6 — o "cartão esvaziado" do IDR 0006
 - Colada e repetida: fundo e borda sólidos na cor do estado, texto
@@ -660,17 +662,14 @@ tabela do [IDR 0046](idr/0046-cores-de-selecoes.md): os 48 tokens
   (`scale(0.92)`, 60ms) no instante do toque/clique (IDR 0042)
 - Selo `×N`: canto inferior direito, transbordando ~6px do cartão;
   fundo `--turf-deep`, borda e texto `--orange-card`, 10px/700, raio
-  8px, largura fixa para dois dígitos; no álbum acompanha o cartão
-  menor — 9px/700, raio 7px, transbordando ~5px
+  8px, largura fixa para dois dígitos (IDR 0047)
 - Marca de metalizada: ponto de 6px em `--gold` no canto superior
-  direito (5px no álbum), com 3px de recuo das bordas na lista e 2px no
-  álbum — dentro do cartão, nunca transbordando como o selo
-- Controle de menos: círculo de 18px no canto inferior esquerdo (16px no
-  álbum), com o mesmo recuo da marca de metalizada — 3px na lista, 2px
-  no álbum —, fundo `--turf-deep`, borda de 1px e sinal `−` em
-  `--gold`, 13px/700 (12px no álbum); nunca transborda o cartão; em tela
-  sensível, área de toque ampliada para 26px (22px no álbum), contida no
-  cartão (IDR 0042)
+  direito, com 3px de recuo das bordas — dentro do cartão, nunca
+  transbordando como o selo (IDR 0047)
+- Controle de menos: círculo de 18px no canto inferior esquerdo, com 3px
+  de recuo das bordas, fundo `--turf-deep`, borda de 1px e sinal `−` em
+  `--gold`, 13px/700; nunca transborda o cartão; em tela
+  sensível, área de toque ampliada para 26px, contida no cartão (IDR 0042)
 - Área de avisos: flutuante (`position: fixed`) colada à borda
   inferior, `padding: 12px clamp(16px, 4vw, 40px)` e sombra
   `0 -6px 20px` para cima; borda superior de 2px na cor da severidade

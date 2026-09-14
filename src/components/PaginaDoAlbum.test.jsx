@@ -125,7 +125,7 @@ describe('PaginaDoAlbum', () => {
     );
 
     const grid = container.querySelector('.pagina-album');
-    expect(grid.style.gridTemplateColumns).toBe('repeat(4, 52px)');
+    expect(grid.style.gridTemplateColumns).toBe('repeat(4, 60px)');
   });
 
   it('renderiza o grid com 3 trilhas para Coca-Cola', () => {
@@ -148,7 +148,7 @@ describe('PaginaDoAlbum', () => {
     );
 
     const grid = container.querySelector('.pagina-album');
-    expect(grid.style.gridTemplateColumns).toBe('repeat(3, 52px)');
+    expect(grid.style.gridTemplateColumns).toBe('repeat(3, 60px)');
   });
 
   it('a figurinha 01 fica sobre a terceira posição das linhas cheias', () => {

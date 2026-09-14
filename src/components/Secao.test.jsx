@@ -249,13 +249,13 @@ describe('Secao', () => {
 
       // Página 1: 6 figurinhas (01-06) em 2 linhas de 3
       const pagina1 = paginas[0];
-      expect(pagina1.style.gridTemplateColumns).toBe('repeat(3, 52px)');
+      expect(pagina1.style.gridTemplateColumns).toBe('repeat(3, 60px)');
       const celulasPagina1 = pagina1.querySelectorAll('.pagina-album__celula');
       expect(celulasPagina1).toHaveLength(6);
 
       // Página 2: 8 figurinhas (07-14)
       const pagina2 = paginas[1];
-      expect(pagina2.style.gridTemplateColumns).toBe('repeat(3, 52px)');
+      expect(pagina2.style.gridTemplateColumns).toBe('repeat(3, 60px)');
       const celulasPagina2 = pagina2.querySelectorAll('.pagina-album__celula');
       expect(celulasPagina2).toHaveLength(8);
 
@@ -314,7 +314,7 @@ describe('Secao', () => {
 
       // Ambas as páginas devem ter 4 trilhas
       for (const pagina of paginas) {
-        expect(pagina.style.gridTemplateColumns).toBe('repeat(4, 52px)');
+        expect(pagina.style.gridTemplateColumns).toBe('repeat(4, 60px)');
       }
     });
 
@@ -375,7 +375,7 @@ describe('Secao', () => {
       );
     });
 
-    it('páginas mantêm largura fixa baseada nas trilhas de 52px', () => {
+    it('páginas mantêm largura fixa baseada nas trilhas de 60px', () => {
       const { container } = render(
         <Secao
           secao={secaoBra}
@@ -392,9 +392,9 @@ describe('Secao', () => {
 
       const paginas = container.querySelectorAll('.pagina-album');
       
-      // Cada página deve ter grid-template-columns definido com trilhas de 52px
+      // Cada página deve ter grid-template-columns definido com trilhas de 60px
       for (const pagina of paginas) {
-        expect(pagina.style.gridTemplateColumns).toBe('repeat(4, 52px)');
+        expect(pagina.style.gridTemplateColumns).toBe('repeat(4, 60px)');
       }
     });
   });

@@ -22,13 +22,13 @@ describe('preferenciasDeVista', () => {
   });
 
   describe('faixaDaLargura (IDR 0043)', () => {
-    it('celular até 512px', () => {
+    it('celular até 582px', () => {
       expect(faixaDaLargura(320)).toBe('celular');
-      expect(faixaDaLargura(512)).toBe('celular');
+      expect(faixaDaLargura(582)).toBe('celular');
     });
 
-    it('tablet de 513px a 1024px', () => {
-      expect(faixaDaLargura(513)).toBe('tablet');
+    it('tablet de 583px a 1024px', () => {
+      expect(faixaDaLargura(583)).toBe('tablet');
       expect(faixaDaLargura(768)).toBe('tablet');
       expect(faixaDaLargura(1024)).toBe('tablet');
     });

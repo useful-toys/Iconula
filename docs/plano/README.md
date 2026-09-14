@@ -328,7 +328,7 @@ mudança de medida o [IDR 0015](../idr/0015-paginas-do-album-empilham-em-tela-es
 | 0001 | [Dados dos jogadores](0017-nomes-de-jogadores/0001-dados-dos-jogadores.md) | `src/data/jogadores.js` com os nomes das listas confirmadas do MDR 0008 (48×18, 20 FWC, 14 COC), com testes de invariantes. | Concluída |
 | 0002 | [Campos de nome no catálogo](0017-nomes-de-jogadores/0002-modificar-catalogo.md) | `expandirFigurinhas` emite `nome` e `nomeLinhas`; `modelo-memoria.md` e `AGENTS.md` atualizados. | Concluída |
 | 0003 | [Vendorizar a Roboto Condensed](0017-nomes-de-jogadores/0003-vendorizar-roboto-condensed.md) | Roboto Condensed 500, latin e latin-ext, servida pelo Hosting, sem abrir a CSP. | Concluída |
-| 0004 | [Cartão de 60×84px em todas as vistas](0017-nomes-de-jogadores/0004-cartao-60x84-em-todas-as-vistas.md) | Cartão único na lista e no álbum, trilhas de 60px, limite de celular em 582px e faixa inferior para menos e selo. | Pendente |
+| 0004 | [Cartão de 60×84px em todas as vistas](0017-nomes-de-jogadores/0004-cartao-60x84-em-todas-as-vistas.md) | Cartão único na lista e no álbum, trilhas de 60px, limite de celular em 582px e faixa inferior para menos e selo. | Concluída |
 | 0005 | [Nome no cartão](0017-nomes-de-jogadores/0005-nome-no-cartao.md) | Duas linhas de nome em Roboto Condensed 10px e nome acessível com o nome, nas duas disposições. | Pendente |
 
 ## Fase 18 — Ajustes da identidade de cor por grupo

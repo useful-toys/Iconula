@@ -45,11 +45,13 @@ const PADRAO_NEUTRO = {
 };
 
 // Limite de largura (px) entre celular e tablet: arredondamento do ponto em
-// que o spread da disposição álbum (duas páginas de 226px + 20px de gap =
-// 472px de conteúdo) deixa de caber ao lado da margem lateral mínima do
+// que o spread da disposição álbum (duas páginas de 258px + 20px de gap =
+// 536px de conteúdo) deixa de caber ao lado da margem lateral mínima do
 // app e passa a empilhar (IDR 0015) — reaproveitado para não criar uma
-// segunda noção de "estreito" no app (IDR 0043, com o cálculo completo).
-const LIMITE_CELULAR = 512;
+// segunda noção de "estreito" no app (IDR 0043, com o cálculo completo:
+// 4 × 60 + 3 × 6 = 258px por página; 258 + 20 + 258 = 536px; largura ≥
+// 582,6px para o spread caber lado a lado).
+const LIMITE_CELULAR = 582;
 
 // Limite de largura (px) entre tablet e navegador. Sem precedente próprio
 // no app — o spread só tem um ponto de quebra —, adotado por convenção

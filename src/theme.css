@@ -106,8 +106,10 @@
    * `contain-intrinsic-size` do `content-visibility: auto` das seções
    * (Tarefa 0010-0002, TDR 0021): só o placeholder antes da primeira
    * medição real — o modificador `auto` faz o navegador lembrar a altura
-   * de fato renderizada e reusá-la depois, então não precisa ser exata. */
-  --secao-altura-estimada: 360px;
+   * de fato renderizada e reusá-la depois, então não precisa ser exata.
+   * Recalibrada na Tarefa 0017-0004 com o cartão de 60×84px do IDR 0047
+   * (conta no log). */
+  --secao-altura-estimada: 460px;
 }
 
 /* Padrões de página */
