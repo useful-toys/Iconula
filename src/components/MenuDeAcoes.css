@@ -64,9 +64,9 @@
   }
 }
 
-/* Ancorado ao botão, alinhado pela borda direita, logo abaixo da linha de
-   controles; z-index 30 — acima do cabeçalho (10) e da área de avisos (20),
-   docs/interface.md § Camadas. */
+/* Ancorado ao avatar, alinhado pela borda direita, logo abaixo dele
+   (Tarefa 0019-0001); z-index 30 — acima do cabeçalho (10) e da área de
+   avisos (20), docs/interface.md § Camadas. */
 .menu-de-acoes__painel {
   position: absolute;
   top: calc(100% + 6px);

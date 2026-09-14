@@ -1,6 +1,5 @@
 // Copyright (c) 2026 Daniel Felix Ferber
 
-import { MenuDeAcoes } from './MenuDeAcoes.jsx';
 import './Controles.css';
 
 const ORDENACOES = [
@@ -53,29 +52,25 @@ const FILTROS = [
 ];
 
 /**
- * Linha de controles logo abaixo do t\u00edtulo: grupos segmentados de ordena\u00e7\u00e3o
- * (P\u00e1gina | Sigla), disposi\u00e7\u00e3o (Lista | \u00c1lbum) e filtro (Todas | Falt. | Col. |
- * Rep.), mais os comandos \u00e0 direita: desfazer (Tarefa 0009-0001) e o menu de
- * a\u00e7\u00f5es (Tarefa 0009-0002).
+ * Linha de controles do cabeçalho: grupos segmentados de ordenação
+ * (Página | Sigla), disposição (Lista | Álbum) e filtro (Todas | Falt. | Col. |
+ * Rep.), mais o desfazer (`↺`) colado à direita (Tarefa 0009-0001).
  *
- * O grupo de filtro s\u00f3 aparece quando a disposi\u00e7\u00e3o \u00e9 lista (IDR 0001, IDR 0023).
+ * O avatar do usuário (menu de ações) não mora mais aqui: é um `slot` do
+ * `Cabecalho`, preso à direita da primeira linha, ao lado do título
+ * (Tarefa 0019-0001, IDR 0018/IDR 0049).
+ *
+ * O grupo de filtro só aparece quando a disposição é lista (IDR 0001, IDR 0023).
  *
  * @param {object} props
- * @param {'pagina'|'sigla'} props.ordenacao - ordena\u00e7\u00e3o vigente.
+ * @param {'pagina'|'sigla'} props.ordenacao - ordenação vigente.
  * @param {(ordenacao: 'pagina'|'sigla') => void} props.onTrocarOrdenacao - callback de troca.
- * @param {'lista'|'album'} [props.disposicao='lista'] - disposi\u00e7\u00e3o vigente.
+ * @param {'lista'|'album'} [props.disposicao='lista'] - disposição vigente.
  * @param {(disposicao: 'lista'|'album') => void} [props.onTrocarDisposicao] - callback de troca.
  * @param {'todas'|'faltantes'|'coladas'|'repetidas'} [props.filtro='todas'] - filtro vigente.
  * @param {(filtro: 'todas'|'faltantes'|'coladas'|'repetidas') => void} [props.onTrocarFiltro] - callback de troca de filtro.
- * @param {boolean} [props.podeDesfazer=false] - h\u00e1 hist\u00f3rico para desfazer? (IDR 0012)
- * @param {() => void} [props.onDesfazer] - callback do bot\u00e3o de desfazer; sem ele, o bot\u00e3o n\u00e3o aparece.
- * @param {() => void} [props.onSignOut] - grava o pendente e sai da conta (Tarefa 0009-0002); sem ele, o menu de a\u00e7\u00f5es n\u00e3o aparece.
- * @param {() => void} [props.onCopiarFaltantes] - copia o texto de troca das faltantes (Tarefa 0009-0003); sem ele, o item do menu fica desabilitado.
- * @param {() => void} [props.onCopiarRepetidas] - copia o texto de troca das repetidas (Tarefa 0009-0003); sem ele, o item do menu fica desabilitado.
- * @param {() => void} [props.onExportar] - exporta a coleção em JSON (Tarefa 0009-0004); sem ele, o item do menu fica desabilitado.
- * @param {() => void} [props.onImportar] - importa a coleção de um arquivo JSON (Tarefa 0009-0005); sem ele, o item do menu fica desabilitado.
- * @param {string} [props.photoURL] - foto da conta Google para o avatar (IDR 0049).
- * @param {string} [props.displayName] - nome da conta para a inicial e o nome acessível do avatar.
+ * @param {boolean} [props.podeDesfazer=false] - há histórico para desfazer? (IDR 0012)
+ * @param {() => void} [props.onDesfazer] - callback do botão de desfazer; sem ele, o botão não aparece.
  */
 export function Controles({
   ordenacao,
@@ -86,13 +81,6 @@ export function Controles({
   onTrocarFiltro,
   podeDesfazer = false,
   onDesfazer,
-  onSignOut,
-  onCopiarFaltantes,
-  onCopiarRepetidas,
-  onExportar,
-  onImportar,
-  photoURL,
-  displayName,
 }) {
   return (
     <div className="controles">
@@ -154,7 +142,7 @@ export function Controles({
           })}
         </div>
       )}
-      <div className="controles__direita" aria-hidden={onDesfazer || onSignOut ? undefined : true}>
+      <div className="controles__direita" aria-hidden={onDesfazer ? undefined : true}>
         {onDesfazer && (
           <button
             type="button"
@@ -165,17 +153,6 @@ export function Controles({
           >
             ↺
           </button>
-        )}
-        {onSignOut && (
-          <MenuDeAcoes
-            onSignOut={onSignOut}
-            onCopiarFaltantes={onCopiarFaltantes}
-            onCopiarRepetidas={onCopiarRepetidas}
-            onExportar={onExportar}
-            onImportar={onImportar}
-            photoURL={photoURL}
-            displayName={displayName}
-          />
         )}
       </div>
     </div>

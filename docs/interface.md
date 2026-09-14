@@ -41,33 +41,33 @@ demonstrar avisos) é andaime da prévia, não faz parte do produto.*
   gravação o move; documento sem carimbo (conta nova) exibe `—`, e a
   data acompanha a hora quando o carimbo não é de hoje (ver
   [IDR 0027](idr/0027-relogio-do-titulo-e-o-updatedat-do-documento.md))
-- Comando desfazer: botão na linha de controles, sempre visível e
+- Comando desfazer: botão à direita da linha dos grupos, sempre visível e
   desabilitado quando não há histórico — reverte a última alteração;
   repetido, as últimas 10
   (ver [IDR 0012](idr/0012-desfazer-no-cabecalho-historico-de-10.md))
 - Avatar do usuário: foto da conta Google (ou a inicial do nome; sem nome, o
-  glifo) de 30×30px na mesma linha de controles, abre o popup com os
-  comandos raros — listas de troca, export/import e sair da conta (ver
+  glifo) de 30×30px na primeira linha, à direita do título, abre o popup com
+  os comandos raros — listas de troca, export/import e sair da conta (ver
   [IDR 0049](idr/0049-avatar-como-gatilho-do-menu-de-acoes.md) e
   [IDR 0024](idr/0024-acoes-raras-em-menu-do-cabecalho.md))
-- A partir de 768px de largura, título e linha de controles dividem uma
-  única linha dentro do cabeçalho sticky — título à esquerda, controles à
-  direita; sem espaço, os controles quebram para a linha de baixo, ainda
-  no sticky. Abaixo de 768px, os controles ficam numa linha própria, fora
-  do cabeçalho sticky, rolando com o conteúdo (ver
+- Tudo no cabeçalho sticky, em qualquer largura, nesta ordem: título →
+  grupos segmentados → faixa de bandeiras; nada do cabeçalho rola com o
+  conteúdo. Cabendo, título, grupos, desfazer e avatar dividem uma linha;
+  quebrando (título em duas linhas ou grupos sem espaço), o avatar fica na
+  primeira linha, à direita do título, e os grupos descem para as linhas
+  seguintes, acima da faixa; o desfazer acompanha os grupos (ver
   [IDR 0018](idr/0018-usuario-especialista-e-minimalismo.md))
 - Faixa de bandeiras (salto para seção): última linha do cabeçalho,
-  abaixo do título (e dos controles, a partir de 768px) — uma linha com as
-  50 seções, bandeira da seleção ou ícone temático do especial (🏆
-  Extras FIFA, 🥤 Coca-Cola), rolável para os lados; tocar salta até a
-  seção (ver [IDR 0016](idr/0016-salto-pela-faixa-de-bandeiras.md)) — a
-  ordem acompanha o catálogo: 🏆 no início, 🥤 no fim (IDR 0028)
+  abaixo dos grupos — uma linha com as 50 seções, bandeira da seleção ou
+  ícone temático do especial (🏆 Extras FIFA, 🥤 Coca-Cola), rolável para os
+  lados; tocar salta até a seção (ver
+  [IDR 0016](idr/0016-salto-pela-faixa-de-bandeiras.md)) — a ordem acompanha
+  o catálogo: 🏆 no início, 🥤 no fim (IDR 0028)
 
 ### Controles
-- A partir de 768px, na mesma linha do título, à direita, dentro do
-  cabeçalho sticky; sem espaço, quebra para a linha de baixo, ainda no
-  sticky. Abaixo de 768px, uma linha própria logo abaixo da faixa de
-  bandeiras — fora do cabeçalho sticky, rola com o conteúdo (IDR 0018)
+- Dentro do cabeçalho sticky, em qualquer largura: na mesma linha do
+  título quando cabe; sem espaço, desce para as linhas seguintes, acima da
+  faixa de bandeiras (IDR 0018)
 - Alternador de ordenação: página do álbum físico × sigla da seção —
   em ambas, os Extras FIFA abrem o catálogo e a Coca-Cola o fecha (ver
   [IDR 0028](idr/0028-fwc-abre-e-coca-cola-fecha-o-catalogo.md))
@@ -90,12 +90,11 @@ demonstrar avisos) é andaime da prévia, não faz parte do produto.*
   borda do grupo para não estourar a viewport (ver
   [IDR 0048](idr/0048-contorno-e-tooltip-nos-grupos-de-controles.md))
 - Os grupos segmentados fluem da esquerda para a direita e quebram para
-  a linha seguinte quando não cabem na largura; os dois botões de
-  comando ficam sempre colados à direita, separados dos alternadores
-  pelo espaço que sobrar — some o filtro (disposição álbum) e eles não
-  se movem
-- À direita da linha, os dois comandos: desfazer (`↺`) e o avatar do
-  usuário que abre o menu de ações (ver
+  a linha seguinte quando não cabem na largura; o desfazer fica sempre
+  colado à direita da linha dos grupos, separado dos alternadores pelo
+  espaço que sobrar — some o filtro (disposição álbum) e ele não se move
+- À direita da linha dos grupos, o desfazer (`↺`); o avatar do usuário que
+  abre o menu de ações fica na primeira linha, à direita do título (ver
   [IDR 0049](idr/0049-avatar-como-gatilho-do-menu-de-acoes.md))
 - Ordenação, disposição, filtro e o colapso manual de seções e
   super-grupos são lembrados entre sessões (`localStorage`, por
@@ -124,7 +123,7 @@ cópias, a dupla exportar/importar e, isolado no fim, sair da conta —
 este último em `--notif-red`, o único item vermelho da tela principal,
 porque é o único que tira o usuário de onde ele está. O popup é
 ancorado ao avatar que o abriu: alinhado pela borda direita, logo abaixo
-da linha de controles, painel `--panel` sobre borda `--border`, com
+dele, painel `--panel` sobre borda `--border`, com
 sombra projetada que o descola do conteúdo por baixo.
 
 Fecha ao escolher um comando, ao tocar fora ou com `Esc`. Todo comando
@@ -323,10 +322,9 @@ Esquemático em texto; cores indicadas são as do
 
 ```
 ┌──────────────────────────────────────────────────────────────┐
-│  ICONULA 2026 · 412/994 · 41% · ▢582 · ×37 · 12:34           │
+│  ICONULA 2026 · 412/994 · 41% · ▢582 · ×37 · 12:34    [ (D) ] │
+│  [álbum|sigla] [lista|álbum] [todas|falt|col|rep]       [↺]  │
 │  [🏆][ALG][ARG][AUS]…[USA][UZB][🥤] ── rolável ──▶          │
-├──────────────────────────────────────────────────────────────┤
-│  [álbum|sigla] [lista|álbum] [todas|falt|rep]      [↺] [⋯]   │
 ├──────────────────────────────────────────────────────────────┤
 │                                                              │
 │     … grupos do catálogo, um após o outro, até o fim …       │
@@ -337,19 +335,19 @@ Esquemático em texto; cores indicadas são as do
 └──────────────────────────────────────────────────────────────┘
 ```
 
-- Uma única rolagem (IDR 0008); a partir de 768px o cabeçalho sticky fixa
-  título, controles e faixa de bandeiras; abaixo disso, fixa título e faixa,
-  e a linha de controles rola com o conteúdo (IDR 0018)
+- Uma única rolagem (IDR 0008); o cabeçalho sticky fixa título, avatar,
+  controles e faixa de bandeiras em qualquer largura — nada dele rola com o
+  conteúdo (IDR 0018)
 - Faixa de bandeiras no cabeçalho (salto — IDR 0016): uma linha
   rolável horizontalmente — exceção pontual ao scroll único
-- `[⋯]` abre o menu de ações (IDR 0024): copiar faltantes, copiar
-  repetidas, exportar JSON, importar JSON
+- `(D)` (avatar) abre o menu de ações (IDR 0024, IDR 0049): copiar
+  faltantes, copiar repetidas, exportar JSON, importar JSON
 - Avisos (IDR 0029): caixa flutuante colada à borda inferior — sucesso e
   aviso somem em 5s, a falha fica e revela a mensagem técnica ao toque;
   nunca log com scroll
 - Estado vazio (0/994): tela normal, sem dica nem mensagem especial
-- Desfazer: botão na linha de controles, sempre visível e desabilitado
-  sem histórico
+- Desfazer: botão à direita da linha dos grupos, sempre visível e
+  desabilitado sem histórico
 - Notação compacta (IDR 0018) em placar e títulos: `412/994 · 41% ·
   ▢582 · ×37` — as palavras vivem só no nome acessível
 
@@ -634,9 +632,8 @@ tabela do [IDR 0046](idr/0046-cores-de-selecoes.md): os 48 tokens
   com fundo `--gold` e texto `--turf-deep`, inativo transparente em
   `--muted`
 - Desfazer: botão de 30×30px, raio 8px, borda e texto em `--gold`,
-  alinhado à direita da linha; em tela sensível, área de toque ampliada
-  até a metade do espaçamento que o separa do avatar, sem crescer
-  visualmente (IDR 0042)
+  colado à direita da linha dos grupos; em tela sensível, área de toque
+  ampliada, sem crescer visualmente (IDR 0042)
 - Avatar do usuário: foto circular de 30×30px, sem borda; sem foto, a
   inicial maiúscula do nome em `--gold` sobre `--panel` com borda `--gold`;
   sem nome, o glifo do menu; mesma área de toque ampliada e mesmo foco
@@ -702,8 +699,8 @@ tabela do [IDR 0046](idr/0046-cores-de-selecoes.md): os 48 tokens
   detalhe técnico em monospace 11px, `×` de dispensar em 16px na ponta
   direita
 - Menu de ações: painel de largura mínima 230px, raio 10px e `6px` de
-  respiro interno, aberto logo abaixo da linha de controles e alinhado
-  pela direita; itens de `9px 12px` em 13px, raio 7px; filetes de 1px
+  respiro interno, aberto logo abaixo do avatar e alinhado pela direita;
+  itens de `9px 12px` em 13px, raio 7px; filetes de 1px
   em `--border` com margem `4px 6px`; sombra `0 8px 24px`
 - Links: `--gold`, sem sublinhado, opacidade 0.8 sob o cursor
 - Rodapé: 11px em `--muted`, borda superior `--border`

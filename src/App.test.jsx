@@ -218,6 +218,26 @@ describe("App — tela principal", () => {
 
     expect(placar()).toBeInTheDocument();
   });
+
+  // Tarefa 0019-0001, IDR 0018: título, avatar, controles e faixa moram todos
+  // dentro do `<header>` sticky, que é o próprio elemento fixo em qualquer
+  // largura — não há mais o bloco `.cabecalho__fixo` nem o ponto de quebra.
+  it("mantém título, avatar, controles e faixa dentro do cabeçalho sticky", async () => {
+    render(<App />);
+    await emitirAuth(USUARIO_LOGADO);
+
+    const header = document.querySelector("header.cabecalho");
+    expect(header).toBeInTheDocument();
+    expect(header).toContainElement(screen.getByText("ICONULA 2026"));
+    expect(header).toContainElement(screen.getByRole("button", { name: /menu de ações/ }));
+    expect(header).toContainElement(
+      screen.getByRole("button", { name: "desfazer a última alteração" }),
+    );
+    expect(header).toContainElement(
+      screen.getByRole("navigation", { name: "Saltar para seção" }),
+    );
+    expect(document.querySelector(".cabecalho__fixo")).not.toBeInTheDocument();
+  });
 });
 
 // Tarefa 0010-0003, IDR 0043: padrões de primeira abertura por faixa de

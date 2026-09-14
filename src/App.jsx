@@ -9,6 +9,7 @@ import Atestacao from "./components/Atestacao.jsx";
 import PoliticaDePrivacidade from "./components/PoliticaDePrivacidade.jsx";
 import { Cabecalho } from "./components/Cabecalho.jsx";
 import { Controles } from "./components/Controles.jsx";
+import { MenuDeAcoes } from "./components/MenuDeAcoes.jsx";
 import { Catalogo } from "./components/Catalogo.jsx";
 import { Avisos } from "./components/Avisos.jsx";
 import { Rodape } from "./components/Rodape.jsx";
@@ -493,6 +494,17 @@ export default function App() {
         secoes={secoesOrdenadas}
         ordenacao={ordenacao}
         onSaltar={handleSaltar}
+        avatar={
+          <MenuDeAcoes
+            onSignOut={handleSignOut}
+            onCopiarFaltantes={handleCopiarFaltantes}
+            onCopiarRepetidas={handleCopiarRepetidas}
+            onExportar={handleExportar}
+            onImportar={handleImportar}
+            photoURL={user.photoURL}
+            displayName={user.displayName}
+          />
+        }
       >
         <Controles
           ordenacao={ordenacao}
@@ -503,13 +515,6 @@ export default function App() {
           onTrocarFiltro={handleTrocarFiltro}
           podeDesfazer={historico.length > 0}
           onDesfazer={handleDesfazer}
-          onSignOut={handleSignOut}
-          onCopiarFaltantes={handleCopiarFaltantes}
-          onCopiarRepetidas={handleCopiarRepetidas}
-          onExportar={handleExportar}
-          onImportar={handleImportar}
-          photoURL={user.photoURL}
-          displayName={user.displayName}
         />
       </Cabecalho>
       <input

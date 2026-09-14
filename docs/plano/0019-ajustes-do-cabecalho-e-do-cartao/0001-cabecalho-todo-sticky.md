@@ -3,7 +3,7 @@
 # Tarefa [0019-0001]: cabeçalho todo sticky, com o avatar na primeira linha
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Levar título, grupos segmentados e faixa de bandeiras para dentro do cabeçalho
