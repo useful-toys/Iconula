@@ -3,7 +3,7 @@
 # Tarefa [0019-0006]: selo `×N` inteiro na última linha da seção
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Mostrar inteiro o selo `×N` das figurinhas da última linha de cada seção, que

@@ -70,6 +70,21 @@ porque o próprio código já deixava isso evidente por inspeção). Depois:
                             que ficam fora de qualquer super-grupo)
 ```
 
+### A contenção de pintura recorta o transbordo dos adornos do cartão
+
+Descoberto na Tarefa 0019-0006: `content-visibility: auto` implica
+contenção de pintura na seção (a especificação de CSS Containment aplica
+`contain: layout paint style`), e a pintura dos descendentes é recortada na
+caixa de padding da seção. O selo `×N` transborda o canto inferior direito
+do cartão (IDR 0021, IDR 0047) — nominalmente ~6px pelo deslocamento
+`-6px`, na prática ~4px após a Tarefa 0019-0005 (`right`/`bottom` negativos
+contra a caixa de padding de `.figurinha__visual`, que tem borda de 2px).
+Na última linha da seção o transbordo inferior cai além da caixa da seção e
+é recortado; no cartão encostado à borda direita da seção, o transbordo
+lateral também. Confirmado em navegador (Chromium, Tarefa 0019-0006): sem a
+folga, os pixels do selo abaixo da borda inferior do cartão e à direita da
+borda direita saem recortados.
+
 ## Decisão
 
 Resolvida na ordem do mais barato ao mais caro definida pela própria
@@ -136,6 +151,13 @@ virtualização) não foi necessária:
   nenhum contêiner com rolagem própria — é só uma dica de renderização: o
   navegador adia layout/pintura das seções fora da tela, sem tirá-las do
   fluxo normal da página (IDR 0008 preservado).
+- A caixa da seção ganha folga de 6px à direita e embaixo (`padding`),
+  compensada por `margin` negativa de mesmo valor, para a contenção de
+  pintura não recortar o selo `×N` que transborda o cartão (Tarefa
+  0019-0006). A margem negativa devolve a folga ao fluxo: as distâncias
+  visíveis entre seções e a largura do cabeçalho colorido não mudam, e o
+  `contain-intrinsic-size` continua estimando o conteúdo interno (o
+  padding é somado por fora, como em qualquer caixa).
 - A medição em jsdom não mede o ganho real desta técnica — jsdom não faz
   layout nem pintura. A adoção segue diretamente a resolução tomada no
   planejamento da Fase 10 ("preferir `content-visibility` por seção, que
@@ -215,3 +237,10 @@ a justificar.
   acrescentariam nada ao que a técnica 2 já faz. Fica como gatilho de
   revisão se uma medição futura, em uso real, mostrar que memoização +
   `content-visibility` não bastam.
+
+## Histórico
+
+- 2026-09-14 — Tarefa 0019-0006: a caixa da seção ganha folga de 6px à
+  direita e embaixo (compensada por margem negativa) para a contenção de
+  pintura não recortar o selo `×N` na última linha e na borda direita —
+  descoberta registrada no Contexto.
