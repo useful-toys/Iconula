@@ -3,7 +3,7 @@
 # Tarefa [0018-0001]: faixa de bandeiras com cor mais reconhecível
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Na ordenação por página, o fundo de cada bandeira sobe de 20% para 60% da cor

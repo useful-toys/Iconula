@@ -63,7 +63,7 @@ Detalhes e status das tarefas no guia [CLAUDE.md](CLAUDE.md) § Status e ciclo d
 | 15 | [Identidade de cor por grupo](0015-identidade-de-cor-por-grupo/) | Cor distinta por grupo de seleções (A–L) e especiais (FWC, COC), aplicada no título do super-grupo e na faixa de bandeiras — o cabeçalho de seção fica para a cor da seleção (Fase 16) | 13 | `feat: identidade de cor por grupo de seções` | Entregue |
 | 16 | [Identidade de cor por seleção](0016-identidade-de-cor-por-selecao/) | Cor individual para cada uma das 48 seleções, aplicada no cabeçalho de seção | 15 | `feat: identidade de cor por seleção` | Pendente |
 | 17 | [Nomes de jogadores nas figurinhas](0017-nomes-de-jogadores/) | Nome do jogador/elemento em cada figurinha, num cartão de 60×84px igual em todas as vistas | 14, 16 | `feat: nomes de jogadores nas figurinhas` | Pendente |
-| 18 | [Ajustes da identidade de cor por grupo](0018-ajustes-da-identidade-de-cor-por-grupo/) | Deixar a cor do grupo mais reconhecível na faixa de bandeiras e dar moldura ao título do super-grupo | 15 | `feat: cor de grupo mais reconhecível` | Pendente |
+| 18 | [Ajustes da identidade de cor por grupo](0018-ajustes-da-identidade-de-cor-por-grupo/) | Deixar a cor do grupo mais reconhecível na faixa de bandeiras e dar moldura ao título do super-grupo | 15 | `feat: cor de grupo mais reconhecível` | Em andamento |
 
 ---
 
@@ -339,7 +339,7 @@ mantendo a barra esquerda de 3px. Decisão revisada no
 
 | # | Tarefa | Objetivo | Status |
 |---|---|---|---|
-| 0001 | [Faixa de bandeiras com cor mais reconhecível](0018-ajustes-da-identidade-de-cor-por-grupo/0001-faixa-de-bandeiras-com-cor-mais-reconhecivel.md) | Fundo 60% + barra inferior de 2px a 80% e hover a 80% em cada bandeira, só na ordenação por página. | Pendente |
+| 0001 | [Faixa de bandeiras com cor mais reconhecível](0018-ajustes-da-identidade-de-cor-por-grupo/0001-faixa-de-bandeiras-com-cor-mais-reconhecivel.md) | Fundo 60% + barra inferior de 2px a 80% e hover a 80% em cada bandeira, só na ordenação por página. | Concluída |
 | 0002 | [Título do super-grupo com moldura da seção](0018-ajustes-da-identidade-de-cor-por-grupo/0002-titulo-do-super-grupo-com-moldura-da-secao.md) | Moldura arredondada (`--panel` + raio 12px + padding 7px 12px) com barra esquerda de 3px e fundo a 30%; texto em `--gold`. | Pendente |
 
 ## Regras que valem em toda tarefa
