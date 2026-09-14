@@ -3,7 +3,7 @@
 # Tarefa [0019-0002]: tooltip nas bandeiras, com sigla, nome e progresso
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Ao passar o mouse ou chegar por teclado a uma bandeira da faixa, mostrar

@@ -1,7 +1,7 @@
 // Copyright (c) 2026 Daniel Felix Ferber
 
 import { describe, expect, it, vi } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/vitest';
 import { Cabecalho } from './Cabecalho.jsx';
 import { Controles } from './Controles.jsx';
@@ -243,5 +243,28 @@ describe('Cabecalho', () => {
     expect(estaAntes(titulo, avatar)).toBe(true);
     expect(estaAntes(avatar, grupos[0])).toBe(true);
     expect(estaAntes(grupos[grupos.length - 1], desfazer)).toBe(true);
+  });
+
+  it('repassa o progresso por seção ao tooltip da faixa', () => {
+    const placarPorSecao = new Map([
+      ['BRA', { coladas: 12, faltantes: 8, repetidas: 3, percentual: 60 }],
+    ]);
+    render(
+      <Cabecalho
+        coladas={412}
+        faltantes={582}
+        repetidas={37}
+        percentual={41}
+        secoes={secoes}
+        onSaltar={vi.fn()}
+        placarPorSecao={placarPorSecao}
+      />,
+    );
+
+    act(() => {
+      screen.getByLabelText('Saltar para Brasil').focus();
+    });
+
+    expect(screen.getByText('BRA · Brasil · 12/20 · 60% · ▢8 · ×3')).toBeInTheDocument();
   });
 });

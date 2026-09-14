@@ -1,12 +1,20 @@
 // Copyright (c) 2026 Daniel Felix Ferber
 
-import { describe, expect, it, vi } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { describe, expect, it, vi, afterEach } from 'vitest';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom/vitest';
 import { FaixaDeSecoes } from './FaixaDeSecoes.jsx';
 import { secoes } from '../data/catalogo.js';
 import { ordenarPorPagina, extrairSecoes } from '../data/catalogoOrdenacoes.js';
+
+function placarDeExemplo() {
+  return new Map([
+    ['BRA', { coladas: 12, faltantes: 8, repetidas: 3, percentual: 60 }],
+    ['FWC', { coladas: 5, faltantes: 15, repetidas: 0, percentual: 25 }],
+    ['COC', { coladas: 14, faltantes: 0, repetidas: 2, percentual: 100 }],
+  ]);
+}
 
 describe('FaixaDeSecoes', () => {
   it('renderiza as 50 seções com FWC no início e COC no fim', () => {
@@ -103,5 +111,122 @@ describe('FaixaDeSecoes', () => {
       .filter((botao) => /faixa-de-secoes__botao--grupo-/.test(botao.className));
 
     expect(coloridas).toHaveLength(0);
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  function mostrarComFoco(botao) {
+    act(() => {
+      botao.focus();
+    });
+  }
+
+  it('mostra no foco por teclado a sigla, o nome e o progresso da seção', () => {
+    render(<FaixaDeSecoes secoes={secoes} onSaltar={vi.fn()} placarPorSecao={placarDeExemplo()} />);
+
+    mostrarComFoco(screen.getByLabelText('Saltar para Brasil'));
+
+    expect(screen.getByText('BRA · Brasil · 12/20 · 60% · ▢8 · ×3')).toBeInTheDocument();
+  });
+
+  it('identifica os especiais com a própria sigla e nome', () => {
+    render(<FaixaDeSecoes secoes={secoes} onSaltar={vi.fn()} placarPorSecao={placarDeExemplo()} />);
+
+    mostrarComFoco(screen.getByLabelText('Saltar para Extras FIFA'));
+    expect(screen.getByText('FWC · Extras FIFA · 5/20 · 25% · ▢15 · ×0')).toBeInTheDocument();
+
+    act(() => {
+      screen.getByLabelText('Saltar para Coca-Cola').focus();
+    });
+    expect(screen.getByText('COC · Coca-Cola · 14/14 · 100% · ▢0 · ×2')).toBeInTheDocument();
+  });
+
+  it('no hover de mouse aparece só depois do atraso', () => {
+    vi.useFakeTimers();
+    render(<FaixaDeSecoes secoes={secoes} onSaltar={vi.fn()} placarPorSecao={placarDeExemplo()} />);
+
+    fireEvent.pointerOver(screen.getByLabelText('Saltar para Brasil'), { pointerType: 'mouse' });
+
+    act(() => {
+      vi.advanceTimersByTime(399);
+    });
+    expect(screen.queryByText(/^BRA · Brasil/)).not.toBeInTheDocument();
+
+    act(() => {
+      vi.advanceTimersByTime(1);
+    });
+    expect(screen.getByText(/^BRA · Brasil/)).toBeInTheDocument();
+  });
+
+  it('não mostra o tooltip enquanto o ponteiro é de toque', () => {
+    vi.useFakeTimers();
+    render(<FaixaDeSecoes secoes={secoes} onSaltar={vi.fn()} placarPorSecao={placarDeExemplo()} />);
+
+    fireEvent.pointerOver(screen.getByLabelText('Saltar para Brasil'), { pointerType: 'touch' });
+    act(() => {
+      vi.advanceTimersByTime(1000);
+    });
+
+    expect(screen.queryByText(/^BRA · Brasil/)).not.toBeInTheDocument();
+  });
+
+  it('some ao sair o ponteiro e ao perder o foco', () => {
+    const { container } = render(
+      <FaixaDeSecoes secoes={secoes} onSaltar={vi.fn()} placarPorSecao={placarDeExemplo()} />,
+    );
+    const bra = screen.getByLabelText('Saltar para Brasil');
+
+    mostrarComFoco(bra);
+    expect(container.querySelector('.faixa-de-secoes__tooltip')).toBeInTheDocument();
+
+    fireEvent.pointerOut(bra, { pointerType: 'mouse' });
+    expect(container.querySelector('.faixa-de-secoes__tooltip')).not.toBeInTheDocument();
+
+    mostrarComFoco(bra);
+    act(() => {
+      bra.blur();
+    });
+    expect(container.querySelector('.faixa-de-secoes__tooltip')).not.toBeInTheDocument();
+  });
+
+  it('some ao rolar a página', () => {
+    const { container } = render(
+      <FaixaDeSecoes secoes={secoes} onSaltar={vi.fn()} placarPorSecao={placarDeExemplo()} />,
+    );
+
+    mostrarComFoco(screen.getByLabelText('Saltar para Brasil'));
+    expect(container.querySelector('.faixa-de-secoes__tooltip')).toBeInTheDocument();
+
+    fireEvent.scroll(window);
+    expect(container.querySelector('.faixa-de-secoes__tooltip')).not.toBeInTheDocument();
+  });
+
+  it('renderiza um único tooltip, fora do contêiner rolável da faixa', () => {
+    const { container } = render(
+      <FaixaDeSecoes secoes={secoes} onSaltar={vi.fn()} placarPorSecao={placarDeExemplo()} />,
+    );
+
+    mostrarComFoco(screen.getByLabelText('Saltar para Brasil'));
+
+    const tooltips = container.querySelectorAll('.faixa-de-secoes__tooltip');
+    expect(tooltips).toHaveLength(1);
+    expect(container.querySelector('.faixa-de-secoes__trilha')).not.toContainElement(tooltips[0]);
+  });
+
+  it('mantém o clique saltando e esconde o tooltip', () => {
+    const onSaltar = vi.fn();
+    const { container } = render(
+      <FaixaDeSecoes secoes={secoes} onSaltar={onSaltar} placarPorSecao={placarDeExemplo()} />,
+    );
+    const bra = screen.getByLabelText('Saltar para Brasil');
+
+    mostrarComFoco(bra);
+    expect(container.querySelector('.faixa-de-secoes__tooltip')).toBeInTheDocument();
+
+    fireEvent.click(bra);
+    expect(onSaltar).toHaveBeenCalledWith('BRA');
+    expect(container.querySelector('.faixa-de-secoes__tooltip')).not.toBeInTheDocument();
   });
 });
