@@ -73,6 +73,47 @@
   font-weight: 700;
 }
 
+/* Nome da figurinha entre o código e a faixa inferior do menos e do selo
+ * (IDR 0047): Roboto Condensed 500 de 10px, centralizado, na cor de texto do
+ * estado (`color: inherit`, como o código). */
+.figurinha__nome {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  width: 100%;
+  padding: 0 3px;
+  font-family: 'Roboto Condensed', 'Poppins', system-ui, sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 1.1;
+}
+
+.figurinha__nome-prenomes,
+.figurinha__nome-sobrenome,
+.figurinha__nome-unico {
+  display: block;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Caixa alta só na exibição (IDR 0047): o dado e o nome acessível mantêm a
+ * grafia. */
+.figurinha__nome-sobrenome {
+  text-transform: uppercase;
+}
+
+/* Nomes sem corte (posições fixas, Extras FIFA, Coca-Cola): caixa única de
+ * até duas linhas, com ellipsis na segunda (IDR 0047). */
+.figurinha__nome-unico {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  white-space: normal;
+}
+
 /* Estados */
 .figurinha--faltante .figurinha__corpo {
   color: var(--muted);

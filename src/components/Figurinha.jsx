@@ -27,7 +27,9 @@ function propsEquivalentes(anterior, seguinte) {
     anterior.contagem === seguinte.contagem &&
     anterior.metalizada === seguinte.metalizada &&
     anterior.variante === seguinte.variante &&
-    anterior.paisagem === seguinte.paisagem
+    anterior.paisagem === seguinte.paisagem &&
+    anterior.nome === seguinte.nome &&
+    anterior.nomeLinhas === seguinte.nomeLinhas
   );
 }
 
@@ -47,6 +49,8 @@ function propsEquivalentes(anterior, seguinte) {
  * @param {boolean} [props.metalizada] - indica figurinha metalizada/especial.
  * @param {'lista' | 'album'} [props.variante='lista'] - tamanho do cartão.
  * @param {boolean} [props.paisagem=false] - figurinha em paisagem (ocupa 2 trilhas).
+ * @param {string} [props.nome] - nome completo (ex.: "Gabriel Magalhães"), no nome acessível.
+ * @param {[string | null, string] | null} [props.nomeLinhas] - par [prenomes, sobrenome] para jogador com corte; [null, nome] para nome único; ausente/`null` sem corte (IDR 0047, MDR 0008).
  * @param {() => void} props.onIncrementar - chamado ao tocar no cartão.
  * @param {() => void} props.onDecrementar - chamado ao tocar no controle de menos.
  */
@@ -56,6 +60,8 @@ export const Figurinha = memo(function Figurinha({
   metalizada = false,
   variante = 'lista',
   paisagem = false,
+  nome,
+  nomeLinhas,
   onIncrementar,
   onDecrementar,
 }) {
@@ -150,6 +156,8 @@ export const Figurinha = memo(function Figurinha({
   const sigla = codigo.slice(0, 3);
   const numero = codigo.slice(3);
   const sobrando = Math.max(0, contagem - 1);
+  // O nome entra no nome acessível entre o código e o estado (IDR 0047).
+  const nomeNoRotulo = nome ? `, ${nome}` : '';
 
   let estadoClasse = 'figurinha--faltante';
   let estadoLabel = 'faltante';
@@ -180,7 +188,7 @@ export const Figurinha = memo(function Figurinha({
         type="button"
         className="figurinha__corpo"
         ref={corpoRef}
-        aria-label={`${sigla} ${numero}, ${estadoLabel}`}
+        aria-label={`${sigla} ${numero}${nomeNoRotulo}, ${estadoLabel}`}
         onClick={aoClique}
         onPointerDown={aoPointerDown}
         onPointerMove={aoPointerMove}
@@ -195,6 +203,20 @@ export const Figurinha = memo(function Figurinha({
           <span className="figurinha__sigla">{sigla}</span>
           <span className="figurinha__numero">{numero}</span>
         </span>
+        {(nome || nomeLinhas) && (
+          <span className="figurinha__nome" aria-hidden="true">
+            {nomeLinhas ? (
+              <>
+                {nomeLinhas[0] && (
+                  <span className="figurinha__nome-prenomes">{nomeLinhas[0]}</span>
+                )}
+                <span className="figurinha__nome-sobrenome">{nomeLinhas[1]}</span>
+              </>
+            ) : (
+              <span className="figurinha__nome-unico">{nome}</span>
+            )}
+          </span>
+        )}
         {contagem >= 2 && (
           <span className="figurinha__selo" aria-hidden="true">
             ×{sobrando}
@@ -205,7 +227,7 @@ export const Figurinha = memo(function Figurinha({
         <button
           type="button"
           className="figurinha__menos"
-          aria-label={`remover uma unidade de ${sigla} ${numero}`}
+          aria-label={`remover uma unidade de ${sigla} ${numero}${nomeNoRotulo}`}
           onClick={(event) => {
             event.stopPropagation();
             onDecrementar();

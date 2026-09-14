@@ -3,7 +3,7 @@
 # Tarefa [0017-0005]: nome no cartão
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Exibir o nome da figurinha entre o código e a faixa inferior do cartão, em
