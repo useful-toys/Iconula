@@ -62,7 +62,7 @@ Detalhes e status das tarefas no guia [CLAUDE.md](CLAUDE.md) § Status e ciclo d
 | 14 | [Correção urgente: renumeração do FWC](0014-numeracao-dos-extras-fifa/) | Extras FIFA de `FWC00` a `FWC19` (hoje `FWC01`–`FWC20`, deslocado em um); total do catálogo continua 994 | 10 | `fix: renumera os Extras FIFA para FWC00–FWC19` | Entregue |
 | 15 | [Identidade de cor por grupo](0015-identidade-de-cor-por-grupo/) | Cor distinta por grupo de seleções (A–L) e especiais (FWC, COC), aplicada no título do super-grupo e na faixa de bandeiras — o cabeçalho de seção fica para a cor da seleção (Fase 16) | 13 | `feat: identidade de cor por grupo de seções` | Entregue |
 | 16 | [Identidade de cor por seleção](0016-identidade-de-cor-por-selecao/) | Cor individual para cada uma das 48 seleções, aplicada no cabeçalho de seção | 15 | `feat: identidade de cor por seleção` | Entregue |
-| 17 | [Nomes de jogadores nas figurinhas](0017-nomes-de-jogadores/) | Nome do jogador/elemento em cada figurinha, num cartão de 60×84px igual em todas as vistas | 14, 16, 19 | `feat: nomes de jogadores nas figurinhas` | Pendente |
+| 17 | [Nomes de jogadores nas figurinhas](0017-nomes-de-jogadores/) | Nome do jogador/elemento em cada figurinha, num cartão de 60×84px igual em todas as vistas | 14, 16, 19 | `feat: nomes de jogadores nas figurinhas` | Em andamento |
 | 18 | [Ajustes da identidade de cor por grupo](0018-ajustes-da-identidade-de-cor-por-grupo/) | Deixar a cor do grupo mais reconhecível na faixa de bandeiras e dar moldura ao título do super-grupo | 15 | `feat: cor de grupo mais reconhecível` | Entregue |
 | 19 | [Ajustes do cabeçalho e do cartão](0019-ajustes-do-cabecalho-e-do-cartao/) | Cabeçalho todo sticky, tooltip nas bandeiras, aviso mais baixo e as correções do controle de menos, do clique perto da borda e do selo cortado | 18 | `feat: ajustes do cabeçalho, tooltip nas bandeiras e correções do cartão` | Pendente |
 | 20 | [Contrair seções, rodapé e termos de uso](0020-contrair-secoes-rodape-e-termos/) | Contrair as seções de um super-grupo num toque; copyright, isenção e termos de uso nas duas telas | 19 | `feat: contrair seções do grupo, rodapé com copyright e termos de uso` | Pendente |
@@ -325,7 +325,7 @@ mudança de medida o [IDR 0015](../idr/0015-paginas-do-album-empilham-em-tela-es
 
 | # | Tarefa | Objetivo | Status |
 |---|---|---|---|
-| 0001 | [Dados dos jogadores](0017-nomes-de-jogadores/0001-dados-dos-jogadores.md) | `src/data/jogadores.js` com os nomes das listas confirmadas do MDR 0008 (48×18, 20 FWC, 14 COC), com testes de invariantes. | Pendente |
+| 0001 | [Dados dos jogadores](0017-nomes-de-jogadores/0001-dados-dos-jogadores.md) | `src/data/jogadores.js` com os nomes das listas confirmadas do MDR 0008 (48×18, 20 FWC, 14 COC), com testes de invariantes. | Concluída |
 | 0002 | [Campos de nome no catálogo](0017-nomes-de-jogadores/0002-modificar-catalogo.md) | `expandirFigurinhas` emite `nome` e `nomeLinhas`; `modelo-memoria.md` e `AGENTS.md` atualizados. | Pendente |
 | 0003 | [Vendorizar a Roboto Condensed](0017-nomes-de-jogadores/0003-vendorizar-roboto-condensed.md) | Roboto Condensed 500, latin e latin-ext, servida pelo Hosting, sem abrir a CSP. | Pendente |
 | 0004 | [Cartão de 60×84px em todas as vistas](0017-nomes-de-jogadores/0004-cartao-60x84-em-todas-as-vistas.md) | Cartão único na lista e no álbum, trilhas de 60px, limite de celular em 582px e faixa inferior para menos e selo. | Pendente |

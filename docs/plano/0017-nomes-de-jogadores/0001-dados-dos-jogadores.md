@@ -3,7 +3,7 @@
 # Tarefa [0017-0001]: dados dos jogadores
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Criar `src/data/jogadores.js` com os nomes das figurinhas — 48 seleções com 18
