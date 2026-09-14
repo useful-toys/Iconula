@@ -3,7 +3,7 @@
 # Tarefa [0019-0003]: faixa de aviso com respiro de 6px
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Baixar a faixa de aviso (sucesso, aviso e falha) reduzindo o respiro vertical

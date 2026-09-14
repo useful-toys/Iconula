@@ -19,7 +19,7 @@
 .avisos__faixa {
   display: flex;
   align-items: center;
-  padding: 12px var(--page-gutter);
+  padding: 6px var(--page-gutter);
   border-top: 2px solid;
   box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.4);
   color: var(--cream);
