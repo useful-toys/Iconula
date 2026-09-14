@@ -666,14 +666,14 @@ tabela do [IDR 0046](idr/0046-cores-de-selecoes.md): os 48 tokens
   `--panel` (FWC e COC incluídos), raio 12px, `padding: 7px 12px`;
   ícone 18px, nome 14px/600 em `--cream`, números em `--muted`
   (IDR 0046, IDR 0050)
-- Cartão: 60×84px na lista e no álbum, paisagem 126px (duas trilhas mais
-  o gap de 6px), raio 5px — duas metades de 40px úteis cada: código
+- Cartão: 60×76px na lista e no álbum, paisagem 126px (duas trilhas mais
+  o gap de 6px), raio 5px — duas metades de 36px úteis cada: código
   centrado na de cima, nome na de baixo, com menos e selo por cima do nome;
   sem nome visível (escudo e foto do time), código centrado no cartão
   inteiro (IDR 0047)
 - Código do cartão em Poppins 700, sigla 10px com `letter-spacing: .03em`
   sobre número 13px, tipografia única nas duas disposições (IDR 0047)
-- Cartão no álbum: grade de trilhas de 60px e linhas de 84px, 6px de
+- Cartão no álbum: grade de trilhas de 60px e linhas de 76px, 6px de
   espaçamento; a figurinha 13 ocupa duas trilhas (IDR 0015, IDR 0047)
 - Faltante: fundo `--panel`, borda 2px tracejada `--muted`, texto
   `--muted`, opacidade 0.6 — o "cartão esvaziado" do IDR 0006

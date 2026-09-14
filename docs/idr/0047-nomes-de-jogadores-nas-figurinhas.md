@@ -24,10 +24,10 @@ Aceito — implementação na Fase 0017.
 
 ## Decisão
 
-- **Cartão de 60×84px, igual nas disposições lista e álbum**; na paisagem
+- **Cartão de 60×76px, igual nas disposições lista e álbum**; na paisagem
   (figurinha 13), 126px de largura (2 × 60 + 6); raio 5px
-- **Composição em duas metades de mesma altura** (84 − 2 × 2 de borda =
-  80px úteis → 40px cada):
+- **Composição em duas metades de mesma altura** (76 − 2 × 2 de borda =
+  72px úteis → 36px cada):
   - metade de cima: código em Poppins 700, sigla (10px) na linha 1 e número
     (13px) na linha 2, centralizado na horizontal e na vertical
   - metade de baixo: nome em duas linhas, centralizado na horizontal e na
@@ -59,9 +59,9 @@ Aceito — implementação na Fase 0017.
 ## Consequências
 
 - Cada figurinha se identifica pelo nome, como no cromo físico
-- O cartão cresce ~27% na altura da lista e ~62% no álbum: mais rolagem,
+- O cartão cresce ~15% na altura da lista e ~46% no álbum: mais rolagem,
   compensada em parte pela [Fase 12](0050-compactacao-vertical-do-catalogo.md)
-- Trilhas do álbum passam de 52px para 60px e linhas de 52px para 84px:
+- Trilhas do álbum passam de 52px para 60px e linhas de 52px para 76px:
   o spread vai a 536px e o limite celular/tablet do
   [IDR 0043](0043-padroes-de-primeira-abertura-por-faixa-de-tela.md) é
   recalculado; as páginas empilham um pouco antes
@@ -83,6 +83,8 @@ Aceito — implementação na Fase 0017.
   álbum
 - **Código numa linha só no topo**: libera altura, mas contraria a
   convenção do álbum físico, que o usuário reconhece
+- **Cartão de 60×84px**: altura original do planejamento; com código e nome
+  em metades, sobra altura — 10% a menos reduz a rolagem sem apertar o nome
 - **Cartão de 56×80px**: menor impacto no álbum, nome no limite do legível
 - **Cartão de 64×88px**: mais letras por linha, mas o álbum empilha páginas
   cedo demais em tablet
@@ -108,6 +110,10 @@ Aceito — implementação na Fase 0017.
 
 ## Histórico
 
+- 2026-09-14 — Ajuste do humano na revisão do PR da Fase 17: altura do
+  cartão reduzida em 10%, de 84px para 76px (84 × 0,9 = 75,6 → 76); linhas
+  do álbum acompanham (76px); largura, tipografia e limite celular/tablet
+  do IDR 0043 inalterados. Antes: cartão de 60×84px, metades de 40px úteis.
 - 2026-09-14 — Ajuste do humano na revisão do PR da Fase 17: o cartão passa
   a ter duas metades de mesma altura — código (sigla, número) centralizado
   na de cima e nome centralizado na de baixo —, aceitando que o menos e o
