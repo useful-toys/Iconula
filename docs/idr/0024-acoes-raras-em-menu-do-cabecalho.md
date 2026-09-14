@@ -77,15 +77,16 @@ fora, só que disparado por perda de foco em vez de clique (ver
   volta o aviso de sucesso
 - Compartilhar ganha um alvo próprio no cabeçalho: um toque a menos para
   achar as listas, ao custo de ~38px da largura do título no celular
-- `requisitos.md` § Compartilhamento diz "Entrega por copiar para a área de
-  transferência — sem abrir o WhatsApp" e "os dois comandos ficam no menu de
-  ações do cabeçalho": o humano ajusta essas frases antes do planejamento
+- `requisitos.md` § Compartilhamento passa a dizer entrega por cópia ou pela
+  folha do sistema, com os comandos no botão compartilhar — ajustado a
+  pedido do humano no PR do plano das Fases 0020 e 0021
 - `MenuDeAcoes.jsx` perde as cópias; nasce o popup de compartilhar;
   `App.jsx` ganha o compartilhar das duas listas; `interface.md`
   § Cabeçalho, § Menu de ações, § Avisos, § Camadas e § Medidas mudam
 - Sem custo em leituras ou escritas
-- Implementação: a planejar (/planejar), depois da Fase 0019 (cabeçalho
-  todo sticky)
+- Implementação: Fase 0021 — Tarefa 0021-0001 (botão compartilhar com as
+  cópias) e Tarefa 0021-0002 (folha do sistema); depois da Fase 0019
+  (cabeçalho todo sticky)
 
 ## Alternativas consideradas
 
