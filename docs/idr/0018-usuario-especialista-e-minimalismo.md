@@ -79,7 +79,7 @@ pelo [IDR 0027](0027-relogio-do-titulo-e-o-updatedat-do-documento.md):
 - Implementação: Fase 0019, Tarefa 0019-0001.
 - O botão compartilhar tira ~38px da largura do título na primeira linha,
   que quebra antes no celular — aceito pelo humano para manter os comandos
-  raros juntos. Implementação: a planejar (/planejar).
+  raros juntos. Implementação: Fase 0021, Tarefa 0021-0001.
 
 ## Alternativas consideradas
 

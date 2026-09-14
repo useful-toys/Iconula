@@ -53,9 +53,14 @@ Aceito.
 - `interface.md` § Tela de login (textos exatos e rodapé), § Demais telas
   (nova vista) e § Medidas (rodapé) mudam.
 - Sem custo em leituras ou escritas: conteúdo estático, nenhum dado novo.
-- `requisitos.md` não tem requisito de termos de uso — incluí-lo cabe ao
-  humano.
-- Implementação: a planejar (/planejar).
+- `requisitos.md` § Privacidade e § Acesso passam a pedir os termos de uso,
+  o copyright e a isenção — ajustado a pedido do humano no PR do plano das Fases
+  0020 e 0021.
+- A vista de termos é a quarta tela do app: o
+  [TDR 0020](../tdr/0020-privacidade-como-vista-interna.md) segue sem router,
+  com estado único de vista interna.
+- Implementação: Fase 0020 — Tarefa 0020-0002 (copyright e isenção nos
+  rodapés) e Tarefa 0020-0003 (vista de termos e aceite no login).
 
 ## Alternativas consideradas
 

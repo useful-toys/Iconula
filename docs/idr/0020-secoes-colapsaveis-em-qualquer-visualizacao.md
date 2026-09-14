@@ -67,7 +67,7 @@ Aceito.
 - `SuperGrupo.jsx` deixa de ter o título como único botão; `Catalogo.jsx`
   ganha a operação de contrair/expandir um conjunto de siglas;
   `interface.md` § Corpo, § Interações e § Medidas descrevem o alternador
-- Implementação: a planejar (/planejar).
+- Implementação: Fase 0020, Tarefa 0020-0001.
 
 ## Alternativas consideradas
 

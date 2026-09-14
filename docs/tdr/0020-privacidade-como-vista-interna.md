@@ -23,17 +23,20 @@ caso concreto em que a pergunta se coloca de verdade.
 
 ## Decisão
 
-- **Vista interna**, controlada por um estado booleano em `App.jsx`
-  (`mostrarPolitica`), no mesmo padrão dos ramos de retorno já existentes —
-  nenhum router introduzido.
+- **Vistas internas**, controladas por um estado único em `App.jsx`
+  (`vistaInterna: null | 'politica' | 'termos'`), no mesmo padrão dos ramos
+  de retorno já existentes — nenhum router introduzido. Os termos de uso
+  ([IDR 0053](../idr/0053-termos-de-uso-e-rodape-com-copyright-e-isencao.md))
+  são a segunda vista interna.
 - O estado é checado **antes** de qualquer outro ramo (guarda de login,
-  atestação, tela principal): assim que `mostrarPolitica` é `false` de
-  novo, o app volta exatamente à tela que o estado de autenticação/carga já
+  atestação, tela principal): assim que `vistaInterna` volta a `null`, o
+  app volta exatamente à tela que o estado de autenticação/carga já
   determinava — sem guardar "de onde vim" à parte. É esse mecanismo que
   cumpre "voltar retorna à tela de origem, sem depender do histórico do
   navegador" sem nenhum estado extra.
-- `TelaDeLogin` e `Rodape` recebem um callback (`onAbrirPolitica`) que só
-  liga o estado; `PoliticaDePrivacidade` recebe `onVoltar`, que o desliga.
+- `TelaDeLogin` e `Rodape` recebem callbacks (`onAbrirPolitica`,
+  `onAbrirTermos`) que só escolhem a vista; `PoliticaDePrivacidade` e a
+  vista de termos recebem `onVoltar`, que volta a `null`.
 
 ## Consequências
 
@@ -42,9 +45,11 @@ caso concreto em que a pergunta se coloca de verdade.
   navegação distinto entre as telas já existentes).
 - O padrão de "ramo de retorno condicional em `App.jsx`" continua sendo o
   único mecanismo de multi-tela do produto, sem uma segunda forma a manter.
-- **Gatilho de revisão**: se uma quarta tela endereçável aparecer, ou se
-  compartilhar um link direto para a política virar requisito, reavaliar —
-  react-router (ou similar) passa a valer a complexidade.
+- **Gatilho de revisão**: se uma quinta tela endereçável aparecer, ou se
+  compartilhar um link direto para a política ou os termos virar requisito,
+  reavaliar — react-router (ou similar) passa a valer a complexidade.
+- Um estado único impede duas vistas ligadas ao mesmo tempo.
+- Implementação da vista de termos: Fase 0020, Tarefa 0020-0003.
 
 ## Alternativas consideradas
 
@@ -56,3 +61,16 @@ caso concreto em que a pergunta se coloca de verdade.
   explícito, mas desnecessário — o estado de autenticação/carga já sabe
   qual tela mostrar quando a política fecha; guardar a origem à parte
   duplicaria essa informação.
+- **Segundo booleano para os termos** (`mostrarTermos`): mudança mínima, mas
+  os dois estados poderiam ficar ligados juntos, com a ordem de checagem
+  decidindo em silêncio.
+- **React Router ao chegar a quarta tela** (gatilho original): duas páginas
+  estáticas de leitura, sem link direto como requisito, não pagam a
+  dependência.
+
+## Histórico
+
+- 2026-09-14 — Planejamento das Fases 0020 e 0021: a quarta tela (termos de
+  uso, IDR 0053) disparou o gatilho de revisão; decidido seguir sem router,
+  com estado único `vistaInterna`; implementação na Fase 0020. Antes: um
+  booleano `mostrarPolitica` e gatilho na quarta tela.
