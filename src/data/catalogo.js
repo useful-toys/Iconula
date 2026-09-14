@@ -23,6 +23,13 @@
 // Forma do dado, degradação da fonte do checklist ausente e ausência de
 // pipeline de geração: ver
 // [TDR 0010](../../docs/tdr/0010-forma-do-catalogo-degradacao-do-checklist-e-sem-pipeline.md).
+//
+// O nome de cada figurinha (`nome` e `nomeLinhas`) é derivado de
+// `jogadores.js` conforme o
+// [MDR 0008](../../docs/model-dr/0008-dados-dos-nomes-das-figurinhas.md), com
+// o mapeamento de posições das seleções e o corte prenomes/sobrenome.
+
+import { jogadoresPorSelecao, jogadoresFWC, jogadoresCOC } from "./jogadores.js";
 
 /**
  * As 48 seleções classificadas, na ordem do Anexo de `requisitos.md`
@@ -121,6 +128,52 @@ const coc = {
  */
 export const secoes = [fwc, ...selecoes, coc];
 
+/** Rótulo fixo da posição 01 de cada seleção (escudo). */
+const NOME_ESCUDO = "Escudo do time";
+
+/** Rótulo fixo da posição 13 de cada seleção (foto do time). */
+const NOME_FOTO = "Foto do time";
+
+/**
+ * Deriva `nome` e `nomeLinhas` de um jogador escrito como
+ * "Prenomes/Sobrenome" (MDR 0008): com corte, `nome` é o texto completo sem a
+ * barra e `nomeLinhas` é o par [prenomes, sobrenome]; sem barra, nome único,
+ * `nomeLinhas` é [null, nome].
+ */
+function nomeDoJogador(escrito) {
+  const corte = escrito.indexOf("/");
+  if (corte === -1) {
+    return { nome: escrito, nomeLinhas: [null, escrito] };
+  }
+  const prenomes = escrito.slice(0, corte);
+  const sobrenome = escrito.slice(corte + 1);
+  return { nome: `${prenomes} ${sobrenome}`, nomeLinhas: [prenomes, sobrenome] };
+}
+
+/**
+ * Deriva `nome` e `nomeLinhas` de uma figurinha de seleção: posição 01 é o
+ * escudo e 13 é a foto do time (sem corte); 02–12 e 14–20 são os jogadores
+ * 1–11 e 12–18 da fonte (MDR 0008).
+ */
+function nomeDaSelecao(sigla, posicao) {
+  if (posicao === 1) return { nome: NOME_ESCUDO, nomeLinhas: null };
+  if (posicao === 13) return { nome: NOME_FOTO, nomeLinhas: null };
+  const indice = posicao < 13 ? posicao - 2 : posicao - 3;
+  return nomeDoJogador(jogadoresPorSelecao[sigla][indice]);
+}
+
+/**
+ * Deriva `nome` e `nomeLinhas` de uma figurinha conforme o MDR 0008: seleções
+ * pelo mapeamento de posição; FWC a partir de zero; COC a partir de um. Extras
+ * FIFA e Coca-Cola não têm corte (`nomeLinhas: null`), mesmo quando o nome
+ * traz barra literal.
+ */
+function nomeDaFigurinha(secao, posicao) {
+  if (secao.tipo === "selecao") return nomeDaSelecao(secao.sigla, posicao);
+  if (secao.sigla === "FWC") return { nome: jogadoresFWC[posicao], nomeLinhas: null };
+  return { nome: jogadoresCOC[posicao - 1], nomeLinhas: null };
+}
+
 /**
  * Expande as seções em figurinhas individuais: `SIG01`…`SIG20` para cada
  * seleção, `FWC00`…`FWC19`, `COC01`…`COC14`. Função pura — preferida a
@@ -154,6 +207,7 @@ export function expandirFigurinhas(secoesDoCatalogo) {
         posicao,
         metalizada: secao.tipo === "selecao" && posicao === 1,
         paisagem: secao.tipo === "selecao" && posicao === 13,
+        ...nomeDaFigurinha(secao, posicao),
       });
     }
   }
