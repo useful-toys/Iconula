@@ -24,10 +24,10 @@ Aceito — implementação na Fase 0017.
 
 ## Decisão
 
-- **Cartão de 60×76px, igual nas disposições lista e álbum**; na paisagem
+- **Cartão de 60×68px, igual nas disposições lista e álbum**; na paisagem
   (figurinha 13), 126px de largura (2 × 60 + 6); raio 5px
-- **Composição em duas metades de mesma altura** (76 − 2 × 2 de borda =
-  72px úteis → 36px cada):
+- **Composição em duas metades de mesma altura** (68 − 2 × 2 de borda =
+  64px úteis → 32px cada; código ~25px e nome ~22px cabem em cada uma):
   - metade de cima: código em Poppins 700, sigla (10px) na linha 1 e número
     (13px) na linha 2, centralizado na horizontal e na vertical
   - metade de baixo: nome em duas linhas, centralizado na horizontal e na
@@ -59,9 +59,9 @@ Aceito — implementação na Fase 0017.
 ## Consequências
 
 - Cada figurinha se identifica pelo nome, como no cromo físico
-- O cartão cresce ~15% na altura da lista e ~46% no álbum: mais rolagem,
+- O cartão cresce ~3% na altura da lista e ~31% no álbum: mais rolagem,
   compensada em parte pela [Fase 12](0050-compactacao-vertical-do-catalogo.md)
-- Trilhas do álbum passam de 52px para 60px e linhas de 52px para 76px:
+- Trilhas do álbum passam de 52px para 60px e linhas de 52px para 68px:
   o spread vai a 536px e o limite celular/tablet do
   [IDR 0043](0043-padroes-de-primeira-abertura-por-faixa-de-tela.md) é
   recalculado; as páginas empilham um pouco antes
@@ -83,8 +83,9 @@ Aceito — implementação na Fase 0017.
   álbum
 - **Código numa linha só no topo**: libera altura, mas contraria a
   convenção do álbum físico, que o usuário reconhece
-- **Cartão de 60×84px**: altura original do planejamento; com código e nome
-  em metades, sobra altura — 10% a menos reduz a rolagem sem apertar o nome
+- **Cartão de 60×84px ou 60×76px**: altura original do planejamento e sua
+  primeira redução; com código e nome em metades, sobra altura — 68px reduz
+  a rolagem e ainda comporta código e nome em cada metade
 - **Cartão de 56×80px**: menor impacto no álbum, nome no limite do legível
 - **Cartão de 64×88px**: mais letras por linha, mas o álbum empilha páginas
   cedo demais em tablet
@@ -110,6 +111,9 @@ Aceito — implementação na Fase 0017.
 
 ## Histórico
 
+- 2026-09-14 — Novo ajuste do humano na revisão do PR da Fase 17: altura
+  reduzida em mais 10%, de 76px para 68px (76 × 0,9 = 68,4 → 68); linhas do
+  álbum acompanham (68px). Antes: cartão de 60×76px, metades de 36px úteis.
 - 2026-09-14 — Ajuste do humano na revisão do PR da Fase 17: altura do
   cartão reduzida em 10%, de 84px para 76px (84 × 0,9 = 75,6 → 76); linhas
   do álbum acompanham (76px); largura, tipografia e limite celular/tablet
