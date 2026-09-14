@@ -3,7 +3,7 @@
 # Tarefa [0016-0001]: tokens CSS das cores de seleção
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Criar em `theme.css` os tokens das 48 seleções e os alias dos dois especiais,

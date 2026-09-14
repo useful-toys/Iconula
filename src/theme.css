@@ -34,6 +34,62 @@
   --group-fwc: var(--gold);
   --group-coc: var(--coc-red);
 
+  /* Cores de seleção — IDR 0046 e docs/interface.md § Paleta.
+   * Identidade das 48 seleções, com os valores da tabela do IDR 0046; FWC e
+   * COC são alias das cores de grupo (IDR 0045). Usadas no cabeçalho de
+   * seção (Tarefa 0016-0002). Cores repetidas entre seleções são aceitas: a
+   * bandeira, o nome e a sigla distinguem as seções. */
+  --selection-alg: oklch(0.65 0.147 149);
+  --selection-arg: oklch(0.54 0.095 258);
+  --selection-aus: oklch(0.54 0.116 256);
+  --selection-aut: oklch(0.62 0.154 39);
+  --selection-bel: oklch(0.58 0.186 30);
+  --selection-bih: oklch(0.53 0.103 252);
+  --selection-bra: oklch(0.65 0.147 149);
+  --selection-can: oklch(0.71 0.13 34);
+  --selection-civ: oklch(0.61 0.13 152);
+  --selection-cod: oklch(0.54 0.095 258);
+  --selection-col: oklch(0.73 0.129 74);
+  --selection-cpv: oklch(0.6 0.086 268);
+  --selection-cro: oklch(0.62 0.154 39);
+  --selection-cuw: oklch(0.53 0.108 253);
+  --selection-cze: oklch(0.59 0.073 251);
+  --selection-ecu: oklch(0.67 0.128 69);
+  --selection-egy: oklch(0.73 0.129 74);
+  --selection-eng: oklch(0.58 0.186 30);
+  --selection-esp: oklch(0.62 0.154 39);
+  --selection-fra: oklch(0.6 0.086 268);
+  --selection-ger: oklch(0.58 0.186 30);
+  --selection-gha: oklch(0.73 0.129 74);
+  --selection-hai: oklch(0.52 0.112 262);
+  --selection-irn: oklch(0.65 0.147 149);
+  --selection-irq: oklch(0.62 0.154 39);
+  --selection-jor: oklch(0.65 0.147 149);
+  --selection-jpn: oklch(0.62 0.154 39);
+  --selection-kor: oklch(0.52 0.122 257);
+  --selection-ksa: oklch(0.61 0.154 140);
+  --selection-mar: oklch(0.59 0.139 38);
+  --selection-mex: oklch(0.65 0.147 149);
+  --selection-ned: oklch(0.6 0.086 268);
+  --selection-nor: oklch(0.6 0.086 268);
+  --selection-nzl: oklch(0.54 0.116 256);
+  --selection-pan: oklch(0.58 0.186 30);
+  --selection-par: oklch(0.62 0.154 39);
+  --selection-por: oklch(0.65 0.147 149);
+  --selection-qat: oklch(0.67 0.099 11);
+  --selection-rsa: oklch(0.75 0.162 64);
+  --selection-sco: oklch(0.6 0.093 216);
+  --selection-sen: oklch(0.74 0.15 66);
+  --selection-sui: oklch(0.65 0.133 61);
+  --selection-swe: oklch(0.54 0.095 258);
+  --selection-tun: oklch(0.62 0.154 39);
+  --selection-tur: oklch(0.64 0.17 28);
+  --selection-uru: oklch(0.54 0.095 258);
+  --selection-usa: oklch(0.54 0.095 258);
+  --selection-uzb: oklch(0.61 0.085 218);
+  --selection-fwc: var(--group-fwc);
+  --selection-coc: var(--group-coc);
+
   /* Espaçamentos reutilizáveis — docs/interface.md § Medidas */
   --page-gutter: clamp(16px, 4vw, 40px);
 
