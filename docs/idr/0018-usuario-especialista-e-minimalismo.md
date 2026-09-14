@@ -52,6 +52,8 @@ pelo [IDR 0027](0027-relogio-do-titulo-e-o-updatedat-do-documento.md):
     de `interface.md` § Controles
   - o desfazer acompanha os grupos: colado à direita da linha dos grupos,
     não da linha do título
+  - o botão compartilhar ([IDR 0024](0024-acoes-raras-em-menu-do-cabecalho.md))
+    acompanha o avatar: logo à esquerda dele, na primeira linha
   - sem ponto de quebra de 768px
 
 ## Consequências
@@ -75,6 +77,9 @@ pelo [IDR 0027](0027-relogio-do-titulo-e-o-updatedat-do-documento.md):
 - `interface.md` § Cabeçalho e § Controles perdem o ponto de quebra de
   768px e a linha de controles fora do sticky
 - Implementação: Fase 0019, Tarefa 0019-0001.
+- O botão compartilhar tira ~38px da largura do título na primeira linha,
+  que quebra antes no celular — aceito pelo humano para manter os comandos
+  raros juntos. Implementação: a planejar (/planejar).
 
 ## Alternativas consideradas
 
@@ -103,6 +108,10 @@ pelo [IDR 0027](0027-relogio-do-titulo-e-o-updatedat-do-documento.md):
   celular
 
 ## Histórico
+
+- 2026-09-14 — Esmiuçamento de contrair seções, rodapé e compartilhar: a
+  primeira linha ganha o botão compartilhar à esquerda do avatar;
+  implementação a planejar. Antes: só o avatar à direita do título.
 
 - 2026-09-13 — Esmiuçamento de ajustes de interface: tudo no cabeçalho
   sticky em qualquer largura (título → grupos → bandeiras), avatar preso à
