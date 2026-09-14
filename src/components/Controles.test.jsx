@@ -214,79 +214,6 @@ describe('Controles', () => {
     expect(onDesfazer).toHaveBeenCalledTimes(1);
   });
 
-  it('repassa onCopiarFaltantes e onCopiarRepetidas ao menu de ações', async () => {
-    const user = userEvent.setup();
-    const onCopiarFaltantes = vi.fn();
-    const onCopiarRepetidas = vi.fn();
-    render(
-      <Controles
-        ordenacao="pagina"
-        onTrocarOrdenacao={vi.fn()}
-        onSignOut={vi.fn()}
-        onCopiarFaltantes={onCopiarFaltantes}
-        onCopiarRepetidas={onCopiarRepetidas}
-      />,
-    );
-
-    await user.click(screen.getByRole('button', { name: /menu de ações/ }));
-    expect(screen.getByRole('menuitem', { name: 'Copiar lista de faltantes' })).toBeEnabled();
-    expect(screen.getByRole('menuitem', { name: 'Copiar lista de repetidas' })).toBeEnabled();
-
-    await user.click(screen.getByRole('menuitem', { name: 'Copiar lista de faltantes' }));
-    expect(onCopiarFaltantes).toHaveBeenCalledTimes(1);
-  });
-
-  it('sem onCopiarFaltantes/onCopiarRepetidas, os itens do menu ficam desabilitados', async () => {
-    const user = userEvent.setup();
-    render(<Controles ordenacao="pagina" onTrocarOrdenacao={vi.fn()} onSignOut={vi.fn()} />);
-
-    await user.click(screen.getByRole('button', { name: /menu de ações/ }));
-    expect(screen.getByRole('menuitem', { name: 'Copiar lista de faltantes' })).toBeDisabled();
-    expect(screen.getByRole('menuitem', { name: 'Copiar lista de repetidas' })).toBeDisabled();
-  });
-
-  it('repassa onExportar ao menu de ações', async () => {
-    const user = userEvent.setup();
-    const onExportar = vi.fn();
-    render(<Controles ordenacao="pagina" onTrocarOrdenacao={vi.fn()} onSignOut={vi.fn()} onExportar={onExportar} />);
-
-    await user.click(screen.getByRole('button', { name: /menu de ações/ }));
-    const item = screen.getByRole('menuitem', { name: 'Exportar coleção (JSON)' });
-    expect(item).toBeEnabled();
-
-    await user.click(item);
-    expect(onExportar).toHaveBeenCalledTimes(1);
-  });
-
-  it('sem onExportar, o item de exportar fica desabilitado', async () => {
-    const user = userEvent.setup();
-    render(<Controles ordenacao="pagina" onTrocarOrdenacao={vi.fn()} onSignOut={vi.fn()} />);
-
-    await user.click(screen.getByRole('button', { name: /menu de ações/ }));
-    expect(screen.getByRole('menuitem', { name: 'Exportar coleção (JSON)' })).toBeDisabled();
-  });
-
-  it('repassa onImportar ao menu de ações', async () => {
-    const user = userEvent.setup();
-    const onImportar = vi.fn();
-    render(<Controles ordenacao="pagina" onTrocarOrdenacao={vi.fn()} onSignOut={vi.fn()} onImportar={onImportar} />);
-
-    await user.click(screen.getByRole('button', { name: /menu de ações/ }));
-    const item = screen.getByRole('menuitem', { name: 'Importar coleção (JSON)' });
-    expect(item).toBeEnabled();
-
-    await user.click(item);
-    expect(onImportar).toHaveBeenCalledTimes(1);
-  });
-
-  it('sem onImportar, o item de importar fica desabilitado', async () => {
-    const user = userEvent.setup();
-    render(<Controles ordenacao="pagina" onTrocarOrdenacao={vi.fn()} onSignOut={vi.fn()} />);
-
-    await user.click(screen.getByRole('button', { name: /menu de ações/ }));
-    expect(screen.getByRole('menuitem', { name: 'Importar coleção (JSON)' })).toBeDisabled();
-  });
-
   it('dá a cada opção dos três grupos um tooltip igual ao nome acessível', () => {
     const { container } = render(
       <Controles
@@ -317,7 +244,6 @@ describe('Controles', () => {
         filtro="todas"
         onTrocarFiltro={vi.fn()}
         onDesfazer={vi.fn()}
-        onSignOut={vi.fn()}
       />
     );
 
@@ -338,7 +264,6 @@ describe('Controles', () => {
         disposicao="album"
         onTrocarDisposicao={vi.fn()}
         onDesfazer={vi.fn()}
-        onSignOut={vi.fn()}
       />
     );
 

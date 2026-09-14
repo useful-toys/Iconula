@@ -1,19 +1,14 @@
 /* Copyright (c) 2026 Daniel Felix Ferber */
 
+/* Os controles moram dentro do cabeçalho sticky em qualquer largura
+ * (Tarefa 0019-0001, IDR 0018): o padding horizontal e vertical é o do
+ * cabeçalho; a linha reserva a coluna do avatar em `.cabecalho .controles`. */
 .controles {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 8px;
-  padding: 8px var(--page-gutter) 6px;
-}
-
-/* A partir de 768px, os controles dividem a linha sticky com o título
- * (IDR 0018): o padding horizontal e vertical passa a ser do cabeçalho. */
-@media (min-width: 768px) {
-  .controles {
-    padding: 0;
-  }
+  padding: 0;
 }
 
 .controles__segmentado {
@@ -105,8 +100,8 @@
   align-items: center;
 }
 
-/* Desfazer e (na Tarefa 0009-0002) menu de ações: 30x30px, raio 8px, borda
-   e texto em --gold (docs/interface.md § Medidas). */
+/* Desfazer: 30x30px, raio 8px, borda e texto em --gold, colado à direita da
+   linha dos grupos (Tarefa 0019-0001, docs/interface.md § Medidas). */
 .controles__desfazer {
   position: relative;
   width: 30px;
@@ -131,8 +126,8 @@
 
 /* Área de toque ampliada em tela sensível (docs/interface.md § Pendências de
  * interface, IDR 0042) — o botão visível continua 30×30px; um `::before`
- * invisível estende a zona clicável até a metade do espaçamento de 8px que
- * o separa do menu de ações, sem sobrepor a área dele. */
+ * invisível estende a zona clicável para dentro da folga à sua direita, sem
+ * crescer visualmente. */
 @media (pointer: coarse) {
   .controles__desfazer::before {
     content: '';

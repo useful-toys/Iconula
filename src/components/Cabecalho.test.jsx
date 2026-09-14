@@ -5,6 +5,7 @@ import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/vitest';
 import { Cabecalho } from './Cabecalho.jsx';
 import { Controles } from './Controles.jsx';
+import { MenuDeAcoes } from './MenuDeAcoes.jsx';
 import { secoes } from '../data/catalogo.js';
 import {
   ordenarPorPagina,
@@ -158,12 +159,12 @@ describe('Cabecalho', () => {
         secoes={secoes}
         ordenacao="pagina"
         onSaltar={vi.fn()}
+        avatar={<MenuDeAcoes onSignOut={vi.fn()} />}
       >
         <Controles
           ordenacao="pagina"
           onTrocarOrdenacao={vi.fn()}
           onDesfazer={vi.fn()}
-          onSignOut={vi.fn()}
           {...propsDeControles}
         />
       </Cabecalho>,
@@ -176,7 +177,7 @@ describe('Cabecalho', () => {
     );
   }
 
-  it('coloca título, controles e faixa dentro do cabeçalho, na ordem', () => {
+  it('mantém título, avatar, grupos, desfazer e faixa dentro do header sticky', () => {
     const { container } = renderComControles({
       disposicao: 'lista',
       onTrocarDisposicao: vi.fn(),
@@ -186,22 +187,42 @@ describe('Cabecalho', () => {
 
     const header = container.querySelector('header.cabecalho');
     const titulo = screen.getByText('ICONULA 2026');
+    const avatar = screen.getByRole('button', { name: /menu de ações/ });
     const grupos = container.querySelectorAll('.controles__segmentado');
     const desfazer = screen.getByRole('button', { name: 'desfazer a última alteração' });
-    const menu = screen.getByRole('button', { name: /menu de ações/ });
+    const faixa = screen.getByRole('navigation', { name: 'Saltar para seção' });
 
     expect(header).toContainElement(titulo);
+    expect(header).toContainElement(avatar);
     expect(grupos).toHaveLength(3);
     for (const grupo of grupos) {
       expect(header).toContainElement(grupo);
     }
     expect(header).toContainElement(desfazer);
-    expect(header).toContainElement(menu);
-    expect(screen.getByRole('navigation', { name: 'Saltar para seção' })).toBeInTheDocument();
+    expect(header).toContainElement(faixa);
 
-    expect(estaAntes(titulo, grupos[0])).toBe(true);
+    // O cabeçalho é o próprio elemento sticky — não há mais o bloco fixo.
+    expect(container.querySelector('.cabecalho__fixo')).not.toBeInTheDocument();
+  });
+
+  it('põe o avatar logo após o título e a faixa por último', () => {
+    const { container } = renderComControles({
+      disposicao: 'lista',
+      onTrocarDisposicao: vi.fn(),
+      filtro: 'todas',
+      onTrocarFiltro: vi.fn(),
+    });
+
+    const titulo = screen.getByText('ICONULA 2026');
+    const avatar = screen.getByRole('button', { name: /menu de ações/ });
+    const grupos = container.querySelectorAll('.controles__segmentado');
+    const desfazer = screen.getByRole('button', { name: 'desfazer a última alteração' });
+    const faixa = screen.getByRole('navigation', { name: 'Saltar para seção' });
+
+    expect(estaAntes(titulo, avatar)).toBe(true);
+    expect(estaAntes(avatar, grupos[0])).toBe(true);
     expect(estaAntes(grupos[grupos.length - 1], desfazer)).toBe(true);
-    expect(estaAntes(desfazer, menu)).toBe(true);
+    expect(estaAntes(desfazer, faixa)).toBe(true);
   });
 
   it('mantém a ordem dos comandos sem o grupo de filtro', () => {
@@ -216,11 +237,11 @@ describe('Cabecalho', () => {
     expect(grupos).toHaveLength(2);
 
     const titulo = screen.getByText('ICONULA 2026');
+    const avatar = screen.getByRole('button', { name: /menu de ações/ });
     const desfazer = screen.getByRole('button', { name: 'desfazer a última alteração' });
-    const menu = screen.getByRole('button', { name: /menu de ações/ });
 
-    expect(estaAntes(titulo, grupos[0])).toBe(true);
+    expect(estaAntes(titulo, avatar)).toBe(true);
+    expect(estaAntes(avatar, grupos[0])).toBe(true);
     expect(estaAntes(grupos[grupos.length - 1], desfazer)).toBe(true);
-    expect(estaAntes(desfazer, menu)).toBe(true);
   });
 });

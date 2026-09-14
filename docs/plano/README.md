@@ -64,7 +64,7 @@ Detalhes e status das tarefas no guia [CLAUDE.md](CLAUDE.md) § Status e ciclo d
 | 16 | [Identidade de cor por seleção](0016-identidade-de-cor-por-selecao/) | Cor individual para cada uma das 48 seleções, aplicada no cabeçalho de seção | 15 | `feat: identidade de cor por seleção` | Entregue |
 | 17 | [Nomes de jogadores nas figurinhas](0017-nomes-de-jogadores/) | Nome do jogador/elemento em cada figurinha, num cartão de 60×84px igual em todas as vistas | 14, 16, 19 | `feat: nomes de jogadores nas figurinhas` | Entregue |
 | 18 | [Ajustes da identidade de cor por grupo](0018-ajustes-da-identidade-de-cor-por-grupo/) | Deixar a cor do grupo mais reconhecível na faixa de bandeiras e dar moldura ao título do super-grupo | 15 | `feat: cor de grupo mais reconhecível` | Entregue |
-| 19 | [Ajustes do cabeçalho e do cartão](0019-ajustes-do-cabecalho-e-do-cartao/) | Cabeçalho todo sticky, tooltip nas bandeiras, aviso mais baixo e as correções do controle de menos, do clique perto da borda e do selo cortado | 18 | `feat: ajustes do cabeçalho, tooltip nas bandeiras e correções do cartão` | Pendente |
+| 19 | [Ajustes do cabeçalho e do cartão](0019-ajustes-do-cabecalho-e-do-cartao/) | Cabeçalho todo sticky, tooltip nas bandeiras, aviso mais baixo e as correções do controle de menos, do clique perto da borda e do selo cortado | 18 | `feat: ajustes do cabeçalho, tooltip nas bandeiras e correções do cartão` | Em andamento |
 | 20 | [Contrair seções, rodapé e termos de uso](0020-contrair-secoes-rodape-e-termos/) | Contrair as seções de um super-grupo num toque; copyright, isenção e termos de uso nas duas telas | 19 | `feat: contrair seções do grupo, rodapé com copyright e termos de uso` | Pendente |
 | 21 | [Botão compartilhar](0021-botao-compartilhar/) | Listas de troca num botão próprio, com cópia e compartilhamento pela folha do sistema | 19, 20 | `feat: botão compartilhar com cópia e folha do sistema` | Pendente |
 
@@ -364,7 +364,7 @@ redesenha o mesmo cartão.
 
 | # | Tarefa | Objetivo | Status |
 |---|---|---|---|
-| 0001 | [Cabeçalho todo sticky](0019-ajustes-do-cabecalho-e-do-cartao/0001-cabecalho-todo-sticky.md) | Título → grupos → bandeiras no sticky em qualquer largura; avatar à direita da primeira linha, desfazer à direita dos grupos. | Pendente |
+| 0001 | [Cabeçalho todo sticky](0019-ajustes-do-cabecalho-e-do-cartao/0001-cabecalho-todo-sticky.md) | Título → grupos → bandeiras no sticky em qualquer largura; avatar à direita da primeira linha, desfazer à direita dos grupos. | Concluída |
 | 0002 | [Tooltip nas bandeiras](0019-ajustes-do-cabecalho-e-do-cartao/0002-tooltip-nas-bandeiras.md) | `BRA · Brasil · 12/20 · 60% · ▢8 · ×3` abaixo da bandeira, num tooltip único posicionado fora da faixa. | Pendente |
 | 0003 | [Aviso com respiro de 6px](0019-ajustes-do-cabecalho-e-do-cartao/0003-aviso-com-respiro-de-6px.md) | Faixa de aviso com 6px em cima e embaixo e margem inferior do corpo remedida. | Pendente |
 | 0004 | [Menos no canto, revelado por hover e teclado](0019-ajustes-do-cabecalho-e-do-cartao/0004-menos-no-canto-revelado-por-teclado.md) | Controle de menos com recuo 0 no canto e sem acender pelo foco de clique de mouse. | Pendente |
