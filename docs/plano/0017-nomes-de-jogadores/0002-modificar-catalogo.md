@@ -3,7 +3,7 @@
 # Tarefa [0017-0002]: campos de nome no catálogo
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Cada figurinha expandida do catálogo passa a trazer `nome` (texto completo) e

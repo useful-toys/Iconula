@@ -252,3 +252,55 @@ describe("expandirFigurinhas", () => {
     }
   });
 });
+
+describe("nomes das figurinhas", () => {
+  const porCodigo = new Map(figurinhas.map((f) => [f.codigo, f]));
+  const siglasSelecao = new Set(
+    secoes.filter((s) => s.tipo === "selecao").map((s) => s.sigla),
+  );
+
+  it("toda figurinha tem nome não vazio", () => {
+    for (const fig of figurinhas) {
+      expect(fig.nome.trim()).not.toBe("");
+    }
+  });
+
+  it("as posições fixas 01 e 13 não têm linhas", () => {
+    expect(porCodigo.get("BRA01").nome).toBe("Escudo do time");
+    expect(porCodigo.get("BRA01").nomeLinhas).toBeNull();
+    expect(porCodigo.get("BRA13").nome).toBe("Foto do time");
+    expect(porCodigo.get("BRA13").nomeLinhas).toBeNull();
+  });
+
+  it("nome único fica só no sobrenome da segunda linha", () => {
+    expect(porCodigo.get("BRA02").nome).toBe("Alisson");
+    expect(porCodigo.get("BRA02").nomeLinhas).toEqual([null, "Alisson"]);
+  });
+
+  it("jogador com corte separa prenomes e sobrenome", () => {
+    expect(porCodigo.get("BRA14").nome).toBe("Vinícius Júnior");
+    expect(porCodigo.get("BRA14").nomeLinhas).toEqual(["Vinícius", "Júnior"]);
+  });
+
+  it("mapeia as duas faixas de jogadores das seleções", () => {
+    expect(porCodigo.get("BRA12").nomeLinhas).toEqual(["Luiz", "Henrique"]);
+    expect(porCodigo.get("BRA20").nomeLinhas).toEqual([null, "Estêvão"]);
+  });
+
+  it("FWC a partir de zero e COC a partir de um, sem linhas", () => {
+    expect(porCodigo.get("FWC00").nome).toBe("Escudo/Logo Oficial da Panini");
+    expect(porCodigo.get("FWC00").nomeLinhas).toBeNull();
+    expect(porCodigo.get("COC01").nome).toBe("Lamine Yamal");
+    expect(porCodigo.get("COC01").nomeLinhas).toBeNull();
+    expect(porCodigo.get("COC14").nome).toBe("Lautaro Martínez");
+    expect(porCodigo.get("COC14").nomeLinhas).toBeNull();
+  });
+
+  it("nome de seleção nunca contém a barra de corte", () => {
+    for (const fig of figurinhas) {
+      if (siglasSelecao.has(fig.secao)) {
+        expect(fig.nome).not.toContain("/");
+      }
+    }
+  });
+});
