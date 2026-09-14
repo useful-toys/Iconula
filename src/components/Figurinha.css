@@ -28,29 +28,43 @@
 .figurinha__corpo {
   width: 100%;
   height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  /* Duas metades de mesma altura (IDR 0047): código centralizado na de
-   * cima, nome na de baixo — o menos e o selo podem se sobrepor ao nome.
-   * Sem nome exibido (escudo e foto do time), o código ocupa o cartão
-   * inteiro. */
+  display: block;
   padding: 0;
   font-family: 'Poppins', system-ui, sans-serif;
-  border: 2px solid transparent;
-  border-radius: 5px;
+  border: 0;
+  background: transparent;
   cursor: pointer;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
   /* Sem o callout do iOS no toque longo (IDR 0051). */
   -webkit-touch-callout: none;
+}
+
+/* Elemento visual do cartão: a pintura (fundo, borda, raio e opacidade do
+ * estado) e a escala do toque vivem aqui, não no botão. O botão mantém o
+ * tamanho durante o pressionar — perto da borda, o botão encolhido no
+ * `:active` deixava o soltar cair fora dele e o `click` não era gerado
+ * (IDR 0042). O wrapper ocupa o cartão inteiro (`inset: 0`), então metalizada
+ * e selo, posicionados a ele, mantêm as coordenadas de antes.
+ *
+ * Duas metades de mesma altura (IDR 0047): código centralizado na de cima,
+ * nome na de baixo — o menos e o selo podem se sobrepor ao nome. Sem nome
+ * exibido (escudo e foto do time), o código ocupa o cartão inteiro. */
+.figurinha__visual {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid transparent;
+  border-radius: 5px;
   transition: transform 0.06s ease;
 }
 
 /* Retorno imediato ao toque/clique, além da mudança de cor do estado
    (IDR 0042) — encolhe e volta, percebido antes mesmo de soltar o dedo. */
-.figurinha__corpo:active {
+.figurinha__corpo:active .figurinha__visual {
   transform: scale(0.92);
 }
 
@@ -121,21 +135,21 @@
 }
 
 /* Estados */
-.figurinha--faltante .figurinha__corpo {
+.figurinha--faltante .figurinha__visual {
   color: var(--muted);
   background: var(--panel);
   border: 2px dashed var(--muted);
   opacity: 0.6;
 }
 
-.figurinha--colada .figurinha__corpo {
+.figurinha--colada .figurinha__visual {
   color: var(--ink-on-light);
   background: var(--green-card);
   border: 2px solid var(--green-card);
   opacity: 1;
 }
 
-.figurinha--repetida .figurinha__corpo {
+.figurinha--repetida .figurinha__visual {
   color: var(--ink-on-light);
   background: var(--orange-card);
   border: 2px solid var(--orange-card);
