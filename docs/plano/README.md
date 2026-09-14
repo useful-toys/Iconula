@@ -63,6 +63,7 @@ Detalhes e status das tarefas no guia [CLAUDE.md](CLAUDE.md) § Status e ciclo d
 | 15 | [Identidade de cor por grupo](0015-identidade-de-cor-por-grupo/) | Cor distinta por grupo de seleções (A–L) e especiais (FWC, COC), aplicada no título do super-grupo e na faixa de bandeiras — o cabeçalho de seção fica para a cor da seleção (Fase 16) | 13 | `feat: identidade de cor por grupo de seções` | Entregue |
 | 16 | [Identidade de cor por seleção](0016-identidade-de-cor-por-selecao/) | Cor individual para cada uma das 48 seleções, aplicada no cabeçalho de seção | 15 | `feat: identidade de cor por seleção` | Pendente |
 | 17 | [Nomes de jogadores nas figurinhas](0017-nomes-de-jogadores/) | Nome do jogador/elemento em cada figurinha, num cartão de 60×84px igual em todas as vistas | 14, 16 | `feat: nomes de jogadores nas figurinhas` | Pendente |
+| 18 | [Ajustes da identidade de cor por grupo](0018-ajustes-da-identidade-de-cor-por-grupo/) | Deixar a cor do grupo mais reconhecível na faixa de bandeiras e dar moldura ao título do super-grupo | 15 | `feat: cor de grupo mais reconhecível` | Pendente |
 
 ---
 
@@ -326,6 +327,20 @@ mudança de medida o [IDR 0015](../idr/0015-paginas-do-album-empilham-em-tela-es
 | 0003 | [Vendorizar a Roboto Condensed](0017-nomes-de-jogadores/0003-vendorizar-roboto-condensed.md) | Roboto Condensed 500, latin e latin-ext, servida pelo Hosting, sem abrir a CSP. | Pendente |
 | 0004 | [Cartão de 60×84px em todas as vistas](0017-nomes-de-jogadores/0004-cartao-60x84-em-todas-as-vistas.md) | Cartão único na lista e no álbum, trilhas de 60px, limite de celular em 582px e faixa inferior para menos e selo. | Pendente |
 | 0005 | [Nome no cartão](0017-nomes-de-jogadores/0005-nome-no-cartao.md) | Duas linhas de nome em Roboto Condensed 10px e nome acessível com o nome, nas duas disposições. | Pendente |
+
+## Fase 18 — Ajustes da identidade de cor por grupo
+
+Fase curta, fora da progressão: após a entrega da Fase 15, a cor de grupo
+ficou sutil demais para ser reconhecida. A faixa de bandeiras passa de fundo
+20% para 60% da cor + barra inferior de 2px a 80% (hover intensificando), e o
+título do super-grupo ganha a moldura arredondada do cabeçalho de seção,
+mantendo a barra esquerda de 3px. Decisão revisada no
+[IDR 0045](../idr/0045-cores-de-super-grupos.md).
+
+| # | Tarefa | Objetivo | Status |
+|---|---|---|---|
+| 0001 | [Faixa de bandeiras com cor mais reconhecível](0018-ajustes-da-identidade-de-cor-por-grupo/0001-faixa-de-bandeiras-com-cor-mais-reconhecivel.md) | Fundo 60% + barra inferior de 2px a 80% e hover a 80% em cada bandeira, só na ordenação por página. | Pendente |
+| 0002 | [Título do super-grupo com moldura da seção](0018-ajustes-da-identidade-de-cor-por-grupo/0002-titulo-do-super-grupo-com-moldura-da-secao.md) | Moldura arredondada (`--panel` + raio 12px + padding 7px 12px) com barra esquerda de 3px e fundo a 30%; texto em `--gold`. | Pendente |
 
 ## Regras que valem em toda tarefa
 
