@@ -110,6 +110,24 @@ describe('Secao', () => {
     expect(onAjustar).toHaveBeenCalledWith('BRA01', 1);
   });
 
+  it('mantém a figurinha paisagem em paisagem na lista (IDR 0047)', () => {
+    const { container } = render(
+      <Secao
+        secao={secaoBra}
+        figurinhas={[
+          { codigo: 'BRA12', secao: 'BRA', metalizada: false, paisagem: false },
+          { codigo: 'BRA13', secao: 'BRA', metalizada: false, paisagem: true },
+        ]}
+        contagens={{}}
+        onAjustar={vi.fn()}
+      />,
+    );
+
+    const paisagens = container.querySelectorAll('.figurinha--lista.figurinha--paisagem');
+    expect(paisagens).toHaveLength(1);
+    expect(paisagens[0]).toHaveTextContent('13');
+  });
+
   it('exibe chevron e estado expandido no cabeçalho', () => {
     render(
       <Secao
