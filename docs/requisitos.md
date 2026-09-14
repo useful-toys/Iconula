@@ -18,8 +18,8 @@ implementação desta especificação.
   configuração
 - Sem lock-in: a coleção pertence ao usuário, que a exporta e importa
   sem impedimentos
-- Troca pelo WhatsApp: listas de faltantes e repetidas em texto pronto
-  para copiar e colar em grupos de troca
+- Troca por mensagem: listas de faltantes e repetidas em texto pronto
+  para copiar ou compartilhar em grupos de troca
 
 ## Conceitos fundamentais
 
@@ -78,8 +78,10 @@ Questões recorrentes são marcadas como "Nota".*
     atestando ter 12 anos ou mais ou estar autorizado pelos
     responsáveis, antes de liberar o app — uma única vez por conta,
     gravada em `atestadoEm` em `users/{uid}` (ver ADR 0005)
-  - Nota: a tela de login expõe o link para a política de privacidade
-    antes de qualquer autenticação
+  - Nota: a tela de login expõe os links da política de privacidade e
+    dos termos de uso antes de qualquer autenticação; continuar declara
+    concordar com os termos (ver
+    [IDR 0053](idr/0053-termos-de-uso-e-rodape-com-copyright-e-isencao.md))
 - Sair da conta
   - Comando no menu de ações do cabeçalho (ver
     [IDR 0024](idr/0024-acoes-raras-em-menu-do-cabecalho.md))
@@ -124,6 +126,9 @@ Questões recorrentes são marcadas como "Nota".*
     e progresso agregado no título; abertos por padrão (ver
     [IDR 0019](idr/0019-ordem-do-album-agrupada-e-colapsavel.md)); FWC e
     Coca-Cola ficam fora dos super-grupos, nas pontas (IDR 0028)
+    - Um comando no título do super-grupo contrai ou expande de uma vez
+      as suas seções (ver
+      [IDR 0020](idr/0020-secoes-colapsaveis-em-qualquer-visualizacao.md))
 - Apresentar cada seção em duas disposições
   - Lista: figurinhas em sequência (01 a N) — vale para toda seção
   - Álbum: reproduz a página física — as 48 seleções (spread de duas
@@ -213,14 +218,15 @@ Questões recorrentes são marcadas como "Nota".*
   unidades sobrando (contagem − 1)
 
 ### Compartilhamento
-- Gerar texto pronto para WhatsApp com faltantes e/ou repetidas
+- Gerar texto pronto para apps de mensagem com faltantes e/ou repetidas
   - Uma linha por seção: nome e sigla no início, números em sequência,
     sempre com dois dígitos como no cartão (ex.: `Brasil BRA: 05 08 12 19`)
   - Repetidas indicam as unidades sobrando por número (ex.: `05×2`)
   - Faltantes e repetidas geram textos separados
-  - Entrega por copiar para a área de transferência — sem abrir o
-    WhatsApp; os dois comandos ficam no menu de ações do cabeçalho (ver
-    [IDR 0024](idr/0024-acoes-raras-em-menu-do-cabecalho.md))
+  - Entrega por copiar para a área de transferência ou, onde o navegador
+    oferecer, pela folha de compartilhamento do sistema — o usuário
+    escolhe o app; os comandos ficam no botão compartilhar do cabeçalho
+    (ver [IDR 0024](idr/0024-acoes-raras-em-menu-do-cabecalho.md))
   - Nota: a lista de troca é apenas saída; portabilidade usa JSON
 
 ### Portabilidade (sem lock-in)
@@ -251,9 +257,16 @@ Questões recorrentes são marcadas como "Nota".*
     requisito futuro
   - Trata dados de menores (LGPD art. 14): consentimento dos
     responsáveis capturado pela atestação do primeiro login (ver Acesso)
+- Exibir termos de uso
+  - Acessíveis da tela de login e do rodapé da tela principal
+  - Uso no estado em que se encontra, sem garantia de disponibilidade
+    nem contra perda de dados (ver
+    [IDR 0053](idr/0053-termos-de-uso-e-rodape-com-copyright-e-isencao.md))
 - Exibir aviso de independência e marcas (rodapé)
   - Projeto independente, sem vínculo com Panini ou FIFA; marcas
     pertencem aos seus titulares (Lei 9.279/96, art. 132)
+  - Rodapé com copyright de Daniel Felix Ferber e isenção de
+    responsabilidade (IDR 0053)
 
 ## Regras Transversais
 
