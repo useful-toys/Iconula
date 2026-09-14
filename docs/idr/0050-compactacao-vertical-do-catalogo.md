@@ -27,13 +27,17 @@ Aceito — implementação na Fase 0012 (Tarefas 0012-0002 a 0012-0004).
   - entre o cabeçalho da seção e a grade (e do título do super-grupo ao
     corpo): 10px → 8px
 - **Inalterados**: 8px entre cartões na lista e 20px entre páginas no álbum
+- **Faixa de aviso**: respiro vertical de `12px` para `6px`, em cima e
+  embaixo; margens laterais inalteradas (`--page-gutter`)
 - **Margem inferior do corpo**: altura da **pior faixa de aviso única** — a
   falha com o detalhe técnico expandido, medida na largura de celular —
   mais 8px de folga
-  - medição da Tarefa 0012-0004, a 375px, com a mensagem real de falha de
-    gravação: `border-top 2px` + `padding 12px + 12px` + mensagem
-    `16px × 1,4` (1 linha) + detalhe `11px × 1,4 + 4px` (1 linha) =
-    **67,78px**; `67,78 + 8 = 75,78` → adotado **76px**
+  - estimativa com o respiro de 6px: `67,78 − 12 = 55,78`;
+    `55,78 + 8 = 63,78` → **64px**; a medição real a 375px é refeita na
+    implementação e vence a estimativa
+  - medição anterior (Tarefa 0012-0004, respiro de 12px): `border-top 2px`
+    + `padding 12px + 12px` + mensagem `16px × 1,4` (1 linha) + detalhe
+    `11px × 1,4 + 4px` (1 linha) = 67,78px → 76px
   - a pilha de até três avisos
     ([IDR 0034](0034-limite-de-empilhamento-dos-avisos.md)) não entra na
     conta: é transitória e o usuário pode rolar
@@ -44,6 +48,12 @@ Aceito — implementação na Fase 0012 (Tarefas 0012-0002 a 0012-0004).
 - Blocos distintos continuam distintos: nenhum espaçamento chega a zero
 - A margem inferior passa a depender da altura real da faixa; se a faixa
   mudar, a medição é refeita
+- A faixa de aviso tapa ~12px a menos do catálogo enquanto está visível; a
+  mensagem, que é a área de toque do detalhe técnico, fica com ~30px de
+  altura
+- `interface.md` § Medidas (área de avisos e corpo) muda o `padding` da
+  faixa e a margem inferior
+- Implementação do respiro de 6px: a planejar (/planejar).
 
 ## Alternativas consideradas
 
@@ -54,8 +64,15 @@ Aceito — implementação na Fase 0012 (Tarefas 0012-0002 a 0012-0004).
   lastro na altura real da faixa
 - **Margem para a pilha de três avisos**: reservaria o triplo do espaço
   para um estado raro e passageiro
+- **Respiro de 8px na faixa de aviso**: redução menor do que a pedida
+- **Respiro de 4px na faixa de aviso**: toque do detalhe técnico com ~26px
+  e o `×` de dispensar quase encostado nas bordas
 
 ## Histórico
+
+- 2026-09-13 — Esmiuçamento de ajustes de interface: faixa de aviso com
+  respiro vertical de 6px (antes 12px) e margem inferior estimada em 64px
+  (antes 76px), a confirmar por medição; implementação a planejar.
 
 - 2026-09-13 — Medição da margem inferior (Tarefa 0012-0004): faixa de falha
   expandida a 375px = 67,78px; `+ 8px` → 76px.

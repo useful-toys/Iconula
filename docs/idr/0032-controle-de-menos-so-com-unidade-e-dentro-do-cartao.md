@@ -34,14 +34,18 @@ com o catálogo inteiro em tela.
 - O controle de menos **só existe quando a contagem é ≥ 1** — figurinha
   colada ou repetida. Em contagem 0 ele não é renderizado: não é um
   botão invisível nem desabilitado, é ausência
-- O controle fica **dentro do retângulo do cartão, no canto inferior
-  esquerdo**, sem transbordar — ao contrário do selo `×N`, que
-  transborda no canto inferior direito
+- O controle fica **dentro do retângulo do cartão, encostado no canto
+  inferior esquerdo** — recuo 0, cobrindo a borda de 2px do cartão, sem
+  transbordar; ao contrário do selo `×N`, que transborda no canto
+  inferior direito. Vale para o cartão atual e para o de 60×84px
+  ([IDR 0047](0047-nomes-de-jogadores-nas-figurinhas.md))
 - O controle fica **visualmente oculto por padrão** no cartão, para não
   competir com o gesto principal (tocar para somar) nem poluir
   visualmente a grade densa de figurinhas. Ele se torna visível quando:
-  - o cursor passa sobre o cartão (`:hover`);
-  - o cartão ou o próprio controle recebe foco (`:focus-within`);
+  - o cursor está sobre o cartão (`:hover`) — só nesse cartão; ao sair o
+    cursor, some, mesmo que o cartão tenha sido clicado;
+  - o cartão ou o próprio controle recebe foco **por teclado**
+    (`:focus-visible`) — o foco deixado por clique de mouse não o revela;
   - o dispositivo não oferece hover (`@media (hover: none)`), caso comum
     de celulares e tablets — aí o controle fica sempre visível, já que
     não há outro gatilho confiável para revelá-lo sem interferir no
@@ -69,6 +73,16 @@ com o catálogo inteiro em tela.
 - Em celular e tablet o controle continua sempre visível — agora só nos
   cartões onde ele faz alguma coisa, que é justamente onde o usuário
   precisa corrigir um lançamento
+- Encostado no canto, o controle se afasta ~3px do centro do cartão: menos
+  cliques acidentais no menos ao somar com o mouse
+- Com mouse, clicar num cartão e passar para outro não deixa o menos aceso
+  no primeiro; quem navega por teclado continua vendo o controle no cartão
+  focado
+- A área de toque ampliada ([IDR 0042](0042-foco-visivel-e-area-de-toque.md))
+  segue contida no cartão, agora ancorada no canto
+- `interface.md` § Figurinha e § Medidas mudam o recuo (3px/2px → 0) e o
+  gatilho de foco
+- Implementação: a planejar (/planejar).
 
 ## Alternativas consideradas
 
@@ -80,3 +94,18 @@ com o catálogo inteiro em tela.
   em cada ponta, espremendo a sigla
 - **Deixar transbordando, como o selo**: mantém a colisão entre cartões
   vizinhos na grade em lista, onde a folga é de 8px
+- **Transbordar só 3–4px do canto**: afastaria mais o alvo, mas o selo do
+  vizinho da esquerda (−6px) e o menos (−3px) somam 9px num vão de 8px
+- **No canto e menor (14px)**: alvo pequeno demais para quem quer
+  decrementar com o mouse
+- **Revelar só no hover, sem foco algum**: quem navega por teclado não
+  veria o controle no cartão focado
+
+## Histórico
+
+- 2026-09-13 — Esmiuçamento de ajustes de interface: controle encostado no
+  canto inferior esquerdo (recuo 0, sobre a borda, sem transbordar) e foco
+  que o revela passa a ser só o de teclado (`:focus-visible`);
+  implementação a planejar. Antes: recuo de 3px (2px no álbum) e revelado
+  por `:focus-within`, o que o deixava aceso depois do clique de mouse e
+  gerava cliques acidentais no menos ao somar.
