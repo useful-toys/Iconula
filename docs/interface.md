@@ -249,12 +249,13 @@ Páginas 112–113 do álbum (requisitos.md, Anexo):
   reduzida, borda tracejada); colada = cartão preenchido — além da cor,
   nunca no lugar dela
 - Marca no canto superior direito para figurinhas metalizadas/especiais
-- Controle de menos no canto inferior esquerdo, dentro do retângulo do
-  cartão — não transborda, ao contrário do selo `×N`; só existe a
-  partir da contagem 1, então a figurinha faltante não o exibe (ver
+- Controle de menos encostado no canto inferior esquerdo, sobre a borda
+  do cartão — recuo 0, sem transbordar, ao contrário do selo `×N`; só
+  existe a partir da contagem 1, então a figurinha faltante não o exibe
+  (ver
   [IDR 0032](idr/0032-controle-de-menos-so-com-unidade-e-dentro-do-cartao.md));
-  oculto por padrão, aparece no hover e no foco, e fica sempre visível
-  em tela sem hover (IDR 0032)
+  oculto por padrão, aparece no hover e no foco por teclado, e fica
+  sempre visível em tela sem hover (IDR 0032)
 - Em tela sensível, segurar o cartão por 500ms tira uma unidade — atalho
   para não mirar no controle de menos; o cartão escurece durante a espera e
   mover o dedo mais de 10px cancela — rolagem nunca decrementa (ver
@@ -699,10 +700,11 @@ tabela do [IDR 0046](idr/0046-cores-de-selecoes.md): os 48 tokens
 - Marca de metalizada: ponto de 6px em `--gold` no canto superior
   direito, com 3px de recuo das bordas — dentro do cartão, nunca
   transbordando como o selo (IDR 0047)
-- Controle de menos: círculo de 18px no canto inferior esquerdo, com 3px
-  de recuo das bordas, fundo `--turf-deep`, borda de 1px e sinal `−` em
-  `--gold`, 13px/700; nunca transborda o cartão; em tela
-  sensível, área de toque ampliada para 26px, contida no cartão (IDR 0042)
+- Controle de menos: círculo de 18px no canto inferior esquerdo, com
+  recuo 0 (sobre a borda), fundo `--turf-deep`, borda de 1px e sinal `−`
+  em `--gold`, 13px/700; nunca transborda o cartão; em tela sensível, área
+  de toque ampliada só para dentro do cartão (para cima e para a direita),
+  contida nele (IDR 0032, IDR 0042)
 - Área de avisos: flutuante (`position: fixed`) colada à borda
   inferior, `padding: 6px clamp(16px, 4vw, 40px)` e sombra
   `0 -6px 20px` para cima; borda superior de 2px na cor da severidade
