@@ -660,7 +660,7 @@ tabela do [IDR 0046](idr/0046-cores-de-selecoes.md): os 48 tokens
   (IDR 0048) — painel `--panel`, borda `--border`, texto `--cream`,
   11px/600, raio 6px e sombra; posicionado por JS fora da faixa rolável,
   centralizado na bandeira e preso à largura da janela (IDR 0052)
-- Corpo: `padding: 20px clamp(16px, 4vw, 40px) 76px`, 12px entre
+- Corpo: `padding: 20px clamp(16px, 4vw, 40px) 64px`, 12px entre
   super-grupos (IDR 0050)
 - Sem largura máxima de conteúdo: a página ocupa toda a largura
   disponível — quem dá o ritmo é a margem lateral
@@ -704,7 +704,7 @@ tabela do [IDR 0046](idr/0046-cores-de-selecoes.md): os 48 tokens
   `--gold`, 13px/700; nunca transborda o cartão; em tela
   sensível, área de toque ampliada para 26px, contida no cartão (IDR 0042)
 - Área de avisos: flutuante (`position: fixed`) colada à borda
-  inferior, `padding: 12px clamp(16px, 4vw, 40px)` e sombra
+  inferior, `padding: 6px clamp(16px, 4vw, 40px)` e sombra
   `0 -6px 20px` para cima; borda superior de 2px na cor da severidade
   sobre fundo escuro da mesma família — falha `oklch(0.3 0.15 25)` sob
   `--notif-red`, sucesso `oklch(0.32 0.1 150)` sob `--green-card`,

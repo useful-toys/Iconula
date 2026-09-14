@@ -32,9 +32,10 @@ Aceito — implementação na Fase 0012 (Tarefas 0012-0002 a 0012-0004).
 - **Margem inferior do corpo**: altura da **pior faixa de aviso única** — a
   falha com o detalhe técnico expandido, medida na largura de celular —
   mais 8px de folga
-  - estimativa com o respiro de 6px: `67,78 − 12 = 55,78`;
-    `55,78 + 8 = 63,78` → **64px**; a medição real a 375px é refeita na
-    implementação e vence a estimativa
+  - medição da implementação (Tarefa 0019-0003, respiro de 6px): `border-top
+    2px` + `padding 6px + 6px` + mensagem `16px × 1,4` (1 linha) + detalhe
+    `11px × 1,4 + 4px` (1 linha) = **55,78px**; `55,78 + 8 = 63,78` →
+    **64px**
   - medição anterior (Tarefa 0012-0004, respiro de 12px): `border-top 2px`
     + `padding 12px + 12px` + mensagem `16px × 1,4` (1 linha) + detalhe
     `11px × 1,4 + 4px` (1 linha) = 67,78px → 76px
@@ -70,6 +71,9 @@ Aceito — implementação na Fase 0012 (Tarefas 0012-0002 a 0012-0004).
 
 ## Histórico
 
+- 2026-09-14 — Medição da margem inferior (Tarefa 0019-0003): faixa de falha
+  expandida a 375px, com o respiro de 6px, = 55,78px; `+ 8px` → 64px, no
+  lugar da estimativa.
 - 2026-09-13 — Esmiuçamento de ajustes de interface: faixa de aviso com
   respiro vertical de 6px (antes 12px) e margem inferior estimada em 64px
   (antes 76px), a confirmar por medição; implementação a planejar.
