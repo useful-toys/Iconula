@@ -270,9 +270,13 @@ Páginas 112–113 do álbum (requisitos.md, Anexo):
   jogadores, duas linhas — prenomes em caixa normal e sobrenome em caixa
   alta (caixa alta só visual); nos Extras FIFA e na Coca-Cola, nome sem
   corte quebrado em até duas linhas
-- Escudo (01) e foto do time (13) das seleções: sem nome visível, o código
-  fica centralizado no cartão inteiro; o nome segue no nome acessível (ver
+- Escudo (01) e foto do time (13) das seleções: mostram o nome genérico do
+  catálogo na metade de baixo — o escudo em até duas linhas, a foto numa
+  linha só, com ellipsis; o nome completo segue no nome acessível (ver
   [IDR 0047](idr/0047-nomes-de-jogadores-nas-figurinhas.md))
+- Toda paisagem mostra o nome numa linha só; as paisagens do FWC usam o
+  nome curto (ex.: "Uruguai 1950"), com o nome completo no nome acessível
+  (ver [IDR 0047](idr/0047-nomes-de-jogadores-nas-figurinhas.md))
 - Estados visuais por cor: cinza (faltante), verde (uma unidade),
   laranja com selo `×N` (repetidas)
 - O selo `×N` conta as **unidades sobrando** (contagem − 1): `×1` = uma
@@ -478,22 +482,22 @@ primeira e na segunda posição da linha 3 (IDR 0023).
 
 ```
    ┌──────────┐     ┌──────────┐     ┌──────────┐     ┌──────────┐
-   │   BRA    │     │   BRA    │     │   BRA  ● │     │          │
-   │    05    │     │    05    │     │    05    │     │   BRA    │
-   │ Gabriel  │     │ Gabriel  │     │ Gabriel  │     │    01    │
-   │MAGALHÃES │     │ −ALHÃES  │     │ −ALHÃ×2  │     │          │
+   │   BRA    │     │   BRA    │     │   BRA  ● │     │   BRA    │
+   │    05    │     │    05    │     │    05    │     │    01    │
+   │ Gabriel  │     │ Gabriel  │     │ Gabriel  │     │  Escudo  │
+   │MAGALHÃES │     │ −ALHÃES  │     │ −ALHÃ×2  │     │  do time │
    └──────────┘     └──────────┘     └──────────┘     └──────────┘
     faltante         colada           repetida         escudo (01) e
     (cinza)          (verde)          (laranja,        foto do time (13)
-                                      2 sobrando)      só com o código
+                                      2 sobrando)      com o nome
 ```
 
 - Duas metades de mesma altura: código em duas linhas (sigla + número),
   como impresso na figurinha física, centralizado na de cima; nome
   centralizado na de baixo, em Roboto Condensed 500 de 10px — o menos e o
   selo podem cobrir parte dele (IDR 0047)
-- Escudo e foto do time das seleções: só o código, centralizado no cartão
-  inteiro (IDR 0047)
+- Escudo e foto do time das seleções: mostram o nome do catálogo na metade
+  de baixo — o escudo em até duas linhas, a foto numa linha (IDR 0047)
 - Bordas perfuradas (efeito selo)
 - `●` = metalizada/especial (marca dourada no canto); `×N` = unidades
   sobrando, contagem − 1 (IDR 0021)
@@ -767,9 +771,9 @@ tabela do [IDR 0046](idr/0046-cores-de-selecoes.md): os 48 tokens
   (IDR 0046, IDR 0050)
 - Cartão: 60×70px na lista e no álbum, paisagem 70×60px também nas duas
   disposições, raio 5px — duas metades de 33px úteis no retrato e 28px na
-  paisagem: código centrado na de cima, nome na de baixo, com menos e selo
-  por cima do nome; sem nome visível (escudo e foto do time), código centrado
-  no cartão inteiro (IDR 0047)
+  paisagem: código centrado na de cima, nome na de baixo (na paisagem, uma
+  linha de nome na metade de baixo, 28px úteis), com menos e selo por cima
+  do nome (IDR 0047)
 - Código do cartão em Poppins 700, sigla 10px com `letter-spacing: .03em`
   sobre número 13px, tipografia única nas duas disposições (IDR 0047)
 - Cartão no álbum: grade de trilhas de 60px e linhas de 70px, 6px de

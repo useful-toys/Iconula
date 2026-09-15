@@ -393,7 +393,7 @@ describe('Figurinha — nome no cartão (IDR 0047)', () => {
     );
   });
 
-  it('escudo e foto do time da seleção mostram só o código, com o nome no rótulo', () => {
+  it('escudo e foto do time da seleção mostram o nome genérico, com o nome no rótulo', () => {
     const { container, rerender } = render(
       <Figurinha
         codigo="BRA01"
@@ -405,8 +405,10 @@ describe('Figurinha — nome no cartão (IDR 0047)', () => {
       />,
     );
 
-    expect(container.querySelector('.figurinha__nome')).not.toBeInTheDocument();
-    expect(container.querySelector('.figurinha__codigo')).toBeInTheDocument();
+    expect(container.querySelector('.figurinha__nome-unico')).toHaveTextContent(
+      'Escudo do time',
+    );
+    expect(container.querySelector('.figurinha__nome-paisagem')).not.toBeInTheDocument();
     expect(screen.getByLabelText('BRA 01, Escudo do time, faltante')).toBeInTheDocument();
 
     rerender(
@@ -420,8 +422,79 @@ describe('Figurinha — nome no cartão (IDR 0047)', () => {
         onDecrementar={vi.fn()}
       />,
     );
-    expect(container.querySelector('.figurinha__nome')).not.toBeInTheDocument();
+    expect(container.querySelector('.figurinha__nome-paisagem')).toHaveTextContent(
+      'Foto do time',
+    );
+    expect(container.querySelector('.figurinha__nome-unico')).not.toBeInTheDocument();
     expect(screen.getByLabelText('BRA 13, Foto do time, faltante')).toBeInTheDocument();
+  });
+
+  it('paisagem do FWC mostra o nomeCurto numa linha e o nome completo no rótulo', () => {
+    const { container } = render(
+      <Figurinha
+        codigo="FWC10"
+        contagem={1}
+        nome="Pôster Histórico – Uruguai 1950"
+        nomeLinhas={null}
+        nomeCurto="Uruguai 1950"
+        paisagem
+        onIncrementar={vi.fn()}
+        onDecrementar={vi.fn()}
+      />,
+    );
+
+    expect(container.querySelector('.figurinha__nome-paisagem')).toHaveTextContent(
+      'Uruguai 1950',
+    );
+    expect(
+      screen.getByLabelText('FWC 10, Pôster Histórico – Uruguai 1950, colada'),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', {
+        name: 'remover uma unidade de FWC 10, Pôster Histórico – Uruguai 1950',
+      }),
+    ).toBeInTheDocument();
+  });
+
+  it('FWC04 em retrato, sem nomeCurto, mostra o nome completo em até duas linhas', () => {
+    const { container } = render(
+      <Figurinha
+        codigo="FWC04"
+        contagem={0}
+        nome="Slogan Oficial (We Are 26)"
+        nomeLinhas={null}
+        onIncrementar={vi.fn()}
+        onDecrementar={vi.fn()}
+      />,
+    );
+
+    expect(container.querySelector('.figurinha__nome-unico')).toHaveTextContent(
+      'Slogan Oficial (We Are 26)',
+    );
+    expect(container.querySelector('.figurinha__nome-paisagem')).not.toBeInTheDocument();
+  });
+
+  it('re-renderiza a paisagem quando o nomeCurto muda (comparador do memo)', () => {
+    const props = {
+      codigo: 'FWC10',
+      contagem: 0,
+      nome: 'Pôster Histórico – Uruguai 1950',
+      nomeLinhas: null,
+      paisagem: true,
+      onIncrementar: vi.fn(),
+      onDecrementar: vi.fn(),
+    };
+    const { container, rerender } = render(
+      <Figurinha {...props} nomeCurto="Uruguai 1950" />,
+    );
+    expect(container.querySelector('.figurinha__nome-paisagem')).toHaveTextContent(
+      'Uruguai 1950',
+    );
+
+    rerender(<Figurinha {...props} nomeCurto="Uruguai 1930" />);
+    expect(container.querySelector('.figurinha__nome-paisagem')).toHaveTextContent(
+      'Uruguai 1930',
+    );
   });
 
   it('sem nome, não renderiza o bloco de nome e mantém os rótulos do código', () => {
@@ -461,13 +534,13 @@ describe('Figurinha — nome no cartão (IDR 0047)', () => {
     ).toBeInTheDocument();
   });
 
-  it('Secao repassa nome e nomeLinhas ao cartão', () => {
+  it('Secao repassa nome, nomeLinhas e nomeCurto ao cartão', () => {
     const secao = {
       sigla: 'BRA',
       nome: 'Brasil',
       icone: '🇧🇷',
       paginas: [24, 25],
-      total: 1,
+      total: 2,
     };
     const figurinhas = [
       {
@@ -476,6 +549,15 @@ describe('Figurinha — nome no cartão (IDR 0047)', () => {
         metalizada: false,
         nome: 'Alisson',
         nomeLinhas: [null, 'Alisson'],
+      },
+      {
+        codigo: 'FWC10',
+        secao: 'FWC',
+        metalizada: false,
+        nome: 'Pôster Histórico – Uruguai 1950',
+        nomeLinhas: null,
+        nomeCurto: 'Uruguai 1950',
+        paisagem: true,
       },
     ];
 
@@ -491,20 +573,25 @@ describe('Figurinha — nome no cartão (IDR 0047)', () => {
     expect(container.querySelector('.figurinha__nome-sobrenome')).toHaveTextContent(
       'Alisson',
     );
+    expect(container.querySelector('.figurinha__nome-paisagem')).toHaveTextContent(
+      'Uruguai 1950',
+    );
   });
 
-  it('PaginaDoAlbum repassa nome e nomeLinhas ao cartão', () => {
+  it('PaginaDoAlbum repassa nome, nomeLinhas e nomeCurto ao cartão', () => {
     const secao = { sigla: 'BRA', nome: 'Brasil', icone: '🇧🇷', paginas: [4, 5] };
     const figurinhas = Array.from({ length: 20 }, (_, i) => ({
       codigo: `BRA${String(i + 1).padStart(2, '0')}`,
       metalizada: i === 0,
-      nome: i === 1 ? 'Alisson' : undefined,
+      nome: i === 1 ? 'Alisson' : i === 12 ? 'Foto do time' : undefined,
       nomeLinhas: i === 1 ? [null, 'Alisson'] : undefined,
+      nomeCurto: i === 12 ? 'Foto' : null,
     }));
     const layout = layoutDeSecao(secao);
     const posicoesPagina1 = layout.filter((p) => p.pagina === 1);
+    const posicoesPagina2 = layout.filter((p) => p.pagina === 2);
 
-    const { container } = render(
+    const { container, rerender } = render(
       <PaginaDoAlbum
         secao={secao}
         figurinhas={figurinhas}
@@ -516,6 +603,19 @@ describe('Figurinha — nome no cartão (IDR 0047)', () => {
 
     expect(container.querySelector('.figurinha__nome-sobrenome')).toHaveTextContent(
       'Alisson',
+    );
+
+    rerender(
+      <PaginaDoAlbum
+        secao={secao}
+        figurinhas={figurinhas}
+        posicoes={posicoesPagina2}
+        contagens={{}}
+        onAjustar={vi.fn()}
+      />,
+    );
+    expect(container.querySelector('.figurinha__nome-paisagem')).toHaveTextContent(
+      'Foto',
     );
   });
 });
