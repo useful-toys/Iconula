@@ -3,7 +3,7 @@
 # Tarefa [0022-0001]: cartão de 60×70px e paisagem de 70×60px
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Levar o cartão retrato a 60×70px e a figurinha paisagem a 70×60px — as
