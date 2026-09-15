@@ -55,12 +55,12 @@ describe('Secao', () => {
     expect(screen.getByLabelText(/1 repetidas/)).toBeInTheDocument();
   });
 
-  it('omite o número da página quando a seção não o tem', () => {
+  it('mostra a página 0 do FWC', () => {
     const fwc = {
       sigla: 'FWC',
       nome: 'Extras FIFA',
       icone: '🏆',
-      paginas: null,
+      paginas: [0, 1, 2, 3, 106, 107, 108, 109],
       total: 20,
     };
     const figurinhasFwc = [{ codigo: 'FWC01', secao: 'FWC', metalizada: false }];
@@ -75,7 +75,20 @@ describe('Secao', () => {
     );
 
     expect(screen.getByText(/Extras FIFA/)).toBeInTheDocument();
-    expect(document.body.textContent).toContain('Extras FIFA FWC');
+    expect(document.body.textContent).toContain('Extras FIFA FWC 0');
+  });
+
+  it('mostra a primeira página do spread no cabeçalho da seleção', () => {
+    render(
+      <Secao
+        secao={secaoBra}
+        figurinhas={figurinhasBra}
+        contagens={{}}
+        onAjustar={vi.fn()}
+      />,
+    );
+
+    expect(document.body.textContent).toContain('Brasil BRA 24');
   });
 
   it('renderiza a grade de figurinhas quando expandida', () => {
@@ -242,7 +255,7 @@ describe('Secao', () => {
       sigla: 'FWC',
       nome: 'Extras FIFA',
       icone: '🏆',
-      paginas: null,
+      paginas: [0, 1, 2, 3, 106, 107, 108, 109],
       total: 20,
     };
 
@@ -305,6 +318,9 @@ describe('Secao', () => {
       // FWC deve ter a grade de lista
       const grade = container.querySelector('.secao__grade');
       expect(grade).toBeInTheDocument();
+
+      // Cabeçalho mostra a página 0 também na disposição álbum
+      expect(container.textContent).toContain('Extras FIFA FWC 0');
 
       // Todas as 20 figurinhas devem estar presentes
       for (let i = 0; i <= 19; i++) {
@@ -469,7 +485,7 @@ describe('Secao', () => {
 
     const secoes = {
       BRA: { sigla: 'BRA', nome: 'Brasil', icone: '🇧🇷', paginas: [24, 25], total: 20 },
-      FWC: { sigla: 'FWC', nome: 'Extras FIFA', icone: '🏆', paginas: null, total: 20 },
+      FWC: { sigla: 'FWC', nome: 'Extras FIFA', icone: '🏆', paginas: [0, 1, 2, 3, 106, 107, 108, 109], total: 20 },
       COC: { sigla: 'COC', nome: 'Coca-Cola', icone: '🥤', paginas: [112, 113], total: 14 },
     };
 

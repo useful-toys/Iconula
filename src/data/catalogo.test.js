@@ -74,6 +74,25 @@ describe("invariantes do catálogo", () => {
       expect(secao.paginas).not.toContain(57);
     }
   });
+
+  it("toda seção tem `paginas` como lista não vazia de inteiros em ordem crescente", () => {
+    for (const secao of secoes) {
+      expect(Array.isArray(secao.paginas)).toBe(true);
+      expect(secao.paginas.length).toBeGreaterThan(0);
+      for (const pagina of secao.paginas) {
+        expect(Number.isInteger(pagina)).toBe(true);
+      }
+      const ordenadas = [...secao.paginas].sort((a, b) => a - b);
+      expect(secao.paginas).toEqual(ordenadas);
+    }
+  });
+
+  it("FWC tem as oito páginas físicas confirmadas e a Coca-Cola mantém 112–113", () => {
+    const fwc = secoes.find((s) => s.sigla === "FWC");
+    const coc = secoes.find((s) => s.sigla === "COC");
+    expect(fwc.paginas).toEqual([0, 1, 2, 3, 106, 107, 108, 109]);
+    expect(coc.paginas).toEqual([112, 113]);
+  });
 });
 
 describe("ordenações", () => {

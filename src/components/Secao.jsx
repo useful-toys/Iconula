@@ -26,7 +26,7 @@ function CabecalhoSecao({ secao, codigos, contagens, expandida, onToggle, corpoI
     codigos,
   );
   const total = codigos.length;
-  const pagina = secao.paginas ? `${secao.paginas[0]}` : null;
+  const pagina = `${secao.paginas[0]}`;
 
   const identificacao = [secao.nome, secao.sigla, pagina]
     .filter(Boolean)
