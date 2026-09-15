@@ -12,8 +12,11 @@
   color: var(--muted);
 }
 
-.rodape__politica {
+.rodape__links {
   margin-top: 8px;
+}
+
+.rodape__link {
   padding: 0;
   border: none;
   background: none;
@@ -22,4 +25,9 @@
   color: var(--muted);
   text-decoration: underline;
   cursor: pointer;
+}
+
+.rodape__separador {
+  margin: 0 6px;
+  color: var(--muted);
 }

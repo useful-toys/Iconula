@@ -11,12 +11,10 @@ import "./TelaDeLogin.css";
 // explícito de atestação (o clique que grava `atestadoEm`) é a Tarefa
 // 0008-0003, que decide o fluxo — não implementado aqui.
 //
-// O link da política ainda não tem destino: a vista da política nasce na
-// Tarefa 0008-0004, que também decide (TDR) como ela se integra ao
-// `App.jsx` sem router. `onAbrirPolitica` é o ponto de extensão já deixado
-// pronto — um no-op por padrão — para essa tarefa conectar sem precisar
-// mexer neste componente.
-export default function TelaDeLogin({ onAbrirPolitica = () => {} }) {
+// A frase de aceite e os links da política e dos termos acionam as vistas
+// internas sem router (TDR 0020), ligados em `App.jsx` via `onAbrirPolitica`
+// e `onAbrirTermos` — callbacks no-op por padrão (IDR 0053).
+export default function TelaDeLogin({ onAbrirPolitica = () => {}, onAbrirTermos = () => {} }) {
   return (
     <div className="tela-de-login">
       <div className="tela-de-login__bloco">
@@ -28,15 +26,33 @@ export default function TelaDeLogin({ onAbrirPolitica = () => {} }) {
           <LoginButton />
           <p className="tela-de-login__atestacao">
             Ao continuar, você confirma ter 12 anos ou mais, ou estar
-            autorizado pelos responsáveis.
+            autorizado pelos responsáveis, e concorda com os{" "}
+            <button
+              type="button"
+              className="tela-de-login__link"
+              onClick={onAbrirTermos}
+            >
+              Termos de uso
+            </button>
+            .
           </p>
-          <button
-            type="button"
-            className="tela-de-login__politica"
-            onClick={onAbrirPolitica}
-          >
-            Política de privacidade
-          </button>
+          <p className="tela-de-login__links">
+            <button
+              type="button"
+              className="tela-de-login__link"
+              onClick={onAbrirPolitica}
+            >
+              Política de privacidade
+            </button>{" "}
+            <span className="tela-de-login__separador" aria-hidden="true">·</span>{" "}
+            <button
+              type="button"
+              className="tela-de-login__link"
+              onClick={onAbrirTermos}
+            >
+              Termos de uso
+            </button>
+          </p>
         </div>
       </div>
       <div className="tela-de-login__rodape">

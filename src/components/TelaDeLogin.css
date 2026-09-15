@@ -52,11 +52,16 @@
   color: var(--muted);
 }
 
-/* Botão estilizado como link discreto — sem rota própria (sem router), o
-   destino real chega na Tarefa 0008-0004. */
-.tela-de-login__politica {
-  display: inline-block;
+/* Links como botões de texto, sem rota própria — as vistas internas da
+   política e dos termos (TDR 0020) abrem pelos callbacks de `App.jsx`. Mesmo
+   visual discreto dos links de rodapé: 12px `--muted` sublinhado. */
+.tela-de-login__links {
   margin: 16px 0 0;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.tela-de-login__link {
   padding: 0;
   border: none;
   background: none;
@@ -65,6 +70,11 @@
   color: var(--muted);
   text-decoration: underline;
   cursor: pointer;
+}
+
+.tela-de-login__separador {
+  margin: 0 6px;
+  color: var(--muted);
 }
 
 /* Reaproveitado por Atestacao.jsx (Tarefa 0008-0003), que segue o desenho

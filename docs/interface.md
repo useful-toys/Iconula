@@ -349,6 +349,7 @@ Esquemático em texto; cores indicadas são as do
 │  projeto independente · sem vínculo com Panini ou FIFA ·     │
 │  marcas pertencem aos seus titulares (Lei 9.279/96)          │
 │  uso por sua conta e risco, sem garantias                    │
+│  Política de privacidade · Termos de uso                     │
 └──────────────────────────────────────────────────────────────┘
 ```
 
@@ -466,19 +467,20 @@ Desenho do protótipo, com os elementos que requisitos.md exige antes de
 qualquer autenticação:
 
 ```
-        ┌────────────────────────────────┐
-        │         ICONULA 2026           │
-        │  Controle suas figurinhas do   │
-        │  álbum da Copa do Mundo 2026   │
-        │                                │
-        │   [ (G)  Entrar com Google ]   │
-        │                                │
-        │  Ao continuar, você confirma   │
-        │  ter 12 anos ou mais, ou estar │
-        │  autorizado pelos responsáveis │
-        │                                │
-        │     Política de privacidade    │
-        └────────────────────────────────┘
+        ┌───────────────────────────────────────┐
+        │              ICONULA 2026              │
+        │   Controle suas figurinhas do álbum   │
+        │      da Copa do Mundo FIFA 2026       │
+        │                                       │
+        │      [ (G)  Entrar com Google ]       │
+        │                                       │
+        │   Ao continuar, você confirma ter 12  │
+        │   anos ou mais, ou estar autorizado   │
+        │  pelos responsáveis, e concorda com   │
+        │           os Termos de uso.           │
+        │                                       │
+        │Política de privacidade · Termos de uso│
+        └───────────────────────────────────────┘
      © 2026 Daniel Felix Ferber
      projeto independente · sem vínculo com Panini…
      uso por sua conta e risco, sem garantias.
@@ -488,15 +490,18 @@ qualquer autenticação:
   gramado, título em dourado
 - Botão próprio do Google (fundo branco, disco colorido), login por
   popup (ADR 0005)
-- A atestação de menores acompanha o botão; o link da política de
-  privacidade fica abaixo, acessível sem autenticar
+- A atestação de menores acompanha o botão e a frase de aceite declara a
+  concordância com os termos; abaixo dela fica a linha "Política de
+  privacidade · Termos de uso", acessível sem autenticar
+  ([IDR 0053](idr/0053-termos-de-uso-e-rodape-com-copyright-e-isencao.md))
 - O rodapé traz copyright, o aviso de independência e marcas e a isenção de
   responsabilidade, sem filete, na ordem do
   [IDR 0053](idr/0053-termos-de-uso-e-rodape-com-copyright-e-isencao.md)
 - Textos exatos, como no protótipo: subtítulo "Controle suas figurinhas
   do álbum da Copa do Mundo FIFA 2026"; botão "Entrar com Google";
   atestação "Ao continuar, você confirma ter 12 anos ou mais, ou estar
-  autorizado pelos responsáveis."; link "Política de privacidade"
+  autorizado pelos responsáveis, e concorda com os Termos de uso.";
+  links "Política de privacidade" e "Termos de uso"
 
 Medidas: o cartão fica centrado num bloco de altura mínima ~70vh — não
 colado ao topo nem exatamente no meio da janela —, com raio 20px, borda
@@ -506,11 +511,12 @@ dourado com `letter-spacing: .02em`, subtítulo de 14px em `--muted` e
 raio 10px, `padding: 12px`, texto `#3c4043` em 14px/600, precedido do
 disco de 18px com as quatro cores da marca — é o único elemento claro
 do produto, e é assim de propósito: fora do tema, reconhecível como
-botão do provedor. A atestação vem 20px abaixo do botão e o link da
-política mais 16px adiante, ambos em 12px `--muted`. O rodapé desta
-tela repete as três primeiras linhas do rodapé do app — copyright, aviso
-de marcas e isenção — sem o filete superior — a tela de login não tem
-divisória alguma além da borda do cartão.
+botão do provedor. A atestação vem 20px abaixo do botão, com o link
+"Termos de uso" dentro da própria frase, e a linha "Política de
+privacidade · Termos de uso" mais 16px adiante, em 12px `--muted`. O
+rodapé desta tela repete as três primeiras linhas do rodapé do app —
+copyright, aviso de marcas e isenção — sem o filete superior — a tela de
+login não tem divisória alguma além da borda do cartão.
 
 ## Demais telas
 
@@ -544,6 +550,10 @@ depende do histórico do navegador. Alcançável de dois lugares (IDR 0037):
 o link no rodapé da tela de login, antes de autenticar, e o link no rodapé
 da tela principal, depois.
 
+Convivendo com a vista de termos, uma por vez: o estado único de vista
+interna (TDR 0020) impede as duas ligadas ao mesmo tempo, e não há caminho
+de uma para a outra dentro da própria vista.
+
 Layout simples de leitura, sem o cartão da tela de login: corpo de largura
 máxima ~640px centrado, com o mesmo `--page-gutter` das demais telas.
 Título "Política de privacidade" em Poppins 700/22px dourado; seções com
@@ -555,6 +565,27 @@ do titular e o tratamento de dados de menores (ligado à atestação do
 primeiro login) — cada um exercido pelo canal de contato declarado no
 próprio texto (`docs/plano/.../0004-politica-de-privacidade-e-rodape.md`
 tem a pergunta e a resposta que fixou esse endereço).
+
+### Termos de uso
+
+Vista interna, sem router (TDR 0020), a quarta tela do app: substitui o
+conteúdo da tela por inteiro, com um "← Voltar" no topo que devolve para a
+tela de origem. Duas portas de entrada
+([IDR 0053](idr/0053-termos-de-uso-e-rodape-com-copyright-e-isencao.md)):
+a frase de aceite e a linha de links da tela de login, antes de autenticar,
+e a linha de links do rodapé da tela principal, depois.
+
+Mesmo layout de leitura da política: corpo de largura máxima ~640px
+centrado, com o `--page-gutter`, título "Termos de uso" em Poppins 700/22px
+dourado e seções com título 15px/600 e corpo 14px em `--muted`,
+`line-height: 1.6`.
+
+Conteúdo, na ordem do roteiro do IDR 0053: aceite; o que é o serviço
+(gratuito e independente, sem vínculo com Panini ou FIFA); uso no estado em
+que se encontra, sem garantia de disponibilidade nem contra perda de dados,
+com o exportar como proteção; responsabilidade pela própria conta Google;
+limitação de responsabilidade; marcas; alterações dos termos; lei
+brasileira; e contato pelo mesmo endereço declarado na política.
 
 ## Apresentação por faixa de tela
 
@@ -732,7 +763,8 @@ tabela do [IDR 0046](idr/0046-cores-de-selecoes.md): os 48 tokens
   em `--border` com margem `4px 6px`; sombra `0 8px 24px`
 - Links: `--gold`, sem sublinhado, opacidade 0.8 sob o cursor
 - Rodapé: 11px em `--muted`, borda superior `--border`, linhas empilhadas na
-  ordem do copyright, aviso de marcas, isenção e link —
+  ordem do copyright, aviso de marcas, isenção e a linha com os dois links —
+  "Política de privacidade · Termos de uso" —
   [IDR 0053](idr/0053-termos-de-uso-e-rodape-com-copyright-e-isencao.md)
 
 ## Pendências de interface
