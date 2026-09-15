@@ -96,7 +96,9 @@ Questões recorrentes são marcadas como "Nota".*
   - 14 da página especial Coca-Cola
   - Cada figurinha mostra o código e o nome impresso no cromo — jogador
     ou elemento especial (Extras FIFA, Coca-Cola); escudo e foto do time
-    das seleções mostram só o código, com o nome apenas no nome
+    das seleções mostram o nome genérico ("Escudo do time", "Foto do
+    time"); os Extras FIFA em paisagem (cromo horizontal) mostram um
+    nome curto (ex.: "Uruguai 1950"), com o nome completo no nome
     acessível; a identidade continua sendo o código (ver
     [IDR 0047](idr/0047-nomes-de-jogadores-nas-figurinhas.md) e
     [MDR 0008](model-dr/0008-dados-dos-nomes-das-figurinhas.md))

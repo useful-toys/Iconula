@@ -24,11 +24,18 @@ Aceito — implementação na Fase 0017.
 
 ## Decisão
 
-- **Cartão de 60×68px, igual nas disposições lista e álbum**; na paisagem
-  (figurinha 13 das seleções), 126×68px (2 × 60 + 6) também nas duas — na
-  lista a paisagem mantém a proporção do álbum; raio 5px
-- **Composição em duas metades de mesma altura** (68 − 2 × 2 de borda =
-  64px úteis → 32px cada; código ~25px e nome ~22px cabem em cada uma):
+- **Cartão de 60×70px, igual nas disposições lista e álbum**; raio 5px
+- **Paisagem (13 das seleções; `FWC00`–`FWC03` e `FWC09`–`FWC19`): 70×60px**
+  — as medidas do retrato com largura e altura trocadas, preservando a
+  proporção; igual nas duas disposições (o FWC só aparece em lista —
+  [IDR 0023](0023-coca-cola-no-modo-album-fwc-sempre-lista.md))
+  - álbum: continua reservando as trilhas 3–4 (126×70px); o cartão fica
+    centralizado nesse espaço nos dois eixos (28px de cada lado, 5px em
+    cima e embaixo)
+  - lista: centralizado na altura da linha de cartões de 70px (5px em cima
+    e embaixo), não colado no topo
+- **Composição em duas metades de mesma altura** (70 − 2 × 2 de borda =
+  66px úteis → 33px cada; código ~25px e nome ~22px cabem em cada uma):
   - metade de cima: código em Poppins 700, sigla (10px) na linha 1 e número
     (13px) na linha 2, centralizado na horizontal e na vertical
   - metade de baixo: nome em duas linhas, centralizado na horizontal e na
@@ -36,9 +43,12 @@ Aceito — implementação na Fase 0017.
   - controle de menos (canto inferior esquerdo) e selo `×N` (canto inferior
     direito) ficam sobre a metade de baixo e podem se sobrepor ao nome —
     aceito para manter a divisão em metades
-- **Escudo (01) e foto do time (13) das seleções**: sem nome visível; o
-  código (sigla na linha 1, número na linha 2) fica centralizado na
-  horizontal e na vertical no cartão inteiro
+- **Escudo (01) e foto do time (13) das seleções**: nome do catálogo em
+  caixa normal na metade de baixo, com as mesmas duas metades dos jogadores
+  - escudo (retrato): "Escudo do time" em até duas linhas, quebra natural
+    ("Escudo" / "do time") — numa linha truncaria nos ~50px úteis
+  - foto do time (paisagem de 70×60px, 28px úteis por metade): "Foto do
+    time" numa linha só, com ellipsis se não couber
 - **Tipografia única** nas duas disposições (antes o álbum usava um ponto
   a menos): sigla 10px, número 13px; menos 18px; selo 10px; marca de
   metalizada 6px
@@ -49,11 +59,15 @@ Aceito — implementação na Fase 0017.
     nome único numa linha só, em caixa alta
   - **Extras FIFA e Coca-Cola**: nome sem corte, em caixa normal, quebrando
     naturalmente em até duas linhas
+  - **Extras FIFA em paisagem**: `nomeCurto` do catálogo
+    ([MDR 0008](../model-dr/0008-dados-dos-nomes-das-figurinhas.md)) numa
+    linha só, em caixa normal, com ellipsis se não couber — o nome completo
+    fica no nome acessível
   - **Truncamento**: ellipsis por linha
 - **Acessibilidade**: o nome completo, em caixa normal, entra no nome
   acessível do corpo e do controle de menos, entre o código e o estado
   (`BRA 05, Gabriel Magalhães, faltante`) — inclusive no escudo e na foto
-  do time, que não o exibem (`BRA 01, Escudo do time, faltante`)
+  do time (`BRA 01, Escudo do time, faltante`)
 - O dado que alimenta o nome (fonte, forma, corte, mapeamento, campos do
   catálogo) é do [MDR 0008](../model-dr/0008-dados-dos-nomes-das-figurinhas.md)
 
@@ -62,7 +76,7 @@ Aceito — implementação na Fase 0017.
 - Cada figurinha se identifica pelo nome, como no cromo físico
 - O cartão cresce ~3% na altura da lista e ~31% no álbum: mais rolagem,
   compensada em parte pela [Fase 12](0050-compactacao-vertical-do-catalogo.md)
-- Trilhas do álbum passam de 52px para 60px e linhas de 52px para 68px:
+- Trilhas do álbum passam de 52px para 60px e linhas de 52px para 70px:
   o spread vai a 536px e o limite celular/tablet do
   [IDR 0043](0043-padroes-de-primeira-abertura-por-faixa-de-tela.md) é
   recalculado; as páginas empilham um pouco antes
@@ -74,9 +88,47 @@ Aceito — implementação na Fase 0017.
 - Com unidade, o menos (e, com repetidas, o selo) cobre parte do início
   (e do fim) da metade de baixo — em nomes largos, esconde letras da
   segunda linha
-- Escudo e foto do time não repetem no cartão o texto genérico ("Escudo do
-  time", "Foto do time"): o código ganha o cartão inteiro
+- Escudo e foto do time mostram o texto genérico do catálogo (escudo em
+  duas linhas, foto numa): todas as figurinhas passam a ter código e nome
+  visíveis, com a mesma divisão em metades
+- Paisagens do FWC mostram o `nomeCurto` (até 14 caracteres, ex.: "Uruguai
+  1950"): os dez pôsteres e os dois emblemas ficam distinguíveis no cartão;
+  a exibição escolhe `nomeCurto` quando existe
+  - "Foto do time" e os nomes curtos mais longos ("Argentina 1986") em
+    Roboto Condensed 10px: ~54–60px estimados para 60px úteis no paisagem
+    (70 − 2 × 2 de borda − 2 × 3 de padding) — medir na execução; se não
+    couber, vale o ellipsis
+  - o menos, quando visível, cobre o início da linha ("Fo"); o selo não a
+    alcança (começa ~2px abaixo dela)
+  - exibição muda em `Figurinha.jsx` (`exibeNome`); o dado não muda
+    ([MDR 0008](../model-dr/0008-dados-dos-nomes-das-figurinhas.md))
 - Um arquivo de fonte a mais no bundle
+- Cartão de 60×70px: linhas do álbum de 68px para 70px (+6px por página,
+  +12px com as páginas empilhadas) e ~3% a mais de altura nas grades —
+  devolve parte da redução de rolagem da Fase 17, em troca de metades de
+  33px e de 60px úteis de nome na paisagem
+  - largura inalterada: trilhas de 60px, página de 258px, spread de 536px
+    e limite de 582px do
+    [IDR 0043](0043-padroes-de-primeira-abertura-por-faixa-de-tela.md)
+  - `PaginaDoAlbum.css` (linhas de 70px), `Figurinha.css` e a estimativa
+    `--secao-altura-estimada` de `theme.css` (placeholder do
+    `content-visibility`, [TDR 0021](../tdr/0021-desempenho-do-catalogo.md):
+    370 × 70/68 ≈ 381px) acompanham; o alvo do menos segue contido no
+    cartão ([IDR 0042](0042-foco-visivel-e-area-de-toque.md),
+    [IDR 0032](0032-controle-de-menos-so-com-unidade-e-dentro-do-cartao.md))
+- Paisagem de 70×60px: a foto do time tem a mesma proporção do retrato,
+  deitada; a 13 fica menor que o espaço de duas trilhas, com sobra visível
+  dos lados
+  - layout do álbum inalterado: `trilhas: 2` em `catalogoLayout.js`, página
+    de 258px, spread de 536px, limite celular/tablet de 582px do
+    [IDR 0043](0043-padroes-de-primeira-abertura-por-faixa-de-tela.md)
+  - cabe na 13: 56px úteis de altura em duas metades de 28px — código
+    (~25px) em cima, uma linha de nome (~11px) embaixo; não é metalizada;
+    o menos (18px) e o selo seguem nos cantos
+  - `docs/interface.md` § Seleções — 4 trilhas por página, § Grupo na
+    disposição lista e § Medidas deixam de dizer "ocupa duas trilhas (mais
+    larga, mesma altura)" e "126×68px"
+  - Implementação: a planejar (/planejar).
 
 ## Alternativas consideradas
 
@@ -93,8 +145,19 @@ Aceito — implementação na Fase 0017.
 - **Faixa inferior de ~22px reservada ao menos e ao selo, com código e nome
   empilhados acima dela**: evita a sobreposição, mas desloca código e nome
   para o alto e quebra a divisão em metades pedida pelo humano
-- **Nome genérico visível no escudo e na foto do time**: repete o que o
-  cartão já diz pela posição e disputa espaço com o código
+- **Escudo e foto do time só com o código, centralizado no cartão
+  inteiro**: vigente até o esmiuçamento de 2026-09-14; evitava repetir o
+  que a posição já diz, mas deixava as duas posições fixas sem a linha de
+  nome que todas as outras têm
+- **Nome da seleção ("Brasil") no escudo e na foto do time**: mais
+  informativo, mas repete o cabeçalho da seção e exigiria mudar o dado
+  (MDR 0008) ou criar regra de exibição própria
+- **Nome na foto do time e escudo só com o código**: restrito ao pedido
+  inicial, mas deixaria regras diferentes para as duas posições fixas
+- **Escudo numa linha só**: "Escudo do time" (14 caracteres) truncaria em
+  "Escudo do t…" nos ~50px úteis do retrato
+- **Nome curto "Escudo" nas 48 seleções**: uma linha sem truncar, mas cria
+  dado novo onde a quebra natural em duas linhas já resolve
 - **Menos pendurado fora do cartão**: contraria o
   [IDR 0032](0032-controle-de-menos-so-com-unidade-e-dentro-do-cartao.md)
   e invade o vão entre cartões
@@ -109,9 +172,49 @@ Aceito — implementação na Fase 0017.
   trocar de disposição
 - **Nome numa linha só, com o sobrenome em caixa alta**: não cabe legível
   na largura do cartão
+- **Paisagem de 126×68px, largura de duas trilhas e altura do retrato**:
+  vigente até o esmiuçamento de 2026-09-14; distorce a proporção da foto
+  do time, que aparece como dois cartões lado a lado
+- **Manter o cartão de 60×68px e a paisagem de 68×60px**: ~3% menos
+  rolagem, mas metades de 32px e nomes curtos da paisagem no limite dos
+  58px úteis; o humano preferiu 60×70px e 70×60px
+- **Paisagem na altura da linha, mesma proporção (82×70px, antes 77×68px)**:
+  alinha com os vizinhos sem sobra vertical, mas não são as medidas do
+  retrato trocadas, que era o pedido
+- **Paisagem encostada à direita, na trilha 4**: seguiria o alinhamento das
+  linhas incompletas ([IDR 0009](0009-disposicao-como-no-album-reproduz-a-pagina-fisica.md)),
+  mas deixaria 56px de buraco à esquerda; o humano pediu centralizada nas
+  duas trilhas
+- **Na lista, colada no topo ou na base da linha**: topo é o padrão da flex
+  e parece um cartão mais curto; base alinha menos e selo com os vizinhos,
+  mas difere do álbum — centralizada iguala as duas disposições
+- **Paisagem ocupando uma trilha só**: 70px não cabem na trilha de 60px;
+  exigiria alargar a trilha ou deslocar a 12, contrariando o IDR 0009 e o
+  limite do IDR 0043
+- **Paisagens do FWC numa linha com o nome completo**: os dez pôsteres
+  truncariam iguais ("Pôster Histór…") e FWC01/FWC02 também ("Emblema
+  Ofic…") — o nome deixaria de identificar a figurinha
+- **Paisagens do FWC em duas linhas com o nome completo**: cabe na altura
+  e distingue os pôsteres, mas FWC01 e FWC02 continuariam iguais
+- **Paisagens do FWC decididas junto com o FWC no álbum**: o esmiuçamento
+  da apresentação do FWC no álbum parte desta decisão, em vez de adiar a
+  lista
 
 ## Histórico
 
+- 2026-09-14 — Esmiuçamento: o cartão passa de 60×68px a 60×70px (linhas
+  do álbum de 70px) e a figurinha paisagem (13) a 70×60px, as
+  medidas do retrato com largura e altura trocadas, nas duas disposições —
+  centralizada no espaço das trilhas 3–4 no álbum e na altura da linha na
+  lista —, para preservar a proporção da foto do time; escudo (01) e foto
+  do time (13) voltam a mostrar o nome do catálogo na metade de baixo — o
+  escudo em até duas linhas, a foto numa; `FWC00`–`FWC03` e `FWC09`–`FWC19` passam a paisagem, com
+  o `nomeCurto` numa linha. Implementação a planejar.
+
+  Antes: cartão de 60×68px com linhas do álbum de 68px; paisagem de
+  126×68px (2 × 60 + 6) nas duas disposições, ocupando
+  toda a largura das duas trilhas com a altura do retrato; escudo e foto
+  do time só com o código, centralizado no cartão inteiro.
 - 2026-09-14 — Revisão do PR da Fase 17: optamos por estes ajustes de
   layout do cartão, pedidos pelo humano ao ver a entrega:
   - duas metades de mesma altura — código (sigla, número) centralizado na

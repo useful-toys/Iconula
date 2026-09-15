@@ -74,7 +74,7 @@ muda de tamanho nem de posição:
 |---|---|---|---|---|
 | Desfazer / menu de ações | 30×30px | um ao outro, gap 8px | −4px | 38×38px, sem se sobrepor |
 | Ícone da faixa de bandeiras | 30×30px | a bandeira vizinha, gap 2px (4px entre grupos na ordenação por página) | −1px | 32×32px, sem se sobrepor |
-| Menos | 18×18px | o próprio cartão (60×68px, lista e álbum) | −4px | 26×26px, contido no cartão |
+| Menos | 18×18px | o próprio cartão (60×70px retrato e 70×60px paisagem, lista e álbum) | −4px | 26×26px, contido no cartão |
 
 A expansão de cada alvo isolado (desfazer, menu, faixa) para exatamente na
 metade do espaçamento que o separa do vizinho — nenhum dos dois lados chega
@@ -126,6 +126,11 @@ Contexto do IDR 0024.
 
 ## Histórico
 
+- 2026-09-14 — Esmiuçamento: com o cartão de 60×70px e a paisagem de
+  70×60px ([IDR 0047](0047-nomes-de-jogadores-nas-figurinhas.md)), o menos
+  continua 18px com alvo de 26×26px, contido nos dois formatos (a menor
+  dimensão, 60px, não muda). Implementação a planejar. Antes: cartão de
+  60×68px.
 - 2026-09-14 — Fase 0019, Tarefa 0019-0005: a pintura e a escala do retorno
   de toque passam do próprio `.figurinha__corpo` para um filho visual
   (`.figurinha__visual`), preservando o efeito de encolher e voltar sem

@@ -24,8 +24,9 @@ Aceito.
   - COC: `inicio: 1`, `total: 14` → `COC01`…`COC14` (14)
   - Total: 960 + 20 + 14 = 994
 - **Posições fixas** (seleções): `01` é metalizada; `13` é paisagem (cromo horizontal).
+- **Paisagem no FWC**: `FWC00`–`FWC03` e `FWC09`–`FWC19` são paisagem (cromo horizontal, como no álbum físico); `FWC04`–`FWC08` são retrato.
 - **Estrutura de cada seção**: `sigla`, `nome`, `tipo` (`selecao` | `especial`), `icone` (emoji Unicode), `grupo` (A–L ou `null`), `paginas` (spread ou `null`), `total`, `inicio` (opcional, padrão 1).
-- **Estrutura de cada figurinha**: `codigo`, `secao` (sigla), `posicao` (inteiro), `metalizada` (booleano), `paisagem` (booleano), `nome` (texto) e `nomeLinhas` (par prenomes/sobrenome ou `null`) — os dois últimos definidos no [MDR 0008](0008-dados-dos-nomes-das-figurinhas.md).
+- **Estrutura de cada figurinha**: `codigo`, `secao` (sigla), `posicao` (inteiro), `metalizada` (booleano), `paisagem` (booleano), `nome` (texto), `nomeLinhas` (par prenomes/sobrenome ou `null`) e `nomeCurto` (texto ou `null`) — os três últimos definidos no [MDR 0008](0008-dados-dos-nomes-das-figurinhas.md).
 - **Derivações de tela** (agrupar, ordenar, dispor) ficam em `src/data/catalogoOrdenacoes.js` e `src/data/catalogoLayout.js` — funções puras, sem efeito colateral.
 - **Layout de álbum** (`catalogoLayout.js`): posições explícitas de `pagina`, `linha`, `trilha`, `trilhas` para cada figurinha, reproduzindo a página física do álbum.
 
@@ -36,6 +37,7 @@ Aceito.
 - O FWC usa `inicio: 0` porque a numeração oficial vai de `FWC00`
 a `FWC19` (ver [TDR 0010](../tdr/0010-forma-do-catalogo-degradacao-do-checklist-e-sem-pipeline.md)).
 - A ausência de pipeline de geração significa que lacunas da fonte degradam campo a campo (TDR 0010).
+- `paisagem` deixa de ser só posição fixa de seleção: a expansão marca também as 15 paisagens do FWC, e as invariantes de `catalogo.test.js` passam a conferi-las (15 no FWC, nenhuma na COC); o FWC segue em lista também na disposição álbum ([IDR 0023](../idr/0023-coca-cola-no-modo-album-fwc-sempre-lista.md)), então a paisagem só afeta o cartão, não o layout de álbum. Implementação: a planejar (/planejar).
 
 ## Alternativas consideradas
 
@@ -45,4 +47,5 @@ a `FWC19` (ver [TDR 0010](../tdr/0010-forma-do-catalogo-degradacao-do-checklist-
 
 ## Histórico
 
+- 2026-09-14 — Esmiuçamento: `FWC00`–`FWC03` e `FWC09`–`FWC19` passam a paisagem, refletindo o cromo físico; a figurinha ganha `nomeCurto` ([MDR 0008](0008-dados-dos-nomes-das-figurinhas.md)). Implementação a planejar. Antes: só a `13` das seleções era paisagem; figurinha sem `nomeCurto`.
 - 2026-09-13 — Planejamento revisado das Fases 11–17 (implementação na Fase 0017, Tarefa 0017-0002): a figurinha ganha `nome` e `nomeLinhas`, derivados de `src/data/jogadores.js` ([MDR 0008](0008-dados-dos-nomes-das-figurinhas.md)). Antes: sem nome.
