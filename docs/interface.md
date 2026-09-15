@@ -86,7 +86,7 @@ demonstrar avisos) é andaime da prévia, não faz parte do produto.*
 - Alternador de disposição: lista contínua × layout da página física
 - Filtro de status (todas/faltantes/coladas/repetidas): apenas na
   disposição lista — na disposição álbum o alternador de filtro nem
-  aparece, inclusive para as seções que ali se exibem em lista (IDR 0023)
+  aparece, para nenhuma seção (IDR 0023)
 - Coladas é contagem ≥ 1 e repetidas é contagem ≥ 2: os dois conjuntos
   se sobrepõem de propósito — toda repetida é colada — e a tela não
   sinaliza a sobreposição (ver
