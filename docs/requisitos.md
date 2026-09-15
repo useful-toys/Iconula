@@ -135,13 +135,12 @@ Questões recorrentes são marcadas como "Nota".*
 - Apresentar cada seção em duas disposições
   - Lista: figurinhas em sequência (01 a N) — vale para toda seção
   - Álbum: reproduz a página física — as 48 seleções (spread de duas
-    páginas, 20 espaços) e a Coca-Cola (duas páginas, 6 + 8); facilita
-    comparar com o álbum real ("qual eu já tenho?") (ver
+    páginas, 20 espaços), os Extras FIFA (oito páginas em duas partes do
+    álbum, 0–3 e 106–109, com os espaços vazios da página) e a Coca-Cola
+    (duas páginas, 6 + 8); facilita comparar com o álbum real ("qual eu
+    já tenho?") (ver
     [IDR 0009](idr/0009-disposicao-como-no-album-reproduz-a-pagina-fisica.md)
     e [IDR 0023](idr/0023-coca-cola-no-modo-album-fwc-sempre-lista.md))
-  - Os Extras FIFA (FWC) aparecem em lista contínua também na disposição
-    álbum — e sem filtro, porque a disposição escolhida é álbum
-    (IDR 0023)
   - Álbum responsivo: as duas páginas do spread lado a lado quando cabem
     na largura da tela, empilhadas (uma abaixo da outra) quando não
     cabem — nunca cai para a lista (ver
@@ -321,8 +320,7 @@ Questões recorrentes são marcadas como "Nota".*
   a rolagem (ver [IDR 0014](idr/0014-salto-direto-para-secao.md), que
   retoma o [IDR 0004](idr/0004-rejeitado-ir-para-secao-e-salto-de-navegacao.md))
 - Filtro de status (todas/faltantes/coladas/repetidas) existe apenas na
-  disposição lista; a disposição álbum nunca é filtrada — nem a lista do
-  FWC exibida dentro dela (IDR 0023). Coladas (contagem ≥ 1) e repetidas
+  disposição lista; a disposição álbum nunca é filtrada (IDR 0023). Coladas (contagem ≥ 1) e repetidas
   (contagem ≥ 2) se sobrepõem de propósito (ver
   [IDR 0033](idr/0033-filtro-de-coladas.md))
 - Ao filtrar, seções (e super-grupos) sem nenhuma figurinha no estado
@@ -405,7 +403,7 @@ Nenhuma — as três pendências registradas durante o plano foram todas
 resolvidas, com registro próprio:
 
 - **Fonte do checklist**: degradação decidida sem bloquear a
-  implementação — a página do FWC fica `null` (omitida) e
+  implementação — as páginas do FWC foram confirmadas depois (IDR 0023) e
   `metalizada` só nasce `true` na posição 01 de cada seleção; corrigir
   quando a fonte completa aparecer é mudança contida em
   `expandirFigurinhas` — [TDR 0010](tdr/0010-forma-do-catalogo-degradacao-do-checklist-e-sem-pipeline.md).
@@ -441,10 +439,10 @@ ordem do álbum (ver
 
 Cada seleção ocupa um **spread**: a página par traz as figurinhas 01–10
 e a ímpar seguinte, as 11–20 — México em 8 e 9, Brasil em 24 e 25, e
-assim por diante. O bloco 56–57 não pertence a nenhuma seleção. As
-páginas 1–7 e 106–111 cobrem capa e extras FIFA (a página exata do FWC
-segue pendente do checklist, e só afeta o número exibido no cabeçalho
-daquela seção).
+assim por diante. O bloco 56–57 não pertence a nenhuma seleção. Os
+Extras FIFA ocupam as páginas 0–3 (`FWC00`–`FWC08`) e 106–109
+(`FWC09`–`FWC19`), com o arranjo de cada página no
+[IDR 0023](idr/0023-coca-cola-no-modo-album-fwc-sempre-lista.md).
 
 O **grupo da Copa** sai da própria ordem do álbum — cada quatro páginas
 pares consecutivas são um grupo, do A ao L —, verificado contra o
