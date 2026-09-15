@@ -403,7 +403,7 @@ Depende da Fase 19 (posição do avatar) e da Fase 20 (`App.jsx`).
 | # | Tarefa | Objetivo | Status |
 |---|---|---|---|
 | 0001 | [Botão compartilhar com as cópias](0021-botao-compartilhar/0001-botao-compartilhar-com-as-copias.md) | Ícone à esquerda do avatar abre as duas cópias por lista; o menu do avatar fica com exportar, importar e sair. | Concluída |
-| 0002 | [Compartilhar pela folha do sistema](0021-botao-compartilhar/0002-compartilhar-pela-folha-do-sistema.md) | "Compartilhar faltantes…" e "Compartilhar repetidas…" onde `navigator.share` existe; cancelar não avisa, falha cai na cópia. | Pendente |
+| 0002 | [Compartilhar pela folha do sistema](0021-botao-compartilhar/0002-compartilhar-pela-folha-do-sistema.md) | "Compartilhar faltantes…" e "Compartilhar repetidas…" onde `navigator.share` existe; cancelar não avisa, falha cai na cópia. | Concluída |
 
 ## Fase 22 — Proporção e nome das figurinhas paisagem
 

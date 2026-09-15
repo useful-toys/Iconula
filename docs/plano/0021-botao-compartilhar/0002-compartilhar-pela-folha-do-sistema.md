@@ -3,7 +3,7 @@
 # Tarefa [0021-0002]: compartilhar as listas pela folha de compartilhamento do sistema
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Acrescentar ao popup de compartilhar "Compartilhar faltantes…" e

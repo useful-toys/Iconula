@@ -152,15 +152,25 @@ Popup aberto pelo botão compartilhar, logo à esquerda do avatar (IDR 0024,
 IDR 0018), organizado por lista em dois blocos separados por filete:
 
 - Copiar lista de **faltantes** para a área de transferência
+- Compartilhar **faltantes**… — abre a folha de compartilhamento do sistema
 - Copiar lista de **repetidas** para a área de transferência
+- Compartilhar **repetidas**… — abre a folha de compartilhamento do sistema
 
-O texto é o de `requisitos.md` § Compartilhamento, sempre na ordem do álbum
-(IDR 0039). O popup é ancorado ao botão que o abriu, alinhado pela borda
-direita, logo abaixo dele, com o mesmo painel e a mesma sombra do menu de
-ações. Segue o mesmo comportamento de fechamento e foco: fecha ao escolher um
-item, ao tocar fora ou com `Esc`; ao abrir, o foco entra no primeiro item
-habilitado e volta ao botão ao fechar. O retorno ("lista copiada") sai na área
-de avisos (IDR 0029).
+Os dois itens de **Compartilhar** existem só onde o navegador oferece a folha
+de compartilhamento do sistema (`navigator.share`); sem ela, o popup fica só
+com as duas cópias (IDR 0024). Compartilhar não assume nenhum app: o usuário
+escolhe (Signal, WhatsApp, Telegram, e-mail…). O texto é o de `requisitos.md`
+§ Compartilhamento, sempre na ordem do álbum (IDR 0039), o mesmo da cópia.
+
+O popup é ancorado ao botão que o abriu, alinhado pela borda direita, logo
+abaixo dele, com o mesmo painel e a mesma sombra do menu de ações. Segue o
+mesmo comportamento de fechamento e foco: fecha ao escolher um item, ao tocar
+fora ou com `Esc`; ao abrir, o foco entra no primeiro item habilitado e volta
+ao botão ao fechar. A cópia dá retorno ("lista copiada") e o compartilhamento,
+"lista compartilhada", na área de avisos (IDR 0029); fechar a folha sem
+escolher não gera aviso e, se a folha falhar por outro motivo, o texto cai na
+cópia, com o aviso e a reserva do
+[IDR 0039](idr/0039-texto-de-troca-ordem-fixa-e-copia-manual-de-reserva.md).
 
 ### Corpo
 - Grupos = seções do catálogo: 48 seleções e os especiais "Extras FIFA"
@@ -310,7 +320,7 @@ conteúdo, não empurra o layout nem rola com a página (ver
 
 | Severidade | Duração | Eventos |
 |---|---|---|
-| Sucesso (verde) | some em 5s | gravado, carregado, lista copiada, exportado, importado |
+| Sucesso (verde) | some em 5s | gravado, carregado, lista copiada, lista compartilhada, exportado, importado |
 | Aviso (dourado) | some em 5s | arquivo de importação inválido ou de versão desconhecida, área de transferência indisponível, gravação sem rede que ficou enfileirada |
 | Falha (vermelho) | fica até ser dispensada ou até a operação seguinte do mesmo tipo ter sucesso | falha de gravação ou de carga |
 
