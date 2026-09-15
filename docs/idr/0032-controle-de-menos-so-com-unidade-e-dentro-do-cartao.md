@@ -37,7 +37,7 @@ com o catálogo inteiro em tela.
 - O controle fica **dentro do retângulo do cartão, encostado no canto
   inferior esquerdo** — recuo 0, cobrindo a borda de 2px do cartão, sem
   transbordar; ao contrário do selo `×N`, que transborda no canto
-  inferior direito. Vale para o cartão de 60×68px em metades
+  inferior direito. Vale para o cartão de 60×70px (retrato) e 70×60px (paisagem) em metades
   ([IDR 0047](0047-nomes-de-jogadores-nas-figurinhas.md)), onde o controle
   fica sobre a metade de baixo e pode cobrir parte do nome
 - O controle fica **visualmente oculto por padrão** no cartão, para não
@@ -108,6 +108,9 @@ com o catálogo inteiro em tela.
 
 ## Histórico
 
+- 2026-09-14 — Esmiuçamento: cartão de 60×70px e paisagem de 70×60px
+  ([IDR 0047](0047-nomes-de-jogadores-nas-figurinhas.md)); o canto do menos
+  não muda. Implementação a planejar. Antes: cartão de 60×68px.
 - 2026-09-14 — Revisão do PR da Fase 17: optamos por ajustar o layout do
   cartão ([IDR 0047](0047-nomes-de-jogadores-nas-figurinhas.md)) — duas
   metades (código em cima, nome embaixo), altura de 84px para 68px e escudo
