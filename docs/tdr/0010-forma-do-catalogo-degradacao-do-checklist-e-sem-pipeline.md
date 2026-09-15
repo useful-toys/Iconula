@@ -51,9 +51,15 @@ individualmente, sem bloquear a tarefa, como a tarefa já previa:
   não os exibe (`requisitos.md` § Conteúdo), então não há campo para
   eles — evita um dado morto que teria de ser mantido em sincronia com
   nada.
-- **Página do FWC**: `paginas: null` na seção `FWC`. Quem renderizar o
-  cabeçalho da seção trata `null` como "omitir o número" — comportamento
-  que a Tarefa 0002 (tela) implementa, não este arquivo.
+- **Página do FWC**: deixou de ser lacuna — as páginas foram confirmadas
+  pelo humano a partir do álbum físico: 0–3 e 106–109, com o arranjo de
+  cada página no
+  [IDR 0023](../idr/0023-coca-cola-no-modo-album-fwc-sempre-lista.md).
+  A seção `FWC` passa a `paginas: [0, 1, 2, 3, 106, 107, 108, 109]`
+  (forma no [MDR 0006](../model-dr/0006-catalogo-estatico-embutido.md)),
+  e o cabeçalho mostra a primeira, `0`, como nas demais seções. Até a
+  implementação, `paginas: null` segue no código e o cabeçalho omite o
+  número. Implementação: a planejar (/planejar).
 - **Metalizadas além da 01**: o campo `metalizada` existe em toda
   figurinha (`boolean`), mas só a posição `01` de cada seleção nasce
   `true`; nenhuma outra figurinha é marcada, correta ou incorretamente,
@@ -104,6 +110,10 @@ seleção, grupos e páginas por seleção) — não de um script de geração.
 
 ## Histórico
 
+- 2026-09-14 — Esmiuçamento (implementação a planejar): a página do FWC
+  deixa a lista de lacunas do checklist — páginas 0–3 e 106–109
+  confirmadas (IDR 0023). Antes: "`paginas: null` na seção `FWC`. Quem
+  renderizar o cabeçalho da seção trata `null` como 'omitir o número'".
 - 2026-09-13 — Planejamento revisado das Fases 11–17 (implementação na
   Fase 0017): os nomes das figurinhas deixam de depender da fonte do
   checklist — vêm de `src/data/jogadores.js`, transcrito do
