@@ -3,7 +3,7 @@
 # Tarefa [0020-0003]: vista de termos de uso e aceite na tela de login
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Criar a vista interna "Termos de uso", alcançável da tela de login e do

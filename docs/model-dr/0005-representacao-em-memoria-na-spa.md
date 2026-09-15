@@ -20,7 +20,9 @@ Aceito.
   - `atualizadoEm`: `string | null` — carimbo formatado da última gravação (não um `Date`).
   - `historico`: array imutável de `{codigo, contagemAnterior}` — últimas 10 alterações, em memória (descartado ao recarregar).
   - `precisaAtestar`: `boolean` — se a conta precisa atestar maiores de idade.
-  - `mostrarPolitica`: `boolean` — vista interna da política de privacidade.
+  - `vistaInterna`: `null | 'politica' | 'termos'` — vista interna vigente
+    (política de privacidade ou termos de uso), uma por vez; checada antes dos
+    demais ramos ([TDR 0020](../tdr/0020-privacidade-como-vista-interna.md)).
   - `ordenacao`: `'pagina' | 'sigla'`.
   - `disposicao`: `'lista' | 'album'`.
   - `filtro`: `'todas' | 'faltantes' | 'coladas' | 'repetidas'`.
@@ -54,6 +56,9 @@ Aceito.
 
 ## Histórico
 
+- 2026-09-14 — Fase 0020, Tarefa 0020-0003: o booleano `mostrarPolitica` vira
+  `vistaInterna` (`null | 'politica' | 'termos'`), estado único das vistas
+  internas — política de privacidade e termos de uso ([TDR 0020](../tdr/0020-privacidade-como-vista-interna.md)).
 - 2026-09-13 — Fase 0012, Tarefa 0012-0001: o colapso de seções e super-grupos
   deixa de ser volátil; o conjunto do que foi fechado à mão passa a ser lido e
   gravado no `localStorage` (IDR 0020, IDR 0026, MDR 0007).

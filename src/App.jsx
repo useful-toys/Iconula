@@ -7,6 +7,7 @@ import { ordenarPorSigla, ordenarPorPagina, extrairSecoes } from "./data/catalog
 import TelaDeLogin from "./components/TelaDeLogin.jsx";
 import Atestacao from "./components/Atestacao.jsx";
 import PoliticaDePrivacidade from "./components/PoliticaDePrivacidade.jsx";
+import TermosDeUso from "./components/TermosDeUso.jsx";
 import { Cabecalho } from "./components/Cabecalho.jsx";
 import { Controles } from "./components/Controles.jsx";
 import { MenuDeAcoes } from "./components/MenuDeAcoes.jsx";
@@ -75,10 +76,12 @@ export default function App() {
   // e atestação nunca disputam uma tela própria de espera, o mesmo
   // tratamento que a carga já dá às contagens.
   const [precisaAtestar, setPrecisaAtestar] = useState(false);
-  // Vista interna da política de privacidade (Tarefa 0008-0004, TDR 0020):
-  // sem router — checada antes de qualquer outro ramo de retorno, para
-  // voltar sempre cair na tela que o restante do estado já determinaria.
-  const [mostrarPolitica, setMostrarPolitica] = useState(false);
+  // Vista interna (TDR 0020, revisitado na Tarefa 0020-0003): política de
+  // privacidade e termos de uso (IDR 0053) — sem router. Estado único,
+  // checado antes de qualquer outro ramo de retorno, para voltar sempre cair
+  // na tela que o restante do estado já determinaria; um único valor impede
+  // as duas vistas de ficarem ligadas ao mesmo tempo.
+  const [vistaInterna, setVistaInterna] = useState(null);
   // Preferências de vista lidas uma vez na abertura (IDR 0026). Sem
   // preferência guardada, o par (ordenação, disposição) inicial depende da
   // faixa de tela no instante da abertura (IDR 0043) — `window.innerWidth`
@@ -469,11 +472,15 @@ export default function App() {
     return mapa;
   }, [contagens]);
 
-  // Vista da política de privacidade (Tarefa 0008-0004, TDR 0020): checada
-  // antes de qualquer outro ramo — fechar (`onVoltar`) apenas desliga o
-  // estado e devolve para a tela que os ramos abaixo já mostrariam.
-  if (mostrarPolitica) {
-    return <PoliticaDePrivacidade onVoltar={() => setMostrarPolitica(false)} />;
+  // Vistas internas (TDR 0020): checadas antes de qualquer outro ramo —
+  // fechar (`onVoltar`) apenas desliga o estado e devolve para a tela que os
+  // ramos abaixo já mostrariam.
+  if (vistaInterna === 'politica') {
+    return <PoliticaDePrivacidade onVoltar={() => setVistaInterna(null)} />;
+  }
+
+  if (vistaInterna === 'termos') {
+    return <TermosDeUso onVoltar={() => setVistaInterna(null)} />;
   }
 
   // Guarda de login (Tarefa 0008-0001, requisitos.md § Acesso): sem sessão,
@@ -505,7 +512,12 @@ export default function App() {
   if (!user) {
     // Tela desenhada em docs/interface.md § Tela de login (Tarefa
     // 0008-0002) — não mais o AuthStatus genérico.
-    return <TelaDeLogin onAbrirPolitica={() => setMostrarPolitica(true)} />;
+    return (
+      <TelaDeLogin
+        onAbrirPolitica={() => setVistaInterna('politica')}
+        onAbrirTermos={() => setVistaInterna('termos')}
+      />
+    );
   }
 
   if (precisaAtestar) {
@@ -566,7 +578,10 @@ export default function App() {
         onLimparFiltro={() => setFiltro('todas')}
       />
       <Avisos />
-      <Rodape onAbrirPolitica={() => setMostrarPolitica(true)} />
+      <Rodape
+        onAbrirPolitica={() => setVistaInterna('politica')}
+        onAbrirTermos={() => setVistaInterna('termos')}
+      />
     </div>
   );
 }

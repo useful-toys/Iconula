@@ -74,13 +74,14 @@ regras do Firestore, avaliadas no servidor contra o ID token.
 |---|---|
 | `src/data/` | Catálogo estático (50 seções, 994 figurinhas — [TDR 0010](tdr/0010-forma-do-catalogo-degradacao-do-checklist-e-sem-pipeline.md)) e suas derivações puras: ordenações/agrupamento ([TDR 0012](tdr/0012-derivacoes-do-catalogo-em-src-data.md)) e layout de página do álbum |
 | `src/lib/` | Módulos sem React: estado da coleção em memória, persistência no Firestore (`colecaoRemota.js`, único módulo que toca o SDK), gravação agregada com debounce/flush, histórico de desfazer, preferências de vista no `localStorage`, portabilidade (export/import JSON), textos de troca, fila de avisos, conversão de bandeiras e cálculo de progresso |
-| `src/components/` | Telas (login, atestação, política de privacidade) e árvore da tela principal: cabeçalho com placar e faixa de salto, controles (ordenação/disposição/filtro), menu de ações, catálogo (super-grupo → seção → figurinha ou página do álbum) e avisos flutuantes |
-| `src/App.jsx` | Único componente com estado: sessão (Firebase Auth), coleção, atestação, vista da política, preferências de vista e histórico de desfazer; decide qual tela mostrar (guarda de login) e concentra toda leitura/escrita da coleção |
+| `src/components/` | Telas (login, atestação, política de privacidade e termos de uso) e árvore da tela principal: cabeçalho com placar e faixa de salto, controles (ordenação/disposição/filtro), menu de ações, catálogo (super-grupo → seção → figurinha ou página do álbum) e avisos flutuantes |
+| `src/App.jsx` | Único componente com estado: sessão (Firebase Auth), coleção, atestação, vistas internas (política e termos), preferências de vista e histórico de desfazer; decide qual tela mostrar (guarda de login) e concentra toda leitura/escrita da coleção |
 
 Convenção vigente (AGENTS.md): nada de router nem estado global até a
 árvore de componentes realmente exigir. Confirmada em uso, não só
 proposta: a política de privacidade — a primeira tela endereçável além de
-login/catálogo — ficou como vista interna sem router
+login/catálogo — e os termos de uso ([IDR 0053](idr/0053-termos-de-uso-e-rodape-com-copyright-e-isencao.md))
+ficaram como vistas internas sem router, num estado único
 ([TDR 0020](tdr/0020-privacidade-como-vista-interna.md)), e a coleção
 consumida por cabeçalho, controles, menu de ações e catálogo segue em
 `App.jsx` por prop-drilling, sem Context

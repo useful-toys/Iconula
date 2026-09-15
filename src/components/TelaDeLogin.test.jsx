@@ -1,6 +1,6 @@
 // Copyright (c) 2026 Daniel Felix Ferber
 
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import "@testing-library/jest-dom/vitest";
@@ -26,19 +26,23 @@ afterEach(() => {
 });
 
 describe("TelaDeLogin", () => {
-  it("mostra os quatro textos exatos de interface.md § Tela de login", () => {
-    render(<TelaDeLogin />);
+  it("mostra os textos exatos de interface.md § Tela de login", () => {
+    const { container } = render(<TelaDeLogin />);
 
     expect(
       screen.getByText("Controle suas figurinhas do álbum da Copa do Mundo FIFA 2026"),
     ).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Entrar com Google" })).toBeInTheDocument();
-    expect(
-      screen.getByText(
-        "Ao continuar, você confirma ter 12 anos ou mais, ou estar autorizado pelos responsáveis.",
-      ),
-    ).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Política de privacidade" })).toBeInTheDocument();
+
+    const atestacao = container.querySelector(".tela-de-login__atestacao");
+    expect(atestacao.textContent).toBe(
+      "Ao continuar, você confirma ter 12 anos ou mais, ou estar autorizado pelos responsáveis, e concorda com os Termos de uso.",
+    );
+    expect(within(atestacao).getByRole("button", { name: "Termos de uso" })).toBeInTheDocument();
+
+    expect(container.querySelector(".tela-de-login__links").textContent).toBe(
+      "Política de privacidade · Termos de uso",
+    );
   });
 
   it("mostra o rodapé de independência e marcas", () => {
@@ -69,6 +73,20 @@ describe("TelaDeLogin", () => {
     await user.click(screen.getByRole("button", { name: "Política de privacidade" }));
 
     expect(onAbrirPolitica).toHaveBeenCalledTimes(1);
+  });
+
+  it("os links dos termos (frase de aceite e cartão) são acionáveis sem sessão", async () => {
+    const user = userEvent.setup();
+    const onAbrirTermos = vi.fn();
+    const { container } = render(<TelaDeLogin onAbrirTermos={onAbrirTermos} />);
+
+    const atestacao = container.querySelector(".tela-de-login__atestacao");
+    await user.click(within(atestacao).getByRole("button", { name: "Termos de uso" }));
+    expect(onAbrirTermos).toHaveBeenCalledTimes(1);
+
+    const links = container.querySelector(".tela-de-login__links");
+    await user.click(within(links).getByRole("button", { name: "Termos de uso" }));
+    expect(onAbrirTermos).toHaveBeenCalledTimes(2);
   });
 
   it("falha de login mostra mensagem em role=alert", async () => {
