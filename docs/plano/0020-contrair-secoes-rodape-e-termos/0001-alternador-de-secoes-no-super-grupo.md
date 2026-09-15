@@ -3,7 +3,7 @@
 # Tarefa [0020-0001]: alternador que contrai e expande as seções do super-grupo
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Acrescentar ao título de cada super-grupo aberto um alternador `⊟`/`⊞` que

@@ -32,6 +32,8 @@ function propsEquivalentes(anterior, seguinte) {
     anterior.setSecaoRef !== seguinte.setSecaoRef ||
     anterior.expandida !== seguinte.expandida ||
     anterior.onToggle !== seguinte.onToggle ||
+    anterior.onToggleSecoes !== seguinte.onToggleSecoes ||
+    anterior.todasSecoesFechadas !== seguinte.todasSecoesFechadas ||
     anterior.disposicao !== seguinte.disposicao ||
     anterior.filtro !== seguinte.filtro
   ) {
@@ -65,6 +67,8 @@ function propsEquivalentes(anterior, seguinte) {
  * @param {(sigla: string, element: Element|null) => void} props.setSecaoRef - callback para registrar ref de uma seção.
  * @param {boolean} [props.expandida] - se o super-grupo está expandido (controlado); se omitido, usa estado interno.
  * @param {() => void} [props.onToggle] - callback para alternar o colapso (controlado).
+ * @param {() => void} [props.onToggleSecoes] - callback do alternador: contrai/expande as 4 seções do grupo (IDR 0020).
+ * @param {boolean} [props.todasSecoesFechadas=false] - se as 4 seções do grupo estão fechadas; decide glifo e nome do alternador.
  * @param {'lista'|'album'} [props.disposicao='lista'] - disposição vigente.
  * @param {'todas'|'faltantes'|'coladas'|'repetidas'} [props.filtro='todas'] - filtro vigente.
  */
@@ -79,6 +83,8 @@ export const SuperGrupo = memo(function SuperGrupo({
   setSecaoRef,
   expandida: expandidaProp,
   onToggle: onToggleProp,
+  onToggleSecoes,
+  todasSecoesFechadas = false,
   disposicao = 'lista',
   filtro = 'todas',
 }) {
@@ -118,40 +124,60 @@ export const SuperGrupo = memo(function SuperGrupo({
       })
     : secoes;
 
+  // Alternador das seções do grupo (IDR 0020): `⊟` quando há alguma aberta
+  // (vai contrair), `⊞` quando todas estão fechadas (vai expandir). Só é
+  // renderizado com o super-grupo expandido — fechado, as seções já estão
+  // ocultas. O glifo é decorativo; o nome acessível é por extenso.
+  const rotuloAlternador = todasSecoesFechadas
+    ? `expandir as seções do Grupo ${grupo}`
+    : `contrair as seções do Grupo ${grupo}`;
+
   return (
     <div className="super-grupo">
-      <button
-        type="button"
-        className={`super-grupo__titulo super-grupo__titulo--${grupo.toLowerCase()}`}
-        aria-expanded={expandida}
-        aria-label={nomeAcessivel}
-        onClick={onToggle}
-      >
-        <span className="super-grupo__chevron" aria-hidden="true">
-          {expandida ? '▾' : '▸'}
-        </span>
-        <span className="super-grupo__nome">Grupo {grupo}</span>
-        <span className="super-grupo__sep" aria-hidden="true">
-          ·
-        </span>
-        <span className="super-grupo__resumo">
-          {placar.coladas}/{total}
-        </span>
-        <span className="super-grupo__sep" aria-hidden="true">
-          ·
-        </span>
-        <span className="super-grupo__resumo">{placar.percentual}%</span>
-        <span className="super-grupo__sep" aria-hidden="true">
-          ·
-        </span>
-        <span aria-hidden="true">▢</span>
-        <span className="super-grupo__resumo">{placar.faltantes}</span>
-        <span className="super-grupo__sep" aria-hidden="true">
-          ·
-        </span>
-        <span aria-hidden="true">×</span>
-        <span className="super-grupo__resumo">{placar.repetidas}</span>
-      </button>
+      <div className={`super-grupo__titulo super-grupo__titulo--${grupo.toLowerCase()}`}>
+        <button
+          type="button"
+          className="super-grupo__titulo-botao"
+          aria-expanded={expandida}
+          aria-label={nomeAcessivel}
+          onClick={onToggle}
+        >
+          <span className="super-grupo__chevron" aria-hidden="true">
+            {expandida ? '▾' : '▸'}
+          </span>
+          <span className="super-grupo__nome">Grupo {grupo}</span>
+          <span className="super-grupo__sep" aria-hidden="true">
+            ·
+          </span>
+          <span className="super-grupo__resumo">
+            {placar.coladas}/{total}
+          </span>
+          <span className="super-grupo__sep" aria-hidden="true">
+            ·
+          </span>
+          <span className="super-grupo__resumo">{placar.percentual}%</span>
+          <span className="super-grupo__sep" aria-hidden="true">
+            ·
+          </span>
+          <span aria-hidden="true">▢</span>
+          <span className="super-grupo__resumo">{placar.faltantes}</span>
+          <span className="super-grupo__sep" aria-hidden="true">
+            ·
+          </span>
+          <span aria-hidden="true">×</span>
+          <span className="super-grupo__resumo">{placar.repetidas}</span>
+        </button>
+        {expandida && (
+          <button
+            type="button"
+            className="super-grupo__alternador"
+            aria-label={rotuloAlternador}
+            onClick={onToggleSecoes}
+          >
+            <span aria-hidden="true">{todasSecoesFechadas ? '⊞' : '⊟'}</span>
+          </button>
+        )}
+      </div>
       {expandida && (
         <div className="super-grupo__corpo">
           {secoesVisiveis.map((secao) => (

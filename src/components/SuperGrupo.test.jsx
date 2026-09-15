@@ -5,7 +5,16 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom/vitest';
 import { SuperGrupo } from './SuperGrupo.jsx';
+import { calcularPlacar } from '../lib/progresso.js';
 import { secoes, figurinhas } from '../data/catalogo.js';
+
+// Espia `calcularPlacar` (chamado no corpo de `SuperGrupo`) para provar a
+// memoização: ajustar uma contagem de outro grupo não pode reexecutar o corpo
+// do super-grupo (TDR 0021).
+vi.mock('../lib/progresso.js', async (importOriginal) => {
+  const actual = await importOriginal();
+  return { ...actual, calcularPlacar: vi.fn(actual.calcularPlacar) };
+});
 
 const grupoC = secoes.filter((s) => s.grupo === 'C');
 const figurinhasGrupoC = figurinhas.filter((f) =>
@@ -33,7 +42,7 @@ describe('SuperGrupo', () => {
       />,
     );
 
-    const titulo = screen.getByRole('button', { name: /Grupo C/ });
+    const titulo = screen.getByRole('button', { name: /^Grupo C/ });
     expect(titulo).toBeInTheDocument();
     expect(titulo).toHaveAttribute('aria-expanded', 'true');
     expect(titulo.textContent).toContain('Grupo C');
@@ -73,7 +82,7 @@ describe('SuperGrupo', () => {
       />,
     );
 
-    const titulo = screen.getByRole('button', { name: /Grupo C/ });
+    const titulo = screen.getByRole('button', { name: /^Grupo C/ });
     expect(titulo).toHaveAttribute('aria-expanded', 'true');
 
     await user.click(titulo);
@@ -97,7 +106,7 @@ describe('SuperGrupo', () => {
       />,
     );
 
-    const titulo = screen.getByRole('button', { name: /Grupo C/ });
+    const titulo = screen.getByRole('button', { name: /^Grupo C/ });
 
     await user.click(titulo);
     expect(titulo).toHaveAttribute('aria-expanded', 'false');
@@ -126,7 +135,7 @@ describe('SuperGrupo', () => {
       />,
     );
 
-    const titulo = screen.getByRole('button', { name: /Grupo C/ });
+    const titulo = screen.getByRole('button', { name: /^Grupo C/ });
     expect(titulo.textContent).toContain('3/80');
     expect(titulo.textContent).toContain('4%');
     expect(titulo.textContent).toContain('▢77');
@@ -174,7 +183,7 @@ describe('SuperGrupo', () => {
     };
     const { rerender } = render(<SuperGrupo {...propsBase} expandida={false} />);
 
-    const titulo = screen.getByRole('button', { name: /Grupo C/ });
+    const titulo = screen.getByRole('button', { name: /^Grupo C/ });
     expect(titulo).toHaveAttribute('aria-expanded', 'false');
     expect(screen.queryByRole('button', { name: /Brasil/ })).not.toBeInTheDocument();
 
@@ -184,15 +193,15 @@ describe('SuperGrupo', () => {
     expect(titulo).toHaveAttribute('aria-expanded', 'false');
 
     rerender(<SuperGrupo {...propsBase} expandida />);
-    expect(screen.getByRole('button', { name: /Grupo C/ })).toHaveAttribute('aria-expanded', 'true');
+    expect(screen.getByRole('button', { name: /^Grupo C/ })).toHaveAttribute('aria-expanded', 'true');
     expect(screen.getByRole('button', { name: /Brasil/ })).toBeInTheDocument();
   });
 
-  it('aplica a classe de cor de cada letra do grupo no título', () => {
+  it('aplica a classe de cor de cada letra do grupo na moldura do título', () => {
     const letras = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L'];
 
     for (const letra of letras) {
-      const { unmount } = render(
+      const { container, unmount } = render(
         <SuperGrupo
           grupo={letra}
           secoes={[]}
@@ -205,10 +214,96 @@ describe('SuperGrupo', () => {
         />,
       );
 
-      const titulo = screen.getByRole('button', { name: new RegExp(`Grupo ${letra}`) });
-      expect(titulo).toHaveClass('super-grupo__titulo');
-      expect(titulo).toHaveClass(`super-grupo__titulo--${letra.toLowerCase()}`);
+      const moldura = container.querySelector('.super-grupo__titulo');
+      expect(moldura).toHaveClass('super-grupo__titulo');
+      expect(moldura).toHaveClass(`super-grupo__titulo--${letra.toLowerCase()}`);
       unmount();
     }
+  });
+
+  describe('alternador das seções do grupo (IDR 0020)', () => {
+    const propsBase = {
+      grupo: 'C',
+      secoes: grupoC,
+      figurinhas: figurinhasGrupoC,
+      contagens: {},
+      onAjustar: vi.fn(),
+      isExpandida: isExpandidaMock,
+      getToggleHandler: getToggleHandlerMock,
+      setSecaoRef: setSecaoRefMock,
+    };
+
+    it('mostra ⊟, nome acessível por extenso, e chama o callback ao contrair', async () => {
+      const user = userEvent.setup();
+      const onToggleSecoes = vi.fn();
+      render(
+        <SuperGrupo
+          {...propsBase}
+          onToggleSecoes={onToggleSecoes}
+          todasSecoesFechadas={false}
+        />,
+      );
+
+      const alternador = screen.getByRole('button', {
+        name: 'contrair as seções do Grupo C',
+      });
+      expect(alternador).toHaveTextContent('⊟');
+
+      await user.click(alternador);
+      expect(onToggleSecoes).toHaveBeenCalledTimes(1);
+    });
+
+    it('mostra ⊞ e chama o callback ao expandir quando todas as seções estão fechadas', async () => {
+      const user = userEvent.setup();
+      const onToggleSecoes = vi.fn();
+      render(
+        <SuperGrupo
+          {...propsBase}
+          onToggleSecoes={onToggleSecoes}
+          todasSecoesFechadas
+        />,
+      );
+
+      const alternador = screen.getByRole('button', {
+        name: 'expandir as seções do Grupo C',
+      });
+      expect(alternador).toHaveTextContent('⊞');
+
+      await user.click(alternador);
+      expect(onToggleSecoes).toHaveBeenCalledTimes(1);
+    });
+
+    it('não renderiza o alternador com o super-grupo fechado', () => {
+      render(
+        <SuperGrupo {...propsBase} expandida={false} onToggleSecoes={vi.fn()} />,
+      );
+
+      expect(
+        screen.queryByRole('button', { name: /as seções do Grupo C/ }),
+      ).not.toBeInTheDocument();
+    });
+
+    it('mantém título e alternador como botões irmãos, sem aninhamento', () => {
+      const { container } = render(
+        <SuperGrupo {...propsBase} onToggleSecoes={vi.fn()} />,
+      );
+
+      expect(container.querySelector('button button')).toBeNull();
+      expect(container.querySelectorAll('.super-grupo__titulo > button')).toHaveLength(2);
+    });
+
+    it('não re-renderiza quando só as contagens de outro grupo mudam', () => {
+      const props = {
+        ...propsBase,
+        onToggleSecoes: vi.fn(),
+        todasSecoesFechadas: false,
+      };
+      const { rerender } = render(<SuperGrupo {...props} />);
+
+      calcularPlacar.mockClear();
+      rerender(<SuperGrupo {...props} contagens={{ OUTRO01: 5 }} />);
+
+      expect(calcularPlacar).not.toHaveBeenCalled();
+    });
   });
 });
