@@ -479,13 +479,13 @@ describe('Catalogo', () => {
       const props = { ...propsBase, ordenacao: 'pagina' };
       const { unmount } = render(<Catalogo {...props} />);
 
-      await user.click(screen.getByRole('button', { name: /Grupo C/ }));
-      expect(screen.getByRole('button', { name: /Grupo C/ })).toHaveAttribute('aria-expanded', 'false');
+      await user.click(screen.getByRole('button', { name: /^Grupo C/ }));
+      expect(screen.getByRole('button', { name: /^Grupo C/ })).toHaveAttribute('aria-expanded', 'false');
 
       unmount();
       render(<Catalogo {...props} />);
 
-      expect(screen.getByRole('button', { name: /Grupo C/ })).toHaveAttribute('aria-expanded', 'false');
+      expect(screen.getByRole('button', { name: /^Grupo C/ })).toHaveAttribute('aria-expanded', 'false');
       expect(screen.queryByRole('button', { name: /^Brasil:/ })).not.toBeInTheDocument();
     });
 
@@ -497,20 +497,20 @@ describe('Catalogo', () => {
 
       // Fecha a seção Brasil e, em seguida, o Grupo C que a contém.
       await user.click(screen.getByRole('button', { name: /^Brasil:/ }));
-      await user.click(screen.getByRole('button', { name: /Grupo C/ }));
-      expect(screen.getByRole('button', { name: /Grupo C/ })).toHaveAttribute('aria-expanded', 'false');
+      await user.click(screen.getByRole('button', { name: /^Grupo C/ }));
+      expect(screen.getByRole('button', { name: /^Grupo C/ })).toHaveAttribute('aria-expanded', 'false');
 
       act(() => {
         ref.current.saltarPara('BRA');
       });
 
-      expect(screen.getByRole('button', { name: /Grupo C/ })).toHaveAttribute('aria-expanded', 'true');
+      expect(screen.getByRole('button', { name: /^Grupo C/ })).toHaveAttribute('aria-expanded', 'true');
       expect(screen.getByRole('button', { name: /^Brasil:/ })).toHaveAttribute('aria-expanded', 'true');
 
       unmount();
       render(<Catalogo {...props} />);
 
-      expect(screen.getByRole('button', { name: /Grupo C/ })).toHaveAttribute('aria-expanded', 'true');
+      expect(screen.getByRole('button', { name: /^Grupo C/ })).toHaveAttribute('aria-expanded', 'true');
       expect(screen.getByRole('button', { name: /^Brasil:/ })).toHaveAttribute('aria-expanded', 'true');
     });
 
@@ -539,6 +539,108 @@ describe('Catalogo', () => {
       // BRA é válida e volta fechada; FWC (a outra seção da amostra) abre.
       expect(screen.getByRole('button', { name: /^Brasil:/ })).toHaveAttribute('aria-expanded', 'false');
       expect(screen.getByRole('button', { name: /^Extras FIFA:/ })).toHaveAttribute('aria-expanded', 'true');
+    });
+  });
+
+  describe('alternador das seções do super-grupo (IDR 0020)', () => {
+    const secoesGrupoC = [
+      secoes.find((s) => s.sigla === 'FWC'),
+      secoes.find((s) => s.sigla === 'BRA'),
+      secoes.find((s) => s.sigla === 'MAR'),
+      secoes.find((s) => s.sigla === 'HAI'),
+      secoes.find((s) => s.sigla === 'SCO'),
+      secoes.find((s) => s.sigla === 'COC'),
+    ];
+    const siglasGrupoC = ['BRA', 'MAR', 'HAI', 'SCO'];
+    const figurinhasGrupoC = figurinhas.filter((f) => siglasGrupoC.includes(f.secao));
+    const nomesGrupoC = ['Brasil', 'Marrocos', 'Haiti', 'Escócia'];
+
+    const propsBase = {
+      secoes: secoesGrupoC,
+      figurinhas: figurinhasGrupoC,
+      contagens: {},
+      onAjustar: vi.fn(),
+      ordenacao: 'pagina',
+    };
+
+    it('com alguma seção aberta, ⊟ contrai as 4 e grava no localStorage', async () => {
+      const user = userEvent.setup();
+      render(<Catalogo {...propsBase} />);
+
+      const alternador = screen.getByRole('button', {
+        name: 'contrair as seções do Grupo C',
+      });
+      expect(alternador).toHaveTextContent('⊟');
+
+      await user.click(alternador);
+
+      for (const nome of nomesGrupoC) {
+        expect(
+          screen.getByRole('button', { name: new RegExp(`^${nome}:`) }),
+        ).toHaveAttribute('aria-expanded', 'false');
+      }
+
+      const salvo = JSON.parse(localStorage.getItem('iconula.colapso-manual.v1'));
+      expect(new Set(salvo.secoes)).toEqual(new Set(siglasGrupoC));
+
+      expect(
+        screen.getByRole('button', { name: 'expandir as seções do Grupo C' }),
+      ).toHaveTextContent('⊞');
+    });
+
+    it('com todas fechadas, ⊞ expande as 4', async () => {
+      const user = userEvent.setup();
+      localStorage.setItem(
+        'iconula.colapso-manual.v1',
+        JSON.stringify({ secoes: siglasGrupoC, grupos: [] }),
+      );
+      render(<Catalogo {...propsBase} />);
+
+      const alternador = screen.getByRole('button', {
+        name: 'expandir as seções do Grupo C',
+      });
+      expect(alternador).toHaveTextContent('⊞');
+
+      await user.click(alternador);
+
+      for (const nome of nomesGrupoC) {
+        expect(
+          screen.getByRole('button', { name: new RegExp(`^${nome}:`) }),
+        ).toHaveAttribute('aria-expanded', 'true');
+      }
+
+      const salvo = JSON.parse(localStorage.getItem('iconula.colapso-manual.v1'));
+      expect(salvo.secoes).toEqual([]);
+    });
+
+    it('age sobre a seção oculta pelo filtro, na contração e na expansão', async () => {
+      const user = userEvent.setup();
+      render(
+        <Catalogo
+          {...propsBase}
+          disposicao="lista"
+          filtro="coladas"
+          contagens={{ BRA01: 1 }}
+        />,
+      );
+
+      // Com o filtro, Marrocos/Haiti/Escócia somem da vista.
+      expect(screen.queryByRole('button', { name: /^Marrocos:/ })).not.toBeInTheDocument();
+
+      await user.click(
+        screen.getByRole('button', { name: 'contrair as seções do Grupo C' }),
+      );
+
+      let salvo = JSON.parse(localStorage.getItem('iconula.colapso-manual.v1'));
+      expect(new Set(salvo.secoes)).toEqual(new Set(siglasGrupoC));
+
+      // Ainda com o filtro ativo, ⊞ expande as 4 — inclusive as ocultas.
+      await user.click(
+        screen.getByRole('button', { name: 'expandir as seções do Grupo C' }),
+      );
+
+      salvo = JSON.parse(localStorage.getItem('iconula.colapso-manual.v1'));
+      expect(salvo.secoes).toEqual([]);
     });
   });
 });

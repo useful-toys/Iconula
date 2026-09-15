@@ -65,7 +65,7 @@ Detalhes e status das tarefas no guia [CLAUDE.md](CLAUDE.md) § Status e ciclo d
 | 17 | [Nomes de jogadores nas figurinhas](0017-nomes-de-jogadores/) | Nome do jogador/elemento em cada figurinha, num cartão de 60×84px igual em todas as vistas | 14, 16, 19 | `feat: nomes de jogadores nas figurinhas` | Entregue |
 | 18 | [Ajustes da identidade de cor por grupo](0018-ajustes-da-identidade-de-cor-por-grupo/) | Deixar a cor do grupo mais reconhecível na faixa de bandeiras e dar moldura ao título do super-grupo | 15 | `feat: cor de grupo mais reconhecível` | Entregue |
 | 19 | [Ajustes do cabeçalho e do cartão](0019-ajustes-do-cabecalho-e-do-cartao/) | Cabeçalho todo sticky, tooltip nas bandeiras, aviso mais baixo e as correções do controle de menos, do clique perto da borda e do selo cortado | 18 | `feat: ajustes do cabeçalho, tooltip nas bandeiras e correções do cartão` | Entregue |
-| 20 | [Contrair seções, rodapé e termos de uso](0020-contrair-secoes-rodape-e-termos/) | Contrair as seções de um super-grupo num toque; copyright, isenção e termos de uso nas duas telas | 19 | `feat: contrair seções do grupo, rodapé com copyright e termos de uso` | Pendente |
+| 20 | [Contrair seções, rodapé e termos de uso](0020-contrair-secoes-rodape-e-termos/) | Contrair as seções de um super-grupo num toque; copyright, isenção e termos de uso nas duas telas | 19 | `feat: contrair seções do grupo, rodapé com copyright e termos de uso` | Em andamento |
 | 21 | [Botão compartilhar](0021-botao-compartilhar/) | Listas de troca num botão próprio, com cópia e compartilhamento pela folha do sistema | 19, 20 | `feat: botão compartilhar com cópia e folha do sistema` | Pendente |
 
 ---
@@ -384,7 +384,7 @@ da Fase 19, que também altera `App.jsx` e `SuperGrupo.css`. O texto dos termos
 
 | # | Tarefa | Objetivo | Status |
 |---|---|---|---|
-| 0001 | [Alternador de seções no super-grupo](0020-contrair-secoes-rodape-e-termos/0001-alternador-de-secoes-no-super-grupo.md) | `⊟`/`⊞` à direita do título do grupo aberto contrai ou expande as 4 seções, gravado como colapso manual. | Pendente |
+| 0001 | [Alternador de seções no super-grupo](0020-contrair-secoes-rodape-e-termos/0001-alternador-de-secoes-no-super-grupo.md) | `⊟`/`⊞` à direita do título do grupo aberto contrai ou expande as 4 seções, gravado como colapso manual. | Concluída |
 | 0002 | [Copyright e isenção nos rodapés](0020-contrair-secoes-rodape-e-termos/0002-copyright-e-isencao-nos-rodapes.md) | `© 2026 Daniel Felix Ferber` e "Uso por sua conta e risco, sem garantias." nos rodapés das duas telas. | Pendente |
 | 0003 | [Termos de uso e aceite no login](0020-contrair-secoes-rodape-e-termos/0003-termos-de-uso-e-aceite-no-login.md) | Vista interna de termos, links no login e no rodapé e frase de aceite na tela de login. | Pendente |
 

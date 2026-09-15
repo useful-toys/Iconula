@@ -145,9 +145,12 @@ efêmero como qualquer sucesso (ver
   grupos: os 12 grupos da Copa A–L — título com nome e progresso
   agregado em notação compacta (ex.: `Grupo C · 34/80 · 43% · ▢46 ·
   ×12`); expandem por padrão, o salto expande o grupo-alvo (ver
-  [IDR 0019](idr/0019-ordem-do-album-agrupada-e-colapsavel.md)). FWC e
-  Coca-Cola ficam fora dos super-grupos, nas pontas; na ordenação por
-  sigla não há super-grupos
+  [IDR 0019](idr/0019-ordem-do-album-agrupada-e-colapsavel.md)). O
+  título tem, à direita, o alternador `⊟`/`⊞`, só com o grupo aberto,
+  que contrai ou expande as suas seções (ver
+  [IDR 0020](idr/0020-secoes-colapsaveis-em-qualquer-visualizacao.md));
+  FWC e Coca-Cola ficam fora dos super-grupos, nas pontas; na ordenação
+  por sigla não há super-grupos
 - Seções colapsáveis em qualquer ordenação e disposição: tocar no
   título abre/fecha o corpo da seção; abertas por padrão — o
   cabeçalho com o resumo permanece (ver
@@ -269,8 +272,10 @@ Páginas 112–113 do álbum (requisitos.md, Anexo):
   para as últimas 10 (ver
   [IDR 0010](idr/0010-desfazer-ajustes-em-vez-de-confirmacoes.md) e
   [IDR 0012](idr/0012-desfazer-no-cabecalho-historico-de-10.md))
-- Tocar no título de seção ou de super-grupo colapsa/expande; tocar num
-  ícone da faixa salta até a seção
+- Tocar no título de seção ou de super-grupo colapsa/expande; tocar no
+  alternador `⊟`/`⊞` do super-grupo contrai ou expande as suas seções —
+  inclusive as ocultas pelo filtro (IDR 0020); tocar num ícone da faixa
+  salta até a seção
 
 ### Avisos
 
@@ -674,7 +679,8 @@ tabela do [IDR 0046](idr/0046-cores-de-selecoes.md): os 48 tokens
 - Título de super-grupo: 13px/600 em `--gold`, com chevron `▾`/`▸`, moldura
   arredondada (`--panel` com borda, raio 12px, `padding: 7px 12px`), barra
   esquerda de 3px e fundo com 30% da cor do grupo sobre `--panel`
-  (IDR 0045)
+  (IDR 0045); o alternador `⊟`/`⊞` fica na ponta direita, em `--gold`, sem
+  fundo próprio (IDR 0020)
 - Cabeçalho de seção: borda de 1px e fundo com 45% da cor da seleção sobre
   `--panel` (FWC e COC incluídos), raio 12px, `padding: 7px 12px`;
   ícone 18px, nome 14px/600 em `--cream`, números em `--muted`
