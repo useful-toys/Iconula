@@ -6,14 +6,15 @@ import './MenuDeAcoes.css';
 /**
  * Avatar do usuário no cabeçalho e o popup de comandos raros (IDR 0024,
  * IDR 0049): a foto da conta Google (ou a inicial do nome; sem nome, o glifo)
- * é o gatilho do popup, que traz duas cópias para a área de transferência,
- * exportar/importar e sair da conta, em três blocos separados por filete.
+ * é o gatilho do popup, que traz exportar/importar — separados de "sair da
+ * conta" por um filete. As duas cópias das listas de troca saíram daqui na
+ * Tarefa 0021-0001, para o botão compartilhar (`MenuDeCompartilhar.jsx`) à
+ * esquerda do avatar.
  *
- * Todos os cinco comandos têm ação real desde a Tarefa 0009-0005: copiar
- * faltantes/repetidas (0009-0003), exportar (0009-0004), importar
- * (0009-0005) e "sair da conta" (0009-0002). Sem o callback
- * correspondente, um item de conteúdo fica presente e desabilitado, nunca
- * aparentando funcionar — só "sair da conta" nunca fica sem ação.
+ * Os três comandos têm ação real desde a Tarefa 0009-0005: exportar
+ * (0009-0004), importar (0009-0005) e "sair da conta" (0009-0002). Sem o
+ * callback correspondente, um item de conteúdo fica presente e desabilitado,
+ * nunca aparentando funcionar — só "sair da conta" nunca fica sem ação.
  *
  * Fecha ao escolher um item, ao tocar fora do popup, com `Esc` ou ao sair do
  * popup pelo teclado (`Tab` saindo do último item — Tarefa 0010-0001,
@@ -25,8 +26,6 @@ import './MenuDeAcoes.css';
  *
  * @param {object} props
  * @param {() => void} props.onSignOut - grava o pendente e sai da conta (Tarefa 0007-0003, IDR 0038).
- * @param {() => void} [props.onCopiarFaltantes] - sem ele, o item fica desabilitado.
- * @param {() => void} [props.onCopiarRepetidas] - sem ele, o item fica desabilitado.
  * @param {() => void} [props.onExportar] - sem ele, o item fica desabilitado.
  * @param {() => void} [props.onImportar] - sem ele, o item fica desabilitado.
  * @param {string} [props.photoURL] - foto da conta Google; sem ela (ou se falhar), cai na inicial (IDR 0049).
@@ -34,8 +33,6 @@ import './MenuDeAcoes.css';
  */
 export function MenuDeAcoes({
   onSignOut,
-  onCopiarFaltantes,
-  onCopiarRepetidas,
   onExportar,
   onImportar,
   photoURL,
@@ -68,10 +65,10 @@ export function MenuDeAcoes({
   useEffect(() => {
     if (!aberto) return;
 
-    // O primeiro item pode estar desabilitado (comando ainda sem callback,
-    // Tarefas 0009-0003 a 0009-0005) — um item desabilitado nunca recebe
-    // foco, então o foco entra no primeiro item habilitado, seja ele qual
-    // for ("sair da conta" sempre está habilitado, então sempre há um).
+    // O primeiro item pode estar desabilitado (comando ainda sem callback)
+    // — um item desabilitado nunca recebe foco, então o foco entra no
+    // primeiro item habilitado, seja ele qual for ("sair da conta" sempre
+    // está habilitado, então sempre há um).
     containerRef.current?.querySelector('[role="menuitem"]:not(:disabled)')?.focus();
 
     function aoClicarFora(evento) {
@@ -143,25 +140,6 @@ export function MenuDeAcoes({
       </button>
       {aberto && (
         <div className="menu-de-acoes__painel" role="menu">
-          <button
-            type="button"
-            role="menuitem"
-            className="menu-de-acoes__item"
-            disabled={!onCopiarFaltantes}
-            onClick={escolher(onCopiarFaltantes)}
-          >
-            Copiar lista de faltantes
-          </button>
-          <button
-            type="button"
-            role="menuitem"
-            className="menu-de-acoes__item"
-            disabled={!onCopiarRepetidas}
-            onClick={escolher(onCopiarRepetidas)}
-          >
-            Copiar lista de repetidas
-          </button>
-          <div className="menu-de-acoes__filete" role="separator" />
           <button
             type="button"
             role="menuitem"

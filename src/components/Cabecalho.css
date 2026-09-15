@@ -1,11 +1,12 @@
 /* Copyright (c) 2026 Daniel Felix Ferber */
 
 /* O cabeçalho é o próprio elemento sticky em qualquer largura — sem ponto de
- * quebra por largura (IDR 0018). Contém o título, o avatar, a linha de
- * controles e a faixa de bandeiras; nada dele rola com o conteúdo. É uma
- * linha flex com quebra: cabendo tudo, título, grupos, desfazer e avatar
- * dividem a linha e a faixa (`flex-basis: 100%`) vai abaixo; não cabendo, os
- * controles descem para a linha seguinte e a faixa para a última. */
+ * quebra por largura (IDR 0018). Contém o título, os comandos (compartilhar e
+ * avatar), a linha de controles e a faixa de bandeiras; nada dele rola com o
+ * conteúdo. É uma linha flex com quebra: cabendo tudo, título, grupos,
+ * desfazer, compartilhar e avatar dividem a linha e a faixa (`flex-basis:
+ * 100%`) vai abaixo; não cabendo, os controles descem para a linha seguinte e
+ * a faixa para a última. */
 .cabecalho {
   position: sticky;
   top: 0;
@@ -20,15 +21,25 @@
   border-bottom: 1px solid var(--border);
 }
 
-/* O avatar fica sempre na primeira linha, à direita do título (IDR 0018):
- * sai do fluxo e é ancorado no alto à direita do cabeçalho (que é o bloco
- * contentor, por ser posicionado). `top` acompanha o padding vertical do
- * cabeçalho. A coluna de 30px + 8px é reservada no título e nos controles
- * logo abaixo, para que nem o texto nem o desfazer passem por baixo dele. */
-.cabecalho__avatar {
+/* Os comandos (compartilhar e avatar) ficam sempre na primeira linha, à
+ * direita do título (IDR 0018): saem do fluxo e são ancorados no alto à
+ * direita do cabeçalho (que é o bloco contentor, por ser posicionado), em
+ * linha — o compartilhar logo à esquerda do avatar (IDR 0024). `top` acompanha
+ * o padding vertical do cabeçalho. As duas colunas de 30px e os dois `gap` de
+ * 8px somam 76px, reservados no título e nos controles logo abaixo, para que
+ * nem o texto nem o desfazer passem por baixo deles. */
+.cabecalho__acoes {
   position: absolute;
   top: 12px;
   right: var(--page-gutter);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cabecalho__avatar {
+  display: flex;
+  align-items: center;
 }
 
 .cabecalho__titulo {
@@ -37,9 +48,10 @@
   align-items: baseline;
   gap: 0.35em;
   margin: 0;
-  /* Reserva a coluna do avatar (30px) e a folga de 8px: o título pode
-   * quebrar em duas linhas, mas nunca corre por baixo do avatar. */
-  max-width: calc(100% - 38px);
+  /* Reserva as colunas de compartilhar e avatar (30px + 8px + 30px) e a
+   * folga de 8px: o título pode quebrar em duas linhas, mas nunca corre por
+   * baixo dos comandos. */
+  max-width: calc(100% - 76px);
   font-family: 'Poppins', system-ui, sans-serif;
   font-size: 15px;
   font-weight: 600;
@@ -47,12 +59,12 @@
 }
 
 /* A linha de controles ocupa o que sobra na linha do título (ou a linha
- * inteira, quando quebra). A margem à direita reserva a coluna do avatar,
- * deixando o desfazer colado à direita da linha dos grupos, logo à esquerda
- * do avatar. */
+ * inteira, quando quebra). A margem à direita reserva as colunas dos
+ * comandos, deixando o desfazer colado à direita da linha dos grupos, logo à
+ * esquerda do compartilhar. */
 .cabecalho .controles {
   flex: 1 1 auto;
-  margin-right: 38px;
+  margin-right: 76px;
 }
 
 /* A faixa de bandeiras é sempre a última linha do cabeçalho. */

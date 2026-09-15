@@ -11,6 +11,7 @@ import TermosDeUso from "./components/TermosDeUso.jsx";
 import { Cabecalho } from "./components/Cabecalho.jsx";
 import { Controles } from "./components/Controles.jsx";
 import { MenuDeAcoes } from "./components/MenuDeAcoes.jsx";
+import { MenuDeCompartilhar } from "./components/MenuDeCompartilhar.jsx";
 import { Catalogo } from "./components/Catalogo.jsx";
 import { Avisos } from "./components/Avisos.jsx";
 import { Rodape } from "./components/Rodape.jsx";
@@ -536,11 +537,15 @@ export default function App() {
         ordenacao={ordenacao}
         onSaltar={handleSaltar}
         placarPorSecao={placarPorSecao}
+        compartilhar={
+          <MenuDeCompartilhar
+            onCopiarFaltantes={handleCopiarFaltantes}
+            onCopiarRepetidas={handleCopiarRepetidas}
+          />
+        }
         avatar={
           <MenuDeAcoes
             onSignOut={handleSignOut}
-            onCopiarFaltantes={handleCopiarFaltantes}
-            onCopiarRepetidas={handleCopiarRepetidas}
             onExportar={handleExportar}
             onImportar={handleImportar}
             photoURL={user.photoURL}

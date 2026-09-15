@@ -6,6 +6,7 @@ import '@testing-library/jest-dom/vitest';
 import { Cabecalho } from './Cabecalho.jsx';
 import { Controles } from './Controles.jsx';
 import { MenuDeAcoes } from './MenuDeAcoes.jsx';
+import { MenuDeCompartilhar } from './MenuDeCompartilhar.jsx';
 import { secoes } from '../data/catalogo.js';
 import {
   ordenarPorPagina,
@@ -159,6 +160,9 @@ describe('Cabecalho', () => {
         secoes={secoes}
         ordenacao="pagina"
         onSaltar={vi.fn()}
+        compartilhar={
+          <MenuDeCompartilhar onCopiarFaltantes={vi.fn()} onCopiarRepetidas={vi.fn()} />
+        }
         avatar={<MenuDeAcoes onSignOut={vi.fn()} />}
       >
         <Controles
@@ -187,12 +191,14 @@ describe('Cabecalho', () => {
 
     const header = container.querySelector('header.cabecalho');
     const titulo = screen.getByText('ICONULA 2026');
+    const compartilhar = screen.getByRole('button', { name: /compartilhar listas de troca/ });
     const avatar = screen.getByRole('button', { name: /menu de ações/ });
     const grupos = container.querySelectorAll('.controles__segmentado');
     const desfazer = screen.getByRole('button', { name: 'desfazer a última alteração' });
     const faixa = screen.getByRole('navigation', { name: 'Saltar para seção' });
 
     expect(header).toContainElement(titulo);
+    expect(header).toContainElement(compartilhar);
     expect(header).toContainElement(avatar);
     expect(grupos).toHaveLength(3);
     for (const grupo of grupos) {
@@ -205,7 +211,7 @@ describe('Cabecalho', () => {
     expect(container.querySelector('.cabecalho__fixo')).not.toBeInTheDocument();
   });
 
-  it('põe o avatar logo após o título e a faixa por último', () => {
+  it('põe compartilhar e avatar logo após o título e a faixa por último', () => {
     const { container } = renderComControles({
       disposicao: 'lista',
       onTrocarDisposicao: vi.fn(),
@@ -214,12 +220,14 @@ describe('Cabecalho', () => {
     });
 
     const titulo = screen.getByText('ICONULA 2026');
+    const compartilhar = screen.getByRole('button', { name: /compartilhar listas de troca/ });
     const avatar = screen.getByRole('button', { name: /menu de ações/ });
     const grupos = container.querySelectorAll('.controles__segmentado');
     const desfazer = screen.getByRole('button', { name: 'desfazer a última alteração' });
     const faixa = screen.getByRole('navigation', { name: 'Saltar para seção' });
 
-    expect(estaAntes(titulo, avatar)).toBe(true);
+    expect(estaAntes(titulo, compartilhar)).toBe(true);
+    expect(estaAntes(compartilhar, avatar)).toBe(true);
     expect(estaAntes(avatar, grupos[0])).toBe(true);
     expect(estaAntes(grupos[grupos.length - 1], desfazer)).toBe(true);
     expect(estaAntes(desfazer, faixa)).toBe(true);

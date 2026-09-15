@@ -7,8 +7,9 @@ import "@testing-library/jest-dom/vitest";
 // Testes de integração dos textos de troca (Tarefa 0009-0003): geração a
 // partir da coleção em memória, cópia para a área de transferência e o
 // aviso dourado (não falha) com cópia manual de reserva quando a área de
-// transferência não está disponível (IDR 0039). A carga fica "vazia" para
-// os testes começarem do zero.
+// transferência não está disponível (IDR 0039). Desde a Tarefa 0021-0001 as
+// cópias moram no popup do botão compartilhar, ao lado do avatar. A carga
+// fica "vazia" para os testes começarem do zero.
 //
 // Temporizadores falsos (como em `App.gravacao.test.jsx`): sem eles, o
 // debounce real de 2s da gravação agregada de um `onAjustar` de um teste
@@ -68,9 +69,9 @@ import { limparAvisos } from "./lib/avisos.js";
 
 const USUARIO = { uid: "uid1", displayName: "Daniel Ferber", photoURL: "p" };
 
-async function abrirMenu() {
+async function abrirCompartilhar() {
   await act(async () => {
-    fireEvent.click(screen.getByRole("button", { name: /menu de ações/ }));
+    fireEvent.click(screen.getByRole("button", { name: /compartilhar listas de troca/ }));
   });
 }
 
@@ -143,7 +144,7 @@ describe("App — copiar listas de troca", () => {
       catalogo.props.onAjustar("BRA01", 1);
     });
 
-    await abrirMenu();
+    await abrirCompartilhar();
     await clicarItem("Copiar lista de faltantes");
 
     expect(escrever).toHaveBeenCalledTimes(1);
@@ -164,7 +165,7 @@ describe("App — copiar listas de troca", () => {
       catalogo.props.onAjustar("BRA05", 1);
     }); // contagem 3 → 2 unidades sobrando
 
-    await abrirMenu();
+    await abrirCompartilhar();
     await clicarItem("Copiar lista de repetidas");
 
     expect(escrever).toHaveBeenCalledWith("Brasil BRA: 05×2");
@@ -181,9 +182,9 @@ describe("App — copiar listas de troca", () => {
       catalogo.props.onAjustar("BRA05", 1);
     });
 
-    await abrirMenu();
+    await abrirCompartilhar();
     await clicarItem("Copiar lista de repetidas");
-    await abrirMenu();
+    await abrirCompartilhar();
     await clicarItem("Copiar lista de faltantes");
 
     expect(escrever).toHaveBeenCalledTimes(2);
@@ -200,7 +201,7 @@ describe("App — copiar listas de troca", () => {
       catalogo.props.onAjustar("BRA05", 1);
     });
 
-    await abrirMenu();
+    await abrirCompartilhar();
     await clicarItem("Copiar lista de faltantes");
 
     // `getByRole("status")` seria ambíguo: a carga também emite um aviso de
@@ -218,7 +219,7 @@ describe("App — copiar listas de troca", () => {
     window.prompt = promptMock;
     await montarLogado();
 
-    await abrirMenu();
+    await abrirCompartilhar();
     await clicarItem("Copiar lista de repetidas");
     // A rejeição do `writeText` resolve numa microtask — dá a volta ao
     // event loop antes de conferir o aviso.
@@ -240,9 +241,9 @@ describe("App — copiar listas de troca", () => {
     colecao.carregarColecao.mockClear();
     colecao.gravarAlteracoes.mockClear();
 
-    await abrirMenu();
+    await abrirCompartilhar();
     await clicarItem("Copiar lista de faltantes");
-    await abrirMenu();
+    await abrirCompartilhar();
     await clicarItem("Copiar lista de repetidas");
 
     expect(colecao.carregarColecao).not.toHaveBeenCalled();
