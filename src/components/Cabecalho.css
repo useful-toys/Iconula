@@ -67,9 +67,14 @@
   margin-right: 76px;
 }
 
-/* A faixa de bandeiras é sempre a última linha do cabeçalho. */
+/* A faixa de bandeiras é sempre a última linha do cabeçalho. `min-width: 0`
+ * substitui o `auto` implícito de item flex: sem ele, o item nunca encolhe
+ * abaixo do conteúdo (as 50 bandeiras sem quebra), e a página inteira rola
+ * na horizontal em vez de só a trilha, que já tem `overflow-x: auto`
+ * (FaixaDeSecoes.css) — corrige a regressão notada na revisão da Fase 23. */
 .cabecalho .faixa-de-secoes {
   flex-basis: 100%;
+  min-width: 0;
 }
 
 .cabecalho__nome {

@@ -31,6 +31,18 @@
   border-radius: 3px;
 }
 
+/* Em tela sensível o usuário já arrasta a trilha com o gesto (IDR 0042); a
+ * barra fica reservada ao mouse, que não tem esse gesto. */
+@media (pointer: coarse) {
+  .faixa-de-secoes__trilha {
+    scrollbar-width: none;
+  }
+
+  .faixa-de-secoes__trilha::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 /* Tooltip único da faixa (Tarefa 0019-0002, IDR 0052): visual do tooltip dos
  * controles (IDR 0048), posicionado por JS logo abaixo da bandeira sob o
  * cursor ou o foco. Fica fora do contêiner rolável e some do fluxo
