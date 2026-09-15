@@ -42,8 +42,8 @@ Aceito.
 a `FWC19` (ver [TDR 0010](../tdr/0010-forma-do-catalogo-degradacao-do-checklist-e-sem-pipeline.md)).
 - A ausência de pipeline de geração significa que lacunas da fonte degradam campo a campo (TDR 0010).
 - `paisagem` deixa de ser só posição fixa de seleção: a expansão marca também as 15 paisagens do FWC, e as invariantes de `catalogo.test.js` passam a conferi-las (15 no FWC, nenhuma na COC). Implementação: Fase 0022, Tarefa 0022-0002.
-- O FWC ganha layout de álbum ([IDR 0023](../idr/0023-coca-cola-no-modo-album-fwc-sempre-lista.md)): as invariantes passam a conferir, por seção, que cada figurinha tem exatamente uma posição, dentro da dimensão da sua página, sem duas figurinhas na mesma casa; `paginas` e o layout têm o mesmo número de páginas. A paisagem do FWC ocupa uma casa (`trilhas: 1`) de 70×70px. Implementação: a planejar (/planejar).
-- `paginas` deixa de aceitar `null`: toda seção conhece suas páginas.
+- O FWC ganha layout de álbum ([IDR 0023](../idr/0023-coca-cola-no-modo-album-fwc-sempre-lista.md)): as invariantes passam a conferir, por seção, que cada figurinha tem exatamente uma posição, dentro da dimensão da sua página, sem duas figurinhas na mesma casa; `paginas` e o layout têm o mesmo número de páginas. A paisagem do FWC ocupa uma casa (`trilhas: 1`) de 70×70px. Implementação: Fase 0023, Tarefa 0023-0001 (formato com dimensão e pares, invariantes) e Tarefa 0023-0003 (layout do FWC).
+- `paginas` deixa de aceitar `null`: toda seção conhece suas páginas. Implementação: Fase 0023, Tarefa 0023-0002.
 
 ## Alternativas consideradas
 

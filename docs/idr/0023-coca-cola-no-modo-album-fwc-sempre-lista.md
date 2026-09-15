@@ -39,6 +39,8 @@ esmiuçamento de 2026-09-14: os Extras FIFA deixam de ficar em lista.
   nas linhas 1 e 2 (07–12) e 2 figurinhas na linha 3 (13–14); mesmas
   trilhas fixas das seleções, mesmo empilhamento em tela estreita
   ([IDR 0015](0015-paginas-do-album-empilham-em-tela-estreita.md))
+  - a grade da página 1 tem 2 linhas, sem a terceira linha vazia que o
+    CSS de grade fixa desenhava
 - Os **Extras FIFA (FWC)** têm disposição álbum própria, com as posições
   reais de cada página e os espaços vazios preservados como casas sem
   cartão (P = paisagem, R = retrato):
@@ -67,9 +69,13 @@ esmiuçamento de 2026-09-14: os Extras FIFA deixam de ficar em lista.
   - **Spreads do álbum**: quatro pares na ordem 0|1, 2|3, 106|107,
     108|109 — lado a lado quando cabem, empilhados quando não cabem
     ([IDR 0015](0015-paginas-do-album-empilham-em-tela-estreita.md))
-    - spread 0|1 e 106|107: 222 + 20 + 222 = 464px; 108|109 idem;
-      2|3: 146 + 20 + 146 = 312px — todos abaixo dos 536px do spread
-      das seleções
+    - pares empilhados um abaixo do outro com 20px entre eles — o mesmo
+      espaço entre páginas (`--album-page-gap`)
+    - com a moldura: página de 3 colunas = 222 + 2 × (6 + 1) = 236px; de
+      2 colunas = 146 + 14 = 160px
+    - par 0|1, 106|107 e 108|109: 236 + 20 + 236 = 492px; 2|3:
+      160 + 20 + 160 = 340px — todos abaixo dos 536px do spread das
+      seleções
   - **Linhas vazias preservadas** em qualquer largura (página 0, linhas
     2–4; página 106, linha 3; página 108, linha 1): a grade de cada
     página tem as dimensões da tabela, não as da última figurinha
@@ -77,10 +83,10 @@ esmiuçamento de 2026-09-14: os Extras FIFA deixam de ficar em lista.
     separam só pelo espaçamento de sempre
     ([IDR 0018](0018-usuario-especialista-e-minimalismo.md))
   - **Moldura só no FWC**: contorno discreto de 1px em `--border` em
-    volta de cada página do FWC, para a posição na página se ler nas
-    páginas esparsas (0, 106, 108); casas vazias sem desenho — no álbum
-    há arte, não espaço de figurinha. Seleções e Coca-Cola seguem sem
-    moldura
+    volta de cada página do FWC, com recuo interno de 6px (o espaço entre
+    casas) e raio de 8px, para a posição na página se ler nas páginas
+    esparsas (0, 106, 108); casas vazias sem desenho — no álbum há arte,
+    não espaço de figurinha. Seleções e Coca-Cola seguem sem moldura
   - **Cabeçalho da seção com a primeira página**: `Extras FIFA FWC 0 ·
     12/20 · …` — a mesma regra das seleções e da Coca-Cola; a segunda
     parte (106) aparece só no arranjo
@@ -98,8 +104,8 @@ esmiuçamento de 2026-09-14: os Extras FIFA deixam de ficar em lista.
   com dimensão)
 - O cabeçalho do FWC deixa de omitir a página
   ([TDR 0010](../tdr/0010-forma-do-catalogo-degradacao-do-checklist-e-sem-pipeline.md))
-- A largura do maior spread do FWC (464px) fica abaixo da das seleções
-  (536px): o limite de 582px do
+- A largura do maior par do FWC com moldura (492px) fica abaixo da das
+  seleções (536px): o limite de 582px do
   [IDR 0043](0043-padroes-de-primeira-abertura-por-faixa-de-tela.md) não
   muda
 - `requisitos.md` § Catálogo, § UX, § Decisões Pendentes e o Anexo foram
@@ -110,7 +116,10 @@ esmiuçamento de 2026-09-14: os Extras FIFA deixam de ficar em lista.
 - A seção FWC fica mais alta na disposição álbum do que na lista (oito
   páginas, com linhas de espaço vazio)
 - Depende da Fase 0022 (paisagens do FWC em 70×60px)
-- Implementação: a planejar (/planejar).
+- Implementação: Fase 0023 — Tarefa 0023-0001 (dimensão de cada página,
+  pares de páginas e página 1 da Coca-Cola com 2 linhas), Tarefa 0023-0002
+  (cabeçalho `Extras FIFA FWC 0`) e Tarefa 0023-0003 (FWC na disposição
+  álbum, casa de 70×70px e moldura).
 
 ## Alternativas consideradas
 
@@ -121,6 +130,19 @@ esmiuçamento de 2026-09-14: os Extras FIFA deixam de ficar em lista.
   recusada no esmiuçamento de 2026-09-14
 - **Guardar o FWC no álbum como requisito futuro**: adia sem motivo, com
   o arranjo já descrito — recusada no esmiuçamento de 2026-09-14
+- **Moldura sem recuo e com raio de 5px** (o do cartão): contorno colado
+  nos cartões das bordas, que se confunde com a borda tracejada da
+  faltante — recusada no planejamento de 2026-09-15
+- **Moldura com recuo de 10px e raio de 12px** (o do cabeçalho de seção):
+  mais pesada e mais larga (par de 508px) — recusada no planejamento
+- **12px entre pares**: empilhado, as páginas de dentro do par (20px)
+  ficariam mais afastadas que os pares entre si — recusada no
+  planejamento
+- **32px entre pares**: espaçamento novo só do FWC e mais altura —
+  recusada no planejamento
+- **Página 1 da Coca-Cola com 3 linhas** (como o CSS desenhava): o dado
+  declararia uma linha vazia que o álbum não tem, contra o Anexo e o
+  wireframe — recusada no planejamento
 - **Moldura em todas as páginas do álbum**: coerência visual total, mas
   muda 49 seções que estão boas e amplia o escopo
 - **Casas vazias com contorno tracejado**: mostra a grade, mas sugere
@@ -157,6 +179,11 @@ esmiuçamento de 2026-09-14: os Extras FIFA deixam de ficar em lista.
 
 ## Histórico
 
+- 2026-09-15 — Planejamento da Fase 0023 (implementação na Fase 0023):
+  moldura com recuo de 6px e raio de 8px, 20px entre pares de páginas e
+  página 1 da Coca-Cola com 2 linhas; larguras recalculadas com a moldura
+  (maior par de 464px para 492px). Antes: moldura sem recuo nem raio
+  definidos, espaço entre pares não definido, larguras sem moldura.
 - 2026-09-14 — Esmiuçamento (implementação a planejar): os Extras FIFA
   ganham disposição álbum com as posições reais, descritas pelo humano a
   partir do álbum físico. Antes: "Os Extras FIFA (FWC) são exibidos em

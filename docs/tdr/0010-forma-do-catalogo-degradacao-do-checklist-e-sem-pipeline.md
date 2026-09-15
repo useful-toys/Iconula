@@ -59,7 +59,7 @@ individualmente, sem bloquear a tarefa, como a tarefa já previa:
   (forma no [MDR 0006](../model-dr/0006-catalogo-estatico-embutido.md)),
   e o cabeçalho mostra a primeira, `0`, como nas demais seções. Até a
   implementação, `paginas: null` segue no código e o cabeçalho omite o
-  número. Implementação: a planejar (/planejar).
+  número. Implementação: Fase 0023, Tarefa 0023-0002.
 - **Metalizadas além da 01**: o campo `metalizada` existe em toda
   figurinha (`boolean`), mas só a posição `01` de cada seleção nasce
   `true`; nenhuma outra figurinha é marcada, correta ou incorretamente,
