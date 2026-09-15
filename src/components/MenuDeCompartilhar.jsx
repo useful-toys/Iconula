@@ -10,8 +10,11 @@ import './MenuDeCompartilhar.css';
  * lista de repetidas". As cópias estavam no menu do avatar até a Tarefa
  * 0021-0001; saíram de lá porque misturavam troca com portabilidade e conta.
  *
- * O mesmo popup recebe, na Tarefa 0021-0002, os itens de compartilhar pela
- * folha do sistema, logo abaixo de cada cópia.
+ * Desde a Tarefa 0021-0002, logo abaixo de cada cópia, um item de
+ * compartilhar pela folha do sistema (`navigator.share`): o usuário escolhe o
+ * app, o Iconula não assume nenhum (IDR 0024). Os itens de compartilhar só
+ * existem onde o navegador oferece a folha; sem ela, o popup fica só com as
+ * duas cópias.
  *
  * Comportamento do popup igual ao do `MenuDeAcoes.jsx`: fecha ao escolher um
  * item, ao tocar fora, com `Esc` ou ao sair do popup pelo teclado; ao abrir,
@@ -23,11 +26,22 @@ import './MenuDeCompartilhar.css';
  * @param {object} props
  * @param {() => void} [props.onCopiarFaltantes] - sem ele, o item fica desabilitado.
  * @param {() => void} [props.onCopiarRepetidas] - sem ele, o item fica desabilitado.
+ * @param {() => void} [props.onCompartilharFaltantes] - sem ele, o item fica desabilitado.
+ * @param {() => void} [props.onCompartilharRepetidas] - sem ele, o item fica desabilitado.
  */
-export function MenuDeCompartilhar({ onCopiarFaltantes, onCopiarRepetidas }) {
+export function MenuDeCompartilhar({
+  onCopiarFaltantes,
+  onCopiarRepetidas,
+  onCompartilharFaltantes,
+  onCompartilharRepetidas,
+}) {
   const [aberto, setAberto] = useState(false);
   const containerRef = useRef(null);
   const botaoRef = useRef(null);
+
+  // A folha de compartilhamento é do navegador; a disponibilidade não muda
+  // durante a sessão, então basta ler no render (IDR 0024).
+  const podeCompartilhar = typeof navigator !== 'undefined' && typeof navigator.share === 'function';
 
   const nomeAcessivel = `compartilhar listas de troca, ${aberto ? 'aberto' : 'fechado'}`;
 
@@ -120,6 +134,17 @@ export function MenuDeCompartilhar({ onCopiarFaltantes, onCopiarRepetidas }) {
           >
             Copiar lista de faltantes
           </button>
+          {podeCompartilhar && (
+            <button
+              type="button"
+              role="menuitem"
+              className="menu-de-compartilhar__item"
+              disabled={!onCompartilharFaltantes}
+              onClick={escolher(onCompartilharFaltantes)}
+            >
+              Compartilhar faltantes…
+            </button>
+          )}
           <div className="menu-de-compartilhar__filete" role="separator" />
           <button
             type="button"
@@ -130,6 +155,17 @@ export function MenuDeCompartilhar({ onCopiarFaltantes, onCopiarRepetidas }) {
           >
             Copiar lista de repetidas
           </button>
+          {podeCompartilhar && (
+            <button
+              type="button"
+              role="menuitem"
+              className="menu-de-compartilhar__item"
+              disabled={!onCompartilharRepetidas}
+              onClick={escolher(onCompartilharRepetidas)}
+            >
+              Compartilhar repetidas…
+            </button>
+          )}
         </div>
       )}
     </div>

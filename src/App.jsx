@@ -340,6 +340,33 @@ export default function App() {
     copiarParaAreaDeTransferencia(texto, 'copiar-repetidas');
   }
 
+  // Compartilha um texto de troca pela folha do sistema (Tarefa 0021-0002,
+  // IDR 0024): o usuário escolhe o app; só `text` vai na chamada, porque o
+  // texto já traz o cabeçalho da lista e um `title` o duplicaria em apps que
+  // juntam os dois campos. Fechar a folha sem escolher (`AbortError`) não
+  // avisa; outra rejeição cai na cópia, com o mesmo texto e a reserva do
+  // IDR 0039 — nunca é falha vermelha (IDR 0029). A chamada acontece no
+  // gesto do clique, antes de qualquer espera, como a API exige.
+  async function compartilharLista(texto, tipo) {
+    try {
+      await navigator.share({ text: texto });
+      emitirAviso({ severidade: SEVERIDADE.SUCESSO, mensagem: 'Lista compartilhada', tipo });
+    } catch (erro) {
+      if (erro?.name === 'AbortError') return;
+      copiarParaAreaDeTransferencia(texto, tipo);
+    }
+  }
+
+  function handleCompartilharFaltantes() {
+    const texto = gerarTextoFaltantes(contagens, secoesNaOrdemDoAlbum, figurinhas);
+    compartilharLista(texto, 'compartilhar-faltantes');
+  }
+
+  function handleCompartilharRepetidas() {
+    const texto = gerarTextoRepetidas(contagens, secoesNaOrdemDoAlbum, figurinhas);
+    compartilharLista(texto, 'compartilhar-repetidas');
+  }
+
   // Exporta a coleção em JSON (Tarefa 0009-0004): baixa direto, sem
   // diálogo — "sem etapas adicionais" (requisitos.md, IDR 0040). Zero
   // requisição: lê `contagens` em memória, nada do Firestore.
@@ -541,6 +568,8 @@ export default function App() {
           <MenuDeCompartilhar
             onCopiarFaltantes={handleCopiarFaltantes}
             onCopiarRepetidas={handleCopiarRepetidas}
+            onCompartilharFaltantes={handleCompartilharFaltantes}
+            onCompartilharRepetidas={handleCompartilharRepetidas}
           />
         }
         avatar={

@@ -1,6 +1,6 @@
 // Copyright (c) 2026 Daniel Felix Ferber
 
-import { describe, expect, it, vi } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom/vitest';
@@ -16,6 +16,17 @@ function renderizar(props = {}) {
 function botaoDoCompartilhar() {
   return screen.getByRole('button', { name: /compartilhar listas de troca/ });
 }
+
+// A folha do sistema não existe por padrão no jsdom; cada teste define a sua
+// via `Object.defineProperty`, restaurada no `afterEach` (como
+// `navigator.clipboard` em `App.copiar.test.jsx`).
+function definirShare(valor) {
+  Object.defineProperty(navigator, 'share', { value: valor, configurable: true });
+}
+
+afterEach(() => {
+  delete navigator.share;
+});
 
 describe('MenuDeCompartilhar', () => {
   it('começa fechado, sem o popup no documento', () => {
@@ -46,6 +57,60 @@ describe('MenuDeCompartilhar', () => {
       'Copiar lista de repetidas',
     ]);
     expect(document.querySelectorAll('.menu-de-compartilhar__filete')).toHaveLength(1);
+  });
+
+  it('esconde os itens de compartilhar quando não há folha do sistema', async () => {
+    const user = userEvent.setup();
+    renderizar({ onCopiarFaltantes: vi.fn() });
+    await user.click(botaoDoCompartilhar());
+
+    expect(screen.queryByRole('menuitem', { name: /^Compartilhar/ })).not.toBeInTheDocument();
+    expect(screen.getAllByRole('menuitem')).toHaveLength(2);
+  });
+
+  it('traz os quatro itens, cada compartilhar logo abaixo da cópia da mesma lista', async () => {
+    definirShare(vi.fn());
+    const user = userEvent.setup();
+    renderizar({
+      onCopiarFaltantes: vi.fn(),
+      onCopiarRepetidas: vi.fn(),
+      onCompartilharFaltantes: vi.fn(),
+      onCompartilharRepetidas: vi.fn(),
+    });
+    await user.click(botaoDoCompartilhar());
+
+    const itens = screen.getAllByRole('menuitem');
+    expect(itens.map((item) => item.textContent)).toEqual([
+      'Copiar lista de faltantes',
+      'Compartilhar faltantes…',
+      'Copiar lista de repetidas',
+      'Compartilhar repetidas…',
+    ]);
+    expect(document.querySelectorAll('.menu-de-compartilhar__filete')).toHaveLength(1);
+  });
+
+  it('os itens de compartilhar ficam desabilitados sem callback', async () => {
+    definirShare(vi.fn());
+    const user = userEvent.setup();
+    renderizar();
+    await user.click(botaoDoCompartilhar());
+
+    expect(screen.getByRole('menuitem', { name: 'Compartilhar faltantes…' })).toBeDisabled();
+    expect(screen.getByRole('menuitem', { name: 'Compartilhar repetidas…' })).toBeDisabled();
+  });
+
+  it('um item de compartilhar com callback fica habilitado e chama o callback', async () => {
+    definirShare(vi.fn());
+    const user = userEvent.setup();
+    const onCompartilharFaltantes = vi.fn();
+    renderizar({ onCompartilharFaltantes });
+    await user.click(botaoDoCompartilhar());
+
+    const item = screen.getByRole('menuitem', { name: 'Compartilhar faltantes…' });
+    expect(item).toBeEnabled();
+
+    await user.click(item);
+    expect(onCompartilharFaltantes).toHaveBeenCalledTimes(1);
   });
 
   it('as duas cópias ficam desabilitadas sem callback', async () => {
