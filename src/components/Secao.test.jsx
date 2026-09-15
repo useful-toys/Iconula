@@ -233,6 +233,7 @@ describe('Secao', () => {
 
     const figurinhasCoc = Array.from({ length: 14 }, (_, i) => ({
       codigo: `COC${String(i + 1).padStart(2, '0')}`,
+      posicao: i + 1,
       secao: 'COC',
       metalizada: false,
     }));
@@ -318,6 +319,7 @@ describe('Secao', () => {
           secao={secaoBra}
           figurinhas={Array.from({ length: 20 }, (_, i) => ({
             codigo: `BRA${String(i + 1).padStart(2, '0')}`,
+            posicao: i + 1,
             secao: 'BRA',
             metalizada: i === 0,
           }))}
@@ -342,6 +344,7 @@ describe('Secao', () => {
           secao={secaoBra}
           figurinhas={Array.from({ length: 20 }, (_, i) => ({
             codigo: `BRA${String(i + 1).padStart(2, '0')}`,
+            posicao: i + 1,
             secao: 'BRA',
             metalizada: i === 0,
           }))}
@@ -359,12 +362,50 @@ describe('Secao', () => {
       expect(spread).toHaveClass('secao__album');
     });
 
+    it('as duas páginas do spread ficam dentro de um único contêiner de par', () => {
+      const { container } = render(
+        <Secao
+          secao={secaoBra}
+          figurinhas={Array.from({ length: 20 }, (_, i) => ({
+            codigo: `BRA${String(i + 1).padStart(2, '0')}`,
+            posicao: i + 1,
+            secao: 'BRA',
+            metalizada: i === 0,
+          }))}
+          contagens={{}}
+          onAjustar={vi.fn()}
+          disposicao="album"
+        />,
+      );
+
+      const pares = container.querySelectorAll('.secao__album__par');
+      expect(pares).toHaveLength(1);
+      expect(pares[0].querySelectorAll('.pagina-album')).toHaveLength(2);
+    });
+
+    it('página 1 da Coca-Cola tem 2 linhas, sem a terceira linha vazia', () => {
+      const { container } = render(
+        <Secao
+          secao={secaoCoc}
+          figurinhas={figurinhasCoc}
+          contagens={{}}
+          onAjustar={vi.fn()}
+          disposicao="album"
+        />,
+      );
+
+      const paginas = container.querySelectorAll('.pagina-album');
+      const pagina1 = paginas[0];
+      expect(pagina1.style.gridTemplateRows).toBe('repeat(2, 70px)');
+    });
+
     it('páginas são renderizadas na ordem correta (página 1 antes da página 2)', () => {
       const { container } = render(
         <Secao
           secao={secaoBra}
           figurinhas={Array.from({ length: 20 }, (_, i) => ({
             codigo: `BRA${String(i + 1).padStart(2, '0')}`,
+            posicao: i + 1,
             secao: 'BRA',
             metalizada: i === 0,
           }))}
@@ -399,6 +440,7 @@ describe('Secao', () => {
           secao={secaoBra}
           figurinhas={Array.from({ length: 20 }, (_, i) => ({
             codigo: `BRA${String(i + 1).padStart(2, '0')}`,
+            posicao: i + 1,
             secao: 'BRA',
             metalizada: i === 0,
           }))}

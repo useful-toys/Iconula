@@ -2,7 +2,6 @@
 
 .pagina-album {
   display: grid;
-  grid-template-rows: repeat(3, 70px);
   gap: 6px;
   flex-shrink: 0;
 }

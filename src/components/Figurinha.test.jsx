@@ -582,18 +582,21 @@ describe('Figurinha — nome no cartão (IDR 0047)', () => {
     const secao = { sigla: 'BRA', nome: 'Brasil', icone: '🇧🇷', paginas: [4, 5] };
     const figurinhas = Array.from({ length: 20 }, (_, i) => ({
       codigo: `BRA${String(i + 1).padStart(2, '0')}`,
+      posicao: i + 1,
       metalizada: i === 0,
       nome: i === 1 ? 'Alisson' : i === 12 ? 'Foto do time' : undefined,
       nomeLinhas: i === 1 ? [null, 'Alisson'] : undefined,
       nomeCurto: i === 12 ? 'Foto' : null,
     }));
     const layout = layoutDeSecao(secao);
-    const posicoesPagina1 = layout.filter((p) => p.pagina === 1);
-    const posicoesPagina2 = layout.filter((p) => p.pagina === 2);
+    const paginaLayout1 = layout.paginas.find((p) => p.pagina === 1);
+    const paginaLayout2 = layout.paginas.find((p) => p.pagina === 2);
+    const posicoesPagina1 = layout.posicoes.filter((p) => p.pagina === 1);
+    const posicoesPagina2 = layout.posicoes.filter((p) => p.pagina === 2);
 
     const { container, rerender } = render(
       <PaginaDoAlbum
-        secao={secao}
+        pagina={paginaLayout1}
         figurinhas={figurinhas}
         posicoes={posicoesPagina1}
         contagens={{}}
@@ -607,7 +610,7 @@ describe('Figurinha — nome no cartão (IDR 0047)', () => {
 
     rerender(
       <PaginaDoAlbum
-        secao={secao}
+        pagina={paginaLayout2}
         figurinhas={figurinhas}
         posicoes={posicoesPagina2}
         contagens={{}}

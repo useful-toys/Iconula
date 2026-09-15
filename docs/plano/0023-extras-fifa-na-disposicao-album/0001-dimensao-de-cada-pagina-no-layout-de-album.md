@@ -3,7 +3,7 @@
 # Tarefa [0023-0001]: dimensão de cada página no layout de álbum
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Levar o layout de álbum ao formato único do MDR 0006 — páginas com `linhas` e

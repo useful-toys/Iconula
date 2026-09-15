@@ -3,7 +3,7 @@
 import { describe, expect, it } from "vitest";
 import { secoes, figurinhas, expandirFigurinhas } from "./catalogo.js";
 import { ordenarPorSigla, ordenarPorPagina, extrairSecoes } from "./catalogoOrdenacoes.js";
-import { layoutDeSecao } from "./catalogoLayout.js";
+import { layoutDeSecao, paresDePaginas } from "./catalogoLayout.js";
 
 describe("invariantes do catálogo", () => {
   it("tem exatamente 994 figurinhas no total", () => {
@@ -134,19 +134,23 @@ describe("layout de álbum", () => {
     expect(layoutDeSecao(fwc)).toBeNull();
   });
 
-  it("layout de seleção cobre as 20 posições uma única vez", () => {
+  it("layout de seleção: 2 páginas de 3 linhas × 4 colunas, 20 posições uma única vez", () => {
     const selecao = secoes.find((s) => s.sigla === "BRA");
     const layout = layoutDeSecao(selecao);
-    expect(layout).toHaveLength(20);
-    const posicoes = layout.map((p) => p.posicao).sort((a, b) => a - b);
+    expect(layout.paginas).toEqual([
+      { pagina: 1, linhas: 3, colunas: 4 },
+      { pagina: 2, linhas: 3, colunas: 4 },
+    ]);
+    expect(layout.posicoes).toHaveLength(20);
+    const posicoes = layout.posicoes.map((p) => p.posicao).sort((a, b) => a - b);
     expect(posicoes).toEqual(Array.from({ length: 20 }, (_, i) => i + 1));
   });
 
   it("layout de seleção: 01–02 nas trilhas 3–4 da linha 1, página 1", () => {
     const selecao = secoes.find((s) => s.sigla === "BRA");
     const layout = layoutDeSecao(selecao);
-    const fig01 = layout.find((p) => p.posicao === 1);
-    const fig02 = layout.find((p) => p.posicao === 2);
+    const fig01 = layout.posicoes.find((p) => p.posicao === 1);
+    const fig02 = layout.posicoes.find((p) => p.posicao === 2);
     expect(fig01.pagina).toBe(1);
     expect(fig01.linha).toBe(1);
     expect(fig01.trilha).toBe(3);
@@ -158,7 +162,7 @@ describe("layout de álbum", () => {
   it("layout de seleção: 13 em paisagem nas trilhas 3–4 da linha 1, página 2", () => {
     const selecao = secoes.find((s) => s.sigla === "BRA");
     const layout = layoutDeSecao(selecao);
-    const fig13 = layout.find((p) => p.posicao === 13);
+    const fig13 = layout.posicoes.find((p) => p.posicao === 13);
     expect(fig13.pagina).toBe(2);
     expect(fig13.linha).toBe(1);
     expect(fig13.trilha).toBe(3);
@@ -168,9 +172,9 @@ describe("layout de álbum", () => {
   it("layout de seleção: 18–20 nas trilhas 2–4 da linha 3, página 2", () => {
     const selecao = secoes.find((s) => s.sigla === "BRA");
     const layout = layoutDeSecao(selecao);
-    const fig18 = layout.find((p) => p.posicao === 18);
-    const fig19 = layout.find((p) => p.posicao === 19);
-    const fig20 = layout.find((p) => p.posicao === 20);
+    const fig18 = layout.posicoes.find((p) => p.posicao === 18);
+    const fig19 = layout.posicoes.find((p) => p.posicao === 19);
+    const fig20 = layout.posicoes.find((p) => p.posicao === 20);
     expect(fig18.pagina).toBe(2);
     expect(fig18.linha).toBe(3);
     expect(fig18.trilha).toBe(2);
@@ -182,12 +186,16 @@ describe("layout de álbum", () => {
     expect(fig20.trilha).toBe(4);
   });
 
-  it("layout da Coca-Cola: 6 na página 1 e 8 na página 2", () => {
+  it("layout da Coca-Cola: página 1 com 2 linhas × 3 colunas (6 figurinhas) e página 2 com 3 × 3 (8 figurinhas)", () => {
     const coc = secoes.find((s) => s.sigla === "COC");
     const layout = layoutDeSecao(coc);
-    expect(layout).toHaveLength(14);
-    const pagina1 = layout.filter((p) => p.pagina === 1);
-    const pagina2 = layout.filter((p) => p.pagina === 2);
+    expect(layout.paginas).toEqual([
+      { pagina: 1, linhas: 2, colunas: 3 },
+      { pagina: 2, linhas: 3, colunas: 3 },
+    ]);
+    expect(layout.posicoes).toHaveLength(14);
+    const pagina1 = layout.posicoes.filter((p) => p.pagina === 1);
+    const pagina2 = layout.posicoes.filter((p) => p.pagina === 2);
     expect(pagina1).toHaveLength(6);
     expect(pagina2).toHaveLength(8);
   });
@@ -195,8 +203,8 @@ describe("layout de álbum", () => {
   it("layout da Coca-Cola: 13 e 14 nas duas primeiras posições da linha 3, página 2", () => {
     const coc = secoes.find((s) => s.sigla === "COC");
     const layout = layoutDeSecao(coc);
-    const fig13 = layout.find((p) => p.posicao === 13);
-    const fig14 = layout.find((p) => p.posicao === 14);
+    const fig13 = layout.posicoes.find((p) => p.posicao === 13);
+    const fig14 = layout.posicoes.find((p) => p.posicao === 14);
     expect(fig13.pagina).toBe(2);
     expect(fig13.linha).toBe(3);
     expect(fig13.trilha).toBe(1);
@@ -208,7 +216,7 @@ describe("layout de álbum", () => {
   it("layout da Coca-Cola cobre as 14 posições uma única vez", () => {
     const coc = secoes.find((s) => s.sigla === "COC");
     const layout = layoutDeSecao(coc);
-    const posicoes = layout.map((p) => p.posicao).sort((a, b) => a - b);
+    const posicoes = layout.posicoes.map((p) => p.posicao).sort((a, b) => a - b);
     expect(posicoes).toEqual(Array.from({ length: 14 }, (_, i) => i + 1));
   });
 
@@ -219,6 +227,52 @@ describe("layout de álbum", () => {
       const layout = layoutDeSecao(secao);
       expect(layout).toEqual(layoutBase);
     }
+  });
+
+  it("cada seção com layout: uma posição por figurinha, dentro da dimensão da página, sem casa repetida, mesmo número de páginas que `secao.paginas`", () => {
+    const secoesComLayout = secoes.filter((s) => layoutDeSecao(s) !== null);
+    expect(secoesComLayout.length).toBeGreaterThan(0);
+    for (const secao of secoesComLayout) {
+      const layout = layoutDeSecao(secao);
+      expect(layout.paginas).toHaveLength(secao.paginas.length);
+
+      const totalPosicoes = layout.posicoes.map((p) => p.posicao).sort((a, b) => a - b);
+      expect(new Set(totalPosicoes).size).toBe(totalPosicoes.length);
+      expect(totalPosicoes).toEqual(Array.from({ length: secao.total }, (_, i) => i + 1));
+
+      const dimensaoPorPagina = new Map(layout.paginas.map((p) => [p.pagina, p]));
+      const casas = new Set();
+      for (const pos of layout.posicoes) {
+        const dimensao = dimensaoPorPagina.get(pos.pagina);
+        expect(dimensao).toBeDefined();
+        expect(pos.linha).toBeLessThanOrEqual(dimensao.linhas);
+        expect(pos.trilha + pos.trilhas - 1).toBeLessThanOrEqual(dimensao.colunas);
+
+        for (let t = pos.trilha; t < pos.trilha + pos.trilhas; t += 1) {
+          const casa = `${pos.pagina}:${pos.linha}:${t}`;
+          expect(casas.has(casa)).toBe(false);
+          casas.add(casa);
+        }
+      }
+    }
+  });
+
+  it("paresDePaginas agrupa páginas consecutivas: 2 páginas → 1 par, 8 → 4", () => {
+    const duasPaginas = [{ pagina: 1 }, { pagina: 2 }];
+    expect(paresDePaginas(duasPaginas)).toEqual([[{ pagina: 1 }, { pagina: 2 }]]);
+
+    const oitoPaginas = Array.from({ length: 8 }, (_, i) => ({ pagina: i + 1 }));
+    const pares = paresDePaginas(oitoPaginas);
+    expect(pares).toHaveLength(4);
+    expect(pares[0]).toEqual([{ pagina: 1 }, { pagina: 2 }]);
+    expect(pares[3]).toEqual([{ pagina: 7 }, { pagina: 8 }]);
+  });
+
+  it("paresDePaginas do layout de seleção e da Coca-Cola: 1 par de 2 páginas", () => {
+    const selecao = secoes.find((s) => s.sigla === "BRA");
+    const coc = secoes.find((s) => s.sigla === "COC");
+    expect(paresDePaginas(layoutDeSecao(selecao).paginas)).toHaveLength(1);
+    expect(paresDePaginas(layoutDeSecao(coc).paginas)).toHaveLength(1);
   });
 });
 
