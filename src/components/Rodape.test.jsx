@@ -14,6 +14,19 @@ describe("Rodape", () => {
     expect(screen.getByText(/projeto independente/i)).toBeInTheDocument();
   });
 
+  it("mostra as quatro linhas na ordem do IDR 0053", () => {
+    const { container } = render(<Rodape onAbrirPolitica={vi.fn()} />);
+
+    const rodape = container.querySelector(".rodape");
+    const linhas = Array.from(rodape.children).map((el) => el.textContent);
+
+    expect(linhas).toHaveLength(4);
+    expect(linhas[0]).toBe("© 2026 Daniel Felix Ferber");
+    expect(linhas[1]).toMatch(/projeto independente/i);
+    expect(linhas[2]).toBe("Uso por sua conta e risco, sem garantias.");
+    expect(linhas[3]).toBe("Política de privacidade");
+  });
+
   it("o link da política chama onAbrirPolitica", async () => {
     const user = userEvent.setup();
     const onAbrirPolitica = vi.fn();

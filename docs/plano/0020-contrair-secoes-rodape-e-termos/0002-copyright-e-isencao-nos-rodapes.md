@@ -3,7 +3,7 @@
 # Tarefa [0020-0002]: copyright e isenção de responsabilidade nos rodapés
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Acrescentar o copyright de Daniel Felix Ferber e a linha de isenção de

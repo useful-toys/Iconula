@@ -91,7 +91,11 @@
 .tela-de-login__rodape {
   margin: 0;
   padding: 16px var(--page-gutter) 24px;
+  text-align: center;
+}
+
+.tela-de-login__rodape-linha {
+  margin: 0;
   font-size: 11px;
   color: var(--muted);
-  text-align: center;
 }

@@ -39,10 +39,16 @@ export default function TelaDeLogin({ onAbrirPolitica = () => {} }) {
           </button>
         </div>
       </div>
-      <p className="tela-de-login__rodape">
-        Projeto independente, sem vínculo com Panini ou FIFA; marcas
-        pertencem aos seus titulares (Lei 9.279/96, art. 132).
-      </p>
+      <div className="tela-de-login__rodape">
+        <p className="tela-de-login__rodape-linha">© 2026 Daniel Felix Ferber</p>
+        <p className="tela-de-login__rodape-linha">
+          Projeto independente, sem vínculo com Panini ou FIFA; marcas
+          pertencem aos seus titulares (Lei 9.279/96, art. 132).
+        </p>
+        <p className="tela-de-login__rodape-linha">
+          Uso por sua conta e risco, sem garantias.
+        </p>
+      </div>
     </div>
   );
 }

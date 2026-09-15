@@ -385,7 +385,7 @@ da Fase 19, que também altera `App.jsx` e `SuperGrupo.css`. O texto dos termos
 | # | Tarefa | Objetivo | Status |
 |---|---|---|---|
 | 0001 | [Alternador de seções no super-grupo](0020-contrair-secoes-rodape-e-termos/0001-alternador-de-secoes-no-super-grupo.md) | `⊟`/`⊞` à direita do título do grupo aberto contrai ou expande as 4 seções, gravado como colapso manual. | Concluída |
-| 0002 | [Copyright e isenção nos rodapés](0020-contrair-secoes-rodape-e-termos/0002-copyright-e-isencao-nos-rodapes.md) | `© 2026 Daniel Felix Ferber` e "Uso por sua conta e risco, sem garantias." nos rodapés das duas telas. | Pendente |
+| 0002 | [Copyright e isenção nos rodapés](0020-contrair-secoes-rodape-e-termos/0002-copyright-e-isencao-nos-rodapes.md) | `© 2026 Daniel Felix Ferber` e "Uso por sua conta e risco, sem garantias." nos rodapés das duas telas. | Concluída |
 | 0003 | [Termos de uso e aceite no login](0020-contrair-secoes-rodape-e-termos/0003-termos-de-uso-e-aceite-no-login.md) | Vista interna de termos, links no login e no rodapé e frase de aceite na tela de login. | Pendente |
 
 ## Fase 21 — Botão compartilhar
