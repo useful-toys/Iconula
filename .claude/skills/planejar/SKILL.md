@@ -27,6 +27,11 @@ em `docs/plano/CLAUDE.md` (o guia); em conflito, o guia vence.
 `/planejar corrigir contagem de metalizadas na disposição álbum`) ou tema
 para análise (ex.: `/planejar avaliar virtualização do catálogo`).
 
+Pedido que vem de um `/esmiucar` ainda não mesclado: cite o PR ou a branch
+(ex.: `/planejar #56`, `/planejar a partir da branch
+docs/modo_colaborativo_de_trocas`) — o `/planejar` continua nela em vez de
+abrir uma branch nova (passo 0).
+
 ## Leituras obrigatórias
 
 Leia cada guia pelo caminho indicado, sem contar com o carregamento automático de `CLAUDE.md`.
@@ -64,23 +69,38 @@ seções encontradas:
 | 3 | parte classificada **já entregue** | não planeje essa parte: mostre tarefa, log e código |
 | 4 | parte classificada **muda requisito** | alerte, mostre o trecho antes e depois, sugira opções e peça confirmação (guia § Mudança de requisitos); confirmada, a mudança entra no plano |
 | 5 | fim do passo 2 (mapa de fases) | PARE: aprovação explícita do mapa e de cada decisão significativa |
-| 6 | fase que receberia tarefas tem branch ou PR aberto | pergunte antes de incluir |
-| 7 | branch ou worktree com o nome do planejamento já existe (passo 0 ou 3) | pergunte se reaproveita |
-| 8 | `.worktrees/` não está no ignore | PARE: avise |
-| 9 | vontade de criar código, teste, estilo, configuração ou `docs/*.md` (além de `docs/requisitos.md` confirmado) para explicar ou adiantar o plano | não crie: descreva na tarefa, em texto ou pseudocódigo curto |
-| 10 | `git diff --name-only` com arquivo fora de `docs/plano/`, das pastas de decisão e de `docs/requisitos.md` | desfaça esse arquivo antes do commit |
-| 11 | mapa recusado ou planejamento abandonado | ofereça remover a worktree e a branch provisórias (nada foi gravado) |
+| 6 | `$ARGUMENTS` referencia um esmiuçamento ainda não mesclado (PR ou branch `docs/...` sem sufixo de fase) | pergunte se reaproveita essa branch em vez de criar uma nova (passo 0) |
+| 7 | fase que receberia tarefas tem branch ou PR aberto | pergunte antes de incluir |
+| 8 | branch ou worktree com o nome do planejamento já existe (passo 0 ou 3) | pergunte se reaproveita |
+| 9 | `.worktrees/` não está no ignore | PARE: avise |
+| 10 | vontade de criar código, teste, estilo, configuração ou `docs/*.md` (além de `docs/requisitos.md` confirmado) para explicar ou adiantar o plano | não crie: descreva na tarefa, em texto ou pseudocódigo curto |
+| 11 | `git diff --name-only` com arquivo fora de `docs/plano/`, das pastas de decisão e de `docs/requisitos.md` | desfaça esse arquivo antes do commit |
+| 12 | mapa recusado ou planejamento abandonado | ofereça remover a worktree e a branch provisórias (nada foi gravado) |
 
 ## Passos
 
 ### 0. Worktree do planejamento — antes das leituras
 
-1. Sincronize a `main` — skill `git-remote-sync-guard` (sem a skill: guia § Convenções de Git › Sincronização).
-2. Branch provisória — skill `git-branch-name` (sem a skill: guia § Convenções de Git › Branch): tipo `docs`; nome pelo pedido; sem
+1. `$ARGUMENTS` referencia um esmiuçamento ainda não mesclado (PR ou branch
+   `docs/...` sem sufixo de fase) → condição 6; confirmado, vá ao passo 0.4;
+   recusado ou sem referência, siga o passo 0.2.
+2. Sincronize a `main` — skill `git-remote-sync-guard` (sem a skill: guia § Convenções de Git › Sincronização).
+3. Branch provisória — skill `git-branch-name` (sem a skill: guia § Convenções de Git › Branch): tipo `docs`; nome pelo pedido; sem
    sufixo, porque o número da fase só existe depois do mapa.
-3. `git worktree add .worktrees/<diretório> -b <branch> origin/main`, a partir
-   da `origin/main` e nunca da branch atual; daqui em diante, todo comando,
-   leitura, busca e arquivo dentro da worktree (caminho absoluto).
+   `git worktree add .worktrees/<diretório> -b <branch> origin/main`, a partir
+   da `origin/main` e nunca da branch atual; vá ao passo 1.
+4. Reaproveitando a branch do esmiuçamento: já existe numa worktree desta
+   sessão → continue nela; senão, `git fetch origin <branch>` e
+   `git worktree add .worktrees/<diretório> <branch>` (sem `-b`, sobre a
+   branch existente — nunca a partir de `origin/main`). Sincronize com a
+   `main` — skill `git-remote-sync-guard` (sem a skill: guia § Convenções de
+   Git › Sincronização); conflito só nas pastas de decisão ou em
+   `docs/requisitos.md` → mantenha as duas versões; outro conflito → pare e
+   peça orientação. `gh pr list --head <branch>` para saber se já tem PR
+   aberto (relevante no passo 3.9).
+
+Daqui em diante, todo comando, leitura, busca e arquivo dentro da worktree
+(caminho absoluto).
 
 ### 1. Verificar novidade
 
@@ -161,9 +181,14 @@ seções encontradas:
 ### 3. Gravar e entregar — após aprovação
 
 1. Sincronize a branch do planejamento com a `main` — skill `git-remote-sync-guard` (sem a skill: guia § Convenções de Git › Sincronização).
-2. Nome definitivo — skill `git-branch-name` (sem a skill: guia § Convenções de Git › Branch): tipo `docs`; nome pelo que o plano entrega; sufixo
-   = número da primeira fase nova (ou da fase existente que recebe tarefas).
-   Outra branch ou worktree com esse sufixo já existe → condição 7.
+2. **Branch provisória nova (passo 0.3)**: nome definitivo — skill
+   `git-branch-name` (sem a skill: guia § Convenções de Git › Branch): tipo
+   `docs`; nome pelo que o plano entrega; sufixo = número da primeira fase
+   nova (ou da fase existente que recebe tarefas). Outra branch ou worktree
+   com esse sufixo já existe → condição 8.
+   **Branch reaproveitada do esmiuçamento (passo 0.4)**: mantenha o nome sem
+   sufixo de fase — renomear uma branch com PR aberto abriria outro PR e
+   perderia o histórico do primeiro; pule o passo 3.3.
 3. Renomeie a provisória, ainda sem push: `git branch -m <provisória>
    <definitiva>` e `git worktree move .worktrees/<provisório>
    .worktrees/<definitivo>`; continue só na worktree renomeada.
@@ -184,15 +209,22 @@ seções encontradas:
 6. Passe cada tarefa pelo guia § Conferência da tarefa e corrija. Confira
    `git status --short`: só `docs/plano/`, `docs/adr`, `docs/tdr`,
    `docs/idr`, `docs/model-dr`, `docs/devops-dr` e `docs/requisitos.md` —
-   condição 10.
+   condição 11.
 7. Um commit — mensagem pela skill `git-commit-message` (sem a skill: guia § Convenções de Git › Commit).
 8. Mostre arquivos, registros e resultado da conferência; pergunte se abre o
-   PR.
+   PR (branch nova) ou atualiza o PR existente (branch reaproveitada).
 9. Autorizado → sincronize com a `main` e renumere registros que colidem (guia
-   § Convenções de Git › Renumeração); `git push -u origin <branch>`; PR —
-   skill `git-pull-request-message` (sem a skill: guia § Convenções de Git › PR) —, label `documentation`, descrição com classificação, fases e
+   § Convenções de Git › Renumeração); `git push -u origin <branch>`.
+   **Sem PR aberto** (branch nova, ou reaproveitada sem PR — passo 0.4): PR —
+   skill `git-pull-request-message` (sem a skill: guia § Convenções de Git ›
+   PR) —, label `documentation`, descrição com classificação, fases e
    tarefas, decisões registradas (e renumeração), mudanças de
    `docs/requisitos.md` (seção e trecho antes e depois) e tarefas com setup.
+   **Com PR já aberto** (reaproveitada do esmiuçamento): `gh pr edit`
+   somando ao corpo existente (sem apagar o resumo esmiuçado) a mesma
+   classificação, fases e tarefas, decisões registradas (e renumeração),
+   mudanças de `docs/requisitos.md` e tarefas com setup; mantenha o label
+   `documentation`.
 
 ## Saída
 

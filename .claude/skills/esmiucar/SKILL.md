@@ -261,7 +261,8 @@ Levante as questões por categoria, cada uma com evidência:
   com o humano; passo 3: a pauta.
 - Passo 4: as rodadas de perguntas; passo 5: cada registro gravado.
 - Passo 6: resumo esmiuçado, commit, URL do PR (se aberto) e o lembrete:
-  `/planejar` depois do merge do PR, citando o PR como descrição do pedido.
+  `/planejar`, citando esta branch ou PR como descrição do pedido — não
+  precisa esperar o merge, o `/planejar` pode reaproveitar a branch.
 
 ## Proibições
 
