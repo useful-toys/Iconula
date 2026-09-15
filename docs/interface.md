@@ -479,7 +479,7 @@ qualquer autenticação:
         │  pelos responsáveis, e concorda com   │
         │           os Termos de uso.           │
         │                                       │
-        │Política de privacidade · Termos de uso│
+        │        Política de privacidade        │
         └───────────────────────────────────────┘
      © 2026 Daniel Felix Ferber
      projeto independente · sem vínculo com Panini…
@@ -491,8 +491,8 @@ qualquer autenticação:
 - Botão próprio do Google (fundo branco, disco colorido), login por
   popup (ADR 0005)
 - A atestação de menores acompanha o botão e a frase de aceite declara a
-  concordância com os termos; abaixo dela fica a linha "Política de
-  privacidade · Termos de uso", acessível sem autenticar
+  concordância com os termos, com "Termos de uso" como link; abaixo dela fica
+  o link "Política de privacidade", acessível sem autenticar
   ([IDR 0053](idr/0053-termos-de-uso-e-rodape-com-copyright-e-isencao.md))
 - O rodapé traz copyright, o aviso de independência e marcas e a isenção de
   responsabilidade, sem filete, na ordem do
@@ -501,7 +501,8 @@ qualquer autenticação:
   do álbum da Copa do Mundo FIFA 2026"; botão "Entrar com Google";
   atestação "Ao continuar, você confirma ter 12 anos ou mais, ou estar
   autorizado pelos responsáveis, e concorda com os Termos de uso.";
-  links "Política de privacidade" e "Termos de uso"
+  o link "Termos de uso" dentro da frase de aceite e o link
+  "Política de privacidade" abaixo dela
 
 Medidas: o cartão fica centrado num bloco de altura mínima ~70vh — não
 colado ao topo nem exatamente no meio da janela —, com raio 20px, borda
@@ -512,8 +513,8 @@ raio 10px, `padding: 12px`, texto `#3c4043` em 14px/600, precedido do
 disco de 18px com as quatro cores da marca — é o único elemento claro
 do produto, e é assim de propósito: fora do tema, reconhecível como
 botão do provedor. A atestação vem 20px abaixo do botão, com o link
-"Termos de uso" dentro da própria frase, e a linha "Política de
-privacidade · Termos de uso" mais 16px adiante, em 12px `--muted`. O
+"Termos de uso" dentro da própria frase, e o link "Política de
+privacidade" mais 16px adiante, em 12px `--muted`. O
 rodapé desta tela repete as três primeiras linhas do rodapé do app —
 copyright, aviso de marcas e isenção — sem o filete superior — a tela de
 login não tem divisória alguma além da borda do cartão.

@@ -72,8 +72,8 @@ describe("App — termos de uso", () => {
     const user = userEvent.setup();
     const { container } = render(<App />);
 
-    const links = container.querySelector(".tela-de-login__links");
-    await user.click(within(links).getByRole("button", { name: "Termos de uso" }));
+    const atestacao = container.querySelector(".tela-de-login__atestacao");
+    await user.click(within(atestacao).getByRole("button", { name: "Termos de uso" }));
 
     expect(screen.getByRole("heading", { name: "Termos de uso" })).toBeInTheDocument();
     expect(screen.queryByRole("button", { name: /entrar com google/i })).not.toBeInTheDocument();

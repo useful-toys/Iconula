@@ -43,14 +43,6 @@ export default function TelaDeLogin({ onAbrirPolitica = () => {}, onAbrirTermos 
               onClick={onAbrirPolitica}
             >
               Política de privacidade
-            </button>{" "}
-            <span className="tela-de-login__separador" aria-hidden="true">·</span>{" "}
-            <button
-              type="button"
-              className="tela-de-login__link"
-              onClick={onAbrirTermos}
-            >
-              Termos de uso
             </button>
           </p>
         </div>
