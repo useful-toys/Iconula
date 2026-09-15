@@ -37,7 +37,7 @@ Aceito.
 - O FWC usa `inicio: 0` porque a numeração oficial vai de `FWC00`
 a `FWC19` (ver [TDR 0010](../tdr/0010-forma-do-catalogo-degradacao-do-checklist-e-sem-pipeline.md)).
 - A ausência de pipeline de geração significa que lacunas da fonte degradam campo a campo (TDR 0010).
-- `paisagem` deixa de ser só posição fixa de seleção: a expansão marca também as 15 paisagens do FWC, e as invariantes de `catalogo.test.js` passam a conferi-las (15 no FWC, nenhuma na COC); o FWC segue em lista também na disposição álbum ([IDR 0023](../idr/0023-coca-cola-no-modo-album-fwc-sempre-lista.md)), então a paisagem só afeta o cartão, não o layout de álbum. Implementação: a planejar (/planejar).
+- `paisagem` deixa de ser só posição fixa de seleção: a expansão marca também as 15 paisagens do FWC, e as invariantes de `catalogo.test.js` passam a conferi-las (15 no FWC, nenhuma na COC); o FWC segue em lista também na disposição álbum ([IDR 0023](../idr/0023-coca-cola-no-modo-album-fwc-sempre-lista.md)), então a paisagem só afeta o cartão, não o layout de álbum. Implementação: Fase 0022, Tarefa 0022-0002.
 
 ## Alternativas consideradas
 
@@ -47,5 +47,5 @@ a `FWC19` (ver [TDR 0010](../tdr/0010-forma-do-catalogo-degradacao-do-checklist-
 
 ## Histórico
 
-- 2026-09-14 — Esmiuçamento: `FWC00`–`FWC03` e `FWC09`–`FWC19` passam a paisagem, refletindo o cromo físico; a figurinha ganha `nomeCurto` ([MDR 0008](0008-dados-dos-nomes-das-figurinhas.md)). Implementação a planejar. Antes: só a `13` das seleções era paisagem; figurinha sem `nomeCurto`.
+- 2026-09-14 — Esmiuçamento: `FWC00`–`FWC03` e `FWC09`–`FWC19` passam a paisagem, refletindo o cromo físico; a figurinha ganha `nomeCurto` ([MDR 0008](0008-dados-dos-nomes-das-figurinhas.md)). Implementação na Fase 0022. Antes: só a `13` das seleções era paisagem; figurinha sem `nomeCurto`.
 - 2026-09-13 — Planejamento revisado das Fases 11–17 (implementação na Fase 0017, Tarefa 0017-0002): a figurinha ganha `nome` e `nomeLinhas`, derivados de `src/data/jogadores.js` ([MDR 0008](0008-dados-dos-nomes-das-figurinhas.md)). Antes: sem nome.

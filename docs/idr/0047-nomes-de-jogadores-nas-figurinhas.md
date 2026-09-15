@@ -128,7 +128,9 @@ Aceito — implementação na Fase 0017.
   - `docs/interface.md` § Seleções — 4 trilhas por página, § Grupo na
     disposição lista e § Medidas deixam de dizer "ocupa duas trilhas (mais
     larga, mesma altura)" e "126×68px"
-  - Implementação: a planejar (/planejar).
+  - Implementação: Fase 0022 — medidas na Tarefa 0022-0001, paisagens do
+    FWC e `nomeCurto` na Tarefa 0022-0002, nome no escudo, na foto do time
+    e nas paisagens do FWC na Tarefa 0022-0003.
 
 ## Alternativas consideradas
 
@@ -209,7 +211,7 @@ Aceito — implementação na Fase 0017.
   lista —, para preservar a proporção da foto do time; escudo (01) e foto
   do time (13) voltam a mostrar o nome do catálogo na metade de baixo — o
   escudo em até duas linhas, a foto numa; `FWC00`–`FWC03` e `FWC09`–`FWC19` passam a paisagem, com
-  o `nomeCurto` numa linha. Implementação a planejar.
+  o `nomeCurto` numa linha. Implementação na Fase 0022.
 
   Antes: cartão de 60×68px com linhas do álbum de 68px; paisagem de
   126×68px (2 × 60 + 6) nas duas disposições, ocupando
