@@ -128,9 +128,10 @@ Array imutável de `{codigo, contagemAnterior}`, com limite de 10 entradas (pilh
 Embutido no bundle, nunca toca o Firestore — igual para todos os usuários. Detalhes no [MDR 0006](model-dr/0006-catalogo-estatico-embutido.md).
 
 - **`secoes`**: array de 50 seções — `sigla`, `nome`, `tipo` (`selecao` | `especial`), `icone` (emoji Unicode), `grupo` (A–L ou `null`), `paginas` (spread ou `null`), `total`, `inicio` (opcional, padrão 1)
-- **`figurinhas`**: array de 994 figurinhas expandidas por `expandirFigurinhas(secoes)` — `codigo`, `secao` (sigla), `posicao` (inteiro), `metalizada` (booleano), `paisagem` (booleano), `nome` (texto completo) e `nomeLinhas` (par `[prenomes, sobrenome]`, `[null, nome]` para nome único ou `null` para nome sem corte — posições fixas, Extras FIFA e Coca-Cola), estes dois derivados de `jogadores.js` pelo [MDR 0008](model-dr/0008-dados-dos-nomes-das-figurinhas.md)
+- **`figurinhas`**: array de 994 figurinhas expandidas por `expandirFigurinhas(secoes)` — `codigo`, `secao` (sigla), `posicao` (inteiro), `metalizada` (booleano), `paisagem` (booleano), `nome` (texto completo), `nomeLinhas` (par `[prenomes, sobrenome]`, `[null, nome]` para nome único ou `null` para nome sem corte — posições fixas, Extras FIFA e Coca-Cola) e `nomeCurto` (texto ou `null` — só nas paisagens do FWC), os três derivados de `jogadores.js` pelo [MDR 0008](model-dr/0008-dados-dos-nomes-das-figurinhas.md)
 - **Numeração**: seleções `SIG01`…`SIG20` (48 × 20 = 960), FWC `FWC00`…`FWC19` (20), COC `COC01`…`COC14` (14) — total 994
 - **Posições fixas** (seleções): `01` é metalizada; `13` é paisagem
+- **Paisagens do FWC**: `FWC00`–`FWC03` e `FWC09`–`FWC19` são paisagem; `FWC04`–`FWC08` são retrato — 63 paisagens no total, 48 das seleções e 15 do FWC ([MDR 0006](model-dr/0006-catalogo-estatico-embutido.md), [MDR 0008](model-dr/0008-dados-dos-nomes-das-figurinhas.md))
 - **Derivações**: funções puras em `catalogoOrdenacoes.js` (`ordenarPorSigla`, `ordenarPorPagina`, `extrairSecoes`) e `catalogoLayout.js` (posições de página/linha/trilha) — propriedades do dado, sem efeito colateral
 
 ## Progresso

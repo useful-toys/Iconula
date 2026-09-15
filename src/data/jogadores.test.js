@@ -2,7 +2,12 @@
 
 import { describe, expect, it } from "vitest";
 import { secoes } from "./catalogo.js";
-import { jogadoresPorSelecao, jogadoresFWC, jogadoresCOC } from "./jogadores.js";
+import {
+  jogadoresPorSelecao,
+  jogadoresFWC,
+  jogadoresCOC,
+  nomesCurtosFWC,
+} from "./jogadores.js";
 
 const selecoes = secoes.filter((s) => s.tipo === "selecao");
 
@@ -56,5 +61,34 @@ describe("invariantes dos jogadores", () => {
   it("tem 20 nomes de FWC e 14 de COC", () => {
     expect(jogadoresFWC).toHaveLength(20);
     expect(jogadoresCOC).toHaveLength(14);
+  });
+
+  it("tem os 15 nomes curtos das paisagens do FWC, nas posições esperadas", () => {
+    expect(Object.keys(nomesCurtosFWC).sort()).toEqual([
+      "00",
+      "01",
+      "02",
+      "03",
+      "09",
+      "10",
+      "11",
+      "12",
+      "13",
+      "14",
+      "15",
+      "16",
+      "17",
+      "18",
+      "19",
+    ]);
+    expect(Object.values(nomesCurtosFWC)).toHaveLength(15);
+  });
+
+  it("nomes curtos não vazios e com até 14 caracteres", () => {
+    for (const nome of Object.values(nomesCurtosFWC)) {
+      expect(nome.trim()).not.toBe("");
+      expect(nome).toBe(nome.trim());
+      expect(nome.length).toBeLessThanOrEqual(14);
+    }
   });
 });

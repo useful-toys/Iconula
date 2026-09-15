@@ -24,12 +24,17 @@
 // pipeline de geração: ver
 // [TDR 0010](../../docs/tdr/0010-forma-do-catalogo-degradacao-do-checklist-e-sem-pipeline.md).
 //
-// O nome de cada figurinha (`nome` e `nomeLinhas`) é derivado de
-// `jogadores.js` conforme o
+// Os nomes de cada figurinha (`nome`, `nomeLinhas` e `nomeCurto`) são
+// derivados de `jogadores.js` conforme o
 // [MDR 0008](../../docs/model-dr/0008-dados-dos-nomes-das-figurinhas.md), com
 // o mapeamento de posições das seleções e o corte prenomes/sobrenome.
 
-import { jogadoresPorSelecao, jogadoresFWC, jogadoresCOC } from "./jogadores.js";
+import {
+  jogadoresPorSelecao,
+  jogadoresFWC,
+  jogadoresCOC,
+  nomesCurtosFWC,
+} from "./jogadores.js";
 
 /**
  * As 48 seleções classificadas, na ordem do Anexo de `requisitos.md`
@@ -135,6 +140,29 @@ const NOME_ESCUDO = "Escudo do time";
 const NOME_FOTO = "Foto do time";
 
 /**
+ * Posições paisagem do FWC (cromo horizontal, como no álbum físico):
+ * `FWC00`–`FWC03` e `FWC09`–`FWC19`; `FWC04`–`FWC08` são retrato — MDR 0006.
+ * Chaveadas pelos dois dígitos da posição, como em `nomesCurtosFWC`.
+ */
+const POSICOES_PAISAGEM_FWC = new Set([
+  "00",
+  "01",
+  "02",
+  "03",
+  "09",
+  "10",
+  "11",
+  "12",
+  "13",
+  "14",
+  "15",
+  "16",
+  "17",
+  "18",
+  "19",
+]);
+
+/**
  * Deriva `nome` e `nomeLinhas` de um jogador escrito como
  * "Prenomes/Sobrenome" (MDR 0008): com corte, `nome` é o texto completo sem a
  * barra e `nomeLinhas` é o par [prenomes, sobrenome]; sem barra, nome único,
@@ -163,15 +191,24 @@ function nomeDaSelecao(sigla, posicao) {
 }
 
 /**
- * Deriva `nome` e `nomeLinhas` de uma figurinha conforme o MDR 0008: seleções
- * pelo mapeamento de posição; FWC a partir de zero; COC a partir de um. Extras
- * FIFA e Coca-Cola não têm corte (`nomeLinhas: null`), mesmo quando o nome
- * traz barra literal.
+ * Deriva `nome`, `nomeLinhas` e `nomeCurto` de uma figurinha conforme o
+ * MDR 0008: seleções pelo mapeamento de posição; FWC a partir de zero; COC a
+ * partir de um. Extras FIFA e Coca-Cola não têm corte (`nomeLinhas: null`),
+ * mesmo quando o nome traz barra literal. `nomeCurto` só é preenchido nas
+ * paisagens do FWC (MDR 0006); nas demais figurinhas é `null`.
  */
 function nomeDaFigurinha(secao, posicao) {
-  if (secao.tipo === "selecao") return nomeDaSelecao(secao.sigla, posicao);
-  if (secao.sigla === "FWC") return { nome: jogadoresFWC[posicao], nomeLinhas: null };
-  return { nome: jogadoresCOC[posicao - 1], nomeLinhas: null };
+  if (secao.tipo === "selecao") {
+    return { ...nomeDaSelecao(secao.sigla, posicao), nomeCurto: null };
+  }
+  if (secao.sigla === "FWC") {
+    return {
+      nome: jogadoresFWC[posicao],
+      nomeLinhas: null,
+      nomeCurto: nomesCurtosFWC[String(posicao).padStart(2, "0")] ?? null,
+    };
+  }
+  return { nome: jogadoresCOC[posicao - 1], nomeLinhas: null, nomeCurto: null };
 }
 
 /**
@@ -187,6 +224,10 @@ function nomeDaFigurinha(secao, posicao) {
  * fonte do checklist não trouxe outras metalizadas além da 01 de cada
  * seleção, e o campo `metalizada` já nasce pronto para recebê-las
  * (ver TDR 0010).
+ *
+ * A paisagem não é só a 13 das seleções: `FWC00`–`FWC03` e `FWC09`–`FWC19`
+ * também são paisagem, como no cromo físico, e são as únicas figurinhas com
+ * `nomeCurto` preenchido (MDR 0006, MDR 0008).
  *
   * Cada seção usa `inicio` (opcional, padrão `1`) como número da primeira
   * figurinha; `total` é sempre a quantidade, nunca o último número. O FWC
@@ -206,7 +247,9 @@ export function expandirFigurinhas(secoesDoCatalogo) {
         secao: secao.sigla,
         posicao,
         metalizada: secao.tipo === "selecao" && posicao === 1,
-        paisagem: secao.tipo === "selecao" && posicao === 13,
+        paisagem:
+          (secao.tipo === "selecao" && posicao === 13) ||
+          (secao.sigla === "FWC" && POSICOES_PAISAGEM_FWC.has(numero)),
         ...nomeDaFigurinha(secao, posicao),
       });
     }

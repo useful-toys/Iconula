@@ -423,7 +423,7 @@ As medidas vêm antes do dado para que as paisagens do FWC já nasçam em
 | # | Tarefa | Objetivo | Status |
 |---|---|---|---|
 | 0001 | [Cartão de 60×70px e paisagem de 70×60px](0022-proporcao-e-nome-das-figurinhas-paisagem/0001-cartao-60x70-e-paisagem-70x60.md) | Medidas novas, linhas do álbum de 70px, paisagem centralizada no álbum e na lista e estimativa de altura da seção recalculada. | Concluída |
-| 0002 | [Paisagens do FWC e `nomeCurto` no catálogo](0022-proporcao-e-nome-das-figurinhas-paisagem/0002-paisagens-do-fwc-e-nome-curto-no-catalogo.md) | `FWC00`–`FWC03` e `FWC09`–`FWC19` em paisagem e os 15 nomes curtos do MDR 0008, com invariantes. | Pendente |
+| 0002 | [Paisagens do FWC e `nomeCurto` no catálogo](0022-proporcao-e-nome-das-figurinhas-paisagem/0002-paisagens-do-fwc-e-nome-curto-no-catalogo.md) | `FWC00`–`FWC03` e `FWC09`–`FWC19` em paisagem e os 15 nomes curtos do MDR 0008, com invariantes. | Concluída |
 | 0003 | [Nome no escudo, na foto e nome curto](0022-proporcao-e-nome-das-figurinhas-paisagem/0003-nome-no-escudo-na-foto-e-nome-curto.md) | Escudo com o nome em até duas linhas; toda paisagem numa linha, com o `nomeCurto` quando existe. | Pendente |
 
 ## Regras que valem em toda tarefa

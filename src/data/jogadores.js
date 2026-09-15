@@ -1,9 +1,10 @@
 // Copyright (c) 2026 Daniel Felix Ferber
 //
-// Nomes dos jogadores/elementos das 994 figurinhas do catálogo. É a
-// transcrição direta das listas confirmadas do
-// [MDR 0008](../../docs/model-dr/0008-dados-dos-nomes-das-figurinhas.md):
-// 48 seleções com 18 jogadores cada, 20 Extras FIFA e 14 Coca-Cola.
+// Nomes dos jogadores/elementos das 994 figurinhas do catálogo e os nomes
+// curtos das paisagens do FWC. É a transcrição direta das listas confirmadas
+// do [MDR 0008](../../docs/model-dr/0008-dados-dos-nomes-das-figurinhas.md):
+// 48 seleções com 18 jogadores cada, 20 Extras FIFA e 14 Coca-Cola, mais os
+// 15 rótulos das paisagens do FWC.
 //
 // Forma (MDR 0008 § Decisão):
 // - `jogadoresPorSelecao`: 48 siglas → 18 nomes, na ordem 1–18 da fonte,
@@ -12,6 +13,9 @@
 // - `jogadoresFWC`: 20 nomes de `FWC00` a `FWC19`, indexados a partir de
 //   zero.
 // - `jogadoresCOC`: 14 nomes de `COC01` a `COC14`, indexados a partir de um.
+// - `nomesCurtosFWC`: os 15 rótulos de uma linha das paisagens do FWC
+//   (`FWC00`–`FWC03` e `FWC09`–`FWC19`), chaveados pelos dois dígitos da
+//   posição do código.
 //
 // Extras FIFA e Coca-Cola não têm corte de prenomes (a barra, quando
 // existe, é literal). O mapeamento de posições para as figurinhas
@@ -1025,3 +1029,27 @@ export const jogadoresCOC = [
   "Raúl Jiménez",
   "Lautaro Martínez",
 ];
+
+/**
+ * Nomes curtos das paisagens do FWC (MDR 0008): um rótulo de uma linha para
+ * cada cromo horizontal, chaveado pelos dois dígitos da posição do código.
+ * São exatamente as 15 paisagens `FWC00`–`FWC03` e `FWC09`–`FWC19`;
+ * `FWC04`–`FWC08` são retrato e não têm rótulo.
+ */
+export const nomesCurtosFWC = {
+  "00": "Logo Panini",
+  "01": "Emblema esq.",
+  "02": "Emblema dir.",
+  "03": "Mascotes",
+  "09": "Jules Rimet",
+  "10": "Uruguai 1950",
+  "11": "Alemanha 1954",
+  "12": "Brasil 1962",
+  "13": "Alemanha 1974",
+  "14": "Argentina 1986",
+  "15": "Brasil 1994",
+  "16": "Brasil 2002",
+  "17": "Itália 2006",
+  "18": "França 2018",
+  "19": "Argentina 2022",
+};
