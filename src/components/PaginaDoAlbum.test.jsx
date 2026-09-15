@@ -10,17 +10,19 @@ const secaoBrasil = { sigla: 'BRA', nome: 'Brasil', icone: '🇧🇷', paginas: 
 
 const figurinhasBrasil = Array.from({ length: 20 }, (_, i) => ({
   codigo: `BRA${String(i + 1).padStart(2, '0')}`,
+  posicao: i + 1,
   metalizada: i === 0,
 }));
 
 describe('PaginaDoAlbum', () => {
   it('renderiza as figurinhas da página 1 nas posições corretas', () => {
     const layout = layoutDeSecao(secaoBrasil);
-    const posicoesPagina1 = layout.filter((p) => p.pagina === 1);
+    const paginaLayout = layout.paginas.find((p) => p.pagina === 1);
+    const posicoesPagina1 = layout.posicoes.filter((p) => p.pagina === 1);
 
     const { container } = render(
       <PaginaDoAlbum
-        secao={secaoBrasil}
+        pagina={paginaLayout}
         figurinhas={figurinhasBrasil}
         posicoes={posicoesPagina1}
         contagens={{}}
@@ -61,11 +63,12 @@ describe('PaginaDoAlbum', () => {
 
   it('renderiza as figurinhas da página 2 nas posições corretas', () => {
     const layout = layoutDeSecao(secaoBrasil);
-    const posicoesPagina2 = layout.filter((p) => p.pagina === 2);
+    const paginaLayout = layout.paginas.find((p) => p.pagina === 2);
+    const posicoesPagina2 = layout.posicoes.filter((p) => p.pagina === 2);
 
     const { container } = render(
       <PaginaDoAlbum
-        secao={secaoBrasil}
+        pagina={paginaLayout}
         figurinhas={figurinhasBrasil}
         posicoes={posicoesPagina2}
         contagens={{}}
@@ -110,13 +113,14 @@ describe('PaginaDoAlbum', () => {
     expect(celula20.style.gridRow).toBe('3');
   });
 
-  it('renderiza o grid com 4 trilhas para seleções', () => {
+  it('renderiza o grid com as colunas e as linhas da página (seleção: 4 × 3)', () => {
     const layout = layoutDeSecao(secaoBrasil);
-    const posicoesPagina1 = layout.filter((p) => p.pagina === 1);
+    const paginaLayout = layout.paginas.find((p) => p.pagina === 1);
+    const posicoesPagina1 = layout.posicoes.filter((p) => p.pagina === 1);
 
     const { container } = render(
       <PaginaDoAlbum
-        secao={secaoBrasil}
+        pagina={paginaLayout}
         figurinhas={figurinhasBrasil}
         posicoes={posicoesPagina1}
         contagens={{}}
@@ -126,20 +130,23 @@ describe('PaginaDoAlbum', () => {
 
     const grid = container.querySelector('.pagina-album');
     expect(grid.style.gridTemplateColumns).toBe('repeat(4, 60px)');
+    expect(grid.style.gridTemplateRows).toBe('repeat(3, 70px)');
   });
 
-  it('renderiza o grid com 3 trilhas para Coca-Cola', () => {
+  it('renderiza o grid com as colunas e as linhas da página (Coca-Cola, página 1: 3 × 2)', () => {
     const secaoCoc = { sigla: 'COC', nome: 'Coca-Cola', icone: '🥤', paginas: [112, 113] };
     const figurinhasCoc = Array.from({ length: 14 }, (_, i) => ({
       codigo: `COC${String(i + 1).padStart(2, '0')}`,
+      posicao: i + 1,
       metalizada: false,
     }));
     const layout = layoutDeSecao(secaoCoc);
-    const posicoesPagina1 = layout.filter((p) => p.pagina === 1);
+    const paginaLayout = layout.paginas.find((p) => p.pagina === 1);
+    const posicoesPagina1 = layout.posicoes.filter((p) => p.pagina === 1);
 
     const { container } = render(
       <PaginaDoAlbum
-        secao={secaoCoc}
+        pagina={paginaLayout}
         figurinhas={figurinhasCoc}
         posicoes={posicoesPagina1}
         contagens={{}}
@@ -149,15 +156,17 @@ describe('PaginaDoAlbum', () => {
 
     const grid = container.querySelector('.pagina-album');
     expect(grid.style.gridTemplateColumns).toBe('repeat(3, 60px)');
+    expect(grid.style.gridTemplateRows).toBe('repeat(2, 70px)');
   });
 
   it('a figurinha 01 fica sobre a terceira posição das linhas cheias', () => {
     const layout = layoutDeSecao(secaoBrasil);
-    const posicoesPagina1 = layout.filter((p) => p.pagina === 1);
+    const paginaLayout = layout.paginas.find((p) => p.pagina === 1);
+    const posicoesPagina1 = layout.posicoes.filter((p) => p.pagina === 1);
 
     const { container } = render(
       <PaginaDoAlbum
-        secao={secaoBrasil}
+        pagina={paginaLayout}
         figurinhas={figurinhasBrasil}
         posicoes={posicoesPagina1}
         contagens={{}}
@@ -180,11 +189,12 @@ describe('PaginaDoAlbum', () => {
 
   it('exibe os códigos das figurinhas', () => {
     const layout = layoutDeSecao(secaoBrasil);
-    const posicoesPagina1 = layout.filter((p) => p.pagina === 1);
+    const paginaLayout = layout.paginas.find((p) => p.pagina === 1);
+    const posicoesPagina1 = layout.posicoes.filter((p) => p.pagina === 1);
 
     render(
       <PaginaDoAlbum
-        secao={secaoBrasil}
+        pagina={paginaLayout}
         figurinhas={figurinhasBrasil}
         posicoes={posicoesPagina1}
         contagens={{}}
@@ -194,5 +204,33 @@ describe('PaginaDoAlbum', () => {
 
     expect(screen.getByRole('button', { name: /BRA 01, faltante/ })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /BRA 10, faltante/ })).toBeInTheDocument();
+  });
+
+  it('acha a figurinha pelo campo `posicao`, não pelo índice no array (posições que não começam em 1)', () => {
+    // Fixture no estilo do FWC: a primeira figurinha do array tem posição 5.
+    const figurinhasComPosicaoDeslocada = [
+      { codigo: 'XXX05', posicao: 5, metalizada: false },
+      { codigo: 'XXX06', posicao: 6, metalizada: false },
+    ];
+    const posicoes = [
+      { posicao: 6, pagina: 1, linha: 1, trilha: 1, trilhas: 1 },
+      { posicao: 5, pagina: 1, linha: 1, trilha: 2, trilhas: 1 },
+    ];
+
+    render(
+      <PaginaDoAlbum
+        pagina={{ linhas: 1, colunas: 2 }}
+        figurinhas={figurinhasComPosicaoDeslocada}
+        posicoes={posicoes}
+        contagens={{}}
+        onAjustar={vi.fn()}
+      />
+    );
+
+    // XXX06 (índice 1 no array) vai para a trilha 1; XXX05 (índice 0) vai
+    // para a trilha 2 — o índice no array não bate com a trilha.
+    const celulas = screen.getAllByRole('button');
+    expect(celulas[0]).toHaveAccessibleName(/XXX 06/);
+    expect(celulas[1]).toHaveAccessibleName(/XXX 05/);
   });
 });

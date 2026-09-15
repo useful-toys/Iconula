@@ -223,9 +223,13 @@ em vez de grade uniforme que se ajusta à largura da tela.
   filtro (ver
   [IDR 0023](idr/0023-coca-cola-no-modo-album-fwc-sempre-lista.md))
 - Cada página é um grid interno de trilhas de largura fixa (60px por
-  trilha, 6px de espaçamento); as páginas ficam lado a lado quando
-  cabem na largura da tela e empilham quando não cabem (IDR 0015,
-  IDR 0047)
+  trilha, 70px por linha, 6px de espaçamento), com as linhas e as
+  colunas do seu layout (seleções 3 × 4; Coca-Cola 2 × 3 na página 1 e
+  3 × 3 na página 2 — [MDR 0006](model-dr/0006-catalogo-estatico-embutido.md))
+- As páginas vêm em pares (spreads); dentro do par, lado a lado quando
+  cabem na largura da tela e empilhadas quando não cabem (IDR 0015,
+  IDR 0047); pares seguidos ficam 20px um abaixo do outro
+  ([IDR 0023](idr/0023-coca-cola-no-modo-album-fwc-sempre-lista.md))
 
 #### Seleções — 4 trilhas por página
 

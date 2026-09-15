@@ -68,7 +68,7 @@ Detalhes e status das tarefas no guia [CLAUDE.md](CLAUDE.md) § Status e ciclo d
 | 20 | [Contrair seções, rodapé e termos de uso](0020-contrair-secoes-rodape-e-termos/) | Contrair as seções de um super-grupo num toque; copyright, isenção e termos de uso nas duas telas | 19 | `feat: contrair seções do grupo, rodapé com copyright e termos de uso` | Entregue |
 | 21 | [Botão compartilhar](0021-botao-compartilhar/) | Listas de troca num botão próprio, com cópia e compartilhamento pela folha do sistema | 19, 20 | `feat: botão compartilhar com cópia e folha do sistema` | Entregue |
 | 22 | [Proporção e nome das figurinhas paisagem](0022-proporcao-e-nome-das-figurinhas-paisagem/) | Cartão de 60×70px, paisagem de 70×60px na 13 e em 15 figurinhas do FWC, nome no escudo e na foto do time e nome curto nas paisagens do FWC | 19 | `feat: figurinhas paisagem na proporção do cromo, com nome` | Entregue |
-| 23 | [Extras FIFA na disposição álbum](0023-extras-fifa-na-disposicao-album/) | Extras FIFA nas posições reais das páginas 0–3 e 106–109, com a dimensão de cada página vinda do dado | 22 | `feat: extras FIFA na disposição álbum com as posições reais` | Pendente |
+| 23 | [Extras FIFA na disposição álbum](0023-extras-fifa-na-disposicao-album/) | Extras FIFA nas posições reais das páginas 0–3 e 106–109, com a dimensão de cada página vinda do dado | 22 | `feat: extras FIFA na disposição álbum com as posições reais` | Em andamento |
 
 ---
 
@@ -443,7 +443,7 @@ grade vinda do dado; depende da Fase 22, que dá às paisagens do FWC os
 
 | # | Tarefa | Objetivo | Status |
 |---|---|---|---|
-| 0001 | [Dimensão de cada página no layout de álbum](0023-extras-fifa-na-disposicao-album/0001-dimensao-de-cada-pagina-no-layout-de-album.md) | Páginas com linhas e colunas, posição pelo campo `posicao`, pares de páginas e página 1 da Coca-Cola com 2 linhas. | Pendente |
+| 0001 | [Dimensão de cada página no layout de álbum](0023-extras-fifa-na-disposicao-album/0001-dimensao-de-cada-pagina-no-layout-de-album.md) | Páginas com linhas e colunas, posição pelo campo `posicao`, pares de páginas e página 1 da Coca-Cola com 2 linhas. | Concluída |
 | 0002 | [Páginas do FWC e página 0 no cabeçalho](0023-extras-fifa-na-disposicao-album/0002-paginas-do-fwc-e-pagina-zero-no-cabecalho.md) | `paginas` do FWC com as oito páginas físicas e `Extras FIFA FWC 0` no cabeçalho, sem seção sem páginas. | Pendente |
 | 0003 | [FWC na disposição álbum](0023-extras-fifa-na-disposicao-album/0003-fwc-na-disposicao-album.md) | Layout das oito páginas, casa de 70×70px, moldura e quatro pares, com `interface.md` atualizado. | Pendente |
 

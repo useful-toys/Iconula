@@ -163,7 +163,17 @@
   gap: var(--section-body-gap);
 }
 
+/* Um filho por par de páginas (spread); pares seguidos ficam
+ * `--album-page-gap` um abaixo do outro (IDR 0023, MDR 0006). */
 .secao__album {
+  display: flex;
+  flex-direction: column;
+  gap: var(--album-page-gap);
+}
+
+/* Páginas do par lado a lado quando cabem, empilhadas quando não
+ * (IDR 0015) — mesmo espaçamento usado entre pares. */
+.secao__album__par {
   display: flex;
   flex-wrap: wrap;
   gap: var(--album-page-gap);

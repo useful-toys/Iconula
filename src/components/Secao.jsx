@@ -3,7 +3,7 @@
 import { useState, useId, memo } from 'react';
 import { calcularPlacar } from '../lib/progresso.js';
 import { urlDoIcone } from '../lib/bandeira.js';
-import { layoutDeSecao } from '../data/catalogoLayout.js';
+import { layoutDeSecao, paresDePaginas } from '../data/catalogoLayout.js';
 import { filtraFigurinha } from '../lib/colecao.js';
 import { Figurinha } from './Figurinha.jsx';
 import { PaginaDoAlbum } from './PaginaDoAlbum.jsx';
@@ -179,7 +179,6 @@ export const Secao = memo(function Secao({
         <div className="secao__corpo" id={corpoId}>
           {usaAlbum ? (
             <CorpoAlbum
-              secao={secao}
               figurinhas={figurinhas}
               layout={layout}
               contagens={contagens}
@@ -211,31 +210,37 @@ export const Secao = memo(function Secao({
 }, propsEquivalentes);
 
 /**
- * Corpo da seção na disposição álbum: agrupa as figurinhas em páginas
- * conforme o layout e renderiza cada página com o componente PaginaDoAlbum.
+ * Corpo da seção na disposição álbum: um contêiner por par de páginas
+ * (spread) do layout, na ordem, cada um com as páginas do par lado a
+ * lado quando cabem e empilhadas quando não (IDR 0015); pares seguidos
+ * ficam `--album-page-gap` um abaixo do outro (IDR 0023, MDR 0006).
  */
-function CorpoAlbum({ secao, figurinhas, layout, contagens, onAjustar }) {
+function CorpoAlbum({ figurinhas, layout, contagens, onAjustar }) {
   // Agrupa posições por página
   const posicoesPorPagina = new Map();
-  for (const pos of layout) {
+  for (const pos of layout.posicoes) {
     const lista = posicoesPorPagina.get(pos.pagina) ?? [];
     lista.push(pos);
     posicoesPorPagina.set(pos.pagina, lista);
   }
 
-  const paginas = Array.from(posicoesPorPagina.entries()).sort((a, b) => a[0] - b[0]);
+  const pares = paresDePaginas(layout.paginas);
 
   return (
     <div className="secao__album">
-      {paginas.map(([numPagina, posicoes]) => (
-        <PaginaDoAlbum
-          key={numPagina}
-          secao={secao}
-          figurinhas={figurinhas}
-          posicoes={posicoes}
-          contagens={contagens}
-          onAjustar={onAjustar}
-        />
+      {pares.map((par) => (
+        <div className="secao__album__par" key={par[0].pagina}>
+          {par.map((pagina) => (
+            <PaginaDoAlbum
+              key={pagina.pagina}
+              pagina={pagina}
+              figurinhas={figurinhas}
+              posicoes={posicoesPorPagina.get(pagina.pagina) ?? []}
+              contagens={contagens}
+              onAjustar={onAjustar}
+            />
+          ))}
+        </div>
       ))}
     </div>
   );

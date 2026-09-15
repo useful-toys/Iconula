@@ -132,7 +132,7 @@ Embutido no bundle, nunca toca o Firestore — igual para todos os usuários. De
 - **Numeração**: seleções `SIG01`…`SIG20` (48 × 20 = 960), FWC `FWC00`…`FWC19` (20), COC `COC01`…`COC14` (14) — total 994
 - **Posições fixas** (seleções): `01` é metalizada; `13` é paisagem
 - **Paisagens do FWC**: `FWC00`–`FWC03` e `FWC09`–`FWC19` são paisagem; `FWC04`–`FWC08` são retrato — 63 paisagens no total, 48 das seleções e 15 do FWC ([MDR 0006](model-dr/0006-catalogo-estatico-embutido.md), [MDR 0008](model-dr/0008-dados-dos-nomes-das-figurinhas.md))
-- **Derivações**: funções puras em `catalogoOrdenacoes.js` (`ordenarPorSigla`, `ordenarPorPagina`, `extrairSecoes`) e `catalogoLayout.js` (posições de página/linha/trilha) — propriedades do dado, sem efeito colateral
+- **Derivações**: funções puras em `catalogoOrdenacoes.js` (`ordenarPorSigla`, `ordenarPorPagina`, `extrairSecoes`) e `catalogoLayout.js` — propriedades do dado, sem efeito colateral. `catalogoLayout.js` devolve páginas com `linhas` e `colunas` (a dimensão da grade) e posições de página/linha/trilha de cada figurinha; os pares de páginas (spreads) são derivados por `paresDePaginas`, sem virar campo ([MDR 0006](model-dr/0006-catalogo-estatico-embutido.md))
 
 ## Progresso
 
