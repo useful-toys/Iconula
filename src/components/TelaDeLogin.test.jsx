@@ -47,6 +47,20 @@ describe("TelaDeLogin", () => {
     expect(screen.getByText(/projeto independente/i)).toBeInTheDocument();
   });
 
+  it("mostra as três linhas do rodapé na ordem do IDR 0053, sem link", () => {
+    const { container } = render(<TelaDeLogin />);
+
+    const rodape = container.querySelector(".tela-de-login__rodape");
+    const linhas = Array.from(rodape.children).map((el) => el.textContent);
+
+    expect(linhas).toHaveLength(3);
+    expect(linhas[0]).toBe("© 2026 Daniel Felix Ferber");
+    expect(linhas[1]).toMatch(/projeto independente/i);
+    expect(linhas[2]).toBe("Uso por sua conta e risco, sem garantias.");
+    expect(rodape.querySelector("button")).toBeNull();
+    expect(rodape.querySelector("a")).toBeNull();
+  });
+
   it("o link da política é acionável sem sessão", async () => {
     const user = userEvent.setup();
     const onAbrirPolitica = vi.fn();

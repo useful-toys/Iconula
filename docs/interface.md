@@ -345,8 +345,10 @@ Esquemático em texto; cores indicadas são as do
 │     … grupos do catálogo, um após o outro, até o fim …       │
 │                                                              │
 ├──────────────────────────────────────────────────────────────┤
+│  © 2026 Daniel Felix Ferber                                  │
 │  projeto independente · sem vínculo com Panini ou FIFA ·     │
 │  marcas pertencem aos seus titulares (Lei 9.279/96)          │
+│  uso por sua conta e risco, sem garantias                    │
 └──────────────────────────────────────────────────────────────┘
 ```
 
@@ -477,7 +479,9 @@ qualquer autenticação:
         │                                │
         │     Política de privacidade    │
         └────────────────────────────────┘
+     © 2026 Daniel Felix Ferber
      projeto independente · sem vínculo com Panini…
+     uso por sua conta e risco, sem garantias.
 ```
 
 - Cartão centrado (largura máxima ~360px) em `--panel` sobre o fundo
@@ -486,7 +490,9 @@ qualquer autenticação:
   popup (ADR 0005)
 - A atestação de menores acompanha o botão; o link da política de
   privacidade fica abaixo, acessível sem autenticar
-- O aviso de independência e marcas repete-se no rodapé
+- O rodapé traz copyright, o aviso de independência e marcas e a isenção de
+  responsabilidade, sem filete, na ordem do
+  [IDR 0053](idr/0053-termos-de-uso-e-rodape-com-copyright-e-isencao.md)
 - Textos exatos, como no protótipo: subtítulo "Controle suas figurinhas
   do álbum da Copa do Mundo FIFA 2026"; botão "Entrar com Google";
   atestação "Ao continuar, você confirma ter 12 anos ou mais, ou estar
@@ -502,8 +508,9 @@ disco de 18px com as quatro cores da marca — é o único elemento claro
 do produto, e é assim de propósito: fora do tema, reconhecível como
 botão do provedor. A atestação vem 20px abaixo do botão e o link da
 política mais 16px adiante, ambos em 12px `--muted`. O rodapé desta
-tela repete o texto do rodapé do app sem o filete superior — a tela de
-login não tem divisória alguma além da borda do cartão.
+tela repete as três primeiras linhas do rodapé do app — copyright, aviso
+de marcas e isenção — sem o filete superior — a tela de login não tem
+divisória alguma além da borda do cartão.
 
 ## Demais telas
 
@@ -724,7 +731,9 @@ tabela do [IDR 0046](idr/0046-cores-de-selecoes.md): os 48 tokens
   itens de `9px 12px` em 13px, raio 7px; filetes de 1px
   em `--border` com margem `4px 6px`; sombra `0 8px 24px`
 - Links: `--gold`, sem sublinhado, opacidade 0.8 sob o cursor
-- Rodapé: 11px em `--muted`, borda superior `--border`
+- Rodapé: 11px em `--muted`, borda superior `--border`, linhas empilhadas na
+  ordem do copyright, aviso de marcas, isenção e link —
+  [IDR 0053](idr/0053-termos-de-uso-e-rodape-com-copyright-e-isencao.md)
 
 ## Pendências de interface
 
