@@ -218,10 +218,9 @@ disposição física real da página impressa (ver
 em vez de grade uniforme que se ajusta à largura da tela.
 
 - Aplica-se às 48 seleções (20 espaços: escudo, 18 jogadores e foto do
-  time) e à Coca-Cola (14 espaços em duas páginas); os Extras FIFA
-  (FWC) exibem-se em lista contínua mesmo nesta disposição — e sem
-  filtro (ver
-  [IDR 0023](idr/0023-coca-cola-no-modo-album-fwc-sempre-lista.md))
+  time), à Coca-Cola (14 espaços em duas páginas) e aos Extras FIFA (FWC
+  — 20 espaços em oito páginas, em quatro pares) — ver
+  [IDR 0023](idr/0023-coca-cola-no-modo-album-fwc-sempre-lista.md)
 - Cada página é um grid interno de trilhas de largura fixa (60px por
   trilha, 70px por linha, 6px de espaçamento), com as linhas e as
   colunas do seu layout (seleções 3 × 4; Coca-Cola 2 × 3 na página 1 e
@@ -262,6 +261,35 @@ Páginas 112–113 do álbum (requisitos.md, Anexo):
 - **Página 2** (figurinhas 07–14): 3 colunas nas linhas 1 e 2 (07–09 e
   10–12) e 2 figurinhas na linha 3 (13 e 14)
 - Todas em retrato, mesmo tamanho — não há espaço paisagem
+
+#### Extras FIFA — oito páginas em quatro pares
+
+Páginas 0–3 e 106–109 do álbum físico, em quatro pares (0|1, 2|3,
+106|107, 108|109); casa de 70×70px, 6px de espaçamento — maior que a
+trilha de 60px das demais seções, para a paisagem de 70×60px caber numa
+única trilha, em vez de duas:
+
+| Página | Grade (linhas × colunas) | Figurinhas: linha, coluna |
+|---|---|---|
+| 0 | 4 × 3 | 00: 1, 2 |
+| 1 | 4 × 3 | 01: 1, 3 · 02: 2, 3 · 03: 3, 3 · 04: 4, 3 |
+| 2 | 4 × 2 | 06: 2, 1 · 08: 4, 2 |
+| 3 | 4 × 2 | 05: 1, 1 · 07: 3, 2 |
+| 106 | 3 × 3 | 09: 1, 3 · 10: 2, 3 |
+| 107 | 3 × 3 | 11: 1, 1 · 12: 2, 1 · 13: 3, 3 |
+| 108 | 3 × 3 | 14: 2, 1 · 15: 3, 1 |
+| 109 | 3 × 3 | 16: 1, 1 · 17: 1, 3 · 18: 2, 3 · 19: 3, 3 |
+
+- Linhas e colunas vazias preservadas em qualquer largura: a grade de
+  cada página tem a dimensão da tabela, não a da última figurinha
+  (páginas 0, 106 e 108 ficam com linhas vazias)
+- Moldura discreta em volta de cada página, só no FWC: 1px em
+  `--border`, recuo interno de 6px (o mesmo espaço entre casas) e raio
+  de 8px — ajuda a ler a posição nas páginas esparsas; casas vazias não
+  têm desenho próprio; seleções e Coca-Cola seguem sem moldura
+- Sem rótulo entre as duas partes (0–3 e 106–109) nem por página: os
+  spreads se separam só pelo espaçamento de sempre
+- (ver [IDR 0023](idr/0023-coca-cola-no-modo-album-fwc-sempre-lista.md))
 
 ### Figurinha
 - Cartão retangular com bordas perfuradas (efeito selo)
@@ -482,6 +510,48 @@ trilhas de 60px preservadas. A disposição álbum nunca cai para a lista
 Três trilhas por página, mesmas medidas das seleções; 13 e 14 na
 primeira e na segunda posição da linha 3 (IDR 0023).
 
+### Grupo na disposição álbum — Extras FIFA
+
+```
+   página 0 (4×3)          página 1 (4×3)
+  ┌──────────────┐        ┌──────────────┐
+  │ [  ][00][  ] │        │ [  ][  ][01] │
+  │ [  ][  ][  ] │        │ [  ][  ][02] │
+  │ [  ][  ][  ] │        │ [  ][  ][03] │
+  │ [  ][  ][  ] │        │ [  ][  ][04] │
+  └──────────────┘        └──────────────┘
+
+   página 2 (4×2)     página 3 (4×2)
+  ┌─────────┐        ┌─────────┐
+  │ [  ][  ]│        │ [05][  ]│
+  │ [06][  ]│        │ [  ][  ]│
+  │ [  ][  ]│        │ [  ][07]│
+  │ [  ][08]│        │ [  ][  ]│
+  └─────────┘        └─────────┘
+
+   página 106 (3×3)        página 107 (3×3)
+  ┌──────────────┐        ┌──────────────┐
+  │ [  ][  ][09] │        │ [11][  ][  ] │
+  │ [  ][  ][10] │        │ [12][  ][  ] │
+  │ [  ][  ][  ] │        │ [  ][  ][13] │
+  └──────────────┘        └──────────────┘
+
+   página 108 (3×3)        página 109 (3×3)
+  ┌──────────────┐        ┌──────────────┐
+  │ [  ][  ][  ] │        │ [16][  ][17] │
+  │ [14][  ][  ] │        │ [  ][  ][18] │
+  │ [15][  ][  ] │        │ [  ][  ][19] │
+  └──────────────┘        └──────────────┘
+```
+
+Casas vazias em branco — a grade preserva as linhas e colunas mesmo sem
+figurinha; a moldura (1px `--border`, recuo 6px, raio 8px) contorna cada
+página, sozinha entre as três seções (IDR 0023). Quatro pares na ordem
+0|1, 2|3, 106|107, 108|109 — lado a lado quando cabem, empilhados quando
+não (IDR 0015), 20px entre pares. Com a moldura, página de 3 colunas =
+236px, de 2 colunas = 160px; par 0|1, 106|107 e 108|109 = 492px, par
+2|3 = 340px — todos abaixo dos 536px do spread das seleções.
+
 ### Figurinha
 
 ```
@@ -638,8 +708,9 @@ brasileira; e contato pelo mesmo endereço declarado na política.
 Decidido até aqui, válido em qualquer faixa:
 
 - Lista (todas as seções): fluxo horizontal com wrap vertical
-- Álbum (seleções e Coca-Cola): páginas lado a lado quando cabem na
-  largura, empilhadas quando não cabem (IDR 0015)
+- Álbum (todas as seções): páginas lado a lado quando cabem na largura,
+  empilhadas quando não cabem (IDR 0015); o maior par do FWC tem 492px,
+  abaixo dos 536px das seleções — o limite de 582px do IDR 0043 não muda
 
 Padrão da primeira abertura, sem preferência guardada — a partir daí vale
 o que ficou guardado (IDR 0026):
@@ -783,6 +854,11 @@ tabela do [IDR 0046](idr/0046-cores-de-selecoes.md): os 48 tokens
 - Cartão no álbum: grade de trilhas de 60px e linhas de 70px, 6px de
   espaçamento; a figurinha 13 é paisagem de 70×60px, centralizada no espaço
   das trilhas 3 e 4 (IDR 0015, IDR 0047)
+- Cartão no álbum do FWC: casa de 70×70px com 6px de espaçamento — maior
+  que a trilha de 60px das demais seções —, moldura de 1px em `--border`
+  em volta de cada página, com recuo interno de 6px e raio de 8px, 20px
+  entre pares de páginas; página de 3 colunas com 236px de largura total
+  (com a moldura) e de 2 colunas com 160px (IDR 0023)
 - Faltante: fundo `--panel`, borda 2px tracejada `--muted`, texto
   `--muted`, opacidade 0.6 — o "cartão esvaziado" do IDR 0006
 - Colada e repetida: fundo e borda sólidos na cor do estado, texto

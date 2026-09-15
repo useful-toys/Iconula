@@ -148,9 +148,48 @@ describe("ordenações", () => {
 });
 
 describe("layout de álbum", () => {
-  it("FWC devolve null (sem layout de álbum)", () => {
+  it("layout do FWC: oito páginas nas dimensões da tabela do IDR 0023", () => {
     const fwc = secoes.find((s) => s.sigla === "FWC");
-    expect(layoutDeSecao(fwc)).toBeNull();
+    const layout = layoutDeSecao(fwc);
+    expect(layout.paginas).toEqual([
+      { pagina: 1, linhas: 4, colunas: 3 },
+      { pagina: 2, linhas: 4, colunas: 3 },
+      { pagina: 3, linhas: 4, colunas: 2 },
+      { pagina: 4, linhas: 4, colunas: 2 },
+      { pagina: 5, linhas: 3, colunas: 3 },
+      { pagina: 6, linhas: 3, colunas: 3 },
+      { pagina: 7, linhas: 3, colunas: 3 },
+      { pagina: 8, linhas: 3, colunas: 3 },
+    ]);
+  });
+
+  it("layout do FWC: 20 posições, cada código do FWC00 ao FWC19 uma única vez", () => {
+    const fwc = secoes.find((s) => s.sigla === "FWC");
+    const layout = layoutDeSecao(fwc);
+    expect(layout.posicoes).toHaveLength(20);
+    const posicoes = layout.posicoes.map((p) => p.posicao).sort((a, b) => a - b);
+    expect(posicoes).toEqual(Array.from({ length: 20 }, (_, i) => i));
+  });
+
+  it("layout do FWC: posições conferem com a tabela do IDR 0023", () => {
+    const fwc = secoes.find((s) => s.sigla === "FWC");
+    const layout = layoutDeSecao(fwc);
+    const posicao = (numero) => layout.posicoes.find((p) => p.posicao === numero);
+
+    // FWC00: página física 0, linha 1, coluna 2
+    expect(posicao(0)).toMatchObject({ pagina: 1, linha: 1, trilha: 2, trilhas: 1 });
+    // FWC04: página física 1, linha 4, coluna 3
+    expect(posicao(4)).toMatchObject({ pagina: 2, linha: 4, trilha: 3, trilhas: 1 });
+    // FWC05: página física 3, linha 1, coluna 1
+    expect(posicao(5)).toMatchObject({ pagina: 4, linha: 1, trilha: 1, trilhas: 1 });
+    // FWC06: página física 2, linha 2, coluna 1
+    expect(posicao(6)).toMatchObject({ pagina: 3, linha: 2, trilha: 1, trilhas: 1 });
+    // FWC13: página física 107, linha 3, coluna 3
+    expect(posicao(13)).toMatchObject({ pagina: 6, linha: 3, trilha: 3, trilhas: 1 });
+    // FWC14: página física 108, linha 2, coluna 1
+    expect(posicao(14)).toMatchObject({ pagina: 7, linha: 2, trilha: 1, trilhas: 1 });
+    // FWC17: página física 109, linha 1, coluna 3
+    expect(posicao(17)).toMatchObject({ pagina: 8, linha: 1, trilha: 3, trilhas: 1 });
   });
 
   it("layout de seleção: 2 páginas de 3 linhas × 4 colunas, 20 posições uma única vez", () => {
@@ -255,9 +294,11 @@ describe("layout de álbum", () => {
       const layout = layoutDeSecao(secao);
       expect(layout.paginas).toHaveLength(secao.paginas.length);
 
+      // O FWC usa `inicio: 0` (FWC00…FWC19); as demais seções começam em 1.
+      const inicio = secao.inicio ?? 1;
       const totalPosicoes = layout.posicoes.map((p) => p.posicao).sort((a, b) => a - b);
       expect(new Set(totalPosicoes).size).toBe(totalPosicoes.length);
-      expect(totalPosicoes).toEqual(Array.from({ length: secao.total }, (_, i) => i + 1));
+      expect(totalPosicoes).toEqual(Array.from({ length: secao.total }, (_, i) => i + inicio));
 
       const dimensaoPorPagina = new Map(layout.paginas.map((p) => [p.pagina, p]));
       const casas = new Set();
@@ -292,6 +333,15 @@ describe("layout de álbum", () => {
     const coc = secoes.find((s) => s.sigla === "COC");
     expect(paresDePaginas(layoutDeSecao(selecao).paginas)).toHaveLength(1);
     expect(paresDePaginas(layoutDeSecao(coc).paginas)).toHaveLength(1);
+  });
+
+  it("paresDePaginas do layout do FWC: 4 pares de 2 páginas", () => {
+    const fwc = secoes.find((s) => s.sigla === "FWC");
+    const pares = paresDePaginas(layoutDeSecao(fwc).paginas);
+    expect(pares).toHaveLength(4);
+    for (const par of pares) {
+      expect(par).toHaveLength(2);
+    }
   });
 });
 

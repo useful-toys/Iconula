@@ -587,6 +587,7 @@ describe('Figurinha — nome no cartão (IDR 0047)', () => {
       nome: i === 1 ? 'Alisson' : i === 12 ? 'Foto do time' : undefined,
       nomeLinhas: i === 1 ? [null, 'Alisson'] : undefined,
       nomeCurto: i === 12 ? 'Foto' : null,
+      paisagem: i === 12,
     }));
     const layout = layoutDeSecao(secao);
     const paginaLayout1 = layout.paginas.find((p) => p.pagina === 1);

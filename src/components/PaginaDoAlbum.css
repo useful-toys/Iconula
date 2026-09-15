@@ -17,3 +17,14 @@
 .pagina-album__celula--paisagem {
   width: 100%;
 }
+
+/* Moldura discreta em volta de cada página do FWC, só nele: contorno de
+ * 1px em --border, recuo interno de 6px (o mesmo espaço entre casas) e
+ * raio de 8px — ajuda a ler a posição na página nas páginas esparsas (0,
+ * 106, 108); casas vazias não têm desenho próprio. Seleções e Coca-Cola
+ * seguem sem moldura (IDR 0023). */
+.pagina-album--fwc {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 6px;
+}

@@ -445,7 +445,7 @@ grade vinda do dado; depende da Fase 22, que dá às paisagens do FWC os
 |---|---|---|---|
 | 0001 | [Dimensão de cada página no layout de álbum](0023-extras-fifa-na-disposicao-album/0001-dimensao-de-cada-pagina-no-layout-de-album.md) | Páginas com linhas e colunas, posição pelo campo `posicao`, pares de páginas e página 1 da Coca-Cola com 2 linhas. | Concluída |
 | 0002 | [Páginas do FWC e página 0 no cabeçalho](0023-extras-fifa-na-disposicao-album/0002-paginas-do-fwc-e-pagina-zero-no-cabecalho.md) | `paginas` do FWC com as oito páginas físicas e `Extras FIFA FWC 0` no cabeçalho, sem seção sem páginas. | Concluída |
-| 0003 | [FWC na disposição álbum](0023-extras-fifa-na-disposicao-album/0003-fwc-na-disposicao-album.md) | Layout das oito páginas, casa de 70×70px, moldura e quatro pares, com `interface.md` atualizado. | Pendente |
+| 0003 | [FWC na disposição álbum](0023-extras-fifa-na-disposicao-album/0003-fwc-na-disposicao-album.md) | Layout das oito páginas, casa de 70×70px, moldura e quatro pares, com `interface.md` atualizado. | Concluída |
 
 ## Regras que valem em toda tarefa
 

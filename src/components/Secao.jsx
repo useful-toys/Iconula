@@ -156,7 +156,7 @@ export const Secao = memo(function Secao({
   const expandida = isControlado ? expandidaProp : expandidaInterna;
   const onToggle = isControlado ? onToggleProp : () => setExpandidaInterna((e) => !e);
 
-  // FWC sempre em lista (IDR 0023)
+  // Na disposição álbum, toda seção usa o layout, inclusive o FWC (IDR 0023)
   const layout = disposicao === 'album' ? layoutDeSecao(secao) : null;
   const usaAlbum = layout !== null;
 
@@ -179,6 +179,7 @@ export const Secao = memo(function Secao({
         <div className="secao__corpo" id={corpoId}>
           {usaAlbum ? (
             <CorpoAlbum
+              secao={secao}
               figurinhas={figurinhas}
               layout={layout}
               contagens={contagens}
@@ -213,9 +214,10 @@ export const Secao = memo(function Secao({
  * Corpo da seção na disposição álbum: um contêiner por par de páginas
  * (spread) do layout, na ordem, cada um com as páginas do par lado a
  * lado quando cabem e empilhadas quando não (IDR 0015); pares seguidos
- * ficam `--album-page-gap` um abaixo do outro (IDR 0023, MDR 0006).
+ * ficam `--album-page-gap` um abaixo do outro (IDR 0023, MDR 0006). No
+ * FWC, cada página ganha a casa de 70px e a moldura (IDR 0023).
  */
-function CorpoAlbum({ figurinhas, layout, contagens, onAjustar }) {
+function CorpoAlbum({ secao, figurinhas, layout, contagens, onAjustar }) {
   // Agrupa posições por página
   const posicoesPorPagina = new Map();
   for (const pos of layout.posicoes) {
@@ -225,6 +227,7 @@ function CorpoAlbum({ figurinhas, layout, contagens, onAjustar }) {
   }
 
   const pares = paresDePaginas(layout.paginas);
+  const comMoldura = secao.sigla === 'FWC';
 
   return (
     <div className="secao__album">
@@ -238,6 +241,7 @@ function CorpoAlbum({ figurinhas, layout, contagens, onAjustar }) {
               posicoes={posicoesPorPagina.get(pagina.pagina) ?? []}
               contagens={contagens}
               onAjustar={onAjustar}
+              comMoldura={comMoldura}
             />
           ))}
         </div>
