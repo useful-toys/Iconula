@@ -29,7 +29,8 @@ function propsEquivalentes(anterior, seguinte) {
     anterior.variante === seguinte.variante &&
     anterior.paisagem === seguinte.paisagem &&
     anterior.nome === seguinte.nome &&
-    anterior.nomeLinhas === seguinte.nomeLinhas
+    anterior.nomeLinhas === seguinte.nomeLinhas &&
+    anterior.nomeCurto === seguinte.nomeCurto
   );
 }
 
@@ -48,9 +49,10 @@ function propsEquivalentes(anterior, seguinte) {
  * @param {number} props.contagem - unidades registradas (0 a 99).
  * @param {boolean} [props.metalizada] - indica figurinha metalizada/especial.
  * @param {'lista' | 'album'} [props.variante='lista'] - tamanho do cartão.
- * @param {boolean} [props.paisagem=false] - figurinha em paisagem (ocupa 2 trilhas).
+ * @param {boolean} [props.paisagem=false] - cartão deitado (70×60px); o nome ocupa uma linha só.
  * @param {string} [props.nome] - nome completo (ex.: "Gabriel Magalhães"), no nome acessível.
- * @param {[string | null, string] | null} [props.nomeLinhas] - par [prenomes, sobrenome] para jogador com corte; [null, nome] para nome único; ausente/`null` sem corte — exibido só em FWC e COC; nas seleções (escudo e foto do time) o cartão mostra só o código (IDR 0047, MDR 0008).
+ * @param {[string | null, string] | null} [props.nomeLinhas] - par [prenomes, sobrenome] para jogador com corte; [null, nome] para nome único; ausente/`null` sem corte — exibido só em FWC e COC (IDR 0047, MDR 0008).
+ * @param {string} [props.nomeCurto] - rótulo de uma linha da paisagem (ex.: "Uruguai 1950"); exibido no lugar de `nome` quando existe — só as paisagens do FWC têm valor (MDR 0008).
  * @param {() => void} props.onIncrementar - chamado ao tocar no cartão.
  * @param {() => void} props.onDecrementar - chamado ao tocar no controle de menos.
  */
@@ -62,6 +64,7 @@ export const Figurinha = memo(function Figurinha({
   paisagem = false,
   nome,
   nomeLinhas,
+  nomeCurto,
   onIncrementar,
   onDecrementar,
 }) {
@@ -158,12 +161,11 @@ export const Figurinha = memo(function Figurinha({
   const sobrando = Math.max(0, contagem - 1);
   // O nome entra no nome acessível entre o código e o estado (IDR 0047).
   const nomeNoRotulo = nome ? `, ${nome}` : '';
-  // Escudo (01) e foto do time (13) das seleções mostram só o código, no
-  // cartão inteiro; o nome continua no nome acessível (IDR 0047). Nas
-  // seleções, só essas duas posições chegam sem corte (`nomeLinhas` nulo);
-  // Extras FIFA e Coca-Cola também, mas exibem o nome.
-  const especial = sigla === 'FWC' || sigla === 'COC';
-  const exibeNome = Boolean(nomeLinhas) || (Boolean(nome) && especial);
+  // Exibição do nome (IDR 0047): sem nome, nada; paisagem numa linha só —
+  // `nomeCurto` quando existe, senão o `nome` (foto do time); jogador com
+  // corte em prenomes/sobrenome; os demais (escudo, Extras FIFA e Coca-Cola)
+  // na caixa de até duas linhas.
+  const exibeNome = Boolean(nome);
 
   let estadoClasse = 'figurinha--faltante';
   let estadoLabel = 'faltante';
@@ -212,7 +214,11 @@ export const Figurinha = memo(function Figurinha({
           </span>
           {exibeNome && (
             <span className="figurinha__nome" aria-hidden="true">
-              {nomeLinhas ? (
+              {paisagem ? (
+                <span className="figurinha__nome-paisagem">
+                  {nomeCurto ?? nome}
+                </span>
+              ) : nomeLinhas ? (
                 <>
                   {nomeLinhas[0] && (
                     <span className="figurinha__nome-prenomes">{nomeLinhas[0]}</span>

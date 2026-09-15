@@ -195,6 +195,7 @@ export const Secao = memo(function Secao({
                   metalizada={figurinha.metalizada}
                   nome={figurinha.nome}
                   nomeLinhas={figurinha.nomeLinhas}
+                  nomeCurto={figurinha.nomeCurto}
                   variante="lista"
                   paisagem={figurinha.paisagem}
                   onIncrementar={() => onAjustar(figurinha.codigo, 1)}

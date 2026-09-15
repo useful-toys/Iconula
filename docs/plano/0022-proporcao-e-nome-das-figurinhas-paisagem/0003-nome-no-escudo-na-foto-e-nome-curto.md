@@ -3,7 +3,7 @@
 # Tarefa [0022-0003]: nome no escudo, na foto do time e nome curto
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Exibir o nome em todas as figurinhas: o escudo (01) com "Escudo do time" em

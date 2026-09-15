@@ -113,9 +113,13 @@
   line-height: 1.1;
 }
 
+/* Linhas de nome (IDR 0047): cada linha trunca com ellipsis. Prenomes,
+ * sobrenome e a linha única da paisagem (e a dos nomes sem corte) nunca
+ * quebram; só `.figurinha__nome-unico` é a caixa de até duas linhas. */
 .figurinha__nome-prenomes,
 .figurinha__nome-sobrenome,
-.figurinha__nome-unico {
+.figurinha__nome-unico,
+.figurinha__nome-paisagem {
   display: block;
   max-width: 100%;
   overflow: hidden;

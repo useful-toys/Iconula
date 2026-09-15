@@ -51,6 +51,7 @@ export function PaginaDoAlbum({ secao, figurinhas, posicoes, contagens, onAjusta
               metalizada={figurinha.metalizada}
               nome={figurinha.nome}
               nomeLinhas={figurinha.nomeLinhas}
+              nomeCurto={figurinha.nomeCurto}
               variante="album"
               paisagem={isPaisagem}
               onIncrementar={() => onAjustar(figurinha.codigo, 1)}
