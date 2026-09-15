@@ -68,6 +68,7 @@ Detalhes e status das tarefas no guia [CLAUDE.md](CLAUDE.md) § Status e ciclo d
 | 20 | [Contrair seções, rodapé e termos de uso](0020-contrair-secoes-rodape-e-termos/) | Contrair as seções de um super-grupo num toque; copyright, isenção e termos de uso nas duas telas | 19 | `feat: contrair seções do grupo, rodapé com copyright e termos de uso` | Entregue |
 | 21 | [Botão compartilhar](0021-botao-compartilhar/) | Listas de troca num botão próprio, com cópia e compartilhamento pela folha do sistema | 19, 20 | `feat: botão compartilhar com cópia e folha do sistema` | Entregue |
 | 22 | [Proporção e nome das figurinhas paisagem](0022-proporcao-e-nome-das-figurinhas-paisagem/) | Cartão de 60×70px, paisagem de 70×60px na 13 e em 15 figurinhas do FWC, nome no escudo e na foto do time e nome curto nas paisagens do FWC | 19 | `feat: figurinhas paisagem na proporção do cromo, com nome` | Entregue |
+| 23 | [Extras FIFA na disposição álbum](0023-extras-fifa-na-disposicao-album/) | Extras FIFA nas posições reais das páginas 0–3 e 106–109, com a dimensão de cada página vinda do dado | 22 | `feat: extras FIFA na disposição álbum com as posições reais` | Pendente |
 
 ---
 
@@ -425,6 +426,26 @@ As medidas vêm antes do dado para que as paisagens do FWC já nasçam em
 | 0001 | [Cartão de 60×70px e paisagem de 70×60px](0022-proporcao-e-nome-das-figurinhas-paisagem/0001-cartao-60x70-e-paisagem-70x60.md) | Medidas novas, linhas do álbum de 70px, paisagem centralizada no álbum e na lista e estimativa de altura da seção recalculada. | Concluída |
 | 0002 | [Paisagens do FWC e `nomeCurto` no catálogo](0022-proporcao-e-nome-das-figurinhas-paisagem/0002-paisagens-do-fwc-e-nome-curto-no-catalogo.md) | `FWC00`–`FWC03` e `FWC09`–`FWC19` em paisagem e os 15 nomes curtos do MDR 0008, com invariantes. | Concluída |
 | 0003 | [Nome no escudo, na foto e nome curto](0022-proporcao-e-nome-das-figurinhas-paisagem/0003-nome-no-escudo-na-foto-e-nome-curto.md) | Escudo com o nome em até duas linhas; toda paisagem numa linha, com o `nomeCurto` quando existe. | Concluída |
+
+## Fase 23 — Extras FIFA na disposição álbum
+
+Decisões do esmiuçamento: os Extras FIFA ganham disposição álbum com as
+posições reais das oito páginas (0–3 e 106–109), casa de 70×70px, quatro
+pares de páginas, linhas vazias preservadas, moldura só no FWC e cabeçalho
+`Extras FIFA FWC 0`
+([IDR 0023](../idr/0023-coca-cola-no-modo-album-fwc-sempre-lista.md),
+[TDR 0010](../tdr/0010-forma-do-catalogo-degradacao-do-checklist-e-sem-pipeline.md));
+o layout de álbum ganha a dimensão de cada página
+([MDR 0006](../model-dr/0006-catalogo-estatico-embutido.md)). O formato do
+layout vem antes do dado do FWC, para que a Coca-Cola e as seleções já usem a
+grade vinda do dado; depende da Fase 22, que dá às paisagens do FWC os
+70×60px que cabem na casa.
+
+| # | Tarefa | Objetivo | Status |
+|---|---|---|---|
+| 0001 | [Dimensão de cada página no layout de álbum](0023-extras-fifa-na-disposicao-album/0001-dimensao-de-cada-pagina-no-layout-de-album.md) | Páginas com linhas e colunas, posição pelo campo `posicao`, pares de páginas e página 1 da Coca-Cola com 2 linhas. | Pendente |
+| 0002 | [Páginas do FWC e página 0 no cabeçalho](0023-extras-fifa-na-disposicao-album/0002-paginas-do-fwc-e-pagina-zero-no-cabecalho.md) | `paginas` do FWC com as oito páginas físicas e `Extras FIFA FWC 0` no cabeçalho, sem seção sem páginas. | Pendente |
+| 0003 | [FWC na disposição álbum](0023-extras-fifa-na-disposicao-album/0003-fwc-na-disposicao-album.md) | Layout das oito páginas, casa de 70×70px, moldura e quatro pares, com `interface.md` atualizado. | Pendente |
 
 ## Regras que valem em toda tarefa
 
