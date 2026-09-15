@@ -110,7 +110,8 @@ com o catálogo inteiro em tela.
 
 - 2026-09-14 — Esmiuçamento: cartão de 60×70px e paisagem de 70×60px
   ([IDR 0047](0047-nomes-de-jogadores-nas-figurinhas.md)); o canto do menos
-  não muda. Implementação a planejar. Antes: cartão de 60×68px.
+  não muda. Implementação na Fase 0022, Tarefa 0022-0001. Antes: cartão de
+  60×68px.
 - 2026-09-14 — Revisão do PR da Fase 17: optamos por ajustar o layout do
   cartão ([IDR 0047](0047-nomes-de-jogadores-nas-figurinhas.md)) — duas
   metades (código em cima, nome embaixo), altura de 84px para 68px e escudo

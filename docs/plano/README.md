@@ -67,6 +67,7 @@ Detalhes e status das tarefas no guia [CLAUDE.md](CLAUDE.md) § Status e ciclo d
 | 19 | [Ajustes do cabeçalho e do cartão](0019-ajustes-do-cabecalho-e-do-cartao/) | Cabeçalho todo sticky, tooltip nas bandeiras, aviso mais baixo e as correções do controle de menos, do clique perto da borda e do selo cortado | 18 | `feat: ajustes do cabeçalho, tooltip nas bandeiras e correções do cartão` | Entregue |
 | 20 | [Contrair seções, rodapé e termos de uso](0020-contrair-secoes-rodape-e-termos/) | Contrair as seções de um super-grupo num toque; copyright, isenção e termos de uso nas duas telas | 19 | `feat: contrair seções do grupo, rodapé com copyright e termos de uso` | Entregue |
 | 21 | [Botão compartilhar](0021-botao-compartilhar/) | Listas de troca num botão próprio, com cópia e compartilhamento pela folha do sistema | 19, 20 | `feat: botão compartilhar com cópia e folha do sistema` | Pendente |
+| 22 | [Proporção e nome das figurinhas paisagem](0022-proporcao-e-nome-das-figurinhas-paisagem/) | Cartão de 60×70px, paisagem de 70×60px na 13 e em 15 figurinhas do FWC, nome no escudo e na foto do time e nome curto nas paisagens do FWC | 19 | `feat: figurinhas paisagem na proporção do cromo, com nome` | Pendente |
 
 ---
 
@@ -403,6 +404,27 @@ Depende da Fase 19 (posição do avatar) e da Fase 20 (`App.jsx`).
 |---|---|---|---|
 | 0001 | [Botão compartilhar com as cópias](0021-botao-compartilhar/0001-botao-compartilhar-com-as-copias.md) | Ícone à esquerda do avatar abre as duas cópias por lista; o menu do avatar fica com exportar, importar e sair. | Pendente |
 | 0002 | [Compartilhar pela folha do sistema](0021-botao-compartilhar/0002-compartilhar-pela-folha-do-sistema.md) | "Compartilhar faltantes…" e "Compartilhar repetidas…" onde `navigator.share` existe; cancelar não avisa, falha cai na cópia. | Pendente |
+
+## Fase 22 — Proporção e nome das figurinhas paisagem
+
+Decisões do esmiuçamento: cartão de 60×70px e paisagem de 70×60px — as
+medidas do retrato trocadas —, centralizada no espaço das trilhas 3–4 no
+álbum e na altura da linha na lista; escudo e foto do time com o nome
+genérico; paisagens do FWC com um nome curto numa linha
+([IDR 0047](../idr/0047-nomes-de-jogadores-nas-figurinhas.md)). As 15
+paisagens do FWC e o campo `nomeCurto` são dado
+([MDR 0006](../model-dr/0006-catalogo-estatico-embutido.md),
+[MDR 0008](../model-dr/0008-dados-dos-nomes-das-figurinhas.md)); trilhas,
+spread e o limite de 582px não mudam
+([IDR 0043](../idr/0043-padroes-de-primeira-abertura-por-faixa-de-tela.md)).
+As medidas vêm antes do dado para que as paisagens do FWC já nasçam em
+70×60px. Não altera os arquivos de código da Fase 21.
+
+| # | Tarefa | Objetivo | Status |
+|---|---|---|---|
+| 0001 | [Cartão de 60×70px e paisagem de 70×60px](0022-proporcao-e-nome-das-figurinhas-paisagem/0001-cartao-60x70-e-paisagem-70x60.md) | Medidas novas, linhas do álbum de 70px, paisagem centralizada no álbum e na lista e estimativa de altura da seção recalculada. | Pendente |
+| 0002 | [Paisagens do FWC e `nomeCurto` no catálogo](0022-proporcao-e-nome-das-figurinhas-paisagem/0002-paisagens-do-fwc-e-nome-curto-no-catalogo.md) | `FWC00`–`FWC03` e `FWC09`–`FWC19` em paisagem e os 15 nomes curtos do MDR 0008, com invariantes. | Pendente |
+| 0003 | [Nome no escudo, na foto e nome curto](0022-proporcao-e-nome-das-figurinhas-paisagem/0003-nome-no-escudo-na-foto-e-nome-curto.md) | Escudo com o nome em até duas linhas; toda paisagem numa linha, com o `nomeCurto` quando existe. | Pendente |
 
 ## Regras que valem em toda tarefa
 

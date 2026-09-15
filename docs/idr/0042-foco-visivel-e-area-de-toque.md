@@ -129,7 +129,8 @@ Contexto do IDR 0024.
 - 2026-09-14 — Esmiuçamento: com o cartão de 60×70px e a paisagem de
   70×60px ([IDR 0047](0047-nomes-de-jogadores-nas-figurinhas.md)), o menos
   continua 18px com alvo de 26×26px, contido nos dois formatos (a menor
-  dimensão, 60px, não muda). Implementação a planejar. Antes: cartão de
+  dimensão, 60px, não muda). Implementação na Fase 0022, Tarefa 0022-0001.
+  Antes: cartão de
   60×68px.
 - 2026-09-14 — Fase 0019, Tarefa 0019-0005: a pintura e a escala do retorno
   de toque passam do próprio `.figurinha__corpo` para um filho visual

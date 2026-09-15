@@ -85,7 +85,7 @@ Jogadores por seleção na ordem 1–18 da fonte, escritos como "Prenomes/Sobren
 - Todas as 994 figurinhas exibem nome
 - O catálogo passa a expor o nome completo e as duas linhas de exibição de cada figurinha, derivados de um arquivo próprio — o resto do app, o Firestore e o formato de intercâmbio não mudam ([MDR 0002](0002-schema-do-documento-da-colecao.md), [MDR 0004](0004-formato-de-intercambio-da-colecao.md))
 - `src/data/jogadores.js` é transcrição direta das listas deste registro — a conferência da Tarefa 0017-0001 é contra ele
-- `nomeCurto`: nova exportação em `jogadores.js`, novo campo emitido por `expandirFigurinhas` e invariantes em `jogadores.test.js`/`catalogo.test.js`; `docs/modelo-memoria.md` passa a listá-lo. Firestore e intercâmbio não mudam. Implementação: a planejar (/planejar).
+- `nomeCurto`: nova exportação em `jogadores.js`, novo campo emitido por `expandirFigurinhas` e invariantes em `jogadores.test.js`/`catalogo.test.js`; `docs/modelo-memoria.md` passa a listá-lo. Firestore e intercâmbio não mudam. Implementação: dado na Tarefa 0022-0002, exibição na Tarefa 0022-0003.
 
 ## Alternativas consideradas
 
@@ -105,7 +105,7 @@ Jogadores por seleção na ordem 1–18 da fonte, escritos como "Prenomes/Sobren
   ([IDR 0047](../idr/0047-nomes-de-jogadores-nas-figurinhas.md)); a figurinha
   ganha `nomeCurto`, com os 15 rótulos das paisagens do FWC aprovados pelo
   humano, porque numa linha os nomes completos truncariam iguais. Implementação
-  a planejar. Antes: nas posições fixas das seleções o nome não era exibido,
+  na Fase 0022. Antes: nas posições fixas das seleções o nome não era exibido,
   só entrava no nome acessível; três exportações, sem `nomeCurto`.
 - 2026-09-14 — Revisão do PR da Fase 17: optamos por ajustar o layout do
   cartão ([IDR 0047](../idr/0047-nomes-de-jogadores-nas-figurinhas.md)) —
