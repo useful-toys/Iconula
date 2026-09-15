@@ -33,6 +33,13 @@ describe("invariantes do catálogo", () => {
     );
   });
 
+  it("tem 63 paisagens no total: 48 seleções e 15 do FWC", () => {
+    const paisagens = figurinhas.filter((f) => f.paisagem);
+    expect(paisagens).toHaveLength(63);
+    expect(paisagens.filter((f) => f.secao === "FWC")).toHaveLength(15);
+    expect(paisagens.filter((f) => f.secao !== "FWC")).toHaveLength(48);
+  });
+
   it("nenhum código duplicado", () => {
     const codigos = figurinhas.map((f) => f.codigo);
     const unicos = new Set(codigos);
@@ -243,9 +250,36 @@ describe("expandirFigurinhas", () => {
     expect(fig13.paisagem).toBe(true);
   });
 
-  it("especiais não têm metalizada nem paisagem", () => {
+  it("o FWC não tem metalizada e marca paisagem em FWC00–FWC03 e FWC09–FWC19", () => {
     const fwc = secoes.find((s) => s.sigla === "FWC");
     const figs = expandirFigurinhas([fwc]);
+    const paisagens = new Set([
+      "FWC00",
+      "FWC01",
+      "FWC02",
+      "FWC03",
+      "FWC09",
+      "FWC10",
+      "FWC11",
+      "FWC12",
+      "FWC13",
+      "FWC14",
+      "FWC15",
+      "FWC16",
+      "FWC17",
+      "FWC18",
+      "FWC19",
+    ]);
+    for (const fig of figs) {
+      expect(fig.metalizada).toBe(false);
+      expect(fig.paisagem).toBe(paisagens.has(fig.codigo));
+    }
+    expect(figs.filter((f) => f.paisagem)).toHaveLength(15);
+  });
+
+  it("a Coca-Cola não tem metalizada nem paisagem", () => {
+    const coc = secoes.find((s) => s.sigla === "COC");
+    const figs = expandirFigurinhas([coc]);
     for (const fig of figs) {
       expect(fig.metalizada).toBe(false);
       expect(fig.paisagem).toBe(false);
@@ -294,6 +328,44 @@ describe("nomes das figurinhas", () => {
     expect(porCodigo.get("COC01").nomeLinhas).toBeNull();
     expect(porCodigo.get("COC14").nome).toBe("Lautaro Martínez");
     expect(porCodigo.get("COC14").nomeLinhas).toBeNull();
+  });
+
+  it("nomeCurto preenchido exatamente nas 15 paisagens do FWC", () => {
+    const comCurto = figurinhas.filter((f) => f.nomeCurto !== null);
+    expect(comCurto).toHaveLength(15);
+    expect(comCurto.map((f) => f.codigo)).toEqual([
+      "FWC00",
+      "FWC01",
+      "FWC02",
+      "FWC03",
+      "FWC09",
+      "FWC10",
+      "FWC11",
+      "FWC12",
+      "FWC13",
+      "FWC14",
+      "FWC15",
+      "FWC16",
+      "FWC17",
+      "FWC18",
+      "FWC19",
+    ]);
+    for (const fig of comCurto) {
+      expect(fig.paisagem).toBe(true);
+    }
+  });
+
+  it("nomeCurto traz o rótulo do MDR 0008 e null fora das paisagens do FWC", () => {
+    expect(porCodigo.get("FWC10").nomeCurto).toBe("Uruguai 1950");
+    expect(porCodigo.get("FWC19").nomeCurto).toBe("Argentina 2022");
+    expect(porCodigo.get("BRA13").nomeCurto).toBeNull();
+    expect(porCodigo.get("FWC04").nomeCurto).toBeNull();
+    expect(porCodigo.get("COC01").nomeCurto).toBeNull();
+  });
+
+  it("nome do FWC continua o completo, sem trocar pelo curto", () => {
+    expect(porCodigo.get("FWC00").nome).toBe("Escudo/Logo Oficial da Panini");
+    expect(porCodigo.get("FWC10").nome).toBe("Pôster Histórico – Uruguai 1950");
   });
 
   it("nome de seleção nunca contém a barra de corte", () => {

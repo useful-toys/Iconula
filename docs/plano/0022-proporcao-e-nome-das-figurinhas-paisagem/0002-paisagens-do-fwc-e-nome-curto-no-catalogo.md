@@ -3,7 +3,7 @@
 # Tarefa [0022-0002]: paisagens do FWC e `nomeCurto` no catálogo
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Marcar como paisagem `FWC00`–`FWC03` e `FWC09`–`FWC19`, como no cromo físico,
