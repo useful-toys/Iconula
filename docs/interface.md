@@ -45,17 +45,23 @@ demonstrar avisos) é andaime da prévia, não faz parte do produto.*
   desabilitado quando não há histórico — reverte a última alteração;
   repetido, as últimas 10
   (ver [IDR 0012](idr/0012-desfazer-no-cabecalho-historico-de-10.md))
+- Botão compartilhar: ícone de três nós ligados de 30×30px na primeira linha,
+  logo à esquerda do avatar, abre o popup com as duas cópias das listas de
+  troca (§ Compartilhar — ver
+  [IDR 0024](idr/0024-acoes-raras-em-menu-do-cabecalho.md) e
+  [IDR 0018](idr/0018-usuario-especialista-e-minimalismo.md))
 - Avatar do usuário: foto da conta Google (ou a inicial do nome; sem nome, o
-  glifo) de 30×30px na primeira linha, à direita do título, abre o popup com
-  os comandos raros — listas de troca, export/import e sair da conta (ver
-  [IDR 0049](idr/0049-avatar-como-gatilho-do-menu-de-acoes.md) e
+  glifo) de 30×30px na primeira linha, no extremo direito, à direita do
+  título, abre o popup com os comandos raros — export/import e sair da conta
+  (ver [IDR 0049](idr/0049-avatar-como-gatilho-do-menu-de-acoes.md) e
   [IDR 0024](idr/0024-acoes-raras-em-menu-do-cabecalho.md))
 - Tudo no cabeçalho sticky, em qualquer largura, nesta ordem: título →
   grupos segmentados → faixa de bandeiras; nada do cabeçalho rola com o
-  conteúdo. Cabendo, título, grupos, desfazer e avatar dividem uma linha;
-  quebrando (título em duas linhas ou grupos sem espaço), o avatar fica na
-  primeira linha, à direita do título, e os grupos descem para as linhas
-  seguintes, acima da faixa; o desfazer acompanha os grupos (ver
+  conteúdo. Cabendo, título, grupos, desfazer, compartilhar e avatar dividem
+  uma linha; quebrando (título em duas linhas ou grupos sem espaço), o
+  compartilhar e o avatar ficam na primeira linha, à direita do título, e os
+  grupos descem para as linhas seguintes, acima da faixa; o desfazer
+  acompanha os grupos (ver
   [IDR 0018](idr/0018-usuario-especialista-e-minimalismo.md))
 - Faixa de bandeiras (salto para seção): última linha do cabeçalho,
   abaixo dos grupos — uma linha com as 50 seções, bandeira da seleção ou
@@ -99,9 +105,12 @@ demonstrar avisos) é andaime da prévia, não faz parte do produto.*
   a linha seguinte quando não cabem na largura; o desfazer fica sempre
   colado à direita da linha dos grupos, separado dos alternadores pelo
   espaço que sobrar — some o filtro (disposição álbum) e ele não se move
-- À direita da linha dos grupos, o desfazer (`↺`); o avatar do usuário que
-  abre o menu de ações fica na primeira linha, à direita do título (ver
-  [IDR 0049](idr/0049-avatar-como-gatilho-do-menu-de-acoes.md))
+- À direita da linha dos grupos, o desfazer (`↺`); o botão compartilhar e o
+  avatar do usuário, que abrem os popups de listas de troca e de comandos
+  raros, ficam na primeira linha, à direita do título, com o compartilhar
+  logo à esquerda do avatar (ver
+  [IDR 0049](idr/0049-avatar-como-gatilho-do-menu-de-acoes.md) e
+  [IDR 0018](idr/0018-usuario-especialista-e-minimalismo.md))
 - Ordenação, disposição, filtro e o colapso manual de seções e
   super-grupos são lembrados entre sessões (`localStorage`, por
   dispositivo — ver
@@ -112,11 +121,9 @@ demonstrar avisos) é andaime da prévia, não faz parte do produto.*
 
 ### Menu de ações
 
-Popup aberto pelo avatar do usuário no cabeçalho, com cinco comandos (IDR 0024,
+Popup aberto pelo avatar do usuário no cabeçalho, com três comandos (IDR 0024,
 IDR 0049):
 
-- Copiar lista de **faltantes** para a área de transferência
-- Copiar lista de **repetidas** para a área de transferência
 - **Exportar** a coleção em JSON
 - **Importar** coleção de arquivo JSON — com a confirmação explícita
   exigida por requisitos.md; a importação descarta o histórico de
@@ -124,18 +131,36 @@ IDR 0049):
 - **Sair da conta** — grava o que estiver pendente e volta à tela de
   login
 
-Os cinco itens vêm em três blocos separados por filete: as duas
-cópias, a dupla exportar/importar e, isolado no fim, sair da conta —
+Os três itens vêm em dois blocos separados por filete: a dupla
+exportar/importar e, isolado no fim, sair da conta —
 este último em `--notif-red`, o único item vermelho da tela principal,
 porque é o único que tira o usuário de onde ele está. O popup é
 ancorado ao avatar que o abriu: alinhado pela borda direita, logo abaixo
 dele, painel `--panel` sobre borda `--border`, com
-sombra projetada que o descola do conteúdo por baixo.
+sombra projetada que o descola do conteúdo por baixo. As duas cópias das
+listas de troca saíram daqui na Tarefa 0021-0001, para o popup de
+§ Compartilhar.
 
 Fecha ao escolher um comando, ao tocar fora ou com `Esc`. Todo comando
-dá retorno na área de avisos — "lista copiada", "coleção exportada" —,
+dá retorno na área de avisos — "coleção exportada" —,
 efêmero como qualquer sucesso (ver
 [IDR 0029](idr/0029-avisos-flutuantes-com-tres-severidades.md)).
+
+#### Compartilhar
+
+Popup aberto pelo botão compartilhar, logo à esquerda do avatar (IDR 0024,
+IDR 0018), organizado por lista em dois blocos separados por filete:
+
+- Copiar lista de **faltantes** para a área de transferência
+- Copiar lista de **repetidas** para a área de transferência
+
+O texto é o de `requisitos.md` § Compartilhamento, sempre na ordem do álbum
+(IDR 0039). O popup é ancorado ao botão que o abriu, alinhado pela borda
+direita, logo abaixo dele, com o mesmo painel e a mesma sombra do menu de
+ações. Segue o mesmo comportamento de fechamento e foco: fecha ao escolher um
+item, ao tocar fora ou com `Esc`; ao abrir, o foco entra no primeiro item
+habilitado e volta ao botão ao fechar. O retorno ("lista copiada") sai na área
+de avisos (IDR 0029).
 
 ### Corpo
 - Grupos = seções do catálogo: 48 seleções e os especiais "Extras FIFA"
@@ -319,12 +344,12 @@ Só três coisas saem do fluxo da página, e nesta ordem de empilhamento:
 1. o **cabeçalho sticky**, que corre por cima do corpo enquanto a
    página rola;
 2. o **tooltip da faixa de bandeiras** — logo abaixo da bandeira sob o
-   cursor ou o foco, acima do cabeçalho e abaixo do menu de ações (ver
+   cursor ou o foco, acima do cabeçalho e abaixo dos popups (ver
    [IDR 0052](idr/0052-tooltip-nas-bandeiras-da-faixa.md));
 3. a **área de avisos**, colada à borda inferior — passa por cima do
    cabeçalho se um dia se encontrarem numa janela baixa;
-4. o **menu de ações**, acima de tudo — enquanto está aberto, nada o
-   cobre.
+4. os **popups do cabeçalho** (menu de ações e compartilhar), acima de
+   tudo — enquanto um está aberto, nada o cobre.
 
 O rodapé não flutua: rola com o conteúdo e aparece no fim da página.
 
@@ -337,7 +362,7 @@ Esquemático em texto; cores indicadas são as do
 
 ```
 ┌──────────────────────────────────────────────────────────────┐
-│  ICONULA 2026 · 412/994 · 41% · ▢582 · ×37 · 12:34    [ (D) ] │
+│  ICONULA 2026 · 412/994 · 41% · ▢582 · ×37 · 12:34 [↗] [ (D) ] │
 │  [álbum|sigla] [lista|álbum] [todas|falt|col|rep]       [↺]  │
 │  [🏆][ALG][ARG][AUS]…[USA][UZB][🥤] ── rolável ──▶          │
 ├──────────────────────────────────────────────────────────────┤
@@ -358,8 +383,10 @@ Esquemático em texto; cores indicadas são as do
   conteúdo (IDR 0018)
 - Faixa de bandeiras no cabeçalho (salto — IDR 0016): uma linha
   rolável horizontalmente — exceção pontual ao scroll único
-- `(D)` (avatar) abre o menu de ações (IDR 0024, IDR 0049): copiar
-  faltantes, copiar repetidas, exportar JSON, importar JSON
+- `↗︎` (compartilhar) abre o popup das listas de troca (IDR 0024, IDR 0018):
+  copiar faltantes, copiar repetidas — logo à esquerda do avatar
+- `(D)` (avatar) abre o menu de ações (IDR 0024, IDR 0049): exportar JSON,
+  importar JSON e sair da conta
 - Avisos (IDR 0029): caixa flutuante colada à borda inferior — sucesso e
   aviso somem em 5s, a falha fica e revela a mensagem técnica ao toque;
   nunca log com scroll
@@ -688,6 +715,10 @@ tabela do [IDR 0046](idr/0046-cores-de-selecoes.md): os 48 tokens
 - Desfazer: botão de 30×30px, raio 8px, borda e texto em `--gold`,
   colado à direita da linha dos grupos; em tela sensível, área de toque
   ampliada, sem crescer visualmente (IDR 0042)
+- Botão compartilhar: 30×30px, raio 8px, borda e ícone (três nós ligados,
+  SVG inline) em `--gold`, logo à esquerda do avatar; mesma área de toque
+  ampliada do avatar (metade do espaçamento de 8px) e mesmo foco visível,
+  sem sobrepor a área dele (IDR 0024, IDR 0042)
 - Avatar do usuário: foto circular de 30×30px, sem borda; sem foto, a
   inicial maiúscula do nome em `--gold` sobre `--panel` com borda `--gold`;
   sem nome, o glifo do menu; mesma área de toque ampliada e mesmo foco
@@ -758,10 +789,10 @@ tabela do [IDR 0046](idr/0046-cores-de-selecoes.md): os 48 tokens
   aviso `oklch(0.34 0.13 80)` sob `--gold`; texto claro em 13px,
   detalhe técnico em monospace 11px, `×` de dispensar em 16px na ponta
   direita
-- Menu de ações: painel de largura mínima 230px, raio 10px e `6px` de
-  respiro interno, aberto logo abaixo do avatar e alinhado pela direita;
-  itens de `9px 12px` em 13px, raio 7px; filetes de 1px
-  em `--border` com margem `4px 6px`; sombra `0 8px 24px`
+- Menu de ações e compartilhar: painel de largura mínima 230px, raio 10px e
+  `6px` de respiro interno, aberto logo abaixo do botão que o abriu e
+  alinhado pela direita; itens de `9px 12px` em 13px, raio 7px; filetes de
+  1px em `--border` com margem `4px 6px`; sombra `0 8px 24px` (IDR 0024)
 - Links: `--gold`, sem sublinhado, opacidade 0.8 sob o cursor
 - Rodapé: 11px em `--muted`, borda superior `--border`, linhas empilhadas na
   ordem do copyright, aviso de marcas, isenção e a linha com os dois links —

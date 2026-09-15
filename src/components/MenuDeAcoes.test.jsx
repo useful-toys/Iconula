@@ -36,30 +36,26 @@ describe('MenuDeAcoes', () => {
     expect(screen.getByRole('menu')).toBeInTheDocument();
   });
 
-  it('traz os cinco comandos em três blocos separados por filete', async () => {
+  it('traz os três comandos em dois blocos separados por filete', async () => {
     const user = userEvent.setup();
     renderizar();
     await user.click(botaoDoMenu());
 
     const itens = screen.getAllByRole('menuitem');
-    expect(itens).toHaveLength(5);
+    expect(itens).toHaveLength(3);
     expect(itens.map((item) => item.textContent)).toEqual([
-      'Copiar lista de faltantes',
-      'Copiar lista de repetidas',
       'Exportar coleção (JSON)',
       'Importar coleção (JSON)',
       'Sair da conta',
     ]);
-    expect(document.querySelectorAll('.menu-de-acoes__filete')).toHaveLength(2);
+    expect(document.querySelectorAll('.menu-de-acoes__filete')).toHaveLength(1);
   });
 
-  it('os quatro comandos de conteúdo ficam desabilitados sem callback', async () => {
+  it('os dois comandos de conteúdo ficam desabilitados sem callback', async () => {
     const user = userEvent.setup();
     renderizar();
     await user.click(botaoDoMenu());
 
-    expect(screen.getByRole('menuitem', { name: 'Copiar lista de faltantes' })).toBeDisabled();
-    expect(screen.getByRole('menuitem', { name: 'Copiar lista de repetidas' })).toBeDisabled();
     expect(screen.getByRole('menuitem', { name: 'Exportar coleção (JSON)' })).toBeDisabled();
     expect(screen.getByRole('menuitem', { name: 'Importar coleção (JSON)' })).toBeDisabled();
     // "Sair da conta" sempre tem ação real, nunca fica desabilitado.
@@ -68,15 +64,15 @@ describe('MenuDeAcoes', () => {
 
   it('um comando de conteúdo com callback fica habilitado e chama o callback', async () => {
     const user = userEvent.setup();
-    const onCopiarFaltantes = vi.fn();
-    renderizar({ onCopiarFaltantes });
+    const onExportar = vi.fn();
+    renderizar({ onExportar });
     await user.click(botaoDoMenu());
 
-    const item = screen.getByRole('menuitem', { name: 'Copiar lista de faltantes' });
+    const item = screen.getByRole('menuitem', { name: 'Exportar coleção (JSON)' });
     expect(item).toBeEnabled();
 
     await user.click(item);
-    expect(onCopiarFaltantes).toHaveBeenCalledTimes(1);
+    expect(onExportar).toHaveBeenCalledTimes(1);
   });
 
   it('"Sair da conta" é o único item marcado como vermelho, isolado no fim', async () => {
@@ -85,8 +81,8 @@ describe('MenuDeAcoes', () => {
     await user.click(botaoDoMenu());
 
     const itens = screen.getAllByRole('menuitem');
-    expect(itens[4]).toHaveClass('menu-de-acoes__item--sair');
-    itens.slice(0, 4).forEach((item) => {
+    expect(itens[2]).toHaveClass('menu-de-acoes__item--sair');
+    itens.slice(0, 2).forEach((item) => {
       expect(item).not.toHaveClass('menu-de-acoes__item--sair');
     });
   });
@@ -142,10 +138,10 @@ describe('MenuDeAcoes', () => {
 
   it('com o primeiro item habilitado, o foco entra nele ao abrir', async () => {
     const user = userEvent.setup();
-    renderizar({ onCopiarFaltantes: vi.fn() });
+    renderizar({ onExportar: vi.fn() });
     await user.click(botaoDoMenu());
 
-    expect(screen.getByRole('menuitem', { name: 'Copiar lista de faltantes' })).toHaveFocus();
+    expect(screen.getByRole('menuitem', { name: 'Exportar coleção (JSON)' })).toHaveFocus();
   });
 
   it('escolher um item devolve o foco ao botão', async () => {

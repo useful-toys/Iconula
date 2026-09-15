@@ -4,18 +4,19 @@ import { FaixaDeSecoes } from './FaixaDeSecoes.jsx';
 import './Cabecalho.css';
 
 /**
- * Cabeçalho principal do app: placar geral, relógio, avatar e faixa de
- * bandeiras para salto.
+ * Cabeçalho principal do app: placar geral, relógio, comandos (compartilhar e
+ * avatar) e faixa de bandeiras para salto.
  *
  * A notação compacta é visível (`412/994 · 41% · ▢582 · ×37 · —`). O nome
  * acessível escreve os números por extenso, para que o leitor de tela não
  * dependa dos glifos `▢` e `×`.
  *
  * O `<header>` é o próprio elemento sticky em qualquer largura (sem ponto de
- * quebra): o título, o avatar, os controles e a faixa ficam dentro dele e
- * nada rola com o conteúdo. Cabendo tudo, os quatro dividem uma linha e a
- * faixa vai abaixo; não cabendo, o avatar fica preso à direita do título na
- * primeira linha e os grupos descem (IDR 0018).
+ * quebra): o título, os comandos, os controles e a faixa ficam dentro dele e
+ * nada rola com o conteúdo. Cabendo tudo, título, grupos, desfazer, botão
+ * compartilhar e avatar dividem uma linha e a faixa vai abaixo; não cabendo,
+ * compartilhar e avatar ficam presos à direita do título na primeira linha e
+ * os grupos descem (IDR 0018).
  *
  * @param {object} props
  * @param {number} props.coladas - códigos com contagem ≥ 1.
@@ -31,11 +32,14 @@ import './Cabecalho.css';
  * @param {Map<string, {coladas: number; faltantes: number; repetidas: number; percentual: number}>} [props.placarPorSecao] -
  *   progresso de cada seção (sigla → placar) para o tooltip da faixa
  *   (Tarefa 0019-0002, IDR 0052).
+ * @param {import('react').ReactNode} [props.compartilhar] - o botão
+ *   compartilhar (listas de troca), logo à esquerda do avatar, na primeira
+ *   linha (IDR 0018, IDR 0024).
  * @param {import('react').ReactNode} [props.avatar] - o avatar do usuário
- *   (menu de ações), preso à direita da primeira linha, ao lado do título
+ *   (menu de ações), no extremo direito da primeira linha, ao lado do título
  *   (IDR 0049).
  * @param {import('react').ReactNode} [props.children] - a linha de controles,
- *   renderizada dentro do `<header>`, depois do avatar e antes da faixa.
+ *   renderizada dentro do `<header>`, depois dos comandos e antes da faixa.
  */
 export function Cabecalho({
   coladas,
@@ -47,6 +51,7 @@ export function Cabecalho({
   ordenacao,
   onSaltar,
   placarPorSecao,
+  compartilhar,
   avatar,
   children,
 }) {
@@ -87,7 +92,12 @@ export function Cabecalho({
         </span>
         <span className="cabecalho__relogio">{relogio}</span>
       </h1>
-      {avatar && <div className="cabecalho__avatar">{avatar}</div>}
+      {(compartilhar || avatar) && (
+        <div className="cabecalho__acoes">
+          {compartilhar}
+          {avatar && <div className="cabecalho__avatar">{avatar}</div>}
+        </div>
+      )}
       {children}
       <FaixaDeSecoes
         secoes={secoes}

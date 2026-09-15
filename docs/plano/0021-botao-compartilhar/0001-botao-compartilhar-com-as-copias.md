@@ -3,7 +3,7 @@
 # Tarefa [0021-0001]: botão compartilhar com as cópias das listas de troca
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Levar as duas cópias de listas de troca do menu do avatar para um botão

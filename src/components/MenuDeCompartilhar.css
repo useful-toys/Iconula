@@ -1,0 +1,95 @@
+/* Copyright (c) 2026 Daniel Felix Ferber */
+
+.menu-de-compartilhar {
+  position: relative;
+}
+
+/* 30x30px, raio 8px, borda e texto --gold — mesma medida do avatar e do
+   desfazer (docs/interface.md § Medidas, IDR 0024). */
+.menu-de-compartilhar__botao {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  color: var(--gold);
+  background: transparent;
+  border: 1px solid var(--gold);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.menu-de-compartilhar__botao:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+.menu-de-compartilhar__icone {
+  display: block;
+}
+
+/* Área de toque ampliada em tela sensível (IDR 0042): o botão visível
+ * continua 30×30px; um `::before` invisível estende a zona clicável até a
+ * metade do espaçamento de 8px que o separa do avatar, sem sobrepor a área
+ * dele. */
+@media (pointer: coarse) {
+  .menu-de-compartilhar__botao::before {
+    content: '';
+    position: absolute;
+    inset: -4px;
+  }
+}
+
+/* Alinhado pela borda direita do botão, logo abaixo dele, para crescer no
+   sentido do título e nunca passar por baixo do avatar; z-index 30 — acima do
+   cabeçalho (10) e da área de avisos (20), docs/interface.md § Camadas. */
+.menu-de-compartilhar__painel {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  z-index: 30;
+  min-width: 230px;
+  display: flex;
+  flex-direction: column;
+  padding: 6px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.menu-de-compartilhar__item {
+  appearance: none;
+  width: 100%;
+  text-align: left;
+  padding: 9px 12px;
+  font-family: inherit;
+  font-size: 13px;
+  color: var(--cream);
+  background: transparent;
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+}
+
+.menu-de-compartilhar__item:hover:not(:disabled) {
+  background: var(--turf-deep);
+}
+
+.menu-de-compartilhar__item:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: -2px;
+}
+
+.menu-de-compartilhar__item:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.menu-de-compartilhar__filete {
+  height: 1px;
+  margin: 4px 6px;
+  background: var(--border);
+}
