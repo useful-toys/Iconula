@@ -35,8 +35,8 @@ Aceito.
   Termos de uso." — vale a cada login; "Termos de uso" é link.
   - O passo de atestação ([IDR 0036](0036-atestacao-passo-explicito-e-falha-de-gravacao.md))
     e `atestadoEm` não mudam.
-- No cartão da tela de login, os links "Política de privacidade · Termos de
-  uso" na mesma linha.
+- No cartão da tela de login, o link "Política de privacidade" abaixo da
+  frase de aceite — o link dos termos fica dentro dela, sem repetir.
 - **Conteúdo dos termos**, nesta ordem: aceite; o que é o serviço (gratuito,
   independente); uso no estado em que se encontra, sem garantia de
   disponibilidade nem contra perda de dados (o exportar como proteção);
@@ -81,5 +81,9 @@ Aceito.
 
 ## Histórico
 
+- 2026-09-14 — Revisão no PR da Fase 0020: na tela de login, "Termos de uso"
+  aparecia duas vezes (link dentro da frase de aceite e de novo na linha
+  abaixo); a linha do cartão passa a trazer só "Política de privacidade".
+  Aprovado pelo humano na revisão do PR.
 - 2026-09-13 — Criado no esmiuçamento de contrair seções, rodapé e
   compartilhar; implementação a planejar.

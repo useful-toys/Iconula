@@ -197,3 +197,16 @@ fica pendente de aprovação do humano no PR da fase, como a tarefa prevê
 - `docs/plano/README.md` — status da tarefa
 - `docs/plano/0020-contrair-secoes-rodape-e-termos/0003-termos-de-uso-e-aceite-no-login.md`
   — status
+
+## Correções pós-PR
+- 2026-09-14 — Revisão do PR #53: na tela de login, "Termos de uso" aparecia
+  duas vezes (link dentro da frase de aceite e de novo na linha de links do
+  cartão). O humano pediu para remover a repetição e escolheu manter o link
+  na frase de aceite, tirando-o da linha. Correção: `TelaDeLogin.jsx` deixa a
+  linha só com "Política de privacidade" (o `.tela-de-login__separador` foi
+  removido do CSS, sem uso), e `TelaDeLogin.test.jsx` e `App.termos.test.jsx`
+  refletem a linha única.
+  Como isso altera decisão documentada vigente (nível 3), o
+  [IDR 0053](../../../idr/0053-termos-de-uso-e-rodape-com-copyright-e-isencao.md)
+  foi atualizado (Decisão e Histórico) com a aprovação do humano, e
+  `docs/interface.md` § Tela de login acompanhou.

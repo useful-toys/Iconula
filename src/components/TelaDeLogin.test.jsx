@@ -41,7 +41,7 @@ describe("TelaDeLogin", () => {
     expect(within(atestacao).getByRole("button", { name: "Termos de uso" })).toBeInTheDocument();
 
     expect(container.querySelector(".tela-de-login__links").textContent).toBe(
-      "Política de privacidade · Termos de uso",
+      "Política de privacidade",
     );
   });
 
@@ -75,7 +75,7 @@ describe("TelaDeLogin", () => {
     expect(onAbrirPolitica).toHaveBeenCalledTimes(1);
   });
 
-  it("os links dos termos (frase de aceite e cartão) são acionáveis sem sessão", async () => {
+  it("o link dos termos na frase de aceite é acionável sem sessão", async () => {
     const user = userEvent.setup();
     const onAbrirTermos = vi.fn();
     const { container } = render(<TelaDeLogin onAbrirTermos={onAbrirTermos} />);
@@ -83,10 +83,6 @@ describe("TelaDeLogin", () => {
     const atestacao = container.querySelector(".tela-de-login__atestacao");
     await user.click(within(atestacao).getByRole("button", { name: "Termos de uso" }));
     expect(onAbrirTermos).toHaveBeenCalledTimes(1);
-
-    const links = container.querySelector(".tela-de-login__links");
-    await user.click(within(links).getByRole("button", { name: "Termos de uso" }));
-    expect(onAbrirTermos).toHaveBeenCalledTimes(2);
   });
 
   it("falha de login mostra mensagem em role=alert", async () => {

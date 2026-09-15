@@ -72,11 +72,6 @@
   cursor: pointer;
 }
 
-.tela-de-login__separador {
-  margin: 0 6px;
-  color: var(--muted);
-}
-
 /* Reaproveitado por Atestacao.jsx (Tarefa 0008-0003), que segue o desenho
    desta tela — mesmo cartão, mesmos tokens, sem layout novo. Distinto do
    botão do Google: dourado/controle-ativo, não branco — o branco continua
