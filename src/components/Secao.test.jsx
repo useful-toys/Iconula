@@ -259,10 +259,14 @@ describe('Secao', () => {
       total: 20,
     };
 
+    const PAISAGENS_FWC = new Set([0, 1, 2, 3, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]);
+
     const figurinhasFwc = Array.from({ length: 20 }, (_, i) => ({
       codigo: `FWC${String(i).padStart(2, '0')}`,
+      posicao: i,
       secao: 'FWC',
       metalizada: false,
+      paisagem: PAISAGENS_FWC.has(i),
     }));
 
     it('Coca-Cola usa disposição álbum com 3 trilhas por página', () => {
@@ -300,8 +304,8 @@ describe('Secao', () => {
       expect(celula14.style.gridRow).toBe('3');
     });
 
-    it('FWC sempre usa lista contínua, mesmo na disposição álbum', () => {
-      const { container } = render(
+    it('FWC usa disposição álbum', () => {
+      const { container, rerender } = render(
         <Secao
           secao={secaoFwc}
           figurinhas={figurinhasFwc}
@@ -311,18 +315,46 @@ describe('Secao', () => {
         />,
       );
 
-      // FWC não deve ter páginas do álbum
+      // Quatro pares (0|1, 2|3, 106|107, 108|109) e oito páginas
+      const pares = container.querySelectorAll('.secao__album__par');
+      expect(pares).toHaveLength(4);
       const paginas = container.querySelectorAll('.pagina-album');
-      expect(paginas).toHaveLength(0);
+      expect(paginas).toHaveLength(8);
 
-      // FWC deve ter a grade de lista
-      const grade = container.querySelector('.secao__grade');
-      expect(grade).toBeInTheDocument();
+      // As 20 figurinhas, uma casa cada
+      const celulas = container.querySelectorAll('.pagina-album__celula');
+      expect(celulas).toHaveLength(20);
 
-      // Cabeçalho mostra a página 0 também na disposição álbum
+      // Nenhuma grade de lista
+      expect(container.querySelector('.secao__grade')).not.toBeInTheDocument();
+
+      // Página física 0 (primeira página): grid de 4 linhas × 3 colunas de
+      // 70px, com FWC00 na linha 1, coluna 2
+      const pagina0 = paginas[0];
+      expect(pagina0.style.gridTemplateRows).toBe('repeat(4, 70px)');
+      expect(pagina0.style.gridTemplateColumns).toBe('repeat(3, 70px)');
+      const celulaFwc00 = pagina0.querySelector('.pagina-album__celula');
+      expect(celulaFwc00.style.gridRow).toBe('1');
+      expect(celulaFwc00.style.gridColumn).toBe('2 / span 1');
+
+      // Moldura só no FWC
+      expect(pagina0).toHaveClass('pagina-album--fwc');
+
+      // Cabeçalho mostra a página 0
       expect(container.textContent).toContain('Extras FIFA FWC 0');
 
-      // Todas as 20 figurinhas devem estar presentes
+      // Na disposição lista, o FWC continua em lista
+      rerender(
+        <Secao
+          secao={secaoFwc}
+          figurinhas={figurinhasFwc}
+          contagens={{}}
+          onAjustar={vi.fn()}
+          disposicao="lista"
+        />,
+      );
+      expect(container.querySelector('.secao__grade')).toBeInTheDocument();
+      expect(container.querySelectorAll('.pagina-album')).toHaveLength(0);
       for (let i = 0; i <= 19; i++) {
         const numero = String(i).padStart(2, '0');
         expect(screen.getByRole('button', { name: `FWC ${numero}, faltante` })).toBeInTheDocument();

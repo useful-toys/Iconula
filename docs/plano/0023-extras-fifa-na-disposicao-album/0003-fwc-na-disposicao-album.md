@@ -3,7 +3,7 @@
 # Tarefa [0023-0003]: FWC na disposição álbum
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Exibir os Extras FIFA na disposição álbum com as posições reais das oito

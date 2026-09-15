@@ -12,6 +12,7 @@ const figurinhasBrasil = Array.from({ length: 20 }, (_, i) => ({
   codigo: `BRA${String(i + 1).padStart(2, '0')}`,
   posicao: i + 1,
   metalizada: i === 0,
+  paisagem: i + 1 === 13,
 }));
 
 describe('PaginaDoAlbum', () => {
@@ -232,5 +233,85 @@ describe('PaginaDoAlbum', () => {
     const celulas = screen.getAllByRole('button');
     expect(celulas[0]).toHaveAccessibleName(/XXX 06/);
     expect(celulas[1]).toHaveAccessibleName(/XXX 05/);
+  });
+
+  describe('FWC (comMoldura): casa de 70px e moldura', () => {
+    const secaoFwc = {
+      sigla: 'FWC',
+      nome: 'Extras FIFA',
+      icone: '🏆',
+      paginas: [0, 1, 2, 3, 106, 107, 108, 109],
+    };
+    const PAISAGENS_FWC = new Set([0, 1, 2, 3, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]);
+    const figurinhasFwc = Array.from({ length: 20 }, (_, i) => ({
+      codigo: `FWC${String(i).padStart(2, '0')}`,
+      posicao: i,
+      metalizada: false,
+      paisagem: PAISAGENS_FWC.has(i),
+    }));
+
+    it('página do FWC com a classe de moldura e trilhas de 70px', () => {
+      const layout = layoutDeSecao(secaoFwc);
+      // Página física 1 (índice 2 do layout): FWC01–03 paisagem, FWC04 retrato
+      const paginaLayout = layout.paginas.find((p) => p.pagina === 2);
+      const posicoesPagina = layout.posicoes.filter((p) => p.pagina === 2);
+
+      const { container } = render(
+        <PaginaDoAlbum
+          pagina={paginaLayout}
+          figurinhas={figurinhasFwc}
+          posicoes={posicoesPagina}
+          contagens={{}}
+          onAjustar={vi.fn()}
+          comMoldura
+        />
+      );
+
+      const grid = container.querySelector('.pagina-album');
+      expect(grid).toHaveClass('pagina-album--fwc');
+      expect(grid.style.gridTemplateColumns).toBe('repeat(3, 70px)');
+      expect(grid.style.gridTemplateRows).toBe('repeat(4, 70px)');
+    });
+
+    it('FWC01 paisagem numa casa de uma trilha', () => {
+      const layout = layoutDeSecao(secaoFwc);
+      const paginaLayout = layout.paginas.find((p) => p.pagina === 2);
+      const posicoesPagina = layout.posicoes.filter((p) => p.pagina === 2);
+
+      render(
+        <PaginaDoAlbum
+          pagina={paginaLayout}
+          figurinhas={figurinhasFwc}
+          posicoes={posicoesPagina}
+          contagens={{}}
+          onAjustar={vi.fn()}
+          comMoldura
+        />
+      );
+
+      const celulaFwc01 = screen.getByRole('button', { name: /FWC 01/ }).closest('.pagina-album__celula');
+      expect(celulaFwc01).toHaveClass('pagina-album__celula--paisagem');
+      expect(celulaFwc01.style.gridColumn).toBe('3 / span 1');
+    });
+
+    it('seleção sem moldura', () => {
+      const layout = layoutDeSecao(secaoBrasil);
+      const paginaLayout = layout.paginas.find((p) => p.pagina === 1);
+      const posicoesPagina1 = layout.posicoes.filter((p) => p.pagina === 1);
+
+      const { container } = render(
+        <PaginaDoAlbum
+          pagina={paginaLayout}
+          figurinhas={figurinhasBrasil}
+          posicoes={posicoesPagina1}
+          contagens={{}}
+          onAjustar={vi.fn()}
+        />
+      );
+
+      const grid = container.querySelector('.pagina-album');
+      expect(grid).not.toHaveClass('pagina-album--fwc');
+      expect(grid.style.gridTemplateColumns).toBe('repeat(4, 60px)');
+    });
   });
 });
