@@ -3,7 +3,7 @@
 # Tarefa [0023-0002]: páginas do FWC e página 0 no cabeçalho
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Dar à seção FWC as oito páginas físicas confirmadas (0–3 e 106–109) e mostrar

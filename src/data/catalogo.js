@@ -96,9 +96,10 @@ const selecoes = [
 
 /**
  * Extras FIFA (`FWC`): troféu, mascotes e campeãs do passado — parte da
- * numeração oficial, mas sem seleção própria. A página exata é pendência
- * do checklist (`requisitos.md` § Decisões Pendentes); degrada para
- * `paginas: null`, e o cabeçalho da seção omite o número (ver TDR 0010).
+ * numeração oficial, mas sem seleção própria. As páginas físicas foram
+ * confirmadas pelo humano a partir do álbum físico (0–3 e 106–109); o
+ * cabeçalho da seção mostra a primeira, `0`, como nas demais seções (ver
+ * TDR 0010).
  */
 const fwc = {
   sigla: "FWC",
@@ -106,7 +107,7 @@ const fwc = {
   tipo: "especial",
   icone: "🏆",
   grupo: null,
-  paginas: null,
+  paginas: [0, 1, 2, 3, 106, 107, 108, 109],
   inicio: 0,
   total: 20,
 };
