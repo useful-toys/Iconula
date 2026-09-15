@@ -2,7 +2,7 @@
 
 .pagina-album {
   display: grid;
-  grid-template-rows: repeat(3, 68px);
+  grid-template-rows: repeat(3, 70px);
   gap: 6px;
   flex-shrink: 0;
 }
@@ -13,6 +13,8 @@
   justify-content: center;
 }
 
+/* A posição da paisagem reserva as trilhas 3–4 (126px); o cartão de 70×60px
+ * fica centralizado nesse espaço nos dois eixos, sem ser esticado (IDR 0047). */
 .pagina-album__celula--paisagem {
   width: 100%;
 }

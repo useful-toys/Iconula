@@ -12,17 +12,21 @@
   filter: brightness(0.6);
 }
 
-/* Cartão de 60×68px igual nas duas disposições (IDR 0047) — a variante
+/* Cartão de 60×70px igual nas duas disposições (IDR 0047) — a variante
  * permanece só como gancho de classe. */
 .figurinha--lista,
 .figurinha--album {
   width: 60px;
-  height: 68px;
+  height: 70px;
 }
 
-/* Figurinha 13: paisagem, duas trilhas de 60px mais o gap de 6px entre elas. */
+/* Paisagem (13 das seleções e as paisagens do FWC): 70×60px — as medidas do
+ * retrato com largura e altura trocadas — nas duas disposições (IDR 0047).
+ * No álbum o cartão fica centralizado no espaço das duas trilhas que a
+ * posição reserva. */
 .figurinha--paisagem {
-  width: 126px;
+  width: 70px;
+  height: 60px;
 }
 
 .figurinha__corpo {
@@ -228,7 +232,8 @@
  * continua 18px (não muda o desenho nem as medidas): um `::before` invisível
  * estende só a zona clicável. Encostado nas bordas, o alvo cresce só para
  * dentro do cartão — 4px para cima e para a direita —, contido no cartão de
- * 60×68px e sem disputar toque com o cartão vizinho.
+ * 60×70px (retrato) e 70×60px (paisagem), e sem disputar toque com o cartão
+ * vizinho.
  */
 @media (pointer: coarse) {
   .figurinha__menos::before {

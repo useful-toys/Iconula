@@ -150,6 +150,10 @@
 .secao__grade {
   display: flex;
   flex-wrap: wrap;
+  /* Centraliza a figurinha paisagem (60px de altura) na altura da linha de
+   * cartões de 70px (IDR 0047); os retratos preenchem a linha inteira, então
+   * não mudam. */
+  align-items: center;
   gap: var(--card-gap-list);
 }
 

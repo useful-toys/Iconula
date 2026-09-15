@@ -207,8 +207,8 @@ cópia, com o aviso e a reserva do
   sem seções visíveis também (ver
   [IDR 0025](idr/0025-filtro-oculta-secoes-vazias.md))
 - Dentro do grupo, grade de figurinhas; na lista, a figurinha paisagem (13
-  das seleções) mantém a proporção paisagem, com a mesma largura de duas
-  trilhas do álbum (IDR 0047)
+  das seleções) tem 70×60px, centralizada na altura da linha de cartões de
+  70px (IDR 0047)
 
 ### Disposição "Como no álbum"
 
@@ -229,8 +229,8 @@ em vez de grade uniforme que se ajusta à largura da tela.
 
 #### Seleções — 4 trilhas por página
 
-Todas as figurinhas do mesmo tamanho, exceto a 13: paisagem, ocupa duas
-trilhas (mais larga, mesma altura); as demais em retrato.
+Todas as figurinhas em retrato, exceto a 13: paisagem de 70×60px,
+centralizada no espaço das trilhas 3 e 4 (IDR 0047).
 
 **Coluna 1 — figurinhas 1 a 10, em três linhas:**
 - Linha 1: figurinhas 1 e 2 alinhadas à direita do bloco (posições 3 e
@@ -240,7 +240,7 @@ trilhas (mais larga, mesma altura); as demais em retrato.
 
 **Coluna 2 — figurinhas 11 a 20, em três linhas:**
 - Linha 1: figurinhas 11 e 12 em retrato (trilhas 1 e 2) e a figurinha
-  13 em paisagem ocupando as trilhas 3 e 4
+  13 em paisagem de 70×60px nas trilhas 3 e 4
 - Linha 2: figurinhas 14 a 17 — preenchem as 4 trilhas
 - Linha 3: figurinhas 18, 19 e 20 alinhadas à direita do bloco
   (posições 2, 3 e 4 — a posição 1 fica vazia)
@@ -765,15 +765,16 @@ tabela do [IDR 0046](idr/0046-cores-de-selecoes.md): os 48 tokens
   `--panel` (FWC e COC incluídos), raio 12px, `padding: 7px 12px`;
   ícone 18px, nome 14px/600 em `--cream`, números em `--muted`
   (IDR 0046, IDR 0050)
-- Cartão: 60×68px na lista e no álbum, paisagem 126×68px também nas duas
-  (duas trilhas mais o gap de 6px), raio 5px — duas metades de 32px úteis cada: código
-  centrado na de cima, nome na de baixo, com menos e selo por cima do nome;
-  sem nome visível (escudo e foto do time), código centrado no cartão
-  inteiro (IDR 0047)
+- Cartão: 60×70px na lista e no álbum, paisagem 70×60px também nas duas
+  disposições, raio 5px — duas metades de 33px úteis no retrato e 28px na
+  paisagem: código centrado na de cima, nome na de baixo, com menos e selo
+  por cima do nome; sem nome visível (escudo e foto do time), código centrado
+  no cartão inteiro (IDR 0047)
 - Código do cartão em Poppins 700, sigla 10px com `letter-spacing: .03em`
   sobre número 13px, tipografia única nas duas disposições (IDR 0047)
-- Cartão no álbum: grade de trilhas de 60px e linhas de 68px, 6px de
-  espaçamento; a figurinha 13 ocupa duas trilhas (IDR 0015, IDR 0047)
+- Cartão no álbum: grade de trilhas de 60px e linhas de 70px, 6px de
+  espaçamento; a figurinha 13 é paisagem de 70×60px, centralizada no espaço
+  das trilhas 3 e 4 (IDR 0015, IDR 0047)
 - Faltante: fundo `--panel`, borda 2px tracejada `--muted`, texto
   `--muted`, opacidade 0.6 — o "cartão esvaziado" do IDR 0006
 - Colada e repetida: fundo e borda sólidos na cor do estado, texto
