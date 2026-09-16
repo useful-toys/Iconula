@@ -770,7 +770,8 @@ claro (IDR 0022).
 | `--coc-red` | `oklch(0.55 0.2 29)` | identidade da Coca-Cola (título do super-grupo, faixa de bandeiras) |
 | `--group-fwc` | `var(--gold)` | alias de `--gold` para os Extras FIFA |
 | `--group-coc` | `var(--coc-red)` | alias de `--coc-red` para a Coca-Cola |
-| `--selection-<sigla>` | tabela do IDR 0046 | identidade da seleção (cabeçalho de seção) |
+| `--selection-<sigla>-1/-2/-3` | tabela do IDR 0046 | cores da bandeira da seleção, por posição no degradê da seção: 1 topo, 2 canto inferior esquerdo, 3 canto inferior direito — variante ajustada (fundo tingido); nas cores sem ajuste, serve também à moldura |
+| `--selection-<sigla>-N-raw` | tabela do IDR 0046 | cor original da bandeira (moldura), só nas posições marcadas "→ aj." |
 | `--selection-fwc` | `var(--group-fwc)` | alias de `--group-fwc` para os Extras FIFA |
 | `--selection-coc` | `var(--group-coc)` | alias de `--group-coc` para a Coca-Cola |
 
@@ -788,10 +789,20 @@ original e um único token cobre as duas finalidades — só D, F, I e L têm
 `-raw`. As cores são aplicadas no título do super-grupo e na faixa de
 bandeiras.
 
-As 48 seleções têm cor de identidade no cabeçalho de seção, com os valores da
-tabela do [IDR 0046](idr/0046-cores-de-selecoes.md): os 48 tokens
-`--selection-<sigla>`. Os especiais FWC e COC usam os alias `--selection-fwc`
-(de `--group-fwc`) e `--selection-coc` (de `--group-coc`).
+As 48 seleções têm as cores da própria bandeira na seção, com os valores da
+tabela do [IDR 0046](idr/0046-cores-de-selecoes.md): até 3 tokens por
+seleção, um por posição no degradê da moldura e do fundo — `-1` no topo
+(onde fica o título), `-2` no canto inferior esquerdo e `-3` no direito.
+Onde a 2ª e a 3ª cor da bandeira coincidem, o token `-2` cobre as duas
+posições; onde as três coincidem, só `-1` existe. Cada posição segue a
+convenção de duas variantes das cores de grupo (IDR 0045): o token sem
+sufixo é a **ajustada** (luminosidade mínima para ≥ 3:1 contra `--bg`, no
+fundo tingido a 25%) e o sufixo `-raw` é a **original** sem ajuste (na
+moldura) — só as posições marcadas "→ aj." na tabela têm `-raw`; nas demais
+a original já atinge o contraste mínimo e um único token serve à moldura e
+ao fundo. Os especiais FWC e COC usam os alias `--selection-fwc` (de
+`--group-fwc`) e `--selection-coc` (de `--group-coc`), de cor única, sem
+degradê.
 
 ### Tipografia
 

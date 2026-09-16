@@ -3,7 +3,7 @@
 # Tarefa [0026-0001]: cores de bandeira por seleção em OKLCH
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Substituir os 48 tokens de cor única por seleção por até 3 tokens de cor da

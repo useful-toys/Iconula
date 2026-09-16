@@ -49,58 +49,181 @@
   --group-coc: var(--coc-red);
 
   /* Cores de seleção — IDR 0046 e docs/interface.md § Paleta.
-   * Identidade das 48 seleções, com os valores da tabela do IDR 0046; FWC e
-   * COC são alias das cores de grupo (IDR 0045). Usadas no cabeçalho de
-   * seção (Tarefa 0016-0002). Cores repetidas entre seleções são aceitas: a
-   * bandeira, o nome e a sigla distinguem as seções. */
-  --selection-alg: oklch(0.65 0.147 149);
-  --selection-arg: oklch(0.54 0.095 258);
-  --selection-aus: oklch(0.54 0.116 256);
-  --selection-aut: oklch(0.62 0.154 39);
-  --selection-bel: oklch(0.58 0.186 30);
-  --selection-bih: oklch(0.53 0.103 252);
-  --selection-bra: oklch(0.65 0.147 149);
-  --selection-can: oklch(0.71 0.13 34);
-  --selection-civ: oklch(0.61 0.13 152);
-  --selection-cod: oklch(0.54 0.095 258);
-  --selection-col: oklch(0.73 0.129 74);
-  --selection-cpv: oklch(0.6 0.086 268);
-  --selection-cro: oklch(0.62 0.154 39);
-  --selection-cuw: oklch(0.53 0.108 253);
-  --selection-cze: oklch(0.59 0.073 251);
-  --selection-ecu: oklch(0.67 0.128 69);
-  --selection-egy: oklch(0.73 0.129 74);
-  --selection-eng: oklch(0.58 0.186 30);
-  --selection-esp: oklch(0.62 0.154 39);
-  --selection-fra: oklch(0.6 0.086 268);
-  --selection-ger: oklch(0.58 0.186 30);
-  --selection-gha: oklch(0.73 0.129 74);
-  --selection-hai: oklch(0.52 0.112 262);
-  --selection-irn: oklch(0.65 0.147 149);
-  --selection-irq: oklch(0.62 0.154 39);
-  --selection-jor: oklch(0.65 0.147 149);
-  --selection-jpn: oklch(0.62 0.154 39);
-  --selection-kor: oklch(0.52 0.122 257);
-  --selection-ksa: oklch(0.61 0.154 140);
-  --selection-mar: oklch(0.59 0.139 38);
-  --selection-mex: oklch(0.65 0.147 149);
-  --selection-ned: oklch(0.6 0.086 268);
-  --selection-nor: oklch(0.6 0.086 268);
-  --selection-nzl: oklch(0.54 0.116 256);
-  --selection-pan: oklch(0.58 0.186 30);
-  --selection-par: oklch(0.62 0.154 39);
-  --selection-por: oklch(0.65 0.147 149);
-  --selection-qat: oklch(0.67 0.099 11);
-  --selection-rsa: oklch(0.75 0.162 64);
-  --selection-sco: oklch(0.6 0.093 216);
-  --selection-sen: oklch(0.74 0.15 66);
-  --selection-sui: oklch(0.65 0.133 61);
-  --selection-swe: oklch(0.54 0.095 258);
-  --selection-tun: oklch(0.62 0.154 39);
-  --selection-tur: oklch(0.64 0.17 28);
-  --selection-uru: oklch(0.54 0.095 258);
-  --selection-usa: oklch(0.54 0.095 258);
-  --selection-uzb: oklch(0.61 0.085 218);
+   * Identidade das 48 seleções pelas 2 ou 3 cores da própria bandeira, com os
+   * valores da tabela do IDR 0046; FWC e COC são alias das cores de grupo
+   * (IDR 0045). Cada cor da bandeira tem posição fixa no degradê da seção
+   * (Tarefa 0026-0002): `-1` é o topo (onde fica o título), `-2` o canto
+   * inferior esquerdo e `-3` o direito. Onde a 2ª e a 3ª cor da bandeira
+   * coincidem, o token `-2` cobre as duas posições; onde as três coincidem,
+   * só `-1` existe — sem duplicar.
+   *
+   * Mesma convenção de duas variantes das cores de grupo (IDR 0045): o token
+   * sem sufixo é a cor ajustada (luminosidade mínima para ≥ 3:1 contra
+   * `--bg`, usada no fundo tingido a 25% da Tarefa 0026-0002) e o sufixo
+   * `-raw` é a cor original sem ajuste (usada na moldura). Só as posições
+   * marcadas "→ aj." na tabela do IDR 0046 têm `-raw`: nas demais a original
+   * já atinge o contraste mínimo, a ajustada é a própria original e um único
+   * token serve à moldura e ao fundo. Cores repetidas entre seleções são
+   * aceitas: a bandeira, o nome e a sigla distinguem as seções. */
+  --selection-alg-1-raw: oklch(0.44 0.11 154);
+  --selection-alg-1: oklch(0.50 0.11 154);
+  --selection-alg-2: oklch(1.00 0.00 90);
+  --selection-alg-3: oklch(0.55 0.22 21);
+  --selection-arg-1: oklch(0.72 0.09 247);
+  --selection-arg-2: oklch(1.00 0.00 90);
+  --selection-aus-1-raw: oklch(0.29 0.20 264);
+  --selection-aus-1: oklch(0.52 0.20 264);
+  --selection-aus-2: oklch(1.00 0.00 90);
+  --selection-aus-3: oklch(0.54 0.21 24);
+  --selection-aut-1: oklch(0.61 0.23 24);
+  --selection-bel-1-raw: oklch(0.00 0.00 0);
+  --selection-bel-1: oklch(0.51 0.00 0);
+  --selection-bel-2: oklch(0.89 0.18 97);
+  --selection-bel-3: oklch(0.61 0.23 24);
+  --selection-bih-1-raw: oklch(0.34 0.19 264);
+  --selection-bih-1: oklch(0.52 0.19 264);
+  --selection-bih-2: oklch(0.86 0.18 90);
+  --selection-bih-3: oklch(1.00 0.00 90);
+  --selection-bra-1: oklch(0.87 0.18 93);
+  --selection-bra-2: oklch(0.59 0.17 148);
+  --selection-bra-3-raw: oklch(0.31 0.14 262);
+  --selection-bra-3: oklch(0.51 0.14 262);
+  --selection-can-1: oklch(0.63 0.26 29);
+  --selection-civ-1: oklch(0.73 0.18 54);
+  --selection-civ-2: oklch(1.00 0.00 90);
+  --selection-civ-3: oklch(0.60 0.17 150);
+  --selection-cod-1: oklch(0.61 0.21 256);
+  --selection-cod-2: oklch(0.88 0.18 98);
+  --selection-cod-3: oklch(0.54 0.21 26);
+  --selection-col-1: oklch(0.87 0.18 93);
+  --selection-col-2-raw: oklch(0.37 0.16 261);
+  --selection-col-2: oklch(0.51 0.16 261);
+  --selection-col-3: oklch(0.54 0.21 25);
+  --selection-cpv-1-raw: oklch(0.37 0.16 261);
+  --selection-cpv-1: oklch(0.51 0.16 261);
+  --selection-cpv-2: oklch(1.00 0.00 90);
+  --selection-cpv-3: oklch(0.87 0.18 95);
+  --selection-cro-1: oklch(0.63 0.26 29);
+  --selection-cro-2: oklch(1.00 0.00 90);
+  --selection-cro-3-raw: oklch(0.33 0.19 269);
+  --selection-cro-3: oklch(0.52 0.19 269);
+  --selection-cuw-1-raw: oklch(0.33 0.15 262);
+  --selection-cuw-1: oklch(0.52 0.15 262);
+  --selection-cuw-2: oklch(0.87 0.18 93);
+  --selection-cze-1-raw: oklch(0.39 0.11 254);
+  --selection-cze-1: oklch(0.51 0.11 254);
+  --selection-cze-2: oklch(1.00 0.00 90);
+  --selection-cze-3: oklch(0.56 0.22 28);
+  --selection-ecu-1: oklch(0.90 0.19 98);
+  --selection-ecu-2-raw: oklch(0.44 0.15 257);
+  --selection-ecu-2: oklch(0.51 0.15 257);
+  --selection-ecu-3: oklch(0.60 0.23 27);
+  --selection-egy-1: oklch(0.54 0.21 25);
+  --selection-egy-2: oklch(1.00 0.00 90);
+  --selection-egy-3-raw: oklch(0.00 0.00 0);
+  --selection-egy-3: oklch(0.51 0.00 0);
+  --selection-eng-1: oklch(0.54 0.21 25);
+  --selection-esp-1-raw: oklch(0.47 0.18 26);
+  --selection-esp-1: oklch(0.53 0.18 26);
+  --selection-esp-2: oklch(0.83 0.17 90);
+  --selection-fra-1-raw: oklch(0.45 0.15 254);
+  --selection-fra-1: oklch(0.51 0.15 254);
+  --selection-fra-2: oklch(1.00 0.00 90);
+  --selection-fra-3: oklch(0.63 0.21 29);
+  --selection-ger-1-raw: oklch(0.00 0.00 0);
+  --selection-ger-1: oklch(0.51 0.00 0);
+  --selection-ger-2: oklch(0.56 0.23 29);
+  --selection-ger-3: oklch(0.87 0.18 91);
+  --selection-gha-1: oklch(0.54 0.21 25);
+  --selection-gha-2: oklch(0.87 0.18 93);
+  --selection-gha-3-raw: oklch(0.46 0.11 157);
+  --selection-gha-3: oklch(0.50 0.11 157);
+  --selection-hai-1-raw: oklch(0.35 0.20 264);
+  --selection-hai-1: oklch(0.52 0.20 264);
+  --selection-hai-2: oklch(0.55 0.22 21);
+  --selection-irn-1: oklch(0.62 0.17 147);
+  --selection-irn-2: oklch(1.00 0.00 90);
+  --selection-irn-3: oklch(0.56 0.23 29);
+  --selection-irq-1: oklch(0.54 0.21 25);
+  --selection-irq-2: oklch(1.00 0.00 90);
+  --selection-irq-3-raw: oklch(0.00 0.00 0);
+  --selection-irq-3: oklch(0.51 0.00 0);
+  --selection-jor-1-raw: oklch(0.00 0.00 0);
+  --selection-jor-1: oklch(0.51 0.00 0);
+  --selection-jor-2: oklch(1.00 0.00 90);
+  --selection-jor-3: oklch(0.54 0.21 25);
+  --selection-jpn-1-raw: oklch(0.50 0.20 21);
+  --selection-jpn-1: oklch(0.54 0.20 21);
+  --selection-jpn-2: oklch(1.00 0.00 90);
+  --selection-kor-1: oklch(0.56 0.19 23);
+  --selection-kor-2-raw: oklch(0.42 0.16 258);
+  --selection-kor-2: oklch(0.51 0.16 258);
+  --selection-kor-3: oklch(1.00 0.00 90);
+  --selection-ksa-1-raw: oklch(0.47 0.12 152);
+  --selection-ksa-1: oklch(0.50 0.12 152);
+  --selection-ksa-2: oklch(1.00 0.00 90);
+  --selection-mar-1-raw: oklch(0.53 0.19 25);
+  --selection-mar-1: oklch(0.53 0.19 25);
+  --selection-mar-2-raw: oklch(0.44 0.11 154);
+  --selection-mar-2: oklch(0.50 0.11 154);
+  --selection-mex-1-raw: oklch(0.44 0.10 161);
+  --selection-mex-1: oklch(0.50 0.10 161);
+  --selection-mex-2: oklch(1.00 0.00 90);
+  --selection-mex-3: oklch(0.54 0.21 25);
+  --selection-ned-1-raw: oklch(0.49 0.18 24);
+  --selection-ned-1: oklch(0.53 0.18 24);
+  --selection-ned-2: oklch(1.00 0.00 90);
+  --selection-ned-3-raw: oklch(0.41 0.12 261);
+  --selection-ned-3: oklch(0.51 0.12 261);
+  --selection-nor-1: oklch(0.61 0.23 27);
+  --selection-nor-2: oklch(1.00 0.00 90);
+  --selection-nor-3-raw: oklch(0.27 0.11 261);
+  --selection-nor-3: oklch(0.51 0.11 261);
+  --selection-nzl-1-raw: oklch(0.31 0.15 263);
+  --selection-nzl-1: oklch(0.52 0.15 263);
+  --selection-nzl-2: oklch(0.54 0.21 24);
+  --selection-nzl-3: oklch(1.00 0.00 90);
+  --selection-pan-1-raw: oklch(0.43 0.13 251);
+  --selection-pan-1: oklch(0.51 0.13 251);
+  --selection-pan-2: oklch(0.56 0.22 28);
+  --selection-pan-3: oklch(1.00 0.00 90);
+  --selection-par-1: oklch(0.57 0.21 30);
+  --selection-par-2: oklch(1.00 0.00 90);
+  --selection-par-3-raw: oklch(0.40 0.19 262);
+  --selection-par-3: oklch(0.52 0.19 262);
+  --selection-por-1-raw: oklch(0.46 0.12 154);
+  --selection-por-1: oklch(0.50 0.12 154);
+  --selection-por-2: oklch(0.56 0.23 28);
+  --selection-por-3: oklch(0.87 0.18 90);
+  --selection-qat-1-raw: oklch(0.42 0.15 10);
+  --selection-qat-1: oklch(0.53 0.15 10);
+  --selection-qat-2: oklch(1.00 0.00 90);
+  --selection-rsa-1: oklch(0.51 0.12 159);
+  --selection-rsa-2: oklch(0.82 0.17 79);
+  --selection-rsa-3: oklch(0.59 0.20 28);
+  --selection-sco-1-raw: oklch(0.51 0.16 253);
+  --selection-sco-1: oklch(0.51 0.16 253);
+  --selection-sco-2: oklch(1.00 0.00 90);
+  --selection-sen-1: oklch(0.54 0.15 151);
+  --selection-sen-2: oklch(0.94 0.18 105);
+  --selection-sen-3: oklch(0.58 0.23 27);
+  --selection-sui-1: oklch(0.63 0.26 29);
+  --selection-swe-1: oklch(0.51 0.13 244);
+  --selection-swe-2: oklch(0.86 0.18 91);
+  --selection-tun-1: oklch(0.58 0.24 28);
+  --selection-tur-1: oklch(0.58 0.23 28);
+  --selection-uru-1-raw: oklch(0.40 0.19 262);
+  --selection-uru-1: oklch(0.52 0.19 262);
+  --selection-uru-2: oklch(1.00 0.00 90);
+  --selection-uru-3: oklch(0.87 0.18 93);
+  --selection-usa-1-raw: oklch(0.38 0.09 282);
+  --selection-usa-1: oklch(0.52 0.09 282);
+  --selection-usa-2-raw: oklch(0.50 0.18 21);
+  --selection-usa-2: oklch(0.53 0.18 21);
+  --selection-usa-3: oklch(1.00 0.00 90);
+  --selection-uzb-1: oklch(0.63 0.11 217);
+  --selection-uzb-2: oklch(1.00 0.00 90);
+  --selection-uzb-3: oklch(0.68 0.20 145);
   --selection-fwc: var(--group-fwc);
   --selection-coc: var(--group-coc);
 
