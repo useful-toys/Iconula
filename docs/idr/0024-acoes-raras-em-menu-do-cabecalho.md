@@ -90,7 +90,8 @@ fora, só que disparado por perda de foco em vez de clique (ver
 - Sem custo em leituras ou escritas — salvo a chave do link do catálogo,
   1 escrita ao ligar ou desligar
   ([MDR 0002](../model-dr/0002-schema-do-documento-da-colecao.md))
-- Terceiro bloco do link: implementação a planejar (/planejar)
+- Terceiro bloco do link: implementação na [Fase 0027](../plano/0027-catalogo-compartilhado-por-link/) — Tarefa 0027-0004
+  (chave) e Tarefa 0027-0005 (copiar e compartilhar o link)
 - Implementação: Fase 0021 — Tarefa 0021-0001 (botão compartilhar com as
   cópias) e Tarefa 0021-0002 (folha do sistema); depois da Fase 0019
   (cabeçalho todo sticky)

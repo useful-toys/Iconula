@@ -45,6 +45,26 @@ Aceito.
 - **Sem identidade do dono**: nenhum nome, foto ou dado da conta aparece
   na vista nem se torna público — quem manda o link já está identificado
   na conversa
+- **Textos visíveis**
+  - rótulo `somente leitura` em `--muted`, no fim da linha do título
+  - chave `Link do catálogo: ligado` / `Link do catálogo: desligado`
+  - itens `Copiar link do catálogo` e `Compartilhar link do catálogo…`
+  - avisos de sucesso `Link ligado`, `Link desligado`, `Link copiado` e
+    `Link compartilhado`
+  - falhas `Falha ao ligar o link — toque para detalhes`, `Falha ao
+    desligar o link — toque para detalhes` e `Falha ao carregar o catálogo
+    — toque para detalhes`
+  - link desligado ou inexistente: `Este catálogo não está compartilhado.`
+    e o link `Conhecer o Iconula`
+- **Política de privacidade**
+  - § Onde os dados ficam: "Nenhum outro terceiro tem acesso a esses dados
+    além do Google, que já processa o login pelo próprio provedor, e, se
+    você ligar o link do catálogo, de quem tiver o link."
+  - seção nova "Link do catálogo": "Se você ligar o link do catálogo, a sua
+    coleção (contagens e data da última gravação) fica visível, sem login, a
+    qualquer pessoa que tenha o link, até você desligá-lo. O link contém um
+    identificador interno da sua conta; seu nome, e-mail e foto não
+    aparecem."
 - **Vista = tela principal sem edição**
   - mantém: título com placar e relógio (`updatedAt` do dono,
     [IDR 0027](0027-relogio-do-titulo-e-o-updatedat-do-documento.md)),
@@ -52,6 +72,9 @@ Aceito.
     de seções e super-grupos e rodapé com política e termos
   - some: desfazer, botão compartilhar, avatar, toque que soma, controle de
     menos e pressão longa — os cartões não reagem a toque
+  - cartões **sem papel de botão e fora da ordem de tabulação**, com o nome
+    acessível preservado (código, nome e contagem) — o teclado percorre
+    controles, faixa e títulos de seção, não 994 cartões inertes
   - rótulo curto "somente leitura" no título
 - **Estados**
   - carregando: tela neutra
@@ -78,6 +101,10 @@ Aceito.
     ([IDR 0029](0029-avisos-flutuantes-com-tres-severidades.md)); sem
     rede, a espera do
     [TDR 0019](../tdr/0019-espera-sem-rede-via-corrida-com-timeout-e-callback.md)
+  - "Compartilhar link do catálogo…" entrega à folha do sistema **só a
+    `url`**; "Copiar link do catálogo" copia só a URL; cancelar a folha não
+    avisa, outra falha cai na cópia com a reserva do
+    [IDR 0039](0039-texto-de-troca-ordem-fixa-e-copia-manual-de-reserva.md)
   - sem confirmação para ligar ou desligar — é reversível
     ([IDR 0010](0010-desfazer-ajustes-em-vez-de-confirmacoes.md))
 - **Preferências de vista na vista do link: lê, mas não grava**
@@ -104,7 +131,13 @@ Aceito.
   acesso…") muda junto
 - Primeiro endereço próprio de tela — gatilho de revisão do
   [TDR 0020](../tdr/0020-privacidade-como-vista-interna.md)
-- Implementação: a planejar (/planejar).
+- Implementação: [Fase 0027](../plano/0027-catalogo-compartilhado-por-link/)
+  - Tarefa 0027-0001 — regras e campo `linkAtivo`
+  - Tarefa 0027-0002 — catálogo e cabeçalho em somente leitura
+  - Tarefa 0027-0003 — vista do link, estados e preferências
+  - Tarefa 0027-0004 — chave do link no popup Compartilhar
+  - Tarefa 0027-0005 — copiar e compartilhar o link
+  - Tarefa 0027-0006 — política de privacidade, `noindex` e e2e
 
 ## Alternativas consideradas
 
@@ -148,10 +181,18 @@ Aceito.
   que o dispositivo costuma ver o catálogo.
 - **Sem `noindex`**: recusada — catálogos ligados poderiam ser indexados
   se o link vazar para página pública.
+- **Cartões como botões desabilitados** na vista: recusada — o leitor de
+  tela anunciaria 994 botões indisponíveis e o teclado pararia em cada um.
+- **URL com texto curto na folha do sistema** ("Minhas figurinhas no
+  Iconula"): recusada — apps que juntam `text` e `url` duplicam o cabeçalho,
+  como já se viu na Tarefa 0021-0002.
 - **Primeiro nome da conta na vista**: recusada — grava dado pessoal no
   Firestore e o torna público, sem ganho para quem recebe o link na
   própria conversa.
 
 ## Histórico
 
+- 2026-09-16 — Planejamento da Fase 0027: textos visíveis, texto da
+  política, cartões sem papel de botão e folha do sistema só com a `url`;
+  implementação na Fase 0027.
 - 2026-09-16 — Esmiuçamento: decisão criada; implementação a planejar.

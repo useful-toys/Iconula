@@ -50,6 +50,8 @@ Aceito.
   pelo [IDR 0043](0043-padroes-de-primeira-abertura-por-faixa-de-tela.md)
 - Um dado local a mais no cliente, além do cache do SDK — sem dado
   pessoal, sem impacto na política de privacidade
+- Leitura sem gravação na vista do link: implementação na [Fase 0027](../plano/0027-catalogo-compartilhado-por-link/),
+  Tarefa 0027-0003
 
 ## Alternativas consideradas
 
