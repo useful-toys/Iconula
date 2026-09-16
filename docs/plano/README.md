@@ -69,7 +69,7 @@ Detalhes e status das tarefas no guia [CLAUDE.md](CLAUDE.md) § Status e ciclo d
 | 21 | [Botão compartilhar](0021-botao-compartilhar/) | Listas de troca num botão próprio, com cópia e compartilhamento pela folha do sistema | 19, 20 | `feat: botão compartilhar com cópia e folha do sistema` | Entregue |
 | 22 | [Proporção e nome das figurinhas paisagem](0022-proporcao-e-nome-das-figurinhas-paisagem/) | Cartão de 60×70px, paisagem de 70×60px na 13 e em 15 figurinhas do FWC, nome no escudo e na foto do time e nome curto nas paisagens do FWC | 19 | `feat: figurinhas paisagem na proporção do cromo, com nome` | Entregue |
 | 23 | [Extras FIFA na disposição álbum](0023-extras-fifa-na-disposicao-album/) | Extras FIFA nas posições reais das páginas 0–3 e 106–109, com a dimensão de cada página vinda do dado | 22 | `feat: extras FIFA na disposição álbum com as posições reais` | Entregue |
-| 24 | [Testes E2E com emuladores do Firebase](0024-testes-e2e-com-emuladores-do-firebase/) | Playwright rodando contra os emuladores de Auth e Firestore, com login duplo e fixture de coleção, provado por um teste de fumaça | — | `test: adiciona testes e2e com playwright e emuladores do firebase` | Em andamento |
+| 24 | [Testes E2E com emuladores do Firebase](0024-testes-e2e-com-emuladores-do-firebase/) | Playwright rodando contra os emuladores de Auth e Firestore, com login duplo e fixture de coleção, provado por um teste de fumaça | — | `test: adiciona testes e2e com playwright e emuladores do firebase` | Entregue |
 
 ---
 
