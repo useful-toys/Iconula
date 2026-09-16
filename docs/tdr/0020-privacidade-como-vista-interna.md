@@ -56,7 +56,7 @@ caso concreto em que a pergunta se coloca de verdade.
   reavaliar — react-router (ou similar) passa a valer a complexidade.
 - Um estado único impede duas vistas ligadas ao mesmo tempo.
 - Implementação da vista de termos: Fase 0020, Tarefa 0020-0003.
-- Implementação do caminho `/catalogo/<uid>`: a planejar (/planejar).
+- Implementação do caminho `/catalogo/<uid>`: [Fase 0027](../plano/0027-catalogo-compartilhado-por-link/), Tarefa 0027-0003.
 
 ## Alternativas consideradas
 

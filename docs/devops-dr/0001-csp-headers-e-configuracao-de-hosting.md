@@ -39,7 +39,7 @@ Aceito (consolida TDR 0002, TDR 0005 e TDR 0007)
 - `/catalogo/**`: `X-Robots-Tag: noindex` — a vista do link
   ([IDR 0055](../idr/0055-catalogo-compartilhado-por-link-somente-leitura.md)) não entra em buscadores, nem se o link
   vazar para página pública
-- Implementação: a planejar (/planejar)
+- Implementação: [Fase 0027](../plano/0027-catalogo-compartilhado-por-link/), Tarefa 0027-0006
 
 ### Cache (TDR 0002)
 

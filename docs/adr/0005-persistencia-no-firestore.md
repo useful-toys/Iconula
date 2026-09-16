@@ -73,7 +73,7 @@ O que procede da objeção independentemente: **no plano Blaze, São Paulo é ma
 - **O projeto passa a ter regras de segurança para manter**, com deploy próprio e testes próprios — ver [DDR 0004](../devops-dr/0004-deploy-e-teste-das-regras-do-firestore.md).
 - **Um `firebase deploy` sem `--only`** passa a publicar regras além do Hosting.
 - **Cota:** 1 leitura por login (e menos, servindo do cache local); 1 escrita por agregação; +1 escrita única de atestação por conta; import = 1 escrita — folga grande na cota do Spark.
-- **Link do catálogo:** 1 leitura por abertura, sem login, e 1 escrita ao ligar ou desligar ([IDR 0055](../idr/0055-catalogo-compartilhado-por-link-somente-leitura.md)); leituras repetidas por terceiros consomem a cota do projeto — é o gatilho de abuso acima. Implementação: a planejar (/planejar).
+- **Link do catálogo:** 1 leitura por abertura, sem login, e 1 escrita ao ligar ou desligar ([IDR 0055](../idr/0055-catalogo-compartilhado-por-link-somente-leitura.md)); leituras repetidas por terceiros consomem a cota do projeto — é o gatilho de abuso acima. Implementação: [Fase 0027](../plano/0027-catalogo-compartilhado-por-link/), Tarefa 0027-0001 (regras) e Tarefa 0027-0003 (leitura da vista).
 - **Sincronização ao vivo (futuro)** trocará o modelo de leitura — gatilho de revisão deste ADR.
 
 ## Alternativas consideradas

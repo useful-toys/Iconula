@@ -43,7 +43,7 @@ Aceito.
 - `hasOnly` das regras `create` e `update` passa a incluir `linkAtivo`; `firestore.rules`, `firestore.rules.test.js` e `modelo-firebase.md` mudam junto.
 - O `uid` e o `atestadoEm` ficam visíveis a quem tiver o link ligado; o link nunca muda — desligar é a única revogação.
 - Export JSON segue só com `contagens` ([MDR 0004](0004-formato-de-intercambio-da-colecao.md)); `linkAtivo` não entra.
-- Implementação: a planejar (/planejar).
+- Implementação: [Fase 0027](../plano/0027-catalogo-compartilhado-por-link/) — Tarefa 0027-0001 (regras e testes), Tarefa 0027-0003 (leitura pública) e Tarefa 0027-0004 (carga e gravação de `linkAtivo`).
 
 ## Alternativas consideradas
 
