@@ -3,7 +3,7 @@
 # Tarefa [0026-0002]: moldura e fundo em degradê na seção
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Aplicar a moldura e o fundo em degradê de 2-3 cores da bandeira na seção

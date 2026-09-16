@@ -43,7 +43,7 @@ function CabecalhoSecao({ secao, codigos, contagens, expandida, onToggle, corpoI
   return (
     <button
       type="button"
-      className={`secao__cabecalho secao__cabecalho--${secao.sigla.toLowerCase()}`}
+      className="secao__cabecalho"
       aria-expanded={expandida}
       aria-controls={corpoId}
       aria-label={nomeAcessivel}
@@ -166,46 +166,48 @@ export const Secao = memo(function Secao({
     : figurinhas.filter((f) => filtraFigurinha(contagens, f.codigo, filtro));
 
   return (
-    <section className="secao">
-      <CabecalhoSecao
-        secao={secao}
-        codigos={codigos}
-        contagens={contagens}
-        expandida={expandida}
-        onToggle={onToggle}
-        corpoId={corpoId}
-      />
-      {expandida && (
-        <div className="secao__corpo" id={corpoId}>
-          {usaAlbum ? (
-            <CorpoAlbum
-              secao={secao}
-              figurinhas={figurinhas}
-              layout={layout}
-              contagens={contagens}
-              onAjustar={onAjustar}
-            />
-          ) : (
-            <div className="secao__grade">
-              {listaFiltrada.map((figurinha) => (
-                <Figurinha
-                  key={figurinha.codigo}
-                  codigo={figurinha.codigo}
-                  contagem={contagens[figurinha.codigo] ?? 0}
-                  metalizada={figurinha.metalizada}
-                  nome={figurinha.nome}
-                  nomeLinhas={figurinha.nomeLinhas}
-                  nomeCurto={figurinha.nomeCurto}
-                  variante="lista"
-                  paisagem={figurinha.paisagem}
-                  onIncrementar={() => onAjustar(figurinha.codigo, 1)}
-                  onDecrementar={() => onAjustar(figurinha.codigo, -1)}
-                />
-              ))}
-            </div>
-          )}
-        </div>
-      )}
+    <section className={`secao secao--${secao.sigla.toLowerCase()}`}>
+      <div className="secao__moldura">
+        <CabecalhoSecao
+          secao={secao}
+          codigos={codigos}
+          contagens={contagens}
+          expandida={expandida}
+          onToggle={onToggle}
+          corpoId={corpoId}
+        />
+        {expandida && (
+          <div className="secao__corpo" id={corpoId}>
+            {usaAlbum ? (
+              <CorpoAlbum
+                secao={secao}
+                figurinhas={figurinhas}
+                layout={layout}
+                contagens={contagens}
+                onAjustar={onAjustar}
+              />
+            ) : (
+              <div className="secao__grade">
+                {listaFiltrada.map((figurinha) => (
+                  <Figurinha
+                    key={figurinha.codigo}
+                    codigo={figurinha.codigo}
+                    contagem={contagens[figurinha.codigo] ?? 0}
+                    metalizada={figurinha.metalizada}
+                    nome={figurinha.nome}
+                    nomeLinhas={figurinha.nomeLinhas}
+                    nomeCurto={figurinha.nomeCurto}
+                    variante="lista"
+                    paisagem={figurinha.paisagem}
+                    onIncrementar={() => onAjustar(figurinha.codigo, 1)}
+                    onDecrementar={() => onAjustar(figurinha.codigo, -1)}
+                  />
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
     </section>
   );
 }, propsEquivalentes);
