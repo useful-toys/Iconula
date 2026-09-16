@@ -61,4 +61,4 @@ Cada módulo ou componente tem seu arquivo de teste co-localizado, no mesmo dire
 - 2026-09-16 — Esmiuçamento: acrescentada a exceção dos testes E2E
   (`e2e/`), no mesmo molde da exceção das regras do Firestore —
   [ADR 0010](0010-testes-e2e-com-playwright-e-emuladores-do-firebase.md).
-  Implementação a planejar (/planejar).
+  Implementação: Fase 0024, Tarefa 0024-0001.
