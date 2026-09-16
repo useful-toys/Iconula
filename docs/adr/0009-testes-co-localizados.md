@@ -26,6 +26,9 @@ Cada módulo ou componente tem seu arquivo de teste co-localizado, no mesmo dire
 - `src/App.jsx` tem múltiplos arquivos de teste, um por funcionalidade: `App.test.jsx`, `App.auth-unavailable.test.jsx`, `App.atestacao.test.jsx`, `App.copiar.test.jsx`, `App.desfazer.test.jsx`, `App.exportar.test.jsx`, `App.gravacao.test.jsx`, `App.importar.test.jsx`, `App.persistencia.test.jsx`, `App.politica.test.jsx`.
 - `firestore.rules` tem `firestore.rules.test.js` (testes das regras do Firestore contra o emulador).
 - `vitest.rules.config.js` é a configuração do Vitest para os testes das regras do Firestore.
+- `e2e/` (raiz do repositório) reúne os testes E2E (Playwright, contra os
+  emuladores do Firebase) — não testam um módulo único, então não há
+  "ao lado de quê" co-localizar ([ADR 0010](0010-testes-e2e-com-playwright-e-emuladores-do-firebase.md)).
 
 **Configuração**:
 - `vite.config.js` define o ambiente de teste como `jsdom` e exclui `.claude/**` e `**/*.rules.test.js` (estes têm config própria).
@@ -45,9 +48,17 @@ Cada módulo ou componente tem seu arquivo de teste co-localizado, no mesmo dire
 - **Escalabilidade**: novos módulos/componentes trazem seus próprios testes, sem precisar saber onde colocá-los.
 - **App.jsx como exceção**: a complexidade de `App.jsx` (muitas funcionalidades) justifica múltiplos arquivos de teste, um por funcionalidade, em vez de um único arquivo gigante.
 - **Regras do Firestore como exceção**: testes das regras rodam contra o emulador, não em `jsdom`, e têm config e script próprios.
+- **E2E como segunda exceção**: testes de navegador (Playwright) não têm um módulo único para ficar ao lado — vivem em `e2e/`, com config e scripts próprios ([ADR 0010](0010-testes-e2e-com-playwright-e-emuladores-do-firebase.md)).
 
 ## Alternativas consideradas
 
 - **Diretório separado para testes** (ex.: `tests/` ou `__tests__/`): dificultaria navegação — ao abrir um módulo, o teste não estaria junto.
 - **Todos os testes de App.jsx em um único arquivo**: tornaria o arquivo gigante e difícil de manter — separar por funcionalidade é mais claro.
 - **Cobertura de testes obrigatória por CI**: não implementada — a cobertura é alta, mas não há gate automático.
+
+## Histórico
+
+- 2026-09-16 — Esmiuçamento: acrescentada a exceção dos testes E2E
+  (`e2e/`), no mesmo molde da exceção das regras do Firestore —
+  [ADR 0010](0010-testes-e2e-com-playwright-e-emuladores-do-firebase.md).
+  Implementação a planejar (/planejar).
