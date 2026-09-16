@@ -865,10 +865,12 @@ degradê.
   esquerda de 3px e fundo com 30% da cor do grupo sobre `--panel`
   (IDR 0045); o alternador `⊟`/`⊞` fica na ponta direita, em `--gold`, sem
   fundo próprio (IDR 0020)
-- Cabeçalho de seção: borda de 1px e fundo com 45% da cor da seleção sobre
-  `--panel` (FWC e COC incluídos), raio 12px, `padding: 7px 12px`;
-  ícone 18px, nome 14px/600 em `--cream`, números em `--muted`
-  (IDR 0046, IDR 0050)
+- Seção: moldura em degradê de 2px abraçando o título e a grade, cor 1 no
+  topo, cor 2 no canto inferior esquerdo e cor 3 no direito, com o fundo
+  tingido no mesmo degradê a 25% sobre `--panel`; raio externo 14px (interno
+  12px); FWC e COC com cor única. O cabeçalho, dentro dela, não tem borda nem
+  fundo próprios, só `padding: 7px 12px`; ícone 18px, nome 14px/600 em
+  `--cream`, números em `--muted` (IDR 0046, IDR 0050)
 - Cartão: 60×70px na lista e no álbum, paisagem 70×60px também nas duas
   disposições, raio 5px — duas metades de 33px úteis no retrato e 28px na
   paisagem: código centrado na de cima, nome na de baixo (na paisagem, uma

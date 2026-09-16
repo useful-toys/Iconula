@@ -507,7 +507,7 @@ contraste).
 | # | Tarefa | Objetivo | Status |
 |---|---|---|---|
 | 0001 | [Cores de bandeira por seleção em OKLCH](0026-moldura-em-degrade-da-bandeira-na-secao/0001-cores-de-bandeira-por-selecao-em-oklch.md) | Até 3 tokens de cor por seleção (original e, onde precisar, ajustada), com base na bandeira do país. | Concluída |
-| 0002 | [Moldura e fundo em degradê na seção](0026-moldura-em-degrade-da-bandeira-na-secao/0002-moldura-e-fundo-em-degrade-na-secao.md) | Técnica de anel-gradiente em `Secao.css`, movendo a identidade de cor do cabeçalho para a seção inteira. | Pendente |
+| 0002 | [Moldura e fundo em degradê na seção](0026-moldura-em-degrade-da-bandeira-na-secao/0002-moldura-e-fundo-em-degrade-na-secao.md) | Técnica de anel-gradiente em `Secao.css`, movendo a identidade de cor do cabeçalho para a seção inteira. | Concluída |
 
 ## Regras que valem em toda tarefa
 

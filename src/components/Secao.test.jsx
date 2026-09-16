@@ -507,7 +507,7 @@ describe('Secao', () => {
     });
   });
 
-  describe('cor da seleção no cabeçalho', () => {
+  describe('cor da seleção na seção', () => {
     const figurinhasDe = (sigla, total) =>
       Array.from({ length: total }, (_, i) => ({
         codigo: `${sigla}${String(i + 1).padStart(2, '0')}`,
@@ -522,14 +522,14 @@ describe('Secao', () => {
     };
 
     it.each([
-      ['BRA', 'lista', 'secao__cabecalho--bra'],
-      ['BRA', 'album', 'secao__cabecalho--bra'],
-      ['FWC', 'lista', 'secao__cabecalho--fwc'],
-      ['FWC', 'album', 'secao__cabecalho--fwc'],
-      ['COC', 'lista', 'secao__cabecalho--coc'],
-      ['COC', 'album', 'secao__cabecalho--coc'],
+      ['BRA', 'lista', 'secao--bra'],
+      ['BRA', 'album', 'secao--bra'],
+      ['FWC', 'lista', 'secao--fwc'],
+      ['FWC', 'album', 'secao--fwc'],
+      ['COC', 'lista', 'secao--coc'],
+      ['COC', 'album', 'secao--coc'],
     ])(
-      '%s na disposição %s recebe a classe %s',
+      '%s na disposição %s recebe a classe %s na seção',
       (sigla, disposicao, classe) => {
         const total = secoes[sigla].total;
         render(
@@ -542,9 +542,13 @@ describe('Secao', () => {
           />,
         );
 
+        const secao = document.querySelector('.secao');
+        expect(secao).toHaveClass('secao');
+        expect(secao).toHaveClass(classe);
+
         const cabecalho = document.querySelector('.secao__cabecalho');
         expect(cabecalho).toHaveClass('secao__cabecalho');
-        expect(cabecalho).toHaveClass(classe);
+        expect(cabecalho).not.toHaveClass(classe);
       },
     );
   });

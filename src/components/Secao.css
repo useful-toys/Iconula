@@ -1,9 +1,7 @@
 /* Copyright (c) 2026 Daniel Felix Ferber */
 
 .secao {
-  display: flex;
-  flex-direction: column;
-  gap: var(--section-body-gap);
+  display: block;
 
   /* Folga da contenção de pintura (TDR 0021). `content-visibility: auto`
    * implica contenção de pintura, que recorta a seção na sua caixa de
@@ -13,11 +11,26 @@
    * caixa de pintura nessa medida; a margem negativa equivalente devolve o
    * espaço ao fluxo, para as distâncias visíveis entre seções (10px),
    * super-grupos (12px) e cabeçalho/grade (8px) não mudarem (IDR 0050) e a
-   * largura do conteúdo (e do cabeçalho colorido, `width: 100%`) seguir a
-   * mesma (Tarefa 0019-0006). */
+   * largura do conteúdo (e do cabeçalho, `width: 100%`) seguir a mesma
+   * (Tarefa 0019-0006). A moldura fica dentro do content box, então o selo
+   * transborda sobre ela e continua inteiro (IDR 0046). */
   --secao-folga-selo: 6px;
   padding: 0 var(--secao-folga-selo) var(--secao-folga-selo) 0;
   margin: 0 calc(-1 * var(--secao-folga-selo)) calc(-1 * var(--secao-folga-selo)) 0;
+
+  /* Posições do degradê da seção (IDR 0046): 1 no topo, 2 no canto inferior
+   * esquerdo, 3 no direito. `--sel-N` é a variante ajustada (fundo tingido)
+   * e `--sel-N-raw`, a original (moldura). Cada classe modificadora
+   * `secao--<sigla>` sobrescreve as posições que a bandeira tem; a posição
+   * ausente cai na posição 1 (bandeira de duas cores) e a cor única (FWC e
+   * COC) deixa as três na mesma cor. Sem modificador, cai no
+   * `--border`/`--panel`. */
+  --sel-1: var(--border);
+  --sel-2: var(--sel-1);
+  --sel-3: var(--sel-1);
+  --sel-1-raw: var(--sel-1);
+  --sel-2-raw: var(--sel-1-raw);
+  --sel-3-raw: var(--sel-1-raw);
 
   /* Adia o layout/pintura das seções fora da tela sem criar rolagem
    * própria (IDR 0008) — segunda técnica mais barata de desempenho para
@@ -30,21 +43,49 @@
   contain-intrinsic-size: auto var(--secao-altura-estimada);
 }
 
+/* Moldura da seção (IDR 0046): anel em degradê de 2px abraçando o título e a
+ * grade de figurinhas, com o fundo tingido no mesmo degradê. O anel é feito
+ * com `border` transparente (mantém a geometria com `border-radius`) e
+ * quatro camadas de `background`, em duas metades: por dentro, a cor
+ * ajustada lavada a 25% sobre `--panel` (`padding-box`) e, por fora, a cor
+ * original (`border-box`) — a metade esquerda vai da cor 1 no topo até a
+ * cor 2 no canto inferior esquerdo, a direita até a cor 3 no canto
+ * inferior direito. FWC e COC têm as três posições na mesma cor de grupo,
+ * então o degradê vira cor única. O raio externo de 14px deixa o interno
+ * (padding box) em 12px, igual ao do cabeçalho. */
+.secao__moldura {
+  display: flex;
+  flex-direction: column;
+  gap: var(--section-body-gap);
+  border: 2px solid transparent;
+  border-radius: 14px;
+  background:
+    linear-gradient(
+      to bottom,
+      color-mix(in oklch, var(--sel-1) 25%, var(--panel)),
+      color-mix(in oklch, var(--sel-2) 25%, var(--panel))
+    ) left / 50% 100% no-repeat padding-box,
+    linear-gradient(
+      to bottom,
+      color-mix(in oklch, var(--sel-1) 25%, var(--panel)),
+      color-mix(in oklch, var(--sel-3) 25%, var(--panel))
+    ) right / 50% 100% no-repeat padding-box,
+    linear-gradient(to bottom, var(--sel-1-raw), var(--sel-2-raw)) left / 50% 100%
+      no-repeat border-box,
+    linear-gradient(to bottom, var(--sel-1-raw), var(--sel-3-raw)) right / 50% 100%
+      no-repeat border-box;
+  background-color: var(--panel);
+}
+
+/* Cabeçalho da seção: sem cor própria — a identidade da seleção agora vive
+ * na moldura/fundo da seção inteira (IDR 0046). Mantém padding, raio,
+ * cursor e o restante do layout do botão. */
 .secao__cabecalho {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 8px;
   padding: 7px 12px;
-
-  /* Cor de identidade da seleção no cabeçalho (IDR 0046): borda completa de
-   * 1px na cor da seleção e fundo com 45% dela misturada a `--panel`. Cada
-   * seção define `--selection-color` por uma classe modificadora
-   * `secao__cabecalho--<sigla>` (48 seleções, FWC e COC); sem modificador,
-   * cai no `--border`/`--panel` anteriores. Raio, padding, texto e números
-   * não mudam. */
-  background: color-mix(in oklch, var(--selection-color, var(--panel)) 45%, var(--panel));
-  border: 1px solid var(--selection-color, var(--border));
   border-radius: 12px;
   cursor: pointer;
   width: 100%;
@@ -53,59 +94,210 @@
   color: inherit;
 }
 
-/* Identidade de cor por seleção (IDR 0046): cada classe modificadora liga
- * `--selection-color` ao token `--selection-<sigla>`; FWC e COC apontam para
- * os alias das cores de grupo. */
-.secao__cabecalho--alg { --selection-color: var(--selection-alg); }
-.secao__cabecalho--arg { --selection-color: var(--selection-arg); }
-.secao__cabecalho--aus { --selection-color: var(--selection-aus); }
-.secao__cabecalho--aut { --selection-color: var(--selection-aut); }
-.secao__cabecalho--bel { --selection-color: var(--selection-bel); }
-.secao__cabecalho--bih { --selection-color: var(--selection-bih); }
-.secao__cabecalho--bra { --selection-color: var(--selection-bra); }
-.secao__cabecalho--can { --selection-color: var(--selection-can); }
-.secao__cabecalho--civ { --selection-color: var(--selection-civ); }
-.secao__cabecalho--cod { --selection-color: var(--selection-cod); }
-.secao__cabecalho--col { --selection-color: var(--selection-col); }
-.secao__cabecalho--cpv { --selection-color: var(--selection-cpv); }
-.secao__cabecalho--cro { --selection-color: var(--selection-cro); }
-.secao__cabecalho--cuw { --selection-color: var(--selection-cuw); }
-.secao__cabecalho--cze { --selection-color: var(--selection-cze); }
-.secao__cabecalho--ecu { --selection-color: var(--selection-ecu); }
-.secao__cabecalho--egy { --selection-color: var(--selection-egy); }
-.secao__cabecalho--eng { --selection-color: var(--selection-eng); }
-.secao__cabecalho--esp { --selection-color: var(--selection-esp); }
-.secao__cabecalho--fra { --selection-color: var(--selection-fra); }
-.secao__cabecalho--ger { --selection-color: var(--selection-ger); }
-.secao__cabecalho--gha { --selection-color: var(--selection-gha); }
-.secao__cabecalho--hai { --selection-color: var(--selection-hai); }
-.secao__cabecalho--irn { --selection-color: var(--selection-irn); }
-.secao__cabecalho--irq { --selection-color: var(--selection-irq); }
-.secao__cabecalho--jor { --selection-color: var(--selection-jor); }
-.secao__cabecalho--jpn { --selection-color: var(--selection-jpn); }
-.secao__cabecalho--kor { --selection-color: var(--selection-kor); }
-.secao__cabecalho--ksa { --selection-color: var(--selection-ksa); }
-.secao__cabecalho--mar { --selection-color: var(--selection-mar); }
-.secao__cabecalho--mex { --selection-color: var(--selection-mex); }
-.secao__cabecalho--ned { --selection-color: var(--selection-ned); }
-.secao__cabecalho--nor { --selection-color: var(--selection-nor); }
-.secao__cabecalho--nzl { --selection-color: var(--selection-nzl); }
-.secao__cabecalho--pan { --selection-color: var(--selection-pan); }
-.secao__cabecalho--par { --selection-color: var(--selection-par); }
-.secao__cabecalho--por { --selection-color: var(--selection-por); }
-.secao__cabecalho--qat { --selection-color: var(--selection-qat); }
-.secao__cabecalho--rsa { --selection-color: var(--selection-rsa); }
-.secao__cabecalho--sco { --selection-color: var(--selection-sco); }
-.secao__cabecalho--sen { --selection-color: var(--selection-sen); }
-.secao__cabecalho--sui { --selection-color: var(--selection-sui); }
-.secao__cabecalho--swe { --selection-color: var(--selection-swe); }
-.secao__cabecalho--tun { --selection-color: var(--selection-tun); }
-.secao__cabecalho--tur { --selection-color: var(--selection-tur); }
-.secao__cabecalho--uru { --selection-color: var(--selection-uru); }
-.secao__cabecalho--usa { --selection-color: var(--selection-usa); }
-.secao__cabecalho--uzb { --selection-color: var(--selection-uzb); }
-.secao__cabecalho--fwc { --selection-color: var(--selection-fwc); }
-.secao__cabecalho--coc { --selection-color: var(--selection-coc); }
+/* Identidade de cor por seleção (IDR 0046): cada classe modificadora liga as
+ * posições do degradê aos tokens `--selection-<sigla>-N` (variante ajustada,
+ * no fundo) e `-N-raw` (original, na moldura). A posição ausente (bandeira
+ * de duas cores) cai na posição 1; quando a posição existe mas não tem
+ * `-raw`, a original é a própria ajustada. FWC e COC são alias de cor única
+ * de grupo: só a posição 1 é definida e as demais caem nela. */
+.secao--alg {
+  --sel-1: var(--selection-alg-1); --sel-2: var(--selection-alg-2, var(--sel-1)); --sel-3: var(--selection-alg-3, var(--sel-1));
+  --sel-1-raw: var(--selection-alg-1-raw, var(--sel-1)); --sel-2-raw: var(--selection-alg-2-raw, var(--selection-alg-2, var(--sel-1-raw))); --sel-3-raw: var(--selection-alg-3-raw, var(--selection-alg-3, var(--sel-1-raw)));
+}
+.secao--arg {
+  --sel-1: var(--selection-arg-1); --sel-2: var(--selection-arg-2, var(--sel-1)); --sel-3: var(--selection-arg-3, var(--sel-1));
+  --sel-1-raw: var(--selection-arg-1-raw, var(--sel-1)); --sel-2-raw: var(--selection-arg-2-raw, var(--selection-arg-2, var(--sel-1-raw))); --sel-3-raw: var(--selection-arg-3-raw, var(--selection-arg-3, var(--sel-1-raw)));
+}
+.secao--aus {
+  --sel-1: var(--selection-aus-1); --sel-2: var(--selection-aus-2, var(--sel-1)); --sel-3: var(--selection-aus-3, var(--sel-1));
+  --sel-1-raw: var(--selection-aus-1-raw, var(--sel-1)); --sel-2-raw: var(--selection-aus-2-raw, var(--selection-aus-2, var(--sel-1-raw))); --sel-3-raw: var(--selection-aus-3-raw, var(--selection-aus-3, var(--sel-1-raw)));
+}
+.secao--aut {
+  --sel-1: var(--selection-aut-1); --sel-2: var(--selection-aut-2, var(--sel-1)); --sel-3: var(--selection-aut-3, var(--sel-1));
+  --sel-1-raw: var(--selection-aut-1-raw, var(--sel-1)); --sel-2-raw: var(--selection-aut-2-raw, var(--selection-aut-2, var(--sel-1-raw))); --sel-3-raw: var(--selection-aut-3-raw, var(--selection-aut-3, var(--sel-1-raw)));
+}
+.secao--bel {
+  --sel-1: var(--selection-bel-1); --sel-2: var(--selection-bel-2, var(--sel-1)); --sel-3: var(--selection-bel-3, var(--sel-1));
+  --sel-1-raw: var(--selection-bel-1-raw, var(--sel-1)); --sel-2-raw: var(--selection-bel-2-raw, var(--selection-bel-2, var(--sel-1-raw))); --sel-3-raw: var(--selection-bel-3-raw, var(--selection-bel-3, var(--sel-1-raw)));
+}
+.secao--bih {
+  --sel-1: var(--selection-bih-1); --sel-2: var(--selection-bih-2, var(--sel-1)); --sel-3: var(--selection-bih-3, var(--sel-1));
+  --sel-1-raw: var(--selection-bih-1-raw, var(--sel-1)); --sel-2-raw: var(--selection-bih-2-raw, var(--selection-bih-2, var(--sel-1-raw))); --sel-3-raw: var(--selection-bih-3-raw, var(--selection-bih-3, var(--sel-1-raw)));
+}
+.secao--bra {
+  --sel-1: var(--selection-bra-1); --sel-2: var(--selection-bra-2, var(--sel-1)); --sel-3: var(--selection-bra-3, var(--sel-1));
+  --sel-1-raw: var(--selection-bra-1-raw, var(--sel-1)); --sel-2-raw: var(--selection-bra-2-raw, var(--selection-bra-2, var(--sel-1-raw))); --sel-3-raw: var(--selection-bra-3-raw, var(--selection-bra-3, var(--sel-1-raw)));
+}
+.secao--can {
+  --sel-1: var(--selection-can-1); --sel-2: var(--selection-can-2, var(--sel-1)); --sel-3: var(--selection-can-3, var(--sel-1));
+  --sel-1-raw: var(--selection-can-1-raw, var(--sel-1)); --sel-2-raw: var(--selection-can-2-raw, var(--selection-can-2, var(--sel-1-raw))); --sel-3-raw: var(--selection-can-3-raw, var(--selection-can-3, var(--sel-1-raw)));
+}
+.secao--civ {
+  --sel-1: var(--selection-civ-1); --sel-2: var(--selection-civ-2, var(--sel-1)); --sel-3: var(--selection-civ-3, var(--sel-1));
+  --sel-1-raw: var(--selection-civ-1-raw, var(--sel-1)); --sel-2-raw: var(--selection-civ-2-raw, var(--selection-civ-2, var(--sel-1-raw))); --sel-3-raw: var(--selection-civ-3-raw, var(--selection-civ-3, var(--sel-1-raw)));
+}
+.secao--cod {
+  --sel-1: var(--selection-cod-1); --sel-2: var(--selection-cod-2, var(--sel-1)); --sel-3: var(--selection-cod-3, var(--sel-1));
+  --sel-1-raw: var(--selection-cod-1-raw, var(--sel-1)); --sel-2-raw: var(--selection-cod-2-raw, var(--selection-cod-2, var(--sel-1-raw))); --sel-3-raw: var(--selection-cod-3-raw, var(--selection-cod-3, var(--sel-1-raw)));
+}
+.secao--col {
+  --sel-1: var(--selection-col-1); --sel-2: var(--selection-col-2, var(--sel-1)); --sel-3: var(--selection-col-3, var(--sel-1));
+  --sel-1-raw: var(--selection-col-1-raw, var(--sel-1)); --sel-2-raw: var(--selection-col-2-raw, var(--selection-col-2, var(--sel-1-raw))); --sel-3-raw: var(--selection-col-3-raw, var(--selection-col-3, var(--sel-1-raw)));
+}
+.secao--cpv {
+  --sel-1: var(--selection-cpv-1); --sel-2: var(--selection-cpv-2, var(--sel-1)); --sel-3: var(--selection-cpv-3, var(--sel-1));
+  --sel-1-raw: var(--selection-cpv-1-raw, var(--sel-1)); --sel-2-raw: var(--selection-cpv-2-raw, var(--selection-cpv-2, var(--sel-1-raw))); --sel-3-raw: var(--selection-cpv-3-raw, var(--selection-cpv-3, var(--sel-1-raw)));
+}
+.secao--cro {
+  --sel-1: var(--selection-cro-1); --sel-2: var(--selection-cro-2, var(--sel-1)); --sel-3: var(--selection-cro-3, var(--sel-1));
+  --sel-1-raw: var(--selection-cro-1-raw, var(--sel-1)); --sel-2-raw: var(--selection-cro-2-raw, var(--selection-cro-2, var(--sel-1-raw))); --sel-3-raw: var(--selection-cro-3-raw, var(--selection-cro-3, var(--sel-1-raw)));
+}
+.secao--cuw {
+  --sel-1: var(--selection-cuw-1); --sel-2: var(--selection-cuw-2, var(--sel-1)); --sel-3: var(--selection-cuw-3, var(--sel-1));
+  --sel-1-raw: var(--selection-cuw-1-raw, var(--sel-1)); --sel-2-raw: var(--selection-cuw-2-raw, var(--selection-cuw-2, var(--sel-1-raw))); --sel-3-raw: var(--selection-cuw-3-raw, var(--selection-cuw-3, var(--sel-1-raw)));
+}
+.secao--cze {
+  --sel-1: var(--selection-cze-1); --sel-2: var(--selection-cze-2, var(--sel-1)); --sel-3: var(--selection-cze-3, var(--sel-1));
+  --sel-1-raw: var(--selection-cze-1-raw, var(--sel-1)); --sel-2-raw: var(--selection-cze-2-raw, var(--selection-cze-2, var(--sel-1-raw))); --sel-3-raw: var(--selection-cze-3-raw, var(--selection-cze-3, var(--sel-1-raw)));
+}
+.secao--ecu {
+  --sel-1: var(--selection-ecu-1); --sel-2: var(--selection-ecu-2, var(--sel-1)); --sel-3: var(--selection-ecu-3, var(--sel-1));
+  --sel-1-raw: var(--selection-ecu-1-raw, var(--sel-1)); --sel-2-raw: var(--selection-ecu-2-raw, var(--selection-ecu-2, var(--sel-1-raw))); --sel-3-raw: var(--selection-ecu-3-raw, var(--selection-ecu-3, var(--sel-1-raw)));
+}
+.secao--egy {
+  --sel-1: var(--selection-egy-1); --sel-2: var(--selection-egy-2, var(--sel-1)); --sel-3: var(--selection-egy-3, var(--sel-1));
+  --sel-1-raw: var(--selection-egy-1-raw, var(--sel-1)); --sel-2-raw: var(--selection-egy-2-raw, var(--selection-egy-2, var(--sel-1-raw))); --sel-3-raw: var(--selection-egy-3-raw, var(--selection-egy-3, var(--sel-1-raw)));
+}
+.secao--eng {
+  --sel-1: var(--selection-eng-1); --sel-2: var(--selection-eng-2, var(--sel-1)); --sel-3: var(--selection-eng-3, var(--sel-1));
+  --sel-1-raw: var(--selection-eng-1-raw, var(--sel-1)); --sel-2-raw: var(--selection-eng-2-raw, var(--selection-eng-2, var(--sel-1-raw))); --sel-3-raw: var(--selection-eng-3-raw, var(--selection-eng-3, var(--sel-1-raw)));
+}
+.secao--esp {
+  --sel-1: var(--selection-esp-1); --sel-2: var(--selection-esp-2, var(--sel-1)); --sel-3: var(--selection-esp-3, var(--sel-1));
+  --sel-1-raw: var(--selection-esp-1-raw, var(--sel-1)); --sel-2-raw: var(--selection-esp-2-raw, var(--selection-esp-2, var(--sel-1-raw))); --sel-3-raw: var(--selection-esp-3-raw, var(--selection-esp-3, var(--sel-1-raw)));
+}
+.secao--fra {
+  --sel-1: var(--selection-fra-1); --sel-2: var(--selection-fra-2, var(--sel-1)); --sel-3: var(--selection-fra-3, var(--sel-1));
+  --sel-1-raw: var(--selection-fra-1-raw, var(--sel-1)); --sel-2-raw: var(--selection-fra-2-raw, var(--selection-fra-2, var(--sel-1-raw))); --sel-3-raw: var(--selection-fra-3-raw, var(--selection-fra-3, var(--sel-1-raw)));
+}
+.secao--ger {
+  --sel-1: var(--selection-ger-1); --sel-2: var(--selection-ger-2, var(--sel-1)); --sel-3: var(--selection-ger-3, var(--sel-1));
+  --sel-1-raw: var(--selection-ger-1-raw, var(--sel-1)); --sel-2-raw: var(--selection-ger-2-raw, var(--selection-ger-2, var(--sel-1-raw))); --sel-3-raw: var(--selection-ger-3-raw, var(--selection-ger-3, var(--sel-1-raw)));
+}
+.secao--gha {
+  --sel-1: var(--selection-gha-1); --sel-2: var(--selection-gha-2, var(--sel-1)); --sel-3: var(--selection-gha-3, var(--sel-1));
+  --sel-1-raw: var(--selection-gha-1-raw, var(--sel-1)); --sel-2-raw: var(--selection-gha-2-raw, var(--selection-gha-2, var(--sel-1-raw))); --sel-3-raw: var(--selection-gha-3-raw, var(--selection-gha-3, var(--sel-1-raw)));
+}
+.secao--hai {
+  --sel-1: var(--selection-hai-1); --sel-2: var(--selection-hai-2, var(--sel-1)); --sel-3: var(--selection-hai-3, var(--sel-1));
+  --sel-1-raw: var(--selection-hai-1-raw, var(--sel-1)); --sel-2-raw: var(--selection-hai-2-raw, var(--selection-hai-2, var(--sel-1-raw))); --sel-3-raw: var(--selection-hai-3-raw, var(--selection-hai-3, var(--sel-1-raw)));
+}
+.secao--irn {
+  --sel-1: var(--selection-irn-1); --sel-2: var(--selection-irn-2, var(--sel-1)); --sel-3: var(--selection-irn-3, var(--sel-1));
+  --sel-1-raw: var(--selection-irn-1-raw, var(--sel-1)); --sel-2-raw: var(--selection-irn-2-raw, var(--selection-irn-2, var(--sel-1-raw))); --sel-3-raw: var(--selection-irn-3-raw, var(--selection-irn-3, var(--sel-1-raw)));
+}
+.secao--irq {
+  --sel-1: var(--selection-irq-1); --sel-2: var(--selection-irq-2, var(--sel-1)); --sel-3: var(--selection-irq-3, var(--sel-1));
+  --sel-1-raw: var(--selection-irq-1-raw, var(--sel-1)); --sel-2-raw: var(--selection-irq-2-raw, var(--selection-irq-2, var(--sel-1-raw))); --sel-3-raw: var(--selection-irq-3-raw, var(--selection-irq-3, var(--sel-1-raw)));
+}
+.secao--jor {
+  --sel-1: var(--selection-jor-1); --sel-2: var(--selection-jor-2, var(--sel-1)); --sel-3: var(--selection-jor-3, var(--sel-1));
+  --sel-1-raw: var(--selection-jor-1-raw, var(--sel-1)); --sel-2-raw: var(--selection-jor-2-raw, var(--selection-jor-2, var(--sel-1-raw))); --sel-3-raw: var(--selection-jor-3-raw, var(--selection-jor-3, var(--sel-1-raw)));
+}
+.secao--jpn {
+  --sel-1: var(--selection-jpn-1); --sel-2: var(--selection-jpn-2, var(--sel-1)); --sel-3: var(--selection-jpn-3, var(--sel-1));
+  --sel-1-raw: var(--selection-jpn-1-raw, var(--sel-1)); --sel-2-raw: var(--selection-jpn-2-raw, var(--selection-jpn-2, var(--sel-1-raw))); --sel-3-raw: var(--selection-jpn-3-raw, var(--selection-jpn-3, var(--sel-1-raw)));
+}
+.secao--kor {
+  --sel-1: var(--selection-kor-1); --sel-2: var(--selection-kor-2, var(--sel-1)); --sel-3: var(--selection-kor-3, var(--sel-1));
+  --sel-1-raw: var(--selection-kor-1-raw, var(--sel-1)); --sel-2-raw: var(--selection-kor-2-raw, var(--selection-kor-2, var(--sel-1-raw))); --sel-3-raw: var(--selection-kor-3-raw, var(--selection-kor-3, var(--sel-1-raw)));
+}
+.secao--ksa {
+  --sel-1: var(--selection-ksa-1); --sel-2: var(--selection-ksa-2, var(--sel-1)); --sel-3: var(--selection-ksa-3, var(--sel-1));
+  --sel-1-raw: var(--selection-ksa-1-raw, var(--sel-1)); --sel-2-raw: var(--selection-ksa-2-raw, var(--selection-ksa-2, var(--sel-1-raw))); --sel-3-raw: var(--selection-ksa-3-raw, var(--selection-ksa-3, var(--sel-1-raw)));
+}
+.secao--mar {
+  --sel-1: var(--selection-mar-1); --sel-2: var(--selection-mar-2, var(--sel-1)); --sel-3: var(--selection-mar-3, var(--sel-1));
+  --sel-1-raw: var(--selection-mar-1-raw, var(--sel-1)); --sel-2-raw: var(--selection-mar-2-raw, var(--selection-mar-2, var(--sel-1-raw))); --sel-3-raw: var(--selection-mar-3-raw, var(--selection-mar-3, var(--sel-1-raw)));
+}
+.secao--mex {
+  --sel-1: var(--selection-mex-1); --sel-2: var(--selection-mex-2, var(--sel-1)); --sel-3: var(--selection-mex-3, var(--sel-1));
+  --sel-1-raw: var(--selection-mex-1-raw, var(--sel-1)); --sel-2-raw: var(--selection-mex-2-raw, var(--selection-mex-2, var(--sel-1-raw))); --sel-3-raw: var(--selection-mex-3-raw, var(--selection-mex-3, var(--sel-1-raw)));
+}
+.secao--ned {
+  --sel-1: var(--selection-ned-1); --sel-2: var(--selection-ned-2, var(--sel-1)); --sel-3: var(--selection-ned-3, var(--sel-1));
+  --sel-1-raw: var(--selection-ned-1-raw, var(--sel-1)); --sel-2-raw: var(--selection-ned-2-raw, var(--selection-ned-2, var(--sel-1-raw))); --sel-3-raw: var(--selection-ned-3-raw, var(--selection-ned-3, var(--sel-1-raw)));
+}
+.secao--nor {
+  --sel-1: var(--selection-nor-1); --sel-2: var(--selection-nor-2, var(--sel-1)); --sel-3: var(--selection-nor-3, var(--sel-1));
+  --sel-1-raw: var(--selection-nor-1-raw, var(--sel-1)); --sel-2-raw: var(--selection-nor-2-raw, var(--selection-nor-2, var(--sel-1-raw))); --sel-3-raw: var(--selection-nor-3-raw, var(--selection-nor-3, var(--sel-1-raw)));
+}
+.secao--nzl {
+  --sel-1: var(--selection-nzl-1); --sel-2: var(--selection-nzl-2, var(--sel-1)); --sel-3: var(--selection-nzl-3, var(--sel-1));
+  --sel-1-raw: var(--selection-nzl-1-raw, var(--sel-1)); --sel-2-raw: var(--selection-nzl-2-raw, var(--selection-nzl-2, var(--sel-1-raw))); --sel-3-raw: var(--selection-nzl-3-raw, var(--selection-nzl-3, var(--sel-1-raw)));
+}
+.secao--pan {
+  --sel-1: var(--selection-pan-1); --sel-2: var(--selection-pan-2, var(--sel-1)); --sel-3: var(--selection-pan-3, var(--sel-1));
+  --sel-1-raw: var(--selection-pan-1-raw, var(--sel-1)); --sel-2-raw: var(--selection-pan-2-raw, var(--selection-pan-2, var(--sel-1-raw))); --sel-3-raw: var(--selection-pan-3-raw, var(--selection-pan-3, var(--sel-1-raw)));
+}
+.secao--par {
+  --sel-1: var(--selection-par-1); --sel-2: var(--selection-par-2, var(--sel-1)); --sel-3: var(--selection-par-3, var(--sel-1));
+  --sel-1-raw: var(--selection-par-1-raw, var(--sel-1)); --sel-2-raw: var(--selection-par-2-raw, var(--selection-par-2, var(--sel-1-raw))); --sel-3-raw: var(--selection-par-3-raw, var(--selection-par-3, var(--sel-1-raw)));
+}
+.secao--por {
+  --sel-1: var(--selection-por-1); --sel-2: var(--selection-por-2, var(--sel-1)); --sel-3: var(--selection-por-3, var(--sel-1));
+  --sel-1-raw: var(--selection-por-1-raw, var(--sel-1)); --sel-2-raw: var(--selection-por-2-raw, var(--selection-por-2, var(--sel-1-raw))); --sel-3-raw: var(--selection-por-3-raw, var(--selection-por-3, var(--sel-1-raw)));
+}
+.secao--qat {
+  --sel-1: var(--selection-qat-1); --sel-2: var(--selection-qat-2, var(--sel-1)); --sel-3: var(--selection-qat-3, var(--sel-1));
+  --sel-1-raw: var(--selection-qat-1-raw, var(--sel-1)); --sel-2-raw: var(--selection-qat-2-raw, var(--selection-qat-2, var(--sel-1-raw))); --sel-3-raw: var(--selection-qat-3-raw, var(--selection-qat-3, var(--sel-1-raw)));
+}
+.secao--rsa {
+  --sel-1: var(--selection-rsa-1); --sel-2: var(--selection-rsa-2, var(--sel-1)); --sel-3: var(--selection-rsa-3, var(--sel-1));
+  --sel-1-raw: var(--selection-rsa-1-raw, var(--sel-1)); --sel-2-raw: var(--selection-rsa-2-raw, var(--selection-rsa-2, var(--sel-1-raw))); --sel-3-raw: var(--selection-rsa-3-raw, var(--selection-rsa-3, var(--sel-1-raw)));
+}
+.secao--sco {
+  --sel-1: var(--selection-sco-1); --sel-2: var(--selection-sco-2, var(--sel-1)); --sel-3: var(--selection-sco-3, var(--sel-1));
+  --sel-1-raw: var(--selection-sco-1-raw, var(--sel-1)); --sel-2-raw: var(--selection-sco-2-raw, var(--selection-sco-2, var(--sel-1-raw))); --sel-3-raw: var(--selection-sco-3-raw, var(--selection-sco-3, var(--sel-1-raw)));
+}
+.secao--sen {
+  --sel-1: var(--selection-sen-1); --sel-2: var(--selection-sen-2, var(--sel-1)); --sel-3: var(--selection-sen-3, var(--sel-1));
+  --sel-1-raw: var(--selection-sen-1-raw, var(--sel-1)); --sel-2-raw: var(--selection-sen-2-raw, var(--selection-sen-2, var(--sel-1-raw))); --sel-3-raw: var(--selection-sen-3-raw, var(--selection-sen-3, var(--sel-1-raw)));
+}
+.secao--sui {
+  --sel-1: var(--selection-sui-1); --sel-2: var(--selection-sui-2, var(--sel-1)); --sel-3: var(--selection-sui-3, var(--sel-1));
+  --sel-1-raw: var(--selection-sui-1-raw, var(--sel-1)); --sel-2-raw: var(--selection-sui-2-raw, var(--selection-sui-2, var(--sel-1-raw))); --sel-3-raw: var(--selection-sui-3-raw, var(--selection-sui-3, var(--sel-1-raw)));
+}
+.secao--swe {
+  --sel-1: var(--selection-swe-1); --sel-2: var(--selection-swe-2, var(--sel-1)); --sel-3: var(--selection-swe-3, var(--sel-1));
+  --sel-1-raw: var(--selection-swe-1-raw, var(--sel-1)); --sel-2-raw: var(--selection-swe-2-raw, var(--selection-swe-2, var(--sel-1-raw))); --sel-3-raw: var(--selection-swe-3-raw, var(--selection-swe-3, var(--sel-1-raw)));
+}
+.secao--tun {
+  --sel-1: var(--selection-tun-1); --sel-2: var(--selection-tun-2, var(--sel-1)); --sel-3: var(--selection-tun-3, var(--sel-1));
+  --sel-1-raw: var(--selection-tun-1-raw, var(--sel-1)); --sel-2-raw: var(--selection-tun-2-raw, var(--selection-tun-2, var(--sel-1-raw))); --sel-3-raw: var(--selection-tun-3-raw, var(--selection-tun-3, var(--sel-1-raw)));
+}
+.secao--tur {
+  --sel-1: var(--selection-tur-1); --sel-2: var(--selection-tur-2, var(--sel-1)); --sel-3: var(--selection-tur-3, var(--sel-1));
+  --sel-1-raw: var(--selection-tur-1-raw, var(--sel-1)); --sel-2-raw: var(--selection-tur-2-raw, var(--selection-tur-2, var(--sel-1-raw))); --sel-3-raw: var(--selection-tur-3-raw, var(--selection-tur-3, var(--sel-1-raw)));
+}
+.secao--uru {
+  --sel-1: var(--selection-uru-1); --sel-2: var(--selection-uru-2, var(--sel-1)); --sel-3: var(--selection-uru-3, var(--sel-1));
+  --sel-1-raw: var(--selection-uru-1-raw, var(--sel-1)); --sel-2-raw: var(--selection-uru-2-raw, var(--selection-uru-2, var(--sel-1-raw))); --sel-3-raw: var(--selection-uru-3-raw, var(--selection-uru-3, var(--sel-1-raw)));
+}
+.secao--usa {
+  --sel-1: var(--selection-usa-1); --sel-2: var(--selection-usa-2, var(--sel-1)); --sel-3: var(--selection-usa-3, var(--sel-1));
+  --sel-1-raw: var(--selection-usa-1-raw, var(--sel-1)); --sel-2-raw: var(--selection-usa-2-raw, var(--selection-usa-2, var(--sel-1-raw))); --sel-3-raw: var(--selection-usa-3-raw, var(--selection-usa-3, var(--sel-1-raw)));
+}
+.secao--uzb {
+  --sel-1: var(--selection-uzb-1); --sel-2: var(--selection-uzb-2, var(--sel-1)); --sel-3: var(--selection-uzb-3, var(--sel-1));
+  --sel-1-raw: var(--selection-uzb-1-raw, var(--sel-1)); --sel-2-raw: var(--selection-uzb-2-raw, var(--selection-uzb-2, var(--sel-1-raw))); --sel-3-raw: var(--selection-uzb-3-raw, var(--selection-uzb-3, var(--sel-1-raw)));
+}
+.secao--fwc {
+  --sel-1: var(--selection-fwc);
+}
+.secao--coc {
+  --sel-1: var(--selection-coc);
+}
 
 .secao__chevron {
   flex-shrink: 0;
