@@ -34,13 +34,19 @@ caso concreto em que a pergunta se coloca de verdade.
   determinava — sem guardar "de onde vim" à parte. É esse mecanismo que
   cumpre "voltar retorna à tela de origem, sem depender do histórico do
   navegador" sem nenhum estado extra.
+- **Link do catálogo compartilhado** ([IDR 0055](../idr/0055-catalogo-compartilhado-por-link-somente-leitura.md)),
+  primeiro endereço próprio de tela: `App.jsx` lê `location.pathname` na
+  abertura; `/catalogo/<uid>` leva à vista somente leitura, antes da guarda
+  de login — ainda sem router. O rewrite `** → /index.html` do
+  `firebase.json` já serve o caminho, e F5 mantém a vista.
 - `TelaDeLogin` e `Rodape` recebem callbacks (`onAbrirPolitica`,
   `onAbrirTermos`) que só escolhem a vista; `PoliticaDePrivacidade` e a
   vista de termos recebem `onVoltar`, que volta a `null`.
 
 ## Consequências
 
-- Nenhuma URL própria para a política: não é possível linká-la direto nem
+- Nenhuma URL própria para a política (o link do catálogo é o único
+  endereço próprio): não é possível linká-la direto nem
   ela sobrevive a um F5 — aceito, como o restante do app (sem histórico de
   navegação distinto entre as telas já existentes).
 - O padrão de "ramo de retorno condicional em `App.jsx`" continua sendo o
@@ -50,6 +56,7 @@ caso concreto em que a pergunta se coloca de verdade.
   reavaliar — react-router (ou similar) passa a valer a complexidade.
 - Um estado único impede duas vistas ligadas ao mesmo tempo.
 - Implementação da vista de termos: Fase 0020, Tarefa 0020-0003.
+- Implementação do caminho `/catalogo/<uid>`: a planejar (/planejar).
 
 ## Alternativas consideradas
 
@@ -64,12 +71,21 @@ caso concreto em que a pergunta se coloca de verdade.
 - **Segundo booleano para os termos** (`mostrarTermos`): mudança mínima, mas
   os dois estados poderiam ficar ligados juntos, com a ordem de checagem
   decidindo em silêncio.
+- **React Router para o link do catálogo**: uma única rota nova não paga a
+  dependência nem a reestruturação de `App.jsx`.
+- **Fragmento `#/catalogo/<uid>`**: dispensaria o rewrite, mas a URL fica
+  menos limpa e o fragmento pode ser cortado por apps de mensagem.
 - **React Router ao chegar a quarta tela** (gatilho original): duas páginas
   estáticas de leitura, sem link direto como requisito, não pagam a
   dependência.
 
 ## Histórico
 
+- 2026-09-16 — Esmiuçamento do catálogo compartilhado por link
+  ([IDR 0055](../idr/0055-catalogo-compartilhado-por-link-somente-leitura.md)):
+  o gatilho "link direto vira requisito" disparou; decidido seguir sem
+  router, com `App.jsx` lendo `location.pathname` para `/catalogo/<uid>`;
+  implementação a planejar. Antes: nenhuma tela com URL própria.
 - 2026-09-14 — Planejamento das Fases 0020 e 0021: a quarta tela (termos de
   uso, IDR 0053) disparou o gatilho de revisão; decidido seguir sem router,
   com estado único `vistaInterna`; implementação na Fase 0020. Antes: um

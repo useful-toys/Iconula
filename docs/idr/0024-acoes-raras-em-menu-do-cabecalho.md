@@ -46,6 +46,10 @@ fora, só que disparado por perda de foco em vez de clique (ver
   - itens do popup:
     - copiar lista de **faltantes** · compartilhar **faltantes**…
     - copiar lista de **repetidas** · compartilhar **repetidas**…
+    - terceiro bloco, do **link do catálogo**
+      ([IDR 0055](0055-catalogo-compartilhado-por-link-somente-leitura.md)):
+      chave "Link do catálogo: ligado/desligado"; ligado, também **copiar
+      link** · **compartilhar link**…
 - **Compartilhar** usa a folha de compartilhamento do sistema
   (`navigator.share`): o usuário escolhe o app (Signal, WhatsApp, Telegram,
   e-mail…) — o Iconula não assume nenhum
@@ -83,7 +87,10 @@ fora, só que disparado por perda de foco em vez de clique (ver
 - `MenuDeAcoes.jsx` perde as cópias; nasce o popup de compartilhar;
   `App.jsx` ganha o compartilhar das duas listas; `interface.md`
   § Cabeçalho, § Menu de ações, § Avisos, § Camadas e § Medidas mudam
-- Sem custo em leituras ou escritas
+- Sem custo em leituras ou escritas — salvo a chave do link do catálogo,
+  1 escrita ao ligar ou desligar
+  ([MDR 0002](../model-dr/0002-schema-do-documento-da-colecao.md))
+- Terceiro bloco do link: implementação a planejar (/planejar)
 - Implementação: Fase 0021 — Tarefa 0021-0001 (botão compartilhar com as
   cópias) e Tarefa 0021-0002 (folha do sistema); depois da Fase 0019
   (cabeçalho todo sticky)
@@ -113,6 +120,12 @@ fora, só que disparado por perda de foco em vez de clique (ver
 - **Abrir o WhatsApp direto**: assume um app que o colecionador pode não usar
 
 ## Histórico
+
+- 2026-09-16 — Esmiuçamento do catálogo compartilhado por link
+  ([IDR 0055](0055-catalogo-compartilhado-por-link-somente-leitura.md)): o
+  popup Compartilhar ganha um terceiro bloco com a chave do link e, ligado,
+  copiar e compartilhar o link; implementação a planejar. Antes: dois
+  blocos, só listas de troca.
 
 - 2026-09-14 — Esmiuçamento de contrair seções, rodapé e compartilhar: as
   duas cópias saem do menu do avatar para um botão compartilhar à esquerda

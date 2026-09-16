@@ -34,6 +34,13 @@ Aceito (consolida TDR 0002, TDR 0005 e TDR 0007)
 - `Cross-Origin-Opener-Policy: same-origin-allow-popups` (relaxado de
   `same-origin` para permitir o popup do OAuth — TDR 0005)
 
+### Indexação do catálogo compartilhado
+
+- `/catalogo/**`: `X-Robots-Tag: noindex` — a vista do link
+  ([IDR 0055](../idr/0055-catalogo-compartilhado-por-link-somente-leitura.md)) não entra em buscadores, nem se o link
+  vazar para página pública
+- Implementação: a planejar (/planejar)
+
 ### Cache (TDR 0002)
 
 - `/assets/**` (com hash): `public, max-age=31536000, immutable`
@@ -110,6 +117,8 @@ upgrade-insecure-requests
 
 ## Alternativas consideradas
 
+- **Catálogo por link sem `noindex`**: rejeitado — catálogos ligados
+  poderiam ser indexados se o link vazar para página pública
 - **`connect-src https://*.googleapis.com`**: rejeitado — curinga que
   autorizaria dezenas de APIs não usadas
 - **`wss:` preventivamente**: rejeitado — abriria a política com base em
@@ -121,3 +130,9 @@ upgrade-insecure-requests
 - **Apontar `VITE_FIREBASE_AUTH_DOMAIN` para o host do app**: funciona,
   mas exige registrar cada host (inclusive canais de preview efêmeros)
   nos Authorized redirect URIs do OAuth client
+
+## Histórico
+
+- 2026-09-16 — Esmiuçamento do catálogo compartilhado por link
+  ([IDR 0055](../idr/0055-catalogo-compartilhado-por-link-somente-leitura.md)): `X-Robots-Tag: noindex` em `/catalogo/**`;
+  implementação a planejar. Antes: os mesmos headers para todo caminho.
