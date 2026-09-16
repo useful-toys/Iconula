@@ -3,7 +3,7 @@
 # Tarefa [0025-0002]: fundo neutro fora do cabeçalho
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Restringir a identidade verde-gramado com dourado ao `.cabecalho` (barra

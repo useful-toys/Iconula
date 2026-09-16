@@ -75,7 +75,7 @@
 }
 
 .menu-de-compartilhar__item:hover:not(:disabled) {
-  background: var(--turf-deep);
+  background: var(--bg-deep);
 }
 
 .menu-de-compartilhar__item:focus-visible {

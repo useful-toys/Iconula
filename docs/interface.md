@@ -602,7 +602,7 @@ qualquer autenticação:
 ```
 
 - Cartão centrado (largura máxima ~360px) em `--panel` sobre o fundo
-  gramado, título em dourado
+  neutro, título em dourado
 - Botão próprio do Google (fundo branco, disco colorido), login por
   popup (ADR 0005)
 - A atestação de menores acompanha o botão e a frase de aceite declara a
@@ -729,18 +729,21 @@ Tarefa 0017-0004).
 
 ## Identidade visual
 
-Tema escuro único — verde-gramado com detalhes dourados, inspirado no
-estádio. O app não segue `prefers-color-scheme` e não tem tema claro
-(IDR 0022).
+Tema escuro único. A identidade verde-gramado com dourado, inspirada no
+estádio, fica restrita ao `.cabecalho` (a barra fixa do topo); o resto da
+aplicação usa fundo neutro, sem matiz, para não competir com as cores de
+grupo e de seção. O app não segue `prefers-color-scheme` e não tem tema
+claro (IDR 0022).
 
 ### Paleta (tokens CSS, OKLCH)
 
 | Token | Valor | Uso |
 |---|---|---|
-| `--turf` | `oklch(0.22 0.06 150)` | fundo da página |
-| `--turf-deep` | `oklch(0.15 0.05 150)` | cabeçalho sticky, fundo do selo `×N` |
-| `--panel` | `oklch(0.19 0.05 150)` | cabeçalho de seção, chips, cartão faltante |
-| `--border` | `oklch(0.32 0.05 150)` | bordas e divisores |
+| `--bg` | `oklch(0.22 0 0)` | fundo da página (corpo e telas internas) |
+| `--bg-deep` | `oklch(0.15 0 0)` | fundo do selo `×N` e do controle de menos; texto sobre o controle ativo |
+| `--turf` | `oklch(0.22 0.06 150)` | fundo do `.cabecalho` — único uso da identidade verde-gramado |
+| `--panel` | `oklch(0.19 0 0)` | cabeçalho de seção, chips, cartão faltante |
+| `--border` | `oklch(0.32 0 0)` | bordas e divisores |
 | `--gold` | `oklch(0.78 0.14 85)` | título, controle ativo, marca de metalizada, links |
 | `--cream` | `oklch(0.95 0.01 90)` | texto principal |
 | `--muted` | `oklch(0.68 0.02 150)` | texto secundário, borda tracejada do faltante |
@@ -810,7 +813,7 @@ tabela do [IDR 0046](idr/0046-cores-de-selecoes.md): os 48 tokens
   (13px) também em `--muted` — o placar pesa mais que a hora
 - Controles: grupos segmentados sobre `--panel` com contorno de 1px em
   `--border` (IDR 0048), raio 9px, item `5px 12px` em 12px/600 — ativo
-  com fundo `--gold` e texto `--turf-deep`, inativo transparente em
+  com fundo `--gold` e texto `--bg-deep`, inativo transparente em
   `--muted`
 - Desfazer: botão de 30×30px, raio 8px, borda e texto em `--gold`,
   colado à direita da linha dos grupos; em tela sensível, área de toque
@@ -877,13 +880,13 @@ tabela do [IDR 0046](idr/0046-cores-de-selecoes.md): os 48 tokens
 - Toque no cartão: além da mudança de cor do estado, encolhe e volta
   (`scale(0.92)`, 60ms) no instante do toque/clique (IDR 0042)
 - Selo `×N`: canto inferior direito, transbordando ~6px do cartão;
-  fundo `--turf-deep`, borda e texto `--orange-card`, 10px/700, raio
+  fundo `--bg-deep`, borda e texto `--orange-card`, 10px/700, raio
   8px, largura fixa para dois dígitos (IDR 0047)
 - Marca de metalizada: ponto de 6px em `--gold` no canto superior
   direito, com 3px de recuo das bordas — dentro do cartão, nunca
   transbordando como o selo (IDR 0047)
 - Controle de menos: círculo de 18px no canto inferior esquerdo, com
-  recuo 0 (sobre a borda), fundo `--turf-deep`, borda de 1px e sinal `−`
+  recuo 0 (sobre a borda), fundo `--bg-deep`, borda de 1px e sinal `−`
   em `--gold`, 13px/700; nunca transborda o cartão; em tela sensível, área
   de toque ampliada só para dentro do cartão (para cima e para a direita),
   contida nele (IDR 0032, IDR 0042)

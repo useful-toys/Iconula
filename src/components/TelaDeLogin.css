@@ -4,7 +4,7 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: var(--turf);
+  background: var(--bg);
   color: var(--cream);
 }
 
@@ -82,7 +82,7 @@
   border-radius: 10px;
   padding: 12px;
   background: var(--gold);
-  color: var(--turf-deep);
+  color: var(--bg-deep);
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
