@@ -18,14 +18,15 @@ Aceito — implementação na Fase 0012 (Tarefas 0012-0002 a 0012-0004).
 
 ## Decisão
 
-- **Cabeçalho de seção**: `padding` de `10px 14px` para `7px 12px`; ícone
-  18px, nome 14px/600, borda e raio 12px inalterados
+- **Cabeçalho de seção**: `padding` de `4px 8px` (compactado de `10px 14px`
+  na Fase 0012 e de `7px 12px` na Fase 0026); ícone 18px, nome 14px/600
+  inalterados
 - **Espaçamentos entre blocos**:
   - entre super-grupos: 16px → 12px
   - entre seções (dentro do super-grupo e soltas na ordenação por sigla):
     14px → 10px
-  - entre o cabeçalho da seção e a grade (e do título do super-grupo ao
-    corpo): 10px → 8px
+  - entre o cabeçalho da seção e a grade: 10px → 8px → 4px (Fase 0026); do
+    título do super-grupo ao corpo permanece 8px
 - **Inalterados**: 8px entre cartões na lista e 20px entre páginas no álbum
 - **Faixa de aviso**: respiro vertical de `12px` para `6px`, em cima e
   embaixo; margens laterais inalteradas (`--page-gutter`)
@@ -70,6 +71,12 @@ Aceito — implementação na Fase 0012 (Tarefas 0012-0002 a 0012-0004).
   e o `×` de dispensar quase encostado nas bordas
 
 ## Histórico
+
+- 2026-09-16 — Correção da Fase 0026 (PR #64): o cabeçalho da seção ganhou o
+  anel em degradê e perdeu a borda/fundo próprios; com o respiro interno da
+  moldura, o `padding` do cabeçalho (`7px 12px`) e o vão título→grade (`8px`)
+  ficaram generosos demais. Compactados para `4px 8px` e `4px`, puxando o
+  título para a esquerda e para cima sem colar no anel (IDR 0018).
 
 - 2026-09-14 — Medição da margem inferior (Tarefa 0019-0003): faixa de falha
   expandida a 375px, com o respiro de 6px, = 55,78px; `+ 8px` → 64px, no

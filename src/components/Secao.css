@@ -44,54 +44,51 @@
 }
 
 /* Moldura da seção (IDR 0046): anel em degradê de 2px abraçando o título e a
- * grade de figurinhas, com o fundo tingido no mesmo degradê. O anel é feito
- * com `border` transparente (mantém a geometria com `border-radius`) e
- * quatro camadas de `background`, em duas metades: por dentro, a cor
- * ajustada lavada a 25% sobre `--panel` (`padding-box`) e, por fora, a cor
- * original (`border-box`) — a metade esquerda vai da cor 1 no topo até a
- * cor 2 no canto inferior esquerdo, a direita até a cor 3 no canto
- * inferior direito. FWC e COC têm as três posições na mesma cor de grupo,
+ * grade de figurinhas. O anel é feito com `border` transparente (mantém a
+ * geometria com `border-radius`) e duas camadas de `background` em degradê
+ * (`border-box`): a cor 1 cobre o topo inteiro e esvai para baixo, revelando
+ * o degradê horizontal da cor 2 (esquerda) para a cor 3 (direita) — cor 1 no
+ * topo, cor 2 no canto inferior esquerdo, cor 3 no direito, com transição
+ * contínua entre as três, sem emenda. O interior (`padding-box`) fica em
+ * `--bg`, neutro e sem matiz — o título e a grade assentam sobre o fundo da
+ * página e ficam legíveis; a identidade de cor vive só no anel. O `padding`
+ * de 8px dá respiro para as figurinhas não encostarem na moldura e o `gap`
+ * de 4px (mais apertado que `--section-body-gap`) aproxima o título da
+ * grade (IDR 0050). FWC e COC têm as três posições na mesma cor de grupo,
  * então o degradê vira cor única. O raio externo de 14px deixa o interno
  * (padding box) em 12px, igual ao do cabeçalho. */
 .secao__moldura {
   display: flex;
   flex-direction: column;
-  gap: var(--section-body-gap);
+  gap: 4px;
+  padding: 8px;
   border: 2px solid transparent;
   border-radius: 14px;
   background:
-    linear-gradient(
-      to bottom,
-      color-mix(in oklch, var(--sel-1) 25%, var(--panel)),
-      color-mix(in oklch, var(--sel-2) 25%, var(--panel))
-    ) left / 50% 100% no-repeat padding-box,
-    linear-gradient(
-      to bottom,
-      color-mix(in oklch, var(--sel-1) 25%, var(--panel)),
-      color-mix(in oklch, var(--sel-3) 25%, var(--panel))
-    ) right / 50% 100% no-repeat padding-box,
-    linear-gradient(to bottom, var(--sel-1-raw), var(--sel-2-raw)) left / 50% 100%
-      no-repeat border-box,
-    linear-gradient(to bottom, var(--sel-1-raw), var(--sel-3-raw)) right / 50% 100%
-      no-repeat border-box;
-  background-color: var(--panel);
+    linear-gradient(var(--bg), var(--bg)) padding-box,
+    linear-gradient(to bottom, var(--sel-1-raw), transparent) border-box,
+    linear-gradient(to right, var(--sel-2-raw), var(--sel-3-raw)) border-box;
 }
 
-/* Cabeçalho da seção: sem cor própria — a identidade da seleção agora vive
- * na moldura/fundo da seção inteira (IDR 0046). Mantém padding, raio,
- * cursor e o restante do layout do botão. */
+/* Cabeçalho da seção: sem cor própria — a identidade da seleção vive no anel
+ * em degradê da seção inteira (IDR 0046). Mantém raio, cursor e o restante do
+ * layout do botão; o `padding` é o mínimo para o título encostar no anel sem
+ * colar (IDR 0050, IDR 0018). */
 .secao__cabecalho {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 8px;
-  padding: 7px 12px;
+  padding: 4px 8px;
   border-radius: 12px;
   cursor: pointer;
   width: 100%;
   text-align: left;
   font: inherit;
   color: inherit;
+  appearance: none;
+  background: none;
+  border: 0;
 }
 
 /* Identidade de cor por seleção (IDR 0046): cada classe modificadora liga as
