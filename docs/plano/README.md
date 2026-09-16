@@ -468,7 +468,7 @@ específicos por ora — ficam para pedidos futuros.
 | # | Tarefa | Objetivo | Status |
 |---|---|---|---|
 | 0001 | [Playwright e diretório `e2e/`](0024-testes-e2e-com-emuladores-do-firebase/0001-playwright-e-diretorio-e2e.md) | `@playwright/test` como devDependency, config e `.gitignore` — infraestrutura de ferramenta, sem comportamento novo. | Concluída |
-| 0002 | [Emuladores condicionados por env var](0024-testes-e2e-com-emuladores-do-firebase/0002-emuladores-condicionados-por-env-var.md) | `firebase.json` ganha `emulators.auth`; `firebase.js` e `colecaoRemota.js` conectam aos emuladores só com `VITE_USE_FIREBASE_EMULATOR`. | Pendente |
+| 0002 | [Emuladores condicionados por env var](0024-testes-e2e-com-emuladores-do-firebase/0002-emuladores-condicionados-por-env-var.md) | `firebase.json` ganha `emulators.auth`; `firebase.js` e `colecaoRemota.js` conectam aos emuladores só com `VITE_USE_FIREBASE_EMULATOR`. | Concluída |
 | 0003 | [Login duplo, fixture, scripts e fumaça](0024-testes-e2e-com-emuladores-do-firebase/0003-login-duplo-fixture-scripts-e-fumaca.md) | Helpers de login e fixture, scripts `test:e2e`/`test:e2e:dev`, teste de fumaça e `docs/teste-e2e.md`. | Pendente |
 
 ## Regras que valem em toda tarefa

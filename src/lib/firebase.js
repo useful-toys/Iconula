@@ -7,6 +7,7 @@
 import { initializeApp } from "firebase/app";
 import {
   GoogleAuthProvider,
+  connectAuthEmulator,
   getAuth,
   signInWithPopup,
 } from "firebase/auth";
@@ -46,6 +47,11 @@ export let app = null;
 if (isConfigured) {
   app = initializeApp(config);
   auth = getAuth(app);
+  // Ligado só pelos testes E2E (ADR 0010): nunca em dev normal, preview ou
+  // produção, porque a variável nunca é definida fora desse ambiente.
+  if (import.meta.env.VITE_USE_FIREBASE_EMULATOR) {
+    connectAuthEmulator(auth, "http://127.0.0.1:9099");
+  }
 } else {
   console.error(
     "Firebase não inicializado — configure VITE_FIREBASE_* em .env.local (ver docs/setup-firebase.md). Login e persistência ficarão indisponíveis.",

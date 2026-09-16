@@ -3,7 +3,7 @@
 # Tarefa [0024-0002]: Emuladores condicionados por variável de ambiente
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Ligar `src/lib/firebase.js` e `src/lib/colecaoRemota.js` aos emuladores
