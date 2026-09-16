@@ -45,12 +45,14 @@ um teste de fumaça que prova a infraestrutura de ponta a ponta, e
    --only auth,firestore --project demo-iconula` e roda `playwright
    test` — script **padrão**) e `test:e2e:dev` (mesma ideia, servindo
    com `npm run dev` em vez do build — atalho de iteração).
-4. `e2e/catalogo.spec.js` (ou nome equivalente): teste de fumaça —
-   login instantâneo (helper de e-mail/senha) e confere que o catálogo
-   carrega (ex.: uma seção ou o título aparece na tela). Usa o helper
-   de e-mail/senha, não o popup — o próprio fluxo de login via popup
-   fica para um teste dedicado futuro (fora do escopo desta entrega,
-   ver ADR 0010).
+4. `e2e/catalogo.spec.js` (ou nome equivalente): teste de fumaça — login
+   instantâneo (helper de e-mail/senha), grava um estado conhecido com
+   o helper de fixture (algumas contagens, não a coleção vazia) e
+   confere que o placar exibido corresponde exatamente a esse estado
+   (ex.: título mostra o total e o percentual certos para as contagens
+   gravadas). Exercita os dois helpers desta tarefa (login rápido e
+   fixture) numa só verificação; o helper de popup fica para um teste
+   dedicado futuro (fora do escopo desta entrega, ver ADR 0010).
 5. Criar `docs/teste-e2e.md`, do geral para o específico:
    - por que existe (login como guarda do app, sem conta Google real
      no ambiente de automação — motivação da ADR 0010);
@@ -102,8 +104,9 @@ futuros (ver ADR 0010 § Alternativas consideradas).
       emuladores + Playwright).
 - [ ] `npm run test:e2e:dev` passa localmente (dev server +
       emuladores + Playwright).
-- [ ] O teste de fumaça usa o helper de e-mail/senha e confere que o
-      catálogo carrega.
+- [ ] O teste de fumaça usa o helper de e-mail/senha, grava um estado
+      conhecido com o helper de fixture e confere que o placar exibido
+      corresponde a esse estado — não à coleção vazia.
 - [ ] O helper de popup fake do Google existe e está pronto para uso
       por um teste futuro dedicado ao fluxo de login — verificação
       funcional desse caminho fica fora desta entrega (ADR 0010).
