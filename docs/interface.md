@@ -748,18 +748,22 @@ estádio. O app não segue `prefers-color-scheme` e não tem tema claro
 | `--orange-card` | `oklch(0.68 0.15 55)` | cartão repetida e selo `×N` |
 | `--ink-on-light` | `oklch(0.2 0.02 90)` | texto sobre cartão colorido |
 | `--notif-red` | `oklch(0.6 0.18 25)` | borda da faixa de falha (fundo `oklch(0.3 0.15 25)`) |
-| `--group-a` | `oklch(0.67 0.162 144)` | identidade do grupo (título do super-grupo, faixa de bandeiras) |
-| `--group-b` | `oklch(0.61 0.209 27)` | identidade do grupo (título do super-grupo, faixa de bandeiras) |
-| `--group-c` | `oklch(0.81 0.165 113)` | identidade do grupo (título do super-grupo, faixa de bandeiras) |
-| `--group-d` | `oklch(0.53 0.159 271)` | identidade do grupo (título do super-grupo, faixa de bandeiras) |
-| `--group-e` | `oklch(0.65 0.208 36)` | identidade do grupo (título do super-grupo, faixa de bandeiras) |
-| `--group-f` | `oklch(0.51 0.084 180)` | identidade do grupo (título do super-grupo, faixa de bandeiras) |
-| `--group-g` | `oklch(0.74 0.091 300)` | identidade do grupo (título do super-grupo, faixa de bandeiras) |
-| `--group-h` | `oklch(0.66 0.107 185)` | identidade do grupo (título do super-grupo, faixa de bandeiras) |
-| `--group-i` | `oklch(0.54 0.19 308)` | identidade do grupo (título do super-grupo, faixa de bandeiras) |
-| `--group-j` | `oklch(0.81 0.063 33)` | identidade do grupo (título do super-grupo, faixa de bandeiras) |
-| `--group-k` | `oklch(0.64 0.21 5)` | identidade do grupo (título do super-grupo, faixa de bandeiras) |
-| `--group-l` | `oklch(0.53 0.129 24)` | identidade do grupo (título do super-grupo, faixa de bandeiras) |
+| `--group-a` | `oklch(0.710 0.124 142.3)` | identidade do grupo — variante ajustada (fundo tingido do título e da faixa) |
+| `--group-b` | `oklch(0.577 0.234 28.3)` | identidade do grupo — variante ajustada (fundo tingido do título e da faixa) |
+| `--group-c` | `oklch(0.892 0.163 111.2)` | identidade do grupo — variante ajustada (fundo tingido do título e da faixa) |
+| `--group-d` | `oklch(0.513 0.129 254.8)` | identidade do grupo — variante ajustada (fundo tingido do título e da faixa) |
+| `--group-d-raw` | `oklch(0.413 0.129 254.8)` | identidade do grupo D — variante original (barra do título e da faixa) |
+| `--group-e` | `oklch(0.647 0.177 46.4)` | identidade do grupo — variante ajustada (fundo tingido do título e da faixa) |
+| `--group-f` | `oklch(0.502 0.093 170.5)` | identidade do grupo — variante ajustada (fundo tingido do título e da faixa) |
+| `--group-f-raw` | `oklch(0.473 0.093 170.5)` | identidade do grupo F — variante original (barra do título e da faixa) |
+| `--group-g` | `oklch(0.815 0.050 277.6)` | identidade do grupo — variante ajustada (fundo tingido do título e da faixa) |
+| `--group-h` | `oklch(0.696 0.089 166.7)` | identidade do grupo — variante ajustada (fundo tingido do título e da faixa) |
+| `--group-i` | `oklch(0.525 0.127 293.2)` | identidade do grupo — variante ajustada (fundo tingido do título e da faixa) |
+| `--group-i-raw` | `oklch(0.399 0.127 293.2)` | identidade do grupo I — variante original (barra do título e da faixa) |
+| `--group-j` | `oklch(0.818 0.095 26.5)` | identidade do grupo — variante ajustada (fundo tingido do título e da faixa) |
+| `--group-k` | `oklch(0.589 0.200 7.6)` | identidade do grupo — variante ajustada (fundo tingido do título e da faixa) |
+| `--group-l` | `oklch(0.530 0.140 21.8)` | identidade do grupo — variante ajustada (fundo tingido do título e da faixa) |
+| `--group-l-raw` | `oklch(0.392 0.140 21.8)` | identidade do grupo L — variante original (barra do título e da faixa) |
 | `--coc-red` | `oklch(0.55 0.2 29)` | identidade da Coca-Cola (título do super-grupo, faixa de bandeiras) |
 | `--group-fwc` | `var(--gold)` | alias de `--gold` para os Extras FIFA |
 | `--group-coc` | `var(--coc-red)` | alias de `--coc-red` para a Coca-Cola |
@@ -771,7 +775,14 @@ Os 12 super-grupos da Copa (A–L) e os especiais (FWC, COC) têm cor de
 identidade com os valores do
 [IDR 0045](idr/0045-cores-de-super-grupos.md): as 12 cores de grupo, o
 `--coc-red` e os alias `--group-fwc` (de `--gold`) e `--group-coc` (de
-`--coc-red`). As cores são aplicadas no título do super-grupo e na faixa de
+`--coc-red`). Cada cor de grupo tem duas variantes: a **ajustada**
+(`--group-<x>`, luminosidade corrigida para ≥ 3:1 sobre `--turf`) tinge o
+fundo a 30% no título do super-grupo e a 60% (80% no hover) na faixa de
+bandeiras; a **original** (`--group-<x>-raw`, RGB oficial sem ajuste) desenha
+a barra esquerda de 3px do título e a barra inferior de 2px da faixa. Nos
+grupos em que a original já atinge o contraste mínimo a ajustada é a própria
+original e um único token cobre as duas finalidades — só D, F, I e L têm
+`-raw`. As cores são aplicadas no título do super-grupo e na faixa de
 bandeiras.
 
 As 48 seleções têm cor de identidade no cabeçalho de seção, com os valores da

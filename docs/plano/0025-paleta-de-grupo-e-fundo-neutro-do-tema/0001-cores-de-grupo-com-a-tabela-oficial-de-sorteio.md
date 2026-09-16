@@ -3,7 +3,7 @@
 # Tarefa [0025-0001]: cores de grupo com a tabela oficial de sorteio
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Trocar a origem das 12 cores de super-grupo (A–L) pela tabela oficial do
