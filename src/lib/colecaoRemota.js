@@ -65,11 +65,21 @@ function obterFirestore() {
         persistentLocalCache,
         persistentMultipleTabManager,
       } = await import('firebase/firestore');
-      return initializeFirestore(app, {
+      const db = initializeFirestore(app, {
         localCache: persistentLocalCache({
           tabManager: persistentMultipleTabManager(),
         }),
       });
+      // Ligado só pelos testes E2E (ADR 0010): nunca em dev normal, preview
+      // ou produção, porque a variável nunca é definida fora desse ambiente.
+      // `connectFirestoreEmulator` só é importado quando a variável está
+      // definida, para não exigir o export do mock de `firebase/firestore`
+      // nos testes unitários que não a definem.
+      if (import.meta.env.VITE_USE_FIREBASE_EMULATOR) {
+        const { connectFirestoreEmulator } = await import('firebase/firestore');
+        connectFirestoreEmulator(db, '127.0.0.1', 8080);
+      }
+      return db;
     })();
   }
   return dbPromise;

@@ -315,10 +315,21 @@ console do navegador, não na tela.
 
 ### Emulador (desenvolvimento)
 
-`firebase.json` traz um bloco `emulators` com o Firestore na porta 8080,
-usado só pelos testes de regras. O emulador roda na JVM e o
-`firebase-tools` exige **JDK 21 ou superior** — com um JDK mais antigo no
-`PATH`, `npm run test:rules` falha por ambiente, não por regra.
+`firebase.json` traz um bloco `emulators` com dois emuladores:
+
+- **Firestore** (porta 8080) — usado pelos testes de regras
+  (`npm run test:rules`) e pelos testes E2E. Roda na JVM e o
+  `firebase-tools` exige **JDK 21 ou superior** — com um JDK mais antigo no
+  `PATH`, ele falha por ambiente, não por regra.
+- **Auth** (porta 9099) — usado só pelos testes E2E. Roda em Node, sem
+  exigir JVM.
+
+No cliente, `src/lib/firebase.js` e `src/lib/colecaoRemota.js` só se
+conectam a esses emuladores (`connectAuthEmulator`/
+`connectFirestoreEmulator`, ambos contra `127.0.0.1`) quando a variável de
+ambiente `VITE_USE_FIREBASE_EMULATOR` está definida — nunca em dev normal,
+preview ou produção, onde a variável nunca é definida (ver
+[ADR 0010](adr/0010-testes-e2e-com-playwright-e-emuladores-do-firebase.md)).
 
 ## Domínio customizado
 
