@@ -115,7 +115,7 @@ Aceito.
   JDK 21+ (já exigido por `test:rules`) e do download dos browsers do
   Playwright na primeira vez.
 
-Implementação: a planejar (/planejar).
+Implementação: Fase 0024 (Tarefas 0024-0001 a 0024-0003).
 
 ## Alternativas consideradas
 

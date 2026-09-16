@@ -69,6 +69,7 @@ Detalhes e status das tarefas no guia [CLAUDE.md](CLAUDE.md) § Status e ciclo d
 | 21 | [Botão compartilhar](0021-botao-compartilhar/) | Listas de troca num botão próprio, com cópia e compartilhamento pela folha do sistema | 19, 20 | `feat: botão compartilhar com cópia e folha do sistema` | Entregue |
 | 22 | [Proporção e nome das figurinhas paisagem](0022-proporcao-e-nome-das-figurinhas-paisagem/) | Cartão de 60×70px, paisagem de 70×60px na 13 e em 15 figurinhas do FWC, nome no escudo e na foto do time e nome curto nas paisagens do FWC | 19 | `feat: figurinhas paisagem na proporção do cromo, com nome` | Entregue |
 | 23 | [Extras FIFA na disposição álbum](0023-extras-fifa-na-disposicao-album/) | Extras FIFA nas posições reais das páginas 0–3 e 106–109, com a dimensão de cada página vinda do dado | 22 | `feat: extras FIFA na disposição álbum com as posições reais` | Entregue |
+| 24 | [Testes E2E com emuladores do Firebase](0024-testes-e2e-com-emuladores-do-firebase/) | Playwright rodando contra os emuladores de Auth e Firestore, com login duplo e fixture de coleção, provado por um teste de fumaça | — | `test: adiciona testes e2e com playwright e emuladores do firebase` | Pendente |
 
 ---
 
@@ -446,6 +447,29 @@ grade vinda do dado; depende da Fase 22, que dá às paisagens do FWC os
 | 0001 | [Dimensão de cada página no layout de álbum](0023-extras-fifa-na-disposicao-album/0001-dimensao-de-cada-pagina-no-layout-de-album.md) | Páginas com linhas e colunas, posição pelo campo `posicao`, pares de páginas e página 1 da Coca-Cola com 2 linhas. | Concluída |
 | 0002 | [Páginas do FWC e página 0 no cabeçalho](0023-extras-fifa-na-disposicao-album/0002-paginas-do-fwc-e-pagina-zero-no-cabecalho.md) | `paginas` do FWC com as oito páginas físicas e `Extras FIFA FWC 0` no cabeçalho, sem seção sem páginas. | Concluída |
 | 0003 | [FWC na disposição álbum](0023-extras-fifa-na-disposicao-album/0003-fwc-na-disposicao-album.md) | Layout das oito páginas, casa de 70×70px, moldura e quatro pares, com `interface.md` atualizado. | Concluída |
+
+## Fase 24 — Testes E2E com emuladores do Firebase
+
+Fase fora da progressão de produto — infraestrutura de teste, motivada pela
+guarda de login do app (`docs/requisitos.md` § Acesso): sem conta Google
+real, valida visualmente qualquer tela exige um humano no preview, o que já
+deixou verificações pendentes na Fase 23 e uma regressão (faixa de
+bandeiras) passar despercebida até revisão manual. Decisões do
+esmiuçamento: Playwright contra os emuladores de Auth (novo) e Firestore
+(já usado por `test:rules`), projeto fake `demo-iconula`; login duplo —
+popup fake do Google só para telas de login/atestação, e-mail/senha
+instantâneo para o resto —; fixture de coleção no Firestore Emulator;
+scripts `test:e2e` (padrão, contra o build) e `test:e2e:dev` (contra o dev
+server) — ver [ADR 0010](../adr/0010-testes-e2e-com-playwright-e-emuladores-do-firebase.md)
+e a atualização do [ADR 0009](../adr/0009-testes-co-localizados.md) (`e2e/`
+como segunda exceção à co-localização). Sem CI e sem testes de regressão
+específicos por ora — ficam para pedidos futuros.
+
+| # | Tarefa | Objetivo | Status |
+|---|---|---|---|
+| 0001 | [Playwright e diretório `e2e/`](0024-testes-e2e-com-emuladores-do-firebase/0001-playwright-e-diretorio-e2e.md) | `@playwright/test` como devDependency, config e `.gitignore` — infraestrutura de ferramenta, sem comportamento novo. | Pendente |
+| 0002 | [Emuladores condicionados por env var](0024-testes-e2e-com-emuladores-do-firebase/0002-emuladores-condicionados-por-env-var.md) | `firebase.json` ganha `emulators.auth`; `firebase.js` e `colecaoRemota.js` conectam aos emuladores só com `VITE_USE_FIREBASE_EMULATOR`. | Pendente |
+| 0003 | [Login duplo, fixture, scripts e fumaça](0024-testes-e2e-com-emuladores-do-firebase/0003-login-duplo-fixture-scripts-e-fumaca.md) | Helpers de login e fixture, scripts `test:e2e`/`test:e2e:dev`, teste de fumaça e `docs/teste-e2e.md`. | Pendente |
 
 ## Regras que valem em toda tarefa
 
