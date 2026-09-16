@@ -33,6 +33,11 @@ dist-ssr
 # Relatórios de revisão/auditoria (locais, não versionados)
 .findings/
 
+# Playwright (testes E2E)
+playwright-report/
+test-results/
+blob-report/
+
 # Worktrees do Claude Code (checkouts locais de outras branches)
 .claude/worktrees/
 # worktrees de trabalho dos comandos do plano

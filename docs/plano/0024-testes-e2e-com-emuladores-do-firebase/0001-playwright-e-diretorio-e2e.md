@@ -3,7 +3,7 @@
 # Tarefa [0024-0001]: Playwright e diretório `e2e/`
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Instalar o Playwright como ferramenta de teste E2E e criar a estrutura
