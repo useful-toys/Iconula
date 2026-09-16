@@ -127,6 +127,10 @@ Fluxos:
   ([DDR 0002](devops-dr/0002-workflow-de-ci-separado.md),
   [DDR 0004](devops-dr/0004-deploy-e-teste-das-regras-do-firestore.md));
   actions pinadas por SHA ([DDR 0003](devops-dr/0003-pinning-de-actions-por-sha.md))
+- Testes E2E: Playwright contra Chromium e os emuladores Auth+Firestore
+  do Firebase (`npm run test:e2e`/`test:e2e:dev`, JDK 21+), só local, sem
+  CI ([ADR 0010](adr/0010-testes-e2e-com-playwright-e-emuladores-do-firebase.md),
+  [docs/teste-e2e.md](teste-e2e.md))
 - Quatro workflows: `ci.yml` (lint + testes + build), `firebase-hosting-merge.yml`
   (produção), `firebase-hosting-pull-request.yml` (preview, com o host do
   canal autorizado no login) e `firebase-preview-domains-sweep.yml`
