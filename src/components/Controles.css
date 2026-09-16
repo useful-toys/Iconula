@@ -35,7 +35,7 @@
 
 .controles__opcao--ativa {
   background: var(--gold);
-  color: var(--turf-deep);
+  color: var(--bg-deep);
 }
 
 /* Tooltip da opção — IDR 0048: o nome acessível por extenso, abaixo do botão,

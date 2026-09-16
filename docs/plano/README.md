@@ -490,7 +490,7 @@ parte — [IDR 0054](../idr/0054-paleta-da-capa-do-album-fifa-2026.md).
 | # | Tarefa | Objetivo | Status |
 |---|---|---|---|
 | 0001 | [Cores de grupo com a tabela oficial de sorteio](0025-paleta-de-grupo-e-fundo-neutro-do-tema/0001-cores-de-grupo-com-a-tabela-oficial-de-sorteio.md) | 12 cores de grupo com RGB oficial, variante original (borda) e ajustada (fundo) em OKLCH. | Concluída |
-| 0002 | [Fundo neutro fora do cabeçalho](0025-paleta-de-grupo-e-fundo-neutro-do-tema/0002-fundo-neutro-fora-do-cabecalho.md) | `--bg`/`--bg-deep`/`--panel`/`--border` sem matiz; `--turf` mantém o verde-gramado, restrito ao `.cabecalho`. | Pendente |
+| 0002 | [Fundo neutro fora do cabeçalho](0025-paleta-de-grupo-e-fundo-neutro-do-tema/0002-fundo-neutro-fora-do-cabecalho.md) | `--bg`/`--bg-deep`/`--panel`/`--border` sem matiz; `--turf` mantém o verde-gramado, restrito ao `.cabecalho`. | Concluída |
 | 0003 | [IDR de referência da paleta do álbum](0025-paleta-de-grupo-e-fundo-neutro-do-tema/0003-idr-de-referencia-da-paleta-do-album.md) | Conferir o registro do IDR 0054 (já escrito no planejamento), sem tocar em código. | Pendente |
 
 ## Fase 26 — Moldura em degradê da bandeira na seção do time

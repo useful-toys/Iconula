@@ -97,7 +97,7 @@
 }
 
 .menu-de-acoes__item:hover:not(:disabled) {
-  background: var(--turf-deep);
+  background: var(--bg-deep);
 }
 
 .menu-de-acoes__item:focus-visible {

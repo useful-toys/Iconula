@@ -2,7 +2,7 @@
 
 .politica {
   min-height: 100vh;
-  background: var(--turf);
+  background: var(--bg);
   color: var(--cream);
 }
 
