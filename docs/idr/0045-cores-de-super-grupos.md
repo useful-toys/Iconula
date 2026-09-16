@@ -4,7 +4,8 @@
 
 ## Status
 
-Aceito (revisado) — implementação na Fase 0015; ajustes na Fase 0018.
+Aceito (revisado) — implementação na Fase 0015; ajustes na Fase 0018; nova
+fonte das cores e modelo de duas variantes na Fase 0025.
 
 ## Contexto
 
@@ -23,36 +24,53 @@ Aceito (revisado) — implementação na Fase 0015; ajustes na Fase 0018.
 
 - **Título do super-grupo**: moldura arredondada como a do cabeçalho de seção
   (`--panel`, `border-radius: 12px`, `padding: 7px 12px`), com a **barra
-  esquerda de 3px na cor do grupo** no lugar da borda esquerda de 1px e fundo
-  com 30% da cor misturada a `--panel`; o texto continua em `--gold`
-- **Faixa de bandeiras**: fundo de cada bandeira com 60% da cor do grupo
-  misturada a `--panel` e **barra inferior de 2px com 80% da cor**, **só na
-  ordenação por página**; no hover, o fundo intensifica para 80% da cor e a
-  barra permanece; na ordenação por sigla, fundo neutro `--panel` e hover
-  cinza `--border`, inclusive FWC e COC
+  esquerda de 3px na cor original do grupo** no lugar da borda esquerda de
+  1px e fundo com 30% da **cor ajustada** misturada a `--panel`; o texto
+  continua em `--gold`
+- **Faixa de bandeiras**: fundo de cada bandeira com 60% da **cor ajustada**
+  misturada a `--panel` e **barra inferior de 2px com 80% da cor original**,
+  **só na ordenação por página**; no hover, o fundo intensifica para 80% da
+  cor ajustada e a barra permanece; na ordenação por sigla, fundo neutro
+  `--panel` e hover cinza `--border`, inclusive FWC e COC
 - O cabeçalho de seção não recebe cor de grupo: recebe a cor da sua seleção
   ([IDR 0046](0046-cores-de-selecoes.md))
+- **Duas variantes por cor** (Fase 0025): a cor **original** é o RGB oficial
+  sem nenhum ajuste, usada só em traços finos (barra, borda) onde não precisa
+  segurar contraste de texto; a cor **ajustada** tem a luminosidade corrigida
+  ao mínimo necessário para ≥ 3:1 quando ela vira fundo tingido — mesmo
+  croma e matiz da original. Nos grupos em que a original já atinge ≥ 3:1
+  sozinha, ajustada = original, e um único token cobre as duas finalidades.
 
 ### Cores dos super-grupos
 
-Hex de origem convertido para OKLCH; os grupos D, F, I e L tiveram a
-luminosidade elevada até ≥ 3:1 contra `--turf` (a superfície mais clara das
-duas), mantendo croma e matiz.
+RGB da **tabela oficial de sorteio dos grupos da Copa 2026** (fonte mais
+fiel que o hex de origem usado antes, sem procedência registrada) convertido
+para OKLCH. Contraste calculado contra `--turf` `oklch(0.22 0.06 150)` — a
+superfície onde essas cores realmente aparecem (título do super-grupo e
+faixa de bandeiras vivem dentro do `.cabecalho`, que mantém o verde-gramado
+mesmo depois da Fase 0025 neutralizar o resto do fundo, ver
+[IDR 0022](0022-tema-escuro-unico-paleta-do-prototipo.md)). Só D, F, I e L
+precisam de cor ajustada — mesmos quatro grupos que já pediam ajuste na
+versão anterior desta tabela.
 
-| Grupo | Cor | Hex de origem | Token | Valor | Contraste sobre `--turf` |
-|---|---|---|---|---|---|
-| A | Verde | #4CAF50 | `--group-a` | `oklch(0.67 0.162 144)` | 6,06:1 |
-| B | Vermelho | #E53935 | `--group-b` | `oklch(0.61 0.209 27)` | 4,06:1 |
-| C | Verde-limão | #C0CA33 | `--group-c` | `oklch(0.81 0.165 113)` | 9,67:1 |
-| D | Azul-índigo | #3F51B5 | `--group-d` | `oklch(0.53 0.159 271)` (de L 0.48) | 3,11:1 |
-| E | Laranja | #F4511E | `--group-e` | `oklch(0.65 0.208 36)` | 4,81:1 |
-| F | Verde-azulado | #00695C | `--group-f` | `oklch(0.51 0.084 180)` (de L 0.47) | 3,10:1 |
-| G | Lilás | #B39DDB | `--group-g` | `oklch(0.74 0.091 300)` | 7,18:1 |
-| H | Azul-petróleo | #26A69A | `--group-h` | `oklch(0.66 0.107 185)` | 5,76:1 |
-| I | Roxo | #6A1B9A | `--group-i` | `oklch(0.54 0.19 308)` (de L 0.42) | 3,06:1 |
-| J | Salmão | #E8B4A8 | `--group-j` | `oklch(0.81 0.063 33)` | 9,23:1 |
-| K | Rosa | #EC407A | `--group-k` | `oklch(0.64 0.21 5)` | 4,54:1 |
-| L | Vermelho-vinho | #8D2E2E | `--group-l` | `oklch(0.53 0.129 24)` (de L 0.44) | 3,02:1 |
+| Grupo | RGB oficial | Token | Cor original (OKLCH) | Contraste original | Cor ajustada (OKLCH) | Contraste ajustada |
+|---|---|---|---|---|---|---|
+| A | 114 181 108 | `--group-a` | `oklch(0.710 0.124 142.3)` | 6,93:1 | = original | — |
+| B | 227 6 16 | `--group-b` | `oklch(0.577 0.234 28.3)` | 3,49:1 | = original | — |
+| C | 224 229 86 | `--group-c` | `oklch(0.892 0.163 111.2)` | 12,58:1 | = original | — |
+| D | 7 74 143 | `--group-d` / `--group-d-raw` | `oklch(0.413 0.129 254.8)` | 1,93:1 | `oklch(0.513 0.129 254.8)` | 3,00:1 |
+| E | 225 99 12 | `--group-e` | `oklch(0.647 0.177 46.4)` | 4,86:1 | = original | — |
+| F | 0 108 84 | `--group-f` / `--group-f-raw` | `oklch(0.473 0.093 170.5)` | 2,65:1 | `oklch(0.502 0.093 170.5)` | 3,02:1 |
+| G | 186 192 227 | `--group-g` | `oklch(0.815 0.050 277.6)` | 9,52:1 | = original | — |
+| H | 98 175 145 | `--group-h` | `oklch(0.696 0.089 166.7)` | 6,54:1 | = original | — |
+| I | 76 53 132 | `--group-i` / `--group-i-raw` | `oklch(0.399 0.127 293.2)` | 1,74:1 | `oklch(0.525 0.127 293.2)` | 3,02:1 |
+| J | 251 172 163 | `--group-j` | `oklch(0.818 0.095 26.5)` | 9,35:1 | = original | — |
+| K | 215 52 103 | `--group-k` | `oklch(0.589 0.200 7.6)` | 3,71:1 | = original | — |
+| L | 128 22 33 | `--group-l` / `--group-l-raw` | `oklch(0.392 0.140 21.8)` | 1,67:1 | `oklch(0.530 0.140 21.8)` | 3,01:1 |
+
+`--group-x` continua sendo a cor ajustada (mesmo papel de hoje, usada no
+fundo tingido); `--group-x-raw` (só D, F, I, L) é a cor original, usada na
+barra/borda.
 
 ### Especiais
 
@@ -64,13 +82,15 @@ duas), mantendo croma e matiz.
 
 ## Consequências
 
-- Identificação visual imediata do super-grupo
+- Identificação visual imediata do super-grupo, agora com a cor oficial do
+  sorteio em vez de um hex de origem sem procedência
 - Hierarquia: grupo (título do super-grupo, faixa de bandeiras) → seleção
   (cabeçalho de seção, [IDR 0046](0046-cores-de-selecoes.md)) → figurinha;
   super-grupo e seção compartilham a moldura arredondada — a hierarquia
   permanece pela barra esquerda, pela cor (grupo × seleção) e pelo texto
   (`--gold` × `--cream`)
-- 15 tokens novos em `theme.css`: 12 cores de grupo, `--coc-red` e 2 alias
+- 15 tokens em `theme.css` continuam (12 cores de grupo, `--coc-red` e 2
+  alias) mais até 4 tokens `-raw` novos (D, F, I, L) para a cor original
 - A cor reforça; o nome "Grupo A" continua no título — cor nunca é o único
   sinal
 
@@ -85,8 +105,24 @@ duas), mantendo croma e matiz.
 - **Hex de origem sem ajuste**: D, F, I e L ficariam entre 1,8:1 e 2,6:1
   sobre o fundo
 - **COC em `--notif-red`**: a identidade da Coca-Cola se leria como falha
+- **Manter o hex de origem sem procedência oficial** (Fase 0025): descartado
+  — o humano preferiu a tabela oficial de sorteio, mais fiel à identidade
+  real dos grupos
+- **Extrair as cores da capa do álbum físico** (Fase 0025): descartado — a
+  primeira tentativa de leitura visual da imagem saiu imprecisa; a tabela
+  oficial de sorteio é fonte mais confiável para os grupos (a capa do álbum
+  vira só referência, [IDR 0054](0054-paleta-da-capa-do-album-fifa-2026.md))
 
 ## Histórico
+
+- 2026-09-16 — Planejamento da Fase 0025: fonte das cores trocada do hex de
+  origem sem procedência para a tabela oficial de sorteio 2026 (RGB exato);
+  cada cor ganha variante original (barra/borda, sem ajuste) e ajustada
+  (fundo tingido, luminosidade mínima para ≥ 3:1) — só D, F, I e L
+  precisam de ajustada. O humano decidiu isso ao revisar o tema junto com o
+  fundo neutro ([IDR 0022](0022-tema-escuro-unico-paleta-do-prototipo.md)) e
+  a cor de seção por bandeira ([IDR 0046](0046-cores-de-selecoes.md)).
+  Implementação na Tarefa 0025-0001.
 
 - 2026-09-13 — Esmiuçamento pós-entrega da Fase 0015: a cor ficou sutil demais
   na faixa e o título não tinha moldura. A faixa passa de 20% para 60% de

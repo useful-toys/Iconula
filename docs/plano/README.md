@@ -70,6 +70,8 @@ Detalhes e status das tarefas no guia [CLAUDE.md](CLAUDE.md) § Status e ciclo d
 | 22 | [Proporção e nome das figurinhas paisagem](0022-proporcao-e-nome-das-figurinhas-paisagem/) | Cartão de 60×70px, paisagem de 70×60px na 13 e em 15 figurinhas do FWC, nome no escudo e na foto do time e nome curto nas paisagens do FWC | 19 | `feat: figurinhas paisagem na proporção do cromo, com nome` | Entregue |
 | 23 | [Extras FIFA na disposição álbum](0023-extras-fifa-na-disposicao-album/) | Extras FIFA nas posições reais das páginas 0–3 e 106–109, com a dimensão de cada página vinda do dado | 22 | `feat: extras FIFA na disposição álbum com as posições reais` | Entregue |
 | 24 | [Testes E2E com emuladores do Firebase](0024-testes-e2e-com-emuladores-do-firebase/) | Playwright rodando contra os emuladores de Auth e Firestore, com login duplo e fixture de coleção, provado por um teste de fumaça | — | `test: adiciona testes e2e com playwright e emuladores do firebase` | Entregue |
+| 25 | [Paleta de grupo e fundo neutro do tema](0025-paleta-de-grupo-e-fundo-neutro-do-tema/) | Repaletizar os grupos A–L com a tabela oficial de sorteio, neutralizar o fundo fora do cabeçalho (que mantém o verde-gramado) e registrar a paleta de referência da capa do álbum físico | 2, 15, 18 | `feat: paleta de grupo oficial e fundo neutro fora do cabeçalho` | Pendente |
+| 26 | [Moldura em degradê da bandeira na seção do time](0026-moldura-em-degrade-da-bandeira-na-secao/) | Substituir a cor única por seleção por moldura e fundo em degradê com as cores da bandeira, abraçando a seção inteira (título + grade) | 16, 25 | `feat: moldura em degradê com as cores da bandeira na seção` | Pendente |
 
 ---
 
@@ -470,6 +472,42 @@ específicos por ora — ficam para pedidos futuros.
 | 0001 | [Playwright e diretório `e2e/`](0024-testes-e2e-com-emuladores-do-firebase/0001-playwright-e-diretorio-e2e.md) | `@playwright/test` como devDependency, config e `.gitignore` — infraestrutura de ferramenta, sem comportamento novo. | Concluída |
 | 0002 | [Emuladores condicionados por env var](0024-testes-e2e-com-emuladores-do-firebase/0002-emuladores-condicionados-por-env-var.md) | `firebase.json` ganha `emulators.auth`; `firebase.js` e `colecaoRemota.js` conectam aos emuladores só com `VITE_USE_FIREBASE_EMULATOR`. | Concluída |
 | 0003 | [Login duplo, fixture, scripts e fumaça](0024-testes-e2e-com-emuladores-do-firebase/0003-login-duplo-fixture-scripts-e-fumaca.md) | Helpers de login e fixture, scripts `test:e2e`/`test:e2e:dev`, teste de fumaça e `docs/teste-e2e.md`. | Concluída |
+
+## Fase 25 — Paleta de grupo e fundo neutro do tema
+
+Decisões do planejamento: os grupos A–L passam a usar a tabela oficial de
+sorteio da Copa 2026 em vez de um hex de origem sem procedência, com
+variante original (borda) e ajustada (fundo) —
+[IDR 0045](../idr/0045-cores-de-super-grupos.md). O fundo geral da
+aplicação fica neutro (sem matiz); só o `.cabecalho` (barra fixa do topo)
+mantém a identidade verde-gramado com dourado —
+[IDR 0022](../idr/0022-tema-escuro-unico-paleta-do-prototipo.md). A capa do
+álbum físico oficial vira referência de identidade visual, registrada à
+parte — [IDR 0054](../idr/0054-paleta-da-capa-do-album-fifa-2026.md).
+`docs/requisitos.md` § Aparência ajustado para refletir o cabeçalho como
+único lugar com a identidade verde-gramado.
+
+| # | Tarefa | Objetivo | Status |
+|---|---|---|---|
+| 0001 | [Cores de grupo com a tabela oficial de sorteio](0025-paleta-de-grupo-e-fundo-neutro-do-tema/0001-cores-de-grupo-com-a-tabela-oficial-de-sorteio.md) | 12 cores de grupo com RGB oficial, variante original (borda) e ajustada (fundo) em OKLCH. | Pendente |
+| 0002 | [Fundo neutro fora do cabeçalho](0025-paleta-de-grupo-e-fundo-neutro-do-tema/0002-fundo-neutro-fora-do-cabecalho.md) | `--bg`/`--bg-deep`/`--panel`/`--border` sem matiz; `--turf` mantém o verde-gramado, restrito ao `.cabecalho`. | Pendente |
+| 0003 | [IDR de referência da paleta do álbum](0025-paleta-de-grupo-e-fundo-neutro-do-tema/0003-idr-de-referencia-da-paleta-do-album.md) | Conferir o registro do IDR 0054 (já escrito no planejamento), sem tocar em código. | Pendente |
+
+## Fase 26 — Moldura em degradê da bandeira na seção do time
+
+Decisão do planejamento: a cor única por seleção
+([IDR 0046](../idr/0046-cores-de-selecoes.md), Fase 16) gerava ruído visual
+e foi abandonada. Cada seção passa a ter uma moldura e um fundo em degradê
+com 2-3 cores da bandeira do país — cor 1 no topo, cor 2 no canto inferior
+esquerdo, cor 3 no direito —, abraçando o título e a grade de figurinhas,
+não só o cabeçalho. Cor muito escura (preto etc.) é clareada em OKLCH,
+nunca evitada. Depende da Fase 25 (fundo neutro usado como referência de
+contraste).
+
+| # | Tarefa | Objetivo | Status |
+|---|---|---|---|
+| 0001 | [Cores de bandeira por seleção em OKLCH](0026-moldura-em-degrade-da-bandeira-na-secao/0001-cores-de-bandeira-por-selecao-em-oklch.md) | Até 3 tokens de cor por seleção (original e, onde precisar, ajustada), com base na bandeira do país. | Pendente |
+| 0002 | [Moldura e fundo em degradê na seção](0026-moldura-em-degrade-da-bandeira-na-secao/0002-moldura-e-fundo-em-degrade-na-secao.md) | Técnica de anel-gradiente em `Secao.css`, movendo a identidade de cor do cabeçalho para a seção inteira. | Pendente |
 
 ## Regras que valem em toda tarefa
 

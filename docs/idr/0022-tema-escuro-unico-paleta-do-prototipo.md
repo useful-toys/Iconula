@@ -4,10 +4,11 @@
 
 ## Status
 
-Aceito — resolve a contradição entre a identidade visual declarada em
-interface.md ("tema escuro verde-gramado com detalhes dourados") e a
-base herdada do botão (`App.css` com dark mode via
-`prefers-color-scheme`, preservada pela RNF de responsividade).
+Aceito (revisado) — resolve a contradição entre a identidade visual
+declarada em interface.md ("tema escuro verde-gramado com detalhes
+dourados") e a base herdada do botão (`App.css` com dark mode via
+`prefers-color-scheme`, preservada pela RNF de responsividade); fundo
+neutralizado fora do cabeçalho na Fase 0025.
 
 ## Contexto
 
@@ -28,13 +29,20 @@ base herdada do botão (`App.css` com dark mode via
 ## Decisão
 
 - **Tema único escuro**: o app não segue `prefers-color-scheme` e não
-  oferece tema claro — a identidade verde-gramado com dourado é a única
-  aparência
+  oferece tema claro
 - A paleta, a tipografia e as medidas são as do protótipo, transcritas
   em interface.md ("Identidade visual") como fonte para o CSS
 - O `App.css` da era do botão deixa de ser base a preservar: a RNF de
   responsividade continua valendo para o comportamento (funcionar bem
   em celular, tablet e navegador), não para aquele arquivo
+- **Identidade verde-gramado restrita ao `.cabecalho`** (Fase 0025): só a
+  barra fixa do topo (título, controles, faixa de bandeiras —
+  `Cabecalho.css`) mantém `--turf` verde-gramado com `--gold`; o resto da
+  aplicação (corpo, tela de login, termos de uso, política de privacidade,
+  menus flutuantes, estados da figurinha) usa fundo **neutro** — `--bg` e
+  `--bg-deep` (sem matiz, croma zero), `--panel` e `--border` também sem
+  matiz. `--turf` não muda de valor, só passa a ser consumido num único
+  lugar
 
 ## Consequências
 
@@ -46,6 +54,12 @@ base herdada do botão (`App.css` com dark mode via
   literais espalhados pelos componentes
 - A regra de acessibilidade permanece: cor nunca é o único sinal — o
   reforço vazio/preenchido do cartão (IDR 0006) segue obrigatório
+- **Fundo deixa de competir com as cores de grupo e de seção** (Fase 0025):
+  o verde-gramado geral brigava com seleções/grupos também verdes, e o
+  dourado com os laranja/dourado — restringir a identidade ao cabeçalho
+  isola o "colorido do produto" (grupos, seções) do "colorido da marca"
+  (cabeçalho)
+- `--turf-deep` renomeado para `--bg-deep`, acompanhando a mudança de papel
 
 ## Alternativas consideradas
 
@@ -54,3 +68,19 @@ base herdada do botão (`App.css` com dark mode via
   identidade — o verde-gramado é o produto
 - **Tema claro como opção configurável**: contraria "sem configurações"
   do [IDR 0018](0018-usuario-especialista-e-minimalismo.md)
+- **Reabrir tema claro** (Fase 0025, considerado e descartado no
+  planejamento): resolveria o choque de cor, mas reabre o mesmo custo de
+  afinar contraste em dois temas e contraria "sem configurações" — o fundo
+  neutro restrito resolve o choque sem esse custo
+- **Fundo verde-gramado geral mantido, só as cores de time suavizadas**
+  (Fase 0025): descartado — o fundo continuaria competindo com qualquer
+  cor de grupo/seção próxima do verde ou do dourado
+
+## Histórico
+
+- 2026-09-16 — Planejamento da Fase 0025: o humano achou que o
+  verde-gramado geral brigava com as cores de grupo/seção (também verdes
+  e douradas); a identidade passa a viver só no `.cabecalho`, o resto do
+  app fica neutro. Antes: verde-gramado com dourado em toda a aplicação,
+  sem distinção entre cabeçalho e conteúdo. Implementação na
+  Tarefa 0025-0002.

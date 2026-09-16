@@ -350,9 +350,10 @@ Questões recorrentes são marcadas como "Nota".*
   travar; virtualizar listas longas se necessário
 - **Responsividade**: o app funciona bem em navegador, celular e tablet;
   a apresentação do catálogo se adapta ao tamanho da tela
-- **Aparência**: tema escuro único (verde-gramado com dourado), sem
-  seguir `prefers-color-scheme` e sem tema claro — paleta, tipografia e
-  medidas em [interface.md](interface.md) (ver
+- **Aparência**: tema escuro único, sem seguir `prefers-color-scheme` e
+  sem tema claro; a identidade verde-gramado com dourado fica restrita ao
+  cabeçalho fixo do topo, o restante da aplicação usa fundo neutro —
+  paleta, tipografia e medidas em [interface.md](interface.md) (ver
   [IDR 0022](idr/0022-tema-escuro-unico-paleta-do-prototipo.md))
 - **Compartilhamento do site**: `title`, `description` e Open Graph
   básicos em PT-BR
