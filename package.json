@@ -12,7 +12,9 @@
     "lint": "oxlint",
     "preview": "vite preview",
     "test": "vitest run",
-    "test:rules": "npx --yes firebase-tools@15.29.0 emulators:exec --only firestore --project demo-iconula \"vitest run --config vitest.rules.config.js\""
+    "test:rules": "npx --yes firebase-tools@15.29.0 emulators:exec --only firestore --project demo-iconula \"vitest run --config vitest.rules.config.js\"",
+    "test:e2e": "npx --yes firebase-tools@15.29.0 emulators:exec --only auth,firestore --project demo-iconula \"playwright test\"",
+    "test:e2e:dev": "npx --yes firebase-tools@15.29.0 emulators:exec --only auth,firestore --project demo-iconula \"playwright test --config=playwright.dev.config.js\""
   },
   "dependencies": {
     "@twemoji/api": "^17.0.3",

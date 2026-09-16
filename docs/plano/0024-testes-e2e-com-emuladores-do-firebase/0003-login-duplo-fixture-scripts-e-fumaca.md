@@ -3,7 +3,7 @@
 # Tarefa [0024-0003]: Login duplo, fixture, scripts, teste de fumaça e documentação
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Entregar os helpers de login (popup fake do Google e e-mail/senha

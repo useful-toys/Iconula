@@ -48,6 +48,7 @@ reproduzível localmente sem depender de push
 | `npm test` | **Vitest** + **jsdom** + **React Testing Library** | Testes de unidade e integração dos componentes React |
 | `npm run test:rules` | **Vitest** + **@firebase/rules-unit-testing** + **emulador Firestore** | Regras de segurança do Firestore (exige JDK 21+) |
 | `npm run build` | **Vite** | Build de produção em `dist/` |
+| `npm run test:e2e` / `test:e2e:dev` | **Playwright** + **emuladores Auth/Firestore** | Testes E2E em navegador (Chromium): login e catálogo de ponta a ponta — exige JDK 21+ e `npx playwright install chromium`. Só local, sem CI (ver [ADR 0010](adr/0010-testes-e2e-com-playwright-e-emuladores-do-firebase.md) e [docs/teste-e2e.md](teste-e2e.md)) |
 
 - **Configs separadas**: `vite.config.js` (testes de componentes,
   `environment: "jsdom"`) e `vitest.rules.config.js` (testes de regras,
