@@ -3,7 +3,7 @@
 # Tarefa [0025-0003]: IDR de referência da paleta do álbum
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Nenhuma mudança de código: só conferir que o registro `docs/idr/0054-*.md`

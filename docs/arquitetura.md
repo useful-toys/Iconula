@@ -181,6 +181,7 @@ Fluxos:
 | Aparência (tema, paleta, medidas) | [IDR 0022](idr/0022-tema-escuro-unico-paleta-do-prototipo.md) + [interface.md](interface.md) |
 | Acessibilidade: foco visível, área de toque | [IDR 0042](idr/0042-foco-visivel-e-area-de-toque.md) |
 | Padrões de primeira abertura por faixa de tela | [IDR 0043](idr/0043-padroes-de-primeira-abertura-por-faixa-de-tela.md) |
+| Paleta de referência da capa do álbum físico | [IDR 0054](idr/0054-paleta-da-capa-do-album-fifa-2026.md) |
 | Localização do documento no Firestore | [MDR 0001](model-dr/0001-localizacao-do-documento-no-firestore.md) |
 | Schema da coleção (mapa esparso) | [MDR 0002](model-dr/0002-schema-do-documento-da-colecao.md) + [modelo-firebase.md](modelo-firebase.md) |
 | Gravação agregada da coleção | [MDR 0003](model-dr/0003-gravacao-agregada-da-colecao.md) |
