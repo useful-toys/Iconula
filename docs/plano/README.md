@@ -70,7 +70,7 @@ Detalhes e status das tarefas no guia [CLAUDE.md](CLAUDE.md) § Status e ciclo d
 | 22 | [Proporção e nome das figurinhas paisagem](0022-proporcao-e-nome-das-figurinhas-paisagem/) | Cartão de 60×70px, paisagem de 70×60px na 13 e em 15 figurinhas do FWC, nome no escudo e na foto do time e nome curto nas paisagens do FWC | 19 | `feat: figurinhas paisagem na proporção do cromo, com nome` | Entregue |
 | 23 | [Extras FIFA na disposição álbum](0023-extras-fifa-na-disposicao-album/) | Extras FIFA nas posições reais das páginas 0–3 e 106–109, com a dimensão de cada página vinda do dado | 22 | `feat: extras FIFA na disposição álbum com as posições reais` | Entregue |
 | 24 | [Testes E2E com emuladores do Firebase](0024-testes-e2e-com-emuladores-do-firebase/) | Playwright rodando contra os emuladores de Auth e Firestore, com login duplo e fixture de coleção, provado por um teste de fumaça | — | `test: adiciona testes e2e com playwright e emuladores do firebase` | Entregue |
-| 25 | [Paleta de grupo e fundo neutro do tema](0025-paleta-de-grupo-e-fundo-neutro-do-tema/) | Repaletizar os grupos A–L com a tabela oficial de sorteio, neutralizar o fundo fora do cabeçalho (que mantém o verde-gramado) e registrar a paleta de referência da capa do álbum físico | 2, 15, 18 | `feat: paleta de grupo oficial e fundo neutro fora do cabeçalho` | Pendente |
+| 25 | [Paleta de grupo e fundo neutro do tema](0025-paleta-de-grupo-e-fundo-neutro-do-tema/) | Repaletizar os grupos A–L com a tabela oficial de sorteio, neutralizar o fundo fora do cabeçalho (que mantém o verde-gramado) e registrar a paleta de referência da capa do álbum físico | 2, 15, 18 | `feat: paleta de grupo oficial e fundo neutro fora do cabeçalho` | Em andamento |
 | 26 | [Moldura em degradê da bandeira na seção do time](0026-moldura-em-degrade-da-bandeira-na-secao/) | Substituir a cor única por seleção por moldura e fundo em degradê com as cores da bandeira, abraçando a seção inteira (título + grade) | 16, 25 | `feat: moldura em degradê com as cores da bandeira na seção` | Pendente |
 
 ---
@@ -489,7 +489,7 @@ parte — [IDR 0054](../idr/0054-paleta-da-capa-do-album-fifa-2026.md).
 
 | # | Tarefa | Objetivo | Status |
 |---|---|---|---|
-| 0001 | [Cores de grupo com a tabela oficial de sorteio](0025-paleta-de-grupo-e-fundo-neutro-do-tema/0001-cores-de-grupo-com-a-tabela-oficial-de-sorteio.md) | 12 cores de grupo com RGB oficial, variante original (borda) e ajustada (fundo) em OKLCH. | Pendente |
+| 0001 | [Cores de grupo com a tabela oficial de sorteio](0025-paleta-de-grupo-e-fundo-neutro-do-tema/0001-cores-de-grupo-com-a-tabela-oficial-de-sorteio.md) | 12 cores de grupo com RGB oficial, variante original (borda) e ajustada (fundo) em OKLCH. | Concluída |
 | 0002 | [Fundo neutro fora do cabeçalho](0025-paleta-de-grupo-e-fundo-neutro-do-tema/0002-fundo-neutro-fora-do-cabecalho.md) | `--bg`/`--bg-deep`/`--panel`/`--border` sem matiz; `--turf` mantém o verde-gramado, restrito ao `.cabecalho`. | Pendente |
 | 0003 | [IDR de referência da paleta do álbum](0025-paleta-de-grupo-e-fundo-neutro-do-tema/0003-idr-de-referencia-da-paleta-do-album.md) | Conferir o registro do IDR 0054 (já escrito no planejamento), sem tocar em código. | Pendente |
 

@@ -85,10 +85,14 @@
 
 /* Identidade de grupo na faixa (IDR 0045): só na ordenação por página cada
  * bandeira soma a classe `--grupo-<chave>` (a letra A–L da seleção, ou FWC /
- * COC nos especiais) e define `--group-color`; o `background` mistura 60%
- * dessa cor a `--panel`. Sem a classe — ordenação por sigla — `--group-color`
- * cai no `--panel`, o fundo fica neutro e não há barra nem hover colorido.
- * As classes de cor não mexem em foco, área de toque nem espaçamento. */
+ * COC nos especiais) e define `--group-color` (variante ajustada); o
+ * `background` mistura 60% dessa cor a `--panel`. Em D, F, I e L — os únicos
+ * cuja original difere da ajustada — a classe também define
+ * `--group-color-raw` (variante original), que a barra inferior usa; nos
+ * demais grupos o `-raw` cai em `--group-color`, que já é a original. Sem a
+ * classe — ordenação por sigla — `--group-color` cai no `--panel`, o fundo
+ * fica neutro e não há barra nem hover colorido. As classes de cor não mexem
+ * em foco, área de toque nem espaçamento. */
 .faixa-de-secoes__botao--grupo-a {
   --group-color: var(--group-a);
 }
@@ -103,6 +107,7 @@
 
 .faixa-de-secoes__botao--grupo-d {
   --group-color: var(--group-d);
+  --group-color-raw: var(--group-d-raw);
 }
 
 .faixa-de-secoes__botao--grupo-e {
@@ -111,6 +116,7 @@
 
 .faixa-de-secoes__botao--grupo-f {
   --group-color: var(--group-f);
+  --group-color-raw: var(--group-f-raw);
 }
 
 .faixa-de-secoes__botao--grupo-g {
@@ -123,6 +129,7 @@
 
 .faixa-de-secoes__botao--grupo-i {
   --group-color: var(--group-i);
+  --group-color-raw: var(--group-i-raw);
 }
 
 .faixa-de-secoes__botao--grupo-j {
@@ -135,6 +142,7 @@
 
 .faixa-de-secoes__botao--grupo-l {
   --group-color: var(--group-l);
+  --group-color-raw: var(--group-l-raw);
 }
 
 .faixa-de-secoes__botao--grupo-fwc {
@@ -145,8 +153,8 @@
   --group-color: var(--group-coc);
 }
 
-/* Barra inferior com 80% da cor (IDR 0045), só nas bandeiras com classe de
- * cor (ordenação por página). O `::after` cobre o botão com o mesmo raio de
+/* Barra inferior com 80% da cor original (IDR 0045), só nas bandeiras com
+ * classe de cor (ordenação por página). O `::after` cobre o botão com o mesmo raio de
  * 8px (`border-radius: inherit`) e só os últimos 2px recebem a cor, por
  * gradiente: assim a barra acompanha os cantos arredondados sem estourar para
  * fora do botão — um `::after` de 2px de altura teria o raio achatado pelo
@@ -175,7 +183,7 @@
   border-radius: inherit;
   background: linear-gradient(
     to top,
-    color-mix(in oklch, var(--group-color) 80%, var(--panel)) 2px,
+    color-mix(in oklch, var(--group-color-raw, var(--group-color)) 80%, var(--panel)) 2px,
     transparent 2px
   );
   pointer-events: none;
