@@ -71,7 +71,8 @@ Questões recorrentes são marcadas como "Nota".*
 - Entrar com conta Google
   - Único provedor: Google, via popup (ver ADR 0005)
   - Visitante deslogado vê apenas a tela de login — catálogo e coleção
-    não são acessíveis sem autenticar
+    não são acessíveis sem autenticar, salvo a vista somente leitura
+    aberta por um link de catálogo ativo (ver Compartilhamento)
   - Falha de login exibe mensagem de erro, exceto quando o usuário fecha
     o popup (desistência, não erro)
   - Atestação de menores no primeiro login (LGPD art. 14): um clique
@@ -230,6 +231,13 @@ Questões recorrentes são marcadas como "Nota".*
     escolhe o app; os comandos ficam no botão compartilhar do cabeçalho
     (ver [IDR 0024](idr/0024-acoes-raras-em-menu-do-cabecalho.md))
   - Nota: a lista de troca é apenas saída; portabilidade usa JSON
+- Compartilhar o catálogo por link
+  - Um link único por conta abre, sem login, o catálogo do dono em
+    somente leitura, com o estado atual da coleção
+  - O dono liga e desliga o link; desligado, o link não mostra a
+    coleção; religar reativa o mesmo link
+  - A vista não identifica o dono: nenhum nome ou dado da conta aparece
+    (ver [IDR 0055](idr/0055-catalogo-compartilhado-por-link-somente-leitura.md))
 
 ### Portabilidade (sem lock-in)
 - Exportar a coleção completa em arquivo JSON
@@ -254,6 +262,9 @@ Questões recorrentes são marcadas como "Nota".*
   - Acessível a partir da tela de login, antes de autenticar
   - Declara os dados tratados — identidade da conta Google (nome,
     e-mail, foto) e a coleção —, finalidade, retenção e direitos do titular
+  - Declara que a coleção fica visível, sem login, a quem tiver o link
+    enquanto ele estiver ativo (ver
+    [IDR 0055](idr/0055-catalogo-compartilhado-por-link-somente-leitura.md))
   - Direitos do titular (acesso, correção, exclusão) exercidos por canal
     de contato declarado na própria política — exclusão dentro do app é
     requisito futuro
@@ -284,7 +295,9 @@ Questões recorrentes são marcadas como "Nota".*
 ### Dados e isolamento
 - A coleção vive no Firestore em `users/{uid}`; o isolamento entre
   usuários é garantido pelas `firestore.rules` avaliadas no servidor
-  (ADR 0005) — nunca pelo cliente
+  (ADR 0005) — nunca pelo cliente; a única exceção ao isolamento, a
+  leitura da coleção com link ativo, também é decidida nas regras (ver
+  [IDR 0055](idr/0055-catalogo-compartilhado-por-link-somente-leitura.md))
 - Falha de persistência não trava a interface, mas é informada
   claramente ao usuário — revisa a política de erro do ADR 0005
   (falha invisível, só log), que valia para o botão

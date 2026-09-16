@@ -36,6 +36,9 @@ Aceito.
   implementação na Fase 0012)
 - Sem interface de configuração: a preferência é o próprio último uso
   dos alternadores
+- A vista do catálogo compartilhado por link ([IDR 0055](0055-catalogo-compartilhado-por-link-somente-leitura.md)) **lê** as
+  preferências, mas **não grava**: mudanças ali valem só enquanto ela está
+  aberta
 
 ## Consequências
 
@@ -62,6 +65,9 @@ Aceito.
 
 ## Histórico
 
+- 2026-09-16 — Esmiuçamento do catálogo compartilhado por link
+  ([IDR 0055](0055-catalogo-compartilhado-por-link-somente-leitura.md)): a vista do link lê as preferências e não as grava;
+  implementação a planejar. Antes: toda vista do catálogo lia e gravava.
 - 2026-09-13 — Planejamento revisado das Fases 11–17: o colapso manual
   passa a ser persistido junto das preferências de vista. Antes: "o estado
   de colapso de seções e super-grupos continua volátil", com a alternativa

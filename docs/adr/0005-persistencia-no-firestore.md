@@ -48,6 +48,10 @@ O que procede da objeção independentemente: **no plano Blaze, São Paulo é ma
 
 **Gatilho de revisão**: se aparecer abuso de cota, ou se o projeto for para o Blaze, reavaliar.
 
+**A leitura pública do catálogo compartilhado por link não muda isso** ([IDR 0055](../idr/0055-catalogo-compartilhado-por-link-somente-leitura.md)): é a primeira leitura sem autenticação do produto — 1 leitura por abertura de um link ligado —, e o App Check continua de fora, sob o mesmo gatilho de abuso de cota.
+
+**Sem proteção de cota por ora.** Esgotar a cota do Spark derruba o Firestore para todos até o dia seguinte, sem cobrança; nenhuma mitigação entra com o link — as avaliadas estão em Alternativas consideradas e voltam pelo gatilho de abuso de cota.
+
 ### Aplicação à coleção de figurinhas
 
 **Modelo de dados.** Os detalhes do modelo de dados (localização do documento, schema, mecanismo de gravação) estão nos [MDRs](../model-dr/):
@@ -69,10 +73,21 @@ O que procede da objeção independentemente: **no plano Blaze, São Paulo é ma
 - **O projeto passa a ter regras de segurança para manter**, com deploy próprio e testes próprios — ver [DDR 0004](../devops-dr/0004-deploy-e-teste-das-regras-do-firestore.md).
 - **Um `firebase deploy` sem `--only`** passa a publicar regras além do Hosting.
 - **Cota:** 1 leitura por login (e menos, servindo do cache local); 1 escrita por agregação; +1 escrita única de atestação por conta; import = 1 escrita — folga grande na cota do Spark.
+- **Link do catálogo:** 1 leitura por abertura, sem login, e 1 escrita ao ligar ou desligar ([IDR 0055](../idr/0055-catalogo-compartilhado-por-link-somente-leitura.md)); leituras repetidas por terceiros consomem a cota do projeto — é o gatilho de abuso acima. Implementação: a planejar (/planejar).
 - **Sincronização ao vivo (futuro)** trocará o modelo de leitura — gatilho de revisão deste ADR.
 
 ## Alternativas consideradas
 
 - **`localStorage`**: mais simples, sem rede, sem regras, sem custo. Não atende ao pedido — não acompanha o usuário entre dispositivos nem entre navegadores. Continua sendo a escolha certa para conveniências por dispositivo (preferências de vista).
 - **Realtime Database**: latência menor e modelo mais simples, mas árvore JSON única em vez de armazenamento estruturado, e exigiria abrir `wss:` na CSP (o SDK do RTDB usa WebSocket; o do Firestore não — ver [DDR 0001](../devops-dr/0001-csp-headers-e-configuracao-de-hosting.md)). Descartado.
+- **Mitigações de abuso da cota pela leitura pública do link** ([IDR 0055](../idr/0055-catalogo-compartilhado-por-link-somente-leitura.md)) — adiadas pelo humano no esmiuçamento ("por enquanto, sem proteção"); revisitar pelo gatilho de abuso de cota:
+  - cache da leitura no cliente por alguns minutos: só poupa recarga honesta, não barra script
+  - roteiro de corte por deploy das regras sem o `get` público: zero leitura, mas manual
+  - alerta de leituras no Cloud Monitoring: setup no Google Cloud, a confirmar sem faturamento
+  - App Check com reCAPTCHA: CSP ampliada, configuração pública e risco para o login
+  - Cloud Function com limite de frequência: exige Blaze e backend próprio
 - **Subcoleção `users/{uid}/contagens/{código}`**: uma escrita por figurinha (cota em rajada), leitura em query, regras por subcaminho — só compensaria se a coleção não coubesse num documento. Decisão de modelagem detalhada no [MDR 0002](../model-dr/0002-schema-do-documento-da-colecao.md).
+
+## Histórico
+
+- 2026-09-16 — Esmiuçamento do catálogo compartilhado por link ([IDR 0055](../idr/0055-catalogo-compartilhado-por-link-somente-leitura.md)): App Check mantido de fora apesar da primeira leitura sem autenticação, e nenhuma mitigação de cota por ora; implementação a planejar. Antes: toda leitura exigia o próprio usuário autenticado.
