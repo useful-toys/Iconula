@@ -3,7 +3,7 @@
 # Tarefa [0030-0004]: espaçamento dos controles
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Compactar os controles: `padding` do botão `5px 12px → 4px 10px`, `gap` entre
@@ -41,7 +41,7 @@ para o alvo não encolher junto com o `padding`.
 - `docs/interface.md` — modificar (§ Medidas)
 
 ## Critérios de aceite
-- [ ] `.controles__opcao` com `padding: 4px 10px`; `.controles` com `gap: 6px`.
-- [ ] Em `pointer: coarse`, `::before { inset: -4px }` nos botões do
+- [x] `.controles__opcao` com `padding: 4px 10px`; `.controles` com `gap: 6px`.
+- [x] Em `pointer: coarse`, `::before { inset: -4px }` nos botões do
       segmentado.
-- [ ] `npm run lint && npm run test && npm run build` verdes.
+- [x] `npm run lint && npm run test && npm run build` verdes.
