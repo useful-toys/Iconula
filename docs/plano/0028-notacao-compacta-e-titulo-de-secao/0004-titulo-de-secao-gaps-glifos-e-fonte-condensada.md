@@ -3,7 +3,7 @@
 # Tarefa [0028-0004]: título de seção com gaps, glifos menores e fonte condensada
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Compactar horizontalmente o título da seção: gaps `8px → 6px` (cabeçalho) e

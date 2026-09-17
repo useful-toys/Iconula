@@ -78,7 +78,7 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   padding: 4px 8px;
   border-radius: 12px;
   cursor: pointer;
@@ -302,16 +302,26 @@
   flex-shrink: 0;
 }
 
+/* Título da seção (IDR 0056): gaps apertados para o cabeçalho caber numa
+ * linha, nome em Poppins 600/14px — acima do super-grupo (13px). */
 .secao__titulo {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
-  gap: 0.35em;
+  gap: 0.22em;
   margin: 0;
   font-family: 'Poppins', system-ui, sans-serif;
   font-size: 14px;
   font-weight: 600;
   line-height: 1.3;
+}
+
+/* Glifos `▯`/`×` (IDR 0056): acompanham os números em `--muted`, um pouco
+ * menores que o texto (0.85em) e em peso 400. São os únicos spans do título
+ * sem classe — `.secao__sep` e os demais têm `secao__*`. */
+.secao__titulo > span:not([class]) {
+  font-size: 0.85em;
+  font-weight: 400;
 }
 
 .secao__identificacao {
@@ -359,4 +369,17 @@
   display: flex;
   flex-wrap: wrap;
   gap: var(--album-page-gap);
+}
+
+/* No celular (limite de 582px do IDR 0043), sigla, página e números do resumo
+ * passam a Roboto Condensed 500 — a Poppins fica só no nome da seção; é o que
+ * faz o título caber numa linha em 360px, sem fonte menor que 14px (IDR 0056).
+ * A Roboto Condensed 500 já está vendorizada (TDR 0013). */
+@media (max-width: 582px) {
+  .secao__sigla,
+  .secao__pagina,
+  .secao__resumo {
+    font-family: 'Roboto Condensed', 'Poppins', system-ui, sans-serif;
+    font-weight: 500;
+  }
 }
