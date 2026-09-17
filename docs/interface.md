@@ -98,11 +98,16 @@ demonstrar avisos) é andaime da prévia, não faz parte do produto.*
   se sobrepõem de propósito — toda repetida é colada — e a tela não
   sinaliza a sobreposição (ver
   [IDR 0033](idr/0033-filtro-de-coladas.md))
-- Rótulos curtos, como no protótipo: `Página` | `Sigla`, `Lista` |
-  `Álbum`, `Todas` | `Falt.` | `Col.` | `Rep.` — abreviados para os três
-  grupos caberem numa linha de celular, que com o quarto segmento do
-  filtro passa a depender da quebra descrita abaixo; a forma por extenso
-  vive só no nome acessível, como manda a notação compacta do IDR 0018
+- Rótulos compactos: ordenação em ícones Material Symbols SVG inline
+  `numbers` (página do álbum) | `sort_by_alpha` (sigla); disposição
+  `view_list` (lista) | `view_module` (álbum); filtro em glifos de texto
+  `Todas` | `▯` (faltantes) | `▮` (coladas) | `×` (repetidas), ecoando o
+  cartão vazio/preenchido e o selo `×N` — compactos para os três grupos
+  caberem numa linha de celular, que com o quarto segmento do filtro
+  passa a depender da quebra descrita abaixo; a forma por extenso vive só
+  no nome acessível, como manda a notação compacta do IDR 0018 (ver
+  [IDR 0059](idr/0059-rotulos-compactos-dos-controles.md) e
+  [TDR 0026](tdr/0026-icones-material-symbols-vendorizados-como-svg.md))
 - Cada opção mostra, abaixo dela, o próprio nome por extenso como tooltip
   visual — no hover depois de ~400ms e na hora no foco por teclado
   (`:focus-visible`); em toque, não; nas pontas de cada grupo, alinhado à

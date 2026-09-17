@@ -7,7 +7,7 @@ import '@testing-library/jest-dom/vitest';
 import { Controles } from './Controles.jsx';
 
 describe('Controles', () => {
-  it('renderiza o grupo segmentado com Página e Sigla', () => {
+  it('renderiza o grupo segmentado de ordenação (página e sigla)', () => {
     render(<Controles ordenacao="pagina" onTrocarOrdenacao={vi.fn()} />);
 
     expect(screen.getByRole('button', { name: 'ordenar pela página do álbum' })).toBeInTheDocument();
@@ -154,7 +154,7 @@ describe('Controles', () => {
     expect(repetidas).toHaveAttribute('aria-pressed', 'false');
   });
 
-  it('chama onTrocarFiltro com "coladas" ao clicar em Col.', async () => {
+  it('chama onTrocarFiltro com "coladas" ao clicar em Coladas (▮)', async () => {
     const user = userEvent.setup();
     const onTrocar = vi.fn();
     render(
@@ -232,6 +232,32 @@ describe('Controles', () => {
     for (const opcao of opcoes) {
       expect(opcao).toHaveAttribute('data-tooltip', opcao.getAttribute('aria-label'));
     }
+  });
+
+  it('mostra ícones SVG na ordenação e na disposição, e glifos de texto no filtro', () => {
+    render(
+      <Controles
+        ordenacao="pagina"
+        onTrocarOrdenacao={vi.fn()}
+        disposicao="lista"
+        onTrocarDisposicao={vi.fn()}
+        filtro="todas"
+        onTrocarFiltro={vi.fn()}
+      />
+    );
+
+    const pagina = screen.getByRole('button', { name: 'ordenar pela página do álbum' });
+    const sigla = screen.getByRole('button', { name: 'ordenar pela sigla da seção' });
+    const lista = screen.getByRole('button', { name: 'disposição em lista contínua' });
+    const album = screen.getByRole('button', { name: 'disposição como no álbum' });
+    for (const botao of [pagina, sigla, lista, album]) {
+      expect(botao.querySelector('svg')).toBeInTheDocument();
+    }
+
+    expect(screen.getByRole('button', { name: 'mostrar todas as figurinhas' })).toHaveTextContent('Todas');
+    expect(screen.getByRole('button', { name: 'mostrar apenas as figurinhas faltantes' })).toHaveTextContent('▯');
+    expect(screen.getByRole('button', { name: 'mostrar apenas as figurinhas coladas' })).toHaveTextContent('▮');
+    expect(screen.getByRole('button', { name: 'mostrar apenas as figurinhas repetidas' })).toHaveTextContent('×');
   });
 
   it('coloca os grupos antes da área de comandos, com o filtro', () => {
