@@ -3,7 +3,7 @@
 # Tarefa [0030-0003]: rótulos compactos dos controles
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Trocar os rótulos de texto dos controles por ícones: ordenação
@@ -44,7 +44,7 @@ de confirmação (Tarefa 0030-0005).
 - `docs/interface.md` — modificar (§ Controles)
 
 ## Critérios de aceite
-- [ ] Ordenação mostra `numbers`/`sort_by_alpha`; disposição
+- [x] Ordenação mostra `numbers`/`sort_by_alpha`; disposição
       `view_list`/`view_module`; filtro `Todas | ▯ | ▮ | ×`.
-- [ ] `aria-label` e tooltip com o nome por extenso em cada opção.
-- [ ] `npm run lint && npm run test && npm run build` verdes.
+- [x] `aria-label` e tooltip com o nome por extenso em cada opção.
+- [x] `npm run lint && npm run test && npm run build` verdes.
