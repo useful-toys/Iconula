@@ -3,7 +3,7 @@
 # Tarefa [0027-0001]: regras do Firestore para o link do catálogo
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Aceitar o campo `linkAtivo` no documento `users/{uid}` e liberar a leitura

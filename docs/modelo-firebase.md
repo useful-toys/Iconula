@@ -22,8 +22,10 @@ users/{uid}
                           // chave ausente = contagem 0
   },
   "updatedAt": <timestamp>,  // carimbo do servidor
-  "atestadoEm": <timestamp>  // quando atestou ser maior/autorizado
+  "atestadoEm": <timestamp>, // quando atestou ser maior/autorizado
                              // (uma vez por conta)
+  "linkAtivo": <boolean>     // liga o catálogo compartilhado por link;
+                             // ausente equivale a desligado
 }
 ```
 
@@ -35,7 +37,8 @@ users/{uid}
 - **Teto de 99 por contagem** — imposto pelas regras e respeitado pela interface
 - **`updatedAt`** é carimbo **do servidor** (`serverTimestamp()`), não do relógio do cliente — carimbo da última escrita no documento; o relógio do cabeçalho exibe uma aproximação local do instante de confirmação da escrita ([TDR 0017](tdr/0017-escrita-por-setdoc-merge-e-carimbo-local-pos-gravacao.md))
 - **`atestadoEm`** é gravado uma única vez, na atestação de menores do primeiro login — sem `updatedAt` junto
-- **Nada além disso**: os únicos campos são `contagens`, `updatedAt` e `atestadoEm`
+- **`linkAtivo`** é boolean e liga o catálogo compartilhado por link ([IDR 0055](idr/0055-catalogo-compartilhado-por-link-somente-leitura.md)); ausente equivale a desligado; gravado só ao ligar ou desligar, sem `updatedAt` junto (como `atestadoEm`)
+- **Nada além disso**: os únicos campos são `contagens`, `updatedAt`, `atestadoEm` e `linkAtivo`
 - **Tamanho**: no pior caso (coleção completa), ~994 chaves de ~5 caracteres — poucos KB, muito abaixo do limite de 1 MiB por documento
 
 Detalhes no [MDR 0002](model-dr/0002-schema-do-documento-da-colecao.md).
@@ -76,6 +79,8 @@ Três funções de escrita, cada uma com semântica própria ([MDR 0003](model-d
 | Atestação de menores | `gravarAtestacao` | grava `atestadoEm` com `merge: true`, sem `updatedAt` — uma única vez por conta |
 | Importar JSON | `gravarImportacao` | **substitui** o campo `contagens` inteiro via `mergeFields` + `updatedAt`; `atestadoEm` intocado |
 | Migrar `teamName` | `gravarAlteracoes` | `deleteField()` piggyback na próxima gravação de contagens — sem escrita à parte |
+| Ligar/desligar o link | cliente da Tarefa 0027-0004 | `setDoc` com `merge: true` só com `linkAtivo`, **sem** `updatedAt`; desligar revoga a leitura pública |
+| Abrir o link | vista do link (Tarefa 0027-0003) | 1 leitura de `users/{uid}`, sem login, permitida só enquanto `linkAtivo == true` |
 
 ## O que **não** vai para o Firestore
 
@@ -90,10 +95,11 @@ Três funções de escrita, cada uma com semântica própria ([MDR 0003](model-d
 O que está publicado:
 
 - `allow get` apenas do próprio documento (`request.auth.uid == userId`), com `get` — nunca `read` — para que uma query na coleção `users` não seja avaliada; `list` segue negado
+  - **exceção**: `get` também é permitido a qualquer requisição, **mesmo sem login**, quando o documento tem `linkAtivo == true` ([IDR 0055](idr/0055-catalogo-compartilhado-por-link-somente-leitura.md), [MDR 0002](model-dr/0002-schema-do-documento-da-colecao.md)); documento inexistente, sem o campo ou com `false` segue negado — a leitura pública não revela se a conta existe
 - **`allow create` e `allow update` são regras separadas**: no `create`, `request.resource.data` é só o que está sendo escrito; no `update` com `merge: true`, é o documento resultante inteiro — por isso cada cláusula de validação pergunta "esta operação escreveu este campo?" via `diff(resource.data).affectedKeys()`, não "este campo está no resultado?" ([TDR 0009](tdr/0009-validacao-do-mapa-nas-regras.md))
-- Ambas exigem `hasOnly(["contagens", "updatedAt", "atestadoEm"])` sobre o documento resultante — nenhum campo estranho pode sobreviver
+- Ambas exigem `hasOnly(["contagens", "updatedAt", "atestadoEm", "linkAtivo"])` sobre o documento resultante — nenhum campo estranho pode sobreviver
 - `contagens` é `map` com `size() <= 994` e `values().hasOnly([1…99])` — o teto de 99 é o que torna os valores validáveis
-- `updatedAt == request.time` quando presente na operação (e obrigatório sempre que `contagens` é escrito); `atestadoEm is timestamp` quando presente na operação
+- `updatedAt == request.time` quando presente na operação (e obrigatório sempre que `contagens` é escrito); `atestadoEm is timestamp` e `linkAtivo is bool` quando escritos na operação
 - **Guarda de campo ausente**: a gravação da atestação cria o documento só com `atestadoEm`, sem `contagens` — toda cláusula sobre `contagens` fica sob `!("contagens" in …)`, senão a regra erra em vez de negar
 - **allow-list das chaves não entrou**: gerada a partir do catálogo e medida, a cláusula `contagens.keys().hasOnly([994 códigos])` compila, mas a avaliação estoura o limite de 1.000 expressões por requisição — as chaves seguem limitadas só em quantidade (`size() <= 994`), não em conteúdo
 - `delete` segue negado — "apagar meus dados" saiu do MVP (requisito futuro em [requisitos.md](requisitos.md); quando voltar, exigirá re-autenticação e autorização nova nas regras)
@@ -113,6 +119,8 @@ O que está publicado:
 | Ajustes em rajada | 1 escrita por agregação — debounce de ~2s, no máximo 1 escrita a cada ~10s de atividade contínua |
 | Chegar a 0 | vai na escrita da agregação (`deleteField` conta como escrita, não como exclusão) |
 | Atestação de menores | 1 escrita na vida da conta |
+| Ligar ou desligar o link | 1 escrita ao ligar e 1 ao desligar — fora da gravação agregada |
+| Abrir o link do catálogo | 1 leitura por abertura, **sem login** |
 | Import JSON | 1 escrita (substitui `contagens` + `updatedAt`) |
 | Export JSON, texto WhatsApp, desfazer | 0 — leem o estado em memória |
 | Trocar ordenação, disposição ou filtro | 0 — preferência de vista vai para o `localStorage` |

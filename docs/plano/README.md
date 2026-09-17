@@ -72,7 +72,7 @@ Detalhes e status das tarefas no guia [CLAUDE.md](CLAUDE.md) § Status e ciclo d
 | 24 | [Testes E2E com emuladores do Firebase](0024-testes-e2e-com-emuladores-do-firebase/) | Playwright rodando contra os emuladores de Auth e Firestore, com login duplo e fixture de coleção, provado por um teste de fumaça | — | `test: adiciona testes e2e com playwright e emuladores do firebase` | Entregue |
 | 25 | [Paleta de grupo e fundo neutro do tema](0025-paleta-de-grupo-e-fundo-neutro-do-tema/) | Repaletizar os grupos A–L com a tabela oficial de sorteio, neutralizar o fundo fora do cabeçalho (que mantém o verde-gramado) e registrar a paleta de referência da capa do álbum físico | 2, 15, 18 | `feat: paleta de grupo oficial e fundo neutro fora do cabeçalho` | Entregue |
 | 26 | [Moldura em degradê da bandeira na seção do time](0026-moldura-em-degrade-da-bandeira-na-secao/) | Substituir a cor única por seleção por moldura e fundo em degradê com as cores da bandeira, abraçando a seção inteira (título + grade) | 16, 25 | `feat: moldura em degradê com as cores da bandeira na seção` | Entregue |
-| 27 | [Catálogo compartilhado por link](0027-catalogo-compartilhado-por-link/) | Link único por conta, ligado e desligado no popup Compartilhar, que abre sem login o catálogo do dono em somente leitura | 24, 26 | `feat: catálogo compartilhado por link somente leitura` | Pendente |
+| 27 | [Catálogo compartilhado por link](0027-catalogo-compartilhado-por-link/) | Link único por conta, ligado e desligado no popup Compartilhar, que abre sem login o catálogo do dono em somente leitura | 24, 26 | `feat: catálogo compartilhado por link somente leitura` | Em andamento |
 
 ---
 
@@ -525,7 +525,7 @@ do e2e.
 
 | # | Tarefa | Objetivo | Status |
 |---|---|---|---|
-| 0001 | [Regras do link do catálogo](0027-catalogo-compartilhado-por-link/0001-regras-do-link-do-catalogo.md) | `linkAtivo` no schema e `get` público com o link ligado, com testes no emulador. | Pendente |
+| 0001 | [Regras do link do catálogo](0027-catalogo-compartilhado-por-link/0001-regras-do-link-do-catalogo.md) | `linkAtivo` no schema e `get` público com o link ligado, com testes no emulador. | Concluída |
 | 0002 | [Catálogo e cabeçalho em somente leitura](0027-catalogo-compartilhado-por-link/0002-catalogo-e-cabecalho-somente-leitura.md) | Cartões inertes sem callback, colapso lido sem gravar, rótulo e título como link no cabeçalho — sem mudar a tela atual. | Pendente |
 | 0003 | [Vista do link do catálogo](0027-catalogo-compartilhado-por-link/0003-vista-do-link-do-catalogo.md) | `/catalogo/<uid>` antes da guarda de login, uma leitura, estados e preferências sem gravação. | Pendente |
 | 0004 | [Chave do link no popup](0027-catalogo-compartilhado-por-link/0004-chave-do-link-no-popup.md) | Carga traz `linkAtivo`; chave no terceiro bloco grava na hora, não fecha o popup e reverte em falha. | Pendente |
