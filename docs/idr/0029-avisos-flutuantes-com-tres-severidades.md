@@ -37,7 +37,8 @@ ao toque e a proibição de log com scroll.
   rola com a página
 - Três severidades:
   - **Sucesso** — some sozinho após **5s**. Cobre gravado, carregado,
-    lista copiada, coleção exportada e importada
+    lista copiada, coleção exportada e importada, e a troca de
+    ordenação/disposição/filtro ([IDR 0059](0059-rotulos-compactos-dos-controles.md))
   - **Aviso** — some sozinho após **5s**. Cobre a recusa esperada, em
     que nada quebrou: arquivo de importação inválido ou de versão
     desconhecida, área de transferência indisponível, e a gravação sem
