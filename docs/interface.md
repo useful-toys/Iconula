@@ -175,6 +175,15 @@ a falha reverte a chave ao estado anterior e avisa "falha ao ligar o link" ou
 "falha ao desligar o link" (IDR 0029), sem confirmação, porque é reversível
 (IDR 0010).
 
+Ligado, logo abaixo da chave, o bloco traz **Copiar link do catálogo** e, só
+onde o navegador oferece a folha do sistema, **Compartilhar link do catálogo…**
+(IDR 0055): os dois entregam apenas a URL `<origem>/catalogo/<uid>` — sem texto
+junto, que apps que juntam `text` e `url` duplicariam. Desligado, nenhum dos
+dois existe. A cópia dá retorno ("link copiado") e o compartilhamento, "link
+compartilhado"; fechar a folha sem escolher não gera aviso e, se a folha falhar
+por outro motivo, a URL cai na cópia, com o aviso e a reserva do
+[IDR 0039](idr/0039-texto-de-troca-ordem-fixa-e-copia-manual-de-reserva.md).
+
 O popup é ancorado ao botão que o abriu, alinhado pela borda direita, logo
 abaixo dele, com o mesmo painel e a mesma sombra do menu de ações. Segue o
 mesmo comportamento de fechamento e foco: fecha ao escolher um item, ao tocar
@@ -369,7 +378,7 @@ conteúdo, não empurra o layout nem rola com a página (ver
 
 | Severidade | Duração | Eventos |
 |---|---|---|
-| Sucesso (verde) | some em 5s | gravado, carregado, lista copiada, lista compartilhada, exportado, importado, link ligado, link desligado |
+| Sucesso (verde) | some em 5s | gravado, carregado, lista copiada, lista compartilhada, exportado, importado, link ligado, link desligado, link copiado, link compartilhado |
 | Aviso (dourado) | some em 5s | arquivo de importação inválido ou de versão desconhecida, área de transferência indisponível, gravação sem rede que ficou enfileirada |
 | Falha (vermelho) | fica até ser dispensada ou até a operação seguinte do mesmo tipo ter sucesso | falha de gravação, de carga, de carga do catálogo compartilhado por link ([IDR 0055](idr/0055-catalogo-compartilhado-por-link-somente-leitura.md)) ou ao ligar ou desligar o link |
 

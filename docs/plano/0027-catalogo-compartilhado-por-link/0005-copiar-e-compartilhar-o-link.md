@@ -3,7 +3,7 @@
 # Tarefa [0027-0005]: copiar e compartilhar o link do catálogo
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Com o link ligado, o terceiro bloco do popup Compartilhar oferece `Copiar

@@ -327,4 +327,99 @@ describe('MenuDeCompartilhar', () => {
       expect(screen.getByRole('switch')).toBeDisabled();
     });
   });
+
+  describe('itens do link do catálogo (Tarefa 0027-0005)', () => {
+    it('com o link ligado e a folha, traz copiar e compartilhar logo abaixo da chave', async () => {
+      definirShare(vi.fn());
+      const user = userEvent.setup();
+      renderizar({
+        linkAtivo: true,
+        onAlternarLink: vi.fn().mockResolvedValue(undefined),
+        onCopiarLink: vi.fn(),
+        onCompartilharLink: vi.fn(),
+      });
+      await user.click(botaoDoCompartilhar());
+
+      expect(screen.getAllByRole('menuitem').map((item) => item.textContent)).toEqual([
+        'Copiar lista de faltantes',
+        'Compartilhar faltantes…',
+        'Copiar lista de repetidas',
+        'Compartilhar repetidas…',
+        'Copiar link do catálogo',
+        'Compartilhar link do catálogo…',
+      ]);
+    });
+
+    it('com o link ligado e sem a folha, traz só a cópia do link', async () => {
+      const user = userEvent.setup();
+      renderizar({
+        linkAtivo: true,
+        onAlternarLink: vi.fn().mockResolvedValue(undefined),
+        onCopiarLink: vi.fn(),
+        onCompartilharLink: vi.fn(),
+      });
+      await user.click(botaoDoCompartilhar());
+
+      expect(
+        screen.getByRole('menuitem', { name: 'Copiar link do catálogo' }),
+      ).toBeInTheDocument();
+      expect(
+        screen.queryByRole('menuitem', { name: 'Compartilhar link do catálogo…' }),
+      ).not.toBeInTheDocument();
+    });
+
+    it('com o link desligado, não traz nenhum item do link', async () => {
+      definirShare(vi.fn());
+      const user = userEvent.setup();
+      renderizar({
+        linkAtivo: false,
+        onAlternarLink: vi.fn(),
+        onCopiarLink: vi.fn(),
+        onCompartilharLink: vi.fn(),
+      });
+      await user.click(botaoDoCompartilhar());
+
+      expect(
+        screen.queryByRole('menuitem', { name: 'Copiar link do catálogo' }),
+      ).not.toBeInTheDocument();
+      expect(
+        screen.queryByRole('menuitem', { name: 'Compartilhar link do catálogo…' }),
+      ).not.toBeInTheDocument();
+    });
+
+    it('escolher um item do link chama o callback e fecha o popup', async () => {
+      definirShare(vi.fn());
+      const user = userEvent.setup();
+      const onCopiarLink = vi.fn();
+      const onCompartilharLink = vi.fn();
+      renderizar({
+        linkAtivo: true,
+        onAlternarLink: vi.fn().mockResolvedValue(undefined),
+        onCopiarLink,
+        onCompartilharLink,
+      });
+
+      await user.click(botaoDoCompartilhar());
+      await user.click(screen.getByRole('menuitem', { name: 'Copiar link do catálogo' }));
+      expect(onCopiarLink).toHaveBeenCalledTimes(1);
+      expect(screen.queryByRole('menu')).not.toBeInTheDocument();
+
+      await user.click(botaoDoCompartilhar());
+      await user.click(screen.getByRole('menuitem', { name: 'Compartilhar link do catálogo…' }));
+      expect(onCompartilharLink).toHaveBeenCalledTimes(1);
+      expect(screen.queryByRole('menu')).not.toBeInTheDocument();
+    });
+
+    it('os itens do link ficam desabilitados sem callback', async () => {
+      definirShare(vi.fn());
+      const user = userEvent.setup();
+      renderizar({ linkAtivo: true, onAlternarLink: vi.fn().mockResolvedValue(undefined) });
+      await user.click(botaoDoCompartilhar());
+
+      expect(screen.getByRole('menuitem', { name: 'Copiar link do catálogo' })).toBeDisabled();
+      expect(
+        screen.getByRole('menuitem', { name: 'Compartilhar link do catálogo…' }),
+      ).toBeDisabled();
+    });
+  });
 });
