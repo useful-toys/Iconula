@@ -35,8 +35,11 @@ describe('Secao', () => {
     expect(document.body.textContent).toContain('BRA');
     expect(document.body.textContent).toContain('24');
     expect(document.body.textContent).toContain('0/3');
-    expect(document.body.textContent).toContain('▢3');
+    expect(document.body.textContent).toContain('▯3');
     expect(document.body.textContent).toContain('×0');
+    expect(screen.getByRole('heading', { level: 2 }).textContent).toBe(
+      'Brasil BRA 24·0/30%▯3×0',
+    );
   });
 
   it('escreve o nome acessível do cabeçalho por extenso', () => {
@@ -215,7 +218,7 @@ describe('Secao', () => {
     expect(cabecalho.textContent).toContain('Brasil');
     expect(cabecalho.textContent).toContain('BRA');
     expect(cabecalho.textContent).toContain('0/3');
-    expect(cabecalho.textContent).toContain('▢3');
+    expect(cabecalho.textContent).toContain('▯3');
   });
 
   it('inclui o estado de colapso no nome acessível', async () => {

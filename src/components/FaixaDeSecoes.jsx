@@ -25,7 +25,7 @@ function textoDoTooltip(secao, placar) {
   const faltantes = placar?.faltantes ?? total;
   const repetidas = placar?.repetidas ?? 0;
   const percentual = placar?.percentual ?? 0;
-  return `${secao.sigla} · ${secao.nome} · ${coladas}/${total} · ${percentual}% · ▢${faltantes} · ×${repetidas}`;
+  return `${secao.sigla} · ${secao.nome} · ${coladas}/${total} ${percentual}% ▯${faltantes} ×${repetidas}`;
 }
 
 /**

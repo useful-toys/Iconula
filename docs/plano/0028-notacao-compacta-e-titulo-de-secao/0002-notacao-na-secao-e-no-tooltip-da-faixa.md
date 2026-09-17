@@ -3,7 +3,7 @@
 # Tarefa [0028-0002]: notação `▯`/`×` sem `·` na seção e no tooltip da faixa
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Aplicar a notação compacta de progresso (`12/20 60% ▯8 ×3`, sem `·` entre os

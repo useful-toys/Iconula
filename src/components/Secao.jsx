@@ -67,18 +67,9 @@ function CabecalhoSecao({ secao, codigos, contagens, expandida, onToggle, corpoI
         <span className="secao__resumo">
           {coladas}/{total}
         </span>
-        <span className="secao__sep" aria-hidden="true">
-          ·
-        </span>
         <span className="secao__resumo">{percentual}%</span>
-        <span className="secao__sep" aria-hidden="true">
-          ·
-        </span>
-        <span aria-hidden="true">▢</span>
+        <span aria-hidden="true">▯</span>
         <span className="secao__resumo">{faltantes}</span>
-        <span className="secao__sep" aria-hidden="true">
-          ·
-        </span>
         <span aria-hidden="true">×</span>
         <span className="secao__resumo">{repetidas}</span>
       </h2>

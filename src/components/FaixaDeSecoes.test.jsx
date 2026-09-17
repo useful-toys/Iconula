@@ -128,19 +128,19 @@ describe('FaixaDeSecoes', () => {
 
     mostrarComFoco(screen.getByLabelText('Saltar para Brasil'));
 
-    expect(screen.getByText('BRA · Brasil · 12/20 · 60% · ▢8 · ×3')).toBeInTheDocument();
+    expect(screen.getByText('BRA · Brasil · 12/20 60% ▯8 ×3')).toBeInTheDocument();
   });
 
   it('identifica os especiais com a própria sigla e nome', () => {
     render(<FaixaDeSecoes secoes={secoes} onSaltar={vi.fn()} placarPorSecao={placarDeExemplo()} />);
 
     mostrarComFoco(screen.getByLabelText('Saltar para Extras FIFA'));
-    expect(screen.getByText('FWC · Extras FIFA · 5/20 · 25% · ▢15 · ×0')).toBeInTheDocument();
+    expect(screen.getByText('FWC · Extras FIFA · 5/20 25% ▯15 ×0')).toBeInTheDocument();
 
     act(() => {
       screen.getByLabelText('Saltar para Coca-Cola').focus();
     });
-    expect(screen.getByText('COC · Coca-Cola · 14/14 · 100% · ▢0 · ×2')).toBeInTheDocument();
+    expect(screen.getByText('COC · Coca-Cola · 14/14 100% ▯0 ×2')).toBeInTheDocument();
   });
 
   it('no hover de mouse aparece só depois do atraso', () => {
