@@ -34,3 +34,4 @@ commit**.
 | [TDR 0023](0023-deploy-via-github-actions.md) | Deploy via GitHub Actions | Aceito | ci, deploy | Deploy automatizado via GitHub Actions, com preview deploys em pull requests. |
 | [TDR 0024](0024-branch-protection-preview-required.md) | Branch protection exigindo o preview deploy antes do merge | Substituído pelo [DDR 0005](../devops-dr/0005-protecao-da-branch-main.md) | ci, seguranca | Decisões de branch protection movidas para DevOps DRs. |
 | [TDR 0025](0025-oxlint-para-lint.md) | oxlint para lint | Aceito | lint, seguranca | oxlint com regras `react/rules-of-hooks` (erro), `react/no-danger` (erro) e `react/only-export-components` (aviso). |
+| [TDR 0026](0026-icones-material-symbols-vendorizados-como-svg.md) | Ícones Material Symbols vendorizados como SVG inline | Aceito | assets, interface | 4 ícones Material Symbols (`numbers`, `sort_by_alpha`, `view_list`, `view_module`) como SVG inline em `src/assets/`, sem fonte e sem mudança na CSP. |
