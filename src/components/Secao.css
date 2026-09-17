@@ -9,8 +9,8 @@
    * (nominal ~6px, IDR 0021), sendo cortado na última linha e no cartão
    * encostado à borda direita, na lista e no álbum. O padding estende a
    * caixa de pintura nessa medida; a margem negativa equivalente devolve o
-   * espaço ao fluxo, para as distâncias visíveis entre seções (10px),
-   * super-grupos (12px) e cabeçalho/grade (8px) não mudarem (IDR 0050) e a
+   * espaço ao fluxo, para as distâncias visíveis entre seções (8px),
+   * super-grupos (12px) e cabeçalho/grade (2px) não mudarem (IDR 0050) e a
    * largura do conteúdo (e do cabeçalho, `width: 100%`) seguir a mesma
    * (Tarefa 0019-0006). A moldura fica dentro do content box, então o selo
    * transborda sobre ela e continua inteiro (IDR 0046). */
@@ -52,16 +52,17 @@
  * contínua entre as três, sem emenda. O interior (`padding-box`) fica em
  * `--bg`, neutro e sem matiz — o título e a grade assentam sobre o fundo da
  * página e ficam legíveis; a identidade de cor vive só no anel. O `padding`
- * de 8px dá respiro para as figurinhas não encostarem na moldura e o `gap`
- * de 4px (mais apertado que `--section-body-gap`) aproxima o título da
- * grade (IDR 0050). FWC e COC têm as três posições na mesma cor de grupo,
- * então o degradê vira cor única. O raio externo de 14px deixa o interno
- * (padding box) em 12px, igual ao do cabeçalho. */
+ * de 4px no topo/baixo (lados em 8px) dá respiro para as figurinhas não
+ * encostarem na moldura e o `gap` de 2px (mais apertado que
+ * `--section-body-gap`) aproxima o título da grade (IDR 0050). FWC e COC
+ * têm as três posições na mesma cor de grupo, então o degradê vira cor
+ * única. O raio externo de 14px deixa o interno (padding box) em 12px,
+ * igual ao do cabeçalho. */
 .secao__moldura {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  padding: 8px;
+  gap: 2px;
+  padding: 4px 8px;
   border: 2px solid transparent;
   border-radius: 14px;
   background:
@@ -79,7 +80,7 @@
   flex-wrap: wrap;
   align-items: center;
   gap: 6px;
-  padding: 4px 8px;
+  padding: 2px 8px;
   border-radius: 12px;
   cursor: pointer;
   width: 100%;

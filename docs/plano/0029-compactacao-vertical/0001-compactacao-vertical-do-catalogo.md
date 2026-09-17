@@ -3,7 +3,7 @@
 # Tarefa [0029-0001]: compactação vertical do catálogo
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Apertar os respiros verticais dentro e entre as seções do catálogo: respiro

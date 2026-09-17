@@ -922,8 +922,8 @@ FWC e COC usam os alias `--selection-fwc` (de `--group-fwc`) e
   disponível — quem dá o ritmo é a margem lateral
   `clamp(16px, 4vw, 40px)`, a mesma no cabeçalho, no corpo e na faixa
   de avisos, de modo que tudo alinha na mesma vertical
-- Espaçamentos internos: 10px entre seções dentro de um super-grupo,
-  4px entre o cabeçalho da seção e a sua grade, 8px entre cartões na
+- Espaçamentos internos: 8px entre seções dentro de um super-grupo,
+  2px entre o cabeçalho da seção e a sua grade, 8px entre cartões na
   disposição lista e 20px entre as duas páginas na disposição álbum
   (IDR 0050)
 - Título de super-grupo: 13px/600 em `--gold`, com chevron `▾`/`▸`, moldura
@@ -933,10 +933,11 @@ FWC e COC usam os alias `--selection-fwc` (de `--group-fwc`) e
   fundo próprio (IDR 0020)
 - Seção: anel em degradê contínuo de 2px abraçando o título e a grade, cor 1
   no topo, cor 2 no canto inferior esquerdo e cor 3 no direito, com o
-  interior em `--bg` neutro (sem fundo tingido) e respiro interno de 8px
-  para as figurinhas não encostarem no anel; raio externo 14px (interno
-  12px); FWC e COC com cor única. O cabeçalho, dentro dela, não tem borda nem
-  fundo próprios, só `padding: 4px 8px` (o mínimo para não colar no anel);
+  interior em `--bg` neutro (sem fundo tingido) e respiro interno de 4px no
+  topo/baixo (lados em 8px) para as figurinhas não encostarem no anel; raio
+  externo 14px (interno 12px); FWC e COC com cor única. O cabeçalho, dentro
+  dela, não tem borda nem fundo próprios, só `padding: 2px 8px` (o mínimo
+  para não colar no anel);
   ícone 18px, nome 14px/600 em `--cream`, números em `--muted` (IDR 0046,
   IDR 0050, IDR 0018); `gap` de 6px no cabeçalho e de 0.22em no título,
   glifos `▯`/`×` em 0.85em/400 e, até 582px, sigla, página e números em
