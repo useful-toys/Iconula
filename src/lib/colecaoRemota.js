@@ -183,6 +183,68 @@ export async function carregarColecao(uid, { aoEsperar } = {}) {
 }
 
 /**
+ * Lê a coleção do dono para a vista do catálogo compartilhado por link
+ * (IDR 0055) — a primeira leitura sem sessão do produto.
+ *
+ * Uma única leitura de `users/{uid}`, sem exigir `request.auth` (as regras
+ * liberam o `get` enquanto `linkAtivo == true` — MDR 0002). Mesmo contrato
+ * discriminado e mesmo aviso de espera de `carregarColecao`; nunca lança:
+ * - `compartilhado` — documento existe e `linkAtivo == true`; traz
+ *   `contagens` e `atualizadoEm` (Date). O `linkAtivo` é conferido mesmo
+ *   quando quem lê é o próprio dono, para que ele veja exatamente o que o
+ *   visitante veria (IDR 0055); `atestadoEm` **não** é exposto ao chamador.
+ * - `nao-compartilhado` — link desligado (campo ausente ou `false`) ou
+ *   documento inexistente. As regras negam os dois do mesmo jeito
+ *   (`permission-denied`), e a vista não revela se a conta existe — por isso
+ *   a negação cai aqui, junto do documento ausente.
+ * - `erro` — leitura falhou por outro motivo; traz `erro` para o detalhe
+ *   técnico.
+ * - `indisponivel` — Firebase não configurado (`app === null`).
+ *
+ * @param {string} uid
+ * @param {object} [opcoes]
+ * @param {() => void} [opcoes.aoEsperar] - chamado se a leitura ultrapassar
+ *   ~5s sem resolver.
+ * @returns {Promise<object>}
+ */
+export async function carregarCatalogoCompartilhado(uid, { aoEsperar } = {}) {
+  if (!app) {
+    return { status: 'indisponivel' };
+  }
+
+  const promessa = (async () => {
+    try {
+      const { doc, getDoc } = await import('firebase/firestore');
+      const db = await obterFirestore();
+      const ref = doc(db, CAMINHO_DOCUMENTO(uid));
+      const snapshot = await getDoc(ref);
+
+      if (!snapshot.exists()) {
+        return { status: 'nao-compartilhado' };
+      }
+
+      const dados = snapshot.data();
+      if (dados.linkAtivo !== true) {
+        return { status: 'nao-compartilhado' };
+      }
+
+      return {
+        status: 'compartilhado',
+        contagens: dados.contagens ?? {},
+        atualizadoEm: dados.updatedAt?.toDate?.() ?? null,
+      };
+    } catch (erro) {
+      if (erro?.code === 'permission-denied') {
+        return { status: 'nao-compartilhado' };
+      }
+      return { status: 'erro', erro };
+    }
+  })();
+
+  return comAvisoDeEspera(promessa, aoEsperar);
+}
+
+/**
  * Grava as chaves alteradas da coleção numa única escrita (ADR 0008, IDR 0003).
  *
  * `alteracoes` é um mapa código → valor absoluto (contagem ≥ 1) ou `0` para

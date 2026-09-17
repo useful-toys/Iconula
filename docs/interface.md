@@ -358,7 +358,7 @@ conteúdo, não empurra o layout nem rola com a página (ver
 |---|---|---|
 | Sucesso (verde) | some em 5s | gravado, carregado, lista copiada, lista compartilhada, exportado, importado |
 | Aviso (dourado) | some em 5s | arquivo de importação inválido ou de versão desconhecida, área de transferência indisponível, gravação sem rede que ficou enfileirada |
-| Falha (vermelho) | fica até ser dispensada ou até a operação seguinte do mesmo tipo ter sucesso | falha de gravação ou de carga |
+| Falha (vermelho) | fica até ser dispensada ou até a operação seguinte do mesmo tipo ter sucesso | falha de gravação, de carga ou de carga do catálogo compartilhado por link ([IDR 0055](idr/0055-catalogo-compartilhado-por-link-somente-leitura.md)) |
 
 Cada aviso é uma faixa de largura total colada ao pé da janela, com
 borda superior de 2px na cor da severidade sobre um fundo escuro da
@@ -702,6 +702,40 @@ que se encontra, sem garantia de disponibilidade nem contra perda de dados,
 com o exportar como proteção; responsabilidade pela própria conta Google;
 limitação de responsabilidade; marcas; alterações dos termos; lei
 brasileira; e contato pelo mesmo endereço declarado na política.
+
+### Catálogo compartilhado
+
+Vista somente leitura do catálogo do dono, aberta por `/catalogo/<uid>` sem
+login, inclusive para o próprio dono — "o caminho manda" (IDR 0055; caminho
+lido por `App.jsx` sem router — TDR 0020). É a tela principal sem edição:
+
+- mantém o cabeçalho com placar e relógio (`updatedAt` do dono), os grupos
+  de ordenação, disposição e filtro, a faixa de bandeiras com tooltip, o
+  colapso de seções e super-grupos e o rodapé com política e termos;
+- some com o desfazer, o botão compartilhar e o avatar; os cartões não
+  reagem a toque — sem papel de botão e fora da ordem de tabulação, com o
+  nome acessível preservado;
+- acrescenta o rótulo `somente leitura` no fim da linha do título e torna
+  `ICONULA 2026` um link para `/`, que leva ao próprio catálogo (ou à tela
+  de login);
+- lê a ordenação, a disposição, o filtro e o colapso guardados no dispositivo
+  (ou o padrão por faixa de tela), mas as trocas valem só enquanto a vista
+  está aberta: olhar o catálogo de outro não muda as próprias preferências
+  (IDR 0026).
+
+Estados, em tela cheia e sem cabeçalho:
+
+- carregando: tela neutra, como o intervalo da sessão (IDR 0035);
+- link desligado e `uid` inexistente têm a mesma resposta — `Este catálogo
+  não está compartilhado.` e o link `Conhecer o Iconula` para `/` —, porque
+  as regras negam os dois do mesmo jeito e a vista não revela se a conta
+  existe; `uid` vazio ou barra final caem aqui, sem leitura;
+- falha de leitura: a mesma tela, com o aviso de falha (ver § Avisos);
+  recarregar a página tenta de novo.
+
+Uma única leitura do documento ao abrir: a vista não se atualiza sozinha
+enquanto aberta e não carrega a coleção de quem está vendo. Nenhum nome,
+foto ou dado da conta do dono aparece.
 
 ## Apresentação por faixa de tela
 

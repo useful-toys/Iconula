@@ -3,6 +3,7 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import {
   carregarColecao,
+  carregarCatalogoCompartilhado,
   gravarAlteracoes,
   gravarAtestacao,
   gravarImportacao,
@@ -202,6 +203,157 @@ describe('carregarColecao — espera sem rede (Tarefa 0007-0005)', () => {
     const resultado = await carregarColecao('u1');
 
     expect(resultado).toEqual({ status: 'vazio' });
+  });
+});
+
+describe('carregarCatalogoCompartilhado (Tarefa 0027-0003)', () => {
+  it('lê o documento compartilhado com contagens e carimbo', async () => {
+    const carimbo = new Date('2026-09-10T14:05:00');
+    firestore.getDoc.mockResolvedValue({
+      exists: () => true,
+      data: () => ({
+        contagens: { BRA01: 3, FWC01: 1 },
+        updatedAt: { toDate: () => carimbo },
+        linkAtivo: true,
+      }),
+    });
+
+    const resultado = await carregarCatalogoCompartilhado('u1');
+
+    expect(resultado).toEqual({
+      status: 'compartilhado',
+      contagens: { BRA01: 3, FWC01: 1 },
+      atualizadoEm: carimbo,
+    });
+  });
+
+  it('não expõe atestadoEm ao chamador', async () => {
+    firestore.getDoc.mockResolvedValue({
+      exists: () => true,
+      data: () => ({
+        contagens: {},
+        updatedAt: { toDate: () => new Date('2026-09-10T14:05:00') },
+        atestadoEm: { toDate: () => new Date('2026-09-01T10:00:00') },
+        linkAtivo: true,
+      }),
+    });
+
+    const resultado = await carregarCatalogoCompartilhado('u1');
+
+    expect(resultado).not.toHaveProperty('atestadoEm');
+  });
+
+  it('trata contagem ausente como mapa vazio', async () => {
+    firestore.getDoc.mockResolvedValue({
+      exists: () => true,
+      data: () => ({ updatedAt: { toDate: () => new Date('2026-09-10T14:05:00') }, linkAtivo: true }),
+    });
+
+    const resultado = await carregarCatalogoCompartilhado('u1');
+
+    expect(resultado.status).toBe('compartilhado');
+    expect(resultado.contagens).toEqual({});
+    expect(resultado.atualizadoEm).toBeInstanceOf(Date);
+  });
+
+  it('trata linkAtivo ausente como não compartilhado', async () => {
+    firestore.getDoc.mockResolvedValue({
+      exists: () => true,
+      data: () => ({
+        contagens: { BRA01: 3 },
+        updatedAt: { toDate: () => new Date('2026-09-10T14:05:00') },
+      }),
+    });
+
+    const resultado = await carregarCatalogoCompartilhado('u1');
+
+    expect(resultado).toEqual({ status: 'nao-compartilhado' });
+  });
+
+  it('trata linkAtivo false como não compartilhado', async () => {
+    firestore.getDoc.mockResolvedValue({
+      exists: () => true,
+      data: () => ({ contagens: { BRA01: 3 }, linkAtivo: false }),
+    });
+
+    const resultado = await carregarCatalogoCompartilhado('u1');
+
+    expect(resultado).toEqual({ status: 'nao-compartilhado' });
+  });
+
+  it('trata documento inexistente como não compartilhado', async () => {
+    firestore.getDoc.mockResolvedValue({ exists: () => false });
+
+    const resultado = await carregarCatalogoCompartilhado('u1');
+
+    expect(resultado).toEqual({ status: 'nao-compartilhado' });
+  });
+
+  it('trata permissão negada como não compartilhado, sem revelar a conta', async () => {
+    const negado = Object.assign(new Error('Missing or insufficient permissions'), {
+      code: 'permission-denied',
+    });
+    firestore.getDoc.mockRejectedValue(negado);
+
+    const resultado = await carregarCatalogoCompartilhado('u1');
+
+    expect(resultado).toEqual({ status: 'nao-compartilhado' });
+  });
+
+  it('devolve erro quando a leitura falha por outro motivo', async () => {
+    firestore.getDoc.mockRejectedValue(Object.assign(new Error('unavailable'), { code: 'unavailable' }));
+
+    const resultado = await carregarCatalogoCompartilhado('u1');
+
+    expect(resultado.status).toBe('erro');
+    expect(resultado.erro).toBeInstanceOf(Error);
+  });
+
+  it('devolve indisponível quando não há app configurado', async () => {
+    state.app = null;
+
+    const resultado = await carregarCatalogoCompartilhado('u1');
+
+    expect(resultado).toEqual({ status: 'indisponivel' });
+    expect(firestore.getDoc).not.toHaveBeenCalled();
+  });
+
+  it('lê exatamente um documento por abertura', async () => {
+    firestore.getDoc.mockResolvedValue({ exists: () => false });
+
+    await carregarCatalogoCompartilhado('u1');
+
+    expect(firestore.getDoc).toHaveBeenCalledTimes(1);
+  });
+
+  describe('espera sem rede (Tarefa 0007-0005)', () => {
+    beforeEach(() => {
+      vi.useFakeTimers();
+    });
+
+    afterEach(() => {
+      vi.useRealTimers();
+    });
+
+    it('leitura pendente além de ~5s chama aoEsperar e continua aguardando', async () => {
+      let resolverGetDoc;
+      firestore.getDoc.mockReturnValue(
+        new Promise((resolve) => {
+          resolverGetDoc = resolve;
+        }),
+      );
+      const aoEsperar = vi.fn();
+
+      const promessa = carregarCatalogoCompartilhado('u1', { aoEsperar });
+      await vi.advanceTimersByTimeAsync(5000);
+
+      expect(aoEsperar).toHaveBeenCalledTimes(1);
+
+      resolverGetDoc({ exists: () => false });
+      const resultado = await promessa;
+
+      expect(resultado).toEqual({ status: 'nao-compartilhado' });
+    });
   });
 });
 

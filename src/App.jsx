@@ -15,6 +15,7 @@ import { MenuDeCompartilhar } from "./components/MenuDeCompartilhar.jsx";
 import { Catalogo } from "./components/Catalogo.jsx";
 import { Avisos } from "./components/Avisos.jsx";
 import { Rodape } from "./components/Rodape.jsx";
+import { CatalogoCompartilhado } from "./components/CatalogoCompartilhado.jsx";
 import { auth, app } from "./lib/firebase";
 import { ajustarContagem, obterContagem } from "./lib/colecao.js";
 import { registrarAjuste, retirarUltimoAjuste } from "./lib/historico.js";
@@ -56,6 +57,22 @@ const codigosPorSecao = (() => {
   return mapa;
 })();
 
+// Primeiro endereço próprio do produto (IDR 0055, TDR 0020): `/catalogo/<uid>`
+// abre a vista somente leitura sem router. Só um único segmento não vazio
+// identifica a coleção; `/catalogo/`, `/catalogo/<uid>/` e demais formatos sob
+// `/catalogo/` caem na premissa conservadora — `{ uid: null }`, que a vista
+// resolve como "não compartilhado" sem leitura. Caminho fora de `/catalogo/`
+// devolve `null` e segue o fluxo normal (guarda de login).
+const PREFIXO_CATALOGO = '/catalogo/';
+function extrairAlvoDoCatalogo(caminho) {
+  if (typeof caminho !== 'string' || !caminho.startsWith(PREFIXO_CATALOGO)) {
+    return null;
+  }
+  const resto = caminho.slice(PREFIXO_CATALOGO.length);
+  const uid = resto.length > 0 && !resto.includes('/') ? resto : null;
+  return { uid };
+}
+
 export default function App() {
   const [user, setUser] = useState(null);
   // Torna-se `true` na primeira emissão de `onAuthStateChanged` (login
@@ -83,6 +100,14 @@ export default function App() {
   // na tela que o restante do estado já determinaria; um único valor impede
   // as duas vistas de ficarem ligadas ao mesmo tempo.
   const [vistaInterna, setVistaInterna] = useState(null);
+  // Alvo do link do catálogo (IDR 0055), lido uma vez na abertura: um objeto
+  // `{ uid }` quando o caminho é `/catalogo/<uid>` (com `uid: null` nos
+  // formatos malformados) ou `null` em qualquer outro caminho. A vista do
+  // link não usa a sessão nem a coleção do visitante — por isso também
+  // suprime a carga e a gravação de preferências abaixo.
+  const [alvoDoCatalogo] = useState(() =>
+    extrairAlvoDoCatalogo(window.location.pathname),
+  );
   // Preferências de vista lidas uma vez na abertura (IDR 0026). Sem
   // preferência guardada, o par (ordenação, disposição) inicial depende da
   // faixa de tela no instante da abertura (IDR 0043) — `window.innerWidth`
@@ -168,7 +193,7 @@ export default function App() {
   // Carga da coleção no login: uma leitura de `users/{uid}`, disparada pelo uid
   // (não pelo objeto `user`, que muda a cada refresh de token — ADR 0007).
   useEffect(() => {
-    if (!uid || !app) return;
+    if (!uid || !app || alvoDoCatalogo) return;
 
     const ajustesNoInicio = ajustesRef.current;
     let cancelado = false;
@@ -223,7 +248,7 @@ export default function App() {
     return () => {
       cancelado = true;
     };
-  }, [uid, gravacaoAgregada]);
+  }, [uid, gravacaoAgregada, alvoDoCatalogo]);
 
   // Confirmar a atestação (Tarefa 0008-0003, IDR 0036): grava e libera o
   // app de qualquer jeito, mesmo em falha — o ato já foi praticado pelo
@@ -244,15 +269,19 @@ export default function App() {
   }
 
   // Grava a preferência ao trocar alternador — a preferência é o próprio
-  // último uso (IDR 0026). O colapso de seções não persiste (IDR 0020).
+  // último uso (IDR 0026). O colapso de seções não persiste (IDR 0020). Na
+  // vista do link o efeito não grava: ela lê as preferências, mas as trocas
+  // valem só enquanto a vista está aberta — olhar o catálogo de outro não
+  // muda as próprias preferências (IDR 0055).
   const primeiraRender = useRef(true);
   useEffect(() => {
+    if (alvoDoCatalogo) return;
     if (primeiraRender.current) {
       primeiraRender.current = false;
       return;
     }
     gravarPreferenciasDeVista({ ordenacao, disposicao, filtro });
-  }, [ordenacao, disposicao, filtro]);
+  }, [ordenacao, disposicao, filtro, alvoDoCatalogo]);
 
   // Espelha `contagens` num ref, sincronizado depois de cada commit (nunca
   // durante a renderização): permite que `handleAjustar` leia a contagem
@@ -509,6 +538,21 @@ export default function App() {
 
   if (vistaInterna === 'termos') {
     return <TermosDeUso onVoltar={() => setVistaInterna(null)} />;
+  }
+
+  // Vista do link do catálogo (IDR 0055): checada antes da guarda de login
+  // porque abre sem sessão — inclusive para o próprio dono, que vê o mesmo
+  // que o visitante. Sem router: o caminho foi lido em `alvoDoCatalogo` na
+  // abertura (TDR 0020). A vista carrega o documento do dono por conta
+  // própria e não toca a sessão nem a coleção deste componente.
+  if (alvoDoCatalogo) {
+    return (
+      <CatalogoCompartilhado
+        uid={alvoDoCatalogo.uid}
+        onAbrirPolitica={() => setVistaInterna('politica')}
+        onAbrirTermos={() => setVistaInterna('termos')}
+      />
+    );
   }
 
   // Guarda de login (Tarefa 0008-0001, requisitos.md § Acesso): sem sessão,
