@@ -13,7 +13,7 @@ inteiro em tela.
 
 - O modelo de domínio (`requisitos.md`) tem três estados derivados da
   contagem: faltante (0), colada (≥ 1) e repetida (≥ 2). O placar já
-  usa os três — `12/20 · 60% · ▢8 · ×3` —, mas o filtro nasceu com
+  usa os três — `12/20 60% ▯8 ×3` —, mas o filtro nasceu com
   apenas `todas | faltantes | repetidas`.
 - Falta, portanto, a vista do estado do meio. **Colada não é o
   complemento de repetida**: repetida é contagem ≥ 2, colada é

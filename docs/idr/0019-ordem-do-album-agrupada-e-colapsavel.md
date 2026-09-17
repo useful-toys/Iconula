@@ -31,8 +31,8 @@ super-grupos, não 13.
   colapsáveis: "Especiais" (FWC e COC) e os 12 grupos da Copa (A–L),
   cada um com suas 4 seleções
 - O título do super-grupo mostra o nome ("Grupo A", "Especiais") e o
-  progresso agregado em notação compacta (ex.: `Grupo C · 34/80 ·
-  43% · ▢46 · ×12` — IDR 0018)
+  progresso agregado em notação compacta (ex.: `Grupo C · 34/80 43%
+  ▯46 ×12` — IDR 0018)
 - Super-grupos expandem por padrão; tocar no título colapsa/expande
 - O salto para seção (IDR 0016) expande automaticamente o super-grupo
   que contém a seção alvo

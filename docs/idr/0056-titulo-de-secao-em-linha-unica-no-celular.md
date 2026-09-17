@@ -9,7 +9,7 @@ Aceito.
 ## Contexto
 
 - O título da seção (cabeçalho de cada seleção) é
-  `▾ [bandeira] Nome SIGLA Página · 12/20 · 60% · ▢8 · ×3` e, no celular,
+  `▾ [bandeira] Nome SIGLA Página · 12/20 60% ▯8 ×3` e, no celular,
   não cabe numa linha: quebra em duas linhas (`flex-wrap`), como
   documentado em `interface.md` § Corpo.
 - O humano pediu o título numa linha no celular **sem remover informação
@@ -31,7 +31,7 @@ Aceito.
   acessibilidade preservada.
 - Reduzir espaçamentos horizontais: `gap` do cabeçalho `8px → 6px`;
   `gap` interno do título `0.35em → 0.22em`.
-- Glifos `▢`/`×` em `0.85em`, peso 400 — acompanham os números em
+- Glifos `▯`/`×` em `0.85em`, peso 400 — acompanham os números em
   `--muted`.
 - Nome da seção em Poppins 600, 14px — mantém a hierarquia acima do
   super-grupo (13px).
@@ -70,7 +70,7 @@ Aceito.
 - **Quebra fixa em duas linhas**: recusada — o humano quer linha única.
 - **Fonte menor que 14px** (13/12/11px): recusada — manter 14px; a
   combinação acima já cabe.
-- **Omitir `▢`/`×` quando o espaço aperta**: recusada — os glifos dão
+- **Omitir `▯`/`×` quando o espaço aperta**: recusada — os glifos dão
   sentido aos números e a notação é uniforme (IDR 0018).
 - **Glifos alternativos** para faltantes/repetidas: não há mais
   compactos — o IDR 0018 já rejeitou `−/+` e `✗/♻`.

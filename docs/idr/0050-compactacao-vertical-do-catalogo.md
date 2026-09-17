@@ -18,15 +18,18 @@ Aceito — implementação na Fase 0012 (Tarefas 0012-0002 a 0012-0004).
 
 ## Decisão
 
-- **Cabeçalho de seção**: `padding` de `4px 8px` (compactado de `10px 14px`
-  na Fase 0012 e de `7px 12px` na Fase 0026); ícone 18px, nome 14px/600
+- **Cabeçalho de seção**: `padding` de `2px 8px` (compactado de `10px 14px`
+  na Fase 0012, de `7px 12px` e de `4px 8px` na Fase 0026, e de `4px 8px`
+  no esmiuçamento do título em linha única); ícone 18px, nome 14px/600
   inalterados
 - **Espaçamentos entre blocos**:
   - entre super-grupos: 16px → 12px
   - entre seções (dentro do super-grupo e soltas na ordenação por sigla):
-    14px → 10px
-  - entre o cabeçalho da seção e a grade: 10px → 8px → 4px (Fase 0026); do
-    título do super-grupo ao corpo permanece 8px
+    14px → 10px → 8px
+  - entre o cabeçalho da seção e a grade: 10px → 8px → 4px (Fase 0026) →
+    2px; do título do super-grupo ao corpo permanece 8px
+  - respiro interno da moldura, topo e baixo: 8px → 4px (lados inalterados
+    em 8px)
 - **Inalterados**: 8px entre cartões na lista e 20px entre páginas no álbum
 - **Faixa de aviso**: respiro vertical de `12px` para `6px`, em cima e
   embaixo; margens laterais inalteradas (`--page-gutter`)
@@ -71,6 +74,12 @@ Aceito — implementação na Fase 0012 (Tarefas 0012-0002 a 0012-0004).
   e o `×` de dispensar quase encostado nas bordas
 
 ## Histórico
+
+- 2026-09-17 — Esmiuçamento do título de seção em linha única: nova rodada
+  de compactação vertical — respiro interno da moldura (topo/baixo)
+  `8px → 4px` (lados seguem 8px), `padding` do cabeçalho `4px 8px → 2px 8px`,
+  vão cabeçalho→grade `4px → 2px` e vão entre seções `10px → 8px`, mantendo
+  o anel de 2px nítido entre caixas vizinhas; implementação a planejar.
 
 - 2026-09-16 — Correção da Fase 0026 (PR #64): o cabeçalho da seção ganhou o
   anel em degradê e perdeu a borda/fundo próprios; com o respiro interno da
