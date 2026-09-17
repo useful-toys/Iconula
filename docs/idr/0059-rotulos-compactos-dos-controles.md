@@ -48,7 +48,7 @@ Aceito.
   ganha o evento de sucesso "trocou ordenação/disposição/filtro".
 - Acessibilidade preservada via `aria-label`; o feedback visual devolve o
   que o rótulo compacto escondeu, também no toque.
-- Implementação: a planejar (/planejar).
+- Implementação: Fase 0030, Tarefas 0030-0003 a 0030-0005.
 
 ## Alternativas consideradas
 

@@ -34,7 +34,7 @@ Resultado: controles → bandeiras `16px → 8px`; bandeiras → primeira seçã
   mudam.
 - O sticky no celular fica mais baixo, devolvendo parte da altura que o
   [IDR 0018](0018-usuario-especialista-e-minimalismo.md) aceitou gastar.
-- Implementação: a planejar (/planejar).
+- Implementação: Fase 0029, Tarefa 0029-0002.
 
 ## Alternativas consideradas
 

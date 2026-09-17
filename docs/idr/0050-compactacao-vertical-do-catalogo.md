@@ -79,7 +79,8 @@ Aceito — implementação na Fase 0012 (Tarefas 0012-0002 a 0012-0004).
   de compactação vertical — respiro interno da moldura (topo/baixo)
   `8px → 4px` (lados seguem 8px), `padding` do cabeçalho `4px 8px → 2px 8px`,
   vão cabeçalho→grade `4px → 2px` e vão entre seções `10px → 8px`, mantendo
-  o anel de 2px nítido entre caixas vizinhas; implementação a planejar.
+  o anel de 2px nítido entre caixas vizinhas; implementação na Fase 0029,
+  Tarefa 0029-0001.
 
 - 2026-09-16 — Correção da Fase 0026 (PR #64): o cabeçalho da seção ganhou o
   anel em degradê e perdeu a borda/fundo próprios; com o respiro interno da

@@ -34,7 +34,7 @@ Aceito.
   consistente com o SVG inline já usado no compartilhar.
 - Sem setup de infraestrutura (Firebase/Google Cloud/GitHub/DNS) — só o
   asset no repositório.
-- Implementação: a planejar (/planejar).
+- Implementação: Fase 0030, Tarefa 0030-0002.
 
 ## Alternativas consideradas
 

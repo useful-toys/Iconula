@@ -73,6 +73,9 @@ Detalhes e status das tarefas no guia [CLAUDE.md](CLAUDE.md) § Status e ciclo d
 | 25 | [Paleta de grupo e fundo neutro do tema](0025-paleta-de-grupo-e-fundo-neutro-do-tema/) | Repaletizar os grupos A–L com a tabela oficial de sorteio, neutralizar o fundo fora do cabeçalho (que mantém o verde-gramado) e registrar a paleta de referência da capa do álbum físico | 2, 15, 18 | `feat: paleta de grupo oficial e fundo neutro fora do cabeçalho` | Entregue |
 | 26 | [Moldura em degradê da bandeira na seção do time](0026-moldura-em-degrade-da-bandeira-na-secao/) | Substituir a cor única por seleção por moldura e fundo em degradê com as cores da bandeira, abraçando a seção inteira (título + grade) | 16, 25 | `feat: moldura em degradê com as cores da bandeira na seção` | Entregue |
 | 27 | [Catálogo compartilhado por link](0027-catalogo-compartilhado-por-link/) | Link único por conta, ligado e desligado no popup Compartilhar, que abre sem login o catálogo do dono em somente leitura | 24, 26 | `feat: catálogo compartilhado por link somente leitura` | Entregue |
+| 28 | [Notação compacta e título de seção em linha única](0028-notacao-compacta-e-titulo-de-secao/) | Aplicar `▯`/`×` sem `·` nos títulos e deixar o título da seção numa linha no celular | — | `feat: notação compacta e título de seção em linha única` | Pendente |
+| 29 | [Compactação vertical](0029-compactacao-vertical/) | Apertar os respiros verticais do catálogo e do cabeçalho, e o relógio em Roboto Condensed | 28 | `feat: compactação vertical do catálogo e do cabeçalho` | Pendente |
+| 30 | [Faixa sem barra e controles compactos](0030-faixa-sem-barra-e-controles-compactos/) | Faixa sem barra (fade + arrasto) e controles com ícones, espaçamento e feedback | 29 | `feat: faixa sem barra e controles compactos` | Pendente |
 
 ---
 
@@ -531,6 +534,52 @@ do e2e.
 | 0004 | [Chave do link no popup](0027-catalogo-compartilhado-por-link/0004-chave-do-link-no-popup.md) | Carga traz `linkAtivo`; chave no terceiro bloco grava na hora, não fecha o popup e reverte em falha. | Concluída |
 | 0005 | [Copiar e compartilhar o link](0027-catalogo-compartilhado-por-link/0005-copiar-e-compartilhar-o-link.md) | Com o link ligado, copiar e compartilhar só a URL, com reserva da cópia. | Concluída |
 | 0006 | [Política, noindex e e2e do link](0027-catalogo-compartilhado-por-link/0006-politica-noindex-e-e2e-do-link.md) | Texto novo da política, `X-Robots-Tag: noindex` em `/catalogo/**` e e2e da vista sem login. | Concluída |
+
+## Fase 28 — Notação compacta e título de seção em linha única
+
+Decisões do esmiuçamento: a notação de progresso troca `▢` por `▯` e perde os
+`·` entre campos, mantendo os `·` estruturais ([IDR 0018](../idr/0018-usuario-especialista-e-minimalismo.md),
+[`requisitos.md` § UX](../requisitos.md)); o título da seção passa a caber numa
+linha no celular, sem chevron nas seções e com fonte condensada até 582px
+([IDR 0056](../idr/0056-titulo-de-secao-em-linha-unica-no-celular.md)).
+
+| # | Tarefa | Objetivo | Status |
+|---|---|---|---|
+| 0001 | [Notação no placar e no super-grupo](0028-notacao-compacta-e-titulo-de-secao/0001-notacao-no-placar-e-no-super-grupo.md) | `▯`/`×` sem `·` no placar e no super-grupo, mantendo os `·` estruturais. | Pendente |
+| 0002 | [Notação na seção e no tooltip da faixa](0028-notacao-compacta-e-titulo-de-secao/0002-notacao-na-secao-e-no-tooltip-da-faixa.md) | `▯`/`×` sem `·` na seção e no tooltip da faixa. | Pendente |
+| 0003 | [Título de seção sem chevron e identificação em spans](0028-notacao-compacta-e-titulo-de-secao/0003-titulo-de-secao-sem-chevron-e-identificacao-em-spans.md) | Remover o chevron das seções e separar nome/sigla/página em spans. | Pendente |
+| 0004 | [Título de seção com gaps, glifos e fonte condensada](0028-notacao-compacta-e-titulo-de-secao/0004-titulo-de-secao-gaps-glifos-e-fonte-condensada.md) | Gaps 6px/0.22em, glifos 0.85em/400, Roboto Condensed ≤582px. | Pendente |
+
+## Fase 29 — Compactação vertical
+
+Decisões do esmiuçamento: compactação vertical do catálogo
+([IDR 0050](../idr/0050-compactacao-vertical-do-catalogo.md)) e do cabeçalho
+([IDR 0057](../idr/0057-compactacao-vertical-do-cabecalho.md)), e a data/hora de
+persistência em Roboto Condensed.
+
+| # | Tarefa | Objetivo | Status |
+|---|---|---|---|
+| 0001 | [Compactação vertical do catálogo](0029-compactacao-vertical/0001-compactacao-vertical-do-catalogo.md) | Moldura 8→4px, cabeçalho 2px 8px, vão 4→2px, seções 10→8px. | Pendente |
+| 0002 | [Compactação vertical do cabeçalho](0029-compactacao-vertical/0002-compactacao-vertical-do-cabecalho.md) | Padding 12/10→8/2, gap 8→4, faixa 8→4, corpo topo 20→4. | Pendente |
+| 0003 | [Data/hora de persistência em Roboto Condensed](0029-compactacao-vertical/0003-data-hora-de-persistencia-em-roboto-condensed.md) | Relógio em Roboto Condensed 500, 13px/muted/tabular. | Pendente |
+
+## Fase 30 — Faixa sem barra e controles compactos
+
+Decisões do esmiuçamento: a faixa de bandeiras perde a barra visível, com fade
+e arrasto ([IDR 0058](../idr/0058-rolagem-da-faixa-de-bandeiras-sem-barra.md));
+os controles ganham ícones Material como SVG inline
+([TDR 0026](../tdr/0026-icones-material-symbols-vendorizados-como-svg.md)) e
+rótulos compactos, espaçamento e feedback de confirmação
+([IDR 0059](../idr/0059-rotulos-compactos-dos-controles.md),
+[IDR 0029](../idr/0029-avisos-flutuantes-com-tres-severidades.md)).
+
+| # | Tarefa | Objetivo | Status |
+|---|---|---|---|
+| 0001 | [Faixa de bandeiras sem barra](0030-faixa-sem-barra-e-controles-compactos/0001-faixa-de-bandeiras-sem-barra.md) | Fade condicional + arrasto grab/grabbing + overscroll; rodinha não interceptada. | Pendente |
+| 0002 | [Ícones Material Symbols como SVG inline](0030-faixa-sem-barra-e-controles-compactos/0002-icones-material-symbols-como-svg-inline.md) | Vendorizar `numbers`, `sort_by_alpha`, `view_list`, `view_module`. | Pendente |
+| 0003 | [Rótulos compactos dos controles](0030-faixa-sem-barra-e-controles-compactos/0003-rotulos-compactos-dos-controles.md) | Material no layout; `Todas ▯ ▮ ×` no filtro; nome por extenso no aria/tooltip. | Pendente |
+| 0004 | [Espaçamento dos controles](0030-faixa-sem-barra-e-controles-compactos/0004-espacamento-dos-controles.md) | Padding 4px 10px, gap 6px, `::before` de toque. | Pendente |
+| 0005 | [Feedback de confirmação na troca de controle](0030-faixa-sem-barra-e-controles-compactos/0005-feedback-de-confirmacao-na-troca-de-controle.md) | Aviso de sucesso na troca de ordenação/disposição/filtro. | Pendente |
 
 ## Regras que valem em toda tarefa
 

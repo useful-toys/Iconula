@@ -48,7 +48,7 @@ Aceito.
   arrasto não salta.
 - Acessibilidade: o salto continua por teclado (foco nas bandeiras); o
   arrasto é extra de mouse, não substitui o teclado.
-- Implementação: a planejar (/planejar).
+- Implementação: Fase 0030, Tarefa 0030-0001.
 
 ## Alternativas consideradas
 
