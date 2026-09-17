@@ -3,7 +3,7 @@
 # Tarefa [0027-0003]: vista do link do catálogo
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Abrir `/catalogo/<uid>` como a vista somente leitura do catálogo do dono,

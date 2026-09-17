@@ -26,7 +26,12 @@ evoluiu, não o estado atual.
 
 SPA 100% no navegador, **sem backend próprio**: os serviços Firebase
 são o servidor, e a segurança que um backend teria é exercida pelas
-regras do Firestore, avaliadas no servidor contra o ID token.
+regras do Firestore, avaliadas no servidor contra o ID token. A única
+exceção é o catálogo compartilhado por link ([IDR 0055](idr/0055-catalogo-compartilhado-por-link-somente-leitura.md)):
+`get` de `users/{uid}` passa a valer sem autenticação enquanto
+`linkAtivo == true` no próprio documento ([MDR 0002](model-dr/0002-schema-do-documento-da-colecao.md)) — primeira
+leitura pública do produto, contabilizada no risco de cota do
+[ADR 0005](adr/0005-persistencia-no-firestore.md).
 
 ```
               GitHub Actions (merge na main → produção;
@@ -74,8 +79,8 @@ regras do Firestore, avaliadas no servidor contra o ID token.
 |---|---|
 | `src/data/` | Catálogo estático (50 seções, 994 figurinhas — [TDR 0010](tdr/0010-forma-do-catalogo-degradacao-do-checklist-e-sem-pipeline.md)) e suas derivações puras: ordenações/agrupamento ([TDR 0012](tdr/0012-derivacoes-do-catalogo-em-src-data.md)) e layout de página do álbum |
 | `src/lib/` | Módulos sem React: estado da coleção em memória, persistência no Firestore (`colecaoRemota.js`, único módulo que toca o SDK), gravação agregada com debounce/flush, histórico de desfazer, preferências de vista no `localStorage`, portabilidade (export/import JSON), textos de troca, fila de avisos, conversão de bandeiras e cálculo de progresso |
-| `src/components/` | Telas (login, atestação, política de privacidade e termos de uso) e árvore da tela principal: cabeçalho com placar e faixa de salto, controles (ordenação/disposição/filtro), menu de ações, catálogo (super-grupo → seção → figurinha ou página do álbum) e avisos flutuantes |
-| `src/App.jsx` | Único componente com estado: sessão (Firebase Auth), coleção, atestação, vistas internas (política e termos), preferências de vista e histórico de desfazer; decide qual tela mostrar (guarda de login) e concentra toda leitura/escrita da coleção |
+| `src/components/` | Telas (login, atestação, política de privacidade, termos de uso e catálogo compartilhado por link) e árvore da tela principal: cabeçalho com placar e faixa de salto, controles (ordenação/disposição/filtro), menu de ações, catálogo (super-grupo → seção → figurinha ou página do álbum) e avisos flutuantes |
+| `src/App.jsx` | Único componente com estado: sessão (Firebase Auth), coleção, atestação, vistas internas (política e termos), preferências de vista e histórico de desfazer; decide qual tela mostrar (guarda de login e, pelo caminho `/catalogo/<uid>`, a vista do link antes dela — [IDR 0055](idr/0055-catalogo-compartilhado-por-link-somente-leitura.md)) e concentra toda leitura/escrita da coleção |
 
 Convenção vigente (AGENTS.md): nada de router nem estado global até a
 árvore de componentes realmente exigir. Confirmada em uso, não só
@@ -112,6 +117,12 @@ Fluxos:
    coleção com confirmação e descarta o histórico de desfazer
 4. **Preferência de vista**: alternador → `localStorage`, sem tocar o
    Firestore (IDR 0026)
+5. **Link do catálogo**: caminho `/catalogo/<uid>` lido na abertura →
+   uma leitura do documento do dono, sem login e sem a coleção do
+   visitante → vista somente leitura, com as preferências lidas mas não
+   gravadas ([IDR 0055](idr/0055-catalogo-compartilhado-por-link-somente-leitura.md),
+   [MDR 0002](model-dr/0002-schema-do-documento-da-colecao.md),
+   [TDR 0020](tdr/0020-privacidade-como-vista-interna.md))
 
 ## Build, deploy e qualidade
 
