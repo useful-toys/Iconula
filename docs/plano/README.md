@@ -530,7 +530,7 @@ do e2e.
 | 0003 | [Vista do link do catálogo](0027-catalogo-compartilhado-por-link/0003-vista-do-link-do-catalogo.md) | `/catalogo/<uid>` antes da guarda de login, uma leitura, estados e preferências sem gravação. | Concluída |
 | 0004 | [Chave do link no popup](0027-catalogo-compartilhado-por-link/0004-chave-do-link-no-popup.md) | Carga traz `linkAtivo`; chave no terceiro bloco grava na hora, não fecha o popup e reverte em falha. | Concluída |
 | 0005 | [Copiar e compartilhar o link](0027-catalogo-compartilhado-por-link/0005-copiar-e-compartilhar-o-link.md) | Com o link ligado, copiar e compartilhar só a URL, com reserva da cópia. | Concluída |
-| 0006 | [Política, noindex e e2e do link](0027-catalogo-compartilhado-por-link/0006-politica-noindex-e-e2e-do-link.md) | Texto novo da política, `X-Robots-Tag: noindex` em `/catalogo/**` e e2e da vista sem login. | Pendente |
+| 0006 | [Política, noindex e e2e do link](0027-catalogo-compartilhado-por-link/0006-politica-noindex-e-e2e-do-link.md) | Texto novo da política, `X-Robots-Tag: noindex` em `/catalogo/**` e e2e da vista sem login. | Concluída |
 
 ## Regras que valem em toda tarefa
 

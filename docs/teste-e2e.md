@@ -66,12 +66,14 @@ página depois da chamada para que a sessão semeada valha.
 
 ## Fixture de dados no Firestore Emulator
 
-`e2e/helpers/fixture.js` exporta `gravarFixture(uid, contagens)`: grava
-`users/{uid}` com as contagens passadas, para testar cenários além da
+`e2e/helpers/fixture.js` exporta `gravarFixture(uid, contagens, extras?)`:
+grava `users/{uid}` com as contagens passadas, para testar cenários além da
 coleção vazia do primeiro login (ex.: uma seção parcialmente colada).
-Grava `atestadoEm` junto sempre — sem isso a conta cairia na tela de
-atestação de menores em vez do catálogo, que normalmente não é o que a
-fixture está preparando.
+`extras` acrescenta campos ao documento — ex.: `linkAtivo: true` para a
+vista do catálogo compartilhado ([IDR 0055](idr/0055-catalogo-compartilhado-por-link-somente-leitura.md))
+— sem mudar o uso sem ele. Grava `atestadoEm` junto sempre — sem isso a
+conta cairia na tela de atestação de menores em vez do catálogo, que
+normalmente não é o que a fixture está preparando.
 
 Usa `@firebase/rules-unit-testing` (o mesmo de `firestore.rules.test.js`)
 com as regras de segurança desligadas (`withSecurityRulesDisabled`): a
@@ -104,6 +106,7 @@ Pré-requisitos para rodar localmente:
 e2e/
 ├── README.md              — propósito da pasta (exceção de co-localização)
 ├── catalogo.spec.js        — teste de fumaça
+├── catalogoCompartilhado.spec.js — vista do link sem login (IDR 0055)
 └── helpers/
     ├── login.js             — loginComPopupFake, loginComEmailSenha
     └── fixture.js           — gravarFixture
@@ -116,12 +119,13 @@ playwright.dev.config.js     — config de atalho (test:e2e:dev, dev server)
 - **Sem CI**: os testes E2E não rodam a cada PR — só localmente, por ora.
   Decisão de DevOps (DDR) própria, deixada para um pedido futuro
   (ADR 0010 § Fora do escopo).
-- **Sem testes de regressão específicos ainda**: esta entrega cobre só a
-  infraestrutura (emuladores, os dois helpers de login, o helper de
-  fixture) e o teste de fumaça `catalogo.spec.js`, que prova que login
-  instantâneo + fixture funcionam de ponta a ponta. Testes de
-  funcionalidades específicas (ex.: a faixa de bandeiras) são escritos sob
-  demanda, em pedidos futuros.
+- **Poucos testes de regressão específicos ainda**: a infraestrutura
+  (emuladores, os dois helpers de login, o helper de fixture) e o teste de
+  fumaça `catalogo.spec.js` provam que login instantâneo + fixture funcionam
+  de ponta a ponta; `catalogoCompartilhado.spec.js` cobre a vista do link sem
+  login ([IDR 0055](idr/0055-catalogo-compartilhado-por-link-somente-leitura.md)).
+  Testes de outras funcionalidades específicas (ex.: a faixa de bandeiras)
+  são escritos sob demanda, em pedidos futuros.
 - **`loginComPopupFake` sem teste próprio ainda**: o helper existe e está
   pronto para uso, mas a verificação funcional do fluxo de login via
   popup (e da tela de atestação) fica para um teste futuro dedicado

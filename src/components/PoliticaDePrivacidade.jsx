@@ -41,7 +41,16 @@ export default function PoliticaDePrivacidade({ onVoltar }) {
           A conta e a coleção ficam no Cloud Firestore, serviço do Google
           Cloud, em servidores na região <code>southamerica-east1</code>{" "}
           (São Paulo). Nenhum outro terceiro tem acesso a esses dados além
-          do Google, que já processa o login pelo próprio provedor.
+          do Google, que já processa o login pelo próprio provedor, e, se
+          você ligar o link do catálogo, de quem tiver o link.
+        </p>
+
+        <h2>Link do catálogo</h2>
+        <p>
+          Se você ligar o link do catálogo, a sua coleção (contagens e data
+          da última gravação) fica visível, sem login, a qualquer pessoa que
+          tenha o link, até você desligá-lo. O link contém um identificador
+          interno da sua conta; seu nome, e-mail e foto não aparecem.
         </p>
 
         <h2>Retenção</h2>

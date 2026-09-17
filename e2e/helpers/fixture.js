@@ -23,9 +23,13 @@ import { lerConfigDoApp } from './env.js';
  *
  * @param {string} uid
  * @param {Record<string, number>} contagens
+ * @param {Record<string, unknown>} [extras] - campos extras do documento,
+ *   gravados junto de `contagens`/`updatedAt`/`atestadoEm` (ex.: `linkAtivo`
+ *   para a vista do catálogo compartilhado, IDR 0055). Ausente, o documento
+ *   sai igual ao de antes.
  * @returns {Promise<void>}
  */
-export async function gravarFixture(uid, contagens) {
+export async function gravarFixture(uid, contagens, extras = {}) {
   const { projectId } = lerConfigDoApp();
   const testEnv = await initializeTestEnvironment({
     projectId,
@@ -42,6 +46,7 @@ export async function gravarFixture(uid, contagens) {
         contagens,
         updatedAt: new Date(),
         atestadoEm: new Date(),
+        ...extras,
       });
     });
   } finally {

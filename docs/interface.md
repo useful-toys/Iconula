@@ -698,11 +698,19 @@ Título "Política de privacidade" em Poppins 700/22px dourado; seções com
 título 15px/600 e texto de corpo 14px em `--muted`, `line-height: 1.6`.
 
 Conteúdo: dados tratados (identidade Google e a coleção), finalidade, onde
-os dados ficam (Cloud Firestore, `southamerica-east1`), retenção, direitos
-do titular e o tratamento de dados de menores (ligado à atestação do
-primeiro login) — cada um exercido pelo canal de contato declarado no
-próprio texto (`docs/plano/.../0004-politica-de-privacidade-e-rodape.md`
+os dados ficam (Cloud Firestore, `southamerica-east1`), link do catálogo,
+retenção, direitos do titular e o tratamento de dados de menores (ligado à
+atestação do primeiro login) — cada um exercido pelo canal de contato
+declarado no próprio texto (`docs/plano/.../0004-politica-de-privacidade-e-rodape.md`
 tem a pergunta e a resposta que fixou esse endereço).
+
+A seção "Link do catálogo" declara a visibilidade por link
+([IDR 0055](idr/0055-catalogo-compartilhado-por-link-somente-leitura.md)):
+ligado, a coleção (contagens e data da última gravação) fica visível, sem
+login, a quem tiver o link, até desligá-lo; o link traz um identificador
+interno da conta, e nome, e-mail e foto não aparecem. A frase dos terceiros
+em "Onde os dados ficam" acompanha: além do Google, só quem tiver o link,
+quando ele estiver ligado.
 
 ### Termos de uso
 
