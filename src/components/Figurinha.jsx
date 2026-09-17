@@ -9,13 +9,17 @@ const LIMIAR_PRESSAO_MS = 500;
 const TOLERANCIA_MOVIMENTO_PX = 10;
 
 /**
- * Compara props para `memo`, ignorando deliberadamente `onIncrementar` e
- * `onDecrementar`: são fechos recriados a cada render do pai (`() =>
- * onAjustar(codigo, 1)`), mas equivalentes entre si enquanto `codigo` (chave
- * do mapa, nunca muda para um cartão) e `onAjustar` (estabilizado em
+ * Compara props para `memo`, ignorando deliberadamente a identidade de
+ * `onIncrementar` e `onDecrementar`: são fechos recriados a cada render do pai
+ * (`() => onAjustar(codigo, 1)`), mas equivalentes entre si enquanto `codigo`
+ * (chave do mapa, nunca muda para um cartão) e `onAjustar` (estabilizado em
  * `App.jsx`) não mudarem — o que os demais campos comparados já cobrem.
  * Sem isto, um cartão re-renderizaria mesmo com `contagem` idêntica, só
  * porque o pai recriou o fecho (Tarefa 0010-0002, TDR 0021).
+ *
+ * A **presença** dos callbacks, porém, entra na comparação: é ela que decide
+ * entre o cartão editável e o inerte da vista do link (IDR 0055). Sem esta
+ * linha, um cartão memoizado que perdesse os callbacks continuaria botão.
  *
  * @param {object} anterior
  * @param {object} seguinte
@@ -23,6 +27,8 @@ const TOLERANCIA_MOVIMENTO_PX = 10;
  */
 function propsEquivalentes(anterior, seguinte) {
   return (
+    Boolean(anterior.onIncrementar) === Boolean(seguinte.onIncrementar) &&
+    Boolean(anterior.onDecrementar) === Boolean(seguinte.onDecrementar) &&
     anterior.codigo === seguinte.codigo &&
     anterior.contagem === seguinte.contagem &&
     anterior.metalizada === seguinte.metalizada &&
@@ -53,8 +59,8 @@ function propsEquivalentes(anterior, seguinte) {
  * @param {string} [props.nome] - nome completo (ex.: "Gabriel Magalhães"), no nome acessível.
  * @param {[string | null, string] | null} [props.nomeLinhas] - par [prenomes, sobrenome] para jogador com corte; [null, nome] para nome único; ausente/`null` sem corte — exibido só em FWC e COC (IDR 0047, MDR 0008).
  * @param {string} [props.nomeCurto] - rótulo de uma linha da paisagem (ex.: "Uruguai 1950"); exibido no lugar de `nome` quando existe — só as paisagens do FWC têm valor (MDR 0008).
- * @param {() => void} props.onIncrementar - chamado ao tocar no cartão.
- * @param {() => void} props.onDecrementar - chamado ao tocar no controle de menos.
+ * @param {() => void} [props.onIncrementar] - chamado ao tocar no cartão; sem ele (e sem `onDecrementar`) o cartão é inerte: sem papel de botão, fora da tabulação, sem controle de menos e sem gesto (IDR 0055).
+ * @param {() => void} [props.onDecrementar] - chamado ao tocar no controle de menos ou ao segurar o cartão.
  */
 export const Figurinha = memo(function Figurinha({
   codigo,
@@ -182,62 +188,86 @@ export const Figurinha = memo(function Figurinha({
     estadoLabel += ', metalizada';
   }
 
+  // Sem os dois callbacks, o cartão é inerte (IDR 0055): a vista do link
+  // mostra a coleção de outra pessoa e não pode somar nem remover.
+  const interativo = Boolean(onIncrementar) && Boolean(onDecrementar);
+  const nomeAcessivel = `${sigla} ${numero}${nomeNoRotulo}, ${estadoLabel}`;
+
   const classes = [
     'figurinha',
     `figurinha--${variante}`,
     paisagem ? 'figurinha--paisagem' : '',
     estadoClasse,
     pressionando ? 'figurinha--pressionando' : '',
+    interativo ? '' : 'figurinha--leitura',
   ].filter(Boolean).join(' ');
+
+  // Conteúdo visual do cartão, igual nos dois modos (IDR 0055): a aparência
+  // de estado (cor, selo, metalizada e nome) não muda no somente leitura.
+  const visual = (
+    <span className="figurinha__visual" aria-hidden="true">
+      {metalizada && (
+        <span className="figurinha__metalizada" aria-hidden="true" />
+      )}
+      <span className="figurinha__codigo" aria-hidden="true">
+        <span className="figurinha__sigla">{sigla}</span>
+        <span className="figurinha__numero">{numero}</span>
+      </span>
+      {exibeNome && (
+        <span className="figurinha__nome" aria-hidden="true">
+          {paisagem ? (
+            <span className="figurinha__nome-paisagem">
+              {nomeCurto ?? nome}
+            </span>
+          ) : nomeLinhas ? (
+            <>
+              {nomeLinhas[0] && (
+                <span className="figurinha__nome-prenomes">{nomeLinhas[0]}</span>
+              )}
+              <span className="figurinha__nome-sobrenome">{nomeLinhas[1]}</span>
+            </>
+          ) : (
+            <span className="figurinha__nome-unico">{nome}</span>
+          )}
+        </span>
+      )}
+      {contagem >= 2 && (
+        <span className="figurinha__selo" aria-hidden="true">
+          ×{sobrando}
+        </span>
+      )}
+    </span>
+  );
 
   return (
     <div className={classes}>
-      <button
-        type="button"
-        className="figurinha__corpo"
-        ref={corpoRef}
-        aria-label={`${sigla} ${numero}${nomeNoRotulo}, ${estadoLabel}`}
-        onClick={aoClique}
-        onPointerDown={aoPointerDown}
-        onPointerMove={aoPointerMove}
-        onPointerUp={aoPointerUp}
-        onPointerCancel={aoPointerCancel}
-        onContextMenu={aoContextMenu}
-      >
-        <span className="figurinha__visual" aria-hidden="true">
-          {metalizada && (
-            <span className="figurinha__metalizada" aria-hidden="true" />
-          )}
-          <span className="figurinha__codigo" aria-hidden="true">
-            <span className="figurinha__sigla">{sigla}</span>
-            <span className="figurinha__numero">{numero}</span>
-          </span>
-          {exibeNome && (
-            <span className="figurinha__nome" aria-hidden="true">
-              {paisagem ? (
-                <span className="figurinha__nome-paisagem">
-                  {nomeCurto ?? nome}
-                </span>
-              ) : nomeLinhas ? (
-                <>
-                  {nomeLinhas[0] && (
-                    <span className="figurinha__nome-prenomes">{nomeLinhas[0]}</span>
-                  )}
-                  <span className="figurinha__nome-sobrenome">{nomeLinhas[1]}</span>
-                </>
-              ) : (
-                <span className="figurinha__nome-unico">{nome}</span>
-              )}
-            </span>
-          )}
-          {contagem >= 2 && (
-            <span className="figurinha__selo" aria-hidden="true">
-              ×{sobrando}
-            </span>
-          )}
-        </span>
-      </button>
-      {contagem >= 1 && (
+      {interativo ? (
+        <button
+          type="button"
+          className="figurinha__corpo"
+          ref={corpoRef}
+          aria-label={nomeAcessivel}
+          onClick={aoClique}
+          onPointerDown={aoPointerDown}
+          onPointerMove={aoPointerMove}
+          onPointerUp={aoPointerUp}
+          onPointerCancel={aoPointerCancel}
+          onContextMenu={aoContextMenu}
+        >
+          {visual}
+        </button>
+      ) : (
+        // Inerte: `role="img"` preserva o nome acessível (código, nome e
+        // contagem) sem papel de botão e sem entrar na tabulação (IDR 0055).
+        <div
+          className="figurinha__corpo figurinha__corpo--leitura"
+          role="img"
+          aria-label={nomeAcessivel}
+        >
+          {visual}
+        </div>
+      )}
+      {interativo && contagem >= 1 && (
         <button
           type="button"
           className="figurinha__menos"

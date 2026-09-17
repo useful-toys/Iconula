@@ -624,6 +624,75 @@ describe('Figurinha — nome no cartão (IDR 0047)', () => {
   });
 });
 
+describe('Figurinha — somente leitura (IDR 0055)', () => {
+  it('sem callback não é botão e mantém nome acessível e adornos de estado', () => {
+    const { container } = render(
+      <Figurinha
+        codigo="BRA05"
+        contagem={2}
+        metalizada
+        nome="Gabriel Magalhães"
+        nomeLinhas={['Gabriel', 'Magalhães']}
+      />,
+    );
+
+    expect(screen.queryByRole('button')).not.toBeInTheDocument();
+    expect(
+      screen.getByRole('img', {
+        name: 'BRA 05, Gabriel Magalhães, colada, 1 sobrando, metalizada',
+      }),
+    ).toBeInTheDocument();
+    expect(container.querySelector('.figurinha__selo')).toHaveTextContent('×1');
+    expect(container.querySelector('.figurinha__metalizada')).toBeInTheDocument();
+    expect(container.querySelector('.figurinha')).toHaveClass('figurinha--repetida');
+    expect(container.querySelector('.figurinha')).toHaveClass('figurinha--leitura');
+  });
+
+  it('não entra na ordem de tabulação', async () => {
+    const user = userEvent.setup();
+    render(<Figurinha codigo="BRA05" contagem={0} />);
+
+    await user.tab();
+
+    expect(document.body).toHaveFocus();
+  });
+
+  it('não mostra o controle de menos mesmo com unidade colada', () => {
+    const { container } = render(<Figurinha codigo="BRA05" contagem={3} />);
+
+    expect(
+      screen.queryByRole('button', { name: /remover uma unidade/ }),
+    ).not.toBeInTheDocument();
+    expect(container.querySelector('.figurinha__menos')).not.toBeInTheDocument();
+  });
+
+  it('não reage a clique nem a pressão longa', () => {
+    vi.useFakeTimers();
+    try {
+      const { container } = render(<Figurinha codigo="BRA05" contagem={2} />);
+      const corpo = container.querySelector('.figurinha__corpo');
+
+      fireEvent.click(corpo);
+      fireEvent.pointerDown(corpo, {
+        pointerType: 'touch',
+        pointerId: 1,
+        clientX: 0,
+        clientY: 0,
+      });
+      act(() => {
+        vi.advanceTimersByTime(500);
+      });
+
+      expect(
+        container.querySelector('.figurinha--pressionando'),
+      ).not.toBeInTheDocument();
+      expect(container.querySelector('.figurinha__menos')).not.toBeInTheDocument();
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+});
+
 describe('Figurinha — pressão longa (IDR 0051)', () => {
   beforeEach(() => {
     vi.useFakeTimers();

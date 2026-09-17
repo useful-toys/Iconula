@@ -72,6 +72,17 @@
   transform: scale(0.92);
 }
 
+/* Cartão inerte da vista do link (IDR 0055): sem papel de botão, sem cursor
+ * de clique e sem retorno de toque — o corpo é um `div`, mas o `:active`
+ * ainda dispararia a escala. */
+.figurinha--leitura .figurinha__corpo {
+  cursor: default;
+}
+
+.figurinha--leitura .figurinha__corpo:active .figurinha__visual {
+  transform: none;
+}
+
 .figurinha__codigo {
   display: flex;
   flex: 1 1 0;

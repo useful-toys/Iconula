@@ -22,15 +22,16 @@ import './Catalogo.css';
  * @param {Array<object>} props.secoes - seções do catálogo.
  * @param {Array<{codigo: string; secao: string; metalizada: boolean}>} props.figurinhas - todas as figurinhas.
  * @param {Record<string, number>} props.contagens - mapa esparso de contagens.
- * @param {(codigo: string, delta: number) => void} props.onAjustar - callback de ajuste.
+ * @param {(codigo: string, delta: number) => void} [props.onAjustar] - callback de ajuste; ausente, os cartões ficam inertes (IDR 0055).
  * @param {'pagina'|'sigla'} props.ordenacao - ordenação vigente.
  * @param {'lista'|'album'} [props.disposicao='lista'] - disposição vigente.
  * @param {'todas'|'faltantes'|'coladas'|'repetidas'} [props.filtro='todas'] - filtro vigente.
  * @param {() => void} [props.onLimparFiltro] - callback para voltar o filtro para "todas".
+ * @param {boolean} [props.gravarColapso=true] - grava o colapso manual no `localStorage` (IDR 0026); `false` na vista do link, que lê mas não grava (IDR 0055).
  * @param {import('react').Ref<{ saltarPara: (sigla: string) => void }>} [props.ref] - ref para saltar para uma seção.
  */
 export const Catalogo = forwardRef(function Catalogo(
-  { secoes, figurinhas, contagens, onAjustar, ordenacao, disposicao = 'lista', filtro = 'todas', onLimparFiltro },
+  { secoes, figurinhas, contagens, onAjustar, ordenacao, disposicao = 'lista', filtro = 'todas', onLimparFiltro, gravarColapso = true },
   ref,
 ) {
   // Memoizado: sem isto, `estruturada` (e os arrays/objetos que ela cria,
@@ -82,13 +83,16 @@ export const Catalogo = forwardRef(function Catalogo(
 
   // Grava o conjunto a cada mudança — só o que foi fechado/aberto, nunca o
   // catálogo inteiro (IDR 0020). Storage ausente ou bloqueado falha em
-  // silêncio dentro do módulo (IDR 0026).
+  // silêncio dentro do módulo (IDR 0026). Na vista do link (`gravarColapso`
+  // falso), o colapso é lido na abertura e alterado em memória, mas não é
+  // gravado (IDR 0055).
   useEffect(() => {
+    if (!gravarColapso) return;
     gravarColapsoManual({
       secoes: [...colapsadas.secoes],
       grupos: [...colapsadas.grupos],
     });
-  }, [colapsadas]);
+  }, [colapsadas, gravarColapso]);
 
   // Refs das seções, para o salto rolar até o alvo
   const secaoRefs = useRef(new Map());

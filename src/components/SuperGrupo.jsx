@@ -61,7 +61,7 @@ function propsEquivalentes(anterior, seguinte) {
  * @param {Array<object>} props.secoes - 4 seleções do grupo.
  * @param {Array<{codigo: string; secao: string; metalizada: boolean}>} props.figurinhas - figurinhas das seções do grupo.
  * @param {Record<string, number>} props.contagens - mapa esparso de contagens.
- * @param {(codigo: string, delta: number) => void} props.onAjustar - callback de ajuste.
+ * @param {(codigo: string, delta: number) => void} [props.onAjustar] - callback de ajuste; ausente, os cartões ficam inertes (IDR 0055).
  * @param {(sigla: string) => boolean} props.isExpandida - função que retorna se uma seção está expandida.
  * @param {(sigla: string) => (() => void)} props.getToggleHandler - retorna o callback estável de alternar colapso de uma seção.
  * @param {(sigla: string, element: Element|null) => void} props.setSecaoRef - callback para registrar ref de uma seção.
