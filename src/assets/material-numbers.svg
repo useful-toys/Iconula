@@ -1,0 +1,5 @@
+<!-- Ícone Material Symbols "numbers", vendorizado localmente (mesma política
+     do google-logo.svg e das bandeiras em src/assets/flags: nenhum asset
+     de terceiro em runtime, sem fonte). Licença Apache 2.0 (Google
+     Material Symbols) — ver docs/tdr/0026-icones-material-symbols-vendorizados-como-svg.md. -->
+<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="m240-160 40-160H120l20-80h160l40-160H180l20-80h160l40-160h80l-40 160h160l40-160h80l-40 160h160l-20 80H660l-40 160h160l-20 80H600l-40 160h-80l40-160H360l-40 160h-80Zm140-240h160l40-160H420l-40 160Z"/></svg>
