@@ -74,7 +74,7 @@ Detalhes e status das tarefas no guia [CLAUDE.md](CLAUDE.md) § Status e ciclo d
 | 26 | [Moldura em degradê da bandeira na seção do time](0026-moldura-em-degrade-da-bandeira-na-secao/) | Substituir a cor única por seleção por moldura e fundo em degradê com as cores da bandeira, abraçando a seção inteira (título + grade) | 16, 25 | `feat: moldura em degradê com as cores da bandeira na seção` | Entregue |
 | 27 | [Catálogo compartilhado por link](0027-catalogo-compartilhado-por-link/) | Link único por conta, ligado e desligado no popup Compartilhar, que abre sem login o catálogo do dono em somente leitura | 24, 26 | `feat: catálogo compartilhado por link somente leitura` | Entregue |
 | 28 | [Notação compacta e título de seção em linha única](0028-notacao-compacta-e-titulo-de-secao/) | Aplicar `▯`/`×` sem `·` nos títulos e deixar o título da seção numa linha no celular | — | `feat: notação compacta e título de seção em linha única` | Entregue |
-| 29 | [Compactação vertical](0029-compactacao-vertical/) | Apertar os respiros verticais do catálogo e do cabeçalho, e o relógio em Roboto Condensed | 28 | `feat: compactação vertical do catálogo e do cabeçalho` | Pendente |
+| 29 | [Compactação vertical](0029-compactacao-vertical/) | Apertar os respiros verticais do catálogo e do cabeçalho, e o relógio em Roboto Condensed | 28 | `feat: compactação vertical do catálogo e do cabeçalho` | Em andamento |
 | 30 | [Faixa sem barra e controles compactos](0030-faixa-sem-barra-e-controles-compactos/) | Faixa sem barra (fade + arrasto) e controles com ícones, espaçamento e feedback | 29 | `feat: faixa sem barra e controles compactos` | Pendente |
 
 ---
@@ -559,7 +559,7 @@ persistência em Roboto Condensed.
 
 | # | Tarefa | Objetivo | Status |
 |---|---|---|---|
-| 0001 | [Compactação vertical do catálogo](0029-compactacao-vertical/0001-compactacao-vertical-do-catalogo.md) | Moldura 8→4px, cabeçalho 2px 8px, vão 4→2px, seções 10→8px. | Pendente |
+| 0001 | [Compactação vertical do catálogo](0029-compactacao-vertical/0001-compactacao-vertical-do-catalogo.md) | Moldura 8→4px, cabeçalho 2px 8px, vão 4→2px, seções 10→8px. | Concluída |
 | 0002 | [Compactação vertical do cabeçalho](0029-compactacao-vertical/0002-compactacao-vertical-do-cabecalho.md) | Padding 12/10→8/2, gap 8→4, faixa 8→4, corpo topo 20→4. | Pendente |
 | 0003 | [Data/hora de persistência em Roboto Condensed](0029-compactacao-vertical/0003-data-hora-de-persistencia-em-roboto-condensed.md) | Relógio em Roboto Condensed 500, 13px/muted/tabular. | Pendente |
 
