@@ -14,7 +14,7 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 8px var(--page-gutter);
+  gap: 4px var(--page-gutter);
   padding: var(--header-padding);
   color: var(--cream);
   background: var(--turf);
