@@ -34,13 +34,18 @@ Aceito.
   **sucesso** (some em 5s) — "Ordenado pela página do álbum", "Ordenado
   pelo código do país", "Disposição em lista", "Disposição como no
   álbum", "Mostrando todas / apenas as faltantes / coladas / repetidas".
+- Espaçamento: `.controles__opcao` `padding` `5px 12px → 4px 10px`;
+  `.controles` `gap` `8px → 6px`; os botões do segmentado ganham extensão
+  de toque `::before` (`inset: -4px`) em `pointer: coarse`, no padrão do
+  desfazer (IDR 0042), para o alvo não encolher junto com o `padding`.
 
 ## Consequências
 
 - `Controles.jsx` renderiza os ícones no lugar dos rótulos; `App.jsx`
   emite o aviso de sucesso na troca de cada controle.
-- `interface.md` § Controles e § Avisos mudam; o IDR 0029 ganha o evento
-  de sucesso "trocou ordenação/disposição/filtro".
+- `Controles.css` muda o `padding`/`gap` e ganha a extensão de toque
+  `::before`; `interface.md` § Controles e § Avisos mudam; o IDR 0029
+  ganha o evento de sucesso "trocou ordenação/disposição/filtro".
 - Acessibilidade preservada via `aria-label`; o feedback visual devolve o
   que o rótulo compacto escondeu, também no toque.
 - Implementação: a planejar (/planejar).
