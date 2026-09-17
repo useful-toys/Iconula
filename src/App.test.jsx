@@ -52,6 +52,7 @@ vi.mock("./components/Catalogo.jsx", () => ({
 }));
 
 import App from "./App";
+import { limparAvisos } from "./lib/avisos.js";
 
 const UID = "uid-do-usuario";
 const USUARIO_LOGADO = {
@@ -94,6 +95,7 @@ async function sairDaConta(user) {
 beforeEach(() => {
   authState.callback = null;
   localStorage.clear();
+  limparAvisos();
   // Largura de navegador (IDR 0043): mantém o comportamento que os testes
   // abaixo já assumiam (disposição em lista, ordenação por sigla) sem
   // preferência guardada. Os testes da faixa de tela ficam no describe
@@ -102,6 +104,7 @@ beforeEach(() => {
 });
 
 afterEach(() => {
+  limparAvisos();
   vi.clearAllMocks();
 });
 
@@ -177,6 +180,34 @@ describe("App — tela principal", () => {
       disposicao: "lista",
       filtro: "todas",
     });
+  });
+
+  // Tarefa 0030-0005, IDR 0059: o rótulo virou ícone/glifo compacto — o
+  // aviso de sucesso devolve por extenso o que a troca fez.
+  it("emite um aviso de sucesso com o nome por extenso ao trocar ordenação, disposição e filtro", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+    await emitirAuth(USUARIO_LOGADO);
+
+    await user.click(screen.getByRole("button", { name: "ordenar pela página do álbum" }));
+    expect(await screen.findByText("Ordenado pela página do álbum")).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "ordenar pela sigla da seção" }));
+    expect(await screen.findByText("Ordenado pelo código do país")).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "disposição como no álbum" }));
+    expect(await screen.findByText("Disposição como no álbum")).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "disposição em lista contínua" }));
+    expect(await screen.findByText("Disposição em lista")).toBeInTheDocument();
+
+    await user.click(
+      screen.getByRole("button", { name: "mostrar apenas as figurinhas repetidas" }),
+    );
+    expect(await screen.findByText("Mostrando apenas as repetidas")).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "mostrar todas as figurinhas" }));
+    expect(await screen.findByText("Mostrando todas")).toBeInTheDocument();
   });
 
   it("abre com as preferências guardadas na sessão anterior", async () => {

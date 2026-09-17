@@ -579,7 +579,7 @@ rótulos compactos, espaçamento e feedback de confirmação
 | 0002 | [Ícones Material Symbols como SVG inline](0030-faixa-sem-barra-e-controles-compactos/0002-icones-material-symbols-como-svg-inline.md) | Vendorizar `numbers`, `sort_by_alpha`, `view_list`, `view_module`. | Concluída |
 | 0003 | [Rótulos compactos dos controles](0030-faixa-sem-barra-e-controles-compactos/0003-rotulos-compactos-dos-controles.md) | Material no layout; `Todas ▯ ▮ ×` no filtro; nome por extenso no aria/tooltip. | Concluída |
 | 0004 | [Espaçamento dos controles](0030-faixa-sem-barra-e-controles-compactos/0004-espacamento-dos-controles.md) | Padding 4px 10px, gap 6px, `::before` de toque. | Concluída |
-| 0005 | [Feedback de confirmação na troca de controle](0030-faixa-sem-barra-e-controles-compactos/0005-feedback-de-confirmacao-na-troca-de-controle.md) | Aviso de sucesso na troca de ordenação/disposição/filtro. | Pendente |
+| 0005 | [Feedback de confirmação na troca de controle](0030-faixa-sem-barra-e-controles-compactos/0005-feedback-de-confirmacao-na-troca-de-controle.md) | Aviso de sucesso na troca de ordenação/disposição/filtro. | Concluída |
 
 ## Regras que valem em toda tarefa
 
