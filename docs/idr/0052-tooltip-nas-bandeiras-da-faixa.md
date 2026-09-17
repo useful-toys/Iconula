@@ -26,7 +26,7 @@ Aceito.
 
 - **Conteúdo**: sigla, nome e progresso da seção na notação compacta dos
   títulos ([IDR 0018](0018-usuario-especialista-e-minimalismo.md)) —
-  `BRA · Brasil · 12/20 · 60% · ▢8 · ×3`; especiais
+  `BRA · Brasil · 12/20 60% ▯8 ×3`; especiais
   `FWC · Extras FIFA · …` e `COC · Coca-Cola · …`
 - **Visual**: o mesmo do tooltip dos controles (IDR 0048) — `--panel`,
   borda `--border`, texto `--cream`, 11px/600, raio 6px, sombra; abaixo da

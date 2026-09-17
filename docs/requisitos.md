@@ -324,8 +324,8 @@ Questões recorrentes são marcadas como "Nota".*
 - Minimalismo é regra de ouro: título, busca e comandos minimalistas,
   espaço otimizado para o catálogo — o app assume usuário especialista,
   sem rótulos explicativos nem reforço redundante; notação compacta de
-  progresso nos títulos (`12/20 · 60% · ▢8 · ×3`) e título em linha única
-  (`ICONULA 2026 · 412/994 · 41% · ▢582 · ×37 · 12:34`), sem barra de
+  progresso nos títulos (`12/20 60% ▯8 ×3`) e título em linha única
+  (`ICONULA 2026 · 412/994 41% ▯582 ×37 · 12:34`), sem barra de
   progresso (ver
   [IDR 0018](idr/0018-usuario-especialista-e-minimalismo.md))
 - Navegação por rolagem da tela inteira: as seções fluem uma abaixo da

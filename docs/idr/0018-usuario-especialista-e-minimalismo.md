@@ -27,17 +27,16 @@ pelo [IDR 0027](0027-relogio-do-titulo-e-o-updatedat-do-documento.md):
   (códigos, seções, contagem) é pré-requisito declarado
 - Minimalismo é regra de ouro: título, busca e comandos minimalistas,
   espaço otimizado para o catálogo
-- **Título único, uma linha**: `ICONULA 2026 · 412/994 · 41% · ▢582 ·
-  ×37 · 12:34` — nome, coladas/total, percentual, faltantes,
+- **Título único, uma linha**: `ICONULA 2026 · 412/994 41% ▯582 ×37 ·
+  12:34` — nome, coladas/total, percentual, faltantes,
   repetidas e data/hora da última **escrita** bem-sucedida (`updatedAt`
   do documento — [IDR 0027](0027-relogio-do-titulo-e-o-updatedat-do-documento.md));
   **sem barra de progresso, sem cartões**
-- **Glifos**: `▢` marca faltantes (espaço vazio do álbum — eco do
-  reforço vazio-vs-preenchido do cartão); `×` marca repetidas (o mesmo
+- **Glifos**: `▯` marca faltantes (retângulo vazio — eco do cartão
+  esvaziado e da figurinha em retrato); `×` marca repetidas (o mesmo
   × do selinho `×N` do cartão)
 - A mesma notação em **todos** os títulos — super-grupo (`Grupo C ·
-  34/80 · 43% · ▢46 · ×12`) e seção (`Brasil BRA 24 · 12/20 · 60% ·
-  ▢8 · ×3`)
+  34/80 43% ▯46 ×12`) e seção (`Brasil BRA 24 · 12/20 60% ▯8 ×3`)
 - Acessibilidade não depende da expertise: o nome acessível (aria)
   sempre escreve por extenso — "Brasil: 12 de 20, 8 faltantes, 3
   repetidas"
@@ -59,7 +58,7 @@ pelo [IDR 0027](0027-relogio-do-titulo-e-o-updatedat-do-documento.md):
 ## Consequências
 
 - O cabeçalho cabe numa linha: mais espaço vertical para o catálogo
-- Duas convenções para aprender (X/Y e ▢/×) — imediato para o
+- Duas convenções para aprender (X/Y e ▯/×) — imediato para o
   especialista; a linha de título serve de legenda permanente
 - Sem barra de progresso: o percentual (`41%`) cumpre o papel em menos
   espaço
@@ -91,7 +90,7 @@ pelo [IDR 0027](0027-relogio-do-titulo-e-o-updatedat-do-documento.md):
   negativo e o + colide com o × do cartão
 - **✗/♻**: ✗ confunde com ×; ♻ vira emoji colorido em celular —
   inconsistente com texto
-- **Omitir zeros** (`12/20 · ▢8` quando não há repetidas): mais curto,
+- **Omitir zeros** (`12/20 ▯8` quando não há repetidas): mais curto,
   quebra o alinhamento visual
 - **Não fundir título e controles**: desperdiça uma linha inteira em
   tablet e navegador, onde os dois cabem lado a lado
@@ -108,6 +107,14 @@ pelo [IDR 0027](0027-relogio-do-titulo-e-o-updatedat-do-documento.md):
   celular
 
 ## Histórico
+
+- 2026-09-17 — Esmiuçamento do título de seção em linha única no celular:
+  o glifo de faltantes muda de `▢` para `▯` (retângulo vertical, ecoando a
+  figurinha em retrato) e os `·` entre os campos de progresso saem
+  (`12/20 60% ▯8 ×3`), mantendo os `·` estruturais (nome↔placar e
+  placar↔relógio); mudança de requisito em `docs/requisitos.md` § UX,
+  confirmada pelo humano; implementação a planejar. Antes: `▢` e `·` entre
+  todos os campos.
 
 - 2026-09-14 — Esmiuçamento de contrair seções, rodapé e compartilhar: a
   primeira linha ganha o botão compartilhar à esquerda do avatar;
