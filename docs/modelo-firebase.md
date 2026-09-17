@@ -45,11 +45,12 @@ Detalhes no [MDR 0002](model-dr/0002-schema-do-documento-da-colecao.md).
 
 ## Mecanismo de gravação
 
-Três funções de escrita, cada uma com semântica própria ([MDR 0003](model-dr/0003-gravacao-agregada-da-colecao.md)):
+Quatro funções de escrita, cada uma com semântica própria ([MDR 0003](model-dr/0003-gravacao-agregada-da-colecao.md); `linkAtivo`, no [MDR 0002](model-dr/0002-schema-do-documento-da-colecao.md)):
 
 - **`gravarAlteracoes`** — `setDoc` com `merge: true`, toca só as chaves alteradas acumuladas pelo debounce; valor absoluto ou `deleteField`; cria o documento na primeira gravação sem leitura extra ([TDR 0017](tdr/0017-escrita-por-setdoc-merge-e-carimbo-local-pos-gravacao.md))
 - **`gravarImportacao`** — `setDoc` com `mergeFields: ['contagens', 'updatedAt']`, substitui o mapa `contagens` inteiro; `atestadoEm` fica de fora e continua intocado
 - **`gravarAtestacao`** — `setDoc` com `merge: true`, grava só `atestadoEm`, sem `updatedAt` (o carimbo da coleção continua significando só alteração de contagens)
+- **`gravarLinkAtivo`** — `setDoc` com `merge: true`, grava só `linkAtivo` (ao ligar ou desligar o catálogo compartilhado, fora da gravação agregada), sem `updatedAt`; desligar grava `false` e revoga a leitura pública ([IDR 0055](idr/0055-catalogo-compartilhado-por-link-somente-leitura.md))
 
 ### Gravação agregada
 

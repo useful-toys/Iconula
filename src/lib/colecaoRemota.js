@@ -132,9 +132,11 @@ export function formatarCarimbo(data, agora = new Date()) {
  *
  * Devolve um resultado discriminado e nunca lança:
  * - `encontrado` — documento existe; traz `contagens`, `atualizadoEm` (Date),
- *   `temTeamName` (marca da era do botão, usada pela Tarefa 0007-0004) e
- *   `atestadoEm` (booleano: se a conta já atestou — Tarefa 0008-0003, sem
- *   gastar leitura extra, já que este é o mesmo documento).
+ *   `temTeamName` (marca da era do botão, usada pela Tarefa 0007-0004),
+ *   `atestadoEm` (booleano: se a conta já atestou — Tarefa 0008-0003) e
+ *   `linkAtivo` (booleano: campo ausente → `false` — Tarefa 0027-0004); tudo
+ *   da mesma leitura, sem gastar requisição extra, já que este é o mesmo
+ *   documento.
  * - `vazio` — documento não existe; fluxo normal do primeiro login, não é erro.
  * - `erro` — leitura falhou; traz `erro` para o detalhe técnico.
  * - `indisponivel` — Firebase não configurado (`app === null`).
@@ -173,6 +175,7 @@ export async function carregarColecao(uid, { aoEsperar } = {}) {
         atualizadoEm: dados.updatedAt?.toDate?.() ?? null,
         temTeamName: Object.prototype.hasOwnProperty.call(dados, 'teamName'),
         atestadoEm: Boolean(dados.atestadoEm),
+        linkAtivo: dados.linkAtivo === true,
       };
     } catch (erro) {
       return { status: 'erro', erro };
@@ -403,4 +406,53 @@ export async function gravarAtestacao(uid) {
   } catch (erro) {
     return { status: 'erro', erro };
   }
+}
+
+/**
+ * Liga ou desliga o catálogo compartilhado por link (IDR 0055, Tarefa
+ * 0027-0004) — uma escrita pontual, na hora em que o dono toca a chave, fora
+ * da gravação agregada (IDR 0024).
+ *
+ * Grava só `linkAtivo`, com `setDoc(..., { merge: true })`, sem `updatedAt`
+ * junto: o carimbo da coleção continua significando só alteração de
+ * contagens (MDR 0002), e o relógio do título não se move ao ligar ou
+ * desligar o link (IDR 0027). Como `gravarAtestacao`, cria o documento se ele
+ * ainda não existir, sem leitura extra (TDR 0017); as regras aceitam
+ * `linkAtivo` booleano nos dois sentidos (Tarefa 0027-0001), e desligar
+ * gravando `false` revoga a leitura pública — a chave é o campo, não a
+ * ausência dele.
+ *
+ * Sem rede, a escrita não falha nem confirma — mesma política de espera das
+ * demais escritas (TDR 0019), via `comAvisoDeEspera`.
+ *
+ * Nunca lança: devolve um resultado discriminado (`sucesso`, `erro` ou
+ * `indisponivel`, como as demais funções deste módulo).
+ *
+ * @param {string} uid
+ * @param {boolean} ativo - novo estado do link.
+ * @param {object} [opcoes]
+ * @param {() => void} [opcoes.aoEsperar] - chamado se a escrita ultrapassar
+ *   ~5s sem resolver.
+ * @returns {Promise<object>}
+ */
+export async function gravarLinkAtivo(uid, ativo, { aoEsperar } = {}) {
+  if (!app) {
+    return { status: 'indisponivel' };
+  }
+
+  const promessa = (async () => {
+    try {
+      const { doc, setDoc } = await import('firebase/firestore');
+      const db = await obterFirestore();
+      const ref = doc(db, CAMINHO_DOCUMENTO(uid));
+
+      await setDoc(ref, { linkAtivo: Boolean(ativo) }, { merge: true });
+
+      return { status: 'sucesso' };
+    } catch (erro) {
+      return { status: 'erro', erro };
+    }
+  })();
+
+  return comAvisoDeEspera(promessa, aoEsperar);
 }

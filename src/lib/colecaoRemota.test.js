@@ -7,6 +7,7 @@ import {
   gravarAlteracoes,
   gravarAtestacao,
   gravarImportacao,
+  gravarLinkAtivo,
   formatarCarimbo,
   mensagemDeErro,
   MARCA_APAGAR_TEAM_NAME,
@@ -92,7 +93,35 @@ describe('carregarColecao', () => {
       atualizadoEm: carimbo,
       temTeamName: true,
       atestadoEm: false,
+      linkAtivo: false,
     });
+  });
+
+  it('reporta linkAtivo quando o documento tem o link ligado (Tarefa 0027-0004)', async () => {
+    firestore.getDoc.mockResolvedValue({
+      exists: () => true,
+      data: () => ({
+        contagens: {},
+        updatedAt: { toDate: () => new Date('2026-09-10T14:05:00') },
+        linkAtivo: true,
+      }),
+    });
+
+    const resultado = await carregarColecao('u1');
+
+    expect(resultado.status).toBe('encontrado');
+    expect(resultado.linkAtivo).toBe(true);
+  });
+
+  it('trata linkAtivo ausente como desligado (Tarefa 0027-0004)', async () => {
+    firestore.getDoc.mockResolvedValue({
+      exists: () => true,
+      data: () => ({ contagens: {}, updatedAt: { toDate: () => new Date('2026-09-10T14:05:00') } }),
+    });
+
+    const resultado = await carregarColecao('u1');
+
+    expect(resultado.linkAtivo).toBe(false);
   });
 
   it('reporta atestadoEm quando o documento já tem o carimbo (Tarefa 0008-0003)', async () => {
@@ -474,6 +503,77 @@ describe('gravarAtestacao', () => {
 
     expect(resultado).toEqual({ status: 'indisponivel' });
     expect(firestore.setDoc).not.toHaveBeenCalled();
+  });
+});
+
+describe('gravarLinkAtivo (Tarefa 0027-0004)', () => {
+  it('grava só linkAtivo com merge:true, sem updatedAt', async () => {
+    const resultado = await gravarLinkAtivo('u1', true);
+
+    expect(firestore.setDoc).toHaveBeenCalledTimes(1);
+    expect(firestore.setDoc).toHaveBeenCalledWith({}, { linkAtivo: true }, { merge: true });
+    expect(resultado).toEqual({ status: 'sucesso' });
+  });
+
+  it('grava false ao desligar — a chave é o campo, não a ausência dele', async () => {
+    await gravarLinkAtivo('u1', false);
+
+    expect(firestore.setDoc).toHaveBeenCalledWith({}, { linkAtivo: false }, { merge: true });
+  });
+
+  it('nunca usa deleteField nem serverTimestamp', async () => {
+    await gravarLinkAtivo('u1', true);
+
+    expect(firestore.deleteField).not.toHaveBeenCalled();
+    expect(firestore.serverTimestamp).not.toHaveBeenCalled();
+  });
+
+  it('devolve erro quando a escrita falha', async () => {
+    firestore.setDoc.mockRejectedValue(new Error('unavailable'));
+
+    const resultado = await gravarLinkAtivo('u1', true);
+
+    expect(resultado.status).toBe('erro');
+    expect(resultado.erro).toBeInstanceOf(Error);
+  });
+
+  it('devolve indisponível quando não há app configurado', async () => {
+    state.app = null;
+
+    const resultado = await gravarLinkAtivo('u1', true);
+
+    expect(resultado).toEqual({ status: 'indisponivel' });
+    expect(firestore.setDoc).not.toHaveBeenCalled();
+  });
+
+  describe('espera sem rede (Tarefa 0007-0005)', () => {
+    beforeEach(() => {
+      vi.useFakeTimers();
+    });
+
+    afterEach(() => {
+      vi.useRealTimers();
+    });
+
+    it('escrita pendente além de ~5s chama aoEsperar e continua aguardando', async () => {
+      let resolverSetDoc;
+      firestore.setDoc.mockReturnValue(
+        new Promise((resolve) => {
+          resolverSetDoc = resolve;
+        }),
+      );
+      const aoEsperar = vi.fn();
+
+      const promessa = gravarLinkAtivo('u1', true, { aoEsperar });
+      await vi.advanceTimersByTimeAsync(5000);
+
+      expect(aoEsperar).toHaveBeenCalledTimes(1);
+
+      resolverSetDoc(undefined);
+      const resultado = await promessa;
+
+      expect(resultado.status).toBe('sucesso');
+    });
   });
 });
 
