@@ -9,6 +9,8 @@ const ATRASO_HOVER_MS = 400;
 // Respiro entre a bandeira e o tooltip e margem mínima até a borda da janela.
 const ESPACO_ABAIXO_PX = 6;
 const MARGEM_JANELA_PX = 8;
+// Movimento mínimo do mouse para virar arrasto em vez de clique (IDR 0058).
+const ARRASTO_LIMIAR_PX = 5;
 
 /**
  * Texto do tooltip de uma seção: sigla, nome e progresso na notação compacta
@@ -47,6 +49,13 @@ function textoDoTooltip(secao, placar) {
  * `overflow` da faixa recortaria um `::after`, o posicionamento é por JS —
  * exceção restrita à faixa (IDR 0052).
  *
+ * Sem barra de rolagem visível (IDR 0058): um fade em degradê nas bordas
+ * indica que há mais conteúdo, ligado/desligado conforme a posição de
+ * rolagem; no mouse, arrastar a trilha rola (cursor `grab`/`grabbing`),
+ * distinguido do clique por um limiar de movimento (~5px) — mover mais que
+ * isso rola e não salta, mover menos salta e não rola. A rodinha do mouse
+ * não é interceptada: a página continua rolando por cima da faixa.
+ *
  * @param {object} props
  * @param {Array<object>} props.secoes - seções na ordem vigente (50 seções).
  * @param {string} props.ordenacao - ordenação vigente (`'pagina' | 'sigla'`).
@@ -65,6 +74,18 @@ export function FaixaDeSecoes({ secoes, ordenacao, onSaltar, placarPorSecao }) {
   // `:focus-visible` dos controles (IDR 0048), sem depender do suporte do
   // ambiente ao seletor.
   const focoPorPonteiroRef = useRef(false);
+
+  // Fade nas bordas em vez da barra de rolagem (IDR 0058): visível de cada
+  // lado só quando há conteúdo rolado para lá.
+  const trilhaRef = useRef(null);
+  const [fade, setFade] = useState({ esquerda: false, direita: false });
+
+  // Arrasto do mouse (IDR 0058): `arrastoRef` guarda o gesto em andamento;
+  // `ultimoArrastoMoveuRef` sobrevive ao `mouseup` até o `click` seguinte,
+  // para o clique saber se deve saltar ou foi consumido pelo arrasto.
+  const arrastoRef = useRef(null);
+  const ultimoArrastoMoveuRef = useRef(false);
+  const [arrastando, setArrastando] = useState(false);
 
   function cancelarAtraso() {
     if (atrasoRef.current !== null) {
@@ -114,6 +135,64 @@ export function FaixaDeSecoes({ secoes, ordenacao, onSaltar, placarPorSecao }) {
     }
   }, [tooltip]);
 
+  // Mede a rolagem da trilha e liga/desliga cada lado do fade.
+  function atualizarFade() {
+    const trilha = trilhaRef.current;
+    if (!trilha) return;
+    const { scrollLeft, scrollWidth, clientWidth } = trilha;
+    setFade({
+      esquerda: scrollLeft > 0,
+      direita: scrollLeft + clientWidth < scrollWidth - 1,
+    });
+  }
+
+  // Recalcula ao montar e sempre que a ordem das seções muda (largura do
+  // conteúdo pode mudar com o agrupamento por página).
+  useLayoutEffect(() => {
+    atualizarFade();
+  }, [secoes, ordenacao]);
+
+  // Recalcula ao redimensionar a janela — pode revelar ou esconder conteúdo.
+  useEffect(() => {
+    window.addEventListener('resize', atualizarFade);
+    return () => window.removeEventListener('resize', atualizarFade);
+  }, []);
+
+  function aoPressionarMouse(evento) {
+    // Só o botão primário arrasta; ignora atalho de clique direito/meio.
+    if (evento.button !== 0) return;
+    ultimoArrastoMoveuRef.current = false;
+    arrastoRef.current = { inicioX: evento.clientX, inicioScrollLeft: trilhaRef.current.scrollLeft };
+  }
+
+  // Listeners na `window` (não no botão) para o arrasto continuar mesmo que
+  // o cursor saia da trilha antes do `mouseup`.
+  useEffect(() => {
+    function aoMoverMouse(evento) {
+      const arrasto = arrastoRef.current;
+      if (!arrasto) return;
+      const delta = evento.clientX - arrasto.inicioX;
+      if (!arrasto.moveu) {
+        if (Math.abs(delta) <= ARRASTO_LIMIAR_PX) return;
+        arrasto.moveu = true;
+        ultimoArrastoMoveuRef.current = true;
+        setArrastando(true);
+      }
+      trilhaRef.current.scrollLeft = arrasto.inicioScrollLeft - delta;
+      atualizarFade();
+    }
+    function aoSoltarMouse() {
+      arrastoRef.current = null;
+      setArrastando(false);
+    }
+    window.addEventListener('mousemove', aoMoverMouse);
+    window.addEventListener('mouseup', aoSoltarMouse);
+    return () => {
+      window.removeEventListener('mousemove', aoMoverMouse);
+      window.removeEventListener('mouseup', aoSoltarMouse);
+    };
+  }, []);
+
   function aoEntrarComPonteiro(evento, secao) {
     if (evento.pointerType !== 'mouse') return;
     cancelarAtraso();
@@ -140,13 +219,42 @@ export function FaixaDeSecoes({ secoes, ordenacao, onSaltar, placarPorSecao }) {
   }
 
   function aoClicar(secao) {
+    // Clique que encerra um arrasto (moveu >5px) não salta — o gesto já foi
+    // consumido pela rolagem (IDR 0058).
+    if (ultimoArrastoMoveuRef.current) {
+      ultimoArrastoMoveuRef.current = false;
+      return;
+    }
     esconder();
     onSaltar(secao.sigla);
   }
 
+  const classesTrilha = ['faixa-de-secoes__trilha'];
+  if (arrastando) {
+    classesTrilha.push('faixa-de-secoes__trilha--arrastando');
+  }
+
   return (
     <div className="faixa-de-secoes">
-      <nav className="faixa-de-secoes__trilha" aria-label="Saltar para seção">
+      <div
+        className={`faixa-de-secoes__fade faixa-de-secoes__fade--esquerda${
+          fade.esquerda ? ' faixa-de-secoes__fade--visivel' : ''
+        }`}
+        aria-hidden="true"
+      />
+      <div
+        className={`faixa-de-secoes__fade faixa-de-secoes__fade--direita${
+          fade.direita ? ' faixa-de-secoes__fade--visivel' : ''
+        }`}
+        aria-hidden="true"
+      />
+      <nav
+        ref={trilhaRef}
+        className={classesTrilha.join(' ')}
+        aria-label="Saltar para seção"
+        onScroll={atualizarFade}
+        onMouseDown={aoPressionarMouse}
+      >
         {secoes.map((secao, indice) => {
           const anterior = secoes[indice - 1];
           const inicioDeGrupo =

@@ -8,39 +8,64 @@
   position: relative;
 }
 
+/* Sem barra de rolagem visível em nenhuma plataforma (IDR 0058): o fade nas
+ * bordas assume a dica de continuidade. `overscroll-behavior-x: contain`
+ * trava o "voltar página" do swipe horizontal no toque, sem afetar a
+ * rolagem vertical da página. */
 .faixa-de-secoes__trilha {
   display: flex;
   gap: 2px;
   overflow-x: auto;
   overflow-y: hidden;
+  overscroll-behavior-x: contain;
   padding: 4px var(--page-gutter);
-  scrollbar-width: thin;
-  scrollbar-color: var(--border) transparent;
+  scrollbar-width: none;
 }
 
 .faixa-de-secoes__trilha::-webkit-scrollbar {
-  height: 6px;
+  display: none;
 }
 
-.faixa-de-secoes__trilha::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.faixa-de-secoes__trilha::-webkit-scrollbar-thumb {
-  background: var(--border);
-  border-radius: 3px;
-}
-
-/* Em tela sensível o usuário já arrasta a trilha com o gesto (IDR 0042); a
- * barra fica reservada ao mouse, que não tem esse gesto. */
-@media (pointer: coarse) {
+/* Arrastar com o mouse rola a trilha (IDR 0058); no toque o gesto nativo já
+ * rola, sem cursor de arrasto. */
+@media (pointer: fine) {
   .faixa-de-secoes__trilha {
-    scrollbar-width: none;
+    cursor: grab;
   }
+}
 
-  .faixa-de-secoes__trilha::-webkit-scrollbar {
-    display: none;
-  }
+.faixa-de-secoes__trilha--arrastando {
+  cursor: grabbing;
+  user-select: none;
+}
+
+/* Fade em degradê `--turf` → transparente nas bordas, indicador de
+ * continuidade no lugar da barra de rolagem (IDR 0058): ligado por JS só do
+ * lado em que há conteúdo a rolar. Fica sobre a trilha (`pointer-events:
+ * none` preserva o arrasto e o clique) e cobre também o respiro do
+ * `padding` da trilha, que já tem o mesmo fundo do cabeçalho. */
+.faixa-de-secoes__fade {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 24px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s;
+}
+
+.faixa-de-secoes__fade--esquerda {
+  left: 0;
+  background: linear-gradient(to right, var(--turf), transparent);
+}
+
+.faixa-de-secoes__fade--direita {
+  right: 0;
+  background: linear-gradient(to left, var(--turf), transparent);
+}
+
+.faixa-de-secoes__fade--visivel {
+  opacity: 1;
 }
 
 /* Tooltip único da faixa (Tarefa 0019-0002, IDR 0052): visual do tooltip dos
