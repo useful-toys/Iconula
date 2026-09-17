@@ -22,7 +22,7 @@ const figurinhasBra = [
 
 describe('Secao', () => {
   it('renderiza o cabeçalho com nome, sigla, página e resumo compacto', () => {
-    render(
+    const { container } = render(
       <Secao
         secao={secaoBra}
         figurinhas={figurinhasBra}
@@ -37,9 +37,14 @@ describe('Secao', () => {
     expect(document.body.textContent).toContain('0/3');
     expect(document.body.textContent).toContain('▯3');
     expect(document.body.textContent).toContain('×0');
-    expect(screen.getByRole('heading', { level: 2 }).textContent).toBe(
-      'Brasil BRA 24·0/30%▯3×0',
-    );
+    expect(
+      [...container.querySelectorAll('.secao__identificacao')].map(
+        (span) => span.textContent,
+      ),
+    ).toEqual(['Brasil', 'BRA', '24']);
+    expect(container.querySelector('.secao__nome')).toHaveTextContent('Brasil');
+    expect(container.querySelector('.secao__sigla')).toHaveTextContent('BRA');
+    expect(container.querySelector('.secao__pagina')).toHaveTextContent('24');
   });
 
   it('escreve o nome acessível do cabeçalho por extenso', () => {
@@ -68,7 +73,7 @@ describe('Secao', () => {
     };
     const figurinhasFwc = [{ codigo: 'FWC01', secao: 'FWC', metalizada: false }];
 
-    render(
+    const { container } = render(
       <Secao
         secao={fwc}
         figurinhas={figurinhasFwc}
@@ -78,11 +83,15 @@ describe('Secao', () => {
     );
 
     expect(screen.getByText(/Extras FIFA/)).toBeInTheDocument();
-    expect(document.body.textContent).toContain('Extras FIFA FWC 0');
+    expect(
+      [...container.querySelectorAll('.secao__identificacao')].map(
+        (span) => span.textContent,
+      ),
+    ).toEqual(['Extras FIFA', 'FWC', '0']);
   });
 
   it('mostra a primeira página do spread no cabeçalho da seleção', () => {
-    render(
+    const { container } = render(
       <Secao
         secao={secaoBra}
         figurinhas={figurinhasBra}
@@ -91,7 +100,7 @@ describe('Secao', () => {
       />,
     );
 
-    expect(document.body.textContent).toContain('Brasil BRA 24');
+    expect(container.querySelector('.secao__pagina')).toHaveTextContent('24');
   });
 
   it('renderiza a grade de figurinhas quando expandida', () => {
@@ -164,7 +173,7 @@ describe('Secao', () => {
     expect(paisagens[0]).toHaveTextContent('13');
   });
 
-  it('exibe chevron e estado expandido no cabeçalho', () => {
+  it('não exibe chevron e mostra o estado expandido no cabeçalho', () => {
     render(
       <Secao
         secao={secaoBra}
@@ -176,7 +185,9 @@ describe('Secao', () => {
 
     const cabecalho = screen.getByRole('button', { name: /Brasil/ });
     expect(cabecalho).toHaveAttribute('aria-expanded', 'true');
-    expect(cabecalho.textContent).toContain('▾');
+    expect(cabecalho).not.toHaveTextContent('▾');
+    expect(cabecalho).not.toHaveTextContent('▸');
+    expect(cabecalho.querySelector('.secao__chevron')).not.toBeInTheDocument();
   });
 
   it('colapsa ao clicar no cabeçalho, escondendo a grade', async () => {
@@ -197,7 +208,8 @@ describe('Secao', () => {
     await user.click(cabecalho);
 
     expect(cabecalho).toHaveAttribute('aria-expanded', 'false');
-    expect(cabecalho.textContent).toContain('▸');
+    expect(cabecalho).not.toHaveTextContent('▾');
+    expect(cabecalho).not.toHaveTextContent('▸');
     expect(screen.queryByLabelText('BRA 01, faltante, metalizada')).not.toBeInTheDocument();
   });
 
@@ -364,7 +376,7 @@ describe('Secao', () => {
       expect(pagina0).toHaveClass('pagina-album--fwc');
 
       // Cabeçalho mostra a página 0
-      expect(container.textContent).toContain('Extras FIFA FWC 0');
+      expect(container.querySelector('.secao__pagina')).toHaveTextContent('0');
 
       // Na disposição lista, o FWC continua em lista
       rerender(

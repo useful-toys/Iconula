@@ -212,18 +212,19 @@ cópia, com o aviso e a reserva do
   título abre/fecha o corpo da seção; abertas por padrão — o
   cabeçalho com o resumo permanece (ver
   [IDR 0020](idr/0020-secoes-colapsaveis-em-qualquer-visualizacao.md))
-- Cabeçalho de grupo numa linha: chevron de colapso, ícone (bandeira
-  Twemoji da seleção ou ícone temático do especial), nome, sigla,
-  número da página do álbum (fixo, apenas exibido) e progresso da seção
-  em notação compacta — `Brasil BRA 24 · 12/20 60% ▯8 ×3` (ver
-  [IDR 0011](idr/0011-faltantes-por-secao-no-cabecalho-do-grupo.md) e
-  [IDR 0018](idr/0018-usuario-especialista-e-minimalismo.md))
+- Cabeçalho de grupo numa linha: ícone (bandeira Twemoji da seleção ou
+  ícone temático do especial), nome, sigla, número da página do álbum
+  (fixo, apenas exibido) e progresso da seção em notação compacta —
+  `Brasil BRA 24 · 12/20 60% ▯8 ×3` (ver
+  [IDR 0011](idr/0011-faltantes-por-secao-no-cabecalho-do-grupo.md),
+  [IDR 0018](idr/0018-usuario-especialista-e-minimalismo.md) e
+  [IDR 0056](idr/0056-titulo-de-secao-em-linha-unica-no-celular.md))
 - No cabeçalho da seção, a identificação (ícone, nome, sigla, página)
   vai em `--cream` peso 600 e os números em `--muted` peso 400 — dois
   pesos na mesma linha, para o olho pegar primeiro de que seleção se
-  trata e depois o placar; a linha inteira, chevron incluído, é a área
-  de toque do colapso, e quebra em mais de uma linha quando não cabe na
-  largura, sem nunca cortar o resumo
+  trata e depois o placar; a linha inteira é a área de toque do colapso,
+  e quebra em mais de uma linha quando não cabe na largura, sem nunca
+  cortar o resumo
 - Com o filtro ativo, a seção sem nenhuma figurinha no estado filtrado
   desaparece inteira — cabeçalho e corpo —, e o super-grupo que fica
   sem seções visíveis também (ver
@@ -468,7 +469,7 @@ Esquemático em texto; cores indicadas são as do
 
 ```
 ┌──────────────────────────────────────────────────────────────┐
-│  ▾ [bandeira] Brasil BRA 24 · 12/20 60% ▯8 ×3                │
+│  [bandeira] Brasil BRA 24 · 12/20 60% ▯8 ×3                  │
 ├──────────────────────────────────────────────────────────────┤
 │  ┌────┐ ┌────┐ ┌────┐ ┌────┐ ┌────┐ ┌────┐                   │
 │  │BRA │ │BRA │ │BRA │ │BRA │ │BRA │ │BRA │                  │

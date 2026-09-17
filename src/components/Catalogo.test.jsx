@@ -80,7 +80,7 @@ describe('Catalogo', () => {
       />,
     );
 
-    const brasil = screen.getByText('Brasil BRA 24');
+    const brasil = screen.getByText('Brasil');
     expect(brasil.closest('section').textContent).toContain('0/20');
 
     const figurinhaBra01 = screen.getByLabelText(/^BRA 01, .+, faltante, metalizada$/);
@@ -278,11 +278,11 @@ describe('Catalogo', () => {
         disposicao: 'lista',
       };
       const { rerender } = render(<Catalogo {...props} filtro="coladas" />);
-      expect(screen.getByText('Brasil BRA 24').closest('section').textContent).toContain('2/20');
+      expect(screen.getByText('Brasil').closest('section').textContent).toContain('2/20');
 
       rerender(<Catalogo {...props} filtro="repetidas" />);
-      expect(screen.getByText('Brasil BRA 24').closest('section').textContent).toContain('2/20');
-      expect(screen.getByText('Brasil BRA 24').closest('section').textContent).toContain('10%');
+      expect(screen.getByText('Brasil').closest('section').textContent).toContain('2/20');
+      expect(screen.getByText('Brasil').closest('section').textContent).toContain('10%');
     });
 
     it('super-grupo sem nenhuma colada some inteiro', () => {
