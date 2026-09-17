@@ -113,6 +113,8 @@ reproduzível localmente sem depender de push
   concessões pontuais para Firebase Auth e Firestore
 - Headers de segurança: `X-Content-Type-Options`, `Referrer-Policy`,
   `X-Frame-Options`, `Permissions-Policy`, `Cross-Origin-Opener-Policy`
+- Indexação: `X-Robots-Tag: noindex` só em `/catalogo/**` — a vista do link
+  fica fora de buscadores ([IDR 0055](idr/0055-catalogo-compartilhado-por-link-somente-leitura.md))
 - Cache: assets com hash (`immutable`), `index.html` e `/` com `no-cache`
 
 (ver [DDR 0001](devops-dr/0001-csp-headers-e-configuracao-de-hosting.md))

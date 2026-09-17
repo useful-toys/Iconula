@@ -3,7 +3,7 @@
 # Tarefa [0027-0006]: política de privacidade, noindex e e2e do link
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Fechar a fase com o que torna o link seguro de publicar: a política de
