@@ -3,7 +3,7 @@
 # Tarefa [0030-0002]: ícones Material Symbols vendorizados como SVG inline
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Vendorizar quatro ícones Material Symbols (`numbers`, `sort_by_alpha`,
@@ -37,6 +37,6 @@ nos controles.
 - `src/assets/` — criar (4 SVGs)
 
 ## Critérios de aceite
-- [ ] Os quatro SVGs existem em `src/assets/` e renderizam os ícones
+- [x] Os quatro SVGs existem em `src/assets/` e renderizam os ícones
       `numbers`, `sort_by_alpha`, `view_list`, `view_module`.
-- [ ] `npm run lint && npm run test && npm run build` verdes.
+- [x] `npm run lint && npm run test && npm run build` verdes.
