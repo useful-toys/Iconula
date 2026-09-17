@@ -162,10 +162,13 @@ service account em `$RUNNER_TEMP`, apagada num passo `if: always()` — ver
 [DDR 0008](devops-dr/0008-autorizacao-do-dominio-de-preview-no-firebase-auth.md).
 
 O workflow tem `permissions: contents: read` no topo; o job
-`build_and_preview` sobrescreve com `pull-requests: write` (além do
-`contents: read`), porque `FirebaseExtended/action-hosting-deploy`
-comenta o PR com o link do preview usando o `GITHUB_TOKEN`. O job
-`cleanup_preview` não precisa de escopo além do herdado — ver
+`build_and_preview` sobrescreve com `pull-requests: write` e
+`checks: write` (além do `contents: read`), porque
+`FirebaseExtended/action-hosting-deploy` usa o `GITHUB_TOKEN` tanto para
+comentar o PR com o link do preview quanto para criar/atualizar um check
+run "Deploy Preview" — sem `checks: write` a action falha com 403
+"Resource not accessible by integration". O job `cleanup_preview` não
+precisa de escopo além do herdado — ver
 [DDR 0007](devops-dr/0007-ciclo-de-vida-dos-canais-de-preview.md).
 
 ### `firebase-preview-domains-sweep.yml`

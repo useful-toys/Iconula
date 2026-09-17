@@ -25,12 +25,15 @@ jobs:
   build_and_preview:
     if: ${{ github.event.action != 'closed' && github.event.pull_request.head.repo.full_name == github.repository }}
     runs-on: ubuntu-latest
-    # FirebaseExtended/action-hosting-deploy comenta o PR com o link do
-    # preview usando repoToken (GITHUB_TOKEN) — precisa de pull-requests:
-    # write além do contents: read herdado do topo.
+    # FirebaseExtended/action-hosting-deploy usa o repoToken (GITHUB_TOKEN)
+    # para comentar o PR com o link do preview (pull-requests: write) e
+    # para criar/atualizar um check run "Deploy Preview" (checks: write) —
+    # confirmado em produção: sem checks: write a action falha com 403
+    # "Resource not accessible by integration" ao criar o check run.
     permissions:
       contents: read
       pull-requests: write
+      checks: write
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
