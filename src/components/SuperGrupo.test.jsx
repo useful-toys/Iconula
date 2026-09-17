@@ -138,8 +138,7 @@ describe('SuperGrupo', () => {
     const titulo = screen.getByRole('button', { name: /^Grupo C/ });
     expect(titulo.textContent).toContain('3/80');
     expect(titulo.textContent).toContain('4%');
-    expect(titulo.textContent).toContain('▢77');
-    expect(titulo.textContent).toContain('×2');
+    expect(titulo.textContent).toContain('Grupo C·3/804%▯77×2');
   });
 
   it('inclui o estado de colapso no nome acessível', async () => {

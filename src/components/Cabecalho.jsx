@@ -7,9 +7,9 @@ import './Cabecalho.css';
  * Cabeçalho principal do app: placar geral, relógio, comandos (compartilhar e
  * avatar) e faixa de bandeiras para salto.
  *
- * A notação compacta é visível (`412/994 · 41% · ▢582 · ×37 · —`). O nome
- * acessível escreve os números por extenso, para que o leitor de tela não
- * dependa dos glifos `▢` e `×`.
+ * A notação compacta é visível (`ICONULA 2026 · 412/994 41% ▯582 ×37 · —`).
+ * O nome acessível escreve os números por extenso, para que o leitor de tela
+ * não dependa dos glifos `▯` e `×`.
  *
  * O `<header>` é o próprio elemento sticky em qualquer largura (sem ponto de
  * quebra): o título, os comandos, os controles e a faixa ficam dentro dele e
@@ -88,18 +88,9 @@ export function Cabecalho({
           ·
         </span>
         <span className="cabecalho__numero">{coladas}/994</span>
-        <span className="cabecalho__sep" aria-hidden="true">
-          ·
-        </span>
         <span className="cabecalho__numero">{percentual}%</span>
-        <span className="cabecalho__sep" aria-hidden="true">
-          ·
-        </span>
-        <span aria-hidden="true">▢</span>
+        <span aria-hidden="true">▯</span>
         <span className="cabecalho__numero">{faltantes}</span>
-        <span className="cabecalho__sep" aria-hidden="true">
-          ·
-        </span>
         <span aria-hidden="true">×</span>
         <span className="cabecalho__numero">{repetidas}</span>
         <span className="cabecalho__sep" aria-hidden="true">

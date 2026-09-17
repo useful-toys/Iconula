@@ -32,8 +32,8 @@ demonstrar avisos) é andaime da prévia, não faz parte do produto.*
 ## Tela principal
 
 ### Cabeçalho
-- Título único, uma linha: `ICONULA 2026 · 412/994 · 41% · ▢582 ·
-  ×37 · 12:34` — nome, coladas/total, percentual, faltantes (▢),
+- Título único, uma linha: `ICONULA 2026 · 412/994 41% ▯582 ×37 ·
+  12:34` — nome, coladas/total, percentual, faltantes (▯),
   repetidas (×) e a data/hora da última gravação bem-sucedida; sem
   barra de progresso, sem cartões (ver
   [IDR 0018](idr/0018-usuario-especialista-e-minimalismo.md))
@@ -200,8 +200,8 @@ cópia, com o aviso e a reserva do
   página e a Coca-Cola o último (IDR 0028)
 - Na ordenação por ordem do álbum, super-grupos colapsáveis acima dos
   grupos: os 12 grupos da Copa A–L — título com nome e progresso
-  agregado em notação compacta (ex.: `Grupo C · 34/80 · 43% · ▢46 ·
-  ×12`); expandem por padrão, o salto expande o grupo-alvo (ver
+  agregado em notação compacta (ex.: `Grupo C · 34/80 43% ▯46 ×12`);
+  expandem por padrão, o salto expande o grupo-alvo (ver
   [IDR 0019](idr/0019-ordem-do-album-agrupada-e-colapsavel.md)). O
   título tem, à direita, o alternador `⊟`/`⊞`, só com o grupo aberto,
   que contrai ou expande as suas seções (ver
@@ -430,7 +430,7 @@ Esquemático em texto; cores indicadas são as do
 
 ```
 ┌──────────────────────────────────────────────────────────────┐
-│  ICONULA 2026 · 412/994 · 41% · ▢582 · ×37 · 12:34 [↗] [ (D) ] │
+│  ICONULA 2026 · 412/994 41% ▯582 ×37 · 12:34     [↗] [ (D) ] │
 │  [álbum|sigla] [lista|álbum] [todas|falt|col|rep]       [↺]  │
 │  [🏆][ALG][ARG][AUS]…[USA][UZB][🥤] ── rolável ──▶          │
 ├──────────────────────────────────────────────────────────────┤
@@ -461,8 +461,8 @@ Esquemático em texto; cores indicadas são as do
 - Estado vazio (0/994): tela normal, sem dica nem mensagem especial
 - Desfazer: botão à direita da linha dos grupos, sempre visível e
   desabilitado sem histórico
-- Notação compacta (IDR 0018) em placar e títulos: `412/994 · 41% ·
-  ▢582 · ×37` — as palavras vivem só no nome acessível
+- Notação compacta (IDR 0018) em placar e títulos: `412/994 41% ▯582
+  ×37` — as palavras vivem só no nome acessível
 
 ### Grupo na disposição lista
 

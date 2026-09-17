@@ -3,7 +3,7 @@
 # Tarefa [0028-0001]: notação `▯`/`×` sem `·` no placar e no super-grupo
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Aplicar a notação compacta de progresso (`N/M P% ▯F ×R` — sem `·` entre os

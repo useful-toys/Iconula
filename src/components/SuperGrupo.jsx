@@ -152,18 +152,9 @@ export const SuperGrupo = memo(function SuperGrupo({
           <span className="super-grupo__resumo">
             {placar.coladas}/{total}
           </span>
-          <span className="super-grupo__sep" aria-hidden="true">
-            ·
-          </span>
           <span className="super-grupo__resumo">{placar.percentual}%</span>
-          <span className="super-grupo__sep" aria-hidden="true">
-            ·
-          </span>
-          <span aria-hidden="true">▢</span>
+          <span aria-hidden="true">▯</span>
           <span className="super-grupo__resumo">{placar.faltantes}</span>
-          <span className="super-grupo__sep" aria-hidden="true">
-            ·
-          </span>
           <span aria-hidden="true">×</span>
           <span className="super-grupo__resumo">{placar.repetidas}</span>
         </button>

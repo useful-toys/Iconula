@@ -26,19 +26,14 @@ describe('Cabecalho', () => {
         faltantes={582}
         repetidas={37}
         percentual={41}
+        atualizadoEm="12:34"
         secoes={secoes}
         onSaltar={vi.fn()}
       />,
     );
 
     expect(screen.getByText('ICONULA 2026')).toBeInTheDocument();
-    expect(textoDaTela()).toContain('412/994');
-    expect(textoDaTela()).toContain('41%');
-    expect(textoDaTela()).toContain('▢');
-    expect(textoDaTela()).toContain('582');
-    expect(textoDaTela()).toContain('×');
-    expect(textoDaTela()).toContain('37');
-    expect(textoDaTela()).toContain('—');
+    expect(textoDaTela()).toContain('ICONULA 2026·412/99441%▯582×37·12:34');
   });
 
   it('escreve o nome acessível por extenso', () => {
@@ -74,7 +69,7 @@ describe('Cabecalho', () => {
 
     expect(textoDaTela()).toContain('0/994');
     expect(textoDaTela()).toContain('0%');
-    expect(textoDaTela()).toContain('▢994');
+    expect(textoDaTela()).toContain('▯994');
     expect(textoDaTela()).toContain('×0');
     expect(textoDaTela()).toContain('—');
   });
