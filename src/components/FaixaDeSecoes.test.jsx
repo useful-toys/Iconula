@@ -229,4 +229,74 @@ describe('FaixaDeSecoes', () => {
     expect(onSaltar).toHaveBeenCalledWith('BRA');
     expect(container.querySelector('.faixa-de-secoes__tooltip')).not.toBeInTheDocument();
   });
+
+  // Sem barra de rolagem visível: fade nas bordas e arrasto pelo mouse
+  // substituem a dica de continuidade (IDR 0058, Tarefa 0030-0001).
+  describe('sem barra — fade e arrasto (IDR 0058)', () => {
+    function configurarDimensoes(trilha, { scrollWidth, clientWidth, scrollLeft = 0 }) {
+      Object.defineProperty(trilha, 'scrollWidth', { value: scrollWidth, configurable: true });
+      Object.defineProperty(trilha, 'clientWidth', { value: clientWidth, configurable: true });
+      trilha.scrollLeft = scrollLeft;
+    }
+
+    it('mostra o fade esquerdo só depois de rolar e o direito enquanto há conteúdo', () => {
+      const { container } = render(<FaixaDeSecoes secoes={secoes} onSaltar={vi.fn()} />);
+      const trilha = container.querySelector('.faixa-de-secoes__trilha');
+
+      configurarDimensoes(trilha, { scrollWidth: 2000, clientWidth: 400, scrollLeft: 0 });
+      fireEvent.scroll(trilha);
+      expect(container.querySelector('.faixa-de-secoes__fade--esquerda')).not.toHaveClass(
+        'faixa-de-secoes__fade--visivel',
+      );
+      expect(container.querySelector('.faixa-de-secoes__fade--direita')).toHaveClass(
+        'faixa-de-secoes__fade--visivel',
+      );
+
+      configurarDimensoes(trilha, { scrollWidth: 2000, clientWidth: 400, scrollLeft: 1600 });
+      fireEvent.scroll(trilha);
+      expect(container.querySelector('.faixa-de-secoes__fade--esquerda')).toHaveClass(
+        'faixa-de-secoes__fade--visivel',
+      );
+      expect(container.querySelector('.faixa-de-secoes__fade--direita')).not.toHaveClass(
+        'faixa-de-secoes__fade--visivel',
+      );
+    });
+
+    it('arrastar o mouse além do limiar rola a trilha, marca "grabbing" e não salta ao clicar', () => {
+      const onSaltar = vi.fn();
+      const { container } = render(<FaixaDeSecoes secoes={secoes} onSaltar={onSaltar} />);
+      const trilha = container.querySelector('.faixa-de-secoes__trilha');
+      const bra = screen.getByLabelText('Saltar para Brasil');
+      configurarDimensoes(trilha, { scrollWidth: 2000, clientWidth: 400, scrollLeft: 100 });
+
+      fireEvent.mouseDown(bra, { button: 0, clientX: 200 });
+      expect(trilha).not.toHaveClass('faixa-de-secoes__trilha--arrastando');
+
+      fireEvent.mouseMove(window, { clientX: 150 });
+      expect(trilha).toHaveClass('faixa-de-secoes__trilha--arrastando');
+      expect(trilha.scrollLeft).toBe(150);
+
+      fireEvent.mouseUp(window);
+      expect(trilha).not.toHaveClass('faixa-de-secoes__trilha--arrastando');
+
+      fireEvent.click(bra);
+      expect(onSaltar).not.toHaveBeenCalled();
+    });
+
+    it('mover até o limiar (≤5px) ainda salta ao clicar', () => {
+      const onSaltar = vi.fn();
+      const { container } = render(<FaixaDeSecoes secoes={secoes} onSaltar={onSaltar} />);
+      const trilha = container.querySelector('.faixa-de-secoes__trilha');
+      const bra = screen.getByLabelText('Saltar para Brasil');
+      configurarDimensoes(trilha, { scrollWidth: 2000, clientWidth: 400, scrollLeft: 100 });
+
+      fireEvent.mouseDown(bra, { button: 0, clientX: 200 });
+      fireEvent.mouseMove(window, { clientX: 197 });
+      expect(trilha).not.toHaveClass('faixa-de-secoes__trilha--arrastando');
+      fireEvent.mouseUp(window);
+
+      fireEvent.click(bra);
+      expect(onSaltar).toHaveBeenCalledWith('BRA');
+    });
+  });
 });

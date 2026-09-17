@@ -3,7 +3,7 @@
 # Tarefa [0030-0001]: faixa de bandeiras sem barra de rolagem
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Eliminar a barra de rolagem visível da faixa de bandeiras em todas as

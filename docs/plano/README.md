@@ -75,7 +75,7 @@ Detalhes e status das tarefas no guia [CLAUDE.md](CLAUDE.md) § Status e ciclo d
 | 27 | [Catálogo compartilhado por link](0027-catalogo-compartilhado-por-link/) | Link único por conta, ligado e desligado no popup Compartilhar, que abre sem login o catálogo do dono em somente leitura | 24, 26 | `feat: catálogo compartilhado por link somente leitura` | Entregue |
 | 28 | [Notação compacta e título de seção em linha única](0028-notacao-compacta-e-titulo-de-secao/) | Aplicar `▯`/`×` sem `·` nos títulos e deixar o título da seção numa linha no celular | — | `feat: notação compacta e título de seção em linha única` | Entregue |
 | 29 | [Compactação vertical](0029-compactacao-vertical/) | Apertar os respiros verticais do catálogo e do cabeçalho, e o relógio em Roboto Condensed | 28 | `feat: compactação vertical do catálogo e do cabeçalho` | Entregue |
-| 30 | [Faixa sem barra e controles compactos](0030-faixa-sem-barra-e-controles-compactos/) | Faixa sem barra (fade + arrasto) e controles com ícones, espaçamento e feedback | 29 | `feat: faixa sem barra e controles compactos` | Pendente |
+| 30 | [Faixa sem barra e controles compactos](0030-faixa-sem-barra-e-controles-compactos/) | Faixa sem barra (fade + arrasto) e controles com ícones, espaçamento e feedback | 29 | `feat: faixa sem barra e controles compactos` | Em andamento |
 
 ---
 
@@ -575,7 +575,7 @@ rótulos compactos, espaçamento e feedback de confirmação
 
 | # | Tarefa | Objetivo | Status |
 |---|---|---|---|
-| 0001 | [Faixa de bandeiras sem barra](0030-faixa-sem-barra-e-controles-compactos/0001-faixa-de-bandeiras-sem-barra.md) | Fade condicional + arrasto grab/grabbing + overscroll; rodinha não interceptada. | Pendente |
+| 0001 | [Faixa de bandeiras sem barra](0030-faixa-sem-barra-e-controles-compactos/0001-faixa-de-bandeiras-sem-barra.md) | Fade condicional + arrasto grab/grabbing + overscroll; rodinha não interceptada. | Concluída |
 | 0002 | [Ícones Material Symbols como SVG inline](0030-faixa-sem-barra-e-controles-compactos/0002-icones-material-symbols-como-svg-inline.md) | Vendorizar `numbers`, `sort_by_alpha`, `view_list`, `view_module`. | Pendente |
 | 0003 | [Rótulos compactos dos controles](0030-faixa-sem-barra-e-controles-compactos/0003-rotulos-compactos-dos-controles.md) | Material no layout; `Todas ▯ ▮ ×` no filtro; nome por extenso no aria/tooltip. | Pendente |
 | 0004 | [Espaçamento dos controles](0030-faixa-sem-barra-e-controles-compactos/0004-espacamento-dos-controles.md) | Padding 4px 10px, gap 6px, `::before` de toque. | Pendente |

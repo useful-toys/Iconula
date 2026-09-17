@@ -69,6 +69,13 @@ demonstrar avisos) é andaime da prévia, não faz parte do produto.*
   lados; tocar salta até a seção (ver
   [IDR 0016](idr/0016-salto-pela-faixa-de-bandeiras.md)) — a ordem acompanha
   o catálogo: 🏆 no início, 🥤 no fim (IDR 0028)
+- Sem barra de rolagem visível em nenhuma plataforma: um fade em degradê
+  nas bordas esquerda/direita indica que há mais conteúdo, ligado só do
+  lado em que há seções fora da vista; no mouse, arrastar a trilha rola
+  (`cursor: grab` no hover, `grabbing` durante o arrasto), distinguido do
+  clique (que salta) por um limiar de ~5px de movimento; a rodinha do
+  mouse não é interceptada, continua rolando a página (ver
+  [IDR 0058](idr/0058-rolagem-da-faixa-de-bandeiras-sem-barra.md))
 - Cada bandeira da faixa mostra, abaixo dela, um tooltip com sigla, nome e
   progresso da seção na notação compacta — `BRA · Brasil · 12/20 60%
   ▯8 ×3`; aparece no hover depois de ~400ms e na hora no foco por
@@ -905,14 +912,19 @@ FWC e COC usam os alias `--selection-fwc` (de `--group-fwc`) e
   sem nome, o glifo do menu; mesma área de toque ampliada e mesmo foco
   visível do antigo botão (IDR 0049, IDR 0024, IDR 0042)
 - Faixa de bandeiras: ícones de 30×30px, raio 8px, espaçamento de 2px e 4px
-  entre os grupos na ordenação por página, rolagem horizontal; na ordenação
-  por página o fundo mistura 60% da cor do grupo a `--panel` (FWC e COC
-  incluídos), com barra inferior de 2px a 80% e hover que intensifica o fundo
-  a 80%; na ordenação por sigla fica neutro em `--panel`, sem barra —
-  `--border` sob o cursor (IDR 0045); o glifo da bandeira em 15px, centralizado
-  no quadrado — o espaçamento é o mais apertado que ainda separa duas bandeiras
-  vizinhas, para caber o máximo de seções na largura antes de precisar rolar;
-  em tela sensível, área de toque ampliada de 1px em volta do ícone (IDR 0042)
+  entre os grupos na ordenação por página, rolagem horizontal sem barra
+  visível; na ordenação por página o fundo mistura 60% da cor do grupo a
+  `--panel` (FWC e COC incluídos), com barra inferior de 2px a 80% e hover
+  que intensifica o fundo a 80%; na ordenação por sigla fica neutro em
+  `--panel`, sem barra — `--border` sob o cursor (IDR 0045); o glifo da
+  bandeira em 15px, centralizado no quadrado — o espaçamento é o mais
+  apertado que ainda separa duas bandeiras vizinhas, para caber o máximo de
+  seções na largura antes de precisar rolar; em tela sensível, área de
+  toque ampliada de 1px em volta do ícone (IDR 0042)
+- Fade da faixa: degradê de 24px `--turf` → transparente em cada borda,
+  opacidade 0/1 por classe (transição 0.15s), ligado por JS conforme a
+  posição de rolagem; `overscroll-behavior-x: contain` trava o "voltar
+  página" no swipe horizontal do toque (IDR 0058)
 - Tooltip da faixa: abaixo da bandeira, no visual do tooltip dos grupos
   (IDR 0048) — painel `--panel`, borda `--border`, texto `--cream`,
   11px/600, raio 6px e sombra; posicionado por JS fora da faixa rolável,
