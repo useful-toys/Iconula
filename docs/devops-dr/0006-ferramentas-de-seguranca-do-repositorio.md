@@ -60,10 +60,9 @@ Ferramentas de segurança ativadas no repositório (verificado via
 - **Status**: `enabled`
 - Cria PRs automáticos para atualizar dependências com
   vulnerabilidades conhecidas (CVEs)
-- `dependabot.yml` não existe no repositório — o Dependabot usa a
-  configuração default do repositório (sem ecossistema
-  `github-actions` explícito; os SHAs das actions são atualizados
-  manualmente)
+- `.github/dependabot.yml` existe, com `github-actions` (propõe o bump do
+  comentário `# vX.Y.Z` junto do SHA — DDR 0003) e `npm` (dependências de
+  desenvolvimento e produção), ambos semanais
 
 ### CodeQL (code scanning)
 
@@ -76,6 +75,13 @@ Ferramentas de segurança ativadas no repositório (verificado via
   cada PR/push na `main`
 - Gratuito em repositório público; alertas no painel
   *Security → Code scanning*
+
+### Divulgação responsável
+
+- **Status**: `SECURITY.md` na raiz do repositório
+- Canal privado para relatar vulnerabilidade (GitHub Security Advisories
+  ou e-mail), escopo do projeto e expectativa de resposta — sem isso, um
+  achado só tinha issue pública ou nenhum canal indicado
 
 ### Visibilidade
 
@@ -111,8 +117,8 @@ Ferramentas de segurança ativadas no repositório (verificado via
 - CodeQL aponta vulnerabilidades de forma contínua (PR, push na `main` e
   varredura semanal) — os achados ficam no painel *Security → Code
   scanning*
-- `dependabot.yml` não existe — adicionar com `ecosystems: [github-actions]`
-  para automatizar atualização dos SHAs das actions (DDR 0003)
+- `dependabot.yml` automatiza atualização dos SHAs das actions (DDR 0003)
+  e das dependências npm, em PRs semanais separados por ecossistema
 
 ## Alternativas consideradas
 
@@ -127,6 +133,10 @@ Ferramentas de segurança ativadas no repositório (verificado via
 
 ## Histórico
 
+- **2026-09-17**: criado `SECURITY.md` com canal de divulgação
+  responsável — não havia nenhum indicado no repositório.
+- **2026-09-17**: criado `.github/dependabot.yml` (`github-actions` e
+  `npm`, semanal) — fechava a lacuna registrada acima e em DDR 0003.
 - **2026-09-17**: descartado o alerta CodeQL
   `js/cross-window-communication` em `docs/prototype/Iconula - Álbum de
   Figurinhas.html` como falso positivo/risco aceito, com a justificativa
