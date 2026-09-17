@@ -38,11 +38,11 @@ na Fase 0026.
   interior (título + grade de figurinhas) assenta no `--bg` neutro da página,
   mantendo o texto legível — o fundo lavado foi removido porque deixava o
   título branco sobre branco nas cores claras da bandeira
-- **Cor muito escura (preto etc.) é clareada, nunca evitada ou trocada**:
-  mesmo método do [IDR 0045](0045-cores-de-super-grupos.md) — sobe a
-  luminosidade em OKLCH (croma e matiz mantidos) até contraste ≥ 3:1 contra
-  `--bg`/`--panel` (a seção mora no conteúdo neutro da Fase 0025, não
-  dentro do `.cabecalho` verde-gramado)
+- **Cor muito escura (preto etc.) nunca é trocada nem evitada**: a variante
+  clareada (mesmo método do [IDR 0045](0045-cores-de-super-grupos.md) — sobe
+  a luminosidade em OKLCH, croma e matiz mantidos, até ≥ 3:1 contra `--bg`)
+  era usada no fundo tingido e deixou de ser usada quando ele foi removido —
+  o anel usa a cor original mesmo quando escura
 - Vale **nas duas ordenações e nas duas disposições**
 - **Especiais**: FWC e COC não têm bandeira própria — `--selection-fwc` e
   `--selection-coc` continuam alias de `--group-fwc` e `--group-coc`
