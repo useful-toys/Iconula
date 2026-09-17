@@ -25,7 +25,7 @@ jobs:
       # 21+. A imagem do runner traz mais de um JDK e o default pode
       # mudar entre versões da imagem — fixar a versão aqui evita que os
       # testes de regras quebrem por troca de imagem (ver TDR 0008).
-      - uses: actions/setup-java@c5195efecf7bdfc987ee8bae7a71cb8b11521c00 # v4.7.1
+      - uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
         with:
           distribution: temurin
           java-version: 21
