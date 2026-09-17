@@ -393,7 +393,7 @@ conteúdo, não empurra o layout nem rola com a página (ver
 
 | Severidade | Duração | Eventos |
 |---|---|---|
-| Sucesso (verde) | some em 5s | gravado, carregado, lista copiada, lista compartilhada, exportado, importado, link ligado, link desligado, link copiado, link compartilhado |
+| Sucesso (verde) | some em 5s | gravado, carregado, lista copiada, lista compartilhada, exportado, importado, link ligado, link desligado, link copiado, link compartilhado, trocou ordenação/disposição/filtro ([IDR 0059](idr/0059-rotulos-compactos-dos-controles.md)) |
 | Aviso (dourado) | some em 5s | arquivo de importação inválido ou de versão desconhecida, área de transferência indisponível, gravação sem rede que ficou enfileirada |
 | Falha (vermelho) | fica até ser dispensada ou até a operação seguinte do mesmo tipo ter sucesso | falha de gravação, de carga, de carga do catálogo compartilhado por link ([IDR 0055](idr/0055-catalogo-compartilhado-por-link-somente-leitura.md)) ou ao ligar ou desligar o link |
 

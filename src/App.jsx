@@ -65,6 +65,14 @@ const codigosPorSecao = (() => {
 // resolve como "não compartilhado" sem leitura. Caminho fora de `/catalogo/`
 // devolve `null` e segue o fluxo normal (guarda de login).
 const PREFIXO_CATALOGO = '/catalogo/';
+
+// Aviso de sucesso ao trocar o filtro (Tarefa 0030-0005, IDR 0059).
+const MENSAGENS_FILTRO = {
+  todas: 'Mostrando todas',
+  faltantes: 'Mostrando apenas as faltantes',
+  coladas: 'Mostrando apenas as coladas',
+  repetidas: 'Mostrando apenas as repetidas',
+};
 function extrairAlvoDoCatalogo(caminho) {
   if (typeof caminho !== 'string' || !caminho.startsWith(PREFIXO_CATALOGO)) {
     return null;
@@ -595,8 +603,30 @@ export default function App() {
     }
   }
 
+  // Feedback de confirmação na troca de ordenação/disposição/filtro (Tarefa
+  // 0030-0005, IDR 0059): o rótulo virou ícone/glifo compacto, então o aviso
+  // de sucesso (5s, fila já existente) devolve a explicação por extenso —
+  // sobretudo no toque, onde não há tooltip (IDR 0048).
+  function handleTrocarOrdenacao(novaOrdenacao) {
+    setOrdenacao(novaOrdenacao);
+    emitirAviso({
+      severidade: SEVERIDADE.SUCESSO,
+      mensagem:
+        novaOrdenacao === 'pagina' ? 'Ordenado pela página do álbum' : 'Ordenado pelo código do país',
+    });
+  }
+
+  function handleTrocarDisposicao(novaDisposicao) {
+    setDisposicao(novaDisposicao);
+    emitirAviso({
+      severidade: SEVERIDADE.SUCESSO,
+      mensagem: novaDisposicao === 'lista' ? 'Disposição em lista' : 'Disposição como no álbum',
+    });
+  }
+
   function handleTrocarFiltro(novoFiltro) {
     setFiltro(novoFiltro);
+    emitirAviso({ severidade: SEVERIDADE.SUCESSO, mensagem: MENSAGENS_FILTRO[novoFiltro] });
   }
 
   // Calcula as seções na ordem vigente para a faixa de bandeiras
@@ -725,9 +755,9 @@ export default function App() {
       >
         <Controles
           ordenacao={ordenacao}
-          onTrocarOrdenacao={setOrdenacao}
+          onTrocarOrdenacao={handleTrocarOrdenacao}
           disposicao={disposicao}
-          onTrocarDisposicao={setDisposicao}
+          onTrocarDisposicao={handleTrocarDisposicao}
           filtro={filtro}
           onTrocarFiltro={handleTrocarFiltro}
           podeDesfazer={historico.length > 0}

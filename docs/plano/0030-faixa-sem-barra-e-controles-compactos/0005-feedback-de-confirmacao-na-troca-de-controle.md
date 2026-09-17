@@ -3,7 +3,7 @@
 # Tarefa [0030-0005]: feedback de confirmação na troca de controle
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Ao trocar ordenação, disposição ou filtro, emitir um aviso de **sucesso**
