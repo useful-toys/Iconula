@@ -72,7 +72,7 @@ Detalhes e status das tarefas no guia [CLAUDE.md](CLAUDE.md) § Status e ciclo d
 | 24 | [Testes E2E com emuladores do Firebase](0024-testes-e2e-com-emuladores-do-firebase/) | Playwright rodando contra os emuladores de Auth e Firestore, com login duplo e fixture de coleção, provado por um teste de fumaça | — | `test: adiciona testes e2e com playwright e emuladores do firebase` | Entregue |
 | 25 | [Paleta de grupo e fundo neutro do tema](0025-paleta-de-grupo-e-fundo-neutro-do-tema/) | Repaletizar os grupos A–L com a tabela oficial de sorteio, neutralizar o fundo fora do cabeçalho (que mantém o verde-gramado) e registrar a paleta de referência da capa do álbum físico | 2, 15, 18 | `feat: paleta de grupo oficial e fundo neutro fora do cabeçalho` | Entregue |
 | 26 | [Moldura em degradê da bandeira na seção do time](0026-moldura-em-degrade-da-bandeira-na-secao/) | Substituir a cor única por seleção por moldura e fundo em degradê com as cores da bandeira, abraçando a seção inteira (título + grade) | 16, 25 | `feat: moldura em degradê com as cores da bandeira na seção` | Entregue |
-| 27 | [Catálogo compartilhado por link](0027-catalogo-compartilhado-por-link/) | Link único por conta, ligado e desligado no popup Compartilhar, que abre sem login o catálogo do dono em somente leitura | 24, 26 | `feat: catálogo compartilhado por link somente leitura` | Em andamento |
+| 27 | [Catálogo compartilhado por link](0027-catalogo-compartilhado-por-link/) | Link único por conta, ligado e desligado no popup Compartilhar, que abre sem login o catálogo do dono em somente leitura | 24, 26 | `feat: catálogo compartilhado por link somente leitura` | Entregue |
 
 ---
 
