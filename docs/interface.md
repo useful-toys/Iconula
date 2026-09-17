@@ -220,11 +220,13 @@ cópia, com o aviso e a reserva do
   [IDR 0018](idr/0018-usuario-especialista-e-minimalismo.md) e
   [IDR 0056](idr/0056-titulo-de-secao-em-linha-unica-no-celular.md))
 - No cabeçalho da seção, a identificação (ícone, nome, sigla, página)
-  vai em `--cream` peso 600 e os números em `--muted` peso 400 — dois
-  pesos na mesma linha, para o olho pegar primeiro de que seleção se
-  trata e depois o placar; a linha inteira é a área de toque do colapso,
-  e quebra em mais de uma linha quando não cabe na largura, sem nunca
-  cortar o resumo
+  vai em `--cream` e os números em `--muted` — peso 600 no nome, 400 nos
+  números — dois pesos na mesma linha, para o olho pegar primeiro de que
+  seleção se trata e depois o placar; a linha inteira é a área de toque do
+  colapso. No celular (até 582px), sigla, página e números passam a Roboto
+  Condensed 500 e o título cabe numa linha; ele só quebra quando a largura
+  não basta, sem nunca cortar o resumo (ver
+  [IDR 0056](idr/0056-titulo-de-secao-em-linha-unica-no-celular.md))
 - Com o filtro ativo, a seção sem nenhuma figurinha no estado filtrado
   desaparece inteira — cabeçalho e corpo —, e o super-grupo que fica
   sem seções visíveis também (ver
@@ -936,7 +938,9 @@ FWC e COC usam os alias `--selection-fwc` (de `--group-fwc`) e
   12px); FWC e COC com cor única. O cabeçalho, dentro dela, não tem borda nem
   fundo próprios, só `padding: 4px 8px` (o mínimo para não colar no anel);
   ícone 18px, nome 14px/600 em `--cream`, números em `--muted` (IDR 0046,
-  IDR 0050, IDR 0018)
+  IDR 0050, IDR 0018); `gap` de 6px no cabeçalho e de 0.22em no título,
+  glifos `▯`/`×` em 0.85em/400 e, até 582px, sigla, página e números em
+  Roboto Condensed 500 (IDR 0056)
 - Cartão: 60×70px na lista e no álbum, paisagem 70×60px também nas duas
   disposições, raio 5px — duas metades de 33px úteis no retrato e 28px na
   paisagem: código centrado na de cima, nome na de baixo (na paisagem, uma
