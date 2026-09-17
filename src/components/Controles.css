@@ -7,7 +7,7 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   padding: 0;
 }
 
@@ -20,7 +20,7 @@
 
 .controles__opcao {
   position: relative;
-  padding: 5px 12px;
+  padding: 4px 10px;
   font-family: 'Poppins', system-ui, sans-serif;
   font-size: 12px;
   font-weight: 600;
@@ -129,7 +129,8 @@
  * invisível estende a zona clicável para dentro da folga à sua direita, sem
  * crescer visualmente. */
 @media (pointer: coarse) {
-  .controles__desfazer::before {
+  .controles__desfazer::before,
+  .controles__opcao::before {
     content: '';
     position: absolute;
     inset: -4px;

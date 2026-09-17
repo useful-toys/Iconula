@@ -902,9 +902,11 @@ FWC e COC usam os alias `--selection-fwc` (de `--group-fwc`) e
   (13px), em Roboto Condensed 500 e `--muted` — o placar pesa mais que a
   hora
 - Controles: grupos segmentados sobre `--panel` com contorno de 1px em
-  `--border` (IDR 0048), raio 9px, item `5px 12px` em 12px/600 — ativo
+  `--border` (IDR 0048), raio 9px, item `4px 10px` em 12px/600 — ativo
   com fundo `--gold` e texto `--bg-deep`, inativo transparente em
-  `--muted`
+  `--muted`; gap entre grupos de 6px; em tela sensível, área de toque
+  ampliada dos botões do segmentado, sem crescer visualmente (IDR 0042,
+  IDR 0059)
 - Desfazer: botão de 30×30px, raio 8px, borda e texto em `--gold`,
   colado à direita da linha dos grupos; em tela sensível, área de toque
   ampliada, sem crescer visualmente (IDR 0042)
