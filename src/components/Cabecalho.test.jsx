@@ -311,6 +311,6 @@ describe('Cabecalho', () => {
       screen.getByLabelText('Saltar para Brasil').focus();
     });
 
-    expect(screen.getByText('BRA · Brasil · 12/20 · 60% · ▢8 · ×3')).toBeInTheDocument();
+    expect(screen.getByText('BRA · Brasil · 12/20 60% ▯8 ×3')).toBeInTheDocument();
   });
 });

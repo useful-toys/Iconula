@@ -23,9 +23,9 @@ protótipo e este documento divergirem, este documento vence — ele
 incorpora decisões posteriores ao protótipo: menu de ações, disposição
 álbum da Coca-Cola, ocultar seções vazias, posição dos especiais e a
 ordem dos dois botões de comando. O protótipo também separa a
-identificação dos números por travessão (`Brasil BRA 24 — 13/20 · 65% ·
-▢7 · ×3`); aqui vale o ponto médio da notação uniforme do IDR 0018,
-`Brasil BRA 24 · 12/20 · 60% · ▢8 · ×3`. A barra escura no topo do
+identificação dos números por travessão (`Brasil BRA 24 — 13/20 65% ▯7
+×3`); aqui vale o `·` estrutural da notação uniforme do IDR 0018,
+`Brasil BRA 24 · 12/20 60% ▯8 ×3`. A barra escura no topo do
 protótipo (`[demonstração — alterna entre telas]`, com os botões de
 demonstrar avisos) é andaime da prévia, não faz parte do produto.*
 
@@ -70,8 +70,8 @@ demonstrar avisos) é andaime da prévia, não faz parte do produto.*
   [IDR 0016](idr/0016-salto-pela-faixa-de-bandeiras.md)) — a ordem acompanha
   o catálogo: 🏆 no início, 🥤 no fim (IDR 0028)
 - Cada bandeira da faixa mostra, abaixo dela, um tooltip com sigla, nome e
-  progresso da seção na notação compacta — `BRA · Brasil · 12/20 · 60% ·
-  ▢8 · ×3`; aparece no hover depois de ~400ms e na hora no foco por
+  progresso da seção na notação compacta — `BRA · Brasil · 12/20 60%
+  ▯8 ×3`; aparece no hover depois de ~400ms e na hora no foco por
   teclado, nunca em toque (tocar já salta). É um único elemento, fora da
   faixa rolável, preso à largura da janela (ver
   [IDR 0052](idr/0052-tooltip-nas-bandeiras-da-faixa.md))
@@ -215,7 +215,7 @@ cópia, com o aviso e a reserva do
 - Cabeçalho de grupo numa linha: chevron de colapso, ícone (bandeira
   Twemoji da seleção ou ícone temático do especial), nome, sigla,
   número da página do álbum (fixo, apenas exibido) e progresso da seção
-  em notação compacta — `Brasil BRA 24 · 12/20 · 60% · ▢8 · ×3` (ver
+  em notação compacta — `Brasil BRA 24 · 12/20 60% ▯8 ×3` (ver
   [IDR 0011](idr/0011-faltantes-por-secao-no-cabecalho-do-grupo.md) e
   [IDR 0018](idr/0018-usuario-especialista-e-minimalismo.md))
 - No cabeçalho da seção, a identificação (ícone, nome, sigla, página)
@@ -468,7 +468,7 @@ Esquemático em texto; cores indicadas são as do
 
 ```
 ┌──────────────────────────────────────────────────────────────┐
-│  ▾ [bandeira] Brasil BRA 24 · 12/20 · 60% · ▢8 · ×3          │
+│  ▾ [bandeira] Brasil BRA 24 · 12/20 60% ▯8 ×3                │
 ├──────────────────────────────────────────────────────────────┤
 │  ┌────┐ ┌────┐ ┌────┐ ┌────┐ ┌────┐ ┌────┐                   │
 │  │BRA │ │BRA │ │BRA │ │BRA │ │BRA │ │BRA │                  │
@@ -482,7 +482,7 @@ Esquemático em texto; cores indicadas são as do
 Cards fluem e quebram de linha conforme a largura da tela; o filtro de
 status atua aqui (todas/faltantes/coladas/repetidas) e leva junto as
 seções sem resultado (IDR 0025). No cabeçalho do grupo, notação
-compacta (IDR 0018): 12/20 = coladas do total, ▢8 = faltantes, ×3 =
+compacta (IDR 0018): 12/20 = coladas do total, ▯8 = faltantes, ×3 =
 repetidas — aqui o × conta **códigos distintos** com contagem ≥ 2,
 enquanto no cartão conta **unidades sobrando** (IDR 0021).
 
