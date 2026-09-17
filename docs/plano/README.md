@@ -561,7 +561,7 @@ persistência em Roboto Condensed.
 |---|---|---|---|
 | 0001 | [Compactação vertical do catálogo](0029-compactacao-vertical/0001-compactacao-vertical-do-catalogo.md) | Moldura 8→4px, cabeçalho 2px 8px, vão 4→2px, seções 10→8px. | Concluída |
 | 0002 | [Compactação vertical do cabeçalho](0029-compactacao-vertical/0002-compactacao-vertical-do-cabecalho.md) | Padding 12/10→8/2, gap 8→4, faixa 8→4, corpo topo 20→4. | Concluída |
-| 0003 | [Data/hora de persistência em Roboto Condensed](0029-compactacao-vertical/0003-data-hora-de-persistencia-em-roboto-condensed.md) | Relógio em Roboto Condensed 500, 13px/muted/tabular. | Pendente |
+| 0003 | [Data/hora de persistência em Roboto Condensed](0029-compactacao-vertical/0003-data-hora-de-persistencia-em-roboto-condensed.md) | Relógio em Roboto Condensed 500, 13px/muted/tabular. | Concluída |
 
 ## Fase 30 — Faixa sem barra e controles compactos
 
