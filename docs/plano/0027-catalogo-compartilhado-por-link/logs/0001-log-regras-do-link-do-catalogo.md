@@ -142,3 +142,25 @@ do JDK 21 no `PATH` (aqui, `C:\Users\dffwe\.jdks\temurin-21.0.9\bin`).
 - `docs/plano/README.md` — status da tarefa e da fase
 - `docs/plano/0027-catalogo-compartilhado-por-link/0001-regras-do-link-do-catalogo.md`
   — status
+
+## Correções pós-PR
+- [2026-09-17] — Verificação visual (chave do link no preview do PR #68),
+  "falha ao ligar o link: Missing or insufficient permissions". Causa: as
+  regras só sobem no merge (DDR 0004) e o preview roda o cliente novo contra
+  as regras de produção, que ainda não conheciam `linkAtivo` — o `hasOnly`
+  recusava o documento resultante. Já previsto nas Consequências do DDR 0004
+  ("preview de PR roda cliente novo contra regras antigas; para validar ponta
+  a ponta, publicar regras à mão antes"). Correção: publicação manual das
+  regras do branch, autorizada pelo humano, sem alterar o pipeline (o merge
+  redeploya as mesmas regras):
+  - Ambiente: Firebase produção (projeto `iconula`).
+  - Aprovação do humano (2026-09-17): autorizou exatamente
+    `firebase deploy --only firestore:rules --project iconula --non-interactive`.
+  - Comando: `firebase deploy --only firestore:rules --project iconula --non-interactive`
+  - Saída: `rules file firestore.rules compiled successfully` /
+    `released rules firestore.rules to cloud.firestore` / `Deploy complete!`
+  - Verificação: `released rules … to cloud.firestore`; a leitura do ruleset
+    pela Rules API (`firebaserules.googleapis.com`) devolveu 403 com a conta
+    atual, então a confirmação é a do próprio deploy.
+  - Como reverter: repetir o comando a partir da `main` (regras anteriores).
+  - Documento: nenhum — o DDR 0004 já contempla o procedimento.
