@@ -221,6 +221,25 @@ describe('SuperGrupo', () => {
     }
   });
 
+  it('sem onAjustar renderiza as seções com cartões inertes (IDR 0055)', () => {
+    render(
+      <SuperGrupo
+        grupo="C"
+        secoes={grupoC}
+        figurinhas={figurinhasGrupoC}
+        contagens={{}}
+        isExpandida={isExpandidaMock}
+        getToggleHandler={getToggleHandlerMock}
+        setSecaoRef={setSecaoRefMock}
+      />,
+    );
+
+    expect(screen.getByRole('button', { name: /^Grupo C/ })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /^Brasil:/ })).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /^BRA 0/ })).not.toBeInTheDocument();
+    expect(screen.getAllByRole('img').length).toBeGreaterThan(0);
+  });
+
   describe('alternador das seções do grupo (IDR 0020)', () => {
     const propsBase = {
       grupo: 'C',

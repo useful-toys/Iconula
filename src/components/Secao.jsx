@@ -131,7 +131,7 @@ function propsEquivalentes(anterior, seguinte) {
  * @param {object} props.secao - objeto da seção (catálogo.js).
  * @param {Array<{codigo: string; metalizada: boolean}>} props.figurinhas - figurinhas da seção.
  * @param {Record<string, number>} props.contagens - mapa esparso de contagens.
- * @param {(codigo: string, delta: number) => void} props.onAjustar - callback de ajuste.
+ * @param {(codigo: string, delta: number) => void} [props.onAjustar] - callback de ajuste; ausente, os cartões ficam inertes (IDR 0055).
  * @param {boolean} [props.expandida] - se a seção está expandida (controlado); se omitido, usa estado interno.
  * @param {() => void} [props.onToggle] - callback para alternar colapso (controlado).
  * @param {'lista'|'album'} [props.disposicao='lista'] - disposição vigente.
@@ -199,8 +199,12 @@ export const Secao = memo(function Secao({
                     nomeCurto={figurinha.nomeCurto}
                     variante="lista"
                     paisagem={figurinha.paisagem}
-                    onIncrementar={() => onAjustar(figurinha.codigo, 1)}
-                    onDecrementar={() => onAjustar(figurinha.codigo, -1)}
+                    onIncrementar={
+                      onAjustar ? () => onAjustar(figurinha.codigo, 1) : undefined
+                    }
+                    onDecrementar={
+                      onAjustar ? () => onAjustar(figurinha.codigo, -1) : undefined
+                    }
                   />
                 ))}
               </div>

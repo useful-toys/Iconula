@@ -38,6 +38,12 @@ import './Cabecalho.css';
  * @param {import('react').ReactNode} [props.avatar] - o avatar do usuário
  *   (menu de ações), no extremo direito da primeira linha, ao lado do título
  *   (IDR 0049).
+ * @param {boolean} [props.somenteLeitura=false] - acrescenta o rótulo
+ *   `somente leitura` no fim da linha do título, em `--muted`, e o mesmo
+ *   termo ao nome acessível (IDR 0055).
+ * @param {boolean} [props.tituloComoLink=false] - torna `ICONULA 2026` um
+ *   link para `/`, que leva ao próprio catálogo (ou à tela de login) — o
+ *   caminho manda na vista do link (IDR 0055).
  * @param {import('react').ReactNode} [props.children] - a linha de controles,
  *   renderizada dentro do `<header>`, depois dos comandos e antes da faixa.
  */
@@ -53,6 +59,8 @@ export function Cabecalho({
   placarPorSecao,
   compartilhar,
   avatar,
+  somenteLeitura = false,
+  tituloComoLink = false,
   children,
 }) {
   const relogio = atualizadoEm ?? '—';
@@ -63,12 +71,19 @@ export function Cabecalho({
     `${faltantes} faltantes`,
     `${repetidas} repetidas`,
     `atualizado às ${relogio}`,
+    ...(somenteLeitura ? ['somente leitura'] : []),
   ].join(', ');
 
   return (
     <header className="cabecalho">
       <h1 className="cabecalho__titulo" aria-label={nomeAcessivel}>
-        <span className="cabecalho__nome">ICONULA 2026</span>
+        {tituloComoLink ? (
+          <a className="cabecalho__nome" href="/">
+            ICONULA 2026
+          </a>
+        ) : (
+          <span className="cabecalho__nome">ICONULA 2026</span>
+        )}
         <span className="cabecalho__sep" aria-hidden="true">
           ·
         </span>
@@ -91,6 +106,14 @@ export function Cabecalho({
           ·
         </span>
         <span className="cabecalho__relogio">{relogio}</span>
+        {somenteLeitura && (
+          <>
+            <span className="cabecalho__sep" aria-hidden="true">
+              ·
+            </span>
+            <span className="cabecalho__rotulo">somente leitura</span>
+          </>
+        )}
       </h1>
       {(compartilhar || avatar) && (
         <div className="cabecalho__acoes">

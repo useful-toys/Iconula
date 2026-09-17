@@ -13,7 +13,7 @@ import './PaginaDoAlbum.css';
  * @param {Array<{posicao: number; codigo: string; metalizada: boolean; paisagem: boolean}>} props.figurinhas - figurinhas da seção.
  * @param {Array<{posicao: number; linha: number; trilha: number; trilhas: number}>} props.posicoes - posições desta página.
  * @param {Record<string, number>} props.contagens - mapa esparso de contagens.
- * @param {(codigo: string, delta: number) => void} props.onAjustar - callback de ajuste.
+ * @param {(codigo: string, delta: number) => void} [props.onAjustar] - callback de ajuste; ausente, os cartões ficam inertes (IDR 0055).
  * @param {boolean} [props.comMoldura=false] - página do FWC: casa de 70×70px
  *   e moldura em volta da página (IDR 0023); seleções e Coca-Cola ficam com
  *   a trilha de 60px de sempre, sem moldura.
@@ -63,8 +63,12 @@ export function PaginaDoAlbum({ pagina, figurinhas, posicoes, contagens, onAjust
               nomeCurto={figurinha.nomeCurto}
               variante="album"
               paisagem={isPaisagem}
-              onIncrementar={() => onAjustar(figurinha.codigo, 1)}
-              onDecrementar={() => onAjustar(figurinha.codigo, -1)}
+              onIncrementar={
+                onAjustar ? () => onAjustar(figurinha.codigo, 1) : undefined
+              }
+              onDecrementar={
+                onAjustar ? () => onAjustar(figurinha.codigo, -1) : undefined
+              }
             />
           </div>
         );

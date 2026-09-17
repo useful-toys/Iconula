@@ -98,3 +98,11 @@
   color: var(--muted);
   font-weight: 400;
 }
+
+/* Rótulo `somente leitura` no fim da linha do título, na vista do link
+ * (IDR 0055) — mesmo tom discreto do relógio. */
+.cabecalho__rotulo {
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 400;
+}

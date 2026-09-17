@@ -526,7 +526,7 @@ do e2e.
 | # | Tarefa | Objetivo | Status |
 |---|---|---|---|
 | 0001 | [Regras do link do catálogo](0027-catalogo-compartilhado-por-link/0001-regras-do-link-do-catalogo.md) | `linkAtivo` no schema e `get` público com o link ligado, com testes no emulador. | Concluída |
-| 0002 | [Catálogo e cabeçalho em somente leitura](0027-catalogo-compartilhado-por-link/0002-catalogo-e-cabecalho-somente-leitura.md) | Cartões inertes sem callback, colapso lido sem gravar, rótulo e título como link no cabeçalho — sem mudar a tela atual. | Pendente |
+| 0002 | [Catálogo e cabeçalho em somente leitura](0027-catalogo-compartilhado-por-link/0002-catalogo-e-cabecalho-somente-leitura.md) | Cartões inertes sem callback, colapso lido sem gravar, rótulo e título como link no cabeçalho — sem mudar a tela atual. | Concluída |
 | 0003 | [Vista do link do catálogo](0027-catalogo-compartilhado-por-link/0003-vista-do-link-do-catalogo.md) | `/catalogo/<uid>` antes da guarda de login, uma leitura, estados e preferências sem gravação. | Pendente |
 | 0004 | [Chave do link no popup](0027-catalogo-compartilhado-por-link/0004-chave-do-link-no-popup.md) | Carga traz `linkAtivo`; chave no terceiro bloco grava na hora, não fecha o popup e reverte em falha. | Pendente |
 | 0005 | [Copiar e compartilhar o link](0027-catalogo-compartilhado-por-link/0005-copiar-e-compartilhar-o-link.md) | Com o link ligado, copiar e compartilhar só a URL, com reserva da cópia. | Pendente |

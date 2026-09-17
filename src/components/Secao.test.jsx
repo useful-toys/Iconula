@@ -123,6 +123,26 @@ describe('Secao', () => {
     expect(onAjustar).toHaveBeenCalledWith('BRA01', 1);
   });
 
+  it('sem onAjustar renderiza cartões inertes e o colapso continua (IDR 0055)', async () => {
+    const user = userEvent.setup();
+    render(<Secao secao={secaoBra} figurinhas={figurinhasBra} contagens={{}} />);
+
+    expect(
+      screen.getByRole('img', { name: 'BRA 01, faltante, metalizada' }),
+    ).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /BRA 01/ })).not.toBeInTheDocument();
+    expect(
+      screen.queryAllByRole('button', { name: /remover uma unidade/ }),
+    ).toHaveLength(0);
+
+    const cabecalho = screen.getByRole('button', { name: /Brasil/ });
+    await user.click(cabecalho);
+    expect(cabecalho).toHaveAttribute('aria-expanded', 'false');
+    expect(
+      screen.queryByRole('img', { name: 'BRA 01, faltante, metalizada' }),
+    ).not.toBeInTheDocument();
+  });
+
   it('mantém a figurinha paisagem em paisagem na lista (IDR 0047)', () => {
     const { container } = render(
       <Secao

@@ -235,6 +235,24 @@ describe('PaginaDoAlbum', () => {
     expect(celulas[1]).toHaveAccessibleName(/XXX 05/);
   });
 
+  it('sem onAjustar os cartões ficam inertes (IDR 0055)', () => {
+    const layout = layoutDeSecao(secaoBrasil);
+    const paginaLayout = layout.paginas.find((p) => p.pagina === 1);
+    const posicoesPagina1 = layout.posicoes.filter((p) => p.pagina === 1);
+
+    render(
+      <PaginaDoAlbum
+        pagina={paginaLayout}
+        figurinhas={figurinhasBrasil}
+        posicoes={posicoesPagina1}
+        contagens={{}}
+      />,
+    );
+
+    expect(screen.queryAllByRole('button')).toHaveLength(0);
+    expect(screen.getAllByRole('img')).toHaveLength(10);
+  });
+
   describe('FWC (comMoldura): casa de 70px e moldura', () => {
     const secaoFwc = {
       sigla: 'FWC',

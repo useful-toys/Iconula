@@ -253,6 +253,49 @@ describe('Cabecalho', () => {
     expect(estaAntes(grupos[grupos.length - 1], desfazer)).toBe(true);
   });
 
+  describe('somente leitura (IDR 0055)', () => {
+    it('com as props mostra o rótulo e o título como link para /', () => {
+      render(
+        <Cabecalho
+          coladas={412}
+          faltantes={582}
+          repetidas={37}
+          percentual={41}
+          secoes={secoes}
+          onSaltar={vi.fn()}
+          somenteLeitura
+          tituloComoLink
+        />,
+      );
+
+      expect(textoDaTela()).toContain('somente leitura');
+      expect(screen.getByLabelText(/somente leitura/)).toBeInTheDocument();
+      expect(screen.getByRole('link', { name: 'ICONULA 2026' })).toHaveAttribute(
+        'href',
+        '/',
+      );
+    });
+
+    it('sem as props a marcação é a atual', () => {
+      render(
+        <Cabecalho
+          coladas={412}
+          faltantes={582}
+          repetidas={37}
+          percentual={41}
+          secoes={secoes}
+          onSaltar={vi.fn()}
+        />,
+      );
+
+      expect(textoDaTela()).not.toContain('somente leitura');
+      expect(
+        screen.queryByRole('link', { name: 'ICONULA 2026' }),
+      ).not.toBeInTheDocument();
+      expect(screen.getByText('ICONULA 2026')).toBeInTheDocument();
+    });
+  });
+
   it('repassa o progresso por seção ao tooltip da faixa', () => {
     const placarPorSecao = new Map([
       ['BRA', { coladas: 12, faltantes: 8, repetidas: 3, percentual: 60 }],

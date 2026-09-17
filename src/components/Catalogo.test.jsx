@@ -6,6 +6,12 @@ import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom/vitest';
 import { Catalogo } from './Catalogo.jsx';
 import { figurinhas, secoes } from '../data/catalogo.js';
+import { gravarColapsoManual } from '../lib/colapsoManual.js';
+
+vi.mock('../lib/colapsoManual.js', async (importOriginal) => {
+  const actual = await importOriginal();
+  return { ...actual, gravarColapsoManual: vi.fn(actual.gravarColapsoManual) };
+});
 
 const secoesParcial = [
   secoes.find((s) => s.sigla === 'FWC'),
@@ -539,6 +545,79 @@ describe('Catalogo', () => {
       // BRA é válida e volta fechada; FWC (a outra seção da amostra) abre.
       expect(screen.getByRole('button', { name: /^Brasil:/ })).toHaveAttribute('aria-expanded', 'false');
       expect(screen.getByRole('button', { name: /^Extras FIFA:/ })).toHaveAttribute('aria-expanded', 'true');
+    });
+  });
+
+  describe('somente leitura (IDR 0055)', () => {
+    const propsBase = {
+      secoes: secoesParcial,
+      figurinhas: figurinhasParcial,
+      contagens: {},
+      ordenacao: 'sigla',
+    };
+
+    it('sem onAjustar renderiza nas disposições lista e álbum com cartões inertes', () => {
+      const { rerender } = render(<Catalogo {...propsBase} disposicao="lista" />);
+
+      expect(screen.getByRole('button', { name: /^Brasil:/ })).toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: /^BRA 01/ })).not.toBeInTheDocument();
+      expect(screen.getByRole('img', { name: /^BRA 01/ })).toBeInTheDocument();
+
+      rerender(<Catalogo {...propsBase} disposicao="album" />);
+
+      expect(screen.getByRole('button', { name: /^Brasil:/ })).toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: /^BRA 01/ })).not.toBeInTheDocument();
+      expect(screen.getByRole('img', { name: /^BRA 01/ })).toBeInTheDocument();
+    });
+
+    it('sem onAjustar o colapso e o salto continuam funcionando', async () => {
+      const user = userEvent.setup();
+      const ref = { current: null };
+      render(<Catalogo ref={ref} {...propsBase} />);
+
+      const brasil = screen.getByRole('button', { name: /^Brasil:/ });
+      await user.click(brasil);
+      expect(brasil).toHaveAttribute('aria-expanded', 'false');
+
+      act(() => {
+        ref.current.saltarPara('BRA');
+      });
+
+      expect(screen.getByRole('button', { name: /^Brasil:/ })).toHaveAttribute(
+        'aria-expanded',
+        'true',
+      );
+    });
+
+    it('com gravarColapso=false lê o colapso guardado sem gravar', () => {
+      localStorage.setItem(
+        'iconula.colapso-manual.v1',
+        JSON.stringify({ secoes: ['BRA'], grupos: [] }),
+      );
+      gravarColapsoManual.mockClear();
+
+      render(<Catalogo {...propsBase} gravarColapso={false} />);
+
+      expect(screen.getByRole('button', { name: /^Brasil:/ })).toHaveAttribute(
+        'aria-expanded',
+        'false',
+      );
+      expect(gravarColapsoManual).not.toHaveBeenCalled();
+    });
+
+    it('com gravarColapso=false alternar o colapso não chama gravarColapsoManual', async () => {
+      const user = userEvent.setup();
+      gravarColapsoManual.mockClear();
+
+      render(<Catalogo {...propsBase} gravarColapso={false} />);
+      await user.click(screen.getByRole('button', { name: /^Brasil:/ }));
+
+      expect(screen.getByRole('button', { name: /^Brasil:/ })).toHaveAttribute(
+        'aria-expanded',
+        'false',
+      );
+      expect(gravarColapsoManual).not.toHaveBeenCalled();
+      expect(localStorage.getItem('iconula.colapso-manual.v1')).toBeNull();
     });
   });
 

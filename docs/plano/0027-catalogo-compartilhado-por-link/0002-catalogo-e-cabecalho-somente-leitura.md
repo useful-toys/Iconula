@@ -3,7 +3,7 @@
 # Tarefa [0027-0002]: catálogo e cabeçalho em somente leitura
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Preparar os componentes da tela principal para a vista do link: sem
