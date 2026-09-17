@@ -113,7 +113,8 @@ pelo [IDR 0027](0027-relogio-do-titulo-e-o-updatedat-do-documento.md):
   figurinha em retrato) e os `·` entre os campos de progresso saem
   (`12/20 60% ▯8 ×3`), mantendo os `·` estruturais (nome↔placar e
   placar↔relógio); mudança de requisito em `docs/requisitos.md` § UX,
-  confirmada pelo humano; implementação a planejar. Antes: `▢` e `·` entre
+  confirmada pelo humano; implementação na Fase 0028, Tarefas 0028-0001 e
+  0028-0002. Antes: `▢` e `·` entre
   todos os campos.
 
 - 2026-09-14 — Esmiuçamento de contrair seções, rodapé e compartilhar: a

@@ -80,3 +80,9 @@ ao toque e a proibição de log com scroll.
 - **Barra fixa no fluxo do documento** (sticky, como no protótipo):
   nunca tapa conteúdo, mas some ao rolar em telas longas — o oposto do
   que "sempre grudada na borda inferior" pede
+
+## Histórico
+
+- 2026-09-17 — Esmiuçamento dos rótulos compactos dos controles: o evento
+  de sucesso ganha a troca de ordenação/disposição/filtro (IDR 0059);
+  implementação na Fase 0030, Tarefa 0030-0005.

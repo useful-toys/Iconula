@@ -61,7 +61,7 @@ Aceito.
 - O encaixe exato dos nomes mais longos em 360px é estimado; confirma-se
   por medição na implementação — se o pior caso ainda estourar por poucos
   px, ajusta-se o gap/tamanho dos glifos, não a fonte do nome.
-- Implementação: a planejar (/planejar).
+- Implementação: Fase 0028, Tarefas 0028-0003 e 0028-0004.
 
 ## Alternativas consideradas
 
