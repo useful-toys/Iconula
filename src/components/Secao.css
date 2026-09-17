@@ -296,13 +296,6 @@
   --sel-1: var(--selection-coc);
 }
 
-.secao__chevron {
-  flex-shrink: 0;
-  width: 1em;
-  font-size: 14px;
-  color: var(--muted);
-}
-
 .secao__icone {
   width: 18px;
   height: 18px;

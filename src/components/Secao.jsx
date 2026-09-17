@@ -28,10 +28,6 @@ function CabecalhoSecao({ secao, codigos, contagens, expandida, onToggle, corpoI
   const total = codigos.length;
   const pagina = `${secao.paginas[0]}`;
 
-  const identificacao = [secao.nome, secao.sigla, pagina]
-    .filter(Boolean)
-    .join(' ');
-
   const nomeAcessivel = [
     `${secao.nome}: ${coladas} de ${total}`,
     `${percentual} por cento`,
@@ -49,9 +45,6 @@ function CabecalhoSecao({ secao, codigos, contagens, expandida, onToggle, corpoI
       aria-label={nomeAcessivel}
       onClick={onToggle}
     >
-      <span className="secao__chevron" aria-hidden="true">
-        {expandida ? '▾' : '▸'}
-      </span>
       <img
         className="secao__icone"
         src={urlDoIcone(secao.icone)}
@@ -60,7 +53,15 @@ function CabecalhoSecao({ secao, codigos, contagens, expandida, onToggle, corpoI
         draggable="false"
       />
       <h2 className="secao__titulo">
-        <span className="secao__identificacao">{identificacao}</span>
+        {secao.nome && (
+          <span className="secao__identificacao secao__nome">{secao.nome}</span>
+        )}
+        {secao.sigla && (
+          <span className="secao__identificacao secao__sigla">{secao.sigla}</span>
+        )}
+        {pagina && (
+          <span className="secao__identificacao secao__pagina">{pagina}</span>
+        )}
         <span className="secao__sep" aria-hidden="true">
           ·
         </span>

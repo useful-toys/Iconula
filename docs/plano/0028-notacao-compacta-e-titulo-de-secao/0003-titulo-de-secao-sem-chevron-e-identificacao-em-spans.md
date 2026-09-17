@@ -3,7 +3,7 @@
 # Tarefa [0028-0003]: título de seção sem chevron e identificação em spans
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Remover o chevron `▾`/`▸` do cabeçalho da seção (só nas seções; o super-grupo

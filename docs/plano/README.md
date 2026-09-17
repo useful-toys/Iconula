@@ -547,7 +547,7 @@ linha no celular, sem chevron nas seções e com fonte condensada até 582px
 |---|---|---|---|
 | 0001 | [Notação no placar e no super-grupo](0028-notacao-compacta-e-titulo-de-secao/0001-notacao-no-placar-e-no-super-grupo.md) | `▯`/`×` sem `·` no placar e no super-grupo, mantendo os `·` estruturais. | Concluída |
 | 0002 | [Notação na seção e no tooltip da faixa](0028-notacao-compacta-e-titulo-de-secao/0002-notacao-na-secao-e-no-tooltip-da-faixa.md) | `▯`/`×` sem `·` na seção e no tooltip da faixa. | Concluída |
-| 0003 | [Título de seção sem chevron e identificação em spans](0028-notacao-compacta-e-titulo-de-secao/0003-titulo-de-secao-sem-chevron-e-identificacao-em-spans.md) | Remover o chevron das seções e separar nome/sigla/página em spans. | Pendente |
+| 0003 | [Título de seção sem chevron e identificação em spans](0028-notacao-compacta-e-titulo-de-secao/0003-titulo-de-secao-sem-chevron-e-identificacao-em-spans.md) | Remover o chevron das seções e separar nome/sigla/página em spans. | Concluída |
 | 0004 | [Título de seção com gaps, glifos e fonte condensada](0028-notacao-compacta-e-titulo-de-secao/0004-titulo-de-secao-gaps-glifos-e-fonte-condensada.md) | Gaps 6px/0.22em, glifos 0.85em/400, Roboto Condensed ≤582px. | Pendente |
 
 ## Fase 29 — Compactação vertical
