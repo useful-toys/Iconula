@@ -3,7 +3,7 @@
 # Tarefa [0027-0004]: chave do link do catálogo no popup Compartilhar
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Dar ao dono o controle do link: a carga do login traz `linkAtivo`, e um

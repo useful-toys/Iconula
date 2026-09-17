@@ -56,7 +56,9 @@ describe('MenuDeCompartilhar', () => {
       'Copiar lista de faltantes',
       'Copiar lista de repetidas',
     ]);
-    expect(document.querySelectorAll('.menu-de-compartilhar__filete')).toHaveLength(1);
+    // Dois filetes: entre as listas e antes do bloco do link (IDR 0024,
+    // IDR 0055).
+    expect(document.querySelectorAll('.menu-de-compartilhar__filete')).toHaveLength(2);
   });
 
   it('esconde os itens de compartilhar quando não há folha do sistema', async () => {
@@ -86,7 +88,7 @@ describe('MenuDeCompartilhar', () => {
       'Copiar lista de repetidas',
       'Compartilhar repetidas…',
     ]);
-    expect(document.querySelectorAll('.menu-de-compartilhar__filete')).toHaveLength(1);
+    expect(document.querySelectorAll('.menu-de-compartilhar__filete')).toHaveLength(2);
   });
 
   it('os itens de compartilhar ficam desabilitados sem callback', async () => {
@@ -233,5 +235,96 @@ describe('MenuDeCompartilhar', () => {
     const painel = screen.getByRole('menu');
     expect(painel).not.toHaveStyle({ overflow: 'auto' });
     expect(painel.getAttribute('style') ?? '').not.toMatch(/overflow/);
+  });
+
+  describe('chave do link do catálogo (Tarefa 0027-0004)', () => {
+    it('mostra a chave ligada, com nome e estado por extenso', async () => {
+      const user = userEvent.setup();
+      renderizar({ linkAtivo: true, onAlternarLink: vi.fn() });
+      await user.click(botaoDoCompartilhar());
+
+      const chave = screen.getByRole('switch', { name: 'Link do catálogo: ligado' });
+      expect(chave).toHaveAttribute('aria-checked', 'true');
+      expect(
+        screen.queryByRole('switch', { name: 'Link do catálogo: desligado' }),
+      ).not.toBeInTheDocument();
+    });
+
+    it('mostra a chave desligada quando o estado é false', async () => {
+      const user = userEvent.setup();
+      renderizar({ linkAtivo: false, onAlternarLink: vi.fn() });
+      await user.click(botaoDoCompartilhar());
+
+      expect(
+        screen.getByRole('switch', { name: 'Link do catálogo: desligado' }),
+      ).toHaveAttribute('aria-checked', 'false');
+    });
+
+    it('estado ausente é desligado', async () => {
+      const user = userEvent.setup();
+      renderizar({ onAlternarLink: vi.fn() });
+      await user.click(botaoDoCompartilhar());
+
+      expect(
+        screen.getByRole('switch', { name: 'Link do catálogo: desligado' }),
+      ).toHaveAttribute('aria-checked', 'false');
+    });
+
+    it('tocar na chave não fecha o popup e mantém o foco nela', async () => {
+      const user = userEvent.setup();
+      const onAlternarLink = vi.fn().mockResolvedValue(undefined);
+      renderizar({ linkAtivo: false, onAlternarLink });
+      await user.click(botaoDoCompartilhar());
+
+      const chave = screen.getByRole('switch');
+      await user.click(chave);
+
+      expect(onAlternarLink).toHaveBeenCalledTimes(1);
+      expect(screen.getByRole('menu')).toBeInTheDocument();
+      expect(chave).toHaveFocus();
+    });
+
+    it('um segundo toque enquanto grava não dispara outra gravação', async () => {
+      const user = userEvent.setup();
+      let resolver;
+      const onAlternarLink = vi.fn(
+        () =>
+          new Promise((resolve) => {
+            resolver = resolve;
+          }),
+      );
+      renderizar({ linkAtivo: false, onAlternarLink });
+      await user.click(botaoDoCompartilhar());
+
+      const chave = screen.getByRole('switch');
+      await user.click(chave);
+      await user.click(chave);
+
+      expect(onAlternarLink).toHaveBeenCalledTimes(1);
+
+      resolver();
+    });
+
+    it('Esc continua fechando o popup depois de tocar na chave', async () => {
+      const user = userEvent.setup();
+      renderizar({ linkAtivo: true, onAlternarLink: vi.fn().mockResolvedValue(undefined) });
+      await user.click(botaoDoCompartilhar());
+
+      await user.click(screen.getByRole('switch'));
+      expect(screen.getByRole('menu')).toBeInTheDocument();
+
+      await user.keyboard('{Escape}');
+
+      expect(screen.queryByRole('menu')).not.toBeInTheDocument();
+      expect(botaoDoCompartilhar()).toHaveFocus();
+    });
+
+    it('sem callback, a chave fica desabilitada', async () => {
+      const user = userEvent.setup();
+      renderizar({ linkAtivo: true });
+      await user.click(botaoDoCompartilhar());
+
+      expect(screen.getByRole('switch')).toBeDisabled();
+    });
   });
 });

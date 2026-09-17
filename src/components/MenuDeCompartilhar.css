@@ -93,3 +93,68 @@
   margin: 4px 6px;
   background: var(--border);
 }
+
+/* Terceiro bloco: a chave do link do catálogo (IDR 0055). Mesmo item de menu
+   em tipografia e recuo, com um trilho à esquerda; o estado é dito em texto
+   (`ligado`/`desligado`), não só pela cor (IDR 0018, requisitos.md
+   § Requisitos Não Funcionais). */
+.menu-de-compartilhar__chave {
+  appearance: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  text-align: left;
+  padding: 9px 12px;
+  font-family: inherit;
+  font-size: 13px;
+  color: var(--cream);
+  background: transparent;
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+}
+
+.menu-de-compartilhar__chave:hover:not(:disabled) {
+  background: var(--bg-deep);
+}
+
+.menu-de-compartilhar__chave:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: -2px;
+}
+
+.menu-de-compartilhar__chave:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.menu-de-compartilhar__trilho {
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+  width: 30px;
+  height: 16px;
+  padding: 0 2px;
+  background: var(--bg-deep);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+}
+
+.menu-de-compartilhar__chave[aria-checked='true'] .menu-de-compartilhar__trilho {
+  background: var(--gold);
+  border-color: var(--gold);
+}
+
+.menu-de-compartilhar__bolinha {
+  width: 10px;
+  height: 10px;
+  background: var(--muted);
+  border-radius: 50%;
+  transition: transform 120ms ease;
+}
+
+.menu-de-compartilhar__chave[aria-checked='true'] .menu-de-compartilhar__bolinha {
+  background: var(--panel);
+  transform: translateX(14px);
+}

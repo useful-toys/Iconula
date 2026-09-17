@@ -16,6 +16,13 @@ import './MenuDeCompartilhar.css';
  * existem onde o navegador oferece a folha; sem ela, o popup fica só com as
  * duas cópias.
  *
+ * Desde a Tarefa 0027-0004, um terceiro bloco, também separado por filete,
+ * traz a chave do link do catálogo (IDR 0055): o rótulo já diz o estado por
+ * extenso (`Link do catálogo: ligado`/`desligado`) e o `role="switch"` com
+ * `aria-checked` o anuncia ao leitor de tela (IDR 0018). Tocar na chave não
+ * fecha o popup — dá para ligar e copiar em seguida — e, enquanto a gravação
+ * está em voo, um segundo toque não dispara outra.
+ *
  * Comportamento do popup igual ao do `MenuDeAcoes.jsx`: fecha ao escolher um
  * item, ao tocar fora, com `Esc` ou ao sair do popup pelo teclado; ao abrir,
  * o foco entra no primeiro item habilitado (um item sem callback nunca
@@ -28,16 +35,25 @@ import './MenuDeCompartilhar.css';
  * @param {() => void} [props.onCopiarRepetidas] - sem ele, o item fica desabilitado.
  * @param {() => void} [props.onCompartilharFaltantes] - sem ele, o item fica desabilitado.
  * @param {() => void} [props.onCompartilharRepetidas] - sem ele, o item fica desabilitado.
+ * @param {boolean} [props.linkAtivo] - estado do link do catálogo; ausente, `false`.
+ * @param {() => Promise<void>} [props.onAlternarLink] - alterna o link; sem
+ *   ele, a chave fica desabilitada.
  */
 export function MenuDeCompartilhar({
   onCopiarFaltantes,
   onCopiarRepetidas,
   onCompartilharFaltantes,
   onCompartilharRepetidas,
+  linkAtivo = false,
+  onAlternarLink,
 }) {
   const [aberto, setAberto] = useState(false);
   const containerRef = useRef(null);
   const botaoRef = useRef(null);
+  // Trava o segundo toque enquanto a primeira gravação não resolve (Tarefa
+  // 0027-0004): um `useRef`, não estado, para não re-renderizar o popup — e
+  // mantém a chave focável, ao contrário de desabilitá-la.
+  const gravandoLinkRef = useRef(false);
 
   // A folha de compartilhamento é do navegador; a disponibilidade não muda
   // durante a sessão, então basta ler no render (IDR 0024).
@@ -84,6 +100,18 @@ export function MenuDeCompartilhar({
       acao?.();
       fechar();
     };
+  }
+
+  // Alterna a chave sem fechar o popup (IDR 0024, IDR 0055). A trava evita
+  // uma segunda gravação se o toque repetir antes de a primeira resolver.
+  async function alternarLink() {
+    if (gravandoLinkRef.current) return;
+    gravandoLinkRef.current = true;
+    try {
+      await onAlternarLink?.();
+    } finally {
+      gravandoLinkRef.current = false;
+    }
   }
 
   // Tabular para fora do popup move o foco para fora do container sem escolher
@@ -166,6 +194,20 @@ export function MenuDeCompartilhar({
               Compartilhar repetidas…
             </button>
           )}
+          <div className="menu-de-compartilhar__filete" role="separator" />
+          <button
+            type="button"
+            role="switch"
+            aria-checked={linkAtivo}
+            className="menu-de-compartilhar__chave"
+            disabled={!onAlternarLink}
+            onClick={alternarLink}
+          >
+            <span className="menu-de-compartilhar__trilho" aria-hidden="true">
+              <span className="menu-de-compartilhar__bolinha" />
+            </span>
+            Link do catálogo: {linkAtivo ? 'ligado' : 'desligado'}
+          </button>
         </div>
       )}
     </div>

@@ -26,6 +26,7 @@ import {
   gravarAlteracoes,
   gravarAtestacao,
   gravarImportacao,
+  gravarLinkAtivo,
   formatarCarimbo,
   mensagemDeErro,
 } from "./lib/colecaoRemota.js";
@@ -94,6 +95,11 @@ export default function App() {
   // e atestação nunca disputam uma tela própria de espera, o mesmo
   // tratamento que a carga já dá às contagens.
   const [precisaAtestar, setPrecisaAtestar] = useState(false);
+  // Estado do link do catálogo (Tarefa 0027-0004, IDR 0055): vem da mesma
+  // carga da coleção (`linkAtivo`; ausente → desligado) e é o que a chave do
+  // popup Compartilhar mostra. Conta nova nunca ligou, então começa
+  // `false` — mesma premissa otimista de `contagens`.
+  const [linkAtivo, setLinkAtivo] = useState(false);
   // Vista interna (TDR 0020, revisitado na Tarefa 0020-0003): política de
   // privacidade e termos de uso (IDR 0053) — sem router. Estado único,
   // checado antes de qualquer outro ramo de retorno, para voltar sempre cair
@@ -185,6 +191,11 @@ export default function App() {
     return onAuthStateChanged(auth, (novoUsuario) => {
       setUser(novoUsuario);
       setAuthResolvido(true);
+      // Sair da conta descarta o estado do link (Tarefa 0027-0004): ele é da
+      // conta que acabou de sair, e a próxima sessão traz o seu próprio da
+      // carga — o popup não pode mostrar o estado de outra conta enquanto a
+      // leitura dela não chega.
+      if (!novoUsuario) setLinkAtivo(false);
     });
   }, []);
 
@@ -229,6 +240,7 @@ export default function App() {
         setContagens(resultado.contagens);
         setAtualizadoEm(formatarCarimbo(resultado.atualizadoEm));
         setPrecisaAtestar(!resultado.atestadoEm);
+        setLinkAtivo(resultado.linkAtivo === true);
         // Documento ainda com `teamName` da era do botão: a próxima gravação
         // agregada o apaga junto das contagens, sem escrita à parte (ADR 0008,
         // Tarefa 0007-0004).
@@ -237,10 +249,11 @@ export default function App() {
         }
       } else {
         // Documento inexistente ("vazio"): primeiro login desta conta, que
-        // nunca atestou.
+        // nunca atestou e nunca ligou o link.
         setContagens({});
         setAtualizadoEm('—');
         setPrecisaAtestar(true);
+        setLinkAtivo(false);
       }
       emitirAviso({ severidade: SEVERIDADE.SUCESSO, mensagem: 'Coleção carregada', tipo: 'carga' });
     });
@@ -266,6 +279,48 @@ export default function App() {
       });
     }
     setPrecisaAtestar(false);
+  }
+
+  // Ligar/desligar o link do catálogo (Tarefa 0027-0004, IDR 0055): a chave
+  // do popup Compartilhar grava na hora, fora da gravação agregada — não é
+  // contagem e não move o `updatedAt` (MDR 0002). Otimista: muda o estado já
+  // no toque e volta ao anterior se a escrita falhar, com aviso de falha
+  // (IDR 0029); sem confirmação, porque é reversível (IDR 0010). Sem rede, a
+  // espera das escritas (TDR 0019) avisa e o desfecho real ainda chega.
+  async function handleAlternarLink() {
+    if (!uid) return;
+    const anterior = linkAtivo;
+    const proximo = !anterior;
+    setLinkAtivo(proximo);
+
+    const resultado = await gravarLinkAtivo(uid, proximo, {
+      aoEsperar: () => {
+        emitirAviso({
+          severidade: SEVERIDADE.AVISO,
+          mensagem: 'Conexão instável — sincronizando quando possível',
+          tipo: 'link',
+        });
+      },
+    });
+
+    if (resultado.status !== 'sucesso') {
+      setLinkAtivo(anterior);
+      emitirAviso({
+        severidade: SEVERIDADE.FALHA,
+        mensagem: proximo
+          ? 'Falha ao ligar o link — toque para detalhes'
+          : 'Falha ao desligar o link — toque para detalhes',
+        detalhe: mensagemDeErro(resultado.erro),
+        tipo: 'link',
+      });
+      return;
+    }
+
+    emitirAviso({
+      severidade: SEVERIDADE.SUCESSO,
+      mensagem: proximo ? 'Link ligado' : 'Link desligado',
+      tipo: 'link',
+    });
   }
 
   // Grava a preferência ao trocar alternador — a preferência é o próprio
@@ -614,6 +669,8 @@ export default function App() {
             onCopiarRepetidas={handleCopiarRepetidas}
             onCompartilharFaltantes={handleCompartilharFaltantes}
             onCompartilharRepetidas={handleCompartilharRepetidas}
+            linkAtivo={linkAtivo}
+            onAlternarLink={handleAlternarLink}
           />
         }
         avatar={

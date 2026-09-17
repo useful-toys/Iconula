@@ -162,6 +162,19 @@ com as duas cópias (IDR 0024). Compartilhar não assume nenhum app: o usuário
 escolhe (Signal, WhatsApp, Telegram, e-mail…). O texto é o de `requisitos.md`
 § Compartilhamento, sempre na ordem do álbum (IDR 0039), o mesmo da cópia.
 
+Um terceiro bloco, também separado por filete, fecha o popup com a **chave do
+link do catálogo** (IDR 0024, IDR 0055). O rótulo diz o estado por extenso —
+`Link do catálogo: ligado` / `Link do catálogo: desligado` — e a chave é um
+`switch` com `aria-checked`, então o leitor de tela anuncia nome e estado
+(IDR 0018). Tocar na chave **não fecha** o popup: liga ou desliga na hora e o
+foco fica na chave, para copiar ou compartilhar o link em seguida (Tarefa
+0027-0005); `Esc`, toque fora e saída pelo teclado seguem fechando, como nos
+demais itens. A escrita é imediata e fora da gravação agregada — não move o
+relógio do título —, com "link ligado" ou "link desligado" na área de avisos;
+a falha reverte a chave ao estado anterior e avisa "falha ao ligar o link" ou
+"falha ao desligar o link" (IDR 0029), sem confirmação, porque é reversível
+(IDR 0010).
+
 O popup é ancorado ao botão que o abriu, alinhado pela borda direita, logo
 abaixo dele, com o mesmo painel e a mesma sombra do menu de ações. Segue o
 mesmo comportamento de fechamento e foco: fecha ao escolher um item, ao tocar
@@ -356,9 +369,9 @@ conteúdo, não empurra o layout nem rola com a página (ver
 
 | Severidade | Duração | Eventos |
 |---|---|---|
-| Sucesso (verde) | some em 5s | gravado, carregado, lista copiada, lista compartilhada, exportado, importado |
+| Sucesso (verde) | some em 5s | gravado, carregado, lista copiada, lista compartilhada, exportado, importado, link ligado, link desligado |
 | Aviso (dourado) | some em 5s | arquivo de importação inválido ou de versão desconhecida, área de transferência indisponível, gravação sem rede que ficou enfileirada |
-| Falha (vermelho) | fica até ser dispensada ou até a operação seguinte do mesmo tipo ter sucesso | falha de gravação, de carga ou de carga do catálogo compartilhado por link ([IDR 0055](idr/0055-catalogo-compartilhado-por-link-somente-leitura.md)) |
+| Falha (vermelho) | fica até ser dispensada ou até a operação seguinte do mesmo tipo ter sucesso | falha de gravação, de carga, de carga do catálogo compartilhado por link ([IDR 0055](idr/0055-catalogo-compartilhado-por-link-somente-leitura.md)) ou ao ligar ou desligar o link |
 
 Cada aviso é uma faixa de largura total colada ao pé da janela, com
 borda superior de 2px na cor da severidade sobre um fundo escuro da
