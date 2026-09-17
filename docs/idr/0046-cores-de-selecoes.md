@@ -34,9 +34,10 @@ na Fase 0026.
 - **Moldura em degradê "abraçando" a seção inteira** (título + grade de
   figurinhas, não só o cabeçalho): cor 1 no topo (onde fica o título), cor
   2 no canto inferior esquerdo, cor 3 no canto inferior direito
-- **Fundo do cartão acompanha o mesmo degradê**, cada cor "lavada" a 25%
-  de mistura com `--panel` (não uma cor sólida só com a cor 1) — identidade
-  visível sem competir com o texto
+- **Interior sem fundo tingido**: a identidade fica só no anel em degradê; o
+  interior (título + grade de figurinhas) assenta no `--bg` neutro da página,
+  mantendo o texto legível — o fundo lavado foi removido porque deixava o
+  título branco sobre branco nas cores claras da bandeira
 - **Cor muito escura (preto etc.) é clareada, nunca evitada ou trocada**:
   mesmo método do [IDR 0045](0045-cores-de-super-grupos.md) — sobe a
   luminosidade em OKLCH (croma e matiz mantidos) até contraste ≥ 3:1 contra
@@ -53,9 +54,9 @@ na Fase 0026.
 
 RGB das cores de identidade de cada bandeira (conhecimento geral,
 aproximado — sem sampling oficial como a tabela de sorteio dos grupos)
-convertido para OKLCH. Cor original é usada sem ajuste na moldura; cor
-ajustada (só onde o contraste ficaria abaixo de 3:1) é usada no fundo
-tingido a 25%.
+convertido para OKLCH. Cor original é usada sem ajuste no anel; a variante
+ajustada (clareada para ≥ 3:1 contra `--bg`) deixou de ser usada quando o
+fundo tingido foi removido.
 
 | Seleção | Cor 1 (topo) | Cor 2 (esq. inf.) | Cor 3 (dir. inf.) |
 |---|---|---|---|
@@ -109,9 +110,10 @@ tingido a 25%.
 | UZB (Uzbequistão) | #0099B5 `oklch(0.63 0.11 217)` 5.1:1 | #FFFFFF `oklch(1.00 0.00 90)` 17.2:1 | #1EB53A `oklch(0.68 0.20 145)` 6.3:1 |
 
 Contraste calculado contra `--bg` `oklch(0.22 0 0)` (fundo neutro da
-Fase 0025). Branco não precisa de ajuste (contraste já alto); cor original
-é sempre a que aparece na moldura, a ajustada só entra no fundo tingido a
-25%. Valores de RGB são aproximação de conhecimento geral de bandeiras, não
+Fase 0025). Branco não precisa de ajuste (contraste já alto); a cor original
+é a que aparece no anel — a variante ajustada deixou de ser usada quando o
+fundo tingido foi removido. Valores de RGB são aproximação de conhecimento
+geral de bandeiras, não
 sampling oficial — a tarefa de implementação pode corrigir tom a tom sem
 reabrir esta decisão (nível 1/2, ver `docs/plano/CLAUDE.md` § Impedimentos).
 
@@ -119,9 +121,9 @@ reabrir esta decisão (nível 1/2, ver `docs/plano/CLAUDE.md` § Impedimentos).
 
 - **Super-grupo**: moldura da seção + barra esquerda 3px + fundo 30% (título
   do super-grupo)
-- **Seleção**: moldura em degradê de 2-3 cores (cor original) + fundo no
-  mesmo degradê a 25% (cor ajustada), abraçando título e grade de
-  figurinhas — não mais borda sólida 1px + fundo 45% de uma cor única
+- **Seleção**: anel em degradê contínuo de 2-3 cores (cor original)
+  abraçando título e grade de figurinhas, com o interior em `--bg` neutro —
+  sem fundo tingido, sem borda sólida de cor única
 - **Faixa de bandeiras**: fundo 60% + barra inferior 2px a 80% (só na
   ordenação por página)
 
@@ -156,6 +158,20 @@ reabrir esta decisão (nível 1/2, ver `docs/plano/CLAUDE.md` § Impedimentos).
   por outra cor da mesma bandeira ou omitir
 
 ## Histórico
+
+- 2026-09-16 — Correção da Fase 0026 (PR #64, 2ª rodada): o fundo tingido
+  deixava o título branco sobre branco nas cores claras da bandeira (ex.: o
+  amarelo do Brasil e do Equador, lavado sobre `--panel`). O fundo foi
+  removido — a identidade fica só no anel em degradê, e o interior (título
+  + grade) assenta no `--bg` neutro da página.
+
+- 2026-09-16 — Correção da Fase 0026 (PR #64): o degradê em duas metades
+  tinha emenda visível (a cor 2 não transicionava suavemente para a cor 3) e
+  o fundo a 25% ficou sutil demais. A moldura e o fundo passam a degradê
+  contínuo — cor 1 cobrindo o topo inteiro e esvaindo sobre o degradê
+  horizontal cor 2 → cor 3 (esquerda → direita) —, o fundo sobe de 25% para
+  45% de mistura com `--panel`, e a moldura ganha respiro interno de 10px
+  para as figurinhas não encostarem nela.
 
 - 2026-09-16 — Planejamento da Fase 0025/0026: cor única por seleção
   abandonada; substituída por moldura+fundo em degradê com 2-3 cores reais

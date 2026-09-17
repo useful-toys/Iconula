@@ -59,12 +59,12 @@
    *
    * Mesma convenção de duas variantes das cores de grupo (IDR 0045): o token
    * sem sufixo é a cor ajustada (luminosidade mínima para ≥ 3:1 contra
-   * `--bg`, usada no fundo tingido a 25% da Tarefa 0026-0002) e o sufixo
-   * `-raw` é a cor original sem ajuste (usada na moldura). Só as posições
-   * marcadas "→ aj." na tabela do IDR 0046 têm `-raw`: nas demais a original
-   * já atinge o contraste mínimo, a ajustada é a própria original e um único
-   * token serve à moldura e ao fundo. Cores repetidas entre seleções são
-   * aceitas: a bandeira, o nome e a sigla distinguem as seções. */
+   * `--bg`) e o sufixo `-raw` é a cor original sem ajuste — a cor usada no
+   * anel em degradê. Só as posições marcadas "→ aj." na tabela do IDR 0046
+   * têm `-raw`: nas demais a original já atinge o contraste mínimo, a
+   * ajustada é a própria original e um único token serve ao anel. Cores
+   * repetidas entre seleções são aceitas: a bandeira, o nome e a sigla
+   * distinguem as seções. */
   --selection-alg-1-raw: oklch(0.44 0.11 154);
   --selection-alg-1: oklch(0.50 0.11 154);
   --selection-alg-2: oklch(1.00 0.00 90);

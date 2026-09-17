@@ -770,8 +770,8 @@ claro (IDR 0022).
 | `--coc-red` | `oklch(0.55 0.2 29)` | identidade da Coca-Cola (título do super-grupo, faixa de bandeiras) |
 | `--group-fwc` | `var(--gold)` | alias de `--gold` para os Extras FIFA |
 | `--group-coc` | `var(--coc-red)` | alias de `--coc-red` para a Coca-Cola |
-| `--selection-<sigla>-1/-2/-3` | tabela do IDR 0046 | cores da bandeira da seleção, por posição no degradê da seção: 1 topo, 2 canto inferior esquerdo, 3 canto inferior direito — variante ajustada (fundo tingido); nas cores sem ajuste, serve também à moldura |
-| `--selection-<sigla>-N-raw` | tabela do IDR 0046 | cor original da bandeira (moldura), só nas posições marcadas "→ aj." |
+| `--selection-<sigla>-1/-2/-3` | tabela do IDR 0046 | cores da bandeira da seleção, por posição no degradê do anel: 1 topo, 2 canto inferior esquerdo, 3 canto inferior direito — variante ajustada (clareada); nas cores sem ajuste, serve também ao anel |
+| `--selection-<sigla>-N-raw` | tabela do IDR 0046 | cor original da bandeira (anel), só nas posições marcadas "→ aj." |
 | `--selection-fwc` | `var(--group-fwc)` | alias de `--group-fwc` para os Extras FIFA |
 | `--selection-coc` | `var(--group-coc)` | alias de `--group-coc` para a Coca-Cola |
 
@@ -791,18 +791,17 @@ bandeiras.
 
 As 48 seleções têm as cores da própria bandeira na seção, com os valores da
 tabela do [IDR 0046](idr/0046-cores-de-selecoes.md): até 3 tokens por
-seleção, um por posição no degradê da moldura e do fundo — `-1` no topo
-(onde fica o título), `-2` no canto inferior esquerdo e `-3` no direito.
-Onde a 2ª e a 3ª cor da bandeira coincidem, o token `-2` cobre as duas
-posições; onde as três coincidem, só `-1` existe. Cada posição segue a
-convenção de duas variantes das cores de grupo (IDR 0045): o token sem
-sufixo é a **ajustada** (luminosidade mínima para ≥ 3:1 contra `--bg`, no
-fundo tingido a 25%) e o sufixo `-raw` é a **original** sem ajuste (na
-moldura) — só as posições marcadas "→ aj." na tabela têm `-raw`; nas demais
-a original já atinge o contraste mínimo e um único token serve à moldura e
-ao fundo. Os especiais FWC e COC usam os alias `--selection-fwc` (de
-`--group-fwc`) e `--selection-coc` (de `--group-coc`), de cor única, sem
-degradê.
+seleção, um por posição no degradê do anel — `-1` no topo, `-2` no canto
+inferior esquerdo e `-3` no direito. Onde a 2ª e a 3ª cor da bandeira
+coincidem, o token `-2` cobre as duas posições; onde as três coincidem, só
+`-1` existe. Cada posição segue a convenção de duas variantes das cores de
+grupo (IDR 0045): o sufixo `-raw` é a **original** sem ajuste (a cor do
+anel) e o token sem sufixo é a **ajustada** (clareada para ≥ 3:1 contra
+`--bg`) — só as posições marcadas "→ aj." na tabela têm `-raw`; nas demais
+a original já atinge o contraste mínimo e um único token serve ao anel. O
+interior da seção fica em `--bg` neutro, sem fundo tingido. Os especiais
+FWC e COC usam os alias `--selection-fwc` (de `--group-fwc`) e
+`--selection-coc` (de `--group-coc`), de cor única, sem degradê.
 
 ### Tipografia
 
@@ -857,7 +856,7 @@ degradê.
   `clamp(16px, 4vw, 40px)`, a mesma no cabeçalho, no corpo e na faixa
   de avisos, de modo que tudo alinha na mesma vertical
 - Espaçamentos internos: 10px entre seções dentro de um super-grupo,
-  8px entre o cabeçalho da seção e a sua grade, 8px entre cartões na
+  4px entre o cabeçalho da seção e a sua grade, 8px entre cartões na
   disposição lista e 20px entre as duas páginas na disposição álbum
   (IDR 0050)
 - Título de super-grupo: 13px/600 em `--gold`, com chevron `▾`/`▸`, moldura
@@ -865,12 +864,14 @@ degradê.
   esquerda de 3px e fundo com 30% da cor do grupo sobre `--panel`
   (IDR 0045); o alternador `⊟`/`⊞` fica na ponta direita, em `--gold`, sem
   fundo próprio (IDR 0020)
-- Seção: moldura em degradê de 2px abraçando o título e a grade, cor 1 no
-  topo, cor 2 no canto inferior esquerdo e cor 3 no direito, com o fundo
-  tingido no mesmo degradê a 25% sobre `--panel`; raio externo 14px (interno
+- Seção: anel em degradê contínuo de 2px abraçando o título e a grade, cor 1
+  no topo, cor 2 no canto inferior esquerdo e cor 3 no direito, com o
+  interior em `--bg` neutro (sem fundo tingido) e respiro interno de 8px
+  para as figurinhas não encostarem no anel; raio externo 14px (interno
   12px); FWC e COC com cor única. O cabeçalho, dentro dela, não tem borda nem
-  fundo próprios, só `padding: 7px 12px`; ícone 18px, nome 14px/600 em
-  `--cream`, números em `--muted` (IDR 0046, IDR 0050)
+  fundo próprios, só `padding: 4px 8px` (o mínimo para não colar no anel);
+  ícone 18px, nome 14px/600 em `--cream`, números em `--muted` (IDR 0046,
+  IDR 0050, IDR 0018)
 - Cartão: 60×70px na lista e no álbum, paisagem 70×60px também nas duas
   disposições, raio 5px — duas metades de 33px úteis no retrato e 28px na
   paisagem: código centrado na de cima, nome na de baixo (na paisagem, uma
