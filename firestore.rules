@@ -25,7 +25,22 @@ service cloud.firestore {
       // Aqui só existe acesso a documento por id — e o id é o próprio
       // uid —, então negar a listagem de saída é mais barato que confiar
       // que a condição não seja satisfazível numa query.
-      allow get: if request.auth != null && request.auth.uid == userId;
+      //
+      // Exceção ao isolamento: o catálogo compartilhado por link
+      // (IDR 0055) abre sem login. Quando o dono liga o link, `linkAtivo`
+      // fica `true` no próprio documento e a leitura passa a valer para
+      // qualquer requisição, autenticada ou não; o `uid` no caminho é o
+      // próprio link, e desligar (`false` ou apagar o campo) é a única
+      // revogação — não há documento espelho (MDR 0002). `resource` é
+      // `null` quando o documento não existe, e `"linkAtivo" in
+      // resource.data` é verdadeiro só quando o campo existe: documento
+      // inexistente ou sem o campo segue negado, e a leitura pública
+      // nunca revela se a conta existe. A guarda evita que a comparação
+      // de `resource.data` erre em vez de negar (TDR 0009).
+      allow get: if (request.auth != null && request.auth.uid == userId)
+        || (resource != null
+          && "linkAtivo" in resource.data
+          && resource.data.linkAtivo == true);
 
       // Só `create` e `update`; `delete` não é operação que o app faça,
       // e não autorizá-la é de graça.
@@ -37,11 +52,11 @@ service cloud.firestore {
       // novo exige que estas regras subam antes ou junto com o código
       // que o escreve (ver TDR 0008).
       //
-      // Os únicos campos do schema novo são `contagens`, `updatedAt` e
-      // `atestadoEm` (ADR 0008). O `teamName` da era do botão fica de
-      // fora sem cláusula especial: um update com `deleteField` o remove
-      // do documento, e o `hasOnly` passa porque o campo já não está em
-      // `request.resource.data`.
+      // Os únicos campos do schema novo são `contagens`, `updatedAt`,
+      // `atestadoEm` e `linkAtivo` (ADR 0008 e MDR 0002). O `teamName` da
+      // era do botão fica de fora sem cláusula especial: um update com
+      // `deleteField` o remove do documento, e o `hasOnly` passa porque o
+      // campo já não está em `request.resource.data`.
       //
       // `create` e `update` viraram duas regras separadas (Tarefa
       // 0008-0005 — achado em uso: `auth/insufficient-permissions` ao
@@ -65,6 +80,7 @@ service cloud.firestore {
           "contagens",
           "updatedAt",
           "atestadoEm",
+          "linkAtivo",
         ])
         // Guarda de campo ausente (TDR 0009): a gravação da atestação
         // cria o documento só com `atestadoEm`, sem `contagens` e sem
@@ -109,7 +125,13 @@ service cloud.firestore {
         // do primeiro login — sozinho, sem `updatedAt` junto (ADR 0008).
         // Basta exigir que seja timestamp.
         && (!("atestadoEm" in request.resource.data)
-          || request.resource.data.atestadoEm is timestamp);
+          || request.resource.data.atestadoEm is timestamp)
+        // `linkAtivo` liga ou desliga o catálogo compartilhado por link
+        // (MDR 0002, IDR 0055) e é gravado sozinho, sem `contagens` e sem
+        // `updatedAt` junto (como `atestadoEm`). Basta exigir que seja
+        // booleano.
+        && (!("linkAtivo" in request.resource.data)
+          || request.resource.data.linkAtivo is bool);
 
       // Mesmas regras do `create` acima, mas cada cláusula pergunta "esta
       // operação escreveu este campo?" (`diff(resource.data)
@@ -124,6 +146,7 @@ service cloud.firestore {
           "contagens",
           "updatedAt",
           "atestadoEm",
+          "linkAtivo",
         ])
         && (!("contagens" in request.resource.data.diff(resource.data).affectedKeys()) || (
           request.resource.data.contagens is map
@@ -145,7 +168,13 @@ service cloud.firestore {
         && (!("updatedAt" in request.resource.data.diff(resource.data).affectedKeys())
           || request.resource.data.updatedAt == request.time)
         && (!("atestadoEm" in request.resource.data.diff(resource.data).affectedKeys())
-          || request.resource.data.atestadoEm is timestamp);
+          || request.resource.data.atestadoEm is timestamp)
+        // `linkAtivo` liga ou desliga o catálogo compartilhado por link
+        // (MDR 0002, IDR 0055); gravado sozinho, sem `updatedAt` junto.
+        // Como no `atestadoEm`, a pergunta é "esta operação escreveu o
+        // campo?", e basta exigir que seja booleano.
+        && (!("linkAtivo" in request.resource.data.diff(resource.data).affectedKeys())
+          || request.resource.data.linkAtivo is bool);
     }
 
     // Qualquer outro caminho já é negado por padrão pelo Firestore. Não

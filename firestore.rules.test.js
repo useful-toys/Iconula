@@ -379,3 +379,98 @@ describe("firestore.rules — atestação sobre documento já existente (Tarefa 
     );
   });
 });
+
+// Catálogo compartilhado por link (IDR 0055, MDR 0002): `linkAtivo` fica no
+// próprio documento e o `get` passa a valer para qualquer requisição
+// enquanto for `true`. A leitura pública é a exceção ao isolamento — sem
+// login, e sem `list`, só o documento cujo dono ligou o link.
+describe("firestore.rules — link do catálogo", () => {
+  it("sem login, lê o documento com o link ligado", async () => {
+    await semearDocumentoDoDono({ contagens: { BRA05: 3 }, linkAtivo: true });
+
+    await assertSucceeds(getDoc(doc(comoAnonimo(), "users", DONO)));
+  });
+
+  it("sem login, nega o documento com o link desligado", async () => {
+    await semearDocumentoDoDono({ contagens: { BRA05: 3 }, linkAtivo: false });
+
+    await assertFails(getDoc(doc(comoAnonimo(), "users", DONO)));
+  });
+
+  it("sem login, nega o documento sem o campo linkAtivo", async () => {
+    await semearDocumentoDoDono();
+
+    await assertFails(getDoc(doc(comoAnonimo(), "users", DONO)));
+  });
+
+  it("sem login, nega o documento inexistente", async () => {
+    // Nada semeado: o `uid` do link pode não existir, e a leitura pública
+    // não revela a diferença entre conta inexistente e link desligado.
+    await assertFails(getDoc(doc(comoAnonimo(), "users", DONO)));
+  });
+
+  it("outro usuário autenticado lê o documento com o link ligado", async () => {
+    await semearDocumentoDoDono({ contagens: { BRA05: 3 }, linkAtivo: true });
+
+    await assertSucceeds(getDoc(doc(comoIntruso(), "users", DONO)));
+  });
+
+  it("outro usuário autenticado não lê o documento com o link desligado", async () => {
+    await semearDocumentoDoDono({ contagens: { BRA05: 3 }, linkAtivo: false });
+
+    await assertFails(getDoc(doc(comoIntruso(), "users", DONO)));
+  });
+
+  it("sem login, segue negado listar a coleção, mesmo com documentos ligados", async () => {
+    await semearDocumentoDoDono({ contagens: { BRA05: 3 }, linkAtivo: true });
+
+    await assertFails(getDocs(collection(comoAnonimo(), "users")));
+  });
+
+  it("o dono liga e desliga o link num documento inexistente, só com linkAtivo", async () => {
+    await assertSucceeds(
+      setDoc(doc(comoDono(), "users", DONO), { linkAtivo: true }, { merge: true }),
+    );
+
+    await assertSucceeds(
+      setDoc(doc(comoDono(), "users", DONO), { linkAtivo: false }, { merge: true }),
+    );
+  });
+
+  it("o dono liga o link sobre documento com contagens, updatedAt e atestadoEm", async () => {
+    await semearDocumentoDoDono({
+      contagens: { BRA05: 3 },
+      updatedAt: Timestamp.fromMillis(1000),
+      atestadoEm: Timestamp.fromMillis(500),
+    });
+
+    await assertSucceeds(
+      setDoc(doc(comoDono(), "users", DONO), { linkAtivo: true }, { merge: true }),
+    );
+
+    let snapshot;
+    await testEnv.withSecurityRulesDisabled(async (context) => {
+      snapshot = await getDoc(doc(context.firestore(), "users", DONO));
+    });
+    expect(snapshot.data().contagens).toEqual({ BRA05: 3 });
+    expect(snapshot.data().linkAtivo).toBe(true);
+  });
+
+  it("nega linkAtivo não booleano", async () => {
+    await assertFails(
+      setDoc(doc(comoDono(), "users", DONO), { linkAtivo: "true" }, { merge: true }),
+    );
+    await assertFails(
+      setDoc(doc(comoDono(), "users", DONO), { linkAtivo: 1 }, { merge: true }),
+    );
+  });
+
+  it("nega terceiro gravando linkAtivo no documento de outro", async () => {
+    await assertFails(
+      setDoc(doc(comoIntruso(), "users", DONO), { linkAtivo: true }, { merge: true }),
+    );
+    await assertFails(
+      setDoc(doc(comoAnonimo(), "users", DONO), { linkAtivo: true }, { merge: true }),
+    );
+  });
+});
