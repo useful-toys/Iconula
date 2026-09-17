@@ -93,6 +93,39 @@ async function tocarNaChave() {
   });
 }
 
+// `act(async …)` sozinho não garante que a promise do handler (dentro do
+// onClick) já tenha avançado até o `emitirAviso`/a cópia — os dois
+// `Promise.resolve()` dão a volta ao microtask queue que falta.
+async function clicarItem(nome) {
+  await act(async () => {
+    fireEvent.click(screen.getByRole("menuitem", { name: nome }));
+    await Promise.resolve();
+    await Promise.resolve();
+  });
+}
+
+async function avancarMicrotarefas() {
+  await act(async () => {
+    await Promise.resolve();
+    await Promise.resolve();
+  });
+}
+
+// `navigator.share` e `navigator.clipboard` não existem por padrão no jsdom —
+// cada teste define o que precisa via `Object.defineProperty`, restaurado no
+// `afterEach`.
+function definirShare(valor) {
+  Object.defineProperty(navigator, "share", { value: valor, configurable: true });
+}
+
+function definirClipboard(valor) {
+  Object.defineProperty(navigator, "clipboard", { value: valor, configurable: true });
+}
+
+function erroDeCancelamento() {
+  return Object.assign(new Error("cancelado"), { name: "AbortError" });
+}
+
 beforeEach(() => {
   vi.useFakeTimers();
   authState.user = null;
@@ -114,6 +147,9 @@ beforeEach(() => {
 
 afterEach(() => {
   limparAvisos();
+  delete navigator.share;
+  delete navigator.clipboard;
+  delete window.prompt;
   vi.useRealTimers();
 });
 
@@ -264,5 +300,72 @@ describe("App — chave do link do catálogo", () => {
     expect(
       screen.getByRole("switch", { name: "Link do catálogo: desligado" }),
     ).toHaveAttribute("aria-checked", "false");
+  });
+});
+
+describe("App — copiar e compartilhar o link do catálogo", () => {
+  it("copiar entrega a URL com a origem e o uid e avisa 'Link copiado'", async () => {
+    const escrever = vi.fn().mockResolvedValue(undefined);
+    definirClipboard({ writeText: escrever });
+    colecao.carregarColecao.mockResolvedValue(cargaComLink(true));
+    await montarLogado();
+    await abrirCompartilhar();
+
+    await clicarItem("Copiar link do catálogo");
+
+    expect(escrever).toHaveBeenCalledTimes(1);
+    expect(escrever).toHaveBeenCalledWith(
+      `${window.location.origin}/catalogo/uid1`,
+    );
+    expect(screen.getByText("Link copiado")).toBeInTheDocument();
+  });
+
+  it("compartilhar manda só a url para a folha e avisa 'Link compartilhado'", async () => {
+    const compartilhar = vi.fn().mockResolvedValue(undefined);
+    definirShare(compartilhar);
+    colecao.carregarColecao.mockResolvedValue(cargaComLink(true));
+    await montarLogado();
+    await abrirCompartilhar();
+
+    await clicarItem("Compartilhar link do catálogo…");
+
+    expect(compartilhar).toHaveBeenCalledTimes(1);
+    expect(compartilhar).toHaveBeenCalledWith({
+      url: `${window.location.origin}/catalogo/uid1`,
+    });
+    expect(screen.getByText("Link compartilhado")).toBeInTheDocument();
+  });
+
+  it("fechar a folha sem escolher (AbortError) não emite aviso nem copia", async () => {
+    definirShare(vi.fn().mockRejectedValue(erroDeCancelamento()));
+    const escrever = vi.fn().mockResolvedValue(undefined);
+    definirClipboard({ writeText: escrever });
+    colecao.carregarColecao.mockResolvedValue(cargaComLink(true));
+    await montarLogado();
+    await abrirCompartilhar();
+
+    await clicarItem("Compartilhar link do catálogo…");
+    await avancarMicrotarefas();
+
+    expect(screen.queryByText("Link compartilhado")).not.toBeInTheDocument();
+    expect(screen.queryByText("Link copiado")).not.toBeInTheDocument();
+    expect(escrever).not.toHaveBeenCalled();
+  });
+
+  it("outra rejeição da folha cai na cópia da url", async () => {
+    definirShare(vi.fn().mockRejectedValue(new Error("sem app")));
+    const escrever = vi.fn().mockResolvedValue(undefined);
+    definirClipboard({ writeText: escrever });
+    colecao.carregarColecao.mockResolvedValue(cargaComLink(true));
+    await montarLogado();
+    await abrirCompartilhar();
+
+    await clicarItem("Compartilhar link do catálogo…");
+    await avancarMicrotarefas();
+
+    expect(escrever).toHaveBeenCalledWith(
+      `${window.location.origin}/catalogo/uid1`,
+    );
+    expect(screen.getByText("Link copiado")).toBeInTheDocument();
   });
 });

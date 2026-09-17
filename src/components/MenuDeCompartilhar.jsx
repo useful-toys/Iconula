@@ -23,6 +23,11 @@ import './MenuDeCompartilhar.css';
  * fecha o popup — dá para ligar e copiar em seguida — e, enquanto a gravação
  * está em voo, um segundo toque não dispara outra.
  *
+ * Desde a Tarefa 0027-0005, com o link ligado aparece logo abaixo da chave
+ * `Copiar link do catálogo` e, onde há folha do sistema, `Compartilhar link
+ * do catálogo…` — entregam só a URL, sem texto junto (IDR 0055). Desligado, os
+ * dois não existem.
+ *
  * Comportamento do popup igual ao do `MenuDeAcoes.jsx`: fecha ao escolher um
  * item, ao tocar fora, com `Esc` ou ao sair do popup pelo teclado; ao abrir,
  * o foco entra no primeiro item habilitado (um item sem callback nunca
@@ -38,6 +43,8 @@ import './MenuDeCompartilhar.css';
  * @param {boolean} [props.linkAtivo] - estado do link do catálogo; ausente, `false`.
  * @param {() => Promise<void>} [props.onAlternarLink] - alterna o link; sem
  *   ele, a chave fica desabilitada.
+ * @param {() => void} [props.onCopiarLink] - sem ele, o item fica desabilitado.
+ * @param {() => void} [props.onCompartilharLink] - sem ele, o item fica desabilitado.
  */
 export function MenuDeCompartilhar({
   onCopiarFaltantes,
@@ -46,6 +53,8 @@ export function MenuDeCompartilhar({
   onCompartilharRepetidas,
   linkAtivo = false,
   onAlternarLink,
+  onCopiarLink,
+  onCompartilharLink,
 }) {
   const [aberto, setAberto] = useState(false);
   const containerRef = useRef(null);
@@ -208,6 +217,30 @@ export function MenuDeCompartilhar({
             </span>
             Link do catálogo: {linkAtivo ? 'ligado' : 'desligado'}
           </button>
+          {linkAtivo && (
+            <>
+              <button
+                type="button"
+                role="menuitem"
+                className="menu-de-compartilhar__item"
+                disabled={!onCopiarLink}
+                onClick={escolher(onCopiarLink)}
+              >
+                Copiar link do catálogo
+              </button>
+              {podeCompartilhar && (
+                <button
+                  type="button"
+                  role="menuitem"
+                  className="menu-de-compartilhar__item"
+                  disabled={!onCompartilharLink}
+                  onClick={escolher(onCompartilharLink)}
+                >
+                  Compartilhar link do catálogo…
+                </button>
+              )}
+            </>
+          )}
         </div>
       )}
     </div>

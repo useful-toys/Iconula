@@ -395,15 +395,21 @@ export default function App() {
     await signOut(auth);
   }
 
-  // Copia um texto de troca para a área de transferência (Tarefa 0009-0003).
-  // Sucesso avisa "Lista copiada"; indisponível ou negada é aviso dourado,
-  // nunca falha (IDR 0029) — e o texto não se perde: aparece num
-  // `window.prompt()` pronto para copiar manualmente (IDR 0039).
-  async function copiarParaAreaDeTransferencia(texto, tipo) {
+  // Copia um texto para a área de transferência (Tarefa 0009-0003; mensagem
+  // de sucesso parametrizada na Tarefa 0027-0005). Sucesso avisa a mensagem
+  // (por padrão "Lista copiada"; o link do catálogo usa "Link copiado");
+  // indisponível ou negada é aviso dourado, nunca falha (IDR 0029) — e o
+  // texto não se perde: aparece num `window.prompt()` pronto para copiar
+  // manualmente (IDR 0039).
+  async function copiarParaAreaDeTransferencia(
+    texto,
+    tipo,
+    mensagemSucesso = 'Lista copiada',
+  ) {
     try {
       if (!navigator.clipboard) throw new Error('Área de transferência indisponível');
       await navigator.clipboard.writeText(texto);
-      emitirAviso({ severidade: SEVERIDADE.SUCESSO, mensagem: 'Lista copiada', tipo });
+      emitirAviso({ severidade: SEVERIDADE.SUCESSO, mensagem: mensagemSucesso, tipo });
     } catch {
       emitirAviso({
         severidade: SEVERIDADE.AVISO,
@@ -449,6 +455,38 @@ export default function App() {
   function handleCompartilharRepetidas() {
     const texto = gerarTextoRepetidas(contagens, secoesNaOrdemDoAlbum, figurinhas);
     compartilharLista(texto, 'compartilhar-repetidas');
+  }
+
+  // Link único por conta (Tarefa 0027-0005, IDR 0055): a origem em que o app
+  // está — produção, preview ou local — com o caminho que a vista do catálogo
+  // lê sem login.
+  function urlDoLinkDoCatalogo() {
+    return `${window.location.origin}/catalogo/${uid}`;
+  }
+
+  // Copia só a URL do catálogo (IDR 0055): sucesso avisa "Link copiado"; sem
+  // área de transferência, a reserva do IDR 0039 — como na cópia das listas.
+  function handleCopiarLink() {
+    copiarParaAreaDeTransferencia(urlDoLinkDoCatalogo(), 'copiar-link', 'Link copiado');
+  }
+
+  // Compartilha só a URL pela folha do sistema (IDR 0055): nada de `text` nem
+  // `title`, porque apps que juntam os dois campos duplicariam o cabeçalho.
+  // Fechar a folha sem escolher (`AbortError`) não avisa; outra rejeição cai na
+  // cópia, com a reserva do IDR 0039 (IDR 0024, IDR 0029).
+  async function handleCompartilharLink() {
+    const url = urlDoLinkDoCatalogo();
+    try {
+      await navigator.share({ url });
+      emitirAviso({
+        severidade: SEVERIDADE.SUCESSO,
+        mensagem: 'Link compartilhado',
+        tipo: 'compartilhar-link',
+      });
+    } catch (erro) {
+      if (erro?.name === 'AbortError') return;
+      copiarParaAreaDeTransferencia(url, 'compartilhar-link', 'Link copiado');
+    }
   }
 
   // Exporta a coleção em JSON (Tarefa 0009-0004): baixa direto, sem
@@ -671,6 +709,8 @@ export default function App() {
             onCompartilharRepetidas={handleCompartilharRepetidas}
             linkAtivo={linkAtivo}
             onAlternarLink={handleAlternarLink}
+            onCopiarLink={handleCopiarLink}
+            onCompartilharLink={handleCompartilharLink}
           />
         }
         avatar={
