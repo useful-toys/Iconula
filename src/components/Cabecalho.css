@@ -92,11 +92,14 @@
   font-weight: 400;
 }
 
+/* Data/hora de persistência em Roboto Condensed 500, já vendorizada
+ * (TDR 0013), no lugar da Poppins padrão (Tarefa 0029-0003). */
 .cabecalho__relogio {
+  font-family: 'Roboto Condensed', 'Poppins', system-ui, sans-serif;
   font-size: 13px;
   font-variant-numeric: tabular-nums;
   color: var(--muted);
-  font-weight: 400;
+  font-weight: 500;
 }
 
 /* Rótulo `somente leitura` no fim da linha do título, na vista do link

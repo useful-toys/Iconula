@@ -887,7 +887,8 @@ FWC e COC usam os alias `--selection-fwc` (de `--group-fwc`) e
 - Cabeçalho sticky, `padding: 8px clamp(16px, 4vw, 40px) 2px`, borda
   inferior `--border`; título 15px, com os números em `--cream`, os
   separadores `·` em `--muted` peso 400 e o relógio um ponto menor
-  (13px) também em `--muted` — o placar pesa mais que a hora
+  (13px), em Roboto Condensed 500 e `--muted` — o placar pesa mais que a
+  hora
 - Controles: grupos segmentados sobre `--panel` com contorno de 1px em
   `--border` (IDR 0048), raio 9px, item `5px 12px` em 12px/600 — ativo
   com fundo `--gold` e texto `--bg-deep`, inativo transparente em

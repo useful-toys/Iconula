@@ -3,7 +3,7 @@
 # Tarefa [0029-0003]: data/hora de persistência em Roboto Condensed
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Exibir a data/hora de persistência (`atualizadoEm` do título — `12:34`,
