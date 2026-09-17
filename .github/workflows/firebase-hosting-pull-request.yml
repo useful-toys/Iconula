@@ -39,7 +39,10 @@ jobs:
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: 22
-      - run: npm ci && npm run build
+      # --ignore-scripts: mesma postura de ci.yml (TDR/DDR de supply chain)
+      # — postinstall de dependência não roda código arbitrário no job, que
+      # aqui carrega a credencial da service account de deploy mais adiante.
+      - run: npm ci --ignore-scripts && npm run build
         env:
           VITE_FIREBASE_API_KEY: ${{ vars.VITE_FIREBASE_API_KEY }}
           VITE_FIREBASE_AUTH_DOMAIN: ${{ vars.VITE_FIREBASE_AUTH_DOMAIN }}

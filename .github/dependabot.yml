@@ -1,0 +1,18 @@
+# Copyright (c) 2026 Daniel Felix Ferber
+#
+# Mantém vivo o pinning por SHA das actions (DDR 0003) e as versões npm
+# atualizadas. Dependabot alerts/security updates já cobrem CVEs sem este
+# arquivo (DDR 0006) — o que falta é a atualização de rotina: SHA de action
+# nova (comentário `# vX.Y.Z` reescrito no mesmo PR) e bump de dependência
+# npm sem vulnerabilidade conhecida.
+
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly

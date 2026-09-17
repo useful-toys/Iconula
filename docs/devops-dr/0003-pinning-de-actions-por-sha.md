@@ -36,6 +36,13 @@ Aceito (migra TDR 0006)
 - Versão do `firebase-tools` fixada (`@15.29.0`) nos jobs que usam
   `npx firebase-tools` com credencial no ambiente — mesmo espírito do
   pinning de actions (DDR 0004)
+- `npm ci --ignore-scripts` também em `firebase-hosting-merge.yml` e
+  `firebase-hosting-pull-request.yml`: esses dois jobs carregam a
+  credencial da service account de deploy mais adiante nos mesmos
+  passos, e só `ci.yml` (sem secret nenhum) tinha a flag — um postinstall
+  malicioso de dependência rodava sem restrição justo nos jobs
+  privilegiados. `ci.yml` já provou que nenhuma dependência precisa de
+  `postinstall` para o build passar.
 
 ## Consequências
 
@@ -43,8 +50,8 @@ Aceito (migra TDR 0006)
 - Atualização de action exige re-resolver o SHA e commitar
 - Workflow com action por tag falha na execução — comportamento desejado
 - Manter SHAs vivos (evitar congelamento com CVEs) depende de
-  `dependabot.yml` com ecossistema `github-actions` (ainda não
-  implementado)
+  `dependabot.yml` com ecossistema `github-actions` — implementado
+  (ver [DDR 0006](0006-ferramentas-de-seguranca-do-repositorio.md))
 
 ## Alternativas consideradas
 
@@ -53,3 +60,8 @@ Aceito (migra TDR 0006)
 - **Migrar para OIDC** (`google-github-actions/auth`): reduziria risco
   do secret, mas não elimina o vetor da tag móvel; evolução natural
   registrada, mudança separada
+
+## Histórico
+
+- **2026-09-17**: `npm ci --ignore-scripts` estendido aos dois workflows
+  de deploy (antes só em `ci.yml`) — achado de revisão de segurança.
