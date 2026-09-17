@@ -75,7 +75,7 @@ Detalhes e status das tarefas no guia [CLAUDE.md](CLAUDE.md) § Status e ciclo d
 | 27 | [Catálogo compartilhado por link](0027-catalogo-compartilhado-por-link/) | Link único por conta, ligado e desligado no popup Compartilhar, que abre sem login o catálogo do dono em somente leitura | 24, 26 | `feat: catálogo compartilhado por link somente leitura` | Entregue |
 | 28 | [Notação compacta e título de seção em linha única](0028-notacao-compacta-e-titulo-de-secao/) | Aplicar `▯`/`×` sem `·` nos títulos e deixar o título da seção numa linha no celular | — | `feat: notação compacta e título de seção em linha única` | Entregue |
 | 29 | [Compactação vertical](0029-compactacao-vertical/) | Apertar os respiros verticais do catálogo e do cabeçalho, e o relógio em Roboto Condensed | 28 | `feat: compactação vertical do catálogo e do cabeçalho` | Entregue |
-| 30 | [Faixa sem barra e controles compactos](0030-faixa-sem-barra-e-controles-compactos/) | Faixa sem barra (fade + arrasto) e controles com ícones, espaçamento e feedback | 29 | `feat: faixa sem barra e controles compactos` | Em andamento |
+| 30 | [Faixa sem barra e controles compactos](0030-faixa-sem-barra-e-controles-compactos/) | Faixa sem barra (fade + arrasto) e controles com ícones, espaçamento e feedback | 29 | `feat: faixa sem barra e controles compactos` | Entregue |
 
 ---
 
