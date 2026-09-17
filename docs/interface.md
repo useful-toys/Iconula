@@ -884,7 +884,7 @@ FWC e COC usam os alias `--selection-fwc` (de `--group-fwc`) e
 - Foco visível: contorno de 2px em `--gold`, afastado 2px da borda, em
   todo elemento focável — só por teclado (`:focus-visible`), sem acender em
   clique de mouse ou toque (IDR 0042)
-- Cabeçalho sticky, `padding: 12px clamp(16px, 4vw, 40px) 10px`, borda
+- Cabeçalho sticky, `padding: 8px clamp(16px, 4vw, 40px) 2px`, borda
   inferior `--border`; título 15px, com os números em `--cream`, os
   separadores `·` em `--muted` peso 400 e o relógio um ponto menor
   (13px) também em `--muted` — o placar pesa mais que a hora
@@ -916,7 +916,7 @@ FWC e COC usam os alias `--selection-fwc` (de `--group-fwc`) e
   (IDR 0048) — painel `--panel`, borda `--border`, texto `--cream`,
   11px/600, raio 6px e sombra; posicionado por JS fora da faixa rolável,
   centralizado na bandeira e preso à largura da janela (IDR 0052)
-- Corpo: `padding: 20px clamp(16px, 4vw, 40px) 64px`, 12px entre
+- Corpo: `padding: 4px clamp(16px, 4vw, 40px) 64px`, 12px entre
   super-grupos (IDR 0050)
 - Sem largura máxima de conteúdo: a página ocupa toda a largura
   disponível — quem dá o ritmo é a margem lateral

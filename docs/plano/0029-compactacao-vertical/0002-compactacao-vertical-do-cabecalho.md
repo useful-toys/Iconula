@@ -3,7 +3,7 @@
 # Tarefa [0029-0002]: compactação vertical do cabeçalho
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Apertar os respiros verticais do cabeçalho sticky: `padding` `12px 10px → 8px
