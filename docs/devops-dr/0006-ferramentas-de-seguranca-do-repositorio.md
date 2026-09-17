@@ -82,6 +82,26 @@ Ferramentas de segurança ativadas no repositório (verificado via
 - Repositório **público** — secret scanning e push protection são
   gratuitos para repos públicos
 
+### Triagem do alerta "Cross-window communication with unrestricted target origin" (js/cross-window-communication)
+
+- **Status**: descartado no GitHub como falso positivo / risco aceito
+- Local: `docs/prototype/Iconula - Álbum de Figurinhas.html`, chamadas
+  `postMessage(..., OWN_TARGET)` (linhas ~118-120, 160, 187, 201, 340)
+- Motivo: arquivo é protótipo standalone fora do build de produção
+  (Vite usa `src/` e `index.html` da raiz; `firebase.json` só publica
+  `dist/`; nada em `src/` referencia o arquivo)
+- `OWN_TARGET` só cai para `'*'` em contexto de origem opaca (`file://`,
+  iframe sandboxed sem `allow-same-origin`), onde a API `postMessage`
+  não oferece alternativa; em `https://` usa a origem real
+  (`window.origin`)
+- O recebimento já é validado por `trustedOrigin()` e checagens
+  estruturais (só aceita de iframes filhos próprios ou do `parent`
+  direto, só uuids solicitados) — o `'*'` no envio não abre brecha de
+  integridade, só reduz a garantia de confidencialidade num cenário que
+  já exigiria comprometimento prévio da árvore de frames
+- Ação: alerta descartado em *Security → Code scanning* com a razão
+  "Used in tests"/"Won't fix", citando este registro
+
 ## Consequências
 
 - Push com secret conhecido é bloqueado automaticamente
@@ -99,9 +119,18 @@ Ferramentas de segurança ativadas no repositório (verificado via
 - **CodeQL advanced setup** (workflow em `.github/workflows/`): rejeitado
   — o default setup cobre as mesmas linguagens sem um workflow próprio a
   manter e fixar por SHA ([DDR 0003](0003-pinning-de-actions-por-sha.md))
+- **`paths-ignore` de `docs/prototype/` no default setup**: rejeitado
+  para o alerta de `postMessage` — desligaria a varredura de qualquer
+  código futuro nessa pasta para ganhar só o silêncio de um alerta já
+  descartado individualmente; reconsiderar se a pasta acumular mais
+  protótipos gerando ruído repetido
 
 ## Histórico
 
+- **2026-09-17**: descartado o alerta CodeQL
+  `js/cross-window-communication` em `docs/prototype/Iconula - Álbum de
+  Figurinhas.html` como falso positivo/risco aceito, com a justificativa
+  registrada acima.
 - **2026-09-12**: incluídos **CodeQL (code scanning)** e **Dependabot
   alerts** — já estavam habilitados no repositório, mas não constavam
   neste registro; o Dependabot alerts é a base dos security updates.

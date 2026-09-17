@@ -53,6 +53,28 @@ Aceito
 - Lint e testes continuam rodando para forks via `ci.yml` (que não usa
   secrets — ver [DDR 0002](0002-workflow-de-ci-separado.md)).
 
+### Permissões explícitas (least privilege)
+
+- Achado pelo CodeQL (análise da linguagem **Actions**, DDR 0006): o
+  workflow não declarava `permissions:`, ao contrário dos outros três
+  do repositório (`ci.yml` — DDR 0002, `firebase-hosting-merge.yml` —
+  DDR 0004, `firebase-preview-domains-sweep.yml`), que já usam
+  `contents: read`.
+- `permissions: contents: read` no topo do workflow — mesmo padrão dos
+  demais.
+- Job `build_and_preview`: override de job com `pull-requests: write` e
+  `checks: write` (além do `contents: read` herdado) —
+  `FirebaseExtended/action-hosting-deploy` usa `repoToken:
+  secrets.GITHUB_TOKEN` para comentar o PR com o link do preview
+  (comportamento default; existe o input `disableComment` para
+  desligar, não usado aqui) **e** para criar/atualizar um check run
+  "Deploy Preview" — confirmado em produção (PR #73): sem `checks:
+  write` a action falha com 403 "Resource not accessible by
+  integration" ao criar o check run.
+- Job `cleanup_preview`: sem override — usa só `actions/checkout`
+  (`contents: read`, herdado) e a service account do Firebase para
+  apagar o canal; não chama a API do GitHub com o `GITHUB_TOKEN`.
+
 ## Consequências
 
 - Cada PR tem um canal de preview com nome previsível (`pr<N>`), fácil de
@@ -80,3 +102,12 @@ Aceito
 - **Preview deploy para PRs de fork**: rejeitado — exporia o secret de
   deploy a código não revisado; forks continuam com lint/testes via
   `ci.yml`.
+
+## Histórico
+
+- **2026-09-17**: acrescentada a subseção "Permissões explícitas (least
+  privilege)" — o workflow não declarava `permissions:`, achado pelo
+  CodeQL; corrigido com `contents: read` no topo e, no job
+  `build_and_preview`, `pull-requests: write` e `checks: write` (o
+  segundo só depois de uma tentativa inicial sem ele falhar em produção
+  — ver acima).
