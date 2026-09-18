@@ -82,6 +82,7 @@ Quatro funções de escrita, cada uma com semântica própria ([MDR 0003](model-
 | Migrar `teamName` | `gravarAlteracoes` | `deleteField()` piggyback na próxima gravação de contagens — sem escrita à parte |
 | Ligar/desligar o link | cliente da Tarefa 0027-0004 | `setDoc` com `merge: true` só com `linkAtivo`, **sem** `updatedAt`; desligar revoga a leitura pública |
 | Abrir o link | vista do link (Tarefa 0027-0003) | 1 leitura de `users/{uid}`, sem login, permitida só enquanto `linkAtivo == true` |
+| Apagar meus dados | cliente da Tarefa 0031-0003 | apaga o documento `users/{uid}`; a conta do Firebase Auth sai em seguida, no mesmo fluxo ([TDR 0027](tdr/0027-autorizacao-e-ordem-da-exclusao-de-dados.md)) |
 
 ## O que **não** vai para o Firestore
 
@@ -103,7 +104,7 @@ O que está publicado:
 - `updatedAt == request.time` quando presente na operação (e obrigatório sempre que `contagens` é escrito); `atestadoEm is timestamp` e `linkAtivo is bool` quando escritos na operação
 - **Guarda de campo ausente**: a gravação da atestação cria o documento só com `atestadoEm`, sem `contagens` — toda cláusula sobre `contagens` fica sob `!("contagens" in …)`, senão a regra erra em vez de negar
 - **allow-list das chaves não entrou**: gerada a partir do catálogo e medida, a cláusula `contagens.keys().hasOnly([994 códigos])` compila, mas a avaliação estoura o limite de 1.000 expressões por requisição — as chaves seguem limitadas só em quantidade (`size() <= 994`), não em conteúdo
-- `delete` segue negado — "apagar meus dados" saiu do MVP (requisito futuro em [requisitos.md](requisitos.md); quando voltar, exigirá re-autenticação e autorização nova nas regras)
+- **`allow delete` restrito ao dono autenticado** (`request.auth.uid == userId`), sem validar `resource.data`: apagar não escreve conteúdo, não há formato a validar. Atende ao direito de eliminação (LGPD art. 18, VI) — a conta do Firebase Auth sai em seguida, no mesmo fluxo do app, depois da reautenticação ([TDR 0027](tdr/0027-autorizacao-e-ordem-da-exclusao-de-dados.md)). O link ativo libera `get`, nunca `delete`
 - sem regra catch-all: o resto é negado por padrão
 - **A linguagem de regras não itera**: não há como aplicar um regex a cada chave nem uma condição a cada valor — só comparação de conjunto contra listas escritas à mão (detalhes no [TDR 0009](tdr/0009-validacao-do-mapa-nas-regras.md))
 - **App Check** segue de fora, com gatilho de revisão já registrado no [ADR 0005](adr/0005-persistencia-no-firestore.md) (abuso de cota ou migração para o Blaze)

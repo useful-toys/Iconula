@@ -3,7 +3,7 @@
 # Tarefa [0031-0001]: regra de exclusão do próprio documento
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 

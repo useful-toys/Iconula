@@ -42,8 +42,8 @@ service cloud.firestore {
           && "linkAtivo" in resource.data
           && resource.data.linkAtivo == true);
 
-      // Só `create` e `update`; `delete` não é operação que o app faça,
-      // e não autorizá-la é de graça.
+      // `create` e `update` validam o formato do documento; `delete` não
+      // tem conteúdo a validar e sua autorização está adiante (TDR 0027).
       //
       // A validação de formato existe porque o documento é do usuário,
       // mas o armazenamento e a cota são do projeto: sem ela, um usuário
@@ -175,6 +175,13 @@ service cloud.firestore {
         // campo?", e basta exigir que seja booleano.
         && (!("linkAtivo" in request.resource.data.diff(resource.data).affectedKeys())
           || request.resource.data.linkAtivo is bool);
+
+      // `delete` autorizado só ao dono autenticado: é o direito de
+      // eliminação (LGPD art. 18, VI) executado pelo app a partir da
+      // Fase 0031. A regra não inspeciona `resource.data` — apagar não
+      // escreve conteúdo, não há formato a validar —, e o link do
+      // catálogo ativo libera `get`, nunca `delete` (ver TDR 0027).
+      allow delete: if request.auth != null && request.auth.uid == userId;
     }
 
     // Qualquer outro caminho já é negado por padrão pelo Firestore. Não
