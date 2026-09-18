@@ -102,6 +102,25 @@ describe("App — Sobre", () => {
     expect(screen.getByTestId("catalogo-mock")).toBeInTheDocument();
   });
 
+  it("é alcançável pelo menu de ações do cabeçalho, e volta para a tela principal", async () => {
+    const user = userEvent.setup();
+    authState.user = USUARIO;
+    render(<App />);
+
+    expect(await screen.findByTestId("catalogo-mock")).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: /menu de ações/ }));
+    const menu = screen.getByRole("menu");
+    await user.click(within(menu).getByRole("menuitem", { name: "Sobre" }));
+
+    expect(screen.getByRole("heading", { name: "Sobre" })).toBeInTheDocument();
+    expect(screen.queryByTestId("catalogo-mock")).not.toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: /voltar/i }));
+
+    expect(screen.getByTestId("catalogo-mock")).toBeInTheDocument();
+  });
+
   it("com a vista Sobre aberta não há como abrir os termos", async () => {
     const user = userEvent.setup();
     render(<App />);

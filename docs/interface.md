@@ -135,18 +135,20 @@ demonstrar avisos) é andaime da prévia, não faz parte do produto.*
 
 ### Menu de ações
 
-Popup aberto pelo avatar do usuário no cabeçalho, com três comandos (IDR 0024,
-IDR 0049):
+Popup aberto pelo avatar do usuário no cabeçalho, com quatro comandos (IDR 0024,
+IDR 0049, [IDR 0063](idr/0063-tela-sobre-com-link-ao-repositorio-e-issues.md)):
 
 - **Exportar** a coleção em JSON
 - **Importar** coleção de arquivo JSON — com a confirmação explícita
   exigida por requisitos.md; a importação descarta o histórico de
   desfazer
+- **Sobre** — abre a vista interna "Sobre", com o link do código-fonte e
+  o das issues (IDR 0063)
 - **Sair da conta** — grava o que estiver pendente e volta à tela de
   login
 
-Os três itens vêm em dois blocos separados por filete: a dupla
-exportar/importar e, isolado no fim, sair da conta —
+Os quatro itens vêm em três blocos separados por filete: a dupla
+exportar/importar, o item Sobre em bloco próprio e, isolado no fim, sair da conta —
 este último em `--notif-red`, o único item vermelho da tela principal,
 porque é o único que tira o usuário de onde ele está. O popup é
 ancorado ao avatar que o abriu: alinhado pela borda direita, logo abaixo

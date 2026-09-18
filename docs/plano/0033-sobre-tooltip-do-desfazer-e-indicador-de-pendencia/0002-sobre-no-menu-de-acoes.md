@@ -3,7 +3,7 @@
 # Tarefa [0033-0002]: Sobre no menu de ações
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Acrescentar "Sobre" como segunda porta de entrada da vista criada na
