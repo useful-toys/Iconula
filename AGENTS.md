@@ -141,10 +141,13 @@ aberto e § Camadas no cliente).
 
 ## Convenções
 
-- Todo arquivo novo deve começar com o cabeçalho de copyright:
-  `Copyright (c) 2026 Daniel Felix Ferber` (sintaxe de comentário do
-  tipo de arquivo: `//` em JS/JSX, `/* */` em CSS, `<!-- -->` em HTML/MD,
-  `#` em YAML).
+- Todo arquivo **criado por nós** deve começar com o cabeçalho de
+  copyright: `Copyright (c) 2026 Daniel Felix Ferber` (sintaxe de
+  comentário do tipo de arquivo: `//` em JS/JSX, `/* */` em CSS,
+  `<!-- -->` em HTML/MD, `#` em YAML). Arquivo **obtido de outra fonte**
+  (asset vendorizado: SVG de ícone, fonte, bandeira, logo) mantém o
+  cabeçalho de origem e licença, sem o nosso copyright — é artefato
+  incorporado, não obra nossa; não reescrever nem apagar esse cabeçalho.
 - Registrar um novo ADR/TDR/IDR/MDR/DDR em `docs/adr/`, `docs/tdr/`,
   `docs/idr/`, `docs/model-dr/` ou `docs/devops-dr/` **no momento em
   que a decisão é tomada**, não depois — inclusive decisões tomadas
