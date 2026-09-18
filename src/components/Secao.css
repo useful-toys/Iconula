@@ -357,15 +357,15 @@
   flex-shrink: 0;
 }
 
-/* Respiro de fronteira (IDR 0069): +2px na quebra de linha dentro da mesma
- * página e +4px na quebra de página, somados aos 8px do `gap`. Só as seções
+/* Respiro de fronteira (IDR 0069): +4px na quebra de linha dentro da mesma
+ * página e +8px na quebra de página, somados aos 8px do `gap`. Só as seções
  * de seleção e a Coca-Cola recebem a classe; o FWC segue uniforme. */
 .secao__item--respiro-linha {
-  margin-inline-end: 2px;
+  margin-inline-end: 4px;
 }
 
 .secao__item--respiro-pagina {
-  margin-inline-end: 4px;
+  margin-inline-end: 8px;
 }
 
 .secao__corpo {

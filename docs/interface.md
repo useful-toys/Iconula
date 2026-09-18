@@ -269,13 +269,13 @@ cópia, com o aviso e a reserva do
   das seleções) tem 70×60px, centralizada na altura da linha de cartões de
   70px (IDR 0047)
 - Na lista, as quebras de linha e de página do layout do álbum ganham
-  respiro extra nas seleções e na Coca-Cola: +2px entre a última figurinha
-  de uma linha e a primeira da seguinte e +4px na troca de página, sobre os
+  respiro extra nas seleções e na Coca-Cola: +4px entre a última figurinha
+  de uma linha e a primeira da seguinte e +8px na troca de página, sobre os
   8px entre cartões; o Extras FIFA (FWC) segue uniforme. Com o filtro de
   status ativo, as fronteiras são recontadas sobre os cartões visíveis (ver
   [IDR 0069](idr/0069-espacadores-de-linha-e-pagina-na-lista.md))
 - Na ordenação por sigla, a seção cuja letra inicial da sigla difere da
-  anterior ganha +2px de respiro (8px → 10px), inclusive nas fronteiras
+  anterior ganha +4px de respiro (8px → 12px), inclusive nas fronteiras
   FWC→primeira seleção e última seleção→Coca-Cola; letras repetidas mantêm
   os 8px, sem rótulo nem elemento novo (ver
   [IDR 0067](idr/0067-respiro-entre-secoes-ao-mudar-de-letra-na-ordenacao-por-sigla.md))
@@ -1079,10 +1079,10 @@ FWC e COC usam os alias `--selection-fwc` (de `--group-fwc`) e
   `clamp(16px, 4vw, 40px)`, a mesma no cabeçalho, no corpo e na faixa
   de avisos, de modo que tudo alinha na mesma vertical
 - Espaçamentos internos: 8px entre seções — dentro de um super-grupo e
-  entre as seções soltas da ordenação por sigla, onde sobe para 10px quando
+  entre as seções soltas da ordenação por sigla, onde sobe para 12px quando
   a letra inicial da sigla muda (IDR 0067) —, 2px entre o cabeçalho da seção
-  e a sua grade, 8px entre cartões na disposição lista — subindo para 10px
-  nas quebras de linha e 12px nas quebras de página das seleções e da
+  e a sua grade, 8px entre cartões na disposição lista — subindo para 12px
+  nas quebras de linha e 16px nas quebras de página das seleções e da
   Coca-Cola, sobre o `gap` de 8px (IDR 0069) — e 20px entre as duas páginas
   na disposição álbum (IDR 0050)
 - Título de super-grupo: 13px/600 em `--gold`, com chevron `▾`/`▸`, moldura

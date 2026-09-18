@@ -168,7 +168,7 @@ export const Secao = memo(function Secao({
     : figurinhas.filter((f) => filtraFigurinha(contagens, f.codigo, filtro));
 
   // Respiro de fronteira na lista (IDR 0069): só as seleções e a Coca-Cola
-  // ganham +2px na quebra de linha e +4px na quebra de página do layout do
+  // ganham +4px na quebra de linha e +8px na quebra de página do layout do
   // álbum; o FWC (páginas fora de ordem crescente nas posições 5-8) segue
   // uniforme. As fronteiras são contadas sobre os cartões visíveis
   // (`listaFiltrada`), não sobre o layout bruto, para o respiro não ficar

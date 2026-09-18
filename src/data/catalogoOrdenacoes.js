@@ -27,7 +27,7 @@ export function ordenarPorSigla(secoesDoCatalogo) {
 
 /**
  * Diz se a letra inicial da sigla mudou entre uma seção e a anterior na
- * sequência ordenada por sigla — fronteira que ganha +2px de respiro
+ * sequência ordenada por sigla — fronteira que ganha +4px de respiro
  * (IDR 0067). A primeira seção não tem anterior, então devolve `false`.
  * FWC e COC entram na comparação como qualquer seção.
  *

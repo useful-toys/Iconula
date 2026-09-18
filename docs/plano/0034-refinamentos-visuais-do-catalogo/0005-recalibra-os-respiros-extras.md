@@ -3,7 +3,7 @@
 # Tarefa [0034-0005]: Recalibra os respiros extras
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Na verificação visual do preview do PR da Fase 34, os respiros extras das
