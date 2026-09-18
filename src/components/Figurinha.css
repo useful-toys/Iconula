@@ -186,7 +186,9 @@
   background: var(--gold);
 }
 
-/* Selo de unidades sobrando — 10px nas duas disposições (IDR 0047) */
+/* Selo de unidades sobrando — 10px nas duas disposições (IDR 0047). A cor do
+ * texto e da borda vem de `--selo-cor`, calculada em `Figurinha.jsx` a partir
+ * de `sobrando` (laranja a vermelho, IDR 0066); o fundo segue `--bg-deep`. */
 .figurinha__selo {
   position: absolute;
   right: -6px;
@@ -197,9 +199,9 @@
   font-weight: 700;
   line-height: 1;
   text-align: center;
-  color: var(--orange-card);
+  color: var(--selo-cor);
   background: var(--bg-deep);
-  border: 1px solid var(--orange-card);
+  border: 1px solid var(--selo-cor);
   border-radius: 8px;
 }
 

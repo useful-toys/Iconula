@@ -320,6 +320,36 @@ describe('Figurinha', () => {
   });
 });
 
+describe('Figurinha — gradiente de cor do selo (IDR 0066)', () => {
+  function corDoSelo(contagem) {
+    const { container } = render(
+      <Figurinha
+        codigo="BRA05"
+        contagem={contagem}
+        onIncrementar={vi.fn()}
+        onDecrementar={vi.fn()}
+      />,
+    );
+    return container.querySelector('.figurinha__selo').style.getPropertyValue('--selo-cor');
+  }
+
+  it('usa o laranja de referência com 1 sobrando', () => {
+    expect(corDoSelo(2)).toBe('#D86000');
+  });
+
+  it('interpola numa cor intermediária com 5 sobrando, diferente das pontas', () => {
+    const cor = corDoSelo(6);
+    expect(cor).toBe('#D83500');
+    expect(cor).not.toBe('#D86000');
+    expect(cor).not.toBe('#D80000');
+  });
+
+  it('satura no vermelho máximo a partir de 10 sobrando, igual para 10 e valores maiores', () => {
+    expect(corDoSelo(11)).toBe('#D80000');
+    expect(corDoSelo(16)).toBe('#D80000');
+  });
+});
+
 describe('Figurinha — nome no cartão (IDR 0047)', () => {
   it('renderiza prenomes e sobrenome em linhas distintas com classes próprias', () => {
     const { container } = render(

@@ -3,7 +3,7 @@
 # Tarefa [0034-0004]: Aplica gradiente de cor ao selo `×N`
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 O selo `×N` do cartão (unidades sobrando) passa a variar de cor entre
