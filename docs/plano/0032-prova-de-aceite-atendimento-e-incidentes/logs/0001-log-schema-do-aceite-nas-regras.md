@@ -77,7 +77,29 @@ Nenhum.
 
 ## Setup realizado
 
-Nenhum.
+### 1. Publicar as regras do aceite no projeto de produção
+
+- Ambiente: Firebase (projeto `iconula`)
+- Aprovação do humano: 2026-09-18 — "Publicar agora", confirmando a
+  exceção ao fluxo do DDR 0004 para liberar o preview do PR #91.
+- Comando executado:
+  ```
+  firebase deploy --only firestore:rules --project iconula
+  ```
+- Saída relevante:
+  ```
+  cloud.firestore: rules file firestore.rules compiled successfully
+  firestore: released rules firestore.rules to cloud.firestore
+  Deploy complete!
+  ```
+- Verificação: `--dry-run` anterior compilou sem erros; o deploy publicou
+  o mesmo ruleset desta branch.
+- Como reverter: republicar o ruleset da `main`
+  (`firebase deploy --only firestore:rules --project iconula` a partir da
+  raiz) ou rollback no Console › Firestore › Rules › histórico.
+- Documento atualizado: não se aplica — o deploy de rotina e a reversão
+  estão no DDR 0004; nenhuma configuração durável mudou (o merge publica
+  o mesmo conteúdo).
 
 ## Validação
 
