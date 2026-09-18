@@ -721,7 +721,7 @@ Privacidade e § Dados e isolamento já foram ajustados neste planejamento.
 | # | Tarefa | Objetivo | Status |
 |---|---|---|---|
 | 0001 | [CSP e variável do GA4](0036-analytics-de-uso/0001-csp-e-variavel-do-ga4.md) | Abrir `script-src`/`connect-src` para o GA4 em `firebase.json`; `VITE_GA_MEASUREMENT_ID` em `.env.example` e nas GitHub Actions Variables; `setup-github.md`. | Concluída |
-| 0002 | [Módulo de analytics sob consentimento](0036-analytics-de-uso/0002-modulo-de-analytics-sob-consentimento.md) | `src/lib/analytics.js` carrega o gtag dinamicamente só com consentimento e fora de preview; teste. | Pendente |
+| 0002 | [Módulo de analytics sob consentimento](0036-analytics-de-uso/0002-modulo-de-analytics-sob-consentimento.md) | `src/lib/analytics.js` carrega o gtag dinamicamente só com consentimento e fora de preview; teste. | Concluída |
 | 0003 | [Banner de consentimento e integração](0036-analytics-de-uso/0003-banner-de-consentimento-e-integracao.md) | `BannerDeConsentimento.jsx` (Aceitar/Recusar) nas telas de login e principal; grava em `localStorage` e dispara o loader no aceite; teste. | Pendente |
 | 0004 | [Política de privacidade e inventário](0036-analytics-de-uso/0004-politica-de-privacidade-e-inventario.md) | Reescrever `PoliticaDePrivacidade.jsx` (analytics consentido, região Brasil, retenção 14 meses); subir `VERSAO_POLITICA`; `privacidade.md`. | Pendente |
 | 0005 | [Documentação e setup](0036-analytics-de-uso/0005-documentacao-e-setup.md) | `arquitetura.md`, `devops.md`, `interface.md`, `setup-firebase.md` e `setup-gcloud.md`. | Pendente |

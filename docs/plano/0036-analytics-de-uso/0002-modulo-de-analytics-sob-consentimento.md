@@ -3,7 +3,7 @@
 # Tarefa 0036-0002: Módulo de analytics sob consentimento
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Criar `src/lib/analytics.js`: um módulo mínimo que carrega o `gtag.js`
