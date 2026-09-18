@@ -3,7 +3,7 @@
 # Tarefa [0032-0005]: registro de operações e plano de incidente
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 

@@ -28,6 +28,24 @@ de conceito.
   mantido por uma única pessoa.
 - Crédito no changelog/registro da correção, se desejado.
 
+## Vulnerabilidade e incidente com dado pessoal
+
+Não confunda os dois casos:
+
+- **Vulnerabilidade** (esta página): uma falha que ainda não atingiu dado
+  de ninguém; o relato é privado, como acima.
+- **Incidente com dado pessoal** (LGPD art. 48): uma falha que chegou a
+  expor, alterar ou perder dados de titulares. Vale então o plano manual
+  do controlador em
+  [docs/privacidade.md](docs/privacidade.md#plano-de-resposta-a-incidente),
+  com detecção, contenção, avaliação de risco e os prazos de comunicação à
+  ANPD e aos titulares.
+
+O mesmo relato pode alimentar os dois: uma vulnerabilidade explorada vira
+incidente e entra no plano. Reportada ou não, o prazo de comunicação corre
+a partir do momento em que o controlador sabe que dados pessoais foram
+afetados ([DDR 0011](docs/devops-dr/0011-procedimentos-manuais-de-privacidade.md)).
+
 ## Ferramentas automatizadas já ativas
 
 Secret scanning com push protection, Dependabot alerts/security updates e
