@@ -17,6 +17,10 @@ export default function TermosDeUso({ onVoltar }) {
         </button>
 
         <h1 className="termos__titulo">Termos de uso</h1>
+        <p>
+          Última atualização:{" "}
+          <time dateTime="2026-09-17">17 de setembro de 2026</time>.
+        </p>
 
         <h2>Aceite</h2>
         <p>
@@ -30,6 +34,14 @@ export default function TermosDeUso({ onVoltar }) {
           figurinhas do álbum da Copa do Mundo FIFA 2026 você tem e acompanhar o
           progresso da sua coleção. Não tem vínculo com Panini ou FIFA e não
           vende nem entrega figurinhas.
+        </p>
+
+        <h2>Controlador e encarregado</h2>
+        <p>
+          Quem controla os seus dados é Daniel Felix Ferber, pessoa física,
+          no Brasil, que também responde como encarregado (LGPD art. 41).
+          Para qualquer assunto de privacidade, use o canal de contato
+          abaixo.
         </p>
 
         <h2>Uso no estado em que se encontra</h2>

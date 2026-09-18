@@ -714,14 +714,26 @@ máxima ~640px centrado, com o mesmo `--page-gutter` das demais telas.
 Título "Política de privacidade" em Poppins 700/22px dourado; seções com
 título 15px/600 e texto de corpo 14px em `--muted`, `line-height: 1.6`.
 
-Conteúdo: dados tratados (identidade Google e a coleção), finalidade, onde
-os dados ficam (Cloud Firestore, `southamerica-east1`), link do catálogo,
-retenção, direitos do titular e o tratamento de dados de menores (ligado à
-atestação do primeiro login) — cada um exercido pelo canal de contato
-declarado no próprio texto (`docs/plano/.../0004-politica-de-privacidade-e-rodape.md`
-tem a pergunta e a resposta que fixou esse endereço). O canal de contato é
-o mesmo das duas vistas: o componente `LinkDeContato`, com o endereço
-montado em runtime a partir de partes ([TDR 0028](tdr/0028-canal-de-contato-montado-em-runtime.md)).
+Conteúdo, na ordem exibida, com o lastro do
+[IDR 0061](idr/0061-conteudo-de-conformidade-da-politica-e-dos-termos.md):
+"Última atualização" com a data de vigência no topo; controlador e
+encarregado (Daniel Felix Ferber, sem CPF nem endereço); dados tratados
+(identidade Google e a coleção); finalidade; base legal de cada finalidade
+(art. 9º, I — o contrato dos termos no art. 7º, V, o consentimento do link
+no art. 7º, I e a atestação no art. 14); onde os dados ficam (Cloud
+Firestore, `southamerica-east1`); operador e transferência internacional
+(Google como operador e a identidade tratada globalmente pelo Firebase Auth,
+sob cláusulas-padrão contratuais); link do catálogo; armazenamento local
+(`localStorage` e cache IndexedDB, funcionais e não enviados, sem banner de
+cookies); retenção (24 meses de inatividade e até 90 dias após o
+encerramento); direitos do titular, com a exclusão pelo painel e a
+portabilidade pela exportação JSON (art. 18, V); dados de menores (ligado à
+atestação do primeiro login); e contato — cada um exercido pelo canal de
+contato declarado no próprio texto
+(`docs/plano/.../0004-politica-de-privacidade-e-rodape.md` tem a pergunta e
+a resposta que fixou esse endereço). O canal de contato é o mesmo das duas
+vistas: o componente `LinkDeContato`, com o endereço montado em runtime
+a partir de partes ([TDR 0028](tdr/0028-canal-de-contato-montado-em-runtime.md)).
 
 A seção "Link do catálogo" declara a visibilidade por link
 ([IDR 0055](idr/0055-catalogo-compartilhado-por-link-somente-leitura.md)):
@@ -765,10 +777,13 @@ centrado, com o `--page-gutter`, título "Termos de uso" em Poppins 700/22px
 dourado e seções com título 15px/600 e corpo 14px em `--muted`,
 `line-height: 1.6`.
 
-Conteúdo, na ordem do roteiro do IDR 0053: aceite; o que é o serviço
-(gratuito e independente, sem vínculo com Panini ou FIFA); uso no estado em
-que se encontra, sem garantia de disponibilidade nem contra perda de dados,
-com o exportar como proteção; responsabilidade pela própria conta Google;
+Conteúdo, na ordem do roteiro do IDR 0053, com o controlador e a data de
+vigência do [IDR 0061](idr/0061-conteudo-de-conformidade-da-politica-e-dos-termos.md):
+"Última atualização" no topo, com a mesma data da política; aceite; o que é
+o serviço (gratuito e independente, sem vínculo com Panini ou FIFA);
+controlador e encarregado, o mesmo bloco da política; uso no estado em que
+se encontra, sem garantia de disponibilidade nem contra perda de dados, com
+o exportar como proteção; responsabilidade pela própria conta Google;
 limitação de responsabilidade; marcas; alterações dos termos; lei
 brasileira; e contato pelo mesmo componente da política — `LinkDeContato`,
 com o endereço montado em runtime

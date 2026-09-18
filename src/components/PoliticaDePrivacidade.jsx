@@ -49,6 +49,18 @@ export default function PoliticaDePrivacidade({
         </button>
 
         <h1 className="politica__titulo">Política de privacidade</h1>
+        <p>
+          Última atualização:{" "}
+          <time dateTime="2026-09-17">17 de setembro de 2026</time>.
+        </p>
+
+        <h2>Controlador e encarregado</h2>
+        <p>
+          Quem controla os seus dados é Daniel Felix Ferber, pessoa física,
+          no Brasil, que também responde como encarregado (LGPD art. 41).
+          Para qualquer assunto de privacidade, use o canal de contato
+          abaixo.
+        </p>
 
         <h2>Dados tratados</h2>
         <p>
@@ -57,9 +69,8 @@ export default function PoliticaDePrivacidade({
           coleção de figurinhas (quantas unidades você tem de cada uma,
           identificadas pelo código da figurinha). Também guardamos a data e
           hora da última gravação da coleção e a data em que você atestou a
-          idade mínima (ver "Dados de menores" abaixo). Nenhum outro dado é
-          tratado — não há coleta de localização, dados de pagamento ou
-          uso de analytics.
+          idade mínima (ver "Dados de menores" abaixo). Não há coleta de
+          localização, dados de pagamento nem uso de analytics.
         </p>
 
         <h2>Finalidade</h2>
@@ -67,6 +78,15 @@ export default function PoliticaDePrivacidade({
           Esses dados servem só para autenticar você, identificar a sua
           conta e guardar sua coleção, para que ela apareça igual da próxima
           vez que você entrar, em qualquer aparelho.
+        </p>
+
+        <h2>Base legal</h2>
+        <p>
+          Cada finalidade tem uma hipótese legal (LGPD art. 9º, I): a conta e
+          a coleção são tratadas para executar o contrato firmado nos Termos
+          de uso (art. 7º, V); o link do catálogo, quando você o liga, é
+          tratado com o seu consentimento, que você revoga ao desligá-lo
+          (art. 7º, I); e a atestação de idade se apoia no art. 14.
         </p>
 
         <h2>Onde os dados ficam</h2>
@@ -78,6 +98,15 @@ export default function PoliticaDePrivacidade({
           você ligar o link do catálogo, de quem tiver o link.
         </p>
 
+        <h2>Operador e transferência internacional</h2>
+        <p>
+          O Google é operador dos seus dados. A coleção fica em servidores
+          brasileiros do Cloud Firestore, mas a identidade da conta é
+          tratada globalmente pelo Firebase Auth, fora do Brasil. Essa
+          transferência internacional se apoia nas cláusulas-padrão
+          contratuais do Google (LGPD arts. 33 e 39).
+        </p>
+
         <h2>Link do catálogo</h2>
         <p>
           Se você ligar o link do catálogo, a sua coleção (contagens e data
@@ -86,20 +115,35 @@ export default function PoliticaDePrivacidade({
           interno da sua conta; seu nome, e-mail e foto não aparecem.
         </p>
 
+        <h2>Armazenamento local</h2>
+        <p>
+          No seu aparelho, o app guarda no <code>localStorage</code> as
+          preferências de vista (ordenação, disposição e filtro) e o colapso
+          manual de seções e super-grupos, e mantém no cache do SDK do
+          Firestore (IndexedDB) o espelho da coleção e as gravações
+          pendentes. Esses dados são locais, estritamente funcionais e nunca
+          são enviados a terceiros; por isso o app não pede consentimento de
+          cookies nem exibe banner.
+        </p>
+
         <h2>Retenção</h2>
         <p>
-          Os dados ficam guardados enquanto a sua conta existir no
-          aplicativo. Para pedir a exclusão, use o canal de contato abaixo —
-          apagar a coleção e a conta de dentro do próprio app é um recurso
-          planejado, ainda não disponível.
+          A coleção e a conta ficam guardadas enquanto você usar o app.
+          Ficando 24 meses sem entrar, a conta e a coleção são apagadas. Se
+          o Iconula for descontinuado, os dados são apagados em até 90 dias,
+          com um aviso na própria tela e tempo para você exportar a coleção
+          (LGPD arts. 15 e 16).
         </p>
 
         <h2>Direitos do titular</h2>
         <p>
           Você pode pedir acesso aos seus dados, correção de algo incorreto
-          ou a exclusão completa da sua coleção e da sua conta no app,
-          escrevendo para o canal de contato abaixo. A conta Google em si
-          não é apagada por nós — ela é do Google, não do Iconula.
+          ou a exclusão completa da sua coleção e da sua conta. A exclusão
+          você mesmo faz dentro do app, no painel logo abaixo. A
+          portabilidade (LGPD art. 18, V) é atendida pela exportação da
+          coleção em JSON, no menu de ações. Para os demais direitos,
+          escreva para o canal de contato abaixo. A conta Google em si não é
+          apagada por nós — ela é do Google, não do Iconula.
         </p>
 
         {mostrarBloco &&

@@ -11,6 +11,7 @@ import TermosDeUso from "./TermosDeUso";
 const SECOES = [
   "Aceite",
   "O que é o serviço",
+  "Controlador e encarregado",
   "Uso no estado em que se encontra",
   "Sua conta Google",
   "Limitação de responsabilidade",
@@ -30,6 +31,17 @@ describe("TermosDeUso", () => {
       container.querySelectorAll(".termos__corpo h2"),
     ).map((el) => el.textContent);
     expect(titulos).toEqual(SECOES);
+  });
+
+  it("repete o controlador e a data de vigência da política (IDR 0061)", () => {
+    const { container } = render(<TermosDeUso onVoltar={vi.fn()} />);
+
+    expect(screen.getByRole("heading", { name: "Controlador e encarregado" })).toBeInTheDocument();
+    expect(screen.getByText(/Daniel Felix Ferber, pessoa física/)).toBeInTheDocument();
+
+    const vigencia = container.querySelector("time");
+    expect(vigencia).toHaveAttribute("dateTime", "2026-09-17");
+    expect(vigencia).toHaveTextContent("17 de setembro de 2026");
   });
 
   it("usa o mesmo canal de contato da política", () => {

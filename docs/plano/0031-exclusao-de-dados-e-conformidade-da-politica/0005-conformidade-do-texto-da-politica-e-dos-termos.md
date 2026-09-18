@@ -3,7 +3,7 @@
 # Tarefa [0031-0005]: conformidade do texto da política e dos termos
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 
