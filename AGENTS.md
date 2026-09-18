@@ -119,6 +119,7 @@ aberto e § Camadas no cliente).
 | `docs/modelo-firebase.md` | Modelo de dados da persistência no Firestore — estado atual do schema em produção, referenciando os MDRs. |
 | `docs/modelo-intercambio.md` | Modelo de dados do formato de intercâmbio (export/import JSON). |
 | `docs/modelo-memoria.md` | Modelo de dados da representação em memória na SPA. |
+| `docs/privacidade.md` | Inventário das operações de tratamento (LGPD art. 37), runbook da purga por inatividade, registro de execuções e ciclo de revisão do próprio documento — procedimentos manuais do controlador, sem automação (ver [DDR 0011](docs/devops-dr/0011-procedimentos-manuais-de-privacidade.md) e [IDR 0061](docs/idr/0061-conteudo-de-conformidade-da-politica-e-dos-termos.md)). |
 | `docs/plano/` | Plano de implementação em fases e tarefas; `docs/plano/README.md` é o índice e o mapa de status das fases. |
 | `docs/plano/CLAUDE.md` | Guia único do plano: estrutura, status, dependências, comportamento padrão de toda tarefa, impedimentos, registro de decisões, documentação viva, setup, convenções de Git e formatos de tarefa, log e relatório. Ler pelo caminho — não é carregado automaticamente por todas as ferramentas. |
 | `.claude/skills/`, `.opencode/skills/` | Skills do plano em duas versões sincronizadas (Claude Code e OpenCode, esta com prefixo `opencode-`): `/esmiucar`, `/planejar`, `/executar-plano` e `/executar-tarefa`. |

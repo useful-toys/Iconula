@@ -202,6 +202,41 @@ gcloud iam service-accounts keys delete <KEY_ID> \
 # Gerar uma nova e atualizar o secret no GitHub (ver docs/setup-github.md)
 ```
 
+## Proteção de dados (Cloud Data Processing Addendum)
+
+- O **Cloud Data Processing Addendum (CDPA)** é o aditivo de tratamento de
+  dados do Google Cloud: define o Google como **operador** dos dados do
+  cliente e incorpora as **cláusulas-padrão contratuais** que sustentam a
+  transferência internacional (LGPD arts. 33 e 39).
+- A [política de privacidade](privacidade.md) declara o Google como
+  operador e a transferência internacional da identidade — declaração que
+  depende deste aceite: sem ele, falta o instrumento contratual que obriga
+  o Google a tratar os dados só conforme as instruções do controlador
+  ([IDR 0061](idr/0061-conteudo-de-conformidade-da-politica-e-dos-termos.md),
+  [DDR 0011](devops-dr/0011-procedimentos-manuais-de-privacidade.md)).
+- É **passo do controlador**, não do CI: aceita-se uma vez, na conta, e
+  não é configuração de projeto que os workflows possam aplicar. Nenhuma
+  automação deste repositório o executa.
+
+### Onde se aceita e como conferir
+
+1. No console do Google Cloud, projeto `iconula`, abra
+   **IAM e administração**.
+2. Sob **Cloud Data Processing Addendum**, clique em **Review and Accept**,
+   leia o aditivo e clique em **I Accept**.
+3. O aceite é por conta: basta em um projeto e vale para os demais. **Só é
+   necessário se o contrato do Google Cloud (termos de serviço) já não
+   incorporar o CDPA por referência** — a própria página mostra o estado
+   atual abaixo do título da seção.
+4. Conferir o estado: a mesma página de **IAM e administração** exibe se o
+   aditivo já foi aceito. O texto do aditivo está publicado em
+   [Cloud Data Processing Addendum](https://cloud.google.com/terms/data-processing-addendum)
+   e o passo a passo oficial em
+   [Privacy compliance and records for Google Cloud](https://support.google.com/cloud/answer/6329727).
+5. Não há comando de reversão: o aceite é manifestação contratual da conta.
+   Revê-lo ou rescindi-lo é ato com o Google, fora do escopo deste
+   repositório.
+
 ## Cloud Firestore
 
 O banco `(default)` foi criado via `gcloud`, e **não** via
@@ -257,8 +292,11 @@ As regras de segurança e como elas são publicadas ficam em
    (Firebase Auth) e
    `gcloud services enable firestore.googleapis.com --project <project-id>`
    (Firestore) — ver seção "APIs habilitadas"
-3. Criar o banco `(default)` do Firestore — ver seção "Cloud Firestore"
-4. Criar a service account e conceder `roles/firebasehosting.admin` +
+3. Aceitar o Cloud Data Processing Addendum no console (**IAM e
+   administração**) — passo do controlador, se o contrato do Google Cloud
+   já não o incorporar; ver seção "Proteção de dados"
+4. Criar o banco `(default)` do Firestore — ver seção "Cloud Firestore"
+5. Criar a service account e conceder `roles/firebasehosting.admin` +
    `roles/firebase.viewer` + `roles/firebaserules.admin`; criar a role
    custom `authorizedDomainsEditor` e concedê-la à mesma service account
-5. Gerar a chave JSON, registrar como secret no GitHub, apagar o arquivo local
+6. Gerar a chave JSON, registrar como secret no GitHub, apagar o arquivo local

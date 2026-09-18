@@ -3,7 +3,7 @@
 # Tarefa [0031-0006]: inventário e documentação de privacidade
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 

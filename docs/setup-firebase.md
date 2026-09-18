@@ -266,7 +266,10 @@ config do mesmo Web App já usada pelo Auth (as `VITE_FIREBASE_*` acima).
 
 Os comandos de criação do banco (e por que `gcloud` em vez do `firebase`
 CLI) estão em [docs/setup-gcloud.md](setup-gcloud.md#cloud-firestore), junto com a
-API que precisa estar habilitada.
+API que precisa estar habilitada. O mesmo documento traz a seção
+[Proteção de dados (Cloud Data Processing Addendum)](setup-gcloud.md#proteção-de-dados-cloud-data-processing-addendum),
+com o aceite que sustenta o Google como operador declarado na
+[política de privacidade](privacidade.md).
 
 ### Regras de segurança
 
