@@ -121,7 +121,7 @@ describe("App — gravação agregada", () => {
       catalogo.props.onAjustar("BRA01", 1);
     });
     await act(async () => {
-      await vi.advanceTimersByTimeAsync(2000);
+      await vi.advanceTimersByTimeAsync(4000);
     });
 
     expect(colecao.gravarAlteracoes).toHaveBeenCalledTimes(1);
@@ -134,7 +134,7 @@ describe("App — gravação agregada", () => {
     await act(async () => {
       catalogo.props.onAjustar("BRA01", 1);
     });
-    for (let i = 0; i < 9; i += 1) {
+    for (let i = 0; i < 19; i += 1) {
       await act(async () => {
         await vi.advanceTimersByTimeAsync(1000);
       });
@@ -142,7 +142,7 @@ describe("App — gravação agregada", () => {
         catalogo.props.onAjustar("BRA01", 1);
       });
     }
-    // 9s de atividade contínua, sempre renovando o debounce de 2s: nada gravado ainda.
+    // 19s de atividade contínua, sempre renovando o debounce de 4s: nada gravado ainda.
     expect(colecao.gravarAlteracoes).not.toHaveBeenCalled();
 
     await act(async () => {
@@ -163,7 +163,7 @@ describe("App — gravação agregada", () => {
       catalogo.props.onAjustar("FWC01", -1);
     });
     await act(async () => {
-      await vi.advanceTimersByTimeAsync(2000);
+      await vi.advanceTimersByTimeAsync(4000);
     });
 
     // FWC01 voltou a 0 (chave apagada); só o valor absoluto atual vai na escrita —
@@ -178,7 +178,7 @@ describe("App — gravação agregada", () => {
       catalogo.props.onAjustar("BRA01", 1);
     });
     await act(async () => {
-      await vi.advanceTimersByTimeAsync(2000);
+      await vi.advanceTimersByTimeAsync(4000);
     });
 
     expect(screen.getByText("10:00")).toBeInTheDocument();
@@ -196,7 +196,7 @@ describe("App — gravação agregada", () => {
     expect(screen.queryByText("10:00")).not.toBeInTheDocument();
 
     await act(async () => {
-      await vi.advanceTimersByTimeAsync(2000);
+      await vi.advanceTimersByTimeAsync(4000);
     });
 
     expect(screen.getByText("10:00")).toBeInTheDocument();
@@ -226,7 +226,7 @@ describe("App — gravação agregada", () => {
       catalogo.props.onAjustar("BRA01", 1);
     });
     await act(async () => {
-      await vi.advanceTimersByTimeAsync(2000);
+      await vi.advanceTimersByTimeAsync(4000);
     });
 
     expect(screen.getByText("não salvo")).toBeInTheDocument();
@@ -244,7 +244,7 @@ describe("App — gravação agregada", () => {
     expect(screen.getByLabelText(/não salvo/)).toBeInTheDocument();
 
     await act(async () => {
-      await vi.advanceTimersByTimeAsync(2000);
+      await vi.advanceTimersByTimeAsync(4000);
     });
 
     expect(screen.getByLabelText(/atualizado às 10:00/)).toBeInTheDocument();
@@ -321,7 +321,7 @@ describe("App — gravação agregada", () => {
       catalogo.props.onAjustar("BRA01", 1);
     });
     await act(async () => {
-      await vi.advanceTimersByTimeAsync(2000);
+      await vi.advanceTimersByTimeAsync(4000);
     });
 
     expect(colecao.gravarAlteracoes).toHaveBeenCalledWith("uid1", {
@@ -388,7 +388,7 @@ describe("App — política de erro visível (Tarefa 0007-0005)", () => {
       catalogo.props.onAjustar("BRA01", 1);
     });
     await act(async () => {
-      await vi.advanceTimersByTimeAsync(2000);
+      await vi.advanceTimersByTimeAsync(4000);
     });
 
     const alerta = screen.getByRole("alert");
@@ -411,9 +411,9 @@ describe("App — política de erro visível (Tarefa 0007-0005)", () => {
     await act(async () => {
       catalogo.props.onAjustar("BRA01", 1);
     });
-    // Debounce (2s) + tempo-limite de espera (5s).
+    // Debounce (4s) + tempo-limite de espera (5s).
     await act(async () => {
-      await vi.advanceTimersByTimeAsync(7000);
+      await vi.advanceTimersByTimeAsync(9000);
     });
 
     expect(screen.getByText("Conexão instável — sincronizando quando possível")).toBeInTheDocument();
@@ -440,7 +440,7 @@ describe("App — política de erro visível (Tarefa 0007-0005)", () => {
       catalogo.props.onAjustar("BRA01", 1);
     });
     await act(async () => {
-      await vi.advanceTimersByTimeAsync(2000);
+      await vi.advanceTimersByTimeAsync(4000);
     });
     expect(colecao.gravarAlteracoes).toHaveBeenCalledTimes(1);
 
@@ -448,7 +448,7 @@ describe("App — política de erro visível (Tarefa 0007-0005)", () => {
       catalogo.props.onAjustar("FWC01", 1);
     });
     await act(async () => {
-      await vi.advanceTimersByTimeAsync(2000);
+      await vi.advanceTimersByTimeAsync(4000);
     });
 
     expect(colecao.gravarAlteracoes).toHaveBeenLastCalledWith("uid1", { BRA01: 1, FWC01: 1 });
@@ -466,7 +466,7 @@ describe("App — política de erro visível (Tarefa 0007-0005)", () => {
       catalogo.props.onAjustar("BRA01", 1);
     });
     await act(async () => {
-      await vi.advanceTimersByTimeAsync(2000);
+      await vi.advanceTimersByTimeAsync(4000);
     });
     expect(screen.getByRole("alert")).toBeInTheDocument();
 
@@ -474,7 +474,7 @@ describe("App — política de erro visível (Tarefa 0007-0005)", () => {
       catalogo.props.onAjustar("FWC01", 1);
     });
     await act(async () => {
-      await vi.advanceTimersByTimeAsync(2000);
+      await vi.advanceTimersByTimeAsync(4000);
     });
 
     expect(screen.queryByRole("alert")).not.toBeInTheDocument();
@@ -493,7 +493,7 @@ describe("App — política de erro visível (Tarefa 0007-0005)", () => {
       catalogo.props.onAjustar("BRA01", 1);
     });
     await act(async () => {
-      await vi.advanceTimersByTimeAsync(2000);
+      await vi.advanceTimersByTimeAsync(4000);
     });
     expect(screen.getByRole("alert")).toBeInTheDocument();
     expect(catalogo.props.contagens).toEqual({ BRA01: 1 });

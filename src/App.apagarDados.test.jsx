@@ -261,10 +261,10 @@ describe("App — apagar meus dados", () => {
     await abrirPainel();
     await confirmarApagar();
 
-    // Sem o descarte, o debounce (2s) ou o teto (10s) gravaria de novo e
+    // Sem o descarte, o debounce (4s) ou o teto (20s) gravaria de novo e
     // recriaria o documento recém-apagado.
     await act(async () => {
-      vi.advanceTimersByTime(20000);
+      vi.advanceTimersByTime(30000);
     });
 
     expect(colecao.gravarAlteracoes).not.toHaveBeenCalled();

@@ -89,13 +89,13 @@ Instância criada uma única vez por sessão (inicializador preguiçoso do `useS
 {
   uidAtual: string,
   alteracoes: Record<string, number>,  // chaves alteradas desde a última gravação
-  idDebounce: timeout,                 // debounce de ~2s
-  idTeto: timeout,                     // teto de ~10s
+  idDebounce: timeout,                 // debounce de ~4s
+  idTeto: timeout,                     // teto de ~20s
 }
 ```
 
-- **Debounce**: ~2s após o último ajuste
-- **Teto de espera**: ~10s em rajada contínua
+- **Debounce**: ~4s após o último ajuste
+- **Teto de espera**: ~20s em rajada contínua
 - **Flush**: gravação imediata ao fechar a página (`pagehide`/`visibilitychange`) ou antes do `signOut`
 - **Persistência local**: cache IndexedDB do SDK (`persistentLocalCache` com `persistentMultipleTabManager()`) — escritas pendentes sobrevivem ao fechamento da aba
 - **`descartarPendencias()`**: limpa alterações acumuladas e temporizadores antes da importação — para não reintroduzir dado já substituído

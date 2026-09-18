@@ -12,7 +12,7 @@ import "@testing-library/jest-dom/vitest";
 // fica "vazia" para os testes começarem do zero.
 //
 // Temporizadores falsos (como em `App.gravacao.test.jsx`): sem eles, o
-// debounce real de 2s da gravação agregada de um `onAjustar` de um teste
+// debounce real de 4s da gravação agregada de um `onAjustar` de um teste
 // pode disparar durante um teste seguinte e poluir as asserções sobre
 // `gravarAlteracoes`. `fireEvent` em vez de `userEvent` pelo mesmo motivo
 // (o `userEvent` depende de temporizadores reais para os delays simulados).
