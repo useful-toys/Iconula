@@ -82,7 +82,7 @@ Detalhes e status das tarefas no guia [CLAUDE.md](CLAUDE.md) § Status e ciclo d
 | 34 | [Refinamentos visuais do catálogo](0034-refinamentos-visuais-do-catalogo/) | Respiro por letra na ordenação por código, ordem bandeira/sigla/nome no título de seção, espaçadores de linha/página na lista e gradiente de cor no selo `×N` | — | `feat: refinamentos visuais do catálogo (título, espaçamento e selo)` | Entregue |
 | 35 | [Apoio ao projeto por doação via Pix](0035-apoio-ao-projeto-por-doacao-via-pix/) | Vista dedicada com QR Pix, chave para copiar/compartilhar e frase de contexto; acesso pelo rodapé e por um bloco no menu de ações, depois de "Sobre" | 33 | `feat: apoio ao projeto por doação via pix` | Entregue |
 | 36 | [Analytics de uso com Google Analytics 4 e consentimento](0036-analytics-de-uso/) | Medir visitas, sessões e engajamento com GA4 (região Brasil), carregado por um módulo mínimo sob consentimento, com banner nas duas telas e política/conformidade atualizadas | — | `feat: analytics de uso (GA4) com banner de consentimento` | Entregue |
-| 37 | [Página de estatísticas da coleção](0037-pagina-de-estatisticas/) | Página de estatísticas e gráficos da coleção, como vista interna, aberta por botão no cabeçalho | 36 | `feat: página de estatísticas da coleção` | Pendente |
+| 37 | [Página de estatísticas da coleção](0037-pagina-de-estatisticas/) | Página de estatísticas e gráficos da coleção, como vista interna, aberta por botão no cabeçalho | 36 | `feat: página de estatísticas da coleção` | Em andamento |
 
 ---
 
@@ -741,7 +741,7 @@ Fase 36 porque as duas tocam `App.jsx`, `interface.md`, `arquitetura.md` e
 
 | # | Tarefa | Objetivo | Status |
 |---|---|---|---|
-| 0001 | [Derivação pura das estatísticas](0037-pagina-de-estatisticas/0001-derivacao-pura-das-estatisticas.md) | `src/lib/estatisticas.js` (+ teste) com funções puras dos cinco blocos. | Pendente |
+| 0001 | [Derivação pura das estatísticas](0037-pagina-de-estatisticas/0001-derivacao-pura-das-estatisticas.md) | `src/lib/estatisticas.js` (+ teste) com funções puras dos cinco blocos. | Concluída |
 | 0002 | [Vista de estatísticas](0037-pagina-de-estatisticas/0002-vista-de-estatisticas.md) | `Estatisticas.jsx` (+ css, teste) como vista interna, com gráficos à mão. | Pendente |
 | 0003 | [Ícone e botão no cabeçalho](0037-pagina-de-estatisticas/0003-icone-e-botao-no-cabecalho.md) | `material-bar-chart.svg` + botão no cabeçalho + estado em `App.jsx`. | Pendente |
 | 0004 | [Documentação viva](0037-pagina-de-estatisticas/0004-documentacao-viva.md) | `arquitetura.md` e `AGENTS.md` no estado atual. | Pendente |

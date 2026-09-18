@@ -3,7 +3,7 @@
 # Tarefa 0037-0001: Derivação pura das estatísticas da coleção
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Criar `src/lib/estatisticas.js` com funções puras que, a partir da coleção
