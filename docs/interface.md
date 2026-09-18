@@ -58,6 +58,10 @@ da tela de login
   mesmo texto; sem histórico, nenhum tooltip
   (ver [IDR 0012](idr/0012-desfazer-no-cabecalho-historico-de-10.md) e
   [IDR 0064](idr/0064-tooltip-do-desfazer-com-codigo-e-operacao.md))
+- Botão estatísticas: ícone `bar_chart` (Material Symbols, SVG inline) de
+  30×30px, borda e ícone em `--gold`, na primeira linha, à esquerda do
+  compartilhar, abre a vista de estatísticas (§ Demais telas › Estatísticas
+  — ver [IDR 0072](idr/0072-pagina-de-estatisticas-como-vista-interna.md))
 - Botão compartilhar: ícone de três nós ligados de 30×30px na primeira linha,
   logo à esquerda do avatar, abre o popup com as duas cópias das listas de
   troca (§ Compartilhar — ver
@@ -1123,6 +1127,10 @@ FWC e COC usam os alias `--selection-fwc` (de `--group-fwc`) e
 - Desfazer: botão de 30×30px, raio 8px, borda e texto em `--gold`,
   colado à direita da linha dos grupos; em tela sensível, área de toque
   ampliada, sem crescer visualmente (IDR 0042)
+- Botão estatísticas: 30×30px, raio 8px, borda e ícone (`bar_chart`, SVG
+  inline) em `--gold`, logo à esquerda do compartilhar; mesma área de toque
+  ampliada do compartilhar (metade do espaçamento de 8px) e mesmo foco
+  visível, sem sobrepor a área dele (IDR 0072, IDR 0042)
 - Botão compartilhar: 30×30px, raio 8px, borda e ícone (três nós ligados,
   SVG inline) em `--gold`, logo à esquerda do avatar; mesma área de toque
   ampliada do avatar (metade do espaçamento de 8px) e mesmo foco visível,

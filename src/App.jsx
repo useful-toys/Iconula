@@ -11,6 +11,7 @@ import PoliticaDePrivacidade from "./components/PoliticaDePrivacidade.jsx";
 import TermosDeUso from "./components/TermosDeUso.jsx";
 import Sobre from "./components/Sobre.jsx";
 import ApoieOProjeto from "./components/ApoieOProjeto.jsx";
+import Estatisticas from "./components/Estatisticas.jsx";
 import ContaApagada from "./components/ContaApagada.jsx";
 import { Cabecalho } from "./components/Cabecalho.jsx";
 import { Controles } from "./components/Controles.jsx";
@@ -851,6 +852,15 @@ export default function App() {
     return <ContaApagada onVoltar={() => setVistaInterna(null)} />;
   }
 
+  // Estatísticas (IDR 0072): vista interna somente leitura, montada com a
+  // coleção em memória — abrir ou fechar não lê nem grava no Firestore. O
+  // "← Voltar" desliga o estado e devolve à tela principal.
+  if (vistaInterna === 'estatisticas') {
+    return (
+      <Estatisticas contagens={contagens} onVoltar={() => setVistaInterna(null)} />
+    );
+  }
+
   // Vista do link do catálogo (IDR 0055): checada antes da guarda de login
   // porque abre sem sessão — inclusive para o próprio dono, que vê o mesmo
   // que o visitante. Sem router: o caminho foi lido em `alvoDoCatalogo` na
@@ -952,6 +962,7 @@ export default function App() {
         ordenacao={ordenacao}
         onSaltar={handleSaltar}
         placarPorSecao={placarPorSecao}
+        onAbrirEstatisticas={() => setVistaInterna('estatisticas')}
         compartilhar={
           <MenuDeCompartilhar
             onCopiarFaltantes={handleCopiarFaltantes}

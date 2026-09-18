@@ -21,15 +21,16 @@
   border-bottom: 1px solid var(--border);
 }
 
-/* Os comandos (compartilhar e avatar) ficam sempre na primeira linha, à
- * direita do título (IDR 0018): saem do fluxo e são ancorados no alto à
- * direita do cabeçalho (que é o bloco contentor, por ser posicionado), em
- * linha — o compartilhar logo à esquerda do avatar (IDR 0024). `top` usa
- * `--header-padding-top`, a mesma variável do padding do cabeçalho, para não
- * desalinhar dos controles quando o padding muda (a regressão da Fase 29 veio
- * de um `12px` fixo contra o padding de 8px). As duas colunas de 30px e os
- * dois `gap` de 8px somam 76px, reservados no título e nos controles logo
- * abaixo, para que nem o texto nem o desfazer passem por baixo deles. */
+/* Os comandos (estatísticas, compartilhar e avatar) ficam sempre na primeira
+ * linha, à direita do título (IDR 0018): saem do fluxo e são ancorados no alto
+ * à direita do cabeçalho (que é o bloco contentor, por ser posicionado), em
+ * linha — as estatísticas à esquerda do compartilhar (IDR 0072), que fica logo
+ * à esquerda do avatar (IDR 0024). `top` usa `--header-padding-top`, a mesma
+ * variável do padding do cabeçalho, para não desalinhar dos controles quando o
+ * padding muda (a regressão da Fase 29 veio de um `12px` fixo contra o padding
+ * de 8px). As três colunas de 30px e os três `gap` de 8px somam 114px,
+ * reservados no título e nos controles logo abaixo, para que nem o texto nem o
+ * desfazer passem por baixo deles. */
 .cabecalho__acoes {
   position: absolute;
   top: var(--header-padding-top);
@@ -44,16 +45,51 @@
   align-items: center;
 }
 
+/* Botão estatísticas: 30×30px, raio 8px, borda e ícone `bar_chart` em
+ * `--gold`, à esquerda do compartilhar na primeira linha (IDR 0072) — mesma
+ * medida e mesmo foco visível global dos demais comandos (IDR 0024,
+ * IDR 0042). */
+.cabecalho__botao-estatisticas {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  color: var(--gold);
+  background: transparent;
+  border: 1px solid var(--gold);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.cabecalho__icone-estatisticas {
+  display: block;
+}
+
+/* Área de toque ampliada em tela sensível (IDR 0042): o botão visível
+ * continua 30×30px; um `::before` invisível estende a zona clicável até a
+ * metade do espaçamento de 8px que o separa do compartilhar, sem sobrepor a
+ * área dele. */
+@media (pointer: coarse) {
+  .cabecalho__botao-estatisticas::before {
+    content: '';
+    position: absolute;
+    inset: -4px;
+  }
+}
+
 .cabecalho__titulo {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
   gap: 0.35em;
   margin: 0;
-  /* Reserva as colunas de compartilhar e avatar (30px + 8px + 30px) e a
-   * folga de 8px: o título pode quebrar em duas linhas, mas nunca corre por
-   * baixo dos comandos. */
-  max-width: calc(100% - 76px);
+  /* Reserva as colunas de estatísticas, compartilhar e avatar (30px + 8px +
+   * 30px + 8px + 30px) e a folga de 8px: o título pode quebrar em duas
+   * linhas, mas nunca corre por baixo dos comandos. */
+  max-width: calc(100% - 114px);
   font-family: 'Poppins', system-ui, sans-serif;
   font-size: 15px;
   font-weight: 600;
@@ -66,7 +102,7 @@
  * esquerda do compartilhar. */
 .cabecalho .controles {
   flex: 1 1 auto;
-  margin-right: 76px;
+  margin-right: 114px;
 }
 
 /* A faixa de bandeiras é sempre a última linha do cabeçalho. `min-width: 0`

@@ -4,8 +4,8 @@ import { FaixaDeSecoes } from './FaixaDeSecoes.jsx';
 import './Cabecalho.css';
 
 /**
- * Cabeçalho principal do app: placar geral, relógio, comandos (compartilhar e
- * avatar) e faixa de bandeiras para salto.
+ * Cabeçalho principal do app: placar geral, relógio, comandos (estatísticas,
+ * compartilhar e avatar) e faixa de bandeiras para salto.
  *
  * A notação compacta é visível (`ICONULA 2026 · 412/994 41% ▯582 ×37 · —`).
  * O nome acessível escreve os números por extenso, para que o leitor de tela
@@ -35,6 +35,9 @@ import './Cabecalho.css';
  * @param {Map<string, {coladas: number; faltantes: number; repetidas: number; percentual: number}>} [props.placarPorSecao] -
  *   progresso de cada seção (sigla → placar) para o tooltip da faixa
  *   (Tarefa 0019-0002, IDR 0052).
+ * @param {() => void} [props.onAbrirEstatisticas] - callback do botão de
+ *   estatísticas, à esquerda do compartilhar na primeira linha (IDR 0072);
+ *   sem ele, o botão não aparece — a vista do link (IDR 0055) não o recebe.
  * @param {import('react').ReactNode} [props.compartilhar] - o botão
  *   compartilhar (listas de troca), logo à esquerda do avatar, na primeira
  *   linha (IDR 0018, IDR 0024).
@@ -61,6 +64,7 @@ export function Cabecalho({
   ordenacao,
   onSaltar,
   placarPorSecao,
+  onAbrirEstatisticas,
   compartilhar,
   avatar,
   somenteLeitura = false,
@@ -110,8 +114,27 @@ export function Cabecalho({
           </>
         )}
       </h1>
-      {(compartilhar || avatar) && (
+      {(onAbrirEstatisticas || compartilhar || avatar) && (
         <div className="cabecalho__acoes">
+          {onAbrirEstatisticas && (
+            <button
+              type="button"
+              className="cabecalho__botao-estatisticas"
+              aria-label="Estatísticas"
+              onClick={onAbrirEstatisticas}
+            >
+              <svg
+                className="cabecalho__icone-estatisticas"
+                viewBox="0 -960 960 960"
+                width="16"
+                height="16"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path d="M640-160v-280h160v280H640Zm-240 0v-640h160v640H400Zm-240 0v-440h160v440H160Z" />
+              </svg>
+            </button>
+          )}
           {compartilhar}
           {avatar && <div className="cabecalho__avatar">{avatar}</div>}
         </div>

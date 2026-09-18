@@ -53,6 +53,7 @@ vi.mock("./components/Catalogo.jsx", () => ({
 
 import App from "./App";
 import { limparAvisos } from "./lib/avisos.js";
+import * as colecaoRemota from "./lib/colecaoRemota.js";
 
 const UID = "uid-do-usuario";
 const USUARIO_LOGADO = {
@@ -356,5 +357,24 @@ describe("App — padrões de primeira abertura por faixa de tela (IDR 0043)", (
       "true",
     );
     expect(botaoDeOrdenacao("disposição como no álbum")).toHaveAttribute("aria-pressed", "true");
+  });
+});
+
+describe("App — estatísticas (IDR 0072)", () => {
+  it("o botão do cabeçalho abre a vista e o ← Voltar devolve à tela principal", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+    await emitirAuth(USUARIO_LOGADO);
+
+    await user.click(screen.getByRole("button", { name: "Estatísticas" }));
+
+    expect(screen.getByRole("heading", { name: "Estatísticas" })).toBeInTheDocument();
+    expect(screen.queryByTestId("catalogo-mock")).not.toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: /voltar/i }));
+
+    expect(possuiTelaPrincipal()).toBe(true);
+    // Abrir e fechar a vista não lê nem grava no Firestore.
+    expect(colecaoRemota.gravarAlteracoes).not.toHaveBeenCalled();
   });
 });
