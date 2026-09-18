@@ -955,7 +955,7 @@ claro (IDR 0022).
 | `--cream` | `oklch(0.95 0.01 90)` | texto principal |
 | `--muted` | `oklch(0.68 0.02 150)` | texto secundário, borda tracejada do faltante |
 | `--green-card` | `oklch(0.62 0.13 145)` | cartão colada |
-| `--orange-card` | `oklch(0.68 0.15 55)` | cartão repetida e selo `×N` |
+| `--orange-card` | `oklch(0.68 0.15 55)` | cartão repetida |
 | `--ink-on-light` | `oklch(0.2 0.02 90)` | texto sobre cartão colorido |
 | `--notif-red` | `oklch(0.6 0.18 25)` | borda da faixa de falha (fundo `oklch(0.3 0.15 25)`) |
 | `--group-a` | `oklch(0.710 0.124 142.3)` | identidade do grupo — variante ajustada (fundo tingido do título e da faixa) |
@@ -1123,7 +1123,9 @@ FWC e COC usam os alias `--selection-fwc` (de `--group-fwc`) e
 - Toque no cartão: além da mudança de cor do estado, encolhe e volta
   (`scale(0.92)`, 60ms) no instante do toque/clique (IDR 0042)
 - Selo `×N`: canto inferior direito, transbordando ~6px do cartão;
-  fundo `--bg-deep`, borda e texto `--orange-card`, 10px/700, raio
+  fundo `--bg-deep`, borda e texto na cor variável `--selo-cor` — laranja
+  `#D86000` com 1 sobrando, interpolando até o vermelho `#D80000` a partir
+  de 10, saturado para valores maiores (IDR 0066) —, 10px/700, raio
   8px, largura fixa para dois dígitos (IDR 0047)
 - Marca de metalizada: ponto de 6px em `--gold` no canto superior
   direito, com 3px de recuo das bordas — dentro do cartão, nunca
