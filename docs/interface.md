@@ -923,6 +923,41 @@ acoplado, com o aviso "chave compartilhada" (IDR 0024, IDR 0029, IDR 0055).
 A vista não sabe se ou quanto foi doado: conteúdo estático, sem requisição
 ao Firestore.
 
+### Estatísticas
+
+Vista interna, sem router (TDR 0020): substitui o conteúdo da tela por
+inteiro, com um "← Voltar" no topo que devolve para a tela de origem. Uma
+porta de entrada: o botão do cabeçalho, na primeira linha, à esquerda do
+compartilhar
+([IDR 0072](idr/0072-pagina-de-estatisticas-como-vista-interna.md)).
+Somente leitura: não ajusta contagens nem escreve no Firestore — deriva tudo
+da coleção já carregada, em memória.
+
+Mesmo layout de leitura da política e dos termos: corpo de largura máxima
+~640px centrado, com o `--page-gutter`, título "Estatísticas" em Poppins
+700/22px dourado, e uma única página scrollável (IDR 0008), sem componente
+com rolagem própria.
+
+Conteúdo, na ordem exibida
+([IDR 0072](idr/0072-pagina-de-estatisticas-como-vista-interna.md)), com
+gráficos desenhados à mão em SVG/CSS, sem biblioteca
+([TDR 0030](tdr/0030-graficos-de-estatisticas-a-mao-sem-biblioteca.md)):
+
+- **Resumo geral**: donut do percentual colado ao lado dos números de
+  coladas, faltantes, repetidas e progresso;
+- **Progresso por grupo**: 14 barras horizontais proporcionais — FWC, os 12
+  grupos A–L e COC;
+- **Progresso por seção**: 50 barras horizontais finas, uma por seção;
+- **Repetidas por seção**: os códigos distintos com contagem ≥ 2, por seção,
+  e o total de figurinhas repetidas;
+- **Histograma de contagens**: colunas com quantas figurinhas estão em cada
+  faixa (0, 1, …, 5 e a cauda "6+").
+
+Cada gráfico traz o número visível e o nome acessível por extenso (ex.:
+"Brasil: 12 de 20 coladas, 8 faltantes"), para a cor nunca ser o único sinal
+(IDR 0018). Com a coleção vazia (0/994), os números são zeros e as barras
+ficam vazias, sem mensagem especial.
+
 ### Catálogo compartilhado
 
 Vista somente leitura do catálogo do dono, aberta por `/catalogo/<uid>` sem

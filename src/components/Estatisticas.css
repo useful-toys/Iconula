@@ -1,0 +1,215 @@
+/* Copyright (c) 2026 Daniel Felix Ferber */
+
+.estatisticas {
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--cream);
+}
+
+.estatisticas__corpo {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: var(--page-gutter);
+  padding-bottom: 60px;
+}
+
+.estatisticas__voltar {
+  padding: 6px 0;
+  border: none;
+  background: none;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--gold);
+  cursor: pointer;
+}
+
+.estatisticas__titulo {
+  margin: 20px 0 24px;
+  font-family: 'Poppins', system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 22px;
+  color: var(--gold);
+}
+
+/* Uma única página scrollável (IDR 0008): os blocos só empilham com margem,
+   sem contêiner com rolagem própria. */
+.estatisticas__bloco {
+  margin-top: 28px;
+}
+
+.estatisticas__bloco:first-of-type {
+  margin-top: 0;
+}
+
+.estatisticas__subtitulo {
+  margin: 0 0 12px;
+  font-family: 'Poppins', system-ui, sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--cream);
+}
+
+/* Resumo geral — donut do percentual ao lado dos números. */
+.estatisticas__resumo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 20px;
+}
+
+.estatisticas__donut {
+  flex: 0 0 auto;
+  width: 120px;
+  height: 120px;
+}
+
+.estatisticas__donut-fundo {
+  fill: none;
+  stroke: var(--border);
+  stroke-width: 10;
+}
+
+.estatisticas__donut-traco {
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 10;
+  stroke-linecap: round;
+}
+
+.estatisticas__donut-texto {
+  fill: var(--cream);
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.estatisticas__numeros {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px 24px;
+  flex: 1;
+  min-width: 180px;
+  margin: 0;
+}
+
+.estatisticas__numero {
+  margin: 0;
+}
+
+.estatisticas__numero-rotulo {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.estatisticas__numero-valor {
+  margin: 2px 0 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--cream);
+}
+
+/* Barras horizontais proporcionais — grupos e seções. */
+.estatisticas__barras {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.estatisticas__barra-linha {
+  display: grid;
+  grid-template-columns: 3.5rem minmax(0, 1fr) 3.5rem;
+  align-items: center;
+  gap: 8px;
+}
+
+.estatisticas__barra-rotulo {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--cream);
+  white-space: nowrap;
+}
+
+.estatisticas__barra {
+  height: 14px;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  background: var(--panel);
+  overflow: hidden;
+}
+
+.estatisticas__barras--fina .estatisticas__barra {
+  height: 8px;
+  border-radius: 4px;
+}
+
+.estatisticas__barra-preenchimento {
+  height: 100%;
+  border-radius: inherit;
+  background: var(--gold);
+}
+
+.estatisticas__barra-valor {
+  font-size: 12px;
+  color: var(--muted);
+  text-align: right;
+}
+
+/* Repetidas por seção — lista de códigos. */
+.estatisticas__nota {
+  margin: 0 0 8px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.estatisticas__repetidas {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.estatisticas__repetidas-linha {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 4px 12px;
+  font-size: 13px;
+}
+
+.estatisticas__repetidas-secao {
+  color: var(--cream);
+}
+
+.estatisticas__repetidas-codigos {
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Histograma — colunas em SVG (TDR 0030). */
+.estatisticas__histograma {
+  display: block;
+  width: 100%;
+  max-width: 360px;
+  height: auto;
+  margin: 0 auto;
+}
+
+.estatisticas__histograma-barra {
+  fill: var(--gold);
+}
+
+.estatisticas__histograma-total {
+  fill: var(--cream);
+  font-size: 11px;
+}
+
+.estatisticas__histograma-rotulo {
+  fill: var(--muted);
+  font-size: 11px;
+}
