@@ -132,6 +132,11 @@ describe("App — vista do link do catálogo (IDR 0055)", () => {
 
     expect(screen.getByText("somente leitura")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "ICONULA 2026" })).toHaveAttribute("href", "/");
+    // O botão de estatísticas acompanha compartilhar e avatar e some na vista
+    // do link (IDR 0055, IDR 0072).
+    expect(
+      screen.queryByRole("button", { name: "Estatísticas" }),
+    ).not.toBeInTheDocument();
   });
 
   it("o dono logado abrindo o próprio link vê a mesma vista, sem carga da coleção própria", async () => {

@@ -3,7 +3,7 @@
 # Tarefa 0037-0003: Ícone e botão no cabeçalho para abrir as estatísticas
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Vendorizar o ícone Material `bar_chart` e acrescentar ao cabeçalho um botão

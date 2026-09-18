@@ -743,7 +743,7 @@ Fase 36 porque as duas tocam `App.jsx`, `interface.md`, `arquitetura.md` e
 |---|---|---|---|
 | 0001 | [Derivação pura das estatísticas](0037-pagina-de-estatisticas/0001-derivacao-pura-das-estatisticas.md) | `src/lib/estatisticas.js` (+ teste) com funções puras dos cinco blocos. | Concluída |
 | 0002 | [Vista de estatísticas](0037-pagina-de-estatisticas/0002-vista-de-estatisticas.md) | `Estatisticas.jsx` (+ css, teste) como vista interna, com gráficos à mão. | Concluída |
-| 0003 | [Ícone e botão no cabeçalho](0037-pagina-de-estatisticas/0003-icone-e-botao-no-cabecalho.md) | `material-bar-chart.svg` + botão no cabeçalho + estado em `App.jsx`. | Pendente |
+| 0003 | [Ícone e botão no cabeçalho](0037-pagina-de-estatisticas/0003-icone-e-botao-no-cabecalho.md) | `material-bar-chart.svg` + botão no cabeçalho + estado em `App.jsx`. | Concluída |
 | 0004 | [Documentação viva](0037-pagina-de-estatisticas/0004-documentacao-viva.md) | `arquitetura.md` e `AGENTS.md` no estado atual. | Pendente |
 
 ## Regras que valem em toda tarefa

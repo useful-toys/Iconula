@@ -2,6 +2,7 @@
 
 import { describe, expect, it, vi } from 'vitest';
 import { act, render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom/vitest';
 import { Cabecalho } from './Cabecalho.jsx';
 import { Controles } from './Controles.jsx';
@@ -352,5 +353,69 @@ describe('Cabecalho', () => {
     });
 
     expect(screen.getByText('BRA · Brasil · 12/20 60% ▯8 ×3')).toBeInTheDocument();
+  });
+
+  describe('botão de estatísticas (IDR 0072)', () => {
+    it('renderiza o botão com aria-label e abre a vista no clique', async () => {
+      const user = userEvent.setup();
+      const onAbrirEstatisticas = vi.fn();
+      render(
+        <Cabecalho
+          coladas={0}
+          faltantes={994}
+          repetidas={0}
+          percentual={0}
+          secoes={secoes}
+          onSaltar={vi.fn()}
+          onAbrirEstatisticas={onAbrirEstatisticas}
+        />,
+      );
+
+      await user.click(screen.getByRole('button', { name: 'Estatísticas' }));
+
+      expect(onAbrirEstatisticas).toHaveBeenCalledTimes(1);
+    });
+
+    it('fica à esquerda do compartilhar na primeira linha', () => {
+      render(
+        <Cabecalho
+          coladas={0}
+          faltantes={994}
+          repetidas={0}
+          percentual={0}
+          secoes={secoes}
+          onSaltar={vi.fn()}
+          onAbrirEstatisticas={vi.fn()}
+          compartilhar={
+            <MenuDeCompartilhar onCopiarFaltantes={vi.fn()} onCopiarRepetidas={vi.fn()} />
+          }
+          avatar={<MenuDeAcoes onSignOut={vi.fn()} />}
+        />,
+      );
+
+      const estatisticas = screen.getByRole('button', { name: 'Estatísticas' });
+      const compartilhar = screen.getByRole('button', {
+        name: /compartilhar listas de troca/,
+      });
+
+      expect(estaAntes(estatisticas, compartilhar)).toBe(true);
+    });
+
+    it('sem o callback o botão não aparece', () => {
+      render(
+        <Cabecalho
+          coladas={0}
+          faltantes={994}
+          repetidas={0}
+          percentual={0}
+          secoes={secoes}
+          onSaltar={vi.fn()}
+        />,
+      );
+
+      expect(
+        screen.queryByRole('button', { name: 'Estatísticas' }),
+      ).not.toBeInTheDocument();
+    });
   });
 });
