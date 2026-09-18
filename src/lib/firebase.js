@@ -72,7 +72,7 @@ export function signInWithGoogle() {
 // (`auth/popup-closed-by-user`, `auth/cancelled-popup-request`) é
 // desistência — quem chama trata, como em `LoginButton.jsx`.
 export function reauthenticateWithGoogle() {
-  return reauthenticateWithPopup(auth, new GoogleAuthProvider());
+  return reauthenticateWithPopup(auth.currentUser, new GoogleAuthProvider());
 }
 
 // Último passo da exclusão (TDR 0027), depois de `users/{uid}` já ter sido

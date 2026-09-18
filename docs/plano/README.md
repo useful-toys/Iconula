@@ -602,7 +602,7 @@ procedimentos manuais de privacidade
 |---|---|---|---|
 | 0001 | [Regra de exclusão do próprio documento](0031-exclusao-de-dados-e-conformidade-da-politica/0001-regra-de-exclusao-do-proprio-documento.md) | `allow delete` para o dono, com os casos de intruso, anônimo e link ativo. | Concluída |
 | 0002 | [Funções de exclusão nas duas camadas](0031-exclusao-de-dados-e-conformidade-da-politica/0002-funcoes-de-exclusao-nas-duas-camadas.md) | Apagar documento em `colecaoRemota`; reautenticar e apagar conta em `firebase`. | Concluída |
-| 0003 | [Painel de apagar dados na política](0031-exclusao-de-dados-e-conformidade-da-politica/0003-painel-de-apagar-dados-na-politica.md) | Três estados na vista, ordem do TDR 0027 e e2e contra os emuladores. | Pendente |
+| 0003 | [Painel de apagar dados na política](0031-exclusao-de-dados-e-conformidade-da-politica/0003-painel-de-apagar-dados-na-politica.md) | Três estados na vista, ordem do TDR 0027 e e2e contra os emuladores. | Concluída |
 | 0004 | [Canal de contato protegido contra coleta](0031-exclusao-de-dados-e-conformidade-da-politica/0004-canal-de-contato-protegido-contra-coleta.md) | Endereço em partes e componente único; nada literal no `dist/`. | Pendente |
 | 0005 | [Conformidade do texto da política e dos termos](0031-exclusao-de-dados-e-conformidade-da-politica/0005-conformidade-do-texto-da-politica-e-dos-termos.md) | Controlador, base legal, operador e transferência, retenção, portabilidade, vigência. | Pendente |
 | 0006 | [Inventário e documentação de privacidade](0031-exclusao-de-dados-e-conformidade-da-politica/0006-inventario-e-documentacao-de-privacidade.md) | Cria `docs/privacidade.md`; DPA no `setup-gcloud.md`; decisões em `arquitetura.md`. | Pendente |

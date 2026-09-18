@@ -3,7 +3,7 @@
 # Tarefa [0031-0003]: painel de apagar dados na política
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 
