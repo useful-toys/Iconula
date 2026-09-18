@@ -25,9 +25,14 @@ Aceito.
 
 ## Decisão
 
-- **Biblioteca local** (tipo `qrcode`, sem dependências, gera SVG/canvas
-  no navegador), sem chamada de rede — mesma lógica de "nada de terceiro
-  em runtime" das fontes e dos ícones.
+- **Biblioteca local** (`qrcode`, gera SVG/canvas no navegador), sem
+  chamada de rede — mesma lógica de "nada de terceiro em runtime" das
+  fontes e dos ícones. Não é standalone: declara `pngjs`, `yargs` e
+  `dijkstrajs` como dependências, mas o campo `browser` do pacote troca o
+  ponto de entrada Node (`lib/index.js`) por `lib/browser.js` num bundler
+  como o Vite — o caminho do navegador não passa por `pngjs` (PNG em
+  arquivo) nem por `yargs` (CLI), só por `dijkstrajs` (sem dependência
+  própria); o pacote todo instalado tem ~135KB descompactados.
 - **Função pura** para montar o payload BR Code (no molde de
   `src/lib/textoDeTroca.js`), incluindo:
   - Chave Pix **aleatória** (nunca CPF, e-mail ou telefone) — evita expor
@@ -64,5 +69,10 @@ Aceito.
 
 ## Histórico
 
+- 2026-09-18 — Revisão no PR do esmiuçamento: corrigida a descrição da
+  biblioteca `qrcode`, que não é standalone (`pngjs`, `yargs`,
+  `dijkstrajs` como dependências diretas); mantida a escolha, com a
+  ressalva de que só `dijkstrajs` alcança o bundle do navegador via campo
+  `browser` do pacote. Antes: descrita como "sem dependências".
 - 2026-09-18 — Criado no esmiuçamento de QR code Pix para doações;
   implementação a planejar.
