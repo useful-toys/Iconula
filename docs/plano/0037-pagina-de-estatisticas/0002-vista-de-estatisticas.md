@@ -3,7 +3,7 @@
 # Tarefa 0037-0002: Vista de estatísticas com gráficos à mão
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Criar `Estatisticas.jsx` como vista interna (TDR 0020): substitui o conteúdo
