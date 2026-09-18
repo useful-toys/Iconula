@@ -75,11 +75,23 @@ export default function TermosDeUso({ onVoltar }) {
           aprovação.
         </p>
 
-        <h2>Alterações dos termos</h2>
+        <h2>Alterações</h2>
         <p>
-          Estes termos podem mudar quando o aplicativo evoluir. A versão vigente
-          é sempre a exibida aqui, dentro do aplicativo; continuar usando depois
-          de uma mudança significa concordar com ela.
+          Estes termos podem mudar quando o aplicativo evoluir. A versão
+          vigente é a data no topo; só mudança material sobe a versão, e
+          correção de digitação ou de estilo não altera o que você aceitou.
+        </p>
+        <ul>
+          <li>
+            <time dateTime="2026-09-17">17 de setembro de 2026</time> — versão
+            publicada com o conteúdo de conformidade: controlador e
+            encarregado, uso no estado em que se encontra e o histórico.
+          </li>
+        </ul>
+        <p>
+          Mudança material faz o app pedir um novo aceite na entrada, antes
+          de liberar o catálogo; continuar usando depois disso significa
+          concordar com a versão nova.
         </p>
 
         <h2>Lei brasileira</h2>

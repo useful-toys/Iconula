@@ -3,7 +3,7 @@
 # Tarefa [0032-0004]: histórico, prazo e identificação nos textos
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 
