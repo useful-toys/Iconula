@@ -60,7 +60,9 @@ Aceito.
 - Se o cache IndexedDB falhar por algum motivo (ex. modo privado sem
   suporte, quota esgotada), esta decisão não cobre esse caso — fica como
   risco residual aceito, não como pendência de desenho.
-- Implementação: a planejar (`/planejar`).
+- Implementação: Fase 0033, Tarefa 0033-0004 (o indicador "não salvo" do
+  IDR 0027 é a realização desta decisão — nenhum código de interceptação de
+  saída é criado).
 
 ## Alternativas consideradas
 

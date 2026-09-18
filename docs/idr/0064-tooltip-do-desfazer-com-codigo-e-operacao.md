@@ -47,7 +47,7 @@ Aceito.
   coleção atual.
 - Acessibilidade ganha paridade: o leitor de tela anuncia o mesmo texto
   do tooltip visual.
-- Implementação: a planejar (`/planejar`).
+- Implementação: Fase 0033, Tarefa 0033-0003.
 
 ## Alternativas consideradas
 
