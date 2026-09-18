@@ -80,6 +80,7 @@ Detalhes e status das tarefas no guia [CLAUDE.md](CLAUDE.md) § Status e ciclo d
 | 32 | [Prova de aceite, atendimento e incidentes](0032-prova-de-aceite-atendimento-e-incidentes/) | Versionar os textos com reaceite, declarar prazo e identificação, registrar operações e resposta a incidente, e informar antes de ligar o link | 31 | `feat: aceite versionado, procedimentos de privacidade e consentimento do link` | Pendente |
 | 33 | [Tela Sobre, tooltip do desfazer e indicador de pendência](0033-sobre-tooltip-do-desfazer-e-indicador-de-pendencia/) | Tela Sobre com link ao GitHub e a issues, tooltip do desfazer com código e operação, indicador "não salvo" no título e debounce/teto de gravação maiores | — | `feat: tela Sobre, tooltip do desfazer e indicador de pendência no título` | Pendente |
 | 34 | [Refinamentos visuais do catálogo](0034-refinamentos-visuais-do-catalogo/) | Respiro por letra na ordenação por código, ordem bandeira/sigla/nome no título de seção, espaçadores de linha/página na lista e gradiente de cor no selo `×N` | — | `feat: refinamentos visuais do catálogo (título, espaçamento e selo)` | Pendente |
+| 35 | [Apoio ao projeto por doação via Pix](0035-apoio-ao-projeto-por-doacao-via-pix/) | Vista dedicada com QR Pix, chave para copiar/compartilhar e frase de contexto; acesso pelo rodapé e por um bloco no menu de ações, depois de "Sobre" | 33 | `feat: apoio ao projeto por doação via pix` | Pendente |
 
 ---
 
@@ -677,6 +678,27 @@ Nenhuma mudança em `docs/requisitos.md`.
 | 0002 | [Aplica espaçadores de linha e página na lista](0034-refinamentos-visuais-do-catalogo/0002-aplica-espacadores-de-linha-e-pagina-na-lista.md) | +2px nas quebras de linha e +4px nas quebras de página do layout do álbum, seleções e Coca-Cola; FWC de fora. | Pendente |
 | 0003 | [Aplica respiro por letra na ordenação por código](0034-refinamentos-visuais-do-catalogo/0003-aplica-respiro-por-letra-na-ordenacao-por-codigo.md) | +2px de respiro entre seções quando a letra da sigla muda, incluindo FWC/COC. | Pendente |
 | 0004 | [Aplica gradiente de cor ao selo `×N`](0034-refinamentos-visuais-do-catalogo/0004-aplica-gradiente-de-cor-ao-selo.md) | Cor do selo varia de `#D86000` a `#D80000` conforme as unidades sobrando (1 a 10). | Pendente |
+
+## Fase 35 — Apoio ao projeto por doação via Pix
+
+Decisões do esmiuçamento ([PR #86](https://github.com/useful-toys/Iconula/pull/86)):
+QR code Pix estático para doação, com valor sugerido de R$5,00 editável,
+chave aleatória do mantenedor e dados do recebedor no payload BR Code
+([TDR 0029](../tdr/0029-geracao-local-do-qr-code-pix.md)); vista dedicada
+"Apoie o projeto" (molde de vista interna sem router), acessível pelo
+rodapé das duas telas e por um bloco próprio no menu de ações, depois do
+bloco "Sobre" da Fase 33
+([IDR 0070](../idr/0070-apoio-ao-projeto-rodape-menu-e-vista-com-qr-pix.md)).
+Depende da Fase 33 entregue: as duas fases tocam os mesmos arquivos
+(`MenuDeAcoes.jsx`, `Rodape.jsx`, `TelaDeLogin.jsx`, `App.jsx`).
+`docs/requisitos.md` § Apoio ao projeto já foi criada no PR do
+esmiuçamento.
+
+| # | Tarefa | Objetivo | Status |
+|---|---|---|---|
+| 0001 | [Payload Pix e biblioteca de QR code](0035-apoio-ao-projeto-por-doacao-via-pix/0001-payload-pix-e-biblioteca-de-qr-code.md) | Dependência `qrcode` e função pura que monta o BR Code a partir da chave, valor e dados do recebedor. | Pendente |
+| 0002 | [Vista "Apoie o projeto" e link no rodapé](0035-apoio-ao-projeto-por-doacao-via-pix/0002-vista-apoie-o-projeto-e-link-no-rodape.md) | Componente com QR, chave em texto, copiar/compartilhar e frase de contexto; link no rodapé das duas telas. | Pendente |
+| 0003 | [Apoiar o projeto no menu de ações](0035-apoio-ao-projeto-por-doacao-via-pix/0003-apoiar-o-projeto-no-menu-de-acoes.md) | Bloco próprio no menu de ações, depois de "Sobre" e antes de "Sair da conta". | Pendente |
 
 ## Regras que valem em toda tarefa
 
