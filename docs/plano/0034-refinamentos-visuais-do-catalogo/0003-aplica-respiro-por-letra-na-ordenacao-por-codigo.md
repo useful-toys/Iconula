@@ -3,7 +3,7 @@
 # Tarefa [0034-0003]: Aplica respiro por letra na ordenação por código
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Na ordenação por sigla (sem super-grupos), o respiro entre uma seção e a

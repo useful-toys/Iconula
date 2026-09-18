@@ -6,3 +6,10 @@
   gap: var(--section-gap);
   padding: var(--body-padding);
 }
+
+/* Na ordenação por sigla, a seção cuja letra inicial difere da anterior ganha
+ * +2px de respiro (IDR 0067), somados ao `gap` de `--section-gap` do
+ * contêiner. Na ordenação por página o contêiner não recebe a classe. */
+.catalogo__secao--respiro-letra {
+  margin-top: 2px;
+}
