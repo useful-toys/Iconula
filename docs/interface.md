@@ -729,6 +729,26 @@ interno da conta, e nome, e-mail e foto não aparecem. A frase dos terceiros
 em "Onde os dados ficam" acompanha: além do Google, só quem tiver o link,
 quando ele estiver ligado.
 
+A seção "Direitos do titular" passa a oferecer a exclusão de dentro do app,
+em painel de dois passos e um estado final ([IDR 0060](idr/0060-apagar-meus-dados-na-politica-em-dois-passos.md),
+[TDR 0027](tdr/0027-autorizacao-e-ordem-da-exclusao-de-dados.md)):
+
+- **Repouso** (com sessão): botão "Apagar meus dados" e a nota de que apaga
+  a coleção e a conta de login, mas não a conta Google.
+- **Confirmando**: cartão que lista o que será apagado, com "Exportar minha
+  coleção antes" — a mesma exportação do menu de ações —, "Apagar
+  definitivamente" e "Cancelar"; os botões ficam desabilitados enquanto a
+  operação está em voo (descartar as pendências da gravação agregada,
+  reautenticar por popup, apagar o documento e apagar a conta).
+- **Apagado**: "Seus dados foram apagados" e o botão "Voltar à tela de
+  login". Como a vista é montada antes da guarda de login (TDR 0020), o
+  estado permanece na tela depois de a sessão acabar.
+
+Sem sessão — antes de autenticar e na vista aberta pelo link do catálogo
+([IDR 0055](idr/0055-catalogo-compartilhado-por-link-somente-leitura.md)) —,
+a seção mostra apenas o canal de contato. A política deixa de ser só
+leitura: é a primeira vista interna com uma ação que altera dados.
+
 ### Termos de uso
 
 Vista interna, sem router (TDR 0020), a quarta tela do app: substitui o

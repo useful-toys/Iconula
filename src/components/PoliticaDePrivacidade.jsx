@@ -1,5 +1,6 @@
 // Copyright (c) 2026 Daniel Felix Ferber
 
+import { useState } from "react";
 import "./PoliticaDePrivacidade.css";
 
 // Política de privacidade (LGPD), exigida por requisitos.md § Privacidade —
@@ -7,7 +8,38 @@ import "./PoliticaDePrivacidade.css";
 // rodapé da tela principal (Tarefa 0008-0004, IDR 0037). Vista interna, sem
 // router (TDR 0020): `onVoltar` devolve para a tela de onde o usuário veio,
 // sem depender do histórico do navegador.
-export default function PoliticaDePrivacidade({ onVoltar }) {
+//
+// A seção "Direitos do titular" também é onde vive o comando "Apagar meus
+// dados" (IDR 0060, Tarefa 0031-0003): um painel de dois passos, com o
+// "Exportar minha coleção antes" ao lado do "Apagar definitivamente". O
+// bloco só existe com sessão (`podeApagar`); o estado final, porém, continua
+// renderizado depois de a sessão acabar — a vista é montada antes da guarda
+// de login (TDR 0020) e é ele que fecha o fluxo. `onApagar` devolve
+// `{ status: 'sucesso' | 'cancelado' | 'falha' }`: desistência do popup
+// volta ao repouso sem aviso; falha mantém o painel para nova tentativa,
+// com o aviso já emitido por `App.jsx`.
+export default function PoliticaDePrivacidade({
+  onVoltar,
+  podeApagar = false,
+  onApagar,
+  onExportar,
+}) {
+  const [estado, setEstado] = useState("repouso");
+  const [emVoo, setEmVoo] = useState(false);
+
+  async function handleApagar() {
+    setEmVoo(true);
+    const resultado = await onApagar();
+    setEmVoo(false);
+    if (resultado?.status === "sucesso") {
+      setEstado("apagado");
+    } else if (resultado?.status === "cancelado") {
+      setEstado("repouso");
+    }
+  }
+
+  const mostrarBloco = podeApagar || estado === "apagado";
+
   return (
     <div className="politica">
       <div className="politica__corpo">
@@ -68,6 +100,70 @@ export default function PoliticaDePrivacidade({ onVoltar }) {
           escrevendo para o canal de contato abaixo. A conta Google em si
           não é apagada por nós — ela é do Google, não do Iconula.
         </p>
+
+        {mostrarBloco &&
+          (estado === "apagado" ? (
+            <div className="politica__apagado">
+              <p className="politica__apagado-titulo">
+                Seus dados foram apagados
+              </p>
+              <button
+                type="button"
+                className="politica__apagar-botao"
+                onClick={onVoltar}
+              >
+                Voltar à tela de login
+              </button>
+            </div>
+          ) : estado === "confirmando" ? (
+            <div className="politica__confirmacao">
+              <p className="politica__confirmacao-texto">
+                Serão apagados a sua coleção de figurinhas e a sua conta de
+                login no Iconula — nome, e-mail e foto de perfil. A conta
+                Google permanece.
+              </p>
+              <button
+                type="button"
+                className="politica__apagar-secundario"
+                onClick={onExportar}
+                disabled={emVoo}
+              >
+                Exportar minha coleção antes
+              </button>
+              <div className="politica__confirmacao-acoes">
+                <button
+                  type="button"
+                  className="politica__apagar-botao"
+                  onClick={handleApagar}
+                  disabled={emVoo}
+                >
+                  Apagar definitivamente
+                </button>
+                <button
+                  type="button"
+                  className="politica__apagar-secundario"
+                  onClick={() => setEstado("repouso")}
+                  disabled={emVoo}
+                >
+                  Cancelar
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div className="politica__apagar">
+              <button
+                type="button"
+                className="politica__apagar-botao"
+                onClick={() => setEstado("confirmando")}
+              >
+                Apagar meus dados
+              </button>
+              <p className="politica__apagar-nota">
+                Apaga a sua coleção de figurinhas e a sua conta de login no
+                Iconula, mas não a conta Google.
+              </p>
+            </div>
+          ))}
 
         <h2>Dados de menores</h2>
         <p>

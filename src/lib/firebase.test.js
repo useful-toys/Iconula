@@ -106,8 +106,11 @@ describe('com Firebase configurado (Tarefa 0031-0002)', () => {
       const resultado = await modulo.reauthenticateWithGoogle();
 
       expect(auth.reauthenticateWithPopup).toHaveBeenCalledTimes(1);
-      const [instancia, provedor] = auth.reauthenticateWithPopup.mock.calls[0];
-      expect(instancia).toBe(modulo.auth);
+      const [usuario, provedor] = auth.reauthenticateWithPopup.mock.calls[0];
+      // `reauthenticateWithPopup` recebe o `User`, não a instância `Auth`
+      // (o SDK lê `user.auth.app`) — Tarefa 0031-0003.
+      expect(usuario).toBe(modulo.auth.currentUser);
+      expect(usuario).toEqual({ uid: 'u1' });
       expect(provedor).toBeInstanceOf(auth.GoogleAuthProvider);
       expect(auth.signInWithPopup).not.toHaveBeenCalled();
       expect(resultado).toEqual({ user: { uid: 'u1' } });
@@ -157,9 +160,10 @@ describe('sem Firebase configurado (Tarefa 0031-0002)', () => {
   });
 
   it('reauthenticateWithGoogle falha em vez de resolver em silêncio', () => {
-    // O módulo passa `auth` nulo ao SDK, que lança; a função propaga.
-    expect(() => modulo.reauthenticateWithGoogle()).toThrow('auth/invalid-api-key');
-    expect(auth.reauthenticateWithPopup).toHaveBeenCalledWith(null, expect.anything());
+    // Sem config, `auth` é nulo: ler `auth.currentUser` lança antes de o SDK
+    // ser chamado — a função propaga em vez de resolver.
+    expect(() => modulo.reauthenticateWithGoogle()).toThrow();
+    expect(auth.reauthenticateWithPopup).not.toHaveBeenCalled();
   });
 
   it('deleteUserAccount falha — não há usuário corrente para apagar', () => {

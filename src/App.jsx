@@ -16,12 +16,13 @@ import { Catalogo } from "./components/Catalogo.jsx";
 import { Avisos } from "./components/Avisos.jsx";
 import { Rodape } from "./components/Rodape.jsx";
 import { CatalogoCompartilhado } from "./components/CatalogoCompartilhado.jsx";
-import { auth, app } from "./lib/firebase";
+import { auth, app, deleteUserAccount, reauthenticateWithGoogle } from "./lib/firebase";
 import { ajustarContagem, obterContagem } from "./lib/colecao.js";
 import { registrarAjuste, retirarUltimoAjuste } from "./lib/historico.js";
 import { calcularPlacar } from "./lib/progresso.js";
 import { lerPreferenciasDeVista, gravarPreferenciasDeVista } from "./lib/preferenciasDeVista.js";
 import {
+  apagarColecao,
   carregarColecao,
   gravarAlteracoes,
   gravarAtestacao,
@@ -403,6 +404,89 @@ export default function App() {
     await signOut(auth);
   }
 
+  // Apagar meus dados (Tarefa 0031-0003, IDR 0060, TDR 0027): a ordem é fixa
+  // e cada passo depende do anterior. 1) As pendências da gravação agregada
+  // morrem primeiro — o debounce ou o `pagehide` recriariam o documento
+  // recém-apagado (único ponto do fluxo capaz de desfazer a exclusão
+  // sozinho). 2) A reautenticação por popup é incondicional: o passo que
+  // pode exigir interação acontece antes de qualquer destruição, e o popup é
+  // uma barreira a mais contra o acidente. 3) O documento sai antes da conta
+  // — sem ID token as regras negariam a exclusão. 4) A conta do Auth fecha o
+  // fluxo, porque nome, e-mail e foto vivem nela, não no Firestore.
+  // Devolve `{ status: 'sucesso' | 'cancelado' | 'falha' }` para a política
+  // decidir o que mostrar; os avisos de falha saem daqui.
+  async function handleApagarDados() {
+    gravacaoAgregada.descartarPendencias();
+
+    try {
+      await reauthenticateWithGoogle();
+    } catch (erro) {
+      // Popup fechado/cancelado é desistência deliberada, não falha: cancela
+      // tudo, sem apagar nada e sem aviso (mesmo tratamento de
+      // `LoginButton.jsx`).
+      if (
+        erro?.code === 'auth/popup-closed-by-user' ||
+        erro?.code === 'auth/cancelled-popup-request'
+      ) {
+        return { status: 'cancelado' };
+      }
+      emitirAviso({
+        severidade: SEVERIDADE.FALHA,
+        mensagem: 'Falha ao apagar — toque para detalhes',
+        detalhe: mensagemDeErro(erro),
+        tipo: 'apagar',
+      });
+      return { status: 'falha' };
+    }
+
+    const apagou = await apagarColecao(uid, {
+      aoEsperar: () => {
+        emitirAviso({
+          severidade: SEVERIDADE.AVISO,
+          mensagem: 'Conexão instável — sincronizando quando possível',
+          tipo: 'apagar',
+        });
+      },
+    });
+
+    // Falha no documento aborta antes de tocar a conta: melhor uma coleção
+    // que não foi apagada do que uma conta órfã sem o dado pessoal.
+    if (apagou.status !== 'sucesso') {
+      emitirAviso({
+        severidade: SEVERIDADE.FALHA,
+        mensagem: 'Falha ao apagar — toque para detalhes',
+        detalhe: mensagemDeErro(apagou.erro),
+        tipo: 'apagar',
+      });
+      return { status: 'falha' };
+    }
+
+    try {
+      await deleteUserAccount();
+    } catch {
+      // Documento já apagado e conta de login ainda de pé: aviso dourado
+      // (nada quebrou por completo) e `signOut` — a política continua
+      // montada e mostra a tela de contato, já sem a conta.
+      emitirAviso({
+        severidade: SEVERIDADE.AVISO,
+        mensagem: 'Coleção apagada, mas a conta de login permanece',
+        tipo: 'apagar',
+      });
+      await signOut(auth);
+      return { status: 'falha' };
+    }
+
+    // Sucesso: nada da conta apagada pode sobreviver no estado local, que
+    // alimenta a tela principal se a sessão for restaurada.
+    setContagens({});
+    setAtualizadoEm('—');
+    setHistorico([]);
+    setPrecisaAtestar(false);
+    setLinkAtivo(false);
+
+    return { status: 'sucesso' };
+  }
+
   // Copia um texto para a área de transferência (Tarefa 0009-0003; mensagem
   // de sucesso parametrizada na Tarefa 0027-0005). Sucesso avisa a mensagem
   // (por padrão "Lista copiada"; o link do catálogo usa "Link copiado");
@@ -656,7 +740,22 @@ export default function App() {
   // fechar (`onVoltar`) apenas desliga o estado e devolve para a tela que os
   // ramos abaixo já mostrariam.
   if (vistaInterna === 'politica') {
-    return <PoliticaDePrivacidade onVoltar={() => setVistaInterna(null)} />;
+    // A `Avisos` entra aqui porque o fluxo de apagar dados emite as falhas
+    // parciais do TDR 0027 ainda nesta vista; sem ela, o aviso se perderia
+    // (a tela de login também não a renderiza — IDR 0060). `podeApagar` vem
+    // da sessão: sem usuário, a seção mostra só o canal de contato; o estado
+    // final da exclusão sobrevive sozinho ao fim da sessão (IDR 0060).
+    return (
+      <>
+        <PoliticaDePrivacidade
+          onVoltar={() => setVistaInterna(null)}
+          podeApagar={Boolean(user)}
+          onApagar={handleApagarDados}
+          onExportar={handleExportar}
+        />
+        <Avisos />
+      </>
+    );
   }
 
   if (vistaInterna === 'termos') {

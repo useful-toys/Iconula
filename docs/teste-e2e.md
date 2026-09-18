@@ -107,6 +107,7 @@ e2e/
 ├── README.md              — propósito da pasta (exceção de co-localização)
 ├── catalogo.spec.js        — teste de fumaça
 ├── catalogoCompartilhado.spec.js — vista do link sem login (IDR 0055)
+├── apagarDados.spec.js     — exclusão da coleção e da conta (IDR 0060, TDR 0027)
 └── helpers/
     ├── login.js             — loginComPopupFake, loginComEmailSenha
     └── fixture.js           — gravarFixture
@@ -123,13 +124,18 @@ playwright.dev.config.js     — config de atalho (test:e2e:dev, dev server)
   (emuladores, os dois helpers de login, o helper de fixture) e o teste de
   fumaça `catalogo.spec.js` provam que login instantâneo + fixture funcionam
   de ponta a ponta; `catalogoCompartilhado.spec.js` cobre a vista do link sem
-  login ([IDR 0055](idr/0055-catalogo-compartilhado-por-link-somente-leitura.md)).
+  login ([IDR 0055](idr/0055-catalogo-compartilhado-por-link-somente-leitura.md));
+  `apagarDados.spec.js` cobre a exclusão pelo painel da política, com o
+  popup fake do Google nas duas pontas — login e reautenticação
+  ([IDR 0060](idr/0060-apagar-meus-dados-na-politica-em-dois-passos.md),
+  [TDR 0027](tdr/0027-autorizacao-e-ordem-da-exclusao-de-dados.md)).
   Testes de outras funcionalidades específicas (ex.: a faixa de bandeiras)
   são escritos sob demanda, em pedidos futuros.
-- **`loginComPopupFake` sem teste próprio ainda**: o helper existe e está
-  pronto para uso, mas a verificação funcional do fluxo de login via
-  popup (e da tela de atestação) fica para um teste futuro dedicado
-  (ADR 0010 § Escopo desta entrega).
+- **`loginComPopupFake` sem teste dedicado ainda**: o helper passou a ser
+  exercitado de ponta a ponta por `apagarDados.spec.js` (login por popup e
+  atestação de menores), mas a verificação do próprio fluxo de login via
+  popup, num teste dedicado, segue fora deste escopo (ADR 0010 § Escopo
+  desta entrega).
 
 ## Referências
 
