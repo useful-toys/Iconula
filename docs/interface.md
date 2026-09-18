@@ -744,7 +744,7 @@ em "Onde os dados ficam" acompanha: além do Google, só quem tiver o link,
 quando ele estiver ligado.
 
 A seção "Direitos do titular" passa a oferecer a exclusão de dentro do app,
-em painel de dois passos e um estado final ([IDR 0060](idr/0060-apagar-meus-dados-na-politica-em-dois-passos.md),
+em painel de dois passos com o estado final numa tela própria ([IDR 0060](idr/0060-apagar-meus-dados-na-politica-em-dois-passos.md),
 [TDR 0027](tdr/0027-autorizacao-e-ordem-da-exclusao-de-dados.md)):
 
 - **Repouso** (com sessão): botão "Apagar meus dados" e a nota de que apaga
@@ -755,9 +755,10 @@ em painel de dois passos e um estado final ([IDR 0060](idr/0060-apagar-meus-dado
   operação está em voo (descartar as pendências da gravação agregada,
   apagar o documento e apagar a conta; reautenticar por popup só quando o
   `deleteUser` exige login recente).
-- **Apagado**: "Seus dados foram apagados" e o botão "Voltar à tela de
-  login". Como a vista é montada antes da guarda de login (TDR 0020), o
-  estado permanece na tela depois de a sessão acabar.
+- **Conta apagada**: ao concluir, a vista troca para a tela dedicada
+  `ContaApagada` — título "Conta apagada", uma linha curta de confirmação e
+  o botão "Voltar à tela de login" —, montada antes da guarda de login
+  (TDR 0020), então a tela permanece depois de a sessão acabar.
 
 Sem sessão — antes de autenticar e na vista aberta pelo link do catálogo
 ([IDR 0055](idr/0055-catalogo-compartilhado-por-link-somente-leitura.md)) —,

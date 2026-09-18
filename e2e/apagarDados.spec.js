@@ -101,7 +101,7 @@ test('apagar meus dados remove a coleção e a conta; o login seguinte vem vazio
   await page.getByRole('button', { name: 'Apagar definitivamente' }).click();
 
   // A tela final sobrevive ao fim da sessão, que o `deleteUser` provoca.
-  await expect(page.getByText('Seus dados foram apagados')).toBeVisible();
+  await expect(page.getByText('Conta apagada')).toBeVisible();
 
   // O documento do dono sumiu do Firestore, não só da tela.
   expect(await documentoExiste(projectId, uid)).toBe(false);

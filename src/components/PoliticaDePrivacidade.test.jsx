@@ -92,8 +92,9 @@ describe("PoliticaDePrivacidade", () => {
   });
 });
 
-// Painel "Apagar meus dados" (IDR 0060, Tarefa 0031-0003): os três estados,
-// a ausência sem sessão e o estado final que sobrevive ao fim dela.
+// Painel "Apagar meus dados" (IDR 0060, Tarefa 0031-0003): os dois estados
+// (repouso e confirmando), a ausência sem sessão e o `onApagar` que dispara a
+// exclusão — o estado final vive na tela `ContaApagada`, no `App.jsx`.
 describe("PoliticaDePrivacidade — apagar meus dados", () => {
   it("sem sessão não mostra o comando, só o canal de contato", () => {
     render(<PoliticaDePrivacidade onVoltar={vi.fn()} podeApagar={false} />);
@@ -127,21 +128,15 @@ describe("PoliticaDePrivacidade — apagar meus dados", () => {
     expect(onExportar).toHaveBeenCalledTimes(1);
   });
 
-  it("apagar definitivamente chama onApagar e chega ao estado apagado", async () => {
+  it("apagar definitivamente chama onApagar", async () => {
     const user = userEvent.setup();
-    const onApagar = vi.fn(() => Promise.resolve({ status: "sucesso" }));
-    const onVoltar = vi.fn();
-    render(<PoliticaDePrivacidade onVoltar={onVoltar} podeApagar onApagar={onApagar} onExportar={vi.fn()} />);
+    const onApagar = vi.fn(() => Promise.resolve());
+    render(<PoliticaDePrivacidade onVoltar={vi.fn()} podeApagar onApagar={onApagar} onExportar={vi.fn()} />);
 
     await user.click(screen.getByRole("button", { name: "Apagar meus dados" }));
     await user.click(screen.getByRole("button", { name: "Apagar definitivamente" }));
 
     expect(onApagar).toHaveBeenCalledTimes(1);
-    expect(await screen.findByText("Seus dados foram apagados")).toBeInTheDocument();
-
-    await user.click(screen.getByRole("button", { name: "Voltar à tela de login" }));
-
-    expect(onVoltar).toHaveBeenCalledTimes(1);
   });
 
   it("os botões ficam desabilitados enquanto a operação está em voo", async () => {
@@ -160,38 +155,20 @@ describe("PoliticaDePrivacidade — apagar meus dados", () => {
     expect(screen.getByRole("button", { name: "Exportar minha coleção antes" })).toBeDisabled();
 
     await act(async () => {
-      resolver({ status: "sucesso" });
+      resolver();
     });
 
-    expect(await screen.findByText("Seus dados foram apagados")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Apagar definitivamente" })).toBeEnabled();
   });
 
   it("falha mantém o painel de confirmação para nova tentativa", async () => {
     const user = userEvent.setup();
-    const onApagar = vi.fn(() => Promise.resolve({ status: "falha" }));
+    const onApagar = vi.fn(() => Promise.resolve());
     render(<PoliticaDePrivacidade onVoltar={vi.fn()} podeApagar onApagar={onApagar} onExportar={vi.fn()} />);
 
     await user.click(screen.getByRole("button", { name: "Apagar meus dados" }));
     await user.click(screen.getByRole("button", { name: "Apagar definitivamente" }));
 
     expect(await screen.findByRole("button", { name: "Apagar definitivamente" })).toBeInTheDocument();
-  });
-
-  it("o estado apagado permanece depois de a sessão acabar", async () => {
-    const user = userEvent.setup();
-    const onApagar = vi.fn(() => Promise.resolve({ status: "sucesso" }));
-    const { rerender } = render(
-      <PoliticaDePrivacidade onVoltar={vi.fn()} podeApagar onApagar={onApagar} onExportar={vi.fn()} />,
-    );
-
-    await user.click(screen.getByRole("button", { name: "Apagar meus dados" }));
-    await user.click(screen.getByRole("button", { name: "Apagar definitivamente" }));
-    expect(await screen.findByText("Seus dados foram apagados")).toBeInTheDocument();
-
-    // A sessão acaba: `podeApagar` vira falso, mas o estado final continua.
-    rerender(<PoliticaDePrivacidade onVoltar={vi.fn()} podeApagar={false} onApagar={onApagar} onExportar={vi.fn()} />);
-
-    expect(screen.getByText("Seus dados foram apagados")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Voltar à tela de login" })).toBeInTheDocument();
   });
 });

@@ -149,7 +149,11 @@ describe("App — apagar meus dados", () => {
     ];
     expect(ordem).toEqual([...ordem].sort((a, b) => a - b));
 
-    expect(screen.getByText("Seus dados foram apagados")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Conta apagada" })).toBeInTheDocument();
+    expect(
+      screen.getByText("Sua conta de login e a sua coleção de figurinhas foram apagadas."),
+    ).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Voltar à tela de login" })).toBeInTheDocument();
   });
 
   it("reautentica por popup só quando o deleteUser exige login recente", async () => {
@@ -165,22 +169,26 @@ describe("App — apagar meus dados", () => {
     expect(firebase.deleteUserAccount).toHaveBeenCalledTimes(2);
     expect(colecao.apagarColecao).toHaveBeenCalledTimes(1);
 
-    expect(screen.getByText("Seus dados foram apagados")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Conta apagada" })).toBeInTheDocument();
   });
 
-  it("o estado final continua visível depois de a sessão acabar", async () => {
+  it("a tela Conta apagada continua visível depois de a sessão acabar", async () => {
     await montarLogado();
 
     await abrirPainel();
     await confirmarApagar();
 
-    // Fim da sessão: `onAuthStateChanged` zera o usuário, mas a política
-    // continua montada (TDR 0020) e o estado final permanece (IDR 0060).
+    // Fim da sessão: `onAuthStateChanged` zera o usuário, mas a vista
+    // `ContaApagada` continua montada, renderizada antes da guarda de login
+    // (TDR 0020, IDR 0060).
     await act(async () => {
       authState.callback(null);
     });
 
-    expect(screen.getByText("Seus dados foram apagados")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Conta apagada" })).toBeInTheDocument();
+    expect(
+      screen.getByText("Sua conta de login e a sua coleção de figurinhas foram apagadas."),
+    ).toBeInTheDocument();
 
     await act(async () => {
       fireEvent.click(screen.getByRole("button", { name: "Voltar à tela de login" }));
