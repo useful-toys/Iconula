@@ -24,13 +24,15 @@
 /* Os comandos (compartilhar e avatar) ficam sempre na primeira linha, à
  * direita do título (IDR 0018): saem do fluxo e são ancorados no alto à
  * direita do cabeçalho (que é o bloco contentor, por ser posicionado), em
- * linha — o compartilhar logo à esquerda do avatar (IDR 0024). `top` acompanha
- * o padding vertical do cabeçalho. As duas colunas de 30px e os dois `gap` de
- * 8px somam 76px, reservados no título e nos controles logo abaixo, para que
- * nem o texto nem o desfazer passem por baixo deles. */
+ * linha — o compartilhar logo à esquerda do avatar (IDR 0024). `top` usa
+ * `--header-padding-top`, a mesma variável do padding do cabeçalho, para não
+ * desalinhar dos controles quando o padding muda (a regressão da Fase 29 veio
+ * de um `12px` fixo contra o padding de 8px). As duas colunas de 30px e os
+ * dois `gap` de 8px somam 76px, reservados no título e nos controles logo
+ * abaixo, para que nem o texto nem o desfazer passem por baixo deles. */
 .cabecalho__acoes {
   position: absolute;
-  top: 12px;
+  top: var(--header-padding-top);
   right: var(--page-gutter);
   display: flex;
   align-items: center;

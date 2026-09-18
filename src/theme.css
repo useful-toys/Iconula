@@ -230,7 +230,8 @@
   /* Espaçamentos reutilizáveis — docs/interface.md § Medidas */
   --page-gutter: clamp(16px, 4vw, 40px);
 
-  --header-padding: 8px var(--page-gutter) 2px;
+  --header-padding-top: 8px;
+  --header-padding: var(--header-padding-top) var(--page-gutter) 2px;
   --body-padding: 4px var(--page-gutter) 64px;
 
   --super-group-gap: 12px;
