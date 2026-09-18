@@ -182,6 +182,9 @@ secret `FIREBASE_SERVICE_ACCOUNT_ICONULA`. Só as roles que cada job usa:
 - `VITE_FIREBASE_APP_ID`
 - `VITE_GA_MEASUREMENT_ID` (Measurement ID do GA4 — [ADR 0011](adr/0011-analytics-de-uso-com-google-analytics-4.md))
 
+As variáveis são injetadas no build via `vars.*` no bloco `env:` do passo de
+build dos dois workflows de deploy ([DDR 0012](devops-dr/0012-injecao-das-variaveis-de-build-nos-workflows.md)).
+
 ## Ambientes
 
 - **Produção**: `iconula.web.app` / `iconula.danielferber.com.br`

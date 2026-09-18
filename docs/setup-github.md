@@ -107,8 +107,9 @@ gh variable set VITE_GA_MEASUREMENT_ID --repo useful-toys/Iconula --body "G-KQ72
 ```
 
 Referenciadas nos workflows de deploy (`firebase-hosting-merge.yml` e
-`firebase-hosting-pull-request.yml`) como `vars.VITE_FIREBASE_*`, num
-bloco `env:` antes do `npm run build`.
+`firebase-hosting-pull-request.yml`) como `vars.VITE_FIREBASE_*` e
+`vars.VITE_GA_MEASUREMENT_ID`, num bloco `env:` antes do `npm run build`
+([DDR 0012](devops-dr/0012-injecao-das-variaveis-de-build-nos-workflows.md)).
 
 > Nota: originalmente a intenção era deixar o comando
 > `firebase init hosting:github` criar esse secret automaticamente (ele
