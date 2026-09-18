@@ -13,8 +13,9 @@ art. 41), pelo canal de contato publicado na política de privacidade. O
 que ele descreve é o estado real do app: as fontes do inventário são
 [modelo-firebase.md](modelo-firebase.md), o
 [IDR 0061](idr/0061-conteudo-de-conformidade-da-politica-e-dos-termos.md),
-o [MDR 0009](model-dr/0009-campos-de-aceite-dos-textos.md) e o
-[MDR 0007](model-dr/0007-persistencia-no-armazenamento-local.md).
+o [MDR 0009](model-dr/0009-campos-de-aceite-dos-textos.md), o
+[MDR 0007](model-dr/0007-persistencia-no-armazenamento-local.md) e o
+[ADR 0011](adr/0011-analytics-de-uso-com-google-analytics-4.md).
 
 **Cobertura**: o inventário completo do art. 37 (todos os campos de
 `users/{uid}`), o runbook da purga por inatividade, o passo a passo do
@@ -32,6 +33,7 @@ sem automação, no plano Spark, como decidiu o
 | Versões aceitas dos textos e instante do aceite (`termosVersao`, `politicaVersao`, `aceitoEm`) | Provar qual versão dos termos de uso e da política o titular aceitou e quando — o ônus da prova é do controlador | Execução do contrato dos termos de uso (LGPD art. 7º, V) | Mesma da conta: enquanto ela existir; 24 meses sem login levam ao apagamento | Google (Cloud Firestore, `southamerica-east1`) | **Não** |
 | Coleção compartilhada por link (`contagens`, `updatedAt`, `linkAtivo`) | A pedido do titular, mostrar a coleção sem login a quem tiver o link | Consentimento específico (LGPD art. 7º, I), revogado ao desligar o link | Enquanto o link estiver ligado; desligado, a coleção volta à regra da conta | Google (Cloud Firestore, `southamerica-east1`) | **Não** pelo operador. A leitura é de terceiros que tenham o link, por escolha do titular ([IDR 0055](idr/0055-catalogo-compartilhado-por-link-somente-leitura.md)) |
 | Preferências de vista, colapso manual e cache do SDK (no aparelho) | Funcionar a interface e sustentar a gravação local da coleção | Execução do contrato dos termos de uso (LGPD art. 7º, V) — estritamente funcional, sem rastreio | No aparelho, até o titular limpar os dados do navegador | Nenhum — não sai do aparelho | **Não** |
+| Métricas de uso: cookies e identificadores do Google Analytics | Medir visitas, sessões e engajamento do app, só após o aceite | Consentimento específico (LGPD art. 7º, I), revogável ao recusar o banner | 14 meses — retenção configurada no GA4 | Google (Google Analytics 4, região Brasil) | **Não** — os dados de analytics ficam na região Brasil ([ADR 0011](adr/0011-analytics-de-uso-com-google-analytics-4.md)) |
 
 Observações do inventário:
 
@@ -44,9 +46,13 @@ Observações do inventário:
 - O aceite versionado guarda só a data de vigência dos textos e o instante
   do clique, não o texto integral
   ([MDR 0009](model-dr/0009-campos-de-aceite-dos-textos.md)).
-- Não há analytics, localização nem dado de pagamento; o app não pede
-  consentimento de cookies nem exibe banner, porque o armazenamento local
-  é funcional e nunca enviado.
+- O armazenamento local é funcional e nunca enviado (preferências, colapso
+  e cache do SDK). À parte dele, o app usa cookies e identificadores do
+  Google Analytics, só depois do aceite no banner de consentimento; recusar
+  mantém o app funcional, sem analytics
+  ([ADR 0011](adr/0011-analytics-de-uso-com-google-analytics-4.md),
+  [IDR 0071](idr/0071-banner-de-consentimento-para-analytics.md)). Não há
+  coleta de localização nem dado de pagamento.
 
 ## Runbook — purga de contas inativas
 
@@ -268,3 +274,4 @@ entrar no documento (`AGENTS.md` § Convenções).
 |---|---|
 | 2026-09-17 | Criação do documento — inventário e runbook da purga (Tarefa 0031-0006, [DDR 0011](devops-dr/0011-procedimentos-manuais-de-privacidade.md), [IDR 0061](idr/0061-conteudo-de-conformidade-da-politica-e-dos-termos.md)). |
 | 2026-09-18 | Consolidação do art. 37 — campos de aceite no inventário (`termosVersao`, `politicaVersao`, `aceitoEm`); atendimento ao titular; plano de resposta a incidente (Tarefa 0032-0005, [DDR 0011](devops-dr/0011-procedimentos-manuais-de-privacidade.md), [MDR 0009](model-dr/0009-campos-de-aceite-dos-textos.md), [IDR 0061](idr/0061-conteudo-de-conformidade-da-politica-e-dos-termos.md)). |
+| 2026-09-18 | Operação de analytics consentido no inventário (métricas de uso, consentimento do art. 7º, I, retenção de 14 meses, região Brasil) e Observações com o banner (Tarefa 0036-0004, [ADR 0011](adr/0011-analytics-de-uso-com-google-analytics-4.md), [IDR 0071](idr/0071-banner-de-consentimento-para-analytics.md)). |

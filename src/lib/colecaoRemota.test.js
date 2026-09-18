@@ -507,7 +507,7 @@ describe('gravarAceite (Tarefa 0032-0002)', () => {
       {},
       {
         termosVersao: '2026-09-17',
-        politicaVersao: '2026-09-17',
+        politicaVersao: '2026-09-18',
         aceitoEm: CARIMBO_SERVIDOR,
       },
       { merge: true },
@@ -522,7 +522,7 @@ describe('gravarAceite (Tarefa 0032-0002)', () => {
       {},
       {
         termosVersao: '2026-09-17',
-        politicaVersao: '2026-09-17',
+        politicaVersao: '2026-09-18',
         aceitoEm: CARIMBO_SERVIDOR,
         atestadoEm: CARIMBO_SERVIDOR,
       },

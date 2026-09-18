@@ -83,7 +83,7 @@ beforeEach(() => {
     temTeamName: false,
     atestadoEm: true,
     termosVersao: "2026-09-17",
-    politicaVersao: "2026-09-17",
+    politicaVersao: "2026-09-18",
   });
   colecao.gravarAlteracoes.mockReset();
   colecao.gravarAlteracoes.mockResolvedValue({ status: "sucesso", atualizadoEm: new Date() });

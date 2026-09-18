@@ -44,7 +44,7 @@ export default function PoliticaDePrivacidade({
         <h1 className="politica__titulo">Política de privacidade</h1>
         <p>
           Última atualização:{" "}
-          <time dateTime="2026-09-17">17 de setembro de 2026</time>.
+          <time dateTime="2026-09-18">18 de setembro de 2026</time>.
         </p>
 
         <h2>Controlador e encarregado</h2>
@@ -57,13 +57,15 @@ export default function PoliticaDePrivacidade({
 
         <h2>Dados tratados</h2>
         <p>
-          O Iconula trata dois grupos de dados: a identidade da sua conta
+          O Iconula trata os seguintes dados: a identidade da sua conta
           Google (nome, e-mail e foto de perfil, obtidos no login) e a sua
           coleção de figurinhas (quantas unidades você tem de cada uma,
           identificadas pelo código da figurinha). Também guardamos a data e
           hora da última gravação da coleção e a data em que você atestou a
-          idade mínima (ver "Dados de menores" abaixo). Não há coleta de
-          localização, dados de pagamento nem uso de analytics.
+          idade mínima (ver "Dados de menores" abaixo). Com o seu
+          consentimento, tratamos também métricas de uso — páginas visitadas,
+          sessões e engajamento — por meio do Google Analytics 4. Não há
+          coleta de localização nem dados de pagamento.
         </p>
 
         <h2>Finalidade</h2>
@@ -79,14 +81,17 @@ export default function PoliticaDePrivacidade({
           a coleção são tratadas para executar o contrato firmado nos Termos
           de uso (art. 7º, V); o link do catálogo, quando você o liga, é
           tratado com o seu consentimento, que você revoga ao desligá-lo
-          (art. 7º, I); e a atestação de idade se apoia no art. 14.
+          (art. 7º, I); as métricas de uso são tratadas com o seu consentimento
+          no banner, que você revoga ao recusá-lo (art. 7º, I); e a atestação
+          de idade se apoia no art. 14.
         </p>
 
         <h2>Onde os dados ficam</h2>
         <p>
           A conta e a coleção ficam no Cloud Firestore, serviço do Google
           Cloud, em servidores na região <code>southamerica-east1</code>{" "}
-          (São Paulo). Nenhum outro terceiro tem acesso a esses dados além
+          (São Paulo), e as métricas de uso ficam na região Brasil do Google
+          Analytics. Nenhum outro terceiro tem acesso a esses dados além
           do Google, que já processa o login pelo próprio provedor, e, se
           você ligar o link do catálogo, de quem tiver o link.
         </p>
@@ -94,10 +99,12 @@ export default function PoliticaDePrivacidade({
         <h2>Operador e transferência internacional</h2>
         <p>
           O Google é operador dos seus dados. A coleção fica em servidores
-          brasileiros do Cloud Firestore, mas a identidade da conta é
-          tratada globalmente pelo Firebase Auth, fora do Brasil. Essa
-          transferência internacional se apoia nas cláusulas-padrão
-          contratuais do Google (LGPD arts. 33 e 39).
+          brasileiros do Cloud Firestore e as métricas de uso, na região
+          Brasil do Google Analytics — sem transferência internacional para
+          essa finalidade. A identidade da conta, porém, é tratada
+          globalmente pelo Firebase Auth, fora do Brasil. Essa transferência
+          internacional se apoia nas cláusulas-padrão contratuais do Google
+          (LGPD arts. 33 e 39).
         </p>
 
         <h2>Link do catálogo</h2>
@@ -115,14 +122,19 @@ export default function PoliticaDePrivacidade({
           manual de seções e super-grupos, e mantém no cache do SDK do
           Firestore (IndexedDB) o espelho da coleção e as gravações
           pendentes. Esses dados são locais, estritamente funcionais e nunca
-          são enviados a terceiros; por isso o app não pede consentimento de
-          cookies nem exibe banner.
+          são enviados a terceiros. O app também guarda a sua escolha no
+          banner de consentimento de analytics, na chave{" "}
+          <code>iconula.consentimento-analytics.v1</code>: o banner aparece
+          na primeira abertura e, só depois do seu aceite, o app carrega o
+          Google Analytics. Enquanto você não aceita, nada é enviado ao
+          Google; recusar mantém o app funcionando normalmente, sem medição.
         </p>
 
         <h2>Retenção</h2>
         <p>
           A coleção e a conta ficam guardadas enquanto você usar o app.
-          Ficando 24 meses sem entrar, a conta e a coleção são apagadas. Se
+          Ficando 24 meses sem entrar, a conta e a coleção são apagadas. As
+          métricas de uso do Google Analytics são mantidas por 14 meses. Se
           o Iconula for descontinuado, os dados são apagados em até 90 dias,
           com um aviso na própria tela e tempo para você exportar a coleção
           (LGPD arts. 15 e 16).
@@ -214,6 +226,12 @@ export default function PoliticaDePrivacidade({
           não altera o que você aceitou.
         </p>
         <ul>
+          <li>
+            <time dateTime="2026-09-18">18 de setembro de 2026</time> — versão
+            com o analytics de uso consentido: métricas de uso pelo Google
+            Analytics 4, na região Brasil, com retenção de 14 meses, e a
+            descrição do banner de consentimento.
+          </li>
           <li>
             <time dateTime="2026-09-17">17 de setembro de 2026</time> — versão
             publicada com o conteúdo de conformidade: controlador e
