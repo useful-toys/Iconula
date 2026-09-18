@@ -1,6 +1,6 @@
 <!-- Copyright (c) 2026 Daniel Felix Ferber -->
 
-# IDR 0063: Respiro extra entre seções ao mudar de letra na ordenação por sigla
+# IDR 0067: Respiro extra entre seções ao mudar de letra na ordenação por sigla
 
 ## Status
 

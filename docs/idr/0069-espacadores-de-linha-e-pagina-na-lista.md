@@ -1,6 +1,6 @@
 <!-- Copyright (c) 2026 Daniel Felix Ferber -->
 
-# IDR 0065: Espaçadores de linha e página na disposição lista
+# IDR 0069: Espaçadores de linha e página na disposição lista
 
 ## Status
 

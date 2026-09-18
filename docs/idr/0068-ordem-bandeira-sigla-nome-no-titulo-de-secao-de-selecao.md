@@ -1,6 +1,6 @@
 <!-- Copyright (c) 2026 Daniel Felix Ferber -->
 
-# IDR 0064: Ordem bandeira, sigla, nome no título de seção de seleção
+# IDR 0068: Ordem bandeira, sigla, nome no título de seção de seleção
 
 ## Status
 
