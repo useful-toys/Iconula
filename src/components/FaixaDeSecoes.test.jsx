@@ -16,11 +16,15 @@ function placarDeExemplo() {
   ]);
 }
 
+function botoesDeSecao(container) {
+  return [...container.querySelectorAll('.faixa-de-secoes__botao')];
+}
+
 describe('FaixaDeSecoes', () => {
   it('renderiza as 50 seções com FWC no início e COC no fim', () => {
-    render(<FaixaDeSecoes secoes={secoes} onSaltar={vi.fn()} />);
+    const { container } = render(<FaixaDeSecoes secoes={secoes} onSaltar={vi.fn()} />);
 
-    const botoes = screen.getAllByRole('button');
+    const botoes = botoesDeSecao(container);
     expect(botoes).toHaveLength(50);
 
     expect(botoes[0]).toHaveAttribute('aria-label', 'Saltar para Extras FIFA');
@@ -35,10 +39,9 @@ describe('FaixaDeSecoes', () => {
   });
 
   it('a imagem da bandeira é decorativa (aria-hidden)', () => {
-    render(<FaixaDeSecoes secoes={secoes} onSaltar={vi.fn()} />);
+    const { container } = render(<FaixaDeSecoes secoes={secoes} onSaltar={vi.fn()} />);
 
-    const botoes = screen.getAllByRole('button');
-    botoes.forEach((botao) => {
+    botoesDeSecao(container).forEach((botao) => {
       const img = botao.querySelector('img');
       expect(img).toHaveAttribute('aria-hidden', 'true');
       expect(img).toHaveAttribute('alt', '');
@@ -62,9 +65,11 @@ describe('FaixaDeSecoes', () => {
 
   it('na ordenação por página, marca o início de cada grupo e a COC', () => {
     const ordenadas = extrairSecoes(ordenarPorPagina(secoes));
-    render(<FaixaDeSecoes secoes={ordenadas} ordenacao="pagina" onSaltar={vi.fn()} />);
+    const { container } = render(
+      <FaixaDeSecoes secoes={ordenadas} ordenacao="pagina" onSaltar={vi.fn()} />,
+    );
 
-    const botoes = screen.getAllByRole('button');
+    const botoes = botoesDeSecao(container);
     const marcados = botoes.filter((botao) =>
       botao.classList.contains('faixa-de-secoes__botao--inicio-de-grupo'),
     );
@@ -77,20 +82,24 @@ describe('FaixaDeSecoes', () => {
   });
 
   it('na ordenação por sigla, não marca nenhuma bandeira', () => {
-    render(<FaixaDeSecoes secoes={secoes} ordenacao="sigla" onSaltar={vi.fn()} />);
+    const { container } = render(
+      <FaixaDeSecoes secoes={secoes} ordenacao="sigla" onSaltar={vi.fn()} />,
+    );
 
-    const marcados = screen
-      .getAllByRole('button')
-      .filter((botao) => botao.classList.contains('faixa-de-secoes__botao--inicio-de-grupo'));
+    const marcados = botoesDeSecao(container).filter((botao) =>
+      botao.classList.contains('faixa-de-secoes__botao--inicio-de-grupo'),
+    );
 
     expect(marcados).toHaveLength(0);
   });
 
   it('na ordenação por página, cada bandeira recebe a classe de cor do seu grupo', () => {
     const ordenadas = extrairSecoes(ordenarPorPagina(secoes));
-    render(<FaixaDeSecoes secoes={ordenadas} ordenacao="pagina" onSaltar={vi.fn()} />);
+    const { container } = render(
+      <FaixaDeSecoes secoes={ordenadas} ordenacao="pagina" onSaltar={vi.fn()} />,
+    );
 
-    const botoes = screen.getAllByRole('button');
+    const botoes = botoesDeSecao(container);
     expect(botoes).toHaveLength(50);
 
     ordenadas.forEach((secao, indice) => {
@@ -104,11 +113,13 @@ describe('FaixaDeSecoes', () => {
   });
 
   it('na ordenação por sigla, nenhuma bandeira recebe classe de cor de grupo', () => {
-    render(<FaixaDeSecoes secoes={secoes} ordenacao="sigla" onSaltar={vi.fn()} />);
+    const { container } = render(
+      <FaixaDeSecoes secoes={secoes} ordenacao="sigla" onSaltar={vi.fn()} />,
+    );
 
-    const coloridas = screen
-      .getAllByRole('button')
-      .filter((botao) => /faixa-de-secoes__botao--grupo-/.test(botao.className));
+    const coloridas = botoesDeSecao(container).filter((botao) =>
+      /faixa-de-secoes__botao--grupo-/.test(botao.className),
+    );
 
     expect(coloridas).toHaveLength(0);
   });
@@ -230,9 +241,9 @@ describe('FaixaDeSecoes', () => {
     expect(container.querySelector('.faixa-de-secoes__tooltip')).not.toBeInTheDocument();
   });
 
-  // Sem barra de rolagem visível: fade nas bordas e arrasto pelo mouse
-  // substituem a dica de continuidade (IDR 0058, Tarefa 0030-0001).
-  describe('sem barra — fade e arrasto (IDR 0058)', () => {
+  // Sem barra de rolagem visível: fade e setas nas bordas, e arrasto pelo
+  // mouse, substituem a dica de continuidade (IDR 0058, Tarefa 0030-0001).
+  describe('sem barra — fade, setas e arrasto (IDR 0058)', () => {
     function configurarDimensoes(trilha, { scrollWidth, clientWidth, scrollLeft = 0 }) {
       Object.defineProperty(trilha, 'scrollWidth', { value: scrollWidth, configurable: true });
       Object.defineProperty(trilha, 'clientWidth', { value: clientWidth, configurable: true });
@@ -297,6 +308,47 @@ describe('FaixaDeSecoes', () => {
 
       fireEvent.click(bra);
       expect(onSaltar).toHaveBeenCalledWith('BRA');
+    });
+
+    it('mostra a seta esquerda só depois de rolar e a direita enquanto há conteúdo', () => {
+      const { container } = render(<FaixaDeSecoes secoes={secoes} onSaltar={vi.fn()} />);
+      const trilha = container.querySelector('.faixa-de-secoes__trilha');
+      const esquerda = screen.getByRole('button', { name: 'Rolar a faixa para a esquerda' });
+      const direita = screen.getByRole('button', { name: 'Rolar a faixa para a direita' });
+
+      configurarDimensoes(trilha, { scrollWidth: 2000, clientWidth: 400, scrollLeft: 0 });
+      fireEvent.scroll(trilha);
+      expect(esquerda).toBeDisabled();
+      expect(direita).toBeEnabled();
+
+      configurarDimensoes(trilha, { scrollWidth: 2000, clientWidth: 400, scrollLeft: 1600 });
+      fireEvent.scroll(trilha);
+      expect(esquerda).toBeEnabled();
+      expect(direita).toBeDisabled();
+    });
+
+    it('sem conteúdo para rolar, as duas setas ficam desabilitadas', () => {
+      const { container } = render(<FaixaDeSecoes secoes={secoes} onSaltar={vi.fn()} />);
+      const trilha = container.querySelector('.faixa-de-secoes__trilha');
+      configurarDimensoes(trilha, { scrollWidth: 400, clientWidth: 400, scrollLeft: 0 });
+      fireEvent.scroll(trilha);
+
+      expect(screen.getByRole('button', { name: 'Rolar a faixa para a esquerda' })).toBeDisabled();
+      expect(screen.getByRole('button', { name: 'Rolar a faixa para a direita' })).toBeDisabled();
+    });
+
+    it('clicar na seta rola 4 bandeiras no sentido, com rolagem suave', () => {
+      const { container } = render(<FaixaDeSecoes secoes={secoes} onSaltar={vi.fn()} />);
+      const trilha = container.querySelector('.faixa-de-secoes__trilha');
+      trilha.scrollBy = vi.fn();
+      configurarDimensoes(trilha, { scrollWidth: 2000, clientWidth: 400, scrollLeft: 800 });
+      fireEvent.scroll(trilha);
+
+      fireEvent.click(screen.getByRole('button', { name: 'Rolar a faixa para a direita' }));
+      expect(trilha.scrollBy).toHaveBeenLastCalledWith({ left: 128, behavior: 'smooth' });
+
+      fireEvent.click(screen.getByRole('button', { name: 'Rolar a faixa para a esquerda' }));
+      expect(trilha.scrollBy).toHaveBeenLastCalledWith({ left: -128, behavior: 'smooth' });
     });
   });
 });

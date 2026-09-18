@@ -69,9 +69,10 @@ demonstrar avisos) é andaime da prévia, não faz parte do produto.*
   lados; tocar salta até a seção (ver
   [IDR 0016](idr/0016-salto-pela-faixa-de-bandeiras.md)) — a ordem acompanha
   o catálogo: 🏆 no início, 🥤 no fim (IDR 0028)
-- Sem barra de rolagem visível em nenhuma plataforma: um fade em degradê
-  nas bordas esquerda/direita indica que há mais conteúdo, ligado só do
-  lado em que há seções fora da vista; no mouse, arrastar a trilha rola
+- Sem barra de rolagem visível em nenhuma plataforma: um fade em degradê e
+  uma seta de rolagem (chevron Material) nas bordas esquerda/direita indicam
+  que há mais conteúdo, ligados só do lado em que há seções fora da vista;
+  tocar na seta rola 4 bandeiras; no mouse, arrastar a trilha rola
   (`cursor: grab` no hover, `grabbing` durante o arrasto), distinguido do
   clique (que salta) por um limiar de ~5px de movimento; a rodinha do
   mouse não é interceptada, continua rolando a página (ver
@@ -930,8 +931,15 @@ FWC e COC usam os alias `--selection-fwc` (de `--group-fwc`) e
   toque ampliada de 1px em volta do ícone (IDR 0042)
 - Fade da faixa: degradê de 24px `--turf` → transparente em cada borda,
   opacidade 0/1 por classe (transição 0.15s), ligado por JS conforme a
-  posição de rolagem; `overscroll-behavior-x: contain` trava o "voltar
-  página" no swipe horizontal do toque (IDR 0058)
+  posição de rolagem; fica acima das bandeiras (`z-index`); o
+  `overscroll-behavior-x: contain` trava o "voltar página" no swipe
+  horizontal do toque (IDR 0058)
+- Setas da faixa: botão de 24px de largura (altura da faixa) sobre cada
+  borda e acima do fade, com o chevron Material `chevron_left`/
+  `chevron_right` de 16px em `--gold`; visível só no sentido em que há
+  conteúdo — sem conteúdo, fica invisível (`opacity: 0`) e desabilitada,
+  fora da ordem de tabulação; tocar rola 4 bandeiras (~128px) com rolagem
+  suave (IDR 0058)
 - Tooltip da faixa: abaixo da bandeira, no visual do tooltip dos grupos
   (IDR 0048) — painel `--panel`, borda `--border`, texto `--cream`,
   11px/600, raio 6px e sombra; posicionado por JS fora da faixa rolável,
