@@ -35,12 +35,16 @@ Aceito.
   ainda há conteúdo — via JS (a faixa já tem JS no tooltip, IDR 0052). O
   degradê fica acima das bandeiras (`z-index`), que venceriam na ordem de
   pintura.
-- Setas de rolagem, uma sobre cada borda, acima do fade: seta Material
+- Setas de rolagem, uma de cada lado e **fora** da janela rolável: cada uma é
+  uma coluna de 24px com o fundo do cabeçalho, então nunca se sobrepõem às
+  bandeiras; a janela encolhe entre as duas. Seta Material
   (`chevron_left`/`chevron_right`, [TDR 0026](../tdr/0026-icones-material-symbols-vendorizados-como-svg.md))
   visível só no sentido em que ainda há conteúdo; desabilitada, fica
-  invisível e fora da ordem de tabulação. Tocar nela rola 4 bandeiras —
-  ~128px (`30px` do botão + `2px` de `gap`), com `scrollBy({ behavior:
-  'smooth' })`. O fade e o arrasto seguem valendo como complementos.
+  invisível e fora da ordem de tabulação, mas mantém a coluna (não desloca a
+  trilha). Tocar nela rola 4 bandeiras — ~128px (`30px` do botão + `2px` de
+  `gap`), com `scrollBy({ behavior: 'smooth' })`. A trilha perde o `padding`
+  horizontal (as setas ocupam as pontas). O fade e o arrasto seguem valendo
+  como complementos.
 - Desktop (`pointer: fine`): arrastar com o mouse rola a faixa; `cursor:
   grab` no hover e `grabbing` durante o arrasto; distinguir **clique** de
   **arrasto** por limiar de movimento (~5px) — clique salta, arrasto rola,

@@ -1,24 +1,38 @@
 /* Copyright (c) 2026 Daniel Felix Ferber */
 
 /* Contêiner da faixa: é ele o flex-item do cabeçalho (largura cheia) e o
- * ponto de referência do tooltip. A rolagem fica na trilha interna, para que
- * o tooltip (posicionado fora dela) não seja recortado pelo `overflow`
- * (Tarefa 0019-0002, IDR 0052). */
+ * ponto de referência do tooltip. Dentro dele, as setas ladeiam a janela
+ * rolável (`.faixa-de-secoes__janela`), que fica entre elas e contém a
+ * trilha e o fade — assim as setas nunca se sobrepõem às bandeiras. A
+ * rolagem fica na trilha interna, para que o tooltip (posicionado fora
+ * dela) não seja recortado pelo `overflow` (Tarefa 0019-0002, IDR 0052). */
 .faixa-de-secoes {
   position: relative;
+  display: flex;
+  align-items: stretch;
+  gap: 2px;
+}
+
+/* Janela rolável: flex-item que encolhe entre as setas (`min-width: 0`) e
+ * ponto de referência do fade. */
+.faixa-de-secoes__janela {
+  position: relative;
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
 /* Sem barra de rolagem visível em nenhuma plataforma (IDR 0058): o fade nas
- * bordas assume a dica de continuidade. `overscroll-behavior-x: contain`
- * trava o "voltar página" do swipe horizontal no toque, sem afetar a
- * rolagem vertical da página. */
+ * bordas assume a dica de continuidade. O padding horizontal é zero porque as
+ * setas ocupam as colunas das pontas; `overscroll-behavior-x: contain` trava
+ * o "voltar página" do swipe horizontal no toque, sem afetar a rolagem
+ * vertical da página. */
 .faixa-de-secoes__trilha {
   display: flex;
   gap: 2px;
   overflow-x: auto;
   overflow-y: hidden;
   overscroll-behavior-x: contain;
-  padding: 4px var(--page-gutter);
+  padding: 4px 0;
   scrollbar-width: none;
 }
 
@@ -39,14 +53,13 @@
   user-select: none;
 }
 
-/* Fade em degradê `--turf` → transparente nas bordas, indicador de
+/* Fade em degradê `--turf` → transparente nas bordas da janela, indicador de
  * continuidade no lugar da barra de rolagem (IDR 0058): ligado por JS só do
  * lado em que há conteúdo a rolar. Fica sobre a trilha (`pointer-events:
- * none` preserva o arrasto e o clique) e cobre também o respiro do
- * `padding` da trilha, que já tem o mesmo fundo do cabeçalho. `z-index: 1`
- * é necessário porque as bandeiras são `position: relative` e, na ordem de
- * pintura, os elementos posicionados posteriores na árvore ficariam por
- * cima do fade — sem ele o degradê fica atrás dos ícones e não indica nada. */
+ * none` preserva o arrasto e o clique). `z-index: 1` é necessário porque as
+ * bandeiras são `position: relative` e, na ordem de pintura, os elementos
+ * posicionados posteriores na árvore ficariam por cima do fade — sem ele o
+ * degradê fica atrás dos ícones e não indica nada. */
 .faixa-de-secoes__fade {
   position: absolute;
   top: 0;
@@ -72,15 +85,14 @@
   opacity: 1;
 }
 
-/* Setas de rolagem sobre cada borda (IDR 0058), acima do fade (`z-index: 2`):
- * só aparecem no sentido em que ainda há conteúdo — desabilitadas, ficam
- * invisíveis e fora da ordem de tabulação. O alvo tem a largura do fade e a
- * altura da faixa, com o ícone centralizado. */
+/* Setas de rolagem, uma de cada lado e fora da janela rolável (IDR 0058): com
+ * o fundo do cabeçalho, nunca se sobrepõem às bandeiras. Só aparecem no
+ * sentido em que ainda há conteúdo — desabilitadas, ficam invisíveis e fora
+ * da ordem de tabulação, mas mantêm a coluna (não deslocam a trilha). O alvo
+ * tem a altura da faixa, com o ícone centralizado. */
 .faixa-de-secoes__seta {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  z-index: 2;
+  flex: none;
+  align-self: stretch;
   width: 24px;
   display: flex;
   align-items: center;
@@ -91,14 +103,6 @@
   border: none;
   cursor: pointer;
   transition: opacity 0.15s;
-}
-
-.faixa-de-secoes__seta--esquerda {
-  left: 0;
-}
-
-.faixa-de-secoes__seta--direita {
-  right: 0;
 }
 
 .faixa-de-secoes__seta:disabled {

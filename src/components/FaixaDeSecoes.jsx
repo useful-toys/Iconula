@@ -253,62 +253,6 @@ export function FaixaDeSecoes({ secoes, ordenacao, onSaltar, placarPorSecao }) {
 
   return (
     <div className="faixa-de-secoes">
-      <div
-        className={`faixa-de-secoes__fade faixa-de-secoes__fade--esquerda${
-          indicadores.esquerda ? ' faixa-de-secoes__fade--visivel' : ''
-        }`}
-        aria-hidden="true"
-      />
-      <div
-        className={`faixa-de-secoes__fade faixa-de-secoes__fade--direita${
-          indicadores.direita ? ' faixa-de-secoes__fade--visivel' : ''
-        }`}
-        aria-hidden="true"
-      />
-      <nav
-        ref={trilhaRef}
-        className={classesTrilha.join(' ')}
-        aria-label="Saltar para seção"
-        onScroll={atualizarIndicadores}
-        onMouseDown={aoPressionarMouse}
-      >
-        {secoes.map((secao, indice) => {
-          const anterior = secoes[indice - 1];
-          const inicioDeGrupo =
-            ordenacao === 'pagina' && indice > 0 && secao.grupo !== anterior.grupo;
-          const classes = ['faixa-de-secoes__botao'];
-          if (inicioDeGrupo) {
-            classes.push('faixa-de-secoes__botao--inicio-de-grupo');
-          }
-          if (ordenacao === 'pagina') {
-            const chave =
-              secao.tipo === 'especial' ? secao.sigla.toLowerCase() : secao.grupo.toLowerCase();
-            classes.push(`faixa-de-secoes__botao--grupo-${chave}`);
-          }
-          return (
-            <button
-              key={secao.sigla}
-              type="button"
-              className={classes.join(' ')}
-              aria-label={`Saltar para ${secao.nome}`}
-              onClick={() => aoClicar(secao)}
-              onPointerEnter={(evento) => aoEntrarComPonteiro(evento, secao)}
-              onPointerLeave={esconder}
-              onPointerDown={aoPressionarPonteiro}
-              onFocus={(evento) => aoFocar(evento, secao)}
-              onBlur={esconder}
-            >
-              <img
-                className="faixa-de-secoes__icone"
-                src={urlDoIcone(secao.icone)}
-                alt=""
-                aria-hidden="true"
-                draggable="false"
-              />
-            </button>
-          );
-        })}
-      </nav>
       <button
         type="button"
         className="faixa-de-secoes__seta faixa-de-secoes__seta--esquerda"
@@ -327,6 +271,64 @@ export function FaixaDeSecoes({ secoes, ordenacao, onSaltar, placarPorSecao }) {
           <path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z" />
         </svg>
       </button>
+      <div className="faixa-de-secoes__janela">
+        <div
+          className={`faixa-de-secoes__fade faixa-de-secoes__fade--esquerda${
+            indicadores.esquerda ? ' faixa-de-secoes__fade--visivel' : ''
+          }`}
+          aria-hidden="true"
+        />
+        <div
+          className={`faixa-de-secoes__fade faixa-de-secoes__fade--direita${
+            indicadores.direita ? ' faixa-de-secoes__fade--visivel' : ''
+          }`}
+          aria-hidden="true"
+        />
+        <nav
+          ref={trilhaRef}
+          className={classesTrilha.join(' ')}
+          aria-label="Saltar para seção"
+          onScroll={atualizarIndicadores}
+          onMouseDown={aoPressionarMouse}
+        >
+          {secoes.map((secao, indice) => {
+            const anterior = secoes[indice - 1];
+            const inicioDeGrupo =
+              ordenacao === 'pagina' && indice > 0 && secao.grupo !== anterior.grupo;
+            const classes = ['faixa-de-secoes__botao'];
+            if (inicioDeGrupo) {
+              classes.push('faixa-de-secoes__botao--inicio-de-grupo');
+            }
+            if (ordenacao === 'pagina') {
+              const chave =
+                secao.tipo === 'especial' ? secao.sigla.toLowerCase() : secao.grupo.toLowerCase();
+              classes.push(`faixa-de-secoes__botao--grupo-${chave}`);
+            }
+            return (
+              <button
+                key={secao.sigla}
+                type="button"
+                className={classes.join(' ')}
+                aria-label={`Saltar para ${secao.nome}`}
+                onClick={() => aoClicar(secao)}
+                onPointerEnter={(evento) => aoEntrarComPonteiro(evento, secao)}
+                onPointerLeave={esconder}
+                onPointerDown={aoPressionarPonteiro}
+                onFocus={(evento) => aoFocar(evento, secao)}
+                onBlur={esconder}
+              >
+                <img
+                  className="faixa-de-secoes__icone"
+                  src={urlDoIcone(secao.icone)}
+                  alt=""
+                  aria-hidden="true"
+                  draggable="false"
+                />
+              </button>
+            );
+          })}
+        </nav>
+      </div>
       <button
         type="button"
         className="faixa-de-secoes__seta faixa-de-secoes__seta--direita"
