@@ -36,20 +36,21 @@ describe('MenuDeAcoes', () => {
     expect(screen.getByRole('menu')).toBeInTheDocument();
   });
 
-  it('traz os quatro comandos em três blocos separados por dois filetes', async () => {
+  it('traz os cinco comandos em quatro blocos separados por três filetes', async () => {
     const user = userEvent.setup();
     renderizar();
     await user.click(botaoDoMenu());
 
     const itens = screen.getAllByRole('menuitem');
-    expect(itens).toHaveLength(4);
+    expect(itens).toHaveLength(5);
     expect(itens.map((item) => item.textContent)).toEqual([
       'Exportar coleção (JSON)',
       'Importar coleção (JSON)',
       'Sobre',
+      'Apoiar o projeto',
       'Sair da conta',
     ]);
-    expect(document.querySelectorAll('.menu-de-acoes__filete')).toHaveLength(2);
+    expect(document.querySelectorAll('.menu-de-acoes__filete')).toHaveLength(3);
   });
 
   it('os dois comandos de conteúdo ficam desabilitados sem callback', async () => {
@@ -59,8 +60,10 @@ describe('MenuDeAcoes', () => {
 
     expect(screen.getByRole('menuitem', { name: 'Exportar coleção (JSON)' })).toBeDisabled();
     expect(screen.getByRole('menuitem', { name: 'Importar coleção (JSON)' })).toBeDisabled();
-    // "Sobre" e "Sair da conta" sempre têm ação real, nunca ficam desabilitados.
+    // "Sobre", "Apoiar o projeto" e "Sair da conta" sempre têm ação real,
+    // nunca ficam desabilitados.
     expect(screen.getByRole('menuitem', { name: 'Sobre' })).toBeEnabled();
+    expect(screen.getByRole('menuitem', { name: 'Apoiar o projeto' })).toBeEnabled();
     expect(screen.getByRole('menuitem', { name: 'Sair da conta' })).toBeEnabled();
   });
 
@@ -83,8 +86,8 @@ describe('MenuDeAcoes', () => {
     await user.click(botaoDoMenu());
 
     const itens = screen.getAllByRole('menuitem');
-    expect(itens[3]).toHaveClass('menu-de-acoes__item--sair');
-    itens.slice(0, 3).forEach((item) => {
+    expect(itens[4]).toHaveClass('menu-de-acoes__item--sair');
+    itens.slice(0, 4).forEach((item) => {
       expect(item).not.toHaveClass('menu-de-acoes__item--sair');
     });
   });
@@ -109,6 +112,18 @@ describe('MenuDeAcoes', () => {
     await user.click(screen.getByRole('menuitem', { name: 'Sobre' }));
 
     expect(onAbrirSobre).toHaveBeenCalledTimes(1);
+    expect(screen.queryByRole('menu')).not.toBeInTheDocument();
+  });
+
+  it('escolher "Apoiar o projeto" chama onAbrirApoie e fecha o menu', async () => {
+    const user = userEvent.setup();
+    const onAbrirApoie = vi.fn();
+    renderizar({ onAbrirApoie });
+    await user.click(botaoDoMenu());
+
+    await user.click(screen.getByRole('menuitem', { name: 'Apoiar o projeto' }));
+
+    expect(onAbrirApoie).toHaveBeenCalledTimes(1);
     expect(screen.queryByRole('menu')).not.toBeInTheDocument();
   });
 
@@ -179,8 +194,10 @@ describe('MenuDeAcoes', () => {
     await user.click(botaoDoMenu());
     expect(screen.getByRole('menu')).toBeInTheDocument();
 
-    // O foco entra em "Sobre" ao abrir; um Tab vai para "Sair da conta",
-    // ainda dentro do popup, e o seguinte sai dele sem escolher nada.
+    // O foco entra em "Sobre" ao abrir; os Tab seguinte passam por
+    // "Apoiar o projeto" e "Sair da conta", ainda dentro do popup, e o
+    // último sai dele sem escolher nada.
+    await user.tab();
     await user.tab();
     await user.tab();
 

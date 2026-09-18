@@ -103,6 +103,21 @@ describe("App — Apoie o projeto", () => {
     expect(screen.getByTestId("catalogo-mock")).toBeInTheDocument();
   });
 
+  it("é alcançável pelo menu de ações do cabeçalho, que fecha ao escolher", async () => {
+    const user = userEvent.setup();
+    authState.user = USUARIO;
+    render(<App />);
+
+    expect(await screen.findByTestId("catalogo-mock")).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: /menu de ações/ }));
+    await user.click(screen.getByRole("menuitem", { name: "Apoiar o projeto" }));
+
+    expect(screen.getByRole("heading", { name: "Apoie o projeto" })).toBeInTheDocument();
+    expect(screen.queryByRole("menu")).not.toBeInTheDocument();
+    expect(screen.queryByTestId("catalogo-mock")).not.toBeInTheDocument();
+  });
+
   it("com a vista Apoie aberta não há como abrir os termos", async () => {
     const user = userEvent.setup();
     render(<App />);

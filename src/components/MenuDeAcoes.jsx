@@ -6,16 +6,17 @@ import './MenuDeAcoes.css';
 /**
  * Avatar do usuário no cabeçalho e o popup de comandos raros (IDR 0024,
  * IDR 0049): a foto da conta Google (ou a inicial do nome; sem nome, o glifo)
- * é o gatilho do popup, que traz exportar/importar, "Sobre" e "sair da
- * conta" em três blocos separados por filete (IDR 0063). As duas cópias das
- * listas de troca saíram daqui na Tarefa 0021-0001, para o botão compartilhar
- * (`MenuDeCompartilhar.jsx`) à esquerda do avatar.
+ * é o gatilho do popup, que traz exportar/importar, "Sobre", "Apoiar o
+ * projeto" e "sair da conta" em quatro blocos separados por filete (IDR 0063,
+ * IDR 0070). As duas cópias das listas de troca saíram daqui na Tarefa
+ * 0021-0001, para o botão compartilhar (`MenuDeCompartilhar.jsx`) à esquerda
+ * do avatar.
  *
  * Exportar (0009-0004), importar (0009-0005) e "sair da conta" (0009-0002)
- * têm ação desde a Tarefa 0009-0005; "Sobre" entrou na Tarefa 0033-0002.
- * Sem o callback correspondente, um item de conteúdo fica presente e
- * desabilitado, nunca aparentando funcionar — só "Sobre" e "sair da conta"
- * nunca ficam sem ação.
+ * têm ação desde a Tarefa 0009-0005; "Sobre" entrou na Tarefa 0033-0002 e
+ * "Apoiar o projeto" na Tarefa 0035-0003. Sem o callback correspondente, um
+ * item de conteúdo fica presente e desabilitado, nunca aparentando funcionar
+ * — só "Sobre", "Apoiar o projeto" e "sair da conta" nunca ficam sem ação.
  *
  * Fecha ao escolher um item, ao tocar fora do popup, com `Esc` ou ao sair do
  * popup pelo teclado (`Tab` saindo do último item — Tarefa 0010-0001,
@@ -30,6 +31,7 @@ import './MenuDeAcoes.css';
  * @param {() => void} [props.onExportar] - sem ele, o item fica desabilitado.
  * @param {() => void} [props.onImportar] - sem ele, o item fica desabilitado.
  * @param {() => void} props.onAbrirSobre - abre a vista interna "Sobre" (IDR 0063); sempre habilitado.
+ * @param {() => void} props.onAbrirApoie - abre a vista interna "Apoie o projeto" (IDR 0070); sempre habilitado.
  * @param {string} [props.photoURL] - foto da conta Google; sem ela (ou se falhar), cai na inicial (IDR 0049).
  * @param {string} [props.displayName] - nome da conta; a inicial e o nome acessível saem dele.
  */
@@ -38,6 +40,7 @@ export function MenuDeAcoes({
   onExportar,
   onImportar,
   onAbrirSobre,
+  onAbrirApoie,
   photoURL,
   displayName,
 }) {
@@ -169,6 +172,15 @@ export function MenuDeAcoes({
             onClick={escolher(onAbrirSobre)}
           >
             Sobre
+          </button>
+          <div className="menu-de-acoes__filete" role="separator" />
+          <button
+            type="button"
+            role="menuitem"
+            className="menu-de-acoes__item"
+            onClick={escolher(onAbrirApoie)}
+          >
+            Apoiar o projeto
           </button>
           <div className="menu-de-acoes__filete" role="separator" />
           <button
