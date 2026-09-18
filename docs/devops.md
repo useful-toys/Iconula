@@ -129,6 +129,17 @@ reproduzível localmente sem depender de push
 (ver [DDR 0004](devops-dr/0004-deploy-e-teste-das-regras-do-firestore.md)
 e [TDR 0009](tdr/0009-validacao-do-mapa-nas-regras.md))
 
+### Procedimentos de privacidade
+
+- Os procedimentos que dependem de dado de usuário são **manuais, do
+  controlador**, e nenhum workflow os executa: a purga por inatividade
+  (24 meses sem login) e, na Fase 0032, a resposta a incidente
+  ([DDR 0011](devops-dr/0011-procedimentos-manuais-de-privacidade.md)).
+- O inventário das operações de tratamento, o runbook da purga e o ciclo
+  de revisão ficam em [docs/privacidade.md](privacidade.md) — este
+  panorama aponta para lá em vez de repetir os procedimentos
+  ([DDR 0011](devops-dr/0011-procedimentos-manuais-de-privacidade.md)).
+
 ### Service account do CI
 
 `github-action-iconula@iconula.iam.gserviceaccount.com`, com a chave no

@@ -177,6 +177,7 @@ Fluxos:
 | Host do preview autorizado no login do Firebase Auth | [DDR 0008](devops-dr/0008-autorizacao-do-dominio-de-preview-no-firebase-auth.md) |
 | Role custom mínima da service account para authorized domains | [DDR 0009](devops-dr/0009-role-custom-minima-para-authorized-domains.md) |
 | Scripts de shell com LF (`.gitattributes`) | [DDR 0010](devops-dr/0010-scripts-de-shell-com-lf.md) |
+| Procedimentos manuais de privacidade (purga e incidente) | [DDR 0011](devops-dr/0011-procedimentos-manuais-de-privacidade.md) + [privacidade.md](privacidade.md) |
 | Lint (oxlint) | [TDR 0003](tdr/0003-lint-proibe-dangerously-set-inner-html.md), [TDR 0025](tdr/0025-oxlint-para-lint.md) |
 | Regras: o que dá para validar no mapa | [TDR 0009](tdr/0009-validacao-do-mapa-nas-regras.md) |
 | Forma do catálogo, checklist incompleto e sem pipeline de geração | [TDR 0010](tdr/0010-forma-do-catalogo-degradacao-do-checklist-e-sem-pipeline.md) |
@@ -189,12 +190,16 @@ Fluxos:
 | Política de privacidade como vista interna, sem router | [TDR 0020](tdr/0020-privacidade-como-vista-interna.md) |
 | Desempenho do catálogo (994 figurinhas) | [TDR 0021](tdr/0021-desempenho-do-catalogo.md) |
 | Deploy via GitHub Actions (três workflows) | [TDR 0023](tdr/0023-deploy-via-github-actions.md) |
+| Exclusão de dados (regra, autorização e ordem) | [TDR 0027](tdr/0027-autorizacao-e-ordem-da-exclusao-de-dados.md) |
+| Canal de contato montado em runtime | [TDR 0028](tdr/0028-canal-de-contato-montado-em-runtime.md) |
 | Branch protection exigindo preview deploy | [DDR 0005](devops-dr/0005-protecao-da-branch-main.md) |
 | Interface (disposições, estados, sync, scroll, acessibilidade…) | [IDR 0001–0044](idr/) + [interface.md](interface.md) |
 | Aparência (tema, paleta, medidas) | [IDR 0022](idr/0022-tema-escuro-unico-paleta-do-prototipo.md) + [interface.md](interface.md) |
 | Acessibilidade: foco visível, área de toque | [IDR 0042](idr/0042-foco-visivel-e-area-de-toque.md) |
 | Padrões de primeira abertura por faixa de tela | [IDR 0043](idr/0043-padroes-de-primeira-abertura-por-faixa-de-tela.md) |
 | Paleta de referência da capa do álbum físico | [IDR 0054](idr/0054-paleta-da-capa-do-album-fifa-2026.md) |
+| Apagar meus dados na política, em dois passos | [IDR 0060](idr/0060-apagar-meus-dados-na-politica-em-dois-passos.md) |
+| Conteúdo de conformidade da política e dos termos | [IDR 0061](idr/0061-conteudo-de-conformidade-da-politica-e-dos-termos.md) |
 | Localização do documento no Firestore | [MDR 0001](model-dr/0001-localizacao-do-documento-no-firestore.md) |
 | Schema da coleção (mapa esparso) | [MDR 0002](model-dr/0002-schema-do-documento-da-colecao.md) + [modelo-firebase.md](modelo-firebase.md) |
 | Gravação agregada da coleção | [MDR 0003](model-dr/0003-gravacao-agregada-da-colecao.md) |
