@@ -39,8 +39,11 @@ demonstrar avisos) é andaime da prévia, não faz parte do produto.*
   [IDR 0018](idr/0018-usuario-especialista-e-minimalismo.md))
 - O relógio do título é o `updatedAt` do documento — a carga o traz, a
   gravação o move; documento sem carimbo (conta nova) exibe `—`, e a
-  data acompanha a hora quando o carimbo não é de hoje (ver
-  [IDR 0027](idr/0027-relogio-do-titulo-e-o-updatedat-do-documento.md))
+  data acompanha a hora quando o carimbo não é de hoje. Enquanto houver
+  alteração de contagem ainda não gravada, o relógio dá lugar a `não
+  salvo`; uma falha de gravação não o dispensa (ver
+  [IDR 0027](idr/0027-relogio-do-titulo-e-o-updatedat-do-documento.md) e
+  [IDR 0065](idr/0065-sem-modal-ao-sair-indicador-de-pendencia-no-titulo.md))
 - Comando desfazer: botão à direita da linha dos grupos, sempre visível e
   desabilitado quando não há histórico — reverte a última alteração;
   repetido, as últimas 10; com histórico, mostra abaixo do botão um tooltip

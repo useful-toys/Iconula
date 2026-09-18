@@ -74,6 +74,46 @@ describe('Cabecalho', () => {
     expect(textoDaTela()).toContain('—');
   });
 
+  describe('indicador "não salvo" (IDR 0027)', () => {
+    it('troca o relógio por "não salvo" com a prop', () => {
+      render(
+        <Cabecalho
+          coladas={412}
+          faltantes={582}
+          repetidas={37}
+          percentual={41}
+          atualizadoEm="12:34"
+          naoSalvo
+          secoes={secoes}
+          onSaltar={vi.fn()}
+        />,
+      );
+
+      expect(screen.getByText('não salvo')).toBeInTheDocument();
+      expect(screen.queryByText('12:34')).not.toBeInTheDocument();
+      expect(screen.getByLabelText(/não salvo/)).toBeInTheDocument();
+      expect(screen.queryByLabelText(/atualizado às/)).not.toBeInTheDocument();
+    });
+
+    it('sem a prop, mantém o relógio e o nome acessível de atualização', () => {
+      render(
+        <Cabecalho
+          coladas={412}
+          faltantes={582}
+          repetidas={37}
+          percentual={41}
+          atualizadoEm="12:34"
+          secoes={secoes}
+          onSaltar={vi.fn()}
+        />,
+      );
+
+      expect(screen.getByText('12:34')).toBeInTheDocument();
+      expect(screen.queryByText('não salvo')).not.toBeInTheDocument();
+      expect(screen.getByLabelText(/atualizado às 12:34/)).toBeInTheDocument();
+    });
+  });
+
   it('não renderiza barra de progresso nem cartões de estatística', () => {
     render(
       <Cabecalho

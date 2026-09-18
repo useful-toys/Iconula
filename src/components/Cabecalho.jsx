@@ -25,6 +25,9 @@ import './Cabecalho.css';
  * @param {number} props.percentual - percentual arredondado.
  * @param {string|null} [props.atualizadoEm] - `updatedAt` do documento, já
  *   formatado para o relógio (IDR 0027); `null` exibe `—`.
+ * @param {boolean} [props.naoSalvo=false] - há alteração ainda não gravada:
+ *   o relógio dá lugar a "não salvo" e o nome acessível troca "atualizado às
+ *   …" por "não salvo" (Tarefa 0033-0004, IDR 0027 e IDR 0065).
  * @param {Array<object>} props.secoes - seções na ordem vigente para a faixa.
  * @param {string} props.ordenacao - ordenação vigente (`'pagina' | 'sigla'`),
  *   usada pela faixa para separar os grupos A–L na ordenação por página.
@@ -53,6 +56,7 @@ export function Cabecalho({
   repetidas,
   percentual,
   atualizadoEm,
+  naoSalvo = false,
   secoes,
   ordenacao,
   onSaltar,
@@ -63,14 +67,14 @@ export function Cabecalho({
   tituloComoLink = false,
   children,
 }) {
-  const relogio = atualizadoEm ?? '—';
+  const relogio = naoSalvo ? 'não salvo' : (atualizadoEm ?? '—');
 
   const nomeAcessivel = [
     `${coladas} de 994`,
     `${percentual} por cento`,
     `${faltantes} faltantes`,
     `${repetidas} repetidas`,
-    `atualizado às ${relogio}`,
+    naoSalvo ? 'não salvo' : `atualizado às ${relogio}`,
     ...(somenteLeitura ? ['somente leitura'] : []),
   ].join(', ');
 
