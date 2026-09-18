@@ -31,6 +31,9 @@ Aceito.
   página" por mudança de número de página geraria vários respiros médios
   seguidos ali, sem corresponder a um bloco visual reconhecível — o
   humano decidiu deixar o FWC de fora.
+- Na verificação visual do preview do PR da Fase 34 (Tarefa 0034-0005),
+  os respiros de +2px e +4px se mostraram quase imperceptíveis sobre o
+  `gap` de 8px; o humano aprovou dobrá-los.
 
 ## Decisão
 
@@ -38,9 +41,9 @@ Aceito.
   FWC): usa `layoutDeSecao(secao)` para achar, na sequência de posições
   (mesma ordem da lista), onde a linha muda dentro da mesma página e onde
   a página muda.
-  - Quebra de linha (mesma página): respiro +2px sobre o padrão do IDR
-    0050 (8px → 10px).
-  - Quebra de página: respiro +4px (8px → 12px).
+  - Quebra de linha (mesma página): respiro +4px sobre o padrão do IDR
+    0050 (8px → 12px).
+  - Quebra de página: respiro +8px (8px → 16px).
   - Sem quebra (dentro da mesma linha): 8px, sem mudança.
 - O FWC continua com 8px uniformes na lista, sem espaçadores extras.
 - O filtro de status (IDR 0033) pode ocultar cartões da lista; a
@@ -71,6 +74,14 @@ Aceito.
 - **Estender ao FWC mesmo com os saltos de página**: geraria respiros
   médios em sequência nas posições 4-8, sem bloco visual reconhecível —
   recusada pelo humano.
-- **Respiro médio maior (ex.: igual ao gap entre super-grupos, 12px)**:
-  o humano fixou +4px (12px total) para manter a diferença perceptível
-  sem romper a compactação vertical do IDR 0050.
+- **Manter +2px/+4px**: recusada após a verificação visual do preview —
+  os respiros se mostravam quase imperceptíveis sobre o `gap` de 8px
+  (IDR 0050), sem marcar a fronteira de linha ou de página.
+
+## Histórico
+
+- 2026-09-18: respiros dobrados — quebra de linha de +2px (8px → 10px)
+  para +4px (8px → 12px) e quebra de página de +4px (8px → 12px) para
+  +8px (8px → 16px) —, porque na verificação visual do preview do PR da
+  Fase 34 os valores anteriores se mostraram quase imperceptíveis sobre
+  o `gap` de 8px (Tarefa 0034-0005).

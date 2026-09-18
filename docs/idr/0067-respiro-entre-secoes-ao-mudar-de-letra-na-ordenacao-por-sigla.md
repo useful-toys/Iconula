@@ -19,6 +19,9 @@ Aceito.
 - FWC (código começa com F) sempre abre e COC (começa com C) sempre fecha
   a ordenação (IDR 0028); não são seleções, mas continuam sendo seções
   como as demais na sequência.
+- Na verificação visual do preview do PR da Fase 34 (Tarefa 0034-0005),
+  o respiro de +2px se mostrou quase imperceptível sobre o `gap` de 8px;
+  o humano aprovou dobrá-lo.
 
 ## Decisão
 
@@ -26,8 +29,8 @@ Aceito.
   imediatamente anterior na sequência de `ordenarPorSigla`; **inclui FWC e
   COC** nessa comparação, como qualquer outra seção — nenhuma exceção nas
   pontas.
-- Quando a letra muda, o respiro entre as duas seções ganha +2px sobre o
-  padrão do IDR 0050 (8px → 10px); quando a letra se repete, o respiro
+- Quando a letra muda, o respiro entre as duas seções ganha +4px sobre o
+  padrão do IDR 0050 (8px → 12px); quando a letra se repete, o respiro
   permanece 8px.
 - Só se aplica à ordenação por sigla — a ordenação por página (com
   super-grupos A–L) não muda.
@@ -49,5 +52,13 @@ Aceito.
 - **Rótulo de letra flutuante** (como lista de contatos): mais explícito,
   mas introduz elemento novo e reforço redundante, contra o minimalismo
   do produto (IDR 0018) — não avançou.
-- **Respiro maior que +2px**: o humano fixou +2px (10px total) para não
-  competir com a compactação vertical do IDR 0050.
+- **Manter +2px**: recusada após a verificação visual do preview — o
+  respiro se mostrava quase imperceptível sobre o `gap` de 8px (IDR
+  0050), sem marcar o bloco alfabético.
+
+## Histórico
+
+- 2026-09-18: respiro dobrado de +2px (8px → 10px) para +4px
+  (8px → 12px), porque na verificação visual do preview do PR da Fase 34
+  o valor anterior se mostrou quase imperceptível sobre o `gap` de 8px
+  (Tarefa 0034-0005).

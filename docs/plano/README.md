@@ -678,7 +678,7 @@ Nenhuma mudança em `docs/requisitos.md`.
 | 0002 | [Aplica espaçadores de linha e página na lista](0034-refinamentos-visuais-do-catalogo/0002-aplica-espacadores-de-linha-e-pagina-na-lista.md) | +2px nas quebras de linha e +4px nas quebras de página do layout do álbum, seleções e Coca-Cola; FWC de fora. | Concluída |
 | 0003 | [Aplica respiro por letra na ordenação por código](0034-refinamentos-visuais-do-catalogo/0003-aplica-respiro-por-letra-na-ordenacao-por-codigo.md) | +2px de respiro entre seções quando a letra da sigla muda, incluindo FWC/COC. | Concluída |
 | 0004 | [Aplica gradiente de cor ao selo `×N`](0034-refinamentos-visuais-do-catalogo/0004-aplica-gradiente-de-cor-ao-selo.md) | Cor do selo varia de `#D86000` a `#D80000` conforme as unidades sobrando (1 a 10). | Concluída |
-| 0005 | [Recalibra os respiros extras](0034-refinamentos-visuais-do-catalogo/0005-recalibra-os-respiros-extras.md) | Dobra os respiros (+4px linha, +8px página, +4px letra) por terem ficado quase imperceptíveis na verificação visual. | Pendente |
+| 0005 | [Recalibra os respiros extras](0034-refinamentos-visuais-do-catalogo/0005-recalibra-os-respiros-extras.md) | Dobra os respiros (+4px linha, +8px página, +4px letra) por terem ficado quase imperceptíveis na verificação visual. | Concluída |
 
 ## Fase 35 — Apoio ao projeto por doação via Pix
 

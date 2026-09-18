@@ -293,7 +293,7 @@ export const Catalogo = forwardRef(function Catalogo(
         if (isSecao) {
           // Oculta a seção inteira se o filtro não deixa nenhuma figurinha (IDR 0025)
           if (!secaoTemVisivel(secao)) return null;
-          // Na ordenação por sigla, a troca de letra inicial ganha +2px de
+          // Na ordenação por sigla, a troca de letra inicial ganha +4px de
           // respiro sobre o `gap` (IDR 0067).
           const comRespiro = ordenacao !== 'pagina' && letraMudou(estruturada, indice);
           return (
