@@ -64,13 +64,13 @@ export function signInWithGoogle() {
   return signInWithPopup(auth, new GoogleAuthProvider());
 }
 
-// Reautenticação do usuário corrente por popup, exigida antes de apagar
-// qualquer dado (TDR 0027): o `deleteUser` falha com
-// `auth/requires-recent-login` quando o login não é recente, e o momento
-// em que isso acontece não é previsível pelo cliente. Popup, não redirect,
-// pelo mesmo motivo estrutural do login (DDR 0001). Fechar o popup
-// (`auth/popup-closed-by-user`, `auth/cancelled-popup-request`) é
-// desistência — quem chama trata, como em `LoginButton.jsx`.
+// Reautenticação do usuário corrente por popup, chamada só quando o
+// `deleteUser` exige login recente (`auth/requires-recent-login`, TDR 0027):
+// no caso comum a exclusão apaga o documento e a conta sem popup nenhum.
+// Popup, não redirect, pelo mesmo motivo estrutural do login (DDR 0001).
+// Fechar o popup (`auth/popup-closed-by-user`,
+// `auth/cancelled-popup-request`) deixa a conta de pé — quem chama trata
+// como falha parcial da exclusão, como em `LoginButton.jsx`.
 export function reauthenticateWithGoogle() {
   return reauthenticateWithPopup(auth.currentUser, new GoogleAuthProvider());
 }

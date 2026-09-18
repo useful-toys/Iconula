@@ -408,36 +408,16 @@ export default function App() {
   // e cada passo depende do anterior. 1) As pendências da gravação agregada
   // morrem primeiro — o debounce ou o `pagehide` recriariam o documento
   // recém-apagado (único ponto do fluxo capaz de desfazer a exclusão
-  // sozinho). 2) A reautenticação por popup é incondicional: o passo que
-  // pode exigir interação acontece antes de qualquer destruição, e o popup é
-  // uma barreira a mais contra o acidente. 3) O documento sai antes da conta
-  // — sem ID token as regras negariam a exclusão. 4) A conta do Auth fecha o
-  // fluxo, porque nome, e-mail e foto vivem nela, não no Firestore.
-  // Devolve `{ status: 'sucesso' | 'cancelado' | 'falha' }` para a política
-  // decidir o que mostrar; os avisos de falha saem daqui.
+  // sozinho). 2) O documento sai antes da conta — sem ID token as regras
+  // negariam a exclusão; apagar `users/{uid}` exige só um token válido, sem
+  // popup. 3) A conta do Auth fecha o fluxo, porque nome, e-mail e foto
+  // vivem nela, não no Firestore. A reautenticação por popup só acontece se
+  // `deleteUser` devolver `auth/requires-recent-login` (login antigo); no
+  // caso comum não aparece popup nenhum.
+  // Devolve `{ status: 'sucesso' | 'falha' }` para a política decidir o que
+  // mostrar; os avisos de falha saem daqui.
   async function handleApagarDados() {
     gravacaoAgregada.descartarPendencias();
-
-    try {
-      await reauthenticateWithGoogle();
-    } catch (erro) {
-      // Popup fechado/cancelado é desistência deliberada, não falha: cancela
-      // tudo, sem apagar nada e sem aviso (mesmo tratamento de
-      // `LoginButton.jsx`).
-      if (
-        erro?.code === 'auth/popup-closed-by-user' ||
-        erro?.code === 'auth/cancelled-popup-request'
-      ) {
-        return { status: 'cancelado' };
-      }
-      emitirAviso({
-        severidade: SEVERIDADE.FALHA,
-        mensagem: 'Falha ao apagar — toque para detalhes',
-        detalhe: mensagemDeErro(erro),
-        tipo: 'apagar',
-      });
-      return { status: 'falha' };
-    }
 
     const apagou = await apagarColecao(uid, {
       aoEsperar: () => {
@@ -450,7 +430,8 @@ export default function App() {
     });
 
     // Falha no documento aborta antes de tocar a conta: melhor uma coleção
-    // que não foi apagada do que uma conta órfã sem o dado pessoal.
+    // que não foi apagada do que uma conta órfã sem o dado pessoal. Nenhuma
+    // reautenticação acontece antes disso.
     if (apagou.status !== 'sucesso') {
       emitirAviso({
         severidade: SEVERIDADE.FALHA,
@@ -462,9 +443,10 @@ export default function App() {
     }
 
     try {
-      await deleteUserAccount();
+      await apagarConta();
     } catch {
-      // Documento já apagado e conta de login ainda de pé: aviso dourado
+      // Documento já apagado e conta de login ainda de pé — erro direto,
+      // popup fechado/cancelado ou falha na reautenticação: aviso dourado
       // (nada quebrou por completo) e `signOut` — a política continua
       // montada e mostra a tela de contato, já sem a conta.
       emitirAviso({
@@ -485,6 +467,20 @@ export default function App() {
     setLinkAtivo(false);
 
     return { status: 'sucesso' };
+  }
+
+  // Apaga a conta do Auth, reautenticando por popup só quando o `deleteUser`
+  // exige login recente (`auth/requires-recent-login`, TDR 0027). Qualquer
+  // falha final propaga — o chamador já apagou o documento e decide o aviso
+  // de falha parcial.
+  async function apagarConta() {
+    try {
+      await deleteUserAccount();
+    } catch (erro) {
+      if (erro?.code !== 'auth/requires-recent-login') throw erro;
+      await reauthenticateWithGoogle();
+      await deleteUserAccount();
+    }
   }
 
   // Copia um texto para a área de transferência (Tarefa 0009-0003; mensagem

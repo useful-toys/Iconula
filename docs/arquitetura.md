@@ -69,7 +69,8 @@ leitura pública do produto, contabilizada no risco de cota do
   required check ([ADR 0003](adr/0003-firebase-hosting.md), [DDR 0005](devops-dr/0005-protecao-da-branch-main.md))
 - **Auth**: único provedor Google, popup, botão próprio, SDK modular
   ([ADR 0004](adr/0004-login-google-sdk-modular.md)); guarda também a
-  exclusão de conta — reautenticação por popup e `deleteUser`
+  exclusão de conta — `deleteUser`, com reautenticação por popup só quando
+  ele exige login recente
   ([TDR 0027](tdr/0027-autorizacao-e-ordem-da-exclusao-de-dados.md))
 - **Firestore**: banco `(default)`, região `southamerica-east1`, um
   documento por usuário — detalhes, custos e mecanismo de gravação em

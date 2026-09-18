@@ -248,3 +248,53 @@ Nenhum.
 - `docs/plano/README.md` — status da tarefa acompanha.
 - `docs/plano/0031-.../logs/0003-log-painel-de-apagar-dados-na-politica.md`
   — este log.
+
+## Correções pós-PR
+
+### 2026-09-18 — reordena a exclusão: reautenticação só quando o `deleteUser` pede
+
+- **Defeito relatado pelo humano** (teste do preview, PR #84): no fluxo
+  "Apagar meus dados", a reautenticação por popup rodava antes de apagar o
+  documento. O popup virou um "novo login" — o usuário entrou com outra
+  conta e o SDK devolveu `auth/user-mismatch`, sem apagar nada. A ordem
+  vigente estava errada: `apagarColecao` (apagar `users/{uid}`) não exige
+  re-login, só um token válido; re-login só é exigido pelo `deleteUser`
+  quando o login é antigo (`auth/requires-recent-login`).
+- **Decisão confirmada pelo humano (2026-09-18)**: nova ordem da exclusão —
+  `descartarPendencias()` → `apagarColecao(uid)` (sem popup) →
+  `deleteUserAccount()`; reautenticar por popup **somente se** `deleteUser`
+  devolver `auth/requires-recent-login`, e então tentar de novo. No caso
+  comum não aparece popup nenhum. Reverte a decisão vigente do TDR 0027 (a
+  alternativa "reautenticar só quando o `deleteUser` pedir" havia sido
+  recusada).
+- **Mudança no TDR 0027**: § Decisão passa a descrever a nova ordem e a
+  reautenticação condicional; o item "Desistência" foi reescrito (fechar o
+  popup já não cancela tudo sem apagar — o documento já saiu, então vira
+  "coleção apagada, conta permanece" com aviso dourado e `signOut`);
+  § Consequências e § Alternativas consideradas refletem a nova escolha
+  (motivo: o popup virou um novo login e causou `auth/user-mismatch`); a
+  decisão anterior foi para `## Histórico` com a nota de reversão; § Status
+  passou a citar 0031-0001, 0031-0002 e 0031-0003. A linha do índice
+  `docs/tdr/README.md` acompanhou o resumo.
+- **Correção**: `handleApagarDados` em `src/App.jsx` apaga o documento antes
+  da conta e reautentica só sob `requires-recent-login` (helper `apagarConta`),
+  deixando de produzir o status `'cancelado'` — `onApagar` agora devolve só
+  `'sucesso' | 'falha'`; comentário de `reauthenticateWithGoogle` em
+  `src/lib/firebase.js` atualizado; testes de componente/integração e o spec
+  e2e reescritos; `docs/interface.md`, `docs/arquitetura.md`,
+  `docs/modelo-firebase.md`, `docs/teste-e2e.md`, `e2e/README.md` e
+  `AGENTS.md` ajustados para a nova ordem.
+- **Arquivos alterados**: `docs/tdr/0027-...md`, `docs/tdr/README.md`,
+  `src/App.jsx`, `src/components/PoliticaDePrivacidade.jsx`,
+  `src/components/PoliticaDePrivacidade.test.jsx`, `src/lib/firebase.js`,
+  `src/App.apagarDados.test.jsx`, `e2e/apagarDados.spec.js`,
+  `e2e/README.md`, `docs/interface.md`, `docs/arquitetura.md`,
+  `docs/modelo-firebase.md`, `docs/teste-e2e.md`, `AGENTS.md` e este log.
+- **Desvios**: `docs/teste-e2e.md` e `AGENTS.md` também descreviam o popup
+  de reautenticação da exclusão ("nas duas pontas — login e reautenticação"
+  / "com reautenticação pelo popup fake do Google") e foram atualizados além
+  da lista explícita de "Docs de lastro" — motivo: manter a documentação
+  viva no estado atual, ambos já citavam o TDR 0027.
+- **Validação**: `npm run lint` (0 avisos/erros), `npm run test`
+  (47 arquivos, 620 testes), `npm run build` (chunk > 500 kB, pré-existente)
+  e `npm run test:e2e` (4 passed, JDK 21 no `PATH`) — verdes.

@@ -126,7 +126,8 @@ playwright.dev.config.js     — config de atalho (test:e2e:dev, dev server)
   de ponta a ponta; `catalogoCompartilhado.spec.js` cobre a vista do link sem
   login ([IDR 0055](idr/0055-catalogo-compartilhado-por-link-somente-leitura.md));
   `apagarDados.spec.js` cobre a exclusão pelo painel da política, com o
-  popup fake do Google nas duas pontas — login e reautenticação
+  login pelo popup fake do Google e a exclusão sem reautenticação (login
+  recente)
   ([IDR 0060](idr/0060-apagar-meus-dados-na-politica-em-dois-passos.md),
   [TDR 0027](tdr/0027-autorizacao-e-ordem-da-exclusao-de-dados.md)).
   Testes de outras funcionalidades específicas (ex.: a faixa de bandeiras)
