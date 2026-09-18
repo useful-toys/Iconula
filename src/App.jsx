@@ -26,7 +26,7 @@ import {
   apagarColecao,
   carregarColecao,
   gravarAlteracoes,
-  gravarAtestacao,
+  gravarAceite,
   gravarImportacao,
   gravarLinkAtivo,
   formatarCarimbo,
@@ -278,9 +278,11 @@ export default function App() {
   // app de qualquer jeito, mesmo em falha — o ato já foi praticado pelo
   // usuário, e a falha de rede não deve retê-lo. A falha só avisa; o campo
   // segue ausente no documento e a atestação é tentada de novo se esta
-  // conta logar de novo sem `atestadoEm`.
+  // conta logar de novo sem `atestadoEm`. O primeiro acesso grava junto o
+  // aceite dos textos (`gravarAceite`, Tarefa 0032-0002): `atestar: true`
+  // inclui a atestação de idade na mesma escrita.
   async function handleConfirmarAtestacao() {
-    const resultado = await gravarAtestacao(uid);
+    const resultado = await gravarAceite(uid, { atestar: true });
     if (resultado.status !== 'sucesso') {
       emitirAviso({
         severidade: SEVERIDADE.FALHA,

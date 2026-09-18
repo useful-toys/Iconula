@@ -624,7 +624,7 @@ passo informativo antes de ligar o link, que atualiza o
 | # | Tarefa | Objetivo | Status |
 |---|---|---|---|
 | 0001 | [Schema do aceite nas regras](0032-prova-de-aceite-atendimento-e-incidentes/0001-schema-do-aceite-nas-regras.md) | `termosVersao`, `politicaVersao` e `aceitoEm` no `hasOnly` e validados. | Concluída |
-| 0002 | [Versões dos textos e gravação do aceite](0032-prova-de-aceite-atendimento-e-incidentes/0002-versoes-dos-textos-e-gravacao-do-aceite.md) | Módulo das versões; a gravação da atestação vira gravação do aceite. | Pendente |
+| 0002 | [Versões dos textos e gravação do aceite](0032-prova-de-aceite-atendimento-e-incidentes/0002-versoes-dos-textos-e-gravacao-do-aceite.md) | Módulo das versões; a gravação da atestação vira gravação do aceite. | Concluída |
 | 0003 | [Tela de reaceite](0032-prova-de-aceite-atendimento-e-incidentes/0003-tela-de-reaceite.md) | Versão divergente reabre a atestação com o motivo de atualização. | Pendente |
 | 0004 | [Histórico, prazo e identificação nos textos](0032-prova-de-aceite-atendimento-e-incidentes/0004-historico-prazo-e-identificacao-nos-textos.md) | Seção de alterações, 15 dias e pedidos pelo e-mail da conta. | Pendente |
 | 0005 | [Registro de operações e plano de incidente](0032-prova-de-aceite-atendimento-e-incidentes/0005-registro-de-operacoes-e-plano-de-incidente.md) | `docs/privacidade.md` completo; `SECURITY.md` distingue os dois casos. | Pendente |

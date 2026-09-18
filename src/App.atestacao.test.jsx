@@ -34,7 +34,7 @@ vi.mock("./lib/firebase", () => ({
 const colecao = vi.hoisted(() => ({
   carregarColecao: vi.fn(),
   gravarAlteracoes: vi.fn(),
-  gravarAtestacao: vi.fn(),
+  gravarAceite: vi.fn(),
   formatarCarimbo: vi.fn(),
   mensagemDeErro: vi.fn(),
 }));
@@ -42,7 +42,7 @@ const colecao = vi.hoisted(() => ({
 vi.mock("./lib/colecaoRemota.js", () => ({
   carregarColecao: colecao.carregarColecao,
   gravarAlteracoes: colecao.gravarAlteracoes,
-  gravarAtestacao: colecao.gravarAtestacao,
+  gravarAceite: colecao.gravarAceite,
   formatarCarimbo: colecao.formatarCarimbo,
   mensagemDeErro: colecao.mensagemDeErro,
 }));
@@ -60,8 +60,8 @@ beforeEach(() => {
   authState.callback = null;
   colecao.carregarColecao.mockReset();
   colecao.gravarAlteracoes.mockReset();
-  colecao.gravarAtestacao.mockReset();
-  colecao.gravarAtestacao.mockResolvedValue({ status: "sucesso" });
+  colecao.gravarAceite.mockReset();
+  colecao.gravarAceite.mockResolvedValue({ status: "sucesso" });
   colecao.formatarCarimbo.mockImplementation((d) => (d ? "14:05" : "—"));
   colecao.mensagemDeErro.mockImplementation((e) => e?.message ?? "erro");
   localStorage.clear();
@@ -117,8 +117,8 @@ describe("App — atestação de menores", () => {
 
     await user.click(await screen.findByRole("button", { name: "Confirmar" }));
 
-    expect(colecao.gravarAtestacao).toHaveBeenCalledTimes(1);
-    expect(colecao.gravarAtestacao).toHaveBeenCalledWith("uid1");
+    expect(colecao.gravarAceite).toHaveBeenCalledTimes(1);
+    expect(colecao.gravarAceite).toHaveBeenCalledWith("uid1", { atestar: true });
     await waitFor(() => {
       expect(screen.getByTestId("catalogo-mock")).toBeInTheDocument();
     });
@@ -127,7 +127,7 @@ describe("App — atestação de menores", () => {
   it("falha ao gravar libera o app assim mesmo, com aviso, sem mover o relógio", async () => {
     const user = userEvent.setup();
     colecao.carregarColecao.mockResolvedValue({ status: "vazio" });
-    colecao.gravarAtestacao.mockResolvedValue({ status: "erro", erro: new Error("unavailable") });
+    colecao.gravarAceite.mockResolvedValue({ status: "erro", erro: new Error("unavailable") });
 
     montarLogado();
 

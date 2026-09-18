@@ -6,7 +6,7 @@ import {
   carregarColecao,
   carregarCatalogoCompartilhado,
   gravarAlteracoes,
-  gravarAtestacao,
+  gravarAceite,
   gravarImportacao,
   gravarLinkAtivo,
   formatarCarimbo,
@@ -99,7 +99,26 @@ describe('carregarColecao', () => {
       temTeamName: true,
       atestadoEm: false,
       linkAtivo: false,
+      termosVersao: null,
+      politicaVersao: null,
     });
+  });
+
+  it('devolve as versões aceitas quando o documento as tem (Tarefa 0032-0002)', async () => {
+    firestore.getDoc.mockResolvedValue({
+      exists: () => true,
+      data: () => ({
+        contagens: {},
+        updatedAt: { toDate: () => new Date('2026-09-10T14:05:00') },
+        termosVersao: '2026-09-17',
+        politicaVersao: '2026-09-10',
+      }),
+    });
+
+    const resultado = await carregarColecao('u1');
+
+    expect(resultado.termosVersao).toBe('2026-09-17');
+    expect(resultado.politicaVersao).toBe('2026-09-10');
   });
 
   it('reporta linkAtivo quando o documento tem o link ligado (Tarefa 0027-0004)', async () => {
@@ -479,23 +498,49 @@ describe('gravarAlteracoes', () => {
   });
 });
 
-describe('gravarAtestacao', () => {
-  it('grava atestadoEm como serverTimestamp, com merge:true, sem updatedAt', async () => {
-    const resultado = await gravarAtestacao('u1');
+describe('gravarAceite (Tarefa 0032-0002)', () => {
+  it('grava as duas versões e aceitoEm como serverTimestamp, com merge:true, sem updatedAt', async () => {
+    const resultado = await gravarAceite('u1');
 
     expect(firestore.setDoc).toHaveBeenCalledTimes(1);
     expect(firestore.setDoc).toHaveBeenCalledWith(
       {},
-      { atestadoEm: CARIMBO_SERVIDOR },
+      {
+        termosVersao: '2026-09-17',
+        politicaVersao: '2026-09-17',
+        aceitoEm: CARIMBO_SERVIDOR,
+      },
       { merge: true },
     );
     expect(resultado).toEqual({ status: 'sucesso' });
   });
 
+  it('inclui atestadoEm só quando a atestação de idade acompanha', async () => {
+    await gravarAceite('u1', { atestar: true });
+
+    expect(firestore.setDoc).toHaveBeenCalledWith(
+      {},
+      {
+        termosVersao: '2026-09-17',
+        politicaVersao: '2026-09-17',
+        aceitoEm: CARIMBO_SERVIDOR,
+        atestadoEm: CARIMBO_SERVIDOR,
+      },
+      { merge: true },
+    );
+  });
+
+  it('nunca carimba updatedAt — o relógio da coleção não se move com o aceite', async () => {
+    await gravarAceite('u1', { atestar: true });
+
+    const [, dados] = firestore.setDoc.mock.calls[0];
+    expect(dados).not.toHaveProperty('updatedAt');
+  });
+
   it('devolve erro quando a escrita falha', async () => {
     firestore.setDoc.mockRejectedValue(new Error('unavailable'));
 
-    const resultado = await gravarAtestacao('u1');
+    const resultado = await gravarAceite('u1');
 
     expect(resultado.status).toBe('erro');
     expect(resultado.erro).toBeInstanceOf(Error);
@@ -504,7 +549,7 @@ describe('gravarAtestacao', () => {
   it('devolve indisponível quando não há app configurado', async () => {
     state.app = null;
 
-    const resultado = await gravarAtestacao('u1');
+    const resultado = await gravarAceite('u1');
 
     expect(resultado).toEqual({ status: 'indisponivel' });
     expect(firestore.setDoc).not.toHaveBeenCalled();

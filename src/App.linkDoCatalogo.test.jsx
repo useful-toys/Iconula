@@ -35,7 +35,7 @@ vi.mock("./lib/firebase", () => ({
 const colecao = vi.hoisted(() => ({
   carregarColecao: vi.fn(),
   gravarAlteracoes: vi.fn(),
-  gravarAtestacao: vi.fn(),
+  gravarAceite: vi.fn(),
   gravarLinkAtivo: vi.fn(),
   formatarCarimbo: vi.fn(),
   mensagemDeErro: vi.fn(),
@@ -44,7 +44,7 @@ const colecao = vi.hoisted(() => ({
 vi.mock("./lib/colecaoRemota.js", () => ({
   carregarColecao: colecao.carregarColecao,
   gravarAlteracoes: colecao.gravarAlteracoes,
-  gravarAtestacao: colecao.gravarAtestacao,
+  gravarAceite: colecao.gravarAceite,
   gravarLinkAtivo: colecao.gravarLinkAtivo,
   formatarCarimbo: colecao.formatarCarimbo,
   mensagemDeErro: colecao.mensagemDeErro,
@@ -134,8 +134,8 @@ beforeEach(() => {
   colecao.carregarColecao.mockResolvedValue(cargaComLink(false));
   colecao.gravarAlteracoes.mockReset();
   colecao.gravarAlteracoes.mockResolvedValue({ status: "sucesso", atualizadoEm: new Date() });
-  colecao.gravarAtestacao.mockReset();
-  colecao.gravarAtestacao.mockResolvedValue({ status: "sucesso" });
+  colecao.gravarAceite.mockReset();
+  colecao.gravarAceite.mockResolvedValue({ status: "sucesso" });
   colecao.gravarLinkAtivo.mockReset();
   colecao.gravarLinkAtivo.mockResolvedValue({ status: "sucesso" });
   colecao.formatarCarimbo.mockImplementation((d) => (d ? "14:05" : "—"));

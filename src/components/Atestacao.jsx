@@ -8,7 +8,7 @@ import "./TelaDeLogin.css";
 // mesmo cartão, os mesmos tokens (reaproveita `TelaDeLogin.css`), sem
 // inventar layout novo.
 //
-// `onConfirmar` é assíncrono e nunca lança (contrato de `gravarAtestacao`
+// `onConfirmar` é assíncrono e nunca lança (contrato de `gravarAceite`
 // em `colecaoRemota.js`): App.jsx decide sozinho, a partir do resultado, se
 // libera o app — nunca reter o usuário aqui, mesmo que a gravação falhe
 // (IDR 0036).
