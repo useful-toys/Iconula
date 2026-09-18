@@ -80,7 +80,7 @@ Detalhes e status das tarefas no guia [CLAUDE.md](CLAUDE.md) § Status e ciclo d
 | 32 | [Prova de aceite, atendimento e incidentes](0032-prova-de-aceite-atendimento-e-incidentes/) | Versionar os textos com reaceite, declarar prazo e identificação, registrar operações e resposta a incidente, e informar antes de ligar o link | 31 | `feat: aceite versionado, procedimentos de privacidade e consentimento do link` | Entregue |
 | 33 | [Tela Sobre, tooltip do desfazer e indicador de pendência](0033-sobre-tooltip-do-desfazer-e-indicador-de-pendencia/) | Tela Sobre com link ao GitHub e a issues, tooltip do desfazer com código e operação, indicador "não salvo" no título e debounce/teto de gravação maiores | — | `feat: tela Sobre, tooltip do desfazer e indicador de pendência no título` | Entregue |
 | 34 | [Refinamentos visuais do catálogo](0034-refinamentos-visuais-do-catalogo/) | Respiro por letra na ordenação por código, ordem bandeira/sigla/nome no título de seção, espaçadores de linha/página na lista e gradiente de cor no selo `×N` | — | `feat: refinamentos visuais do catálogo (título, espaçamento e selo)` | Entregue |
-| 35 | [Apoio ao projeto por doação via Pix](0035-apoio-ao-projeto-por-doacao-via-pix/) | Vista dedicada com QR Pix, chave para copiar/compartilhar e frase de contexto; acesso pelo rodapé e por um bloco no menu de ações, depois de "Sobre" | 33 | `feat: apoio ao projeto por doação via pix` | Em andamento |
+| 35 | [Apoio ao projeto por doação via Pix](0035-apoio-ao-projeto-por-doacao-via-pix/) | Vista dedicada com QR Pix, chave para copiar/compartilhar e frase de contexto; acesso pelo rodapé e por um bloco no menu de ações, depois de "Sobre" | 33 | `feat: apoio ao projeto por doação via pix` | Entregue |
 
 ---
 
