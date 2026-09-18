@@ -55,7 +55,7 @@ Aceito.
   desde `firebase` e `@twemoji/api`.
 - Novo módulo `src/lib/pix.js` (nome provisório) com função pura de
   montagem do payload, testável no mesmo padrão de `src/lib/*.test.js`.
-- Implementação: a planejar (`/planejar`).
+- Implementação: Fase 0035, Tarefa 0035-0001.
 
 ## Alternativas consideradas
 

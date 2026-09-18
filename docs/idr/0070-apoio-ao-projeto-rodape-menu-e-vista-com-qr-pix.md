@@ -38,10 +38,13 @@ Aceito.
      tela principal), no mesmo estilo dos links de política/termos —
      visível mesmo sem login.
   2. Item novo no popup "Menu de ações" (avatar), em **bloco próprio**
-     entre o bloco Exportar/Importar e o item "Sair": três blocos
-     separados por filete no total. Mantém "Sair" isolado como única ação
-     vermelha/destrutiva e não mistura o pedido de apoio financeiro com as
-     ações de portabilidade de dados.
+     depois do bloco "Sobre" ([Fase 33](../plano/0033-sobre-tooltip-do-desfazer-e-indicador-de-pendencia/),
+     [IDR 0063](0063-tela-sobre-com-link-ao-repositorio-e-issues.md)) e
+     antes do item "Sair": quatro blocos separados por filete no total —
+     Exportar/Importar, Sobre, Apoiar o projeto, Sair. Mantém "Sair"
+     isolado como única ação vermelha/destrutiva e não mistura o pedido de
+     apoio financeiro com as ações de portabilidade de dados nem com o
+     conteúdo informativo do "Sobre".
 - **Vista interna "Apoie o projeto"**, no molde de TDR 0020 (substitui o
   conteúdo da tela, com "← Voltar" para a tela de origem):
   - Frase de contexto ligando a doação ao produto (ex.: referência ao
@@ -65,7 +68,8 @@ Aceito.
 - `Rodape.jsx` e `TelaDeLogin.jsx` ganham o link "Apoie o projeto".
 - `App.jsx` ganha a nova vista interna (mais um valor no estado
   `vistaInterna`, no mesmo padrão da política e dos termos).
-- `MenuDeAcoes.jsx` ganha o bloco/item novo, entre os blocos existentes.
+- `MenuDeAcoes.jsx` ganha o bloco/item novo, depois do bloco "Sobre" e
+  antes de "Sair".
 - `interface.md` § Menu de ações, § Tela de login, § Corpo (rodapé) e §
   Demais telas mudam.
 - `docs/requisitos.md` § Apoio ao projeto (nova) — mudança de requisito
@@ -73,7 +77,11 @@ Aceito.
 - Sem custo em leituras ou escritas no Firestore: conteúdo estático.
 - Depende de [TDR 0029](../tdr/0029-geracao-local-do-qr-code-pix.md) para
   como o QR e a chave são construídos.
-- Implementação: a planejar (`/planejar`).
+- Depende da [Fase 33](../plano/0033-sobre-tooltip-do-desfazer-e-indicador-de-pendencia/)
+  (bloco "Sobre") entregue: mesma área do menu de ações, mesmos arquivos
+  (`MenuDeAcoes.jsx`, `Rodape.jsx`, `TelaDeLogin.jsx`, `App.jsx`).
+- Implementação: Fase 0035, Tarefas 0035-0002 (vista), 0035-0003 (rodapé)
+  e 0035-0004 (menu de ações).
 
 ## Alternativas consideradas
 
@@ -90,5 +98,11 @@ Aceito.
 
 ## Histórico
 
+- 2026-09-18 — Planejamento: a Fase 33 (Pendente), decidida depois deste
+  esmiuçamento, já reserva "bloco próprio entre Exportar/Importar e Sair"
+  para o item "Sobre". O bloco de "Apoiar o projeto" passa para depois de
+  "Sobre" e antes de "Sair"; a fase ganha dependência da Fase 33.
+  Implementação: Fase 0035. Antes: bloco logo após Exportar/Importar,
+  sem dependência de outra fase.
 - 2026-09-18 — Criado no esmiuçamento de QR code Pix para doações;
   implementação a planejar.
