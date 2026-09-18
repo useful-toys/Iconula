@@ -9,18 +9,59 @@ import PoliticaDePrivacidade from "./PoliticaDePrivacidade";
 
 describe("PoliticaDePrivacidade", () => {
   it("cobre os itens exigidos por requisitos.md § Privacidade", () => {
-    render(<PoliticaDePrivacidade onVoltar={vi.fn()} />);
+    const { container } = render(<PoliticaDePrivacidade onVoltar={vi.fn()} />);
 
     expect(screen.getByRole("heading", { name: "Política de privacidade" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Controlador e encarregado" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Dados tratados" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Finalidade" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Base legal" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Onde os dados ficam" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Operador e transferência internacional" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Link do catálogo" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Armazenamento local" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Retenção" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Direitos do titular" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Dados de menores" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Contato" })).toBeInTheDocument();
     expect(screen.getByText(/dff4321@gmail\.com/)).toBeInTheDocument();
+
+    const vigencia = container.querySelector("time");
+    expect(vigencia).toHaveAttribute("dateTime", "2026-09-17");
+    expect(vigencia).toHaveTextContent("17 de setembro de 2026");
+  });
+
+  it("declara o conteúdo de conformidade do IDR 0061", () => {
+    render(<PoliticaDePrivacidade onVoltar={vi.fn()} />);
+
+    // Controlador e encarregado, sem CPF nem endereço.
+    expect(screen.getByText(/Daniel Felix Ferber, pessoa física/)).toBeInTheDocument();
+    expect(screen.queryByText(/CPF/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/endereço/)).not.toBeInTheDocument();
+
+    // Base legal por finalidade.
+    expect(screen.getByText(/hipótese legal \(LGPD art\. 9º, I\)/)).toBeInTheDocument();
+    expect(screen.getByText(/executar o contrato firmado nos Termos/)).toBeInTheDocument();
+    expect(screen.getByText(/art\. 7º, I/)).toBeInTheDocument();
+
+    // Operador e transferência internacional.
+    expect(screen.getByText(/O Google é operador dos seus dados/)).toBeInTheDocument();
+    expect(screen.getByText(/Firebase Auth, fora do Brasil/)).toBeInTheDocument();
+
+    // Armazenamento local sem banner de cookies.
+    expect(screen.getByText(/cache do SDK do\s+Firestore \(IndexedDB\)/)).toBeInTheDocument();
+    expect(screen.getByText(/não pede consentimento de\s+cookies nem exibe banner/)).toBeInTheDocument();
+
+    // Retenção com os dois prazos.
+    expect(screen.getByText(/24 meses sem entrar/)).toBeInTheDocument();
+    expect(screen.getByText(/apagados em até 90 dias/)).toBeInTheDocument();
+
+    // Portabilidade pela exportação JSON.
+    expect(screen.getByText(/portabilidade \(LGPD art\. 18, V\)/)).toBeInTheDocument();
+    expect(screen.getByText(/exportação da\s+coleção em JSON/)).toBeInTheDocument();
+
+    // A frase falsa sobre não tratar outros dados saiu.
+    expect(screen.queryByText(/Nenhum outro dado é tratado/)).not.toBeInTheDocument();
   });
 
   it("declara a visibilidade por link, com o texto do IDR 0055", () => {
