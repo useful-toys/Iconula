@@ -22,7 +22,7 @@ Aceito — os valores numéricos (debounce, teto de espera) são pontos de parti
 
 ### Gravação agregada
 
-- **Debounce de ~2s** após o último ajuste, **teto de espera de ~10s** em rajada contínua.
+- **Debounce de ~4s** após o último ajuste, **teto de espera de ~20s** em rajada contínua — dobrados a partir dos ~2s/~10s originais no esmiuçamento de UX de edição e saída, para capturar mais eventos por gravação e reduzir chamadas ao Firestore (ver Histórico).
 - **Flush imediato ao fechar a página** (`pagehide`/`visibilitychange`).
 - **Flush garantido por persistência local**: cache IndexedDB do SDK, `persistentLocalCache` com `persistentMultipleTabManager()` — o gerenciador multi-aba não é opcional: no modo padrão (aba única) a segunda aba não obtém o lease do IndexedDB e perde o cache, e com ele a garantia de flush. Escritas pendentes sobrevivem ao fechamento e completam na carga seguinte.
 - **Sem rede, a escrita não resolve**: com cache local, a promise de `setDoc` só resolve quando o servidor confirma — offline ela fica pendente para sempre, sem sucesso nem falha. Um tempo-limite de ~5s emite o aviso "sem conexão, será gravado depois".
@@ -51,3 +51,7 @@ Aceito — os valores numéricos (debounce, teto de espera) são pontos de parti
 - **`increment()` atômico por chave**: robusto sob concorrência, mas complica a semântica de "regravar o valor completo" após falha e o apagar-chave-em-zero. Descartado.
 - **Fila própria de flush em `localStorage`**: reinventaria a fila que o SDK já mantém com o cache IndexedDB. Descartado.
 - **Sem debounce**: uma escrita por clique — bateria a cota em rajada. Descartado.
+
+## Histórico
+
+- 2026-09-18 — Esmiuçamento de UX de edição e saída: debounce de ~2s → ~4s e teto de ~10s → ~20s, mantendo a mesma proporção 1:5; pedido do humano para capturar mais eventos por gravação e reduzir chamadas ao storage. Implementação: a planejar (`/planejar`). Antes: ~2s/~10s, aceitos como ponto de partida na Tarefa 0007-0003, sem confirmação em uso real.
