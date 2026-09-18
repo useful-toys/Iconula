@@ -67,7 +67,7 @@ function cargaComLink(linkAtivo) {
     temTeamName: false,
     atestadoEm: true,
     termosVersao: "2026-09-17",
-    politicaVersao: "2026-09-17",
+    politicaVersao: "2026-09-18",
     linkAtivo,
   };
 }
@@ -190,7 +190,7 @@ describe("App — chave do link do catálogo", () => {
       temTeamName: false,
       atestadoEm: true,
       termosVersao: "2026-09-17",
-      politicaVersao: "2026-09-17",
+      politicaVersao: "2026-09-18",
     });
     await montarLogado();
     await abrirCompartilhar();

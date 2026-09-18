@@ -20,4 +20,4 @@
  */
 
 export const VERSAO_TERMOS = '2026-09-17';
-export const VERSAO_POLITICA = '2026-09-17';
+export const VERSAO_POLITICA = '2026-09-18';

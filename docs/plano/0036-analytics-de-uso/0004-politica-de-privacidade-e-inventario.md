@@ -3,7 +3,7 @@
 # Tarefa 0036-0004: Política de privacidade e inventário
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Atualizar a política de privacidade para declarar o analytics consentido

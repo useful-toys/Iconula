@@ -83,7 +83,7 @@ describe("App — carga no login", () => {
       temTeamName: false,
       atestadoEm: true,
       termosVersao: "2026-09-17",
-      politicaVersao: "2026-09-17",
+      politicaVersao: "2026-09-18",
     });
     authState.user = USUARIO;
 

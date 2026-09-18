@@ -28,8 +28,8 @@ describe("PoliticaDePrivacidade", () => {
     expect(screen.getByText(/dff4321@gmail\.com/)).toBeInTheDocument();
 
     const vigencia = container.querySelector("time");
-    expect(vigencia).toHaveAttribute("dateTime", "2026-09-17");
-    expect(vigencia).toHaveTextContent("17 de setembro de 2026");
+    expect(vigencia).toHaveAttribute("dateTime", "2026-09-18");
+    expect(vigencia).toHaveTextContent("18 de setembro de 2026");
   });
 
   it("declara o conteúdo de conformidade do IDR 0061", () => {
@@ -49,9 +49,23 @@ describe("PoliticaDePrivacidade", () => {
     expect(screen.getByText(/O Google é operador dos seus dados/)).toBeInTheDocument();
     expect(screen.getByText(/Firebase Auth, fora do Brasil/)).toBeInTheDocument();
 
-    // Armazenamento local sem banner de cookies.
+    // Armazenamento local com o banner de consentimento de analytics.
     expect(screen.getByText(/cache do SDK do\s+Firestore \(IndexedDB\)/)).toBeInTheDocument();
-    expect(screen.getByText(/não pede consentimento de\s+cookies nem exibe banner/)).toBeInTheDocument();
+    expect(screen.getByText(/banner de consentimento de analytics/)).toBeInTheDocument();
+    expect(screen.getByText("iconula.consentimento-analytics.v1")).toBeInTheDocument();
+    expect(
+      screen.queryByText(/não pede consentimento de\s+cookies nem exibe banner/),
+    ).not.toBeInTheDocument();
+
+    // Analytics consentido, na região Brasil, com retenção de 14 meses.
+    expect(screen.getByText(/tratamos também métricas de uso/)).toBeInTheDocument();
+    expect(screen.getByText(/por meio do Google Analytics 4/)).toBeInTheDocument();
+    expect(screen.getByText(/métricas de uso são tratadas com o seu consentimento/)).toBeInTheDocument();
+    expect(screen.getByText(/as métricas de uso ficam na região Brasil/)).toBeInTheDocument();
+    expect(
+      screen.getByText(/sem transferência internacional para\s+essa finalidade/),
+    ).toBeInTheDocument();
+    expect(screen.getByText(/As\s+métricas de uso do Google Analytics são mantidas por 14 meses/)).toBeInTheDocument();
 
     // Retenção com os dois prazos.
     expect(screen.getByText(/24 meses sem entrar/)).toBeInTheDocument();

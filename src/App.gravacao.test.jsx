@@ -77,7 +77,7 @@ beforeEach(() => {
     temTeamName: false,
     atestadoEm: true,
     termosVersao: "2026-09-17",
-    politicaVersao: "2026-09-17",
+    politicaVersao: "2026-09-18",
   });
   colecao.gravarAlteracoes.mockReset();
   colecao.gravarAlteracoes.mockResolvedValue({
@@ -211,7 +211,7 @@ describe("App — gravação agregada", () => {
       temTeamName: false,
       atestadoEm: true,
       termosVersao: "2026-09-17",
-      politicaVersao: "2026-09-17",
+      politicaVersao: "2026-09-18",
     });
     colecao.gravarAlteracoes.mockResolvedValue({
       status: "erro",
@@ -312,7 +312,7 @@ describe("App — gravação agregada", () => {
       temTeamName: true,
       atestadoEm: true,
       termosVersao: "2026-09-17",
-      politicaVersao: "2026-09-17",
+      politicaVersao: "2026-09-18",
     });
 
     await montarLogado();
