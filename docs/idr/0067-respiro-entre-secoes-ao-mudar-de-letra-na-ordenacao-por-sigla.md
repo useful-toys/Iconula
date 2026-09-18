@@ -39,7 +39,7 @@ Aceito.
 - `Catalogo.jsx`/`Catalogo.css`: a lista de seções soltas precisa saber a
   letra da seção anterior para aplicar o respiro maior — implementação a
   cargo da tarefa (ex.: classe modificadora no contêiner da seção).
-- Implementação: a planejar (`/planejar`).
+- Implementação: Fase 0034, Tarefa 0034-0003.
 
 ## Alternativas consideradas
 

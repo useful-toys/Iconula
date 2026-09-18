@@ -79,6 +79,7 @@ Detalhes e status das tarefas no guia [CLAUDE.md](CLAUDE.md) § Status e ciclo d
 | 31 | [Exclusão de dados e conformidade da política](0031-exclusao-de-dados-e-conformidade-da-politica/) | Apagar coleção e conta pelo app e completar a política com controlador, base legal, transferência e retenção | — | `feat: apagar meus dados e política de privacidade conforme a LGPD` | Pendente |
 | 32 | [Prova de aceite, atendimento e incidentes](0032-prova-de-aceite-atendimento-e-incidentes/) | Versionar os textos com reaceite, declarar prazo e identificação, registrar operações e resposta a incidente, e informar antes de ligar o link | 31 | `feat: aceite versionado, procedimentos de privacidade e consentimento do link` | Pendente |
 | 33 | [Tela Sobre, tooltip do desfazer e indicador de pendência](0033-sobre-tooltip-do-desfazer-e-indicador-de-pendencia/) | Tela Sobre com link ao GitHub e a issues, tooltip do desfazer com código e operação, indicador "não salvo" no título e debounce/teto de gravação maiores | — | `feat: tela Sobre, tooltip do desfazer e indicador de pendência no título` | Pendente |
+| 34 | [Refinamentos visuais do catálogo](0034-refinamentos-visuais-do-catalogo/) | Respiro por letra na ordenação por código, ordem bandeira/sigla/nome no título de seção, espaçadores de linha/página na lista e gradiente de cor no selo `×N` | — | `feat: refinamentos visuais do catálogo (título, espaçamento e selo)` | Pendente |
 
 ---
 
@@ -652,6 +653,30 @@ no PR do esmiuçamento.
 | 0003 | [Tooltip do desfazer com código e operação](0033-sobre-tooltip-do-desfazer-e-indicador-de-pendencia/0003-tooltip-do-desfazer-com-codigo-e-operacao.md) | `Desfazer: +1 em BRA05`, tooltip no padrão IDR 0048 e `aria-label` sincronizado. | Pendente |
 | 0004 | [Indicador "não salvo" no título](0033-sobre-tooltip-do-desfazer-e-indicador-de-pendencia/0004-indicador-nao-salvo-no-titulo.md) | O relógio dá lugar a "não salvo" enquanto há alteração não gravada. | Pendente |
 | 0005 | [Debounce e teto de gravação maiores](0033-sobre-tooltip-do-desfazer-e-indicador-de-pendencia/0005-debounce-e-teto-de-gravacao-maiores.md) | `DEBOUNCE_MS` 2000→4000, `TETO_MS` 10000→20000 em `gravacaoAgregada.js`. | Pendente |
+
+## Fase 34 — Refinamentos visuais do catálogo
+
+Decisões do esmiuçamento ([PR #88](https://github.com/useful-toys/Iconula/pull/88)):
+respiro extra na ordenação por código quando a letra da sigla muda,
+incluindo FWC e COC nas pontas
+([IDR 0067](../idr/0067-respiro-entre-secoes-ao-mudar-de-letra-na-ordenacao-por-sigla.md));
+sigla antes do nome no título das seções de seleção, FWC inalterado e a
+Coca-Cola sem sigla
+([IDR 0068](../idr/0068-ordem-bandeira-sigla-nome-no-titulo-de-secao-de-selecao.md));
+respiro de linha e de página na disposição lista, derivado do layout do
+álbum, para seleções e Coca-Cola (FWC de fora)
+([IDR 0069](../idr/0069-espacadores-de-linha-e-pagina-na-lista.md));
+gradiente de laranja a vermelho no selo `×N` conforme as unidades
+sobrando crescem de 1 a 10
+([IDR 0066](../idr/0066-gradiente-de-cor-do-selo-conforme-sobrando.md)).
+Nenhuma mudança em `docs/requisitos.md`.
+
+| # | Tarefa | Objetivo | Status |
+|---|---|---|---|
+| 0001 | [Reordena o título da seção de seleção](0034-refinamentos-visuais-do-catalogo/0001-reordena-o-titulo-da-secao-de-selecao.md) | Sigla antes do nome nas seleções; Coca-Cola sem sigla; FWC inalterado. | Pendente |
+| 0002 | [Aplica espaçadores de linha e página na lista](0034-refinamentos-visuais-do-catalogo/0002-aplica-espacadores-de-linha-e-pagina-na-lista.md) | +2px nas quebras de linha e +4px nas quebras de página do layout do álbum, seleções e Coca-Cola; FWC de fora. | Pendente |
+| 0003 | [Aplica respiro por letra na ordenação por código](0034-refinamentos-visuais-do-catalogo/0003-aplica-respiro-por-letra-na-ordenacao-por-codigo.md) | +2px de respiro entre seções quando a letra da sigla muda, incluindo FWC/COC. | Pendente |
+| 0004 | [Aplica gradiente de cor ao selo `×N`](0034-refinamentos-visuais-do-catalogo/0004-aplica-gradiente-de-cor-ao-selo.md) | Cor do selo varia de `#D86000` a `#D80000` conforme as unidades sobrando (1 a 10). | Pendente |
 
 ## Regras que valem em toda tarefa
 

@@ -45,7 +45,7 @@ Aceito.
   faixa de classes) — nível 1, não é decisão desta esmiuçamento.
 - `--orange-card` permanece como está, usado em outros lugares (estado
   "repetida" do cartão) — o gradiente é exclusivo do selo.
-- Implementação: a planejar (`/planejar`).
+- Implementação: Fase 0034, Tarefa 0034-0004.
 
 ## Alternativas consideradas
 

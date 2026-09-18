@@ -60,7 +60,7 @@ Aceito.
 - `Secao.test.jsx`: novos testes cobrem as fronteiras de uma seleção
   (2-3, 6-7, 10-11, 13-14, 17-18), da Coca-Cola (3-4, 6-7, 9-10, 12-13) e
   a ausência de respiro extra no FWC.
-- Implementação: a planejar (`/planejar`).
+- Implementação: Fase 0034, Tarefa 0034-0002.
 
 ## Alternativas consideradas
 
