@@ -66,7 +66,28 @@ operações, citando o TDR 0027.
 Nenhum
 
 ## Setup realizado
-Nenhum
+Nenhum na execução da tarefa. Publicação posterior das regras em produção,
+pedida pelo humano com o PR da fase ainda aberto:
+
+### 1. Publicar as regras da fase no projeto `iconula`
+- Ambiente: Firebase (produção)
+- Aprovação do humano: 2026-09-18 — autorizou exatamente
+  `firebase deploy --only firestore:rules` no projeto `iconula`.
+- Comando executado:
+  ```
+  firebase deploy --only firestore:rules
+  ```
+- Saída relevante: `rules file firestore.rules compiled successfully`;
+  `released rules firestore.rules to cloud.firestore`; `Deploy complete!`
+- Verificação: ruleset liberado no console do projeto
+  (https://console.firebase.google.com/project/iconula/overview).
+- Como reverter: `firebase deploy --only firestore:rules` a partir da
+  `main` (`d2b283a`, sem o `allow delete`) republica o ruleset anterior.
+- Documento atualizado: nenhum — a regra é o estado que a fase entrega no
+  merge; `docs/setup-firebase.md` § Cloud Firestore já está defasado de
+  antes desta fase (observação da Tarefa 0031-0006) e não foi tocado.
+- Nota: fora do fluxo padrão do guia (as regras sobem no merge, DDR 0004);
+  o humano autorizou antecipar para produção com o PR #84 aberto.
 
 ## Validação
 - `npm run lint` — `Found 0 warnings and 0 errors.` (89 arquivos)
