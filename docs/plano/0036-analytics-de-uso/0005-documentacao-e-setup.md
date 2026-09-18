@@ -3,7 +3,7 @@
 # Tarefa 0036-0005: Documentação e setup
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Refletir o analytics de uso nos documentos vivos (`arquitetura.md`,

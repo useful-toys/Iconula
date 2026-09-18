@@ -48,6 +48,27 @@ estado real com:
 gcloud services list --enabled --project iconula
 ```
 
+### Analytics (Google Analytics 4)
+
+O link do Google Analytics 4 ao projeto, feito pelo console do Firebase
+(ver [docs/setup-firebase.md](setup-firebase.md#google-analytics-ga4) e o
+[ADR 0011](adr/0011-analytics-de-uso-com-google-analytics-4.md)), **não
+habilitou** a API de administração do GA4 (`analyticsadmin.googleapis.com`)
+nem a de dados (`analyticsdata.googleapis.com`) — a configuração fica no
+console, não em API do Google Cloud. A única API habilitada com "analytics"
+no nome é `analyticshub.googleapis.com` (Analytics Hub API) — recurso de
+troca de dados do BigQuery, sem papel na medição do app. Conferido em
+2026-09-18:
+
+```bash
+$ gcloud services list --enabled --project iconula | grep -i analytics
+analyticshub.googleapis.com                  Analytics Hub API
+```
+
+Nenhuma API nova foi necessária para o analytics de uso; a CSP do Hosting é
+que abre as origens do GA4
+([DDR 0001](devops-dr/0001-csp-headers-e-configuracao-de-hosting.md)).
+
 ## Service account para deploy via GitHub Actions
 
 O workflow de deploy (`.github/workflows/firebase-hosting-*.yml`, ver
@@ -300,3 +321,7 @@ As regras de segurança e como elas são publicadas ficam em
    `roles/firebase.viewer` + `roles/firebaserules.admin`; criar a role
    custom `authorizedDomainsEditor` e concedê-la à mesma service account
 6. Gerar a chave JSON, registrar como secret no GitHub, apagar o arquivo local
+7. O link do Google Analytics 4, feito pelo console do Firebase
+   ([docs/setup-firebase.md](setup-firebase.md#google-analytics-ga4)), não
+   habilita API nova no Google Cloud — ver seção "Analytics" em "APIs
+   habilitadas"

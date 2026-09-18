@@ -75,13 +75,18 @@ leitura pública do produto, contabilizada no risco de cota do
 - **Firestore**: banco `(default)`, região `southamerica-east1`, um
   documento por usuário — detalhes, custos e mecanismo de gravação em
   [modelo-firebase.md](modelo-firebase.md)
+- **Google Analytics (GA4)**: medição de uso — visitas, sessões e
+  engajamento — em região Brasil, entregue por `gtag.js` carregado em
+  runtime por `src/lib/analytics.js` sob consentimento, sem SDK no bundle
+  ([ADR 0011](adr/0011-analytics-de-uso-com-google-analytics-4.md),
+  [IDR 0071](idr/0071-banner-de-consentimento-para-analytics.md))
 
 ## Camadas no cliente
 
 | Camada | Conteúdo |
 |---|---|
 | `src/data/` | Catálogo estático (50 seções, 994 figurinhas — [TDR 0010](tdr/0010-forma-do-catalogo-degradacao-do-checklist-e-sem-pipeline.md)) e suas derivações puras: ordenações/agrupamento ([TDR 0012](tdr/0012-derivacoes-do-catalogo-em-src-data.md)) e layout de página do álbum |
-| `src/lib/` | Módulos sem React: estado da coleção em memória, persistência no Firestore (`colecaoRemota.js`, único módulo que toca o SDK — inclusive o apagamento do documento), o SDK do Auth (`firebase.js`: login, reautenticação por popup e exclusão da conta — [TDR 0027](tdr/0027-autorizacao-e-ordem-da-exclusao-de-dados.md)), gravação agregada com debounce/flush, histórico de desfazer, preferências de vista no `localStorage`, portabilidade (export/import JSON), textos de troca, fila de avisos, conversão de bandeiras e cálculo de progresso |
+| `src/lib/` | Módulos sem React: estado da coleção em memória, persistência no Firestore (`colecaoRemota.js`, único módulo que toca o SDK — inclusive o apagamento do documento), o SDK do Auth (`firebase.js`: login, reautenticação por popup e exclusão da conta — [TDR 0027](tdr/0027-autorizacao-e-ordem-da-exclusao-de-dados.md)), gravação agregada com debounce/flush, histórico de desfazer, preferências de vista no `localStorage`, portabilidade (export/import JSON), textos de troca, fila de avisos, conversão de bandeiras, cálculo de progresso e analytics de uso (`analytics.js`: carrega o `gtag` só sob consentimento — [ADR 0011](adr/0011-analytics-de-uso-com-google-analytics-4.md)) |
 | `src/components/` | Telas (login, atestação, política de privacidade, termos de uso e catálogo compartilhado por link) e árvore da tela principal: cabeçalho com placar e faixa de salto, controles (ordenação/disposição/filtro), menu de ações, catálogo (super-grupo → seção → figurinha ou página do álbum) e avisos flutuantes |
 | `src/App.jsx` | Único componente com estado: sessão (Firebase Auth), coleção, atestação, vistas internas (política e termos), preferências de vista e histórico de desfazer; decide qual tela mostrar (guarda de login e, pelo caminho `/catalogo/<uid>`, a vista do link antes dela — [IDR 0055](idr/0055-catalogo-compartilhado-por-link-somente-leitura.md)) e concentra toda leitura/escrita da coleção |
 
@@ -165,6 +170,7 @@ Fluxos:
 | Firebase Hosting | [ADR 0003](adr/0003-firebase-hosting.md) |
 | Login Google | [ADR 0004](adr/0004-login-google-sdk-modular.md) |
 | Persistência Firestore | [ADR 0005](adr/0005-persistencia-no-firestore.md) + [modelo-firebase.md](modelo-firebase.md) |
+| Analytics de uso (GA4) sob consentimento | [ADR 0011](adr/0011-analytics-de-uso-com-google-analytics-4.md) |
 | Bandeiras Twemoji vendadas | [ADR 0006](adr/0006-bandeiras-emoji-unicode.md) |
 | Estrutura de pastas | [ADR 0007](adr/0007-estrutura-de-pastas-e-separacao-de-responsabilidades.md) |
 | CSS modular por componente | [ADR 0008](adr/0008-css-modular-por-componente.md) |

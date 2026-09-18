@@ -188,6 +188,7 @@ idiomático de Vite via `import.meta.env.VITE_*`:
 | `VITE_FIREBASE_STORAGE_BUCKET` | Web App config, console do Firebase |
 | `VITE_FIREBASE_MESSAGING_SENDER_ID` | Web App config, console do Firebase |
 | `VITE_FIREBASE_APP_ID` | Web App config, console do Firebase |
+| `VITE_GA_MEASUREMENT_ID` | Google Analytics 4 — Measurement ID do fluxo de dados Web (`G-KQ72XBGSTM` no projeto `iconula`) |
 
 Ver [`.env.example`](../.env.example) — cada dev copia para `.env.local`
 (já ignorado pelo git) com os valores reais. Em CI/deploy, essas mesmas
@@ -247,6 +248,32 @@ ACCESS_TOKEN=$TOKEN SIMULAR=1 bash .github/scripts/dominios-autorizados-preview.
 
 Rodar a varredura sob demanda:
 `gh workflow run firebase-preview-domains-sweep.yml`.
+
+## Google Analytics (GA4)
+
+O analytics de uso é o **Google Analytics 4**, linkado ao projeto pelo
+console do Firebase, com a região de dados **Brasil** e o Measurement ID
+`G-KQ72XBGSTM`; a decisão e as consequências estão no
+[ADR 0011](adr/0011-analytics-de-uso-com-google-analytics-4.md). O app
+**não** usa o SDK `firebase/analytics`: `src/lib/analytics.js` injeta o
+`gtag.js` em runtime, só depois do consentimento do banner
+([IDR 0071](idr/0071-banner-de-consentimento-para-analytics.md)).
+
+### Como foi habilitado
+
+**Habilitar e linkar (concluído — passo manual no console)**: em
+[Analytics](https://console.firebase.google.com/project/iconula/analytics),
+habilitar o Google Analytics no projeto e linkar uma property GA4 (ou criar
+uma nova), escolhendo a região de dados **Brasil**. O console provisiona o
+fluxo de dados Web do projeto e exibe o Measurement ID em "Fluxos de dados"
+— `G-KQ72XBGSTM` no projeto `iconula`. Configurado pelo humano em
+2026-09-18. O link não exige API nova no Google Cloud — ver a seção "APIs
+habilitadas" de [docs/setup-gcloud.md](setup-gcloud.md).
+
+**Variável de ambiente**: o Measurement ID chega ao build por
+`VITE_GA_MEASUREMENT_ID`, na tabela da seção "Variáveis de ambiente" acima —
+nunca hardcoded. Em CI/deploy, a variável também está nas GitHub Actions
+Variables (ver [docs/setup-github.md](setup-github.md)).
 
 ## Cloud Firestore
 
@@ -413,3 +440,6 @@ Conferir o progresso reconsultando o `GET` acima e olhando os campos
    ficam por conta do CI, desde que a service account tenha a role custom
    `authorizedDomainsEditor` (ver seção "Authorized domains dos previews
    por PR" acima e [docs/setup-gcloud.md](setup-gcloud.md))
+9. Habilitar e linkar o Google Analytics 4 no console (região Brasil) e
+   configurar `VITE_GA_MEASUREMENT_ID` com o Measurement ID (ver seção
+   "Google Analytics (GA4)" acima e [ADR 0011](adr/0011-analytics-de-uso-com-google-analytics-4.md))
