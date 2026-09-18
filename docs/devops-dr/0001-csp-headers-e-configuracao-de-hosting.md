@@ -68,16 +68,27 @@ Concessões adicionadas para o login Google:
 - `wss:` não é necessário — verificado no bundle: zero ocorrências de
   WebSocket no SDK do Firestore; o transporte é WebChannel sobre HTTPS
 
+### CSP para Google Analytics (GA4)
+
+Concessões adicionadas para o analytics de uso com consentimento
+([ADR 0011](../adr/0011-analytics-de-uso-com-google-analytics-4.md)):
+
+- `script-src`: `https://www.googletagmanager.com` (o `gtag.js` é um script
+  externo, carregado em runtime após o consentimento — sem hash inline novo)
+- `connect-src`: `https://www.google-analytics.com` e
+  `https://region1.google-analytics.com` (o gtag envia por `fetch`/beacon)
+- `img-src` não muda — o gtag moderno não usa pixel de imagem
+
 ### Política consolidada em vigor
 
 ```
 default-src 'self';
-script-src 'self' https://apis.google.com 'sha256-ieoeWczDHkReVBsRBqaal5AFMlBtNjMzgwKvLqi/tSU=';
+script-src 'self' https://apis.google.com https://www.googletagmanager.com 'sha256-ieoeWczDHkReVBsRBqaal5AFMlBtNjMzgwKvLqi/tSU=';
 script-src-attr 'unsafe-hashes' 'sha256-2rvfFrggTCtyF5WOiTri1gDS8Boibj4Njn0e+VCBmDI=';
 style-src 'self'; style-src-attr 'none';
 img-src 'self' data: https://lh3.googleusercontent.com;
 font-src 'self';
-connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com;
+connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://www.google-analytics.com https://region1.google-analytics.com;
 frame-src 'self' https://iconula.firebaseapp.com https://apis.google.com;
 object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none';
 upgrade-insecure-requests
@@ -133,6 +144,12 @@ upgrade-insecure-requests
 
 ## Histórico
 
+- 2026-09-18 — Planejamento do analytics de uso
+  ([ADR 0011](../adr/0011-analytics-de-uso-com-google-analytics-4.md)):
+  `script-src` ganha `https://www.googletagmanager.com` e `connect-src` ganha
+  `https://www.google-analytics.com` + `https://region1.google-analytics.com`;
+  implementação na Fase 0036, Tarefa 0036-0001. Antes: CSP sem origem de
+  analytics.
 - 2026-09-16 — Esmiuçamento do catálogo compartilhado por link
   ([IDR 0055](../idr/0055-catalogo-compartilhado-por-link-somente-leitura.md)): `X-Robots-Tag: noindex` em `/catalogo/**`;
   implementação a planejar. Antes: os mesmos headers para todo caminho.

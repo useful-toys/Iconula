@@ -81,6 +81,7 @@ Detalhes e status das tarefas no guia [CLAUDE.md](CLAUDE.md) § Status e ciclo d
 | 33 | [Tela Sobre, tooltip do desfazer e indicador de pendência](0033-sobre-tooltip-do-desfazer-e-indicador-de-pendencia/) | Tela Sobre com link ao GitHub e a issues, tooltip do desfazer com código e operação, indicador "não salvo" no título e debounce/teto de gravação maiores | — | `feat: tela Sobre, tooltip do desfazer e indicador de pendência no título` | Entregue |
 | 34 | [Refinamentos visuais do catálogo](0034-refinamentos-visuais-do-catalogo/) | Respiro por letra na ordenação por código, ordem bandeira/sigla/nome no título de seção, espaçadores de linha/página na lista e gradiente de cor no selo `×N` | — | `feat: refinamentos visuais do catálogo (título, espaçamento e selo)` | Entregue |
 | 35 | [Apoio ao projeto por doação via Pix](0035-apoio-ao-projeto-por-doacao-via-pix/) | Vista dedicada com QR Pix, chave para copiar/compartilhar e frase de contexto; acesso pelo rodapé e por um bloco no menu de ações, depois de "Sobre" | 33 | `feat: apoio ao projeto por doação via pix` | Entregue |
+| 36 | [Analytics de uso com Google Analytics 4 e consentimento](0036-analytics-de-uso/) | Medir visitas, sessões e engajamento com GA4 (região Brasil), carregado por um módulo mínimo sob consentimento, com banner nas duas telas e política/conformidade atualizadas | — | `feat: analytics de uso (GA4) com banner de consentimento` | Pendente |
 
 ---
 
@@ -700,6 +701,29 @@ esmiuçamento.
 | 0001 | [Payload Pix e biblioteca de QR code](0035-apoio-ao-projeto-por-doacao-via-pix/0001-payload-pix-e-biblioteca-de-qr-code.md) | Dependência `qrcode` e função pura que monta o BR Code a partir da chave, valor e dados do recebedor. | Concluída |
 | 0002 | [Vista "Apoie o projeto" e link no rodapé](0035-apoio-ao-projeto-por-doacao-via-pix/0002-vista-apoie-o-projeto-e-link-no-rodape.md) | Componente com QR, chave em texto, copiar/compartilhar e frase de contexto; link no rodapé das duas telas. | Concluída |
 | 0003 | [Apoiar o projeto no menu de ações](0035-apoio-ao-projeto-por-doacao-via-pix/0003-apoiar-o-projeto-no-menu-de-acoes.md) | Bloco próprio no menu de ações, depois de "Sobre" e antes de "Sair da conta". | Concluída |
+
+## Fase 36 — Analytics de uso com Google Analytics 4 e consentimento
+
+Decisões do planejamento: medir visitas, sessões e engajamento com GA4
+([ADR 0011](../adr/0011-analytics-de-uso-com-google-analytics-4.md)), entregue
+por `gtag.js` carregado por um módulo mínimo sob consentimento, com banner nas
+duas telas e gate rígido
+([IDR 0071](../idr/0071-banner-de-consentimento-para-analytics.md)); CSP aberta
+para as origens do GA4
+([DDR 0001](../devops-dr/0001-csp-headers-e-configuracao-de-hosting.md)) e a
+chave de consentimento no `localStorage`
+([MDR 0007](../model-dr/0007-persistencia-no-armazenamento-local.md)). A
+política passa a declarar o analytics consentido (região Brasil, retenção de
+14 meses) e sobe de versão — reaceite na entrada. `docs/requisitos.md` §
+Privacidade e § Dados e isolamento já foram ajustados neste planejamento.
+
+| # | Tarefa | Objetivo | Status |
+|---|---|---|---|
+| 0001 | [CSP e variável do GA4](0036-analytics-de-uso/0001-csp-e-variavel-do-ga4.md) | Abrir `script-src`/`connect-src` para o GA4 em `firebase.json`; `VITE_GA_MEASUREMENT_ID` em `.env.example` e nas GitHub Actions Variables; `setup-github.md`. | Pendente |
+| 0002 | [Módulo de analytics sob consentimento](0036-analytics-de-uso/0002-modulo-de-analytics-sob-consentimento.md) | `src/lib/analytics.js` carrega o gtag dinamicamente só com consentimento e fora de preview; teste. | Pendente |
+| 0003 | [Banner de consentimento e integração](0036-analytics-de-uso/0003-banner-de-consentimento-e-integracao.md) | `BannerDeConsentimento.jsx` (Aceitar/Recusar) nas telas de login e principal; grava em `localStorage` e dispara o loader no aceite; teste. | Pendente |
+| 0004 | [Política de privacidade e inventário](0036-analytics-de-uso/0004-politica-de-privacidade-e-inventario.md) | Reescrever `PoliticaDePrivacidade.jsx` (analytics consentido, região Brasil, retenção 14 meses); subir `VERSAO_POLITICA`; `privacidade.md`. | Pendente |
+| 0005 | [Documentação e setup](0036-analytics-de-uso/0005-documentacao-e-setup.md) | `arquitetura.md`, `devops.md`, `interface.md`, `setup-firebase.md` e `setup-gcloud.md`. | Pendente |
 
 ## Regras que valem em toda tarefa
 

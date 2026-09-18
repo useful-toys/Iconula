@@ -48,6 +48,19 @@ Aceito.
   é decisão de interface ([IDR 0020](../idr/0020-secoes-colapsaveis-em-qualquer-visualizacao.md),
   implementação na Fase 0012, Tarefa 0012-0001).
 
+### localStorage — consentimento de analytics
+
+- **Chave**: `iconula.consentimento-analytics.v1` (versionada).
+- **Formato**: string com um de dois valores — `'aceito' | 'recusado'`.
+- **Semântica**: ausente = nunca decidido (banner visível); `'aceito'`
+  carrega o gtag na abertura; `'recusado'` não carrega. O valor é gravado
+  pelo banner de consentimento
+  ([IDR 0071](../idr/0071-banner-de-consentimento-para-analytics.md)).
+- **Valor desconhecido ou falha de leitura/escrita**: tratado como nunca
+  decidido, banner visível — nunca como "aceito".
+- **Persistência**: por dispositivo, zero requisição ao Firestore
+  ([ADR 0011](../adr/0011-analytics-de-uso-com-google-analytics-4.md)).
+
 ### IndexedDB — cache do SDK do Firestore
 
 - **Configuração**: `persistentLocalCache` com `persistentMultipleTabManager()`.
@@ -65,6 +78,9 @@ Aceito.
 - O histórico de desfazer é volátil (não persiste).
 - Escritas pendentes no Firestore sobrevivem ao fechamento da aba.
 - Cargas repetidas podem servir do cache IndexedDB, sem leitura ao servidor.
+- O consentimento de analytics fica em `localStorage`, por dispositivo; não
+  é sincronizado entre aparelhos — coerente com o GA4 não identificar o
+  titular além do que o consentimento autoriza.
 
 ## Alternativas consideradas
 
@@ -74,9 +90,19 @@ Aceito.
 - **Persistir o colapso no Firestore**: sincronizaria entre dispositivos, mas é preferência do aparelho e custaria escrita por toque. Descartado.
 - **Fila própria de flush em `localStorage`**: reinventaria a fila que o SDK já mantém com o cache IndexedDB. Descartado.
 - **Cache do Firestore sem `persistentMultipleTabManager()`**: a segunda aba perderia o cache e a garantia de flush. Descartado.
+- **Consentimento no documento `users/{uid}` do Firestore**: acompanharia o
+  titular entre dispositivos, mas custaria escrita por usuário à cota e não é
+  dado que o usuário espera sincronizar. Descartado.
+- **Cookie próprio para o consentimento**: o GA4 já traz cookies; um cookie
+  a mais do próprio app pediria a mesma gestão sem ganho. Descartado.
 
 ## Histórico
 
+- 2026-09-18 — Planejamento do analytics de uso
+  ([ADR 0011](../adr/0011-analytics-de-uso-com-google-analytics-4.md)): entra
+  a chave `iconula.consentimento-analytics.v1` no `localStorage`;
+  implementação na Fase 0036, Tarefa 0036-0003. Antes: só preferências de
+  vista e colapso manual no `localStorage`.
 - 2026-09-14 — Fase 0017, Tarefa 0017-0004: o limite celular/tablet passa
   de 512px para 582px, com o cartão de 60×84px e as trilhas de 60px do
   [IDR 0047](../idr/0047-nomes-de-jogadores-nas-figurinhas.md); os padrões

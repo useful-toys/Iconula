@@ -333,6 +333,12 @@ Questões recorrentes são marcadas como "Nota".*
     entrada, num passo de um clique; correção de digitação ou de estilo
     não pede (ver
     [IDR 0062](idr/0062-reaceite-reusa-a-tela-de-atestacao.md))
+- Medir o uso de forma consentida (Google Analytics)
+  - Coleta pageviews, sessões e engajamento via Google Analytics 4, com
+    os dados na região Brasil, apenas após o consentimento dado no banner
+    (ver
+    [IDR 0071](idr/0071-banner-de-consentimento-para-analytics.md));
+    recusar mantém o app funcionando, sem analytics
 - Manter o registro das operações de tratamento e os procedimentos de
   privacidade (LGPD arts. 37 e 48)
   - Inventário, runbook da purga por inatividade e plano de resposta a
@@ -369,8 +375,8 @@ Questões recorrentes são marcadas como "Nota".*
   não suportado
 - Nota: o campo `teamName` da era do botão é removido na migração —
   apagado pela primeira gravação do schema novo (ver ADR 0005)
-- Nenhum dado além da identidade Google e da coleção é tratado; sem
-  analytics no MVP
+- Nenhum dado além da identidade Google, da coleção e das métricas de uso
+  consentidas do § Privacidade é tratado
 
 ### Conteúdo
 - O app não exibe imagens dos cromos (direitos autorais Panini): só
@@ -472,7 +478,6 @@ especificação própria antes de implementar.*
 - PWA: instalável como app
 - Consulta sem rede: cache local do Firestore para abrir o app offline
   e consultar a coleção carregada (feiras de troca)
-- Analytics anônimo de uso
 
 ### Decisões Pendentes
 Nenhuma — as três pendências registradas durante o plano foram todas
