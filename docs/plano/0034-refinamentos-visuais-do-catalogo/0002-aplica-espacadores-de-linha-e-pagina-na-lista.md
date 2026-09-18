@@ -3,7 +3,7 @@
 # Tarefa [0034-0002]: Aplica espaçadores de linha e página na lista
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Na disposição lista, os cartões de uma seção de seleção ou da Coca-Cola

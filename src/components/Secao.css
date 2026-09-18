@@ -350,6 +350,24 @@
   gap: var(--card-gap-list);
 }
 
+/* Item da lista (IDR 0069): envolve o cartão para acrescentar o respiro de
+ * fronteira sem tocar no `gap` uniforme de `--card-gap-list`. */
+.secao__item {
+  display: flex;
+  flex-shrink: 0;
+}
+
+/* Respiro de fronteira (IDR 0069): +2px na quebra de linha dentro da mesma
+ * página e +4px na quebra de página, somados aos 8px do `gap`. Só as seções
+ * de seleção e a Coca-Cola recebem a classe; o FWC segue uniforme. */
+.secao__item--respiro-linha {
+  margin-inline-end: 2px;
+}
+
+.secao__item--respiro-pagina {
+  margin-inline-end: 4px;
+}
+
 .secao__corpo {
   display: flex;
   flex-direction: column;

@@ -167,6 +167,30 @@ export const Secao = memo(function Secao({
     ? figurinhas
     : figurinhas.filter((f) => filtraFigurinha(contagens, f.codigo, filtro));
 
+  // Respiro de fronteira na lista (IDR 0069): só as seleções e a Coca-Cola
+  // ganham +2px na quebra de linha e +4px na quebra de página do layout do
+  // álbum; o FWC (páginas fora de ordem crescente nas posições 5-8) segue
+  // uniforme. As fronteiras são contadas sobre os cartões visíveis
+  // (`listaFiltrada`), não sobre o layout bruto, para o respiro não ficar
+  // preso a um vizinho oculto pelo filtro (IDR 0001).
+  const aplicaRespiro =
+    !usaAlbum && (secao.tipo === 'selecao' || secao.sigla === 'COC');
+  const posicoesDoLayout = aplicaRespiro
+    ? new Map(layoutDeSecao(secao).posicoes.map((p) => [p.posicao, p]))
+    : null;
+
+  function classeDoItem(figurinha, indice) {
+    if (!posicoesDoLayout) return 'secao__item';
+    const atual = posicoesDoLayout.get(figurinha.posicao);
+    const proxima = listaFiltrada[indice + 1];
+    if (!atual || !proxima) return 'secao__item';
+    const prox = posicoesDoLayout.get(proxima.posicao);
+    if (!prox) return 'secao__item';
+    if (prox.pagina !== atual.pagina) return 'secao__item secao__item--respiro-pagina';
+    if (prox.linha !== atual.linha) return 'secao__item secao__item--respiro-linha';
+    return 'secao__item';
+  }
+
   return (
     <section className={`secao secao--${secao.sigla.toLowerCase()}`}>
       <div className="secao__moldura">
@@ -190,24 +214,28 @@ export const Secao = memo(function Secao({
               />
             ) : (
               <div className="secao__grade">
-                {listaFiltrada.map((figurinha) => (
-                  <Figurinha
+                {listaFiltrada.map((figurinha, indice) => (
+                  <div
                     key={figurinha.codigo}
-                    codigo={figurinha.codigo}
-                    contagem={contagens[figurinha.codigo] ?? 0}
-                    metalizada={figurinha.metalizada}
-                    nome={figurinha.nome}
-                    nomeLinhas={figurinha.nomeLinhas}
-                    nomeCurto={figurinha.nomeCurto}
-                    variante="lista"
-                    paisagem={figurinha.paisagem}
-                    onIncrementar={
-                      onAjustar ? () => onAjustar(figurinha.codigo, 1) : undefined
-                    }
-                    onDecrementar={
-                      onAjustar ? () => onAjustar(figurinha.codigo, -1) : undefined
-                    }
-                  />
+                    className={classeDoItem(figurinha, indice)}
+                  >
+                    <Figurinha
+                      codigo={figurinha.codigo}
+                      contagem={contagens[figurinha.codigo] ?? 0}
+                      metalizada={figurinha.metalizada}
+                      nome={figurinha.nome}
+                      nomeLinhas={figurinha.nomeLinhas}
+                      nomeCurto={figurinha.nomeCurto}
+                      variante="lista"
+                      paisagem={figurinha.paisagem}
+                      onIncrementar={
+                        onAjustar ? () => onAjustar(figurinha.codigo, 1) : undefined
+                      }
+                      onDecrementar={
+                        onAjustar ? () => onAjustar(figurinha.codigo, -1) : undefined
+                      }
+                    />
+                  </div>
                 ))}
               </div>
             )}
