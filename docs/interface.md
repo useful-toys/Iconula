@@ -243,12 +243,16 @@ cópia, com o aviso e a reserva do
   cabeçalho com o resumo permanece (ver
   [IDR 0020](idr/0020-secoes-colapsaveis-em-qualquer-visualizacao.md))
 - Cabeçalho de grupo numa linha: ícone (bandeira Twemoji da seleção ou
-  ícone temático do especial), nome, sigla, número da página do álbum
+  ícone temático do especial), identificação na ordem condicional por
+  tipo de seção — seleção com sigla antes do nome (`BRA Brasil 24`),
+  Extras FIFA (FWC) com nome, sigla e página (`Extras FIFA FWC 0`) e
+  Coca-Cola sem a sigla (`Coca-Cola 112`) —, número da página do álbum
   (fixo, apenas exibido) e progresso da seção em notação compacta —
-  `Brasil BRA 24 · 12/20 60% ▯8 ×3` (ver
+  `BRA Brasil 24 · 12/20 60% ▯8 ×3` (ver
   [IDR 0011](idr/0011-faltantes-por-secao-no-cabecalho-do-grupo.md),
-  [IDR 0018](idr/0018-usuario-especialista-e-minimalismo.md) e
-  [IDR 0056](idr/0056-titulo-de-secao-em-linha-unica-no-celular.md))
+  [IDR 0018](idr/0018-usuario-especialista-e-minimalismo.md),
+  [IDR 0056](idr/0056-titulo-de-secao-em-linha-unica-no-celular.md) e
+  [IDR 0068](idr/0068-ordem-bandeira-sigla-nome-no-titulo-de-secao-de-selecao.md))
 - No cabeçalho da seção, a identificação (ícone, nome, sigla, página)
   vai em `--cream` e os números em `--muted` — peso 600 no nome, 400 nos
   números — dois pesos na mesma linha, para o olho pegar primeiro de que

@@ -36,6 +36,20 @@ function CabecalhoSecao({ secao, codigos, contagens, expandida, onToggle, corpoI
     expandida ? 'expandido' : 'colapsado',
   ].join(', ');
 
+  // Ordem/presença da identificação por tipo de seção (IDR 0068):
+  // seleção mostra a sigla antes do nome; a Coca-Cola perde a sigla;
+  // os demais (FWC) mantêm nome, sigla. A página fica sempre por último.
+  const identificacao = [];
+  const mostrarSigla = secao.sigla && secao.sigla !== 'COC';
+  if (secao.tipo === 'selecao') {
+    if (mostrarSigla) identificacao.push({ classe: 'secao__sigla', texto: secao.sigla });
+    if (secao.nome) identificacao.push({ classe: 'secao__nome', texto: secao.nome });
+  } else {
+    if (secao.nome) identificacao.push({ classe: 'secao__nome', texto: secao.nome });
+    if (mostrarSigla) identificacao.push({ classe: 'secao__sigla', texto: secao.sigla });
+  }
+  if (pagina) identificacao.push({ classe: 'secao__pagina', texto: pagina });
+
   return (
     <button
       type="button"
@@ -53,15 +67,11 @@ function CabecalhoSecao({ secao, codigos, contagens, expandida, onToggle, corpoI
         draggable="false"
       />
       <h2 className="secao__titulo">
-        {secao.nome && (
-          <span className="secao__identificacao secao__nome">{secao.nome}</span>
-        )}
-        {secao.sigla && (
-          <span className="secao__identificacao secao__sigla">{secao.sigla}</span>
-        )}
-        {pagina && (
-          <span className="secao__identificacao secao__pagina">{pagina}</span>
-        )}
+        {identificacao.map(({ classe, texto }) => (
+          <span key={classe} className={`secao__identificacao ${classe}`}>
+            {texto}
+          </span>
+        ))}
         <span className="secao__sep" aria-hidden="true">
           ·
         </span>
