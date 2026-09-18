@@ -52,8 +52,10 @@ service cloud.firestore {
       // novo exige que estas regras subam antes ou junto com o código
       // que o escreve (ver TDR 0008).
       //
-      // Os únicos campos do schema novo são `contagens`, `updatedAt`,
-      // `atestadoEm` e `linkAtivo` (ADR 0008 e MDR 0002). O `teamName` da
+      // Os únicos campos do schema são `contagens`, `updatedAt`,
+      // `atestadoEm`, `linkAtivo`, `termosVersao`, `politicaVersao` e
+      // `aceitoEm` (ADR 0008, MDR 0002 e MDR 0009 — os três últimos
+      // guardam o aceite versionado dos textos). O `teamName` da
       // era do botão fica de fora sem cláusula especial: um update com
       // `deleteField` o remove do documento, e o `hasOnly` passa porque o
       // campo já não está em `request.resource.data`.
@@ -81,6 +83,9 @@ service cloud.firestore {
           "updatedAt",
           "atestadoEm",
           "linkAtivo",
+          "termosVersao",
+          "politicaVersao",
+          "aceitoEm",
         ])
         // Guarda de campo ausente (TDR 0009): a gravação da atestação
         // cria o documento só com `atestadoEm`, sem `contagens` e sem
@@ -131,7 +136,21 @@ service cloud.firestore {
         // `updatedAt` junto (como `atestadoEm`). Basta exigir que seja
         // booleano.
         && (!("linkAtivo" in request.resource.data)
-          || request.resource.data.linkAtivo is bool);
+          || request.resource.data.linkAtivo is bool)
+        // `termosVersao` e `politicaVersao` guardam a data de vigência do
+        // texto aceito em ISO ("2026-09-17"), no máximo 10 caracteres
+        // (MDR 0009). Gravadas junto do aceite, sem `updatedAt` junto,
+        // como `atestadoEm` e `linkAtivo`.
+        && (!("termosVersao" in request.resource.data)
+          || (request.resource.data.termosVersao is string
+            && request.resource.data.termosVersao.size() <= 10))
+        && (!("politicaVersao" in request.resource.data)
+          || (request.resource.data.politicaVersao is string
+            && request.resource.data.politicaVersao.size() <= 10))
+        // `aceitoEm` é o instante do aceite dos textos, gravado uma vez
+        // por versão; basta exigir que seja timestamp.
+        && (!("aceitoEm" in request.resource.data)
+          || request.resource.data.aceitoEm is timestamp);
 
       // Mesmas regras do `create` acima, mas cada cláusula pergunta "esta
       // operação escreveu este campo?" (`diff(resource.data)
@@ -147,6 +166,9 @@ service cloud.firestore {
           "updatedAt",
           "atestadoEm",
           "linkAtivo",
+          "termosVersao",
+          "politicaVersao",
+          "aceitoEm",
         ])
         && (!("contagens" in request.resource.data.diff(resource.data).affectedKeys()) || (
           request.resource.data.contagens is map
@@ -174,7 +196,20 @@ service cloud.firestore {
         // Como no `atestadoEm`, a pergunta é "esta operação escreveu o
         // campo?", e basta exigir que seja booleano.
         && (!("linkAtivo" in request.resource.data.diff(resource.data).affectedKeys())
-          || request.resource.data.linkAtivo is bool);
+          || request.resource.data.linkAtivo is bool)
+        // `termosVersao` e `politicaVersao` guardam a data de vigência do
+        // texto aceito em ISO ("2026-09-17"), no máximo 10 caracteres
+        // (MDR 0009); `aceitoEm` é o instante do aceite. Como nas demais
+        // cláusulas do `update`, a pergunta é "esta operação escreveu o
+        // campo?".
+        && (!("termosVersao" in request.resource.data.diff(resource.data).affectedKeys())
+          || (request.resource.data.termosVersao is string
+            && request.resource.data.termosVersao.size() <= 10))
+        && (!("politicaVersao" in request.resource.data.diff(resource.data).affectedKeys())
+          || (request.resource.data.politicaVersao is string
+            && request.resource.data.politicaVersao.size() <= 10))
+        && (!("aceitoEm" in request.resource.data.diff(resource.data).affectedKeys())
+          || request.resource.data.aceitoEm is timestamp);
 
       // `delete` autorizado só ao dono autenticado: é o direito de
       // eliminação (LGPD art. 18, VI) executado pelo app a partir da

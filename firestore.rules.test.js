@@ -399,6 +399,103 @@ describe("firestore.rules — atestação sobre documento já existente (Tarefa 
   });
 });
 
+// Aceite versionado dos textos (MDR 0009): `termosVersao` e
+// `politicaVersao` guardam a data de vigência em ISO (no máximo 10
+// caracteres) e `aceitoEm` o instante — gravados juntos, sem `updatedAt`,
+// como `atestadoEm` e `linkAtivo`.
+describe("firestore.rules — aceite versionado", () => {
+  const VERSOES = { termosVersao: "2026-09-17", politicaVersao: "2026-09-17" };
+
+  it("aceita o aceite sozinho (versões e aceitoEm) sobre documento existente", async () => {
+    await semearDocumentoDoDono({
+      contagens: { BRA05: 3 },
+      updatedAt: Timestamp.fromMillis(1000),
+    });
+
+    await assertSucceeds(
+      setDoc(
+        doc(comoDono(), "users", DONO),
+        { ...VERSOES, aceitoEm: serverTimestamp() },
+        { merge: true },
+      ),
+    );
+  });
+
+  it("aceita o aceite junto da atestação no primeiro acesso", async () => {
+    await assertSucceeds(
+      setDoc(
+        doc(comoDono(), "users", DONO),
+        {
+          atestadoEm: serverTimestamp(),
+          ...VERSOES,
+          aceitoEm: serverTimestamp(),
+        },
+        { merge: true },
+      ),
+    );
+  });
+
+  it("aceita o aceite junto da gravação de contagens", async () => {
+    await semearDocumentoDoDono({
+      contagens: { BRA05: 3 },
+      updatedAt: Timestamp.fromMillis(1000),
+    });
+
+    await assertSucceeds(
+      updateDoc(doc(comoDono(), "users", DONO), {
+        contagens: { BRA05: 4 },
+        updatedAt: serverTimestamp(),
+        ...VERSOES,
+        aceitoEm: serverTimestamp(),
+      }),
+    );
+  });
+
+  it("nega versão que não seja string", async () => {
+    await assertFails(
+      setDoc(
+        doc(comoDono(), "users", DONO),
+        { ...VERSOES, termosVersao: 20260917, aceitoEm: serverTimestamp() },
+        { merge: true },
+      ),
+    );
+    await assertFails(
+      setDoc(
+        doc(comoDono(), "users", DONO),
+        { ...VERSOES, politicaVersao: true, aceitoEm: serverTimestamp() },
+        { merge: true },
+      ),
+    );
+  });
+
+  it("nega versão maior que o limite de 10 caracteres", async () => {
+    await assertFails(
+      setDoc(
+        doc(comoDono(), "users", DONO),
+        { ...VERSOES, termosVersao: "2026-09-170", aceitoEm: serverTimestamp() },
+        { merge: true },
+      ),
+    );
+    await assertFails(
+      setDoc(
+        doc(comoDono(), "users", DONO),
+        { ...VERSOES, politicaVersao: "2026-09-170", aceitoEm: serverTimestamp() },
+        { merge: true },
+      ),
+    );
+  });
+
+  it("nega campo estranho junto do aceite", async () => {
+    await assertFails(
+      setDoc(
+        doc(comoDono(), "users", DONO),
+        { ...VERSOES, aceitoEm: serverTimestamp(), extra: true },
+        { merge: true },
+      ),
+    );
+  });
+});
+
 // Catálogo compartilhado por link (IDR 0055, MDR 0002): `linkAtivo` fica no
 // próprio documento e o `get` passa a valer para qualquer requisição
 // enquanto for `true`. A leitura pública é a exceção ao isolamento — sem

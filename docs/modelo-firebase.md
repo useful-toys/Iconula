@@ -24,8 +24,11 @@ users/{uid}
   "updatedAt": <timestamp>,  // carimbo do servidor
   "atestadoEm": <timestamp>, // quando atestou ser maior/autorizado
                              // (uma vez por conta)
-  "linkAtivo": <boolean>     // liga o catálogo compartilhado por link;
+  "linkAtivo": <boolean>,    // liga o catálogo compartilhado por link;
                              // ausente equivale a desligado
+  "termosVersao": "2026-09-17",   // data de vigência do texto aceito
+  "politicaVersao": "2026-09-17", // (uma vez por versão)
+  "aceitoEm": <timestamp>    // quando aceitou os textos vigentes
 }
 ```
 
@@ -38,7 +41,9 @@ users/{uid}
 - **`updatedAt`** é carimbo **do servidor** (`serverTimestamp()`), não do relógio do cliente — carimbo da última escrita no documento; o relógio do cabeçalho exibe uma aproximação local do instante de confirmação da escrita ([TDR 0017](tdr/0017-escrita-por-setdoc-merge-e-carimbo-local-pos-gravacao.md))
 - **`atestadoEm`** é gravado uma única vez, na atestação de menores do primeiro login — sem `updatedAt` junto
 - **`linkAtivo`** é boolean e liga o catálogo compartilhado por link ([IDR 0055](idr/0055-catalogo-compartilhado-por-link-somente-leitura.md)); ausente equivale a desligado; gravado só ao ligar ou desligar, sem `updatedAt` junto (como `atestadoEm`)
-- **Nada além disso**: os únicos campos são `contagens`, `updatedAt`, `atestadoEm` e `linkAtivo`
+- **`termosVersao` e `politicaVersao`** guardam a data de vigência do texto aceito, em ISO (`"2026-09-17"`), no máximo 10 caracteres — ausentes equivalem a aceite pendente; gravadas junto do `aceitoEm`, sem `updatedAt` junto ([MDR 0009](model-dr/0009-campos-de-aceite-dos-textos.md))
+- **`aceitoEm`** é o instante do aceite dos textos vigentes — timestamp gravado uma vez por versão, sem `updatedAt` junto; a versão é a data de vigência e só muda com alteração material do texto, nunca com correção de digitação ou estilo ([MDR 0009](model-dr/0009-campos-de-aceite-dos-textos.md))
+- **Nada além disso**: os únicos campos são `contagens`, `updatedAt`, `atestadoEm`, `linkAtivo`, `termosVersao`, `politicaVersao` e `aceitoEm`
 - **Tamanho**: no pior caso (coleção completa), ~994 chaves de ~5 caracteres — poucos KB, muito abaixo do limite de 1 MiB por documento
 
 Detalhes no [MDR 0002](model-dr/0002-schema-do-documento-da-colecao.md).
@@ -99,9 +104,9 @@ O que está publicado:
 - `allow get` apenas do próprio documento (`request.auth.uid == userId`), com `get` — nunca `read` — para que uma query na coleção `users` não seja avaliada; `list` segue negado
   - **exceção**: `get` também é permitido a qualquer requisição, **mesmo sem login**, quando o documento tem `linkAtivo == true` ([IDR 0055](idr/0055-catalogo-compartilhado-por-link-somente-leitura.md), [MDR 0002](model-dr/0002-schema-do-documento-da-colecao.md)); documento inexistente, sem o campo ou com `false` segue negado — a leitura pública não revela se a conta existe
 - **`allow create` e `allow update` são regras separadas**: no `create`, `request.resource.data` é só o que está sendo escrito; no `update` com `merge: true`, é o documento resultante inteiro — por isso cada cláusula de validação pergunta "esta operação escreveu este campo?" via `diff(resource.data).affectedKeys()`, não "este campo está no resultado?" ([TDR 0009](tdr/0009-validacao-do-mapa-nas-regras.md))
-- Ambas exigem `hasOnly(["contagens", "updatedAt", "atestadoEm", "linkAtivo"])` sobre o documento resultante — nenhum campo estranho pode sobreviver
+- Ambas exigem `hasOnly(["contagens", "updatedAt", "atestadoEm", "linkAtivo", "termosVersao", "politicaVersao", "aceitoEm"])` sobre o documento resultante — nenhum campo estranho pode sobreviver
 - `contagens` é `map` com `size() <= 994` e `values().hasOnly([1…99])` — o teto de 99 é o que torna os valores validáveis
-- `updatedAt == request.time` quando presente na operação (e obrigatório sempre que `contagens` é escrito); `atestadoEm is timestamp` e `linkAtivo is bool` quando escritos na operação
+- `updatedAt == request.time` quando presente na operação (e obrigatório sempre que `contagens` é escrito); `atestadoEm` e `aceitoEm` são `timestamp`, `linkAtivo` é `bool` e `termosVersao`/`politicaVersao` são `string` com `size() <= 10` quando escritos na operação ([MDR 0009](model-dr/0009-campos-de-aceite-dos-textos.md))
 - **Guarda de campo ausente**: a gravação da atestação cria o documento só com `atestadoEm`, sem `contagens` — toda cláusula sobre `contagens` fica sob `!("contagens" in …)`, senão a regra erra em vez de negar
 - **allow-list das chaves não entrou**: gerada a partir do catálogo e medida, a cláusula `contagens.keys().hasOnly([994 códigos])` compila, mas a avaliação estoura o limite de 1.000 expressões por requisição — as chaves seguem limitadas só em quantidade (`size() <= 994`), não em conteúdo
 - **`allow delete` restrito ao dono autenticado** (`request.auth.uid == userId`), sem validar `resource.data`: apagar não escreve conteúdo, não há formato a validar. Atende ao direito de eliminação (LGPD art. 18, VI) — a conta do Firebase Auth sai em seguida, no mesmo fluxo do app, depois do apagamento do documento ([TDR 0027](tdr/0027-autorizacao-e-ordem-da-exclusao-de-dados.md)). O link ativo libera `get`, nunca `delete`

@@ -3,7 +3,7 @@
 # Tarefa [0032-0001]: schema do aceite nas regras
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 
