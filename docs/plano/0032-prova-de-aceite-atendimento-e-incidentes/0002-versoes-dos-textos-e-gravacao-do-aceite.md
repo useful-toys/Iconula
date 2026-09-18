@@ -3,7 +3,7 @@
 # Tarefa [0032-0002]: versões dos textos e gravação do aceite
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 

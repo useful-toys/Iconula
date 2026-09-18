@@ -44,7 +44,7 @@ vi.mock("./lib/colecaoRemota.js", () => ({
     }),
   ),
   gravarAlteracoes: vi.fn(() => Promise.resolve({ status: "indisponivel" })),
-  gravarAtestacao: vi.fn(() => Promise.resolve({ status: "sucesso" })),
+  gravarAceite: vi.fn(() => Promise.resolve({ status: "sucesso" })),
   formatarCarimbo: vi.fn(() => "—"),
   mensagemDeErro: vi.fn(() => "erro"),
 }));

@@ -35,7 +35,7 @@ const colecao = vi.hoisted(() => ({
   carregarColecao: vi.fn(),
   carregarCatalogoCompartilhado: vi.fn(),
   gravarAlteracoes: vi.fn(),
-  gravarAtestacao: vi.fn(),
+  gravarAceite: vi.fn(),
   formatarCarimbo: vi.fn(),
   mensagemDeErro: vi.fn(),
 }));
@@ -44,7 +44,7 @@ vi.mock("./lib/colecaoRemota.js", () => ({
   carregarColecao: colecao.carregarColecao,
   carregarCatalogoCompartilhado: colecao.carregarCatalogoCompartilhado,
   gravarAlteracoes: colecao.gravarAlteracoes,
-  gravarAtestacao: colecao.gravarAtestacao,
+  gravarAceite: colecao.gravarAceite,
   formatarCarimbo: colecao.formatarCarimbo,
   mensagemDeErro: colecao.mensagemDeErro,
 }));
@@ -91,8 +91,8 @@ beforeEach(() => {
   colecao.carregarCatalogoCompartilhado.mockResolvedValue({ status: "nao-compartilhado" });
   colecao.gravarAlteracoes.mockReset();
   colecao.gravarAlteracoes.mockResolvedValue({ status: "indisponivel" });
-  colecao.gravarAtestacao.mockReset();
-  colecao.gravarAtestacao.mockResolvedValue({ status: "sucesso" });
+  colecao.gravarAceite.mockReset();
+  colecao.gravarAceite.mockResolvedValue({ status: "sucesso" });
   colecao.formatarCarimbo.mockImplementation((d) => (d ? "14:05" : "—"));
   colecao.mensagemDeErro.mockImplementation((e) => e?.message ?? "erro");
   limparAvisos();

@@ -54,7 +54,7 @@ Quatro funções de escrita, cada uma com semântica própria ([MDR 0003](model-
 
 - **`gravarAlteracoes`** — `setDoc` com `merge: true`, toca só as chaves alteradas acumuladas pelo debounce; valor absoluto ou `deleteField`; cria o documento na primeira gravação sem leitura extra ([TDR 0017](tdr/0017-escrita-por-setdoc-merge-e-carimbo-local-pos-gravacao.md))
 - **`gravarImportacao`** — `setDoc` com `mergeFields: ['contagens', 'updatedAt']`, substitui o mapa `contagens` inteiro; `atestadoEm` fica de fora e continua intocado
-- **`gravarAtestacao`** — `setDoc` com `merge: true`, grava só `atestadoEm`, sem `updatedAt` (o carimbo da coleção continua significando só alteração de contagens)
+- **`gravarAceite`** — `setDoc` com `merge: true`, grava `termosVersao`, `politicaVersao` e `aceitoEm` (`serverTimestamp()`), e inclui `atestadoEm` só quando a atestação de idade acompanha (primeiro acesso); sem `updatedAt` (o carimbo da coleção continua significando só alteração de contagens) ([MDR 0009](model-dr/0009-campos-de-aceite-dos-textos.md))
 - **`gravarLinkAtivo`** — `setDoc` com `merge: true`, grava só `linkAtivo` (ao ligar ou desligar o catálogo compartilhado, fora da gravação agregada), sem `updatedAt`; desligar grava `false` e revoga a leitura pública ([IDR 0055](idr/0055-catalogo-compartilhado-por-link-somente-leitura.md))
 
 ### Gravação agregada
@@ -82,7 +82,7 @@ Quatro funções de escrita, cada uma com semântica própria ([MDR 0003](model-
 | Carregar (login) | `carregarColecao` | 1 leitura de `users/{uid}` → mapa inteiro no estado da tela; detecta `teamName` legado |
 | Ajustar (+1/−1) | `gravarAlteracoes` | gravação agregada com `merge: true`, só as chaves alteradas — valores absolutos ou `deleteField` |
 | Chegar a 0 (decremento) | `gravarAlteracoes` | apaga a chave do mapa (`deleteField`) |
-| Atestação de menores | `gravarAtestacao` | grava `atestadoEm` com `merge: true`, sem `updatedAt` — uma única vez por conta |
+| Aceite dos textos (atestação de menores + versões) | `gravarAceite` | grava `termosVersao`, `politicaVersao` e `aceitoEm` com `merge: true`, sem `updatedAt`; inclui `atestadoEm` no primeiro acesso ([MDR 0009](model-dr/0009-campos-de-aceite-dos-textos.md)) |
 | Importar JSON | `gravarImportacao` | **substitui** o campo `contagens` inteiro via `mergeFields` + `updatedAt`; `atestadoEm` intocado |
 | Migrar `teamName` | `gravarAlteracoes` | `deleteField()` piggyback na próxima gravação de contagens — sem escrita à parte |
 | Ligar/desligar o link | cliente da Tarefa 0027-0004 | `setDoc` com `merge: true` só com `linkAtivo`, **sem** `updatedAt`; desligar revoga a leitura pública |
@@ -125,7 +125,7 @@ O que está publicado:
 | Login (carga) | 1 leitura; com o cache local (IndexedDB), cargas repetidas podem servir do cache |
 | Ajustes em rajada | 1 escrita por agregação — debounce de ~2s, no máximo 1 escrita a cada ~10s de atividade contínua |
 | Chegar a 0 | vai na escrita da agregação (`deleteField` conta como escrita, não como exclusão) |
-| Atestação de menores | 1 escrita na vida da conta |
+| Aceite dos textos | 1 escrita no primeiro acesso e 1 a cada mudança material de versão |
 | Ligar ou desligar o link | 1 escrita ao ligar e 1 ao desligar — fora da gravação agregada |
 | Abrir o link do catálogo | 1 leitura por abertura, **sem login** |
 | Import JSON | 1 escrita (substitui `contagens` + `updatedAt`) |

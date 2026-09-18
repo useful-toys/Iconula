@@ -1,6 +1,7 @@
 // Copyright (c) 2026 Daniel Felix Ferber
 
 import { app } from './firebase.js';
+import { VERSAO_TERMOS, VERSAO_POLITICA } from './versoesDosTextos.js';
 
 /**
  * Persistência da coleção no Cloud Firestore (ADR 0008).
@@ -133,10 +134,11 @@ export function formatarCarimbo(data, agora = new Date()) {
  * Devolve um resultado discriminado e nunca lança:
  * - `encontrado` — documento existe; traz `contagens`, `atualizadoEm` (Date),
  *   `temTeamName` (marca da era do botão, usada pela Tarefa 0007-0004),
- *   `atestadoEm` (booleano: se a conta já atestou — Tarefa 0008-0003) e
- *   `linkAtivo` (booleano: campo ausente → `false` — Tarefa 0027-0004); tudo
- *   da mesma leitura, sem gastar requisição extra, já que este é o mesmo
- *   documento.
+ *   `atestadoEm` (booleano: se a conta já atestou — Tarefa 0008-0003),
+ *   `linkAtivo` (booleano: campo ausente → `false` — Tarefa 0027-0004),
+ *   `termosVersao` e `politicaVersao` (string com a data de vigência aceita,
+ *   ou `null` quando o campo está ausente — Tarefa 0032-0002); tudo da mesma
+ *   leitura, sem gastar requisição extra, já que este é o mesmo documento.
  * - `vazio` — documento não existe; fluxo normal do primeiro login, não é erro.
  * - `erro` — leitura falhou; traz `erro` para o detalhe técnico.
  * - `indisponivel` — Firebase não configurado (`app === null`).
@@ -176,6 +178,8 @@ export async function carregarColecao(uid, { aoEsperar } = {}) {
         temTeamName: Object.prototype.hasOwnProperty.call(dados, 'teamName'),
         atestadoEm: Boolean(dados.atestadoEm),
         linkAtivo: dados.linkAtivo === true,
+        termosVersao: dados.termosVersao ?? null,
+        politicaVersao: dados.politicaVersao ?? null,
       };
     } catch (erro) {
       return { status: 'erro', erro };
@@ -368,29 +372,41 @@ export async function gravarImportacao(uid, contagens, { aoEsperar } = {}) {
 }
 
 /**
- * Grava a atestação de menores (LGPD art. 14, Tarefa 0008-0003) — uma escrita
- * na vida da conta, feita uma única vez no primeiro login sem `atestadoEm`.
+ * Grava o aceite dos textos de conformidade — a atestação de menores (LGPD
+ * art. 14, Tarefa 0008-0003) e/ou o registro de qual versão a conta aceitou,
+ * com o instante (MDR 0009, Tarefa 0032-0002).
+ *
+ * Numa escrita só, com `setDoc(..., { merge: true })`:
+ * - `termosVersao` e `politicaVersao` recebem as datas de vigência publicadas
+ *   (`versoesDosTextos.js`) — o que prova **qual texto** a conta aceitou;
+ * - `aceitoEm` recebe `serverTimestamp()`;
+ * - `atestadoEm` só acompanha quando `atestar` for verdadeiro (o primeiro
+ *   acesso, com a atestação de idade). No reaceite, a atestação já está
+ *   registrada e não se repete (IDR 0062).
  *
  * Deliberadamente **não** inclui `updatedAt`: o carimbo da coleção continua
- * significando só "alteração de contagens" (ADR 0008), e o relógio do
- * título não se move com a atestação (IDR 0027) — por isso esta função não
- * reaproveita `gravarAlteracoes`, que sempre grava `updatedAt`.
+ * significando só "alteração de contagens" (ADR 0008), e o relógio do título
+ * não se move com o aceite (IDR 0027) — por isso esta função não reaproveita
+ * `gravarAlteracoes`, que sempre grava `updatedAt`.
  *
- * `setDoc(..., { merge: true })`, como `gravarAlteracoes`: a mesma chamada
- * cria o documento se ele ainda não existir (regras aceitam `create` e
- * `update` igualmente — TDR 0009, guarda de campo ausente) sem leitura
- * extra para descobrir se ele já existe (TDR 0017).
+ * `merge: true`, como `gravarAlteracoes`: a mesma chamada cria o documento se
+ * ele ainda não existir (regras aceitam `create` e `update` igualmente —
+ * TDR 0009, guarda de campo ausente) sem leitura extra para descobrir se ele
+ * já existe (TDR 0017).
  *
  * Nunca lança: devolve um resultado discriminado (`sucesso`, `erro` ou
- * `indisponivel`, como as demais funções deste módulo). Em falha, quem
- * chama decide a política (Tarefa 0008-0003: libera o app assim mesmo — o
- * campo simplesmente segue ausente no documento, e a próxima vez que esta
- * conta logar sem `atestadoEm` tenta gravar de novo).
+ * `indisponivel`, como as demais funções deste módulo). Em falha, quem chama
+ * decide a política (Tarefa 0008-0003: libera o app assim mesmo — o campo
+ * simplesmente segue ausente no documento, e a próxima vez que esta conta
+ * logar sem o aceite tenta gravar de novo).
  *
  * @param {string} uid
+ * @param {object} [opcoes]
+ * @param {boolean} [opcoes.atestar] - inclui `atestadoEm` na escrita (primeiro
+ *   acesso); ausente/falso grava só o aceite das versões.
  * @returns {Promise<object>}
  */
-export async function gravarAtestacao(uid) {
+export async function gravarAceite(uid, { atestar } = {}) {
   if (!app) {
     return { status: 'indisponivel' };
   }
@@ -400,7 +416,16 @@ export async function gravarAtestacao(uid) {
     const db = await obterFirestore();
     const ref = doc(db, CAMINHO_DOCUMENTO(uid));
 
-    await setDoc(ref, { atestadoEm: serverTimestamp() }, { merge: true });
+    const dados = {
+      termosVersao: VERSAO_TERMOS,
+      politicaVersao: VERSAO_POLITICA,
+      aceitoEm: serverTimestamp(),
+    };
+    if (atestar) {
+      dados.atestadoEm = serverTimestamp();
+    }
+
+    await setDoc(ref, dados, { merge: true });
 
     return { status: 'sucesso' };
   } catch (erro) {
@@ -416,7 +441,7 @@ export async function gravarAtestacao(uid) {
  * Grava só `linkAtivo`, com `setDoc(..., { merge: true })`, sem `updatedAt`
  * junto: o carimbo da coleção continua significando só alteração de
  * contagens (MDR 0002), e o relógio do título não se move ao ligar ou
- * desligar o link (IDR 0027). Como `gravarAtestacao`, cria o documento se ele
+ * desligar o link (IDR 0027). Como `gravarAceite`, cria o documento se ele
  * ainda não existir, sem leitura extra (TDR 0017); as regras aceitam
  * `linkAtivo` booleano nos dois sentidos (Tarefa 0027-0001), e desligar
  * gravando `false` revoga a leitura pública — a chave é o campo, não a
