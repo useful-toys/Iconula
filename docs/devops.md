@@ -133,11 +133,12 @@ e [TDR 0009](tdr/0009-validacao-do-mapa-nas-regras.md))
 
 - Os procedimentos que dependem de dado de usuário são **manuais, do
   controlador**, e nenhum workflow os executa: a purga por inatividade
-  (24 meses sem login) e, na Fase 0032, a resposta a incidente
+  (24 meses sem login), o atendimento ao titular e a resposta a incidente
   ([DDR 0011](devops-dr/0011-procedimentos-manuais-de-privacidade.md)).
-- O inventário das operações de tratamento, o runbook da purga e o ciclo
-  de revisão ficam em [docs/privacidade.md](privacidade.md) — este
-  panorama aponta para lá em vez de repetir os procedimentos
+- O inventário das operações de tratamento, o runbook da purga, o
+  atendimento ao titular, o plano de resposta a incidente e o ciclo de
+  revisão ficam em [docs/privacidade.md](privacidade.md) — este panorama
+  aponta para lá em vez de repetir os procedimentos
   ([DDR 0011](devops-dr/0011-procedimentos-manuais-de-privacidade.md)).
 
 ### Service account do CI
