@@ -3,7 +3,7 @@
 # Tarefa [0035-0001]: Payload Pix e biblioteca de QR code
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Adicionar a biblioteca `qrcode` e criar a função pura que monta o payload
