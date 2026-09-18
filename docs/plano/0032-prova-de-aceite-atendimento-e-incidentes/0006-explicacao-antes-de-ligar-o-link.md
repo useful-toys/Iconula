@@ -3,7 +3,7 @@
 # Tarefa [0032-0006]: explicação antes de ligar o link
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 

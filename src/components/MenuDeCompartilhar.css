@@ -158,3 +158,59 @@
   background: var(--panel);
   transform: translateX(14px);
 }
+
+/* Passo informativo do ligar (Tarefa 0032-0006, IDR 0055): o bloco expande
+   logo abaixo da chave desligada, no mesmo fluxo do popup, sem rolagem
+   própria. Cartão em --bg-deep sobre --border, com o texto em --muted e os
+   dois botões lado a lado. */
+.menu-de-compartilhar__explicacao {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 2px 0 4px;
+  padding: 9px 12px;
+  background: var(--bg-deep);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+}
+
+.menu-de-compartilhar__explicacao-texto {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+.menu-de-compartilhar__explicacao-acoes {
+  display: flex;
+  gap: 8px;
+}
+
+.menu-de-compartilhar__confirmar,
+.menu-de-compartilhar__cancelar {
+  appearance: none;
+  flex: 1;
+  padding: 7px 10px;
+  font-family: inherit;
+  font-size: 13px;
+  border-radius: 7px;
+  cursor: pointer;
+}
+
+.menu-de-compartilhar__confirmar {
+  color: var(--panel);
+  background: var(--gold);
+  border: 1px solid var(--gold);
+}
+
+.menu-de-compartilhar__cancelar {
+  color: var(--cream);
+  background: transparent;
+  border: 1px solid var(--border);
+}
+
+.menu-de-compartilhar__confirmar:focus-visible,
+.menu-de-compartilhar__cancelar:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: -2px;
+}

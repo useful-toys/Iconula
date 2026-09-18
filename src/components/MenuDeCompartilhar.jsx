@@ -23,6 +23,15 @@ import './MenuDeCompartilhar.css';
  * fecha o popup — dá para ligar e copiar em seguida — e, enquanto a gravação
  * está em voo, um segundo toque não dispara outra.
  *
+ * Desde a Tarefa 0032-0006, ligar exige um passo informativo (IDR 0055, IDR
+ * 0061): com o link desligado, tocar na chave expande o bloco que explica o
+ * que fica visível sem login para quem tiver o link, avisa que nome e e-mail
+ * não aparecem e que desligar revoga o acesso mas não desfaz cópias já feitas
+ * — com "Ligar o link" e "Cancelar". Só "Ligar o link" grava; "Cancelar"
+ * recolhe sem gravar. Desligar continua num único toque, sem confirmação
+ * (IDR 0010); o foco permanece na chave ao expandir e o popup não fecha em
+ * nenhum passo.
+ *
  * Desde a Tarefa 0027-0005, com o link ligado aparece logo abaixo da chave
  * `Copiar link do catálogo` e, onde há folha do sistema, `Compartilhar link
  * do catálogo…` — entregam só a URL, sem texto junto (IDR 0055). Desligado, os
@@ -57,8 +66,15 @@ export function MenuDeCompartilhar({
   onCompartilharLink,
 }) {
   const [aberto, setAberto] = useState(false);
+  // Passo informativo do ligar (Tarefa 0032-0006): o bloco só existe enquanto
+  // o usuário não confirma nem cancela; desligar não o abre (IDR 0055).
+  const [mostrandoExplicacao, setMostrandoExplicacao] = useState(false);
   const containerRef = useRef(null);
   const botaoRef = useRef(null);
+  // A chave recebe o foco de volta ao recolher o passo informativo, para o
+  // foco não se perder quando o botão que o tinha sai do DOM (Tarefa
+  // 0032-0006, IDR 0042).
+  const chaveRef = useRef(null);
   // Trava o segundo toque enquanto a primeira gravação não resolve (Tarefa
   // 0027-0004): um `useRef`, não estado, para não re-renderizar o popup — e
   // mantém a chave focável, ao contrário de desabilitá-la.
@@ -121,6 +137,30 @@ export function MenuDeCompartilhar({
     } finally {
       gravandoLinkRef.current = false;
     }
+  }
+
+  // Ligar pede o passo informativo (Tarefa 0032-0006): tocar na chave
+  // desligada só expande o bloco; desligar grava na hora, como antes.
+  function aoTocarNaChave() {
+    if (linkAtivo) {
+      setMostrandoExplicacao(false);
+      alternarLink();
+      return;
+    }
+    setMostrandoExplicacao(true);
+  }
+
+  // Confirmar recolhe e liga; cancelar recolhe sem gravar. Nenhum dos dois
+  // fecha o popup (IDR 0055); os dois devolvem o foco à chave.
+  function confirmarLigar() {
+    setMostrandoExplicacao(false);
+    chaveRef.current?.focus();
+    alternarLink();
+  }
+
+  function cancelarLigar() {
+    setMostrandoExplicacao(false);
+    chaveRef.current?.focus();
   }
 
   // Tabular para fora do popup move o foco para fora do container sem escolher
@@ -205,18 +245,44 @@ export function MenuDeCompartilhar({
           )}
           <div className="menu-de-compartilhar__filete" role="separator" />
           <button
+            ref={chaveRef}
             type="button"
             role="switch"
             aria-checked={linkAtivo}
             className="menu-de-compartilhar__chave"
             disabled={!onAlternarLink}
-            onClick={alternarLink}
+            onClick={aoTocarNaChave}
           >
             <span className="menu-de-compartilhar__trilho" aria-hidden="true">
               <span className="menu-de-compartilhar__bolinha" />
             </span>
             Link do catálogo: {linkAtivo ? 'ligado' : 'desligado'}
           </button>
+          {mostrandoExplicacao && !linkAtivo && (
+            <div className="menu-de-compartilhar__explicacao">
+              <p className="menu-de-compartilhar__explicacao-texto">
+                Ao ligar, sua coleção fica visível sem login para quem tiver o link. Seu nome e
+                e-mail não aparecem. Desligar revoga o acesso, mas quem já abriu pode ter copiado o
+                que viu.
+              </p>
+              <div className="menu-de-compartilhar__explicacao-acoes">
+                <button
+                  type="button"
+                  className="menu-de-compartilhar__confirmar"
+                  onClick={confirmarLigar}
+                >
+                  Ligar o link
+                </button>
+                <button
+                  type="button"
+                  className="menu-de-compartilhar__cancelar"
+                  onClick={cancelarLigar}
+                >
+                  Cancelar
+                </button>
+              </div>
+            </div>
+          )}
           {linkAtivo && (
             <>
               <button
