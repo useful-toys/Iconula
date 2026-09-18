@@ -11,7 +11,10 @@ cabeçalho de grupo também exibe os faltantes da seção. A **forma** do
 placar foi substituída pelo
 [IDR 0018](0018-usuario-especialista-e-minimalismo.md): não há mais
 placar de estádio com barra de progresso nem cartões de estatísticas —
-tudo cabe na linha única do título, em notação compacta.
+tudo cabe na linha única do título, em notação compacta. A parte "sem
+tela separada de estatísticas" foi revertida pelo
+[IDR 0072](0072-pagina-de-estatisticas-como-vista-interna.md): existe
+uma página de estatísticas, como vista interna.
 
 ## Contexto
 
@@ -53,3 +56,11 @@ tudo cabe na linha única do título, em notação compacta.
   que falta do Brasil?")
 - **Tela separada de estatísticas**: mais navegação, contra o
   minimalismo e a tela única
+
+## Histórico
+
+- 2026-09-18 — Esmiuçamento da página de estatísticas: a consequência
+  "sem tela separada de estatísticas" e a alternativa recusada acima são
+  revertidas pelo [IDR 0072](0072-pagina-de-estatisticas-como-vista-interna.md),
+  que cria a página como vista interna; o placar único de 994 e o
+  progresso por seção permanecem. Implementação a planejar.

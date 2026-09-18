@@ -241,6 +241,19 @@ Questões recorrentes são marcadas como "Nota".*
 - Exibir lista de repetidas: figurinhas com contagem ≥ 2, com as
   unidades sobrando (contagem − 1)
 
+### Estatísticas
+- Exibir página de estatísticas e gráficos sobre a coleção (ver
+  [IDR 0072](idr/0072-pagina-de-estatisticas-como-vista-interna.md))
+  - Vista interna, aberta por um botão no cabeçalho (como desfazer e
+    compartilhar), sem router e sem "modo"
+  - Página scrollável única, somente leitura — não ajusta contagens
+  - Derivada da coleção em memória, sem novas leituras no Firestore
+  - Conteúdo: resumo geral (coladas, faltantes, repetidas, percentual),
+    progresso por grupo da Copa (12 grupos + FWC + COC), progresso por
+    seção (50 barras), repetidas por seção e histograma de contagens
+  - Gráficos desenhados à mão em SVG/CSS, sem biblioteca (ver
+    [TDR 0030](tdr/0030-graficos-de-estatisticas-a-mao-sem-biblioteca.md))
+
 ### Compartilhamento
 - Gerar texto pronto para apps de mensagem com faltantes e/ou repetidas
   - Uma linha por seção: nome e sigla no início, números em sequência,
