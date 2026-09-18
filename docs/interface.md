@@ -657,6 +657,15 @@ qualquer autenticação:
   autorizado pelos responsáveis, e concorda com os Termos de uso.";
   o link "Termos de uso" dentro da frase de aceite e o link
   "Política de privacidade" abaixo dela
+- Depois do login e antes do catálogo, a conta sem `atestadoEm` vê o passo
+  de atestação (`Atestacao.jsx`) no mesmo cartão: "Ao continuar, você
+  confirma ter 12 anos ou mais, ou estar autorizado pelos responsáveis.",
+  com o botão "Confirmar" ([IDR 0036](idr/0036-atestacao-passo-explicito-e-falha-de-gravacao.md)).
+  Quando a versão dos textos aceita pela conta difere da publicada, o mesmo
+  passo reabre com o motivo de atualização: "Os Termos de uso e a Política
+  de privacidade mudaram.", com "Termos de uso" e "Política de privacidade"
+  como links das vistas internas e o botão "Li e concordo", sem repetir a
+  atestação de idade ([IDR 0062](idr/0062-reaceite-reusa-a-tela-de-atestacao.md))
 
 Medidas: o cartão fica centrado num bloco de altura mínima ~70vh — não
 colado ao topo nem exatamente no meio da janela —, com raio 20px, borda

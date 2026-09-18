@@ -32,6 +32,9 @@ Todo o estado da coleção vive em `App.jsx`, consumido por prop-drilling (sem C
 | `atualizadoEm` | `string \| null` | Carimbo formatado da última gravação — aproximação local do instante de confirmação do servidor, não o `updatedAt` real ([TDR 0017](tdr/0017-escrita-por-setdoc-merge-e-carimbo-local-pos-gravacao.md)) |
 | `historico` | `Array<{codigo, contagemAnterior}>` | Últimas 10 alterações, em memória (volátil) |
 | `precisaAtestar` | `boolean` | Se a conta precisa atestar maiores de idade |
+| `termosVersao` | `string \| null` | Versão dos Termos de Uso aceita pela conta, lida na carga; `null` quando o documento não tem o campo. Começa igual à publicada (otimista, como `contagens` e `precisaAtestar`) |
+| `politicaVersao` | `string \| null` | Versão da Política de Privacidade aceita pela conta, lida na carga; `null` quando o documento não tem o campo |
+| `precisaReaceitar` | `boolean` | Derivada: as versões aceitas diferem das publicadas em `versoesDosTextos.js`; reabre a atestação com o motivo de atualização ([IDR 0062](idr/0062-reaceite-reusa-a-tela-de-atestacao.md)) |
 | `vistaInterna` | `null \| 'politica' \| 'termos'` | Vista interna vigente — política de privacidade ou termos de uso, uma por vez ([TDR 0020](tdr/0020-privacidade-como-vista-interna.md)) |
 | `ordenacao` | `'pagina' \| 'sigla'` | Ordenação vigente do catálogo |
 | `disposicao` | `'lista' \| 'album'` | Disposição vigente do catálogo |
