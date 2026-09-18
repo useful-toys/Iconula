@@ -719,7 +719,9 @@ os dados ficam (Cloud Firestore, `southamerica-east1`), link do catálogo,
 retenção, direitos do titular e o tratamento de dados de menores (ligado à
 atestação do primeiro login) — cada um exercido pelo canal de contato
 declarado no próprio texto (`docs/plano/.../0004-politica-de-privacidade-e-rodape.md`
-tem a pergunta e a resposta que fixou esse endereço).
+tem a pergunta e a resposta que fixou esse endereço). O canal de contato é
+o mesmo das duas vistas: o componente `LinkDeContato`, com o endereço
+montado em runtime a partir de partes ([TDR 0028](tdr/0028-canal-de-contato-montado-em-runtime.md)).
 
 A seção "Link do catálogo" declara a visibilidade por link
 ([IDR 0055](idr/0055-catalogo-compartilhado-por-link-somente-leitura.md)):
@@ -768,7 +770,9 @@ Conteúdo, na ordem do roteiro do IDR 0053: aceite; o que é o serviço
 que se encontra, sem garantia de disponibilidade nem contra perda de dados,
 com o exportar como proteção; responsabilidade pela própria conta Google;
 limitação de responsabilidade; marcas; alterações dos termos; lei
-brasileira; e contato pelo mesmo endereço declarado na política.
+brasileira; e contato pelo mesmo componente da política — `LinkDeContato`,
+com o endereço montado em runtime
+([TDR 0028](tdr/0028-canal-de-contato-montado-em-runtime.md)).
 
 ### Catálogo compartilhado
 
