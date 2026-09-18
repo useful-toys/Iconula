@@ -72,6 +72,49 @@
   opacity: 1;
 }
 
+/* Setas de rolagem sobre cada borda (IDR 0058), acima do fade (`z-index: 2`):
+ * só aparecem no sentido em que ainda há conteúdo — desabilitadas, ficam
+ * invisíveis e fora da ordem de tabulação. O alvo tem a largura do fade e a
+ * altura da faixa, com o ícone centralizado. */
+.faixa-de-secoes__seta {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 2;
+  width: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  color: var(--gold);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.faixa-de-secoes__seta--esquerda {
+  left: 0;
+}
+
+.faixa-de-secoes__seta--direita {
+  right: 0;
+}
+
+.faixa-de-secoes__seta:disabled {
+  opacity: 0;
+  pointer-events: none;
+  cursor: default;
+}
+
+.faixa-de-secoes__seta:hover:not(:disabled) {
+  color: var(--cream);
+}
+
+.faixa-de-secoes__seta-icone {
+  display: block;
+}
+
 /* Tooltip único da faixa (Tarefa 0019-0002, IDR 0052): visual do tooltip dos
  * controles (IDR 0048), posicionado por JS logo abaixo da bandeira sob o
  * cursor ou o foco. Fica fora do contêiner rolável e some do fluxo

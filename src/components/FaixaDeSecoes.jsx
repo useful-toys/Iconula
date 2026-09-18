@@ -11,6 +11,10 @@ const ESPACO_ABAIXO_PX = 6;
 const MARGEM_JANELA_PX = 8;
 // Movimento mínimo do mouse para virar arrasto em vez de clique (IDR 0058).
 const ARRASTO_LIMIAR_PX = 5;
+// Passo das setas de rolagem: 4 bandeiras por toque (IDR 0058). O passo é a
+// largura do botão (30px) mais o `gap` da trilha (2px) — FaixaDeSecoes.css.
+const BANDEIRAS_POR_SETA = 4;
+const PASSO_BANDEIRA_PX = 32;
 
 /**
  * Texto do tooltip de uma seção: sigla, nome e progresso na notação compacta
@@ -49,12 +53,14 @@ function textoDoTooltip(secao, placar) {
  * `overflow` da faixa recortaria um `::after`, o posicionamento é por JS —
  * exceção restrita à faixa (IDR 0052).
  *
- * Sem barra de rolagem visível (IDR 0058): um fade em degradê nas bordas
- * indica que há mais conteúdo, ligado/desligado conforme a posição de
- * rolagem; no mouse, arrastar a trilha rola (cursor `grab`/`grabbing`),
- * distinguido do clique por um limiar de movimento (~5px) — mover mais que
- * isso rola e não salta, mover menos salta e não rola. A rodinha do mouse
- * não é interceptada: a página continua rolando por cima da faixa.
+ * Sem barra de rolagem visível (IDR 0058): um fade em degradê e uma seta em
+ * cada borda indicam que há mais conteúdo, ligados/desligados conforme a
+ * posição de rolagem — a seta só aparece no sentido em que ainda dá para
+ * rolar, e tocar nela rola 4 bandeiras. No mouse, arrastar a trilha rola
+ * (cursor `grab`/`grabbing`), distinguido do clique por um limiar de
+ * movimento (~5px) — mover mais que isso rola e não salta, mover menos
+ * salta e não rola. A rodinha do mouse não é interceptada: a página
+ * continua rolando por cima da faixa.
  *
  * @param {object} props
  * @param {Array<object>} props.secoes - seções na ordem vigente (50 seções).
@@ -75,10 +81,10 @@ export function FaixaDeSecoes({ secoes, ordenacao, onSaltar, placarPorSecao }) {
   // ambiente ao seletor.
   const focoPorPonteiroRef = useRef(false);
 
-  // Fade nas bordas em vez da barra de rolagem (IDR 0058): visível de cada
-  // lado só quando há conteúdo rolado para lá.
+  // Fade e setas nas bordas em vez da barra de rolagem (IDR 0058): visíveis
+  // de cada lado só quando há conteúdo para rolar naquele sentido.
   const trilhaRef = useRef(null);
-  const [fade, setFade] = useState({ esquerda: false, direita: false });
+  const [indicadores, setIndicadores] = useState({ esquerda: false, direita: false });
 
   // Arrasto do mouse (IDR 0058): `arrastoRef` guarda o gesto em andamento;
   // `ultimoArrastoMoveuRef` sobrevive ao `mouseup` até o `click` seguinte,
@@ -135,12 +141,12 @@ export function FaixaDeSecoes({ secoes, ordenacao, onSaltar, placarPorSecao }) {
     }
   }, [tooltip]);
 
-  // Mede a rolagem da trilha e liga/desliga cada lado do fade.
-  function atualizarFade() {
+  // Mede a rolagem da trilha e liga/desliga o fade e a seta de cada borda.
+  function atualizarIndicadores() {
     const trilha = trilhaRef.current;
     if (!trilha) return;
     const { scrollLeft, scrollWidth, clientWidth } = trilha;
-    setFade({
+    setIndicadores({
       esquerda: scrollLeft > 0,
       direita: scrollLeft + clientWidth < scrollWidth - 1,
     });
@@ -149,13 +155,13 @@ export function FaixaDeSecoes({ secoes, ordenacao, onSaltar, placarPorSecao }) {
   // Recalcula ao montar e sempre que a ordem das seções muda (largura do
   // conteúdo pode mudar com o agrupamento por página).
   useLayoutEffect(() => {
-    atualizarFade();
+    atualizarIndicadores();
   }, [secoes, ordenacao]);
 
   // Recalcula ao redimensionar a janela — pode revelar ou esconder conteúdo.
   useEffect(() => {
-    window.addEventListener('resize', atualizarFade);
-    return () => window.removeEventListener('resize', atualizarFade);
+    window.addEventListener('resize', atualizarIndicadores);
+    return () => window.removeEventListener('resize', atualizarIndicadores);
   }, []);
 
   function aoPressionarMouse(evento) {
@@ -179,7 +185,7 @@ export function FaixaDeSecoes({ secoes, ordenacao, onSaltar, placarPorSecao }) {
         setArrastando(true);
       }
       trilhaRef.current.scrollLeft = arrasto.inicioScrollLeft - delta;
-      atualizarFade();
+      atualizarIndicadores();
     }
     function aoSoltarMouse() {
       arrastoRef.current = null;
@@ -229,6 +235,17 @@ export function FaixaDeSecoes({ secoes, ordenacao, onSaltar, placarPorSecao }) {
     onSaltar(secao.sigla);
   }
 
+  // Rola a trilha pelo passo das setas (IDR 0058). `smooth` acompanha o salto
+  // das seções (Catalogo.jsx).
+  function rolar(direcao) {
+    const trilha = trilhaRef.current;
+    if (!trilha) return;
+    trilha.scrollBy({
+      left: direcao * BANDEIRAS_POR_SETA * PASSO_BANDEIRA_PX,
+      behavior: 'smooth',
+    });
+  }
+
   const classesTrilha = ['faixa-de-secoes__trilha'];
   if (arrastando) {
     classesTrilha.push('faixa-de-secoes__trilha--arrastando');
@@ -238,13 +255,13 @@ export function FaixaDeSecoes({ secoes, ordenacao, onSaltar, placarPorSecao }) {
     <div className="faixa-de-secoes">
       <div
         className={`faixa-de-secoes__fade faixa-de-secoes__fade--esquerda${
-          fade.esquerda ? ' faixa-de-secoes__fade--visivel' : ''
+          indicadores.esquerda ? ' faixa-de-secoes__fade--visivel' : ''
         }`}
         aria-hidden="true"
       />
       <div
         className={`faixa-de-secoes__fade faixa-de-secoes__fade--direita${
-          fade.direita ? ' faixa-de-secoes__fade--visivel' : ''
+          indicadores.direita ? ' faixa-de-secoes__fade--visivel' : ''
         }`}
         aria-hidden="true"
       />
@@ -252,7 +269,7 @@ export function FaixaDeSecoes({ secoes, ordenacao, onSaltar, placarPorSecao }) {
         ref={trilhaRef}
         className={classesTrilha.join(' ')}
         aria-label="Saltar para seção"
-        onScroll={atualizarFade}
+        onScroll={atualizarIndicadores}
         onMouseDown={aoPressionarMouse}
       >
         {secoes.map((secao, indice) => {
@@ -292,6 +309,42 @@ export function FaixaDeSecoes({ secoes, ordenacao, onSaltar, placarPorSecao }) {
           );
         })}
       </nav>
+      <button
+        type="button"
+        className="faixa-de-secoes__seta faixa-de-secoes__seta--esquerda"
+        aria-label="Rolar a faixa para a esquerda"
+        disabled={!indicadores.esquerda}
+        onClick={() => rolar(-1)}
+      >
+        <svg
+          className="faixa-de-secoes__seta-icone"
+          viewBox="0 -960 960 960"
+          width="16"
+          height="16"
+          fill="currentColor"
+          aria-hidden="true"
+        >
+          <path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z" />
+        </svg>
+      </button>
+      <button
+        type="button"
+        className="faixa-de-secoes__seta faixa-de-secoes__seta--direita"
+        aria-label="Rolar a faixa para a direita"
+        disabled={!indicadores.direita}
+        onClick={() => rolar(1)}
+      >
+        <svg
+          className="faixa-de-secoes__seta-icone"
+          viewBox="0 -960 960 960"
+          width="16"
+          height="16"
+          fill="currentColor"
+          aria-hidden="true"
+        >
+          <path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z" />
+        </svg>
+      </button>
       {tooltip && (
         <div
           ref={tooltipRef}
