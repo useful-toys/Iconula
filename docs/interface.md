@@ -31,6 +31,12 @@ demonstrar avisos) é andaime da prévia, não faz parte do produto.*
 
 ## Tela principal
 
+Quando o consentimento de analytics ainda não foi decidido neste dispositivo,
+a faixa de consentimento (`BannerDeConsentimento`) aparece no topo, em fluxo,
+antes do cabeçalho — mesmas ações ("Recusar"/"Aceitar") e mesmo comportamento
+da tela de login
+([IDR 0071](idr/0071-banner-de-consentimento-para-analytics.md)).
+
 ### Cabeçalho
 - Título único, uma linha: `ICONULA 2026 · 412/994 41% ▯582 ×37 ·
   12:34` — nome, coladas/total, percentual, faltantes (▯),
@@ -677,6 +683,12 @@ qualquer autenticação:
 
 - Cartão centrado (largura máxima ~360px) em `--panel` sobre o fundo
   neutro, título em dourado
+- Quando o consentimento de analytics ainda não foi decidido neste
+  dispositivo, a faixa de consentimento (`BannerDeConsentimento`) aparece no
+  topo, em fluxo, antes do cartão: texto curto, o link "Ver a política" e as
+  ações "Recusar" e "Aceitar"; decidida (aceita ou recusada), some e não
+  reaparece — a escolha é lembrada por dispositivo, no `localStorage`
+  ([IDR 0071](idr/0071-banner-de-consentimento-para-analytics.md))
 - Botão próprio do Google (fundo branco, disco colorido), login por
   popup (ADR 0005)
 - A atestação de menores acompanha o botão e a frase de aceite declara a
@@ -772,8 +784,11 @@ no art. 7º, I e a atestação no art. 14); onde os dados ficam (Cloud
 Firestore, `southamerica-east1`); operador e transferência internacional
 (Google como operador e a identidade tratada globalmente pelo Firebase Auth,
 sob cláusulas-padrão contratuais); link do catálogo; armazenamento local
-(`localStorage` e cache IndexedDB, funcionais e não enviados, sem banner de
-cookies); retenção (24 meses de inatividade e até 90 dias após o
+(`localStorage` e cache IndexedDB, funcionais e não enviados; o
+`localStorage` guarda também a escolha do banner de consentimento do
+analytics, na chave `iconula.consentimento-analytics.v1` —
+[IDR 0071](idr/0071-banner-de-consentimento-para-analytics.md)); retenção
+(24 meses de inatividade e até 90 dias após o
 encerramento); direitos do titular, com a exclusão pelo painel e a
 portabilidade pela exportação JSON (art. 18, V); dados de menores (ligado à
 atestação do primeiro login); alterações, com o histórico de versões; e

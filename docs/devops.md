@@ -110,7 +110,12 @@ reproduzível localmente sem depender de push
 ### CSP e headers
 
 - CSP restritiva no `firebase.json`: `default-src 'self'`, com
-  concessões pontuais para Firebase Auth e Firestore
+  concessões pontuais para Firebase Auth, Firestore e Google Analytics
+- GA4: `script-src https://www.googletagmanager.com` e
+  `connect-src https://www.google-analytics.com` +
+  `https://region1.google-analytics.com`, carregados só sob consentimento
+  ([ADR 0011](adr/0011-analytics-de-uso-com-google-analytics-4.md),
+  [IDR 0071](idr/0071-banner-de-consentimento-para-analytics.md))
 - Headers de segurança: `X-Content-Type-Options`, `Referrer-Policy`,
   `X-Frame-Options`, `Permissions-Policy`, `Cross-Origin-Opener-Policy`
 - Indexação: `X-Robots-Tag: noindex` só em `/catalogo/**` — a vista do link
@@ -175,6 +180,7 @@ secret `FIREBASE_SERVICE_ACCOUNT_ICONULA`. Só as roles que cada job usa:
 - `VITE_FIREBASE_STORAGE_BUCKET`
 - `VITE_FIREBASE_MESSAGING_SENDER_ID`
 - `VITE_FIREBASE_APP_ID`
+- `VITE_GA_MEASUREMENT_ID` (Measurement ID do GA4 — [ADR 0011](adr/0011-analytics-de-uso-com-google-analytics-4.md))
 
 ## Ambientes
 
