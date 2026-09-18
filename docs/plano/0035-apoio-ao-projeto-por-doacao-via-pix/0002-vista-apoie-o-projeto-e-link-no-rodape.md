@@ -3,7 +3,7 @@
 # Tarefa [0035-0002]: Vista "Apoie o projeto" e link no rodapé
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Criar a vista interna "Apoie o projeto" — QR Pix, chave em texto, frase de

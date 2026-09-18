@@ -477,21 +477,21 @@ Esquemático em texto; cores indicadas são as do
 ### Página inteira
 
 ```
-┌──────────────────────────────────────────────────────────────┐
-│  ICONULA 2026 · 412/994 41% ▯582 ×37 · 12:34     [↗] [ (D) ] │
-│  [álbum|sigla] [lista|álbum] [todas|falt|col|rep]       [↺]  │
-│  [🏆][ALG][ARG][AUS]…[USA][UZB][🥤] ── rolável ──▶          │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│     … grupos do catálogo, um após o outro, até o fim …       │
-│                                                              │
-├──────────────────────────────────────────────────────────────┤
-│  © 2026 Daniel Felix Ferber                                  │
-│  projeto independente · sem vínculo com Panini ou FIFA ·     │
-│  marcas pertencem aos seus titulares (Lei 9.279/96)          │
-│  uso por sua conta e risco, sem garantias                    │
-│  Política de privacidade · Termos de uso · Sobre              │
-└──────────────────────────────────────────────────────────────┘
+┌────────────────────────────────────────────────────────────────────┐
+│  ICONULA 2026 · 412/994 41% ▯582 ×37 · 12:34     [↗] [ (D) ]       │
+│  [álbum|sigla] [lista|álbum] [todas|falt|col|rep]       [↺]        │
+│  [🏆][ALG][ARG][AUS]…[USA][UZB][🥤] ── rolável ──▶                 │
+├────────────────────────────────────────────────────────────────────┤
+│                                                                    │
+│     … grupos do catálogo, um após o outro, até o fim …             │
+│                                                                    │
+├────────────────────────────────────────────────────────────────────┤
+│  © 2026 Daniel Felix Ferber                                        │
+│  projeto independente · sem vínculo com Panini ou FIFA ·           │
+│  marcas pertencem aos seus titulares (Lei 9.279/96)                │
+│  uso por sua conta e risco, sem garantias                          │
+│  Política de privacidade · Termos de uso · Sobre · Apoie o projeto │
+└────────────────────────────────────────────────────────────────────┘
 ```
 
 - Uma única rolagem (IDR 0008); o cabeçalho sticky fixa título, avatar,
@@ -652,20 +652,20 @@ Desenho do protótipo, com os elementos que requisitos.md exige antes de
 qualquer autenticação:
 
 ```
-        ┌───────────────────────────────────────┐
-        │              ICONULA 2026              │
-        │   Controle suas figurinhas do álbum   │
-        │      da Copa do Mundo FIFA 2026       │
-        │                                       │
-        │      [ (G)  Entrar com Google ]       │
-        │                                       │
-        │   Ao continuar, você confirma ter 12  │
-        │   anos ou mais, ou estar autorizado   │
-        │  pelos responsáveis, e concorda com   │
-        │           os Termos de uso.           │
-        │                                       │
-        │   Política de privacidade · Sobre     │
-        └───────────────────────────────────────┘
+        ┌─────────────────────────────────────────────────────┐
+        │                    ICONULA 2026                     │
+        │          Controle suas figurinhas do álbum          │
+        │             da Copa do Mundo FIFA 2026              │
+        │                                                     │
+        │             [ (G)  Entrar com Google ]              │
+        │                                                     │
+        │         Ao continuar, você confirma ter 12          │
+        │          anos ou mais, ou estar autorizado          │
+        │         pelos responsáveis, e concorda com          │
+        │                  os Termos de uso.                  │
+        │                                                     │
+        │  Política de privacidade · Sobre · Apoie o projeto  │
+        └─────────────────────────────────────────────────────┘
      © 2026 Daniel Felix Ferber
      projeto independente · sem vínculo com Panini…
      uso por sua conta e risco, sem garantias.
@@ -677,10 +677,11 @@ qualquer autenticação:
   popup (ADR 0005)
 - A atestação de menores acompanha o botão e a frase de aceite declara a
   concordância com os termos, com "Termos de uso" como link; abaixo dela fica
-  a linha com os links "Política de privacidade" e "Sobre", acessíveis sem
-  autenticar
+  a linha com os links "Política de privacidade", "Sobre" e "Apoie o projeto",
+  acessíveis sem autenticar
   ([IDR 0053](idr/0053-termos-de-uso-e-rodape-com-copyright-e-isencao.md),
-  [IDR 0063](idr/0063-tela-sobre-com-link-ao-repositorio-e-issues.md))
+  [IDR 0063](idr/0063-tela-sobre-com-link-ao-repositorio-e-issues.md),
+  [IDR 0070](idr/0070-apoio-ao-projeto-rodape-menu-e-vista-com-qr-pix.md))
 - O rodapé traz copyright, o aviso de independência e marcas e a isenção de
   responsabilidade, sem filete, na ordem do
   [IDR 0053](idr/0053-termos-de-uso-e-rodape-com-copyright-e-isencao.md)
@@ -689,7 +690,7 @@ qualquer autenticação:
   atestação "Ao continuar, você confirma ter 12 anos ou mais, ou estar
   autorizado pelos responsáveis, e concorda com os Termos de uso.";
   o link "Termos de uso" dentro da frase de aceite e os links
-  "Política de privacidade" e "Sobre" na linha abaixo dela
+  "Política de privacidade", "Sobre" e "Apoie o projeto" na linha abaixo dela
 - Depois do login e antes do catálogo, a conta sem `atestadoEm` vê o passo
   de atestação (`Atestacao.jsx`) no mesmo cartão: "Ao continuar, você
   confirma ter 12 anos ou mais, ou estar autorizado pelos responsáveis.",
@@ -710,8 +711,8 @@ disco de 18px com as quatro cores da marca — é o único elemento claro
 do produto, e é assim de propósito: fora do tema, reconhecível como
 botão do provedor. A atestação vem 20px abaixo do botão, com o link
 "Termos de uso" dentro da própria frase, e os links "Política de
-privacidade" e "Sobre" — separados por `·` — mais 16px adiante, em 12px
-`--muted`. O
+privacidade", "Sobre" e "Apoie o projeto" — separados por `·` — mais 16px
+adiante, em 12px `--muted`. O
 rodapé desta tela repete as três primeiras linhas do rodapé do app —
 copyright, aviso de marcas e isenção — sem o filete superior — a tela de
 login não tem divisória alguma além da borda do cartão.
@@ -875,6 +876,34 @@ para as issues do mesmo repositório. Os dois abrem em aba nova
 (`target="_blank"` com `rel="noopener noreferrer"`) — é o único ponto do app
 que sai do domínio. Copyright e isenção não se repetem: já vivem no rodapé.
 
+### Apoie o projeto
+
+Vista interna, sem router (TDR 0020): substitui o conteúdo da tela por
+inteiro, com um "← Voltar" no topo que devolve para a tela de origem. Uma
+porta de entrada em cada tela
+([IDR 0070](idr/0070-apoio-ao-projeto-rodape-menu-e-vista-com-qr-pix.md)):
+o link "Apoie o projeto" ao lado de "Política de privacidade" e "Sobre" no
+cartão da tela de login, antes de autenticar, e o quarto link do rodapé da
+tela principal, depois.
+
+Mesmo layout de leitura da política e dos termos: corpo de largura máxima
+~640px centrado, com o `--page-gutter`, título "Apoie o projeto" em Poppins
+700/22px dourado.
+
+Conteúdo, na ordem do IDR 0070: uma frase de contexto que liga a doação ao
+produto (o app é gratuito e sem anúncios, e a doação sugerida de R$ 5,00 é
+o preço de um pacotinho de figurinhas — opcional e sem desbloquear função
+nenhuma); o QR code Pix gerado em runtime a partir do payload BR Code
+([TDR 0029](tdr/0029-geracao-local-do-qr-code-pix.md)), com nome acessível
+que descreve a ação; a chave Pix em texto ao lado da imagem — sempre
+visível, porque a chave é caminho equivalente ao QR, não um reforço dele;
+"Copiar chave Pix", com o aviso de sucesso "chave copiada"; e
+"Compartilhar chave Pix…", que existe só onde o navegador oferece a folha
+do sistema (`navigator.share`) e entrega apenas a chave, sem texto
+acoplado, com o aviso "chave compartilhada" (IDR 0024, IDR 0029, IDR 0055).
+A vista não sabe se ou quanto foi doado: conteúdo estático, sem requisição
+ao Firestore.
+
 ### Catálogo compartilhado
 
 Vista somente leitura do catálogo do dono, aberta por `/catalogo/<uid>` sem
@@ -883,8 +912,10 @@ lido por `App.jsx` sem router — TDR 0020). É a tela principal sem edição:
 
 - mantém o cabeçalho com placar e relógio (`updatedAt` do dono), os grupos
   de ordenação, disposição e filtro, a faixa de bandeiras com tooltip, o
-  colapso de seções e super-grupos e o rodapé com política, termos e Sobre
-  ([IDR 0063](idr/0063-tela-sobre-com-link-ao-repositorio-e-issues.md));
+  colapso de seções e super-grupos e o rodapé com política, termos, Sobre e
+  Apoie o projeto
+  ([IDR 0063](idr/0063-tela-sobre-com-link-ao-repositorio-e-issues.md),
+  [IDR 0070](idr/0070-apoio-ao-projeto-rodape-menu-e-vista-com-qr-pix.md));
 - some com o desfazer, o botão compartilhar e o avatar; os cartões não
   reagem a toque — sem papel de botão e fora da ordem de tabulação, com o
   nome acessível preservado;
@@ -1149,10 +1180,11 @@ FWC e COC usam os alias `--selection-fwc` (de `--group-fwc`) e
   1px em `--border` com margem `4px 6px`; sombra `0 8px 24px` (IDR 0024)
 - Links: `--gold`, sem sublinhado, opacidade 0.8 sob o cursor
 - Rodapé: 11px em `--muted`, borda superior `--border`, linhas empilhadas na
-  ordem do copyright, aviso de marcas, isenção e a linha com os três links —
-  "Política de privacidade · Termos de uso · Sobre" —
+  ordem do copyright, aviso de marcas, isenção e a linha com os quatro links —
+  "Política de privacidade · Termos de uso · Sobre · Apoie o projeto" —
   [IDR 0053](idr/0053-termos-de-uso-e-rodape-com-copyright-e-isencao.md),
-  [IDR 0063](idr/0063-tela-sobre-com-link-ao-repositorio-e-issues.md)
+  [IDR 0063](idr/0063-tela-sobre-com-link-ao-repositorio-e-issues.md),
+  [IDR 0070](idr/0070-apoio-ao-projeto-rodape-menu-e-vista-com-qr-pix.md)
 
 ## Pendências de interface
 

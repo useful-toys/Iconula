@@ -41,7 +41,7 @@ describe("TelaDeLogin", () => {
     expect(within(atestacao).getByRole("button", { name: "Termos de uso" })).toBeInTheDocument();
 
     expect(container.querySelector(".tela-de-login__links").textContent).toBe(
-      "Política de privacidade · Sobre",
+      "Política de privacidade · Sobre · Apoie o projeto",
     );
   });
 
@@ -93,6 +93,16 @@ describe("TelaDeLogin", () => {
     await user.click(screen.getByRole("button", { name: "Sobre" }));
 
     expect(onAbrirSobre).toHaveBeenCalledTimes(1);
+  });
+
+  it("o link Apoie o projeto é acionável sem sessão", async () => {
+    const user = userEvent.setup();
+    const onAbrirApoie = vi.fn();
+    render(<TelaDeLogin onAbrirApoie={onAbrirApoie} />);
+
+    await user.click(screen.getByRole("button", { name: "Apoie o projeto" }));
+
+    expect(onAbrirApoie).toHaveBeenCalledTimes(1);
   });
 
   it("falha de login mostra mensagem em role=alert", async () => {

@@ -24,7 +24,9 @@ describe("Rodape", () => {
     expect(linhas[0]).toBe("© 2026 Daniel Felix Ferber");
     expect(linhas[1]).toMatch(/projeto independente/i);
     expect(linhas[2]).toBe("Uso por sua conta e risco, sem garantias.");
-    expect(linhas[3]).toBe("Política de privacidade · Termos de uso · Sobre");
+    expect(linhas[3]).toBe(
+      "Política de privacidade · Termos de uso · Sobre · Apoie o projeto",
+    );
   });
 
   it("o link da política chama onAbrirPolitica", async () => {
@@ -61,5 +63,15 @@ describe("Rodape", () => {
     await user.click(screen.getByRole("button", { name: "Sobre" }));
 
     expect(onAbrirSobre).toHaveBeenCalledTimes(1);
+  });
+
+  it("o link Apoie o projeto chama onAbrirApoie", async () => {
+    const user = userEvent.setup();
+    const onAbrirApoie = vi.fn();
+    render(<Rodape onAbrirPolitica={vi.fn()} onAbrirApoie={onAbrirApoie} />);
+
+    await user.click(screen.getByRole("button", { name: "Apoie o projeto" }));
+
+    expect(onAbrirApoie).toHaveBeenCalledTimes(1);
   });
 });
