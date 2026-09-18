@@ -148,10 +148,29 @@ describe("firestore.rules — isolamento entre usuários", () => {
     await assertFails(getDocs(collection(comoIntruso(), "users")));
   });
 
-  it("nega apagar o próprio documento", async () => {
+  it("o dono apaga o próprio documento", async () => {
     await semearDocumentoDoDono();
 
-    await assertFails(deleteDoc(doc(comoDono(), "users", DONO)));
+    await assertSucceeds(deleteDoc(doc(comoDono(), "users", DONO)));
+  });
+
+  it("nega apagar o documento de outro usuário", async () => {
+    await semearDocumentoDoDono();
+
+    await assertFails(deleteDoc(doc(comoIntruso(), "users", DONO)));
+  });
+
+  it("nega apagar a quem não está autenticado", async () => {
+    await semearDocumentoDoDono();
+
+    await assertFails(deleteDoc(doc(comoAnonimo(), "users", DONO)));
+  });
+
+  it("nega apagar, sem login, o documento com o link ligado", async () => {
+    // O link ativo libera `get`, nunca `delete` (TDR 0027).
+    await semearDocumentoDoDono({ contagens: { BRA05: 3 }, linkAtivo: true });
+
+    await assertFails(deleteDoc(doc(comoAnonimo(), "users", DONO)));
   });
 });
 
