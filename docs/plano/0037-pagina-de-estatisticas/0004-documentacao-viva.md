@@ -3,7 +3,7 @@
 # Tarefa 0037-0004: Documentação viva da página de estatísticas
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Refletir a página de estatísticas na documentação de referência: arquitetura
