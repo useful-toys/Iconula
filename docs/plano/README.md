@@ -79,7 +79,7 @@ Detalhes e status das tarefas no guia [CLAUDE.md](CLAUDE.md) § Status e ciclo d
 | 31 | [Exclusão de dados e conformidade da política](0031-exclusao-de-dados-e-conformidade-da-politica/) | Apagar coleção e conta pelo app e completar a política com controlador, base legal, transferência e retenção | — | `feat: apagar meus dados e política de privacidade conforme a LGPD` | Entregue |
 | 32 | [Prova de aceite, atendimento e incidentes](0032-prova-de-aceite-atendimento-e-incidentes/) | Versionar os textos com reaceite, declarar prazo e identificação, registrar operações e resposta a incidente, e informar antes de ligar o link | 31 | `feat: aceite versionado, procedimentos de privacidade e consentimento do link` | Entregue |
 | 33 | [Tela Sobre, tooltip do desfazer e indicador de pendência](0033-sobre-tooltip-do-desfazer-e-indicador-de-pendencia/) | Tela Sobre com link ao GitHub e a issues, tooltip do desfazer com código e operação, indicador "não salvo" no título e debounce/teto de gravação maiores | — | `feat: tela Sobre, tooltip do desfazer e indicador de pendência no título` | Entregue |
-| 34 | [Refinamentos visuais do catálogo](0034-refinamentos-visuais-do-catalogo/) | Respiro por letra na ordenação por código, ordem bandeira/sigla/nome no título de seção, espaçadores de linha/página na lista e gradiente de cor no selo `×N` | — | `feat: refinamentos visuais do catálogo (título, espaçamento e selo)` | Pendente |
+| 34 | [Refinamentos visuais do catálogo](0034-refinamentos-visuais-do-catalogo/) | Respiro por letra na ordenação por código, ordem bandeira/sigla/nome no título de seção, espaçadores de linha/página na lista e gradiente de cor no selo `×N` | — | `feat: refinamentos visuais do catálogo (título, espaçamento e selo)` | Em andamento |
 | 35 | [Apoio ao projeto por doação via Pix](0035-apoio-ao-projeto-por-doacao-via-pix/) | Vista dedicada com QR Pix, chave para copiar/compartilhar e frase de contexto; acesso pelo rodapé e por um bloco no menu de ações, depois de "Sobre" | 33 | `feat: apoio ao projeto por doação via pix` | Pendente |
 
 ---
@@ -674,7 +674,7 @@ Nenhuma mudança em `docs/requisitos.md`.
 
 | # | Tarefa | Objetivo | Status |
 |---|---|---|---|
-| 0001 | [Reordena o título da seção de seleção](0034-refinamentos-visuais-do-catalogo/0001-reordena-o-titulo-da-secao-de-selecao.md) | Sigla antes do nome nas seleções; Coca-Cola sem sigla; FWC inalterado. | Pendente |
+| 0001 | [Reordena o título da seção de seleção](0034-refinamentos-visuais-do-catalogo/0001-reordena-o-titulo-da-secao-de-selecao.md) | Sigla antes do nome nas seleções; Coca-Cola sem sigla; FWC inalterado. | Concluída |
 | 0002 | [Aplica espaçadores de linha e página na lista](0034-refinamentos-visuais-do-catalogo/0002-aplica-espacadores-de-linha-e-pagina-na-lista.md) | +2px nas quebras de linha e +4px nas quebras de página do layout do álbum, seleções e Coca-Cola; FWC de fora. | Pendente |
 | 0003 | [Aplica respiro por letra na ordenação por código](0034-refinamentos-visuais-do-catalogo/0003-aplica-respiro-por-letra-na-ordenacao-por-codigo.md) | +2px de respiro entre seções quando a letra da sigla muda, incluindo FWC/COC. | Pendente |
 | 0004 | [Aplica gradiente de cor ao selo `×N`](0034-refinamentos-visuais-do-catalogo/0004-aplica-gradiente-de-cor-ao-selo.md) | Cor do selo varia de `#D86000` a `#D80000` conforme as unidades sobrando (1 a 10). | Pendente |

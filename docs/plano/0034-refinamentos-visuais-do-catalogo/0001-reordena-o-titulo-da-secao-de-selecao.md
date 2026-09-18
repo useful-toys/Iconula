@@ -3,7 +3,7 @@
 # Tarefa [0034-0001]: Reordena o título da seção de seleção
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 No cabeçalho de cada seção, as seções de seleção passam a mostrar a sigla

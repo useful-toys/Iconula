@@ -9,6 +9,7 @@ import { Secao } from './Secao.jsx';
 const secaoBra = {
   sigla: 'BRA',
   nome: 'Brasil',
+  tipo: 'selecao',
   icone: '🇧🇷',
   paginas: [24, 25],
   total: 20,
@@ -41,10 +42,38 @@ describe('Secao', () => {
       [...container.querySelectorAll('.secao__identificacao')].map(
         (span) => span.textContent,
       ),
-    ).toEqual(['Brasil', 'BRA', '24']);
+    ).toEqual(['BRA', 'Brasil', '24']);
     expect(container.querySelector('.secao__nome')).toHaveTextContent('Brasil');
     expect(container.querySelector('.secao__sigla')).toHaveTextContent('BRA');
     expect(container.querySelector('.secao__pagina')).toHaveTextContent('24');
+  });
+
+  it('não mostra a sigla no cabeçalho da Coca-Cola e mantém nome e página (IDR 0068)', () => {
+    const coc = {
+      sigla: 'COC',
+      nome: 'Coca-Cola',
+      tipo: 'especial',
+      icone: '🥤',
+      paginas: [112, 113],
+      total: 14,
+    };
+    const figurinhasCoc = [{ codigo: 'COC01', secao: 'COC', metalizada: false }];
+
+    const { container } = render(
+      <Secao
+        secao={coc}
+        figurinhas={figurinhasCoc}
+        contagens={{}}
+        onAjustar={vi.fn()}
+      />,
+    );
+
+    expect(
+      [...container.querySelectorAll('.secao__identificacao')].map(
+        (span) => span.textContent,
+      ),
+    ).toEqual(['Coca-Cola', '112']);
+    expect(container.querySelector('.secao__sigla')).not.toBeInTheDocument();
   });
 
   it('escreve o nome acessível do cabeçalho por extenso', () => {
@@ -67,6 +96,7 @@ describe('Secao', () => {
     const fwc = {
       sigla: 'FWC',
       nome: 'Extras FIFA',
+      tipo: 'especial',
       icone: '🏆',
       paginas: [0, 1, 2, 3, 106, 107, 108, 109],
       total: 20,
