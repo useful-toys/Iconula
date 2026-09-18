@@ -1,6 +1,7 @@
 // Copyright (c) 2026 Daniel Felix Ferber
 
 import { useState } from "react";
+import { LinkDeContato } from "./LinkDeContato";
 import "./PoliticaDePrivacidade.css";
 
 // Política de privacidade (LGPD), exigida por requisitos.md § Privacidade —
@@ -178,7 +179,7 @@ export default function PoliticaDePrivacidade({
         <h2>Contato</h2>
         <p>
           Para exercer qualquer um dos direitos acima, escreva para{" "}
-          <a href="mailto:dff4321@gmail.com">dff4321@gmail.com</a>.
+          <LinkDeContato />.
         </p>
       </div>
     </div>

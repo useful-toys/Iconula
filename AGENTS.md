@@ -76,6 +76,7 @@ aberto e § Camadas no cliente).
 | `src/components/Atestacao.jsx` | Passo explícito de atestação de menores, uma única vez por conta (LGPD art. 14 — ver [IDR 0036](docs/idr/0036-atestacao-passo-explicito-e-falha-de-gravacao.md)). |
 | `src/components/PoliticaDePrivacidade.jsx` | Vista interna da política de privacidade, sem router (ver [TDR 0020](docs/tdr/0020-privacidade-como-vista-interna.md)). |
 | `src/components/TermosDeUso.jsx` | Vista interna dos termos de uso, sem router: aceite, uso no estado em que se encontra, marcas e contato (ver [TDR 0020](docs/tdr/0020-privacidade-como-vista-interna.md) e [IDR 0053](docs/idr/0053-termos-de-uso-e-rodape-com-copyright-e-isencao.md)). |
+| `src/components/LinkDeContato.jsx` | Link do canal de contato, comum às vistas de política de privacidade e de termos de uso: `href` e texto visível montados pela mesma função de `src/lib/contato.js`, com `rel="nofollow noreferrer"` (ver [TDR 0028](docs/tdr/0028-canal-de-contato-montado-em-runtime.md)). |
 | `src/components/Rodape.jsx` | Rodapé da tela principal: copyright, aviso de independência/marcas, isenção e os links da política e dos termos, reaparecendo depois de autenticado (ver [IDR 0037](docs/idr/0037-politica-no-rodape-depois-de-autenticado.md) e [IDR 0053](docs/idr/0053-termos-de-uso-e-rodape-com-copyright-e-isencao.md)). |
 | `src/components/Cabecalho.jsx` | Cabeçalho sticky: placar geral em notação compacta, `atualizadoEm` e a faixa de bandeiras para salto. |
 | `src/components/FaixaDeSecoes.jsx` | Faixa de bandeiras rolável no cabeçalho; toque salta até a seção, limpando o filtro se ele a ocultar (ver [IDR 0031](docs/idr/0031-salto-com-filtro-ativo.md)). |
@@ -101,6 +102,7 @@ aberto e § Camadas no cliente).
 | `src/lib/avisos.js` | Fila e ciclo de vida dos avisos flutuantes: severidade, expiração e limite de empilhamento. |
 | `src/lib/progresso.js` | Calcula coladas, faltantes, repetidas e percentual sobre um conjunto de códigos. |
 | `src/lib/bandeira.js` | Converte emoji de bandeira/ícone em URL do SVG Twemoji vendorizado. |
+| `src/lib/contato.js` | Canal de contato do controlador: guarda o endereço em partes e o monta em runtime por `enderecoDeContato()`, sem literal contíguo no bundle; dono único do endereço para as vistas de política e de termos (ver [TDR 0028](docs/tdr/0028-canal-de-contato-montado-em-runtime.md)). |
 | `src/lib/*.test.js` | Um arquivo de teste por módulo acima, ao lado do respectivo `.js`. |
 | `firestore.rules` | Regras de segurança do Firestore — a única garantia de que um usuário não acessa os dados de outro. |
 | `firestore.rules.test.js` | Testes das regras contra o emulador (`npm run test:rules`, config em `vitest.rules.config.js`); rodam no CI a cada PR (ver [DDR 0004](docs/devops-dr/0004-deploy-e-teste-das-regras-do-firestore.md)). |

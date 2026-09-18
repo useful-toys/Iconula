@@ -3,7 +3,7 @@
 # Tarefa [0031-0004]: canal de contato protegido contra coleta
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 

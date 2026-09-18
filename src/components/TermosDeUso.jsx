@@ -1,5 +1,6 @@
 // Copyright (c) 2026 Daniel Felix Ferber
 
+import { LinkDeContato } from "./LinkDeContato";
 import "./TermosDeUso.css";
 
 // Termos de uso, a quarta tela do app (IDR 0053) — vista interna, sem router
@@ -79,7 +80,7 @@ export default function TermosDeUso({ onVoltar }) {
         <h2>Contato</h2>
         <p>
           Para dúvidas sobre estes termos, escreva para{" "}
-          <a href="mailto:dff4321@gmail.com">dff4321@gmail.com</a>.
+          <LinkDeContato />.
         </p>
       </div>
     </div>
