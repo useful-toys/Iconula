@@ -43,8 +43,12 @@ demonstrar avisos) é andaime da prévia, não faz parte do produto.*
   [IDR 0027](idr/0027-relogio-do-titulo-e-o-updatedat-do-documento.md))
 - Comando desfazer: botão à direita da linha dos grupos, sempre visível e
   desabilitado quando não há histórico — reverte a última alteração;
-  repetido, as últimas 10
-  (ver [IDR 0012](idr/0012-desfazer-no-cabecalho-historico-de-10.md))
+  repetido, as últimas 10; com histórico, mostra abaixo do botão um tooltip
+  com o código da figurinha e a operação (`Desfazer: +1 em BRA05`), no hover
+  depois de ~400ms e na hora no foco por teclado, com o `aria-label` no
+  mesmo texto; sem histórico, nenhum tooltip
+  (ver [IDR 0012](idr/0012-desfazer-no-cabecalho-historico-de-10.md) e
+  [IDR 0064](idr/0064-tooltip-do-desfazer-com-codigo-e-operacao.md))
 - Botão compartilhar: ícone de três nós ligados de 30×30px na primeira linha,
   logo à esquerda do avatar, abre o popup com as duas cópias das listas de
   troca (§ Compartilhar — ver

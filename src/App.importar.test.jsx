@@ -64,7 +64,7 @@ import { limparAvisos } from "./lib/avisos.js";
 const USUARIO = { uid: "uid1", displayName: "Daniel Ferber", photoURL: "p" };
 
 function botaoDesfazer() {
-  return screen.getByRole("button", { name: "desfazer a última alteração" });
+  return screen.getByRole("button", { name: /desfazer/i });
 }
 
 async function abrirMenu() {

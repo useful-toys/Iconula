@@ -61,7 +61,7 @@ import { limparAvisos } from "./lib/avisos.js";
 const USUARIO = { uid: "uid1", displayName: "Daniel Ferber", photoURL: "p" };
 
 function botaoDesfazer() {
-  return screen.getByRole("button", { name: "desfazer a última alteração" });
+  return screen.getByRole("button", { name: /desfazer/i });
 }
 
 // Temporizador falso no arquivo inteiro, como em App.gravacao.test.jsx: a
@@ -122,6 +122,44 @@ describe("App — desfazer", () => {
     });
 
     expect(botaoDesfazer()).toBeEnabled();
+  });
+
+  it("sem histórico, o botão não tem tooltip e mantém o nome neutro", async () => {
+    await montarLogado();
+
+    const botao = botaoDesfazer();
+    expect(botao).not.toHaveAttribute("data-tooltip");
+    expect(botao).toHaveAccessibleName("desfazer a última alteração");
+  });
+
+  it("o botão anuncia o código e o incremento do topo do histórico", async () => {
+    await montarLogado();
+
+    await act(async () => {
+      catalogo.props.onAjustar("BRA01", 1);
+    });
+
+    const botao = botaoDesfazer();
+    expect(botao).toHaveAccessibleName("Desfazer: +1 em BRA01");
+    expect(botao).toHaveAttribute("data-tooltip", "Desfazer: +1 em BRA01");
+  });
+
+  it("o botão anuncia o decremento com sinal −1", async () => {
+    await montarLogado();
+
+    await act(async () => {
+      catalogo.props.onAjustar("BRA01", 1);
+    });
+    await act(async () => {
+      catalogo.props.onAjustar("BRA01", 1);
+    });
+    await act(async () => {
+      catalogo.props.onAjustar("BRA01", -1);
+    });
+
+    const botao = botaoDesfazer();
+    expect(botao).toHaveAccessibleName("Desfazer: −1 em BRA01");
+    expect(botao).toHaveAttribute("data-tooltip", "Desfazer: −1 em BRA01");
   });
 
   it("desfazer reverte o último ajuste e volta a desabilitar o botão", async () => {
