@@ -8,6 +8,7 @@ import TelaDeLogin from "./components/TelaDeLogin.jsx";
 import Atestacao from "./components/Atestacao.jsx";
 import PoliticaDePrivacidade from "./components/PoliticaDePrivacidade.jsx";
 import TermosDeUso from "./components/TermosDeUso.jsx";
+import Sobre from "./components/Sobre.jsx";
 import ContaApagada from "./components/ContaApagada.jsx";
 import { Cabecalho } from "./components/Cabecalho.jsx";
 import { Controles } from "./components/Controles.jsx";
@@ -119,8 +120,8 @@ export default function App() {
   // `false` — mesma premissa otimista de `contagens`.
   const [linkAtivo, setLinkAtivo] = useState(false);
   // Vista interna (TDR 0020, revisitado na Tarefa 0020-0003): política de
-  // privacidade, termos de uso (IDR 0053) e a tela final da exclusão
-  // `ContaApagada` (IDR 0060) — sem router. Estado único, checado antes de
+  // privacidade, termos de uso (IDR 0053), Sobre (IDR 0063) e a tela final da
+  // exclusão `ContaApagada` (IDR 0060) — sem router. Estado único, checado antes de
   // qualquer outro ramo de retorno, para voltar sempre cair na tela que o
   // restante do estado já determinaria; um único valor impede duas vistas de
   // ficarem ligadas ao mesmo tempo.
@@ -792,6 +793,10 @@ export default function App() {
     return <TermosDeUso onVoltar={() => setVistaInterna(null)} />;
   }
 
+  if (vistaInterna === 'sobre') {
+    return <Sobre onVoltar={() => setVistaInterna(null)} />;
+  }
+
   // Tela final da exclusão (IDR 0060): checada antes da guarda de login,
   // como a política e os termos — a conta já foi apagada e a sessão zera;
   // sem esta ordem, a vista se perderia no fim do fluxo. `onVoltar` devolve
@@ -811,6 +816,7 @@ export default function App() {
         uid={alvoDoCatalogo.uid}
         onAbrirPolitica={() => setVistaInterna('politica')}
         onAbrirTermos={() => setVistaInterna('termos')}
+        onAbrirSobre={() => setVistaInterna('sobre')}
       />
     );
   }
@@ -848,6 +854,7 @@ export default function App() {
       <TelaDeLogin
         onAbrirPolitica={() => setVistaInterna('politica')}
         onAbrirTermos={() => setVistaInterna('termos')}
+        onAbrirSobre={() => setVistaInterna('sobre')}
       />
     );
   }
@@ -947,6 +954,7 @@ export default function App() {
       <Rodape
         onAbrirPolitica={() => setVistaInterna('politica')}
         onAbrirTermos={() => setVistaInterna('termos')}
+        onAbrirSobre={() => setVistaInterna('sobre')}
       />
     </div>
   );

@@ -54,8 +54,14 @@ const codigosPorSecao = (() => {
  *   (link malformado) cai direto na tela de não compartilhado, sem leitura.
  * @param {() => void} [props.onAbrirPolitica] - abre a política de privacidade.
  * @param {() => void} [props.onAbrirTermos] - abre os termos de uso.
+ * @param {() => void} [props.onAbrirSobre] - abre a tela Sobre.
  */
-export function CatalogoCompartilhado({ uid, onAbrirPolitica, onAbrirTermos }) {
+export function CatalogoCompartilhado({
+  uid,
+  onAbrirPolitica,
+  onAbrirTermos,
+  onAbrirSobre,
+}) {
   // Estado da leitura: sem `uid` válido, já nasce não compartilhado (premissa
   // conservadora para `/catalogo/` e `/catalogo/<uid>/`).
   const [estado, setEstado] = useState(uid ? 'carregando' : 'nao-compartilhado');
@@ -156,7 +162,11 @@ export function CatalogoCompartilhado({ uid, onAbrirPolitica, onAbrirTermos }) {
           </a>
         </main>
         <Avisos />
-        <Rodape onAbrirPolitica={onAbrirPolitica} onAbrirTermos={onAbrirTermos} />
+        <Rodape
+          onAbrirPolitica={onAbrirPolitica}
+          onAbrirTermos={onAbrirTermos}
+          onAbrirSobre={onAbrirSobre}
+        />
       </div>
     );
   }

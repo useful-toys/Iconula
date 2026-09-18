@@ -3,7 +3,7 @@
 # Tarefa [0033-0001]: Tela Sobre, vista interna
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Criar a vista interna "Sobre", com link ao código-fonte no GitHub e a

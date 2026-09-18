@@ -4,11 +4,12 @@ import "./Rodape.css";
 
 // Rodapé da tela principal, com a ordem e os textos do IDR 0053: copyright,
 // aviso de independência e marcas (requisitos.md § Privacidade), isenção de
-// responsabilidade e a linha com os dois links — política (IDR 0037) e termos
-// (TDR 0020). Rola com o conteúdo, não flutua (docs/interface.md § Camadas),
-// com o filete superior que a tela de login não tem (`TelaDeLogin.jsx` mantém
-// o seu próprio rodapé, sem filete, desde a Tarefa 0008-0002).
-export function Rodape({ onAbrirPolitica, onAbrirTermos }) {
+// responsabilidade e a linha com os três links — política (IDR 0037), termos
+// (TDR 0020) e Sobre (IDR 0063). Rola com o conteúdo, não flutua
+// (docs/interface.md § Camadas), com o filete superior que a tela de login não
+// tem (`TelaDeLogin.jsx` mantém o seu próprio rodapé, sem filete, desde a
+// Tarefa 0008-0002).
+export function Rodape({ onAbrirPolitica, onAbrirTermos, onAbrirSobre }) {
   return (
     <footer className="rodape">
       <p className="rodape__linha">© 2026 Daniel Felix Ferber</p>
@@ -26,6 +27,10 @@ export function Rodape({ onAbrirPolitica, onAbrirTermos }) {
         <span className="rodape__separador" aria-hidden="true">·</span>{" "}
         <button type="button" className="rodape__link" onClick={onAbrirTermos}>
           Termos de uso
+        </button>{" "}
+        <span className="rodape__separador" aria-hidden="true">·</span>{" "}
+        <button type="button" className="rodape__link" onClick={onAbrirSobre}>
+          Sobre
         </button>
       </p>
     </footer>

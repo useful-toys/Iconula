@@ -11,10 +11,15 @@ import "./TelaDeLogin.css";
 // explícito de atestação (o clique que grava `atestadoEm`) é a Tarefa
 // 0008-0003, que decide o fluxo — não implementado aqui.
 //
-// A frase de aceite e os links da política e dos termos acionam as vistas
-// internas sem router (TDR 0020), ligados em `App.jsx` via `onAbrirPolitica`
-// e `onAbrirTermos` — callbacks no-op por padrão (IDR 0053).
-export default function TelaDeLogin({ onAbrirPolitica = () => {}, onAbrirTermos = () => {} }) {
+// A frase de aceite e os links da política, dos termos e do Sobre acionam as
+// vistas internas sem router (TDR 0020), ligados em `App.jsx` via
+// `onAbrirPolitica`, `onAbrirTermos` e `onAbrirSobre` — callbacks no-op por
+// padrão (IDR 0053, IDR 0063).
+export default function TelaDeLogin({
+  onAbrirPolitica = () => {},
+  onAbrirTermos = () => {},
+  onAbrirSobre = () => {},
+}) {
   return (
     <div className="tela-de-login">
       <div className="tela-de-login__bloco">
@@ -43,6 +48,16 @@ export default function TelaDeLogin({ onAbrirPolitica = () => {}, onAbrirTermos 
               onClick={onAbrirPolitica}
             >
               Política de privacidade
+            </button>{" "}
+            <span className="tela-de-login__separador" aria-hidden="true">
+              ·
+            </span>{" "}
+            <button
+              type="button"
+              className="tela-de-login__link"
+              onClick={onAbrirSobre}
+            >
+              Sobre
             </button>
           </p>
         </div>
