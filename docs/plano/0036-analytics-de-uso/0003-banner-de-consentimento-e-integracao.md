@@ -3,7 +3,7 @@
 # Tarefa 0036-0003: Banner de consentimento e integração
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Criar o componente `BannerDeConsentimento.jsx` e montá-lo nas telas de login e

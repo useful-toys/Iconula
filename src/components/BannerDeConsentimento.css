@@ -1,0 +1,64 @@
+/* Copyright (c) 2026 Daniel Felix Ferber */
+
+/*
+ * Faixa em fluxo antes do conteúdo — não fixa. A borda inferior fixa já é a
+ * área de avisos (z-index 20, Avisos.css): uma faixa fixa colidiria com ela e
+ * cobriria os links do rodapé. Em fluxo, aparece antes do conteúdo e não
+ * sobrepõe nada. Reusa os tokens do tema.
+ */
+.banner-consentimento {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+  padding: 8px var(--page-gutter);
+  background: var(--panel);
+  border-bottom: 1px solid var(--border);
+  color: var(--cream);
+}
+
+.banner-consentimento__texto {
+  flex: 1 1 240px;
+  min-width: 0;
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.banner-consentimento__link {
+  padding: 0;
+  border: none;
+  background: none;
+  font: inherit;
+  color: var(--gold);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.banner-consentimento__acoes {
+  display: flex;
+  flex: none;
+  gap: 8px;
+}
+
+.banner-consentimento__aceitar,
+.banner-consentimento__recusar {
+  border-radius: 8px;
+  padding: 10px 16px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.banner-consentimento__aceitar {
+  border: none;
+  background: var(--gold);
+  color: var(--bg-deep);
+}
+
+.banner-consentimento__recusar {
+  border: 1px solid var(--border);
+  background: none;
+  color: var(--cream);
+}

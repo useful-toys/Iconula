@@ -5,6 +5,7 @@ import { onAuthStateChanged, signOut } from "firebase/auth";
 import { figurinhas, secoes } from "./data/catalogo.js";
 import { ordenarPorSigla, ordenarPorPagina, extrairSecoes } from "./data/catalogoOrdenacoes.js";
 import TelaDeLogin from "./components/TelaDeLogin.jsx";
+import BannerDeConsentimento from "./components/BannerDeConsentimento.jsx";
 import Atestacao from "./components/Atestacao.jsx";
 import PoliticaDePrivacidade from "./components/PoliticaDePrivacidade.jsx";
 import TermosDeUso from "./components/TermosDeUso.jsx";
@@ -39,6 +40,7 @@ import { criarGravacaoAgregada } from "./lib/gravacaoAgregada.js";
 import { gerarTextoFaltantes, gerarTextoRepetidas } from "./lib/textoDeTroca.js";
 import { gerarExportacao, nomeDoArquivoExportado, validarImportacao } from "./lib/portabilidade.js";
 import { emitirAviso, SEVERIDADE } from "./lib/avisos.js";
+import { iniciarAnalyticsSeConsentido } from "./lib/analytics.js";
 
 const codigosTodasFigurinhas = figurinhas.map((f) => f.codigo);
 // Conjunto dos códigos válidos, para a importação descartar o que não
@@ -214,6 +216,16 @@ export default function App() {
       document.removeEventListener('visibilitychange', flushSeOculta);
     };
   }, [gravacaoAgregada]);
+
+  // Analytics de uso (IDR 0071, MDR 0007): na abertura, carrega o gtag só se
+  // a escolha lembrada for `'aceito'` e o ambiente não for de preview. Quem
+  // decide na hora é o `BannerDeConsentimento`, que chama o carregador no
+  // "Aceitar"; este efeito cobre a abertura seguinte de quem já aceitou. Uma
+  // vez por montagem, fora da guarda de sessão — o GA4 mede visitante
+  // deslogado também.
+  useEffect(() => {
+    iniciarAnalyticsSeConsentido();
+  }, []);
 
   useEffect(() => {
     if (!auth) return;
@@ -886,12 +898,15 @@ export default function App() {
     // Tela desenhada em docs/interface.md § Tela de login (Tarefa
     // 0008-0002) — não mais o AuthStatus genérico.
     return (
-      <TelaDeLogin
-        onAbrirPolitica={() => setVistaInterna('politica')}
-        onAbrirTermos={() => setVistaInterna('termos')}
-        onAbrirSobre={() => setVistaInterna('sobre')}
-        onAbrirApoie={() => setVistaInterna('apoie')}
-      />
+      <>
+        <BannerDeConsentimento onAbrirPolitica={() => setVistaInterna('politica')} />
+        <TelaDeLogin
+          onAbrirPolitica={() => setVistaInterna('politica')}
+          onAbrirTermos={() => setVistaInterna('termos')}
+          onAbrirSobre={() => setVistaInterna('sobre')}
+          onAbrirApoie={() => setVistaInterna('apoie')}
+        />
+      </>
     );
   }
 
@@ -925,6 +940,7 @@ export default function App() {
 
   return (
     <div className="app">
+      <BannerDeConsentimento onAbrirPolitica={() => setVistaInterna('politica')} />
       <Cabecalho
         coladas={placar.coladas}
         faltantes={placar.faltantes}
