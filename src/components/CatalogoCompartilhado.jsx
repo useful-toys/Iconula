@@ -55,12 +55,14 @@ const codigosPorSecao = (() => {
  * @param {() => void} [props.onAbrirPolitica] - abre a política de privacidade.
  * @param {() => void} [props.onAbrirTermos] - abre os termos de uso.
  * @param {() => void} [props.onAbrirSobre] - abre a tela Sobre.
+ * @param {() => void} [props.onAbrirApoie] - abre a vista "Apoie o projeto".
  */
 export function CatalogoCompartilhado({
   uid,
   onAbrirPolitica,
   onAbrirTermos,
   onAbrirSobre,
+  onAbrirApoie,
 }) {
   // Estado da leitura: sem `uid` válido, já nasce não compartilhado (premissa
   // conservadora para `/catalogo/` e `/catalogo/<uid>/`).
@@ -166,6 +168,7 @@ export function CatalogoCompartilhado({
           onAbrirPolitica={onAbrirPolitica}
           onAbrirTermos={onAbrirTermos}
           onAbrirSobre={onAbrirSobre}
+          onAbrirApoie={onAbrirApoie}
         />
       </div>
     );
@@ -207,7 +210,11 @@ export function CatalogoCompartilhado({
         gravarColapso={false}
       />
       <Avisos />
-      <Rodape onAbrirPolitica={onAbrirPolitica} onAbrirTermos={onAbrirTermos} />
+      <Rodape
+        onAbrirPolitica={onAbrirPolitica}
+        onAbrirTermos={onAbrirTermos}
+        onAbrirApoie={onAbrirApoie}
+      />
     </div>
   );
 }
