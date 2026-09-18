@@ -59,7 +59,7 @@ Quatro funções de escrita, cada uma com semântica própria ([MDR 0003](model-
 
 ### Gravação agregada
 
-- **Debounce de ~2s** após o último ajuste, **teto de espera de ~10s** em rajada contínua
+- **Debounce de ~4s** após o último ajuste, **teto de espera de ~20s** em rajada contínua ([MDR 0003](model-dr/0003-gravacao-agregada-da-colecao.md))
 - **Flush imediato ao fechar a página** (`pagehide`/`visibilitychange`)
 - **Flush garantido por persistência local**: cache IndexedDB do SDK, `persistentLocalCache` com `persistentMultipleTabManager()` — escritas pendentes sobrevivem ao fechamento e completam na carga seguinte
 - **Sem rede, a escrita não resolve**: com cache local, a promise só resolve quando o servidor confirma — offline ela fica pendente para sempre; um tempo-limite de ~5s emite o aviso "sem conexão, será gravado depois"
@@ -123,7 +123,7 @@ O que está publicado:
 | Ação | Operações cobradas |
 |---|---|
 | Login (carga) | 1 leitura; com o cache local (IndexedDB), cargas repetidas podem servir do cache |
-| Ajustes em rajada | 1 escrita por agregação — debounce de ~2s, no máximo 1 escrita a cada ~10s de atividade contínua |
+| Ajustes em rajada | 1 escrita por agregação — debounce de ~4s, no máximo 1 escrita a cada ~20s de atividade contínua |
 | Chegar a 0 | vai na escrita da agregação (`deleteField` conta como escrita, não como exclusão) |
 | Aceite dos textos | 1 escrita no primeiro acesso e 1 a cada mudança material de versão |
 | Ligar ou desligar o link | 1 escrita ao ligar e 1 ao desligar — fora da gravação agregada |

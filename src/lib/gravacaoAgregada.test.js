@@ -32,7 +32,10 @@ describe('criarGravacaoAgregada', () => {
 
     expect(gravar).not.toHaveBeenCalled();
 
-    await vi.advanceTimersByTimeAsync(2000);
+    await vi.advanceTimersByTimeAsync(3999); // 1ms antes do debounce de 4s: ainda não grava
+    expect(gravar).not.toHaveBeenCalled();
+
+    await vi.advanceTimersByTimeAsync(1);
 
     expect(gravar).toHaveBeenCalledTimes(1);
     expect(gravar).toHaveBeenCalledWith('u1', { BRA01: 3 });
@@ -40,13 +43,13 @@ describe('criarGravacaoAgregada', () => {
 
   it('atividade contínua grava ao atingir o teto, sem esperar a rajada acabar', async () => {
     instancia.registrarAjuste('u1', 'BRA01', 1);
-    for (let i = 0; i < 9; i += 1) {
-      await vi.advanceTimersByTimeAsync(1000); // sempre < 2s de silêncio: nunca dispara o debounce
+    for (let i = 0; i < 19; i += 1) {
+      await vi.advanceTimersByTimeAsync(1000); // sempre < 4s de silêncio: nunca dispara o debounce
       instancia.registrarAjuste('u1', 'BRA01', i + 2);
     }
     expect(gravar).not.toHaveBeenCalled();
 
-    await vi.advanceTimersByTimeAsync(1000); // completa os 10s do teto desde o primeiro ajuste
+    await vi.advanceTimersByTimeAsync(1000); // completa os 20s do teto desde o primeiro ajuste
     expect(gravar).toHaveBeenCalledTimes(1);
   });
 
@@ -54,7 +57,7 @@ describe('criarGravacaoAgregada', () => {
     instancia.registrarAjuste('u1', 'BRA01', 1);
     instancia.registrarAjuste('u1', 'FWC01', 2);
 
-    await vi.advanceTimersByTimeAsync(2000);
+    await vi.advanceTimersByTimeAsync(4000);
 
     expect(gravar).toHaveBeenCalledWith('u1', { BRA01: 1, FWC01: 2 });
   });
@@ -97,7 +100,7 @@ describe('criarGravacaoAgregada', () => {
 
     instancia.registrarAjuste('u1', 'FWC01', 1);
     expect(gravar).toHaveBeenCalledTimes(1);
-    await vi.advanceTimersByTimeAsync(2000);
+    await vi.advanceTimersByTimeAsync(4000);
     expect(gravar).toHaveBeenCalledTimes(2);
     expect(gravar).toHaveBeenLastCalledWith('u1', { FWC01: 1 });
   });
@@ -160,7 +163,7 @@ describe('criarGravacaoAgregada', () => {
     it('sozinha, marcarTeamNameParaApagar não agenda nem força nenhuma escrita', async () => {
       instancia.marcarTeamNameParaApagar('u1');
 
-      await vi.advanceTimersByTimeAsync(15000);
+      await vi.advanceTimersByTimeAsync(25000);
       await instancia.flush();
 
       expect(gravar).not.toHaveBeenCalled();
@@ -276,7 +279,7 @@ describe('criarGravacaoAgregada', () => {
       instancia.registrarAjuste('u1', 'BRA01', 1);
       instancia.descartarPendencias();
 
-      await vi.advanceTimersByTimeAsync(15000);
+      await vi.advanceTimersByTimeAsync(25000);
 
       expect(gravar).not.toHaveBeenCalled();
     });
@@ -301,7 +304,7 @@ describe('criarGravacaoAgregada', () => {
       instancia.descartarPendencias();
 
       instancia.registrarAjuste('u1', 'FWC01', 1);
-      await vi.advanceTimersByTimeAsync(2000);
+      await vi.advanceTimersByTimeAsync(4000);
 
       expect(gravar).toHaveBeenCalledTimes(1);
       expect(gravar).toHaveBeenCalledWith('u1', { FWC01: 1 });

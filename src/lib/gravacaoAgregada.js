@@ -5,10 +5,11 @@
  * IDR 0003).
  *
  * Módulo sem React: acumula as chaves alteradas desde a última gravação e
- * agenda uma única escrita por rajada — debounce de ~2s após o último
- * ajuste, com teto de ~10s em atividade contínua (números aceitos como estão
- * no ADR 0008; ver o log desta tarefa). Expõe `flush()` para a gravação
- * imediata, usada em `pagehide`/`visibilitychange` e antes do `signOut`
+ * agenda uma única escrita por rajada — debounce de ~4s após o último
+ * ajuste, com teto de ~20s em atividade contínua (números ajustados no
+ * esmiuçamento de UX de edição e saída; ver o MDR 0003). Expõe `flush()`
+ * para a gravação imediata, usada em `pagehide`/`visibilitychange` e antes
+ * do `signOut`
  * (fiação com o navegador e com o Firebase Auth fica em `App.jsx`). A função
  * de gravação (`gravar`) é injetada para manter este módulo testável com
  * temporizador falso, sem tocar o SDK do Firestore.
@@ -21,8 +22,8 @@
  * sempre que o desfecho real chegar — sucesso ou falha, cedo ou tarde.
  */
 
-const DEBOUNCE_MS = 2000;
-const TETO_MS = 10000;
+const DEBOUNCE_MS = 4000;
+const TETO_MS = 20000;
 const TIMEOUT_ESPERA_MS = 5000;
 const ESPERA = Symbol('espera');
 
@@ -116,8 +117,8 @@ export function criarGravacaoAgregada({ gravar, aoConcluir, aoFalhar, aoEsperar 
   return {
     /**
      * Registra o valor absoluto atual de uma figurinha (0 = apaga a chave) e
-     * (re)agenda a escrita: debounce de 2s a partir deste ajuste, com teto de
-     * 10s contado do primeiro ajuste da rajada.
+     * (re)agenda a escrita: debounce de 4s a partir deste ajuste, com teto de
+     * 20s contado do primeiro ajuste da rajada.
      *
      * @param {string} uid
      * @param {string} codigo

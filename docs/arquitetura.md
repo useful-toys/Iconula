@@ -213,10 +213,12 @@ Fluxos:
 
 - **Aceite dos números do ADR 0005 — parcialmente aberto**: o schema está
   aceito (mapa esparso, três campos, teto de 99 — [MDR 0002](model-dr/0002-schema-do-documento-da-colecao.md))
-  e os valores numéricos (debounce ~2s, teto de espera ~10s, timeout ~5s
+  e os valores numéricos (debounce ~4s, teto de espera ~20s, timeout ~5s
   sem rede) foram aceitos como ponto de partida na Tarefa 0007-0003 (ver
   [log](plano/0007-persistencia-da-colecao-e-avisos/logs/0003-log-gravacao-agregada-com-flush.md)
-  § "Números do ADR 0005"). **Falta**: confirmá-los em uso real — não
+  § "Números do ADR 0005"), com o debounce e o teto dobrados no
+  esmiuçamento de UX de edição e saída ([MDR 0003](model-dr/0003-gravacao-agregada-da-colecao.md)).
+  **Falta**: confirmá-los em uso real — não
   houve deploy de produção com usuários reais disponível durante a
   execução automatizada do plano. Ajustar os números quando isso
   acontecer é mudança de valor, não de forma, e não exige novo ADR.

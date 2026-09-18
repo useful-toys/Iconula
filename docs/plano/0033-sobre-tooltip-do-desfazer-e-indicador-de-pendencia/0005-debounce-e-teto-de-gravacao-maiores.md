@@ -3,7 +3,7 @@
 # Tarefa [0033-0005]: Debounce e teto de gravação maiores
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Aumentar o debounce da gravação agregada de ~2s para ~4s e o teto de espera

@@ -65,7 +65,7 @@ function botaoDesfazer() {
 }
 
 // Temporizador falso no arquivo inteiro, como em App.gravacao.test.jsx: a
-// gravação agregada agenda escritas (debounce de 2s) que o App não cancela ao
+// gravação agregada agenda escritas (debounce de 4s) que o App não cancela ao
 // desmontar. Com temporizador real, um agendamento deixado por um teste
 // disparava durante o seguinte e contava uma escrita a mais no mock
 // compartilhado — falha intermitente em runner lento. `useRealTimers` no
@@ -248,7 +248,7 @@ describe("App — desfazer", () => {
     });
 
     await act(async () => {
-      await vi.advanceTimersByTimeAsync(2000);
+      await vi.advanceTimersByTimeAsync(4000);
     });
 
     // Uma única escrita, com o valor final (1) já refletindo a reversão —
