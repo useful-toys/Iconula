@@ -68,7 +68,9 @@ leitura pública do produto, contabilizada no risco de cota do
   segurança; produção em merge na `main`, preview por PR — workflow é
   required check ([ADR 0003](adr/0003-firebase-hosting.md), [DDR 0005](devops-dr/0005-protecao-da-branch-main.md))
 - **Auth**: único provedor Google, popup, botão próprio, SDK modular
-  ([ADR 0004](adr/0004-login-google-sdk-modular.md))
+  ([ADR 0004](adr/0004-login-google-sdk-modular.md)); guarda também a
+  exclusão de conta — reautenticação por popup e `deleteUser`
+  ([TDR 0027](tdr/0027-autorizacao-e-ordem-da-exclusao-de-dados.md))
 - **Firestore**: banco `(default)`, região `southamerica-east1`, um
   documento por usuário — detalhes, custos e mecanismo de gravação em
   [modelo-firebase.md](modelo-firebase.md)
@@ -78,7 +80,7 @@ leitura pública do produto, contabilizada no risco de cota do
 | Camada | Conteúdo |
 |---|---|
 | `src/data/` | Catálogo estático (50 seções, 994 figurinhas — [TDR 0010](tdr/0010-forma-do-catalogo-degradacao-do-checklist-e-sem-pipeline.md)) e suas derivações puras: ordenações/agrupamento ([TDR 0012](tdr/0012-derivacoes-do-catalogo-em-src-data.md)) e layout de página do álbum |
-| `src/lib/` | Módulos sem React: estado da coleção em memória, persistência no Firestore (`colecaoRemota.js`, único módulo que toca o SDK), gravação agregada com debounce/flush, histórico de desfazer, preferências de vista no `localStorage`, portabilidade (export/import JSON), textos de troca, fila de avisos, conversão de bandeiras e cálculo de progresso |
+| `src/lib/` | Módulos sem React: estado da coleção em memória, persistência no Firestore (`colecaoRemota.js`, único módulo que toca o SDK — inclusive o apagamento do documento), o SDK do Auth (`firebase.js`: login, reautenticação por popup e exclusão da conta — [TDR 0027](tdr/0027-autorizacao-e-ordem-da-exclusao-de-dados.md)), gravação agregada com debounce/flush, histórico de desfazer, preferências de vista no `localStorage`, portabilidade (export/import JSON), textos de troca, fila de avisos, conversão de bandeiras e cálculo de progresso |
 | `src/components/` | Telas (login, atestação, política de privacidade, termos de uso e catálogo compartilhado por link) e árvore da tela principal: cabeçalho com placar e faixa de salto, controles (ordenação/disposição/filtro), menu de ações, catálogo (super-grupo → seção → figurinha ou página do álbum) e avisos flutuantes |
 | `src/App.jsx` | Único componente com estado: sessão (Firebase Auth), coleção, atestação, vistas internas (política e termos), preferências de vista e histórico de desfazer; decide qual tela mostrar (guarda de login e, pelo caminho `/catalogo/<uid>`, a vista do link antes dela — [IDR 0055](idr/0055-catalogo-compartilhado-por-link-somente-leitura.md)) e concentra toda leitura/escrita da coleção |
 

@@ -456,3 +456,47 @@ export async function gravarLinkAtivo(uid, ativo, { aoEsperar } = {}) {
 
   return comAvisoDeEspera(promessa, aoEsperar);
 }
+
+/**
+ * Apaga o documento `users/{uid}` — o direito de eliminação (LGPD art. 18,
+ * VI), na ordem do TDR 0027, em que o documento sai antes da conta do Auth
+ * e depois da reautenticação. Não grava `updatedAt` nem nada: apaga o
+ * documento inteiro, `linkAtivo` e `contagens` incluídos.
+ *
+ * As regras autorizam o `delete` só ao dono autenticado e o link ativo
+ * libera `get`, nunca `delete` (Tarefa 0031-0001), então a chamada exige a
+ * sessão viva — quem chama garante isso antes (Tarefa 0031-0003).
+ *
+ * Sem rede, a exclusão não falha nem confirma — mesma política de espera
+ * das demais operações (TDR 0019), via `comAvisoDeEspera`.
+ *
+ * Nunca lança: devolve um resultado discriminado (`sucesso`, `erro` ou
+ * `indisponivel`, como as demais funções deste módulo).
+ *
+ * @param {string} uid
+ * @param {object} [opcoes]
+ * @param {() => void} [opcoes.aoEsperar] - chamado se a exclusão ultrapassar
+ *   ~5s sem resolver.
+ * @returns {Promise<object>}
+ */
+export async function apagarColecao(uid, { aoEsperar } = {}) {
+  if (!app) {
+    return { status: 'indisponivel' };
+  }
+
+  const promessa = (async () => {
+    try {
+      const { doc, deleteDoc } = await import('firebase/firestore');
+      const db = await obterFirestore();
+      const ref = doc(db, CAMINHO_DOCUMENTO(uid));
+
+      await deleteDoc(ref);
+
+      return { status: 'sucesso' };
+    } catch (erro) {
+      return { status: 'erro', erro };
+    }
+  })();
+
+  return comAvisoDeEspera(promessa, aoEsperar);
+}
