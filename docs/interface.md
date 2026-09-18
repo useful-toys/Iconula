@@ -142,8 +142,9 @@ demonstrar avisos) é andaime da prévia, não faz parte do produto.*
 
 ### Menu de ações
 
-Popup aberto pelo avatar do usuário no cabeçalho, com quatro comandos (IDR 0024,
-IDR 0049, [IDR 0063](idr/0063-tela-sobre-com-link-ao-repositorio-e-issues.md)):
+Popup aberto pelo avatar do usuário no cabeçalho, com cinco comandos (IDR 0024,
+IDR 0049, [IDR 0063](idr/0063-tela-sobre-com-link-ao-repositorio-e-issues.md),
+[IDR 0070](idr/0070-apoio-ao-projeto-rodape-menu-e-vista-com-qr-pix.md)):
 
 - **Exportar** a coleção em JSON
 - **Importar** coleção de arquivo JSON — com a confirmação explícita
@@ -151,11 +152,14 @@ IDR 0049, [IDR 0063](idr/0063-tela-sobre-com-link-ao-repositorio-e-issues.md)):
   desfazer
 - **Sobre** — abre a vista interna "Sobre", com o link do código-fonte e
   o das issues (IDR 0063)
+- **Apoiar o projeto** — abre a vista interna "Apoie o projeto", com o QR
+  code Pix e a chave para copiar ou compartilhar (IDR 0070)
 - **Sair da conta** — grava o que estiver pendente e volta à tela de
   login
 
-Os quatro itens vêm em três blocos separados por filete: a dupla
-exportar/importar, o item Sobre em bloco próprio e, isolado no fim, sair da conta —
+Os cinco itens vêm em quatro blocos separados por filete: a dupla
+exportar/importar, o item Sobre em bloco próprio, o item Apoiar o projeto em
+bloco próprio e, isolado no fim, sair da conta —
 este último em `--notif-red`, o único item vermelho da tela principal,
 porque é o único que tira o usuário de onde ele está. O popup é
 ancorado ao avatar que o abriu: alinhado pela borda direita, logo abaixo

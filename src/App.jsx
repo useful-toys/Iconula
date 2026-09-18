@@ -954,6 +954,7 @@ export default function App() {
             onExportar={handleExportar}
             onImportar={handleImportar}
             onAbrirSobre={() => setVistaInterna('sobre')}
+            onAbrirApoie={() => setVistaInterna('apoie')}
             photoURL={user.photoURL}
             displayName={user.displayName}
           />

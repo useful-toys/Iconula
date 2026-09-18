@@ -699,7 +699,7 @@ esmiuçamento.
 |---|---|---|---|
 | 0001 | [Payload Pix e biblioteca de QR code](0035-apoio-ao-projeto-por-doacao-via-pix/0001-payload-pix-e-biblioteca-de-qr-code.md) | Dependência `qrcode` e função pura que monta o BR Code a partir da chave, valor e dados do recebedor. | Concluída |
 | 0002 | [Vista "Apoie o projeto" e link no rodapé](0035-apoio-ao-projeto-por-doacao-via-pix/0002-vista-apoie-o-projeto-e-link-no-rodape.md) | Componente com QR, chave em texto, copiar/compartilhar e frase de contexto; link no rodapé das duas telas. | Concluída |
-| 0003 | [Apoiar o projeto no menu de ações](0035-apoio-ao-projeto-por-doacao-via-pix/0003-apoiar-o-projeto-no-menu-de-acoes.md) | Bloco próprio no menu de ações, depois de "Sobre" e antes de "Sair da conta". | Pendente |
+| 0003 | [Apoiar o projeto no menu de ações](0035-apoio-ao-projeto-por-doacao-via-pix/0003-apoiar-o-projeto-no-menu-de-acoes.md) | Bloco próprio no menu de ações, depois de "Sobre" e antes de "Sair da conta". | Concluída |
 
 ## Regras que valem em toda tarefa
 

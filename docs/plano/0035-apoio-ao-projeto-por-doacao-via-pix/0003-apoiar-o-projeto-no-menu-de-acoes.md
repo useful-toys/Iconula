@@ -3,7 +3,7 @@
 # Tarefa [0035-0003]: Apoiar o projeto no menu de ações
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Acrescentar "Apoiar o projeto" como segunda porta de entrada da vista
