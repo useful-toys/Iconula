@@ -617,4 +617,164 @@ describe('Secao', () => {
       },
     );
   });
+
+  describe('respiro de fronteira na lista (IDR 0069)', () => {
+    const selecao20 = {
+      sigla: 'BRA',
+      nome: 'Brasil',
+      tipo: 'selecao',
+      icone: '🇧🇷',
+      paginas: [24, 25],
+      total: 20,
+    };
+
+    const figurinhasSelecao = Array.from({ length: 20 }, (_, i) => ({
+      codigo: `BRA${String(i + 1).padStart(2, '0')}`,
+      posicao: i + 1,
+      secao: 'BRA',
+      metalizada: i === 0,
+    }));
+
+    const coc14 = {
+      sigla: 'COC',
+      nome: 'Coca-Cola',
+      tipo: 'especial',
+      icone: '🥤',
+      paginas: [112, 113],
+      total: 14,
+    };
+
+    const figurinhasCoc = Array.from({ length: 14 }, (_, i) => ({
+      codigo: `COC${String(i + 1).padStart(2, '0')}`,
+      posicao: i + 1,
+      secao: 'COC',
+      metalizada: false,
+    }));
+
+    const fwc20 = {
+      sigla: 'FWC',
+      nome: 'Extras FIFA',
+      tipo: 'especial',
+      icone: '🏆',
+      paginas: [0, 1, 2, 3, 106, 107, 108, 109],
+      total: 20,
+    };
+
+    const figurinhasFwc = Array.from({ length: 20 }, (_, i) => ({
+      codigo: `FWC${String(i).padStart(2, '0')}`,
+      posicao: i,
+      secao: 'FWC',
+      metalizada: false,
+    }));
+
+    const itemDaFigurinha = (rotulo) =>
+      screen.getByLabelText(rotulo).closest('.secao__item');
+
+    it('aplica os respiros do layout do álbum na lista da seleção', () => {
+      const { container } = render(
+        <Secao
+          secao={selecao20}
+          figurinhas={figurinhasSelecao}
+          contagens={{}}
+          onAjustar={vi.fn()}
+        />,
+      );
+
+      for (const codigo of ['BRA 02', 'BRA 06', 'BRA 13', 'BRA 17']) {
+        expect(itemDaFigurinha(new RegExp(`^${codigo},`))).toHaveClass(
+          'secao__item--respiro-linha',
+        );
+      }
+      expect(itemDaFigurinha(/^BRA 10,/)).toHaveClass(
+        'secao__item--respiro-pagina',
+      );
+
+      expect(itemDaFigurinha(/^BRA 03,/)).not.toHaveClass(
+        'secao__item--respiro-linha',
+      );
+      expect(itemDaFigurinha(/^BRA 03,/)).not.toHaveClass(
+        'secao__item--respiro-pagina',
+      );
+      expect(itemDaFigurinha(/^BRA 20,/)).not.toHaveClass(
+        'secao__item--respiro-linha',
+      );
+
+      expect(
+        container.querySelectorAll('.secao__item--respiro-linha'),
+      ).toHaveLength(4);
+      expect(
+        container.querySelectorAll('.secao__item--respiro-pagina'),
+      ).toHaveLength(1);
+    });
+
+    it('aplica os respiros do layout do álbum na lista da Coca-Cola', () => {
+      const { container } = render(
+        <Secao
+          secao={coc14}
+          figurinhas={figurinhasCoc}
+          contagens={{}}
+          onAjustar={vi.fn()}
+        />,
+      );
+
+      for (const codigo of ['COC 03', 'COC 09', 'COC 12']) {
+        expect(itemDaFigurinha(new RegExp(`^${codigo},`))).toHaveClass(
+          'secao__item--respiro-linha',
+        );
+      }
+      expect(itemDaFigurinha(/^COC 06,/)).toHaveClass(
+        'secao__item--respiro-pagina',
+      );
+
+      expect(
+        container.querySelectorAll('.secao__item--respiro-linha'),
+      ).toHaveLength(3);
+      expect(
+        container.querySelectorAll('.secao__item--respiro-pagina'),
+      ).toHaveLength(1);
+    });
+
+    it('não aplica respiro extra no FWC', () => {
+      const { container } = render(
+        <Secao
+          secao={fwc20}
+          figurinhas={figurinhasFwc}
+          contagens={{}}
+          onAjustar={vi.fn()}
+        />,
+      );
+
+      expect(
+        container.querySelectorAll('.secao__item--respiro-linha'),
+      ).toHaveLength(0);
+      expect(
+        container.querySelectorAll('.secao__item--respiro-pagina'),
+      ).toHaveLength(0);
+    });
+
+    it('recalcula as fronteiras sobre os cartões visíveis do filtro', () => {
+      const { container } = render(
+        <Secao
+          secao={selecao20}
+          figurinhas={figurinhasSelecao}
+          contagens={{ BRA06: 1 }}
+          onAjustar={vi.fn()}
+          filtro="faltantes"
+        />,
+      );
+
+      expect(screen.queryByLabelText(/^BRA 06,/)).not.toBeInTheDocument();
+      // 05 passa a anteceder 07, que abre outra linha → pequeno.
+      expect(itemDaFigurinha(/^BRA 05,/)).toHaveClass(
+        'secao__item--respiro-linha',
+      );
+      // 04 e 05 continuam na mesma linha → sem respiro colado à borda.
+      expect(itemDaFigurinha(/^BRA 04,/)).not.toHaveClass(
+        'secao__item--respiro-linha',
+      );
+      expect(
+        container.querySelectorAll('.secao__item--respiro-linha'),
+      ).toHaveLength(4);
+    });
+  });
 });

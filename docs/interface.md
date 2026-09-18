@@ -268,6 +268,12 @@ cópia, com o aviso e a reserva do
 - Dentro do grupo, grade de figurinhas; na lista, a figurinha paisagem (13
   das seleções) tem 70×60px, centralizada na altura da linha de cartões de
   70px (IDR 0047)
+- Na lista, as quebras de linha e de página do layout do álbum ganham
+  respiro extra nas seleções e na Coca-Cola: +2px entre a última figurinha
+  de uma linha e a primeira da seguinte e +4px na troca de página, sobre os
+  8px entre cartões; o Extras FIFA (FWC) segue uniforme. Com o filtro de
+  status ativo, as fronteiras são recontadas sobre os cartões visíveis (ver
+  [IDR 0069](idr/0069-espacadores-de-linha-e-pagina-na-lista.md))
 
 ### Disposição "Como no álbum"
 
@@ -1069,7 +1075,9 @@ FWC e COC usam os alias `--selection-fwc` (de `--group-fwc`) e
   de avisos, de modo que tudo alinha na mesma vertical
 - Espaçamentos internos: 8px entre seções dentro de um super-grupo,
   2px entre o cabeçalho da seção e a sua grade, 8px entre cartões na
-  disposição lista e 20px entre as duas páginas na disposição álbum
+  disposição lista — subindo para 10px nas quebras de linha e 12px nas
+  quebras de página das seleções e da Coca-Cola, sobre o `gap` de 8px
+  (IDR 0069) — e 20px entre as duas páginas na disposição álbum
   (IDR 0050)
 - Título de super-grupo: 13px/600 em `--gold`, com chevron `▾`/`▸`, moldura
   arredondada (`--panel` com borda, raio 12px, `padding: 7px 12px`), barra
