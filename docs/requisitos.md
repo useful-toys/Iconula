@@ -260,6 +260,17 @@ Questões recorrentes são marcadas como "Nota".*
   - A vista não identifica o dono: nenhum nome ou dado da conta aparece
     (ver [IDR 0055](idr/0055-catalogo-compartilhado-por-link-somente-leitura.md))
 
+### Apoio ao projeto
+- Mostrar QR code Pix para doação
+  - Chave Pix aleatória do mantenedor, sem exigir login para ver
+  - Valor sugerido de R$5,00 preenchido no QR (BR Code), editável pelo
+    doador no próprio app do banco
+  - Acesso pelo rodapé (tela de login e tela principal) e pelo menu de
+    ações do cabeçalho
+  - Vista dedicada com o QR, a chave em texto para copiar e, quando o
+    navegador oferecer, compartilhar pela folha do sistema
+  - Sem rastreamento: o app não sabe se ou quanto alguém doou
+
 ### Portabilidade (sem lock-in)
 - Exportar a coleção completa em arquivo JSON
   - Lossless: todas as contagens, suficiente para restaurar a coleção
