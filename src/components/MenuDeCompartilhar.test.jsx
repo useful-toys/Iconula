@@ -270,7 +270,7 @@ describe('MenuDeCompartilhar', () => {
       ).toHaveAttribute('aria-checked', 'false');
     });
 
-    it('tocar na chave não fecha o popup e mantém o foco nela', async () => {
+    it('tocar na chave desligada abre a explicação sem gravar e mantém o foco nela', async () => {
       const user = userEvent.setup();
       const onAlternarLink = vi.fn().mockResolvedValue(undefined);
       renderizar({ linkAtivo: false, onAlternarLink });
@@ -279,12 +279,55 @@ describe('MenuDeCompartilhar', () => {
       const chave = screen.getByRole('switch');
       await user.click(chave);
 
-      expect(onAlternarLink).toHaveBeenCalledTimes(1);
+      expect(onAlternarLink).not.toHaveBeenCalled();
+      expect(screen.getByText(/Desligar revoga o acesso/)).toBeInTheDocument();
       expect(screen.getByRole('menu')).toBeInTheDocument();
       expect(chave).toHaveFocus();
     });
 
-    it('um segundo toque enquanto grava não dispara outra gravação', async () => {
+    it('confirmar liga o link e recolhe a explicação', async () => {
+      const user = userEvent.setup();
+      const onAlternarLink = vi.fn().mockResolvedValue(undefined);
+      renderizar({ linkAtivo: false, onAlternarLink });
+      await user.click(botaoDoCompartilhar());
+
+      await user.click(screen.getByRole('switch'));
+      await user.click(screen.getByRole('button', { name: 'Ligar o link' }));
+
+      expect(onAlternarLink).toHaveBeenCalledTimes(1);
+      expect(screen.queryByText(/Desligar revoga o acesso/)).not.toBeInTheDocument();
+      expect(screen.getByRole('menu')).toBeInTheDocument();
+      expect(screen.getByRole('switch')).toHaveFocus();
+    });
+
+    it('cancelar recolhe a explicação sem gravar', async () => {
+      const user = userEvent.setup();
+      const onAlternarLink = vi.fn().mockResolvedValue(undefined);
+      renderizar({ linkAtivo: false, onAlternarLink });
+      await user.click(botaoDoCompartilhar());
+
+      await user.click(screen.getByRole('switch'));
+      await user.click(screen.getByRole('button', { name: 'Cancelar' }));
+
+      expect(onAlternarLink).not.toHaveBeenCalled();
+      expect(screen.queryByText(/Desligar revoga o acesso/)).not.toBeInTheDocument();
+      expect(screen.getByRole('menu')).toBeInTheDocument();
+      expect(screen.getByRole('switch')).toHaveFocus();
+    });
+
+    it('desligar continua num toque, sem explicação', async () => {
+      const user = userEvent.setup();
+      const onAlternarLink = vi.fn().mockResolvedValue(undefined);
+      renderizar({ linkAtivo: true, onAlternarLink });
+      await user.click(botaoDoCompartilhar());
+
+      await user.click(screen.getByRole('switch'));
+
+      expect(onAlternarLink).toHaveBeenCalledTimes(1);
+      expect(screen.queryByText(/Desligar revoga o acesso/)).not.toBeInTheDocument();
+    });
+
+    it('um segundo toque em Ligar o link enquanto grava não dispara outra gravação', async () => {
       const user = userEvent.setup();
       let resolver;
       const onAlternarLink = vi.fn(
@@ -296,22 +339,24 @@ describe('MenuDeCompartilhar', () => {
       renderizar({ linkAtivo: false, onAlternarLink });
       await user.click(botaoDoCompartilhar());
 
-      const chave = screen.getByRole('switch');
-      await user.click(chave);
-      await user.click(chave);
+      await user.click(screen.getByRole('switch'));
+      const confirmar = screen.getByRole('button', { name: 'Ligar o link' });
+      await user.click(confirmar);
+      await user.click(confirmar);
 
       expect(onAlternarLink).toHaveBeenCalledTimes(1);
 
       resolver();
     });
 
-    it('Esc continua fechando o popup depois de tocar na chave', async () => {
+    it('Esc continua fechando o popup com a explicação aberta', async () => {
       const user = userEvent.setup();
-      renderizar({ linkAtivo: true, onAlternarLink: vi.fn().mockResolvedValue(undefined) });
+      renderizar({ linkAtivo: false, onAlternarLink: vi.fn().mockResolvedValue(undefined) });
       await user.click(botaoDoCompartilhar());
 
       await user.click(screen.getByRole('switch'));
       expect(screen.getByRole('menu')).toBeInTheDocument();
+      expect(screen.getByText(/Desligar revoga o acesso/)).toBeInTheDocument();
 
       await user.keyboard('{Escape}');
 

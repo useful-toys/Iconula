@@ -317,8 +317,10 @@ export default function App() {
   // do popup Compartilhar grava na hora, fora da gravação agregada — não é
   // contagem e não move o `updatedAt` (MDR 0002). Otimista: muda o estado já
   // no toque e volta ao anterior se a escrita falhar, com aviso de falha
-  // (IDR 0029); sem confirmação, porque é reversível (IDR 0010). Sem rede, a
-  // espera das escritas (TDR 0019) avisa e o desfecho real ainda chega.
+  // (IDR 0029). Ligar passa pelo passo informativo do popup (Tarefa
+  // 0032-0006); desligar é imediato, sem confirmação, porque é reversível
+  // (IDR 0010). Sem rede, a espera das escritas (TDR 0019) avisa e o desfecho
+  // real ainda chega.
   async function handleAlternarLink() {
     if (!uid) return;
     const anterior = linkAtivo;

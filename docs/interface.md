@@ -180,14 +180,21 @@ Um terceiro bloco, também separado por filete, fecha o popup com a **chave do
 link do catálogo** (IDR 0024, IDR 0055). O rótulo diz o estado por extenso —
 `Link do catálogo: ligado` / `Link do catálogo: desligado` — e a chave é um
 `switch` com `aria-checked`, então o leitor de tela anuncia nome e estado
-(IDR 0018). Tocar na chave **não fecha** o popup: liga ou desliga na hora e o
-foco fica na chave, para copiar ou compartilhar o link em seguida (Tarefa
-0027-0005); `Esc`, toque fora e saída pelo teclado seguem fechando, como nos
-demais itens. A escrita é imediata e fora da gravação agregada — não move o
-relógio do título —, com "link ligado" ou "link desligado" na área de avisos;
-a falha reverte a chave ao estado anterior e avisa "falha ao ligar o link" ou
-"falha ao desligar o link" (IDR 0029), sem confirmação, porque é reversível
-(IDR 0010).
+(IDR 0018). Tocar na chave **não fecha** o popup e o foco fica nela, para
+seguir no passo ou copiar o link depois (Tarefa 0027-0005); `Esc`, toque fora
+e saída pelo teclado seguem fechando, como nos demais itens. A escrita é
+imediata e fora da gravação agregada — não move o relógio do título — e o
+desfecho vem na área de avisos; a falha reverte a chave ao estado anterior e
+avisa "falha ao ligar o link" ou "falha ao desligar o link" (IDR 0029).
+
+Ligar exige um **passo informativo** (Tarefa 0032-0006): com o link
+desligado, tocar na chave não grava — expande, logo abaixo dela no próprio
+popup, um bloco curto que explica que a coleção fica visível sem login para
+quem tiver o link, que nome e e-mail não aparecem e que desligar revoga o
+acesso mas não desfaz cópias já feitas, com **Ligar o link** e **Cancelar**
+(IDR 0055, IDR 0061). Só "Ligar o link" grava e recolhe o bloco; "Cancelar"
+recolhe sem gravar. É o consentimento destacado da única operação baseada em
+consentimento. Desligar continua num único toque, sem confirmação (IDR 0010).
 
 Ligado, logo abaixo da chave, o bloco traz **Copiar link do catálogo** e, só
 onde o navegador oferece a folha do sistema, **Compartilhar link do catálogo…**

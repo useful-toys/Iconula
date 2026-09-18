@@ -95,6 +95,22 @@ async function tocarNaChave() {
   });
 }
 
+// O ligar exige o passo informativo (Tarefa 0032-0006): tocar na chave
+// desligada só expande o bloco; estes helpers terminam o passo.
+async function confirmarLigar() {
+  await act(async () => {
+    fireEvent.click(screen.getByRole("button", { name: "Ligar o link" }));
+    await Promise.resolve();
+    await Promise.resolve();
+  });
+}
+
+async function cancelarExplicacao() {
+  await act(async () => {
+    fireEvent.click(screen.getByRole("button", { name: "Cancelar" }));
+  });
+}
+
 // `act(async …)` sozinho não garante que a promise do handler (dentro do
 // onClick) já tenha avançado até o `emitirAviso`/a cópia — os dois
 // `Promise.resolve()` dão a volta ao microtask queue que falta.
@@ -189,6 +205,8 @@ describe("App — chave do link do catálogo", () => {
     await abrirCompartilhar();
 
     await tocarNaChave();
+    expect(colecao.gravarLinkAtivo).not.toHaveBeenCalled();
+    await confirmarLigar();
 
     expect(colecao.gravarLinkAtivo).toHaveBeenCalledTimes(1);
     expect(colecao.gravarLinkAtivo).toHaveBeenCalledWith("uid1", true, {
@@ -201,13 +219,33 @@ describe("App — chave do link do catálogo", () => {
     ).toHaveAttribute("aria-checked", "true");
   });
 
-  it("desligar grava false e avisa 'Link desligado'", async () => {
+  it("tocar na chave desligada abre a explicação sem gravar; cancelar também não grava", async () => {
+    await montarLogado();
+    await abrirCompartilhar();
+
+    await tocarNaChave();
+
+    expect(screen.getByText(/Desligar revoga o acesso/)).toBeInTheDocument();
+    expect(colecao.gravarLinkAtivo).not.toHaveBeenCalled();
+    expect(screen.getByRole("menu")).toBeInTheDocument();
+
+    await cancelarExplicacao();
+
+    expect(colecao.gravarLinkAtivo).not.toHaveBeenCalled();
+    expect(screen.queryByText(/Desligar revoga o acesso/)).not.toBeInTheDocument();
+    expect(
+      screen.getByRole("switch", { name: "Link do catálogo: desligado" }),
+    ).toBeInTheDocument();
+  });
+
+  it("desligar grava false num único toque, sem explicação", async () => {
     colecao.carregarColecao.mockResolvedValue(cargaComLink(true));
     await montarLogado();
     await abrirCompartilhar();
 
     await tocarNaChave();
 
+    expect(screen.queryByText(/Desligar revoga o acesso/)).not.toBeInTheDocument();
     expect(colecao.gravarLinkAtivo).toHaveBeenCalledWith("uid1", false, {
       aoEsperar: expect.any(Function),
     });
@@ -226,6 +264,7 @@ describe("App — chave do link do catálogo", () => {
     await abrirCompartilhar();
 
     await tocarNaChave();
+    await confirmarLigar();
 
     expect(
       screen.getByRole("switch", { name: "Link do catálogo: desligado" }),
@@ -267,6 +306,7 @@ describe("App — chave do link do catálogo", () => {
     await abrirCompartilhar();
 
     await tocarNaChave();
+    await confirmarLigar();
 
     expect(
       screen.getByText("Conexão instável — sincronizando quando possível"),

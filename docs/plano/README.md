@@ -628,7 +628,7 @@ passo informativo antes de ligar o link, que atualiza o
 | 0003 | [Tela de reaceite](0032-prova-de-aceite-atendimento-e-incidentes/0003-tela-de-reaceite.md) | Versão divergente reabre a atestação com o motivo de atualização. | Concluída |
 | 0004 | [Histórico, prazo e identificação nos textos](0032-prova-de-aceite-atendimento-e-incidentes/0004-historico-prazo-e-identificacao-nos-textos.md) | Seção de alterações, 15 dias e pedidos pelo e-mail da conta. | Concluída |
 | 0005 | [Registro de operações e plano de incidente](0032-prova-de-aceite-atendimento-e-incidentes/0005-registro-de-operacoes-e-plano-de-incidente.md) | `docs/privacidade.md` completo; `SECURITY.md` distingue os dois casos. | Concluída |
-| 0006 | [Explicação antes de ligar o link](0032-prova-de-aceite-atendimento-e-incidentes/0006-explicacao-antes-de-ligar-o-link.md) | Bloco informativo no popup ao ligar; desligar segue imediato. | Pendente |
+| 0006 | [Explicação antes de ligar o link](0032-prova-de-aceite-atendimento-e-incidentes/0006-explicacao-antes-de-ligar-o-link.md) | Bloco informativo no popup ao ligar; desligar segue imediato. | Concluída |
 
 ## Fase 33 — Tela Sobre, tooltip do desfazer e indicador de pendência
 
