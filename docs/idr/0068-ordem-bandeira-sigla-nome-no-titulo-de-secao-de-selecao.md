@@ -50,7 +50,7 @@ Aceito.
 - O nome acessível do cabeçalho (`nomeAcessivel` em `Secao.jsx`) não muda
   — já começa pelo nome da seção por extenso, independente da ordem
   visual.
-- Implementação: a planejar (`/planejar`).
+- Implementação: Fase 0034, Tarefa 0034-0001.
 
 ## Alternativas consideradas
 
