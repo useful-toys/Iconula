@@ -54,4 +54,4 @@ Aceito — os valores numéricos (debounce, teto de espera) são pontos de parti
 
 ## Histórico
 
-- 2026-09-18 — Esmiuçamento de UX de edição e saída: debounce de ~2s → ~4s e teto de ~10s → ~20s, mantendo a mesma proporção 1:5; pedido do humano para capturar mais eventos por gravação e reduzir chamadas ao storage. Implementação: a planejar (`/planejar`). Antes: ~2s/~10s, aceitos como ponto de partida na Tarefa 0007-0003, sem confirmação em uso real.
+- 2026-09-18 — Esmiuçamento de UX de edição e saída: debounce de ~2s → ~4s e teto de ~10s → ~20s, mantendo a mesma proporção 1:5; pedido do humano para capturar mais eventos por gravação e reduzir chamadas ao storage. Implementação: Fase 0033, Tarefa 0033-0005. Antes: ~2s/~10s, aceitos como ponto de partida na Tarefa 0007-0003, sem confirmação em uso real.

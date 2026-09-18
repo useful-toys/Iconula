@@ -83,6 +83,6 @@ para tornar explícito o estado de pendência (ver Histórico).
 
 - 2026-09-18 — Esmiuçamento de UX de edição e saída: acrescenta o estado
   "não salvo" no lugar do relógio enquanto há pendência de gravação, e
-  liga essa decisão ao IDR 0065 (sem modal ao sair). Implementação: a
-  planejar (`/planejar`). Antes: o relógio só mostrava o `updatedAt` ou o
+  liga essa decisão ao IDR 0065 (sem modal ao sair). Implementação: Fase
+  0033, Tarefa 0033-0004. Antes: o relógio só mostrava o `updatedAt` ou o
   travessão de conta nova, sem indicar pendência de forma explícita.

@@ -78,6 +78,7 @@ Detalhes e status das tarefas no guia [CLAUDE.md](CLAUDE.md) § Status e ciclo d
 | 30 | [Faixa sem barra e controles compactos](0030-faixa-sem-barra-e-controles-compactos/) | Faixa sem barra (fade + arrasto) e controles com ícones, espaçamento e feedback | 29 | `feat: faixa sem barra e controles compactos` | Entregue |
 | 31 | [Exclusão de dados e conformidade da política](0031-exclusao-de-dados-e-conformidade-da-politica/) | Apagar coleção e conta pelo app e completar a política com controlador, base legal, transferência e retenção | — | `feat: apagar meus dados e política de privacidade conforme a LGPD` | Pendente |
 | 32 | [Prova de aceite, atendimento e incidentes](0032-prova-de-aceite-atendimento-e-incidentes/) | Versionar os textos com reaceite, declarar prazo e identificação, registrar operações e resposta a incidente, e informar antes de ligar o link | 31 | `feat: aceite versionado, procedimentos de privacidade e consentimento do link` | Pendente |
+| 33 | [Tela Sobre, tooltip do desfazer e indicador de pendência](0033-sobre-tooltip-do-desfazer-e-indicador-de-pendencia/) | Tela Sobre com link ao GitHub e a issues, tooltip do desfazer com código e operação, indicador "não salvo" no título e debounce/teto de gravação maiores | — | `feat: tela Sobre, tooltip do desfazer e indicador de pendência no título` | Pendente |
 
 ---
 
@@ -626,6 +627,31 @@ passo informativo antes de ligar o link, que atualiza o
 | 0004 | [Histórico, prazo e identificação nos textos](0032-prova-de-aceite-atendimento-e-incidentes/0004-historico-prazo-e-identificacao-nos-textos.md) | Seção de alterações, 15 dias e pedidos pelo e-mail da conta. | Pendente |
 | 0005 | [Registro de operações e plano de incidente](0032-prova-de-aceite-atendimento-e-incidentes/0005-registro-de-operacoes-e-plano-de-incidente.md) | `docs/privacidade.md` completo; `SECURITY.md` distingue os dois casos. | Pendente |
 | 0006 | [Explicação antes de ligar o link](0032-prova-de-aceite-atendimento-e-incidentes/0006-explicacao-antes-de-ligar-o-link.md) | Bloco informativo no popup ao ligar; desligar segue imediato. | Pendente |
+
+## Fase 33 — Tela Sobre, tooltip do desfazer e indicador de pendência
+
+Decisões do esmiuçamento ([PR #85](https://github.com/useful-toys/Iconula/pull/85)):
+tela Sobre, vista interna com link ao repositório e a issues do GitHub, em
+bloco próprio no menu de ações e no rodapé
+([IDR 0063](../idr/0063-tela-sobre-com-link-ao-repositorio-e-issues.md));
+tooltip do desfazer com o código e a operação, `aria-label` sincronizado
+([IDR 0064](../idr/0064-tooltip-do-desfazer-com-codigo-e-operacao.md));
+nenhum popup/modal ao sair — o indicador "não salvo" no título e a garantia
+de flush + cache já existente bastam
+([IDR 0065](../idr/0065-sem-modal-ao-sair-indicador-de-pendencia-no-titulo.md),
+atualiza [IDR 0027](../idr/0027-relogio-do-titulo-e-o-updatedat-do-documento.md));
+debounce de ~2s para ~4s e teto de ~10s para ~20s
+([MDR 0003](../model-dr/0003-gravacao-agregada-da-colecao.md)).
+`docs/requisitos.md` § Acesso e § Estado da sincronização já foram ajustados
+no PR do esmiuçamento.
+
+| # | Tarefa | Objetivo | Status |
+|---|---|---|---|
+| 0001 | [Tela Sobre, vista interna](0033-sobre-tooltip-do-desfazer-e-indicador-de-pendencia/0001-tela-sobre-vista-interna.md) | Componente `Sobre.jsx` (padrão TDR 0020) com os dois links, acessível pelo rodapé das duas telas. | Pendente |
+| 0002 | [Sobre no menu de ações](0033-sobre-tooltip-do-desfazer-e-indicador-de-pendencia/0002-sobre-no-menu-de-acoes.md) | Bloco próprio no menu de ações, entre exportar/importar e sair da conta. | Pendente |
+| 0003 | [Tooltip do desfazer com código e operação](0033-sobre-tooltip-do-desfazer-e-indicador-de-pendencia/0003-tooltip-do-desfazer-com-codigo-e-operacao.md) | `Desfazer: +1 em BRA05`, tooltip no padrão IDR 0048 e `aria-label` sincronizado. | Pendente |
+| 0004 | [Indicador "não salvo" no título](0033-sobre-tooltip-do-desfazer-e-indicador-de-pendencia/0004-indicador-nao-salvo-no-titulo.md) | O relógio dá lugar a "não salvo" enquanto há alteração não gravada. | Pendente |
+| 0005 | [Debounce e teto de gravação maiores](0033-sobre-tooltip-do-desfazer-e-indicador-de-pendencia/0005-debounce-e-teto-de-gravacao-maiores.md) | `DEBOUNCE_MS` 2000→4000, `TETO_MS` 10000→20000 em `gravacaoAgregada.js`. | Pendente |
 
 ## Regras que valem em toda tarefa
 

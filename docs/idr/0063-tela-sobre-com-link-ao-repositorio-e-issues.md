@@ -47,7 +47,7 @@ Aceito.
   Sobre, sair da conta.
 - `docs/requisitos.md` § Acesso ganha o bullet "Exibir informações sobre
   o app".
-- Implementação: a planejar (`/planejar`).
+- Implementação: Fase 0033, Tarefas 0033-0001 (vista) e 0033-0002 (menu de ações).
 
 ## Alternativas consideradas
 
