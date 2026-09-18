@@ -26,6 +26,21 @@ export function ordenarPorSigla(secoesDoCatalogo) {
 }
 
 /**
+ * Diz se a letra inicial da sigla mudou entre uma seção e a anterior na
+ * sequência ordenada por sigla — fronteira que ganha +2px de respiro
+ * (IDR 0067). A primeira seção não tem anterior, então devolve `false`.
+ * FWC e COC entram na comparação como qualquer seção.
+ *
+ * @param {Array} secoes Sequência de seções (resultado de `ordenarPorSigla`).
+ * @param {number} indice Posição da seção na sequência.
+ * @returns {boolean} true se a letra inicial difere da seção anterior.
+ */
+export function letraMudou(secoes, indice) {
+  if (indice <= 0 || indice >= secoes.length) return false;
+  return secoes[indice].sigla[0] !== secoes[indice - 1].sigla[0];
+}
+
+/**
  * Ordenação por página do álbum: FWC abre, COC fecha, 12 super-grupos
  * A–L no meio, cada um com suas 4 seleções na ordem das páginas
  * (IDR 0028, IDR 0019).

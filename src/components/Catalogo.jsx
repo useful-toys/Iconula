@@ -1,7 +1,7 @@
 // Copyright (c) 2026 Daniel Felix Ferber
 
 import { useState, useCallback, useRef, useImperativeHandle, forwardRef, useMemo, useEffect } from 'react';
-import { ordenarPorSigla, ordenarPorPagina } from '../data/catalogoOrdenacoes.js';
+import { ordenarPorSigla, ordenarPorPagina, letraMudou } from '../data/catalogoOrdenacoes.js';
 import { filtraFigurinha } from '../lib/colecao.js';
 import { lerColapsoManual, gravarColapsoManual } from '../lib/colapsoManual.js';
 import { Secao } from './Secao.jsx';
@@ -284,7 +284,7 @@ export const Catalogo = forwardRef(function Catalogo(
 
   return (
     <main className="catalogo">
-      {estruturada.map((item) => {
+      {estruturada.map((item, indice) => {
         // ordenarPorPagina retorna { tipo: 'secao', secao } ou { tipo: 'super-grupo', grupo, secoes }
         // ordenarPorSigla retorna objetos de seção diretamente
         const isSecao = item.tipo === 'secao' || item.sigla;
@@ -293,9 +293,13 @@ export const Catalogo = forwardRef(function Catalogo(
         if (isSecao) {
           // Oculta a seção inteira se o filtro não deixa nenhuma figurinha (IDR 0025)
           if (!secaoTemVisivel(secao)) return null;
+          // Na ordenação por sigla, a troca de letra inicial ganha +2px de
+          // respiro sobre o `gap` (IDR 0067).
+          const comRespiro = ordenacao !== 'pagina' && letraMudou(estruturada, indice);
           return (
             <div
               key={secao.sigla}
+              className={`catalogo__secao${comRespiro ? ' catalogo__secao--respiro-letra' : ''}`}
               ref={(el) => setSecaoRef(secao.sigla, el)}
             >
               <Secao

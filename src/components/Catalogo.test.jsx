@@ -722,4 +722,48 @@ describe('Catalogo', () => {
       expect(salvo.secoes).toEqual([]);
     });
   });
+
+  describe('respiro por letra na ordenação por sigla (IDR 0067)', () => {
+    const siglasRespiro = ['FWC', 'ARG', 'AUS', 'AUT', 'BEL', 'COC'];
+    const secoesRespiro = siglasRespiro.map((sigla) => secoes.find((s) => s.sigla === sigla));
+    const figurinhasRespiro = figurinhas.filter((f) => siglasRespiro.includes(f.secao));
+
+    const propsBase = {
+      secoes: secoesRespiro,
+      figurinhas: figurinhasRespiro,
+      contagens: {},
+      onAjustar: vi.fn(),
+    };
+
+    const containerDaSecao = (nome) =>
+      screen.getByRole('button', { name: new RegExp(`^${nome}:`) }).closest('.catalogo__secao');
+
+    it('não aplica respiro entre seções com a mesma letra inicial', () => {
+      render(<Catalogo {...propsBase} ordenacao="sigla" />);
+
+      expect(containerDaSecao('Austrália')).not.toHaveClass('catalogo__secao--respiro-letra');
+      expect(containerDaSecao('Áustria')).not.toHaveClass('catalogo__secao--respiro-letra');
+    });
+
+    it('aplica respiro quando a letra inicial muda', () => {
+      render(<Catalogo {...propsBase} ordenacao="sigla" />);
+
+      expect(containerDaSecao('Argentina')).toHaveClass('catalogo__secao--respiro-letra');
+      expect(containerDaSecao('Bélgica')).toHaveClass('catalogo__secao--respiro-letra');
+    });
+
+    it('aplica respiro nas fronteiras com FWC e COC, sem exceção nas pontas', () => {
+      const { container } = render(<Catalogo {...propsBase} ordenacao="sigla" />);
+
+      expect(containerDaSecao('Argentina')).toHaveClass('catalogo__secao--respiro-letra');
+      expect(containerDaSecao('Coca-Cola')).toHaveClass('catalogo__secao--respiro-letra');
+      expect(container.querySelectorAll('.catalogo__secao--respiro-letra')).toHaveLength(3);
+    });
+
+    it('não aplica respiro na ordenação por página', () => {
+      const { container } = render(<Catalogo {...propsBase} ordenacao="pagina" />);
+
+      expect(container.querySelectorAll('.catalogo__secao--respiro-letra')).toHaveLength(0);
+    });
+  });
 });
