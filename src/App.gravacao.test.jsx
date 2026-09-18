@@ -76,6 +76,8 @@ beforeEach(() => {
     atualizadoEm: null,
     temTeamName: false,
     atestadoEm: true,
+    termosVersao: "2026-09-17",
+    politicaVersao: "2026-09-17",
   });
   colecao.gravarAlteracoes.mockReset();
   colecao.gravarAlteracoes.mockResolvedValue({
@@ -244,6 +246,8 @@ describe("App — gravação agregada", () => {
       atualizadoEm: new Date("2026-09-10T14:05:00"),
       temTeamName: true,
       atestadoEm: true,
+      termosVersao: "2026-09-17",
+      politicaVersao: "2026-09-17",
     });
 
     await montarLogado();

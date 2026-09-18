@@ -5,9 +5,10 @@ import userEvent from "@testing-library/user-event";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import "@testing-library/jest-dom/vitest";
 
-// Testes de integração da atestação de menores (Tarefa 0008-0003): quando o
-// passo aparece, o que confirmar faz e a política de falha (IDR 0036). A
-// carga em si (Tarefa 0007-0002) é coberta em App.persistencia.test.jsx.
+// Testes de integração da atestação de menores e do reaceite (Tarefas
+// 0008-0003 e 0032-0003): quando o passo aparece, qual motivo, o que
+// confirmar faz e a política de falha (IDR 0036, IDR 0062). A carga em si
+// (Tarefa 0007-0002) é coberta em App.persistencia.test.jsx.
 
 const { authState, signOutMock } = vi.hoisted(() => ({
   authState: { user: null, callback: null },
@@ -52,8 +53,23 @@ vi.mock("./components/Catalogo.jsx", () => ({
 }));
 
 import App from "./App";
+import { VERSAO_TERMOS, VERSAO_POLITICA } from "./lib/versoesDosTextos.js";
 
 const USUARIO = { uid: "uid1", displayName: "Daniel Ferber", photoURL: "p" };
+
+// Documento de uma conta em dia com os textos: aceitou as versões publicadas.
+function cargaAceita(extras = {}) {
+  return {
+    status: "encontrado",
+    contagens: {},
+    atualizadoEm: null,
+    temTeamName: false,
+    atestadoEm: true,
+    termosVersao: VERSAO_TERMOS,
+    politicaVersao: VERSAO_POLITICA,
+    ...extras,
+  };
+}
 
 beforeEach(() => {
   authState.user = null;
@@ -77,7 +93,7 @@ function montarLogado() {
 }
 
 describe("App — atestação de menores", () => {
-  it("conta sem atestadoEm vê o passo antes do catálogo", async () => {
+  it("conta sem atestadoEm vê o passo de primeiro acesso antes do catálogo", async () => {
     colecao.carregarColecao.mockResolvedValue({
       status: "encontrado",
       contagens: {},
@@ -90,23 +106,6 @@ describe("App — atestação de menores", () => {
 
     expect(await screen.findByRole("button", { name: "Confirmar" })).toBeInTheDocument();
     expect(screen.queryByTestId("catalogo-mock")).not.toBeInTheDocument();
-  });
-
-  it("conta com atestadoEm vai direto ao catálogo, sem o passo", async () => {
-    colecao.carregarColecao.mockResolvedValue({
-      status: "encontrado",
-      contagens: {},
-      atualizadoEm: null,
-      temTeamName: false,
-      atestadoEm: true,
-    });
-
-    montarLogado();
-
-    await waitFor(() => {
-      expect(screen.getByTestId("catalogo-mock")).toBeInTheDocument();
-    });
-    expect(screen.queryByRole("button", { name: "Confirmar" })).not.toBeInTheDocument();
   });
 
   it("confirmar grava a atestação uma vez e libera o catálogo", async () => {
@@ -140,5 +139,76 @@ describe("App — atestação de menores", () => {
     // O relógio do título continua "—": a atestação não grava updatedAt e
     // não o move (ADR 0008, IDR 0027) — nem em sucesso, nem em falha.
     expect(screen.getByText("—")).toBeInTheDocument();
+  });
+});
+
+describe("App — reaceite dos textos", () => {
+  it("versão igual à publicada não reabre o passo", async () => {
+    colecao.carregarColecao.mockResolvedValue(cargaAceita());
+
+    montarLogado();
+
+    await waitFor(() => {
+      expect(screen.getByTestId("catalogo-mock")).toBeInTheDocument();
+    });
+    expect(screen.queryByRole("button", { name: "Li e concordo" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Confirmar" })).not.toBeInTheDocument();
+  });
+
+  it("versão divergente reabre com o texto de atualização", async () => {
+    colecao.carregarColecao.mockResolvedValue(
+      cargaAceita({ termosVersao: "2020-01-01" }),
+    );
+
+    montarLogado();
+
+    expect(
+      await screen.findByRole("button", { name: "Li e concordo" }),
+    ).toBeInTheDocument();
+    expect(screen.queryByTestId("catalogo-mock")).not.toBeInTheDocument();
+  });
+
+  it("conta sem campo de versão reabre uma vez e, depois de gravado, não reabre", async () => {
+    const user = userEvent.setup();
+    colecao.carregarColecao.mockResolvedValue(
+      cargaAceita({ termosVersao: null, politicaVersao: null }),
+    );
+
+    const { unmount } = montarLogado();
+
+    await user.click(await screen.findByRole("button", { name: "Li e concordo" }));
+
+    // O reaceite grava só o aceite — a atestação de idade não se repete.
+    expect(colecao.gravarAceite).toHaveBeenCalledWith("uid1", { atestar: false });
+    await waitFor(() => {
+      expect(screen.getByTestId("catalogo-mock")).toBeInTheDocument();
+    });
+
+    // A carga seguinte já encontra as versões publicadas: o passo não volta.
+    unmount();
+    colecao.carregarColecao.mockResolvedValue(cargaAceita());
+    montarLogado();
+
+    await waitFor(() => {
+      expect(screen.getByTestId("catalogo-mock")).toBeInTheDocument();
+    });
+    expect(screen.queryByRole("button", { name: "Li e concordo" })).not.toBeInTheDocument();
+  });
+
+  it("falha ao gravar o reaceite libera o catálogo com aviso", async () => {
+    const user = userEvent.setup();
+    colecao.carregarColecao.mockResolvedValue(
+      cargaAceita({ termosVersao: null, politicaVersao: null }),
+    );
+    colecao.gravarAceite.mockResolvedValue({ status: "erro", erro: new Error("unavailable") });
+
+    montarLogado();
+
+    await user.click(await screen.findByRole("button", { name: "Li e concordo" }));
+
+    await waitFor(() => {
+      expect(screen.getByTestId("catalogo-mock")).toBeInTheDocument();
+    });
+    expect(screen.getByRole("alert")).toHaveTextContent("Falha ao gravar o aceite");
   });
 });

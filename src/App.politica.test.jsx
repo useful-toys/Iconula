@@ -39,6 +39,8 @@ vi.mock("./lib/colecaoRemota.js", () => ({
       atualizadoEm: null,
       temTeamName: false,
       atestadoEm: true,
+      termosVersao: "2026-09-17",
+      politicaVersao: "2026-09-17",
     }),
   ),
   gravarAlteracoes: vi.fn(() => Promise.resolve({ status: "indisponivel" })),

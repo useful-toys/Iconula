@@ -32,6 +32,7 @@ import {
   formatarCarimbo,
   mensagemDeErro,
 } from "./lib/colecaoRemota.js";
+import { VERSAO_TERMOS, VERSAO_POLITICA } from "./lib/versoesDosTextos.js";
 import { criarGravacaoAgregada } from "./lib/gravacaoAgregada.js";
 import { gerarTextoFaltantes, gerarTextoRepetidas } from "./lib/textoDeTroca.js";
 import { gerarExportacao, nomeDoArquivoExportado, validarImportacao } from "./lib/portabilidade.js";
@@ -105,6 +106,13 @@ export default function App() {
   // e atestação nunca disputam uma tela própria de espera, o mesmo
   // tratamento que a carga já dá às contagens.
   const [precisaAtestar, setPrecisaAtestar] = useState(false);
+  // Versões dos textos aceitas pela conta (Tarefa 0032-0003, MDR 0009): vêm
+  // da mesma carga da coleção e começam iguais às publicadas — otimista, como
+  // `contagens` e `precisaAtestar`, para o reaceite não piscar antes de a
+  // leitura resolver. A confirmação do aceite as repõe nas publicadas
+  // (`handleConfirmarAceite`), o mesmo otimismo do IDR 0036.
+  const [termosVersao, setTermosVersao] = useState(VERSAO_TERMOS);
+  const [politicaVersao, setPoliticaVersao] = useState(VERSAO_POLITICA);
   // Estado do link do catálogo (Tarefa 0027-0004, IDR 0055): vem da mesma
   // carga da coleção (`linkAtivo`; ausente → desligado) e é o que a chave do
   // popup Compartilhar mostra. Conta nova nunca ligou, então começa
@@ -251,6 +259,8 @@ export default function App() {
         setContagens(resultado.contagens);
         setAtualizadoEm(formatarCarimbo(resultado.atualizadoEm));
         setPrecisaAtestar(!resultado.atestadoEm);
+        setTermosVersao(resultado.termosVersao ?? null);
+        setPoliticaVersao(resultado.politicaVersao ?? null);
         setLinkAtivo(resultado.linkAtivo === true);
         // Documento ainda com `teamName` da era do botão: a próxima gravação
         // agregada o apaga junto das contagens, sem escrita à parte (ADR 0008,
@@ -260,10 +270,12 @@ export default function App() {
         }
       } else {
         // Documento inexistente ("vazio"): primeiro login desta conta, que
-        // nunca atestou e nunca ligou o link.
+        // nunca atestou e nunca ligou o link — sem versão nenhuma aceita.
         setContagens({});
         setAtualizadoEm('—');
         setPrecisaAtestar(true);
+        setTermosVersao(null);
+        setPoliticaVersao(null);
         setLinkAtivo(false);
       }
       emitirAviso({ severidade: SEVERIDADE.SUCESSO, mensagem: 'Coleção carregada', tipo: 'carga' });
@@ -274,24 +286,31 @@ export default function App() {
     };
   }, [uid, gravacaoAgregada, alvoDoCatalogo]);
 
-  // Confirmar a atestação (Tarefa 0008-0003, IDR 0036): grava e libera o
-  // app de qualquer jeito, mesmo em falha — o ato já foi praticado pelo
-  // usuário, e a falha de rede não deve retê-lo. A falha só avisa; o campo
-  // segue ausente no documento e a atestação é tentada de novo se esta
-  // conta logar de novo sem `atestadoEm`. O primeiro acesso grava junto o
-  // aceite dos textos (`gravarAceite`, Tarefa 0032-0002): `atestar: true`
-  // inclui a atestação de idade na mesma escrita.
-  async function handleConfirmarAtestacao() {
-    const resultado = await gravarAceite(uid, { atestar: true });
+  // Confirmar o aceite (Tarefa 0008-0003, IDR 0036; reaceite na Tarefa
+  // 0032-0003, IDR 0062): grava e libera o app de qualquer jeito, mesmo em
+  // falha — o ato já foi praticado pelo usuário, e a falha de rede não deve
+  // retê-lo. A falha só avisa; o campo segue ausente no documento e o passo
+  // é tentado de novo na próxima carga. `atestar` só é verdadeiro no
+  // primeiro acesso, quando a atestação de idade acompanha (Tarefa
+  // 0032-0002); no reaceite ela já está registrada e não se repete. As
+  // versões locais vão para as publicadas para o reaceite não reabrir já
+  // nesta sessão; se a escrita falhou, a próxima leitura as traz de volta
+  // atrás e o passo reaparece.
+  async function handleConfirmarAceite(atestar) {
+    const resultado = await gravarAceite(uid, { atestar });
     if (resultado.status !== 'sucesso') {
       emitirAviso({
         severidade: SEVERIDADE.FALHA,
-        mensagem: 'Falha ao gravar a atestação — toque para detalhes',
+        mensagem: atestar
+          ? 'Falha ao gravar a atestação — toque para detalhes'
+          : 'Falha ao gravar o aceite — toque para detalhes',
         detalhe: mensagemDeErro(resultado.erro),
         tipo: 'atestacao',
       });
     }
     setPrecisaAtestar(false);
+    setTermosVersao(VERSAO_TERMOS);
+    setPoliticaVersao(VERSAO_POLITICA);
   }
 
   // Ligar/desligar o link do catálogo (Tarefa 0027-0004, IDR 0055): a chave
@@ -724,6 +743,12 @@ export default function App() {
 
   const placar = calcularPlacar(contagens, codigosTodasFigurinhas);
 
+  // Reaceite (Tarefa 0032-0003, IDR 0062): a versão aceita pela conta difere
+  // da publicada — ou não existe (conta antiga, sem os campos). Comparação
+  // com as constantes de `versoesDosTextos.js`, o lugar único das versões.
+  const precisaReaceitar =
+    termosVersao !== VERSAO_TERMOS || politicaVersao !== VERSAO_POLITICA;
+
   // Progresso por seção para o tooltip da faixa de bandeiras (Tarefa
   // 0019-0002, IDR 0052): recalculado só quando as contagens mudam. Enquanto
   // o tooltip está visível, ele lê daqui, então o texto acompanha a contagem
@@ -825,8 +850,32 @@ export default function App() {
     );
   }
 
+  // Primeiro acesso: falta a atestação de idade — o motivo com o texto de
+  // hoje. Ordem antes do reaceite porque uma conta nova não tem nem
+  // `atestadoEm` nem versão (IDR 0036, IDR 0062).
   if (precisaAtestar) {
-    return <Atestacao onConfirmar={handleConfirmarAtestacao} />;
+    return (
+      <Atestacao
+        motivo="primeiro-acesso"
+        onConfirmar={() => handleConfirmarAceite(true)}
+        onAbrirPolitica={() => setVistaInterna('politica')}
+        onAbrirTermos={() => setVistaInterna('termos')}
+      />
+    );
+  }
+
+  // Reaceite (IDR 0062): a conta já atestou, mas aceitou uma versão dos
+  // textos que não é a publicada — inclusive quando não tem versão nenhuma
+  // (conta antiga). Mesmo cartão, texto de atualização, sem a idade.
+  if (precisaReaceitar) {
+    return (
+      <Atestacao
+        motivo="atualizacao"
+        onConfirmar={() => handleConfirmarAceite(false)}
+        onAbrirPolitica={() => setVistaInterna('politica')}
+        onAbrirTermos={() => setVistaInterna('termos')}
+      />
+    );
   }
 
   return (

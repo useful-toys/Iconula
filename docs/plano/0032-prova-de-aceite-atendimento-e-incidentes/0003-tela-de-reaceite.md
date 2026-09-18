@@ -3,7 +3,7 @@
 # Tarefa [0032-0003]: tela de reaceite
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 

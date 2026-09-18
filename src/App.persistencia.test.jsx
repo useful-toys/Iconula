@@ -82,6 +82,8 @@ describe("App — carga no login", () => {
       atualizadoEm: new Date("2026-09-10T14:05:00"),
       temTeamName: false,
       atestadoEm: true,
+      termosVersao: "2026-09-17",
+      politicaVersao: "2026-09-17",
     });
     authState.user = USUARIO;
 
