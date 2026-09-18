@@ -308,8 +308,8 @@ Questões recorrentes são marcadas como "Nota".*
   - Declara os dados tratados — identidade da conta Google (nome,
     e-mail, foto) e a coleção —, finalidade, retenção e direitos do titular
   - Declara o armazenamento local do aparelho (preferências de vista,
-    colapso e cache do SDK), funcional e nunca enviado — por isso não há
-    banner de cookies
+    colapso, a chave `iconula.consentimento-analytics.v1` do banner de
+    consentimento e cache do SDK), funcional e nunca enviado
   - Declara que a coleção fica visível, sem login, a quem tiver o link
     enquanto ele estiver ativo (ver
     [IDR 0055](idr/0055-catalogo-compartilhado-por-link-somente-leitura.md))

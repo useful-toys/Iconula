@@ -725,6 +725,7 @@ Privacidade e § Dados e isolamento já foram ajustados neste planejamento.
 | 0003 | [Banner de consentimento e integração](0036-analytics-de-uso/0003-banner-de-consentimento-e-integracao.md) | `BannerDeConsentimento.jsx` (Aceitar/Recusar) nas telas de login e principal; grava em `localStorage` e dispara o loader no aceite; teste. | Concluída |
 | 0004 | [Política de privacidade e inventário](0036-analytics-de-uso/0004-politica-de-privacidade-e-inventario.md) | Reescrever `PoliticaDePrivacidade.jsx` (analytics consentido, região Brasil, retenção 14 meses); subir `VERSAO_POLITICA`; `privacidade.md`. | Concluída |
 | 0005 | [Documentação e setup](0036-analytics-de-uso/0005-documentacao-e-setup.md) | `arquitetura.md`, `devops.md`, `interface.md`, `setup-firebase.md` e `setup-gcloud.md`. | Concluída |
+| 0006 | [Liga a variável do GA4 aos workflows e corrige o resquício do requisito](0036-analytics-de-uso/0006-liga-a-variavel-do-ga4-aos-workflows-e-corrige-o-requisito.md) | `VITE_GA_MEASUREMENT_ID` no `env:` do build dos dois workflows de deploy; DDR 0012; remove a contradição "não há banner de cookies" de `requisitos.md`. | Concluída |
 
 ## Fase 37 — Página de estatísticas da coleção
 
