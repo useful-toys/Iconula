@@ -185,6 +185,71 @@ describe("App — gravação agregada", () => {
     expect(screen.getByText("Alterações salvas")).toBeInTheDocument();
   });
 
+  it("mostra \"não salvo\" após o ajuste e volta ao relógio quando a gravação confirma", async () => {
+    await montarLogado();
+
+    await act(async () => {
+      catalogo.props.onAjustar("BRA01", 1);
+    });
+
+    expect(screen.getByText("não salvo")).toBeInTheDocument();
+    expect(screen.queryByText("10:00")).not.toBeInTheDocument();
+
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(2000);
+    });
+
+    expect(screen.getByText("10:00")).toBeInTheDocument();
+    expect(screen.queryByText("não salvo")).not.toBeInTheDocument();
+  });
+
+  it("uma falha de gravação mantém \"não salvo\" sem voltar ao relógio antigo", async () => {
+    colecao.carregarColecao.mockResolvedValue({
+      status: "encontrado",
+      contagens: {},
+      atualizadoEm: new Date("2026-09-10T14:05:00"),
+      temTeamName: false,
+      atestadoEm: true,
+      termosVersao: "2026-09-17",
+      politicaVersao: "2026-09-17",
+    });
+    colecao.gravarAlteracoes.mockResolvedValue({
+      status: "erro",
+      erro: new Error("unavailable"),
+    });
+
+    await montarLogado();
+
+    expect(screen.getByText("10:00")).toBeInTheDocument();
+
+    await act(async () => {
+      catalogo.props.onAjustar("BRA01", 1);
+    });
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(2000);
+    });
+
+    expect(screen.getByText("não salvo")).toBeInTheDocument();
+    expect(screen.queryByText("10:00")).not.toBeInTheDocument();
+    expect(screen.getByRole("alert")).toBeInTheDocument();
+  });
+
+  it("o nome acessível do título reflete \"não salvo\" enquanto pende", async () => {
+    await montarLogado();
+
+    await act(async () => {
+      catalogo.props.onAjustar("BRA01", 1);
+    });
+
+    expect(screen.getByLabelText(/não salvo/)).toBeInTheDocument();
+
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(2000);
+    });
+
+    expect(screen.getByLabelText(/atualizado às 10:00/)).toBeInTheDocument();
+  });
+
   it("pagehide força a gravação pendente, sem esperar o debounce", async () => {
     await montarLogado();
 

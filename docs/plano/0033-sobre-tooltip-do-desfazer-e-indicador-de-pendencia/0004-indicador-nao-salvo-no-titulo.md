@@ -3,7 +3,7 @@
 # Tarefa [0033-0004]: Indicador "não salvo" no título
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Enquanto houver alguma alteração de contagem ainda não gravada, o relógio do

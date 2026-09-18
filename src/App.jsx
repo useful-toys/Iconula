@@ -95,6 +95,12 @@ export default function App() {
   const [authResolvido, setAuthResolvido] = useState(false);
   const [contagens, setContagens] = useState({});
   const [atualizadoEm, setAtualizadoEm] = useState(null);
+  // Pendência de gravação (Tarefa 0033-0004, IDR 0027/IDR 0065): `true` do
+  // primeiro ajuste da rajada até a gravação seguinte confirmar sucesso. O
+  // título troca o relógio por "não salvo" enquanto isso — aviso não
+  // bloqueante que substitui um popup de saída. Uma falha não limpa a
+  // pendência: o ajuste continua por gravar até uma gravação ter sucesso.
+  const [pendente, setPendente] = useState(false);
   // Histórico de desfazer (Tarefa 0009-0001, IDR 0012): pilha das últimas 10
   // alterações, em memória — recarregar a página o descarta, como o resto do
   // estado deste `useState`. Fica em `App.jsx`, não escondido num hook
@@ -162,6 +168,7 @@ export default function App() {
       gravar: gravarAlteracoes,
       aoConcluir: (resultado) => {
         setAtualizadoEm(formatarCarimbo(resultado.atualizadoEm));
+        setPendente(false);
         emitirAviso({ severidade: SEVERIDADE.SUCESSO, mensagem: 'Alterações salvas', tipo: 'gravacao' });
       },
       // Falha (vermelha): o que deveria ter funcionado e não funcionou —
@@ -391,6 +398,7 @@ export default function App() {
   // mesma função em todo ajuste, em vez de uma nova a cada render de `App`.
   const aplicarAjuste = useCallback((codigo, delta) => {
     ajustesRef.current += 1;
+    setPendente(true);
     setContagens((anterior) => {
       const nova = ajustarContagem(anterior, codigo, delta);
       if (uid) {
@@ -715,6 +723,7 @@ export default function App() {
     }
 
     setAtualizadoEm(formatarCarimbo(escrita.atualizadoEm));
+    setPendente(false);
     emitirAviso({ severidade: SEVERIDADE.SUCESSO, mensagem: 'Coleção importada', tipo: 'importar' });
   }
 
@@ -907,6 +916,7 @@ export default function App() {
         repetidas={placar.repetidas}
         percentual={placar.percentual}
         atualizadoEm={atualizadoEm}
+        naoSalvo={pendente}
         secoes={secoesOrdenadas}
         ordenacao={ordenacao}
         onSaltar={handleSaltar}
