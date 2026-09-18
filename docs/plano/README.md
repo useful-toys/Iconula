@@ -650,7 +650,7 @@ no PR do esmiuçamento.
 | # | Tarefa | Objetivo | Status |
 |---|---|---|---|
 | 0001 | [Tela Sobre, vista interna](0033-sobre-tooltip-do-desfazer-e-indicador-de-pendencia/0001-tela-sobre-vista-interna.md) | Componente `Sobre.jsx` (padrão TDR 0020) com os dois links, acessível pelo rodapé das duas telas. | Concluída |
-| 0002 | [Sobre no menu de ações](0033-sobre-tooltip-do-desfazer-e-indicador-de-pendencia/0002-sobre-no-menu-de-acoes.md) | Bloco próprio no menu de ações, entre exportar/importar e sair da conta. | Pendente |
+| 0002 | [Sobre no menu de ações](0033-sobre-tooltip-do-desfazer-e-indicador-de-pendencia/0002-sobre-no-menu-de-acoes.md) | Bloco próprio no menu de ações, entre exportar/importar e sair da conta. | Concluída |
 | 0003 | [Tooltip do desfazer com código e operação](0033-sobre-tooltip-do-desfazer-e-indicador-de-pendencia/0003-tooltip-do-desfazer-com-codigo-e-operacao.md) | `Desfazer: +1 em BRA05`, tooltip no padrão IDR 0048 e `aria-label` sincronizado. | Pendente |
 | 0004 | [Indicador "não salvo" no título](0033-sobre-tooltip-do-desfazer-e-indicador-de-pendencia/0004-indicador-nao-salvo-no-titulo.md) | O relógio dá lugar a "não salvo" enquanto há alteração não gravada. | Pendente |
 | 0005 | [Debounce e teto de gravação maiores](0033-sobre-tooltip-do-desfazer-e-indicador-de-pendencia/0005-debounce-e-teto-de-gravacao-maiores.md) | `DEBOUNCE_MS` 2000→4000, `TETO_MS` 10000→20000 em `gravacaoAgregada.js`. | Pendente |

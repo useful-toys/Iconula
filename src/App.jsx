@@ -916,6 +916,7 @@ export default function App() {
             onSignOut={handleSignOut}
             onExportar={handleExportar}
             onImportar={handleImportar}
+            onAbrirSobre={() => setVistaInterna('sobre')}
             photoURL={user.photoURL}
             displayName={user.displayName}
           />

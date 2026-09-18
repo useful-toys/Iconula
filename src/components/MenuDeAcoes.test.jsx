@@ -36,19 +36,20 @@ describe('MenuDeAcoes', () => {
     expect(screen.getByRole('menu')).toBeInTheDocument();
   });
 
-  it('traz os três comandos em dois blocos separados por filete', async () => {
+  it('traz os quatro comandos em três blocos separados por dois filetes', async () => {
     const user = userEvent.setup();
     renderizar();
     await user.click(botaoDoMenu());
 
     const itens = screen.getAllByRole('menuitem');
-    expect(itens).toHaveLength(3);
+    expect(itens).toHaveLength(4);
     expect(itens.map((item) => item.textContent)).toEqual([
       'Exportar coleção (JSON)',
       'Importar coleção (JSON)',
+      'Sobre',
       'Sair da conta',
     ]);
-    expect(document.querySelectorAll('.menu-de-acoes__filete')).toHaveLength(1);
+    expect(document.querySelectorAll('.menu-de-acoes__filete')).toHaveLength(2);
   });
 
   it('os dois comandos de conteúdo ficam desabilitados sem callback', async () => {
@@ -58,7 +59,8 @@ describe('MenuDeAcoes', () => {
 
     expect(screen.getByRole('menuitem', { name: 'Exportar coleção (JSON)' })).toBeDisabled();
     expect(screen.getByRole('menuitem', { name: 'Importar coleção (JSON)' })).toBeDisabled();
-    // "Sair da conta" sempre tem ação real, nunca fica desabilitado.
+    // "Sobre" e "Sair da conta" sempre têm ação real, nunca ficam desabilitados.
+    expect(screen.getByRole('menuitem', { name: 'Sobre' })).toBeEnabled();
     expect(screen.getByRole('menuitem', { name: 'Sair da conta' })).toBeEnabled();
   });
 
@@ -81,8 +83,8 @@ describe('MenuDeAcoes', () => {
     await user.click(botaoDoMenu());
 
     const itens = screen.getAllByRole('menuitem');
-    expect(itens[2]).toHaveClass('menu-de-acoes__item--sair');
-    itens.slice(0, 2).forEach((item) => {
+    expect(itens[3]).toHaveClass('menu-de-acoes__item--sair');
+    itens.slice(0, 3).forEach((item) => {
       expect(item).not.toHaveClass('menu-de-acoes__item--sair');
     });
   });
@@ -95,6 +97,18 @@ describe('MenuDeAcoes', () => {
     await user.click(screen.getByRole('menuitem', { name: 'Sair da conta' }));
 
     expect(onSignOut).toHaveBeenCalledTimes(1);
+    expect(screen.queryByRole('menu')).not.toBeInTheDocument();
+  });
+
+  it('escolher "Sobre" chama onAbrirSobre e fecha o menu', async () => {
+    const user = userEvent.setup();
+    const onAbrirSobre = vi.fn();
+    renderizar({ onAbrirSobre });
+    await user.click(botaoDoMenu());
+
+    await user.click(screen.getByRole('menuitem', { name: 'Sobre' }));
+
+    expect(onAbrirSobre).toHaveBeenCalledTimes(1);
     expect(screen.queryByRole('menu')).not.toBeInTheDocument();
   });
 
@@ -128,12 +142,12 @@ describe('MenuDeAcoes', () => {
 
   it('ao abrir, o foco entra no primeiro item habilitado do menu', async () => {
     const user = userEvent.setup();
-    // Sem nenhum callback de conteúdo, só "Sair da conta" está habilitado —
-    // é nele que o foco entra, não no primeiro item do DOM.
+    // Sem nenhum callback de conteúdo, exportar/importar ficam desabilitados;
+    // o foco entra no primeiro habilitado ("Sobre"), não no primeiro do DOM.
     renderizar();
     await user.click(botaoDoMenu());
 
-    expect(screen.getByRole('menuitem', { name: 'Sair da conta' })).toHaveFocus();
+    expect(screen.getByRole('menuitem', { name: 'Sobre' })).toHaveFocus();
   });
 
   it('com o primeiro item habilitado, o foco entra nele ao abrir', async () => {
@@ -165,8 +179,9 @@ describe('MenuDeAcoes', () => {
     await user.click(botaoDoMenu());
     expect(screen.getByRole('menu')).toBeInTheDocument();
 
-    // Único item habilitado ("Sair da conta") já tem o foco ao abrir;
-    // Tab a partir dele sai do popup sem escolher nada.
+    // O foco entra em "Sobre" ao abrir; um Tab vai para "Sair da conta",
+    // ainda dentro do popup, e o seguinte sai dele sem escolher nada.
+    await user.tab();
     await user.tab();
 
     expect(screen.queryByRole('menu')).not.toBeInTheDocument();
