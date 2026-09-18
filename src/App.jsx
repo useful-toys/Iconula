@@ -418,6 +418,18 @@ export default function App() {
     aplicarAjuste(entrada.codigo, entrada.contagemAnterior - obterContagem(contagens, entrada.codigo));
   }
 
+  // Texto do desfazer (Tarefa 0033-0003, IDR 0064): o topo do histórico dá
+  // código e contagem anterior; a direção é derivada comparando com a
+  // contagem atual — `+1` se subiu, `−1` se desceu. Sem histórico, `null`:
+  // o botão fica desabilitado e não há tooltip nem `aria-label` dinâmico.
+  const textoDesfazer = useMemo(() => {
+    const topo = historico[historico.length - 1];
+    if (!topo) return null;
+    const sinal =
+      obterContagem(contagens, topo.codigo) > topo.contagemAnterior ? '+1' : '−1';
+    return `Desfazer: ${sinal} em ${topo.codigo}`;
+  }, [historico, contagens]);
+
   // Sair da conta dá flush antes do `signOut`: depois dele o ID token some e
   // as regras negam a escrita — a gravação pendente precisa ir embora
   // primeiro, senão o logout descarta ajustes (ADR 0008). Se o flush falhar
@@ -931,6 +943,7 @@ export default function App() {
           onTrocarFiltro={handleTrocarFiltro}
           podeDesfazer={historico.length > 0}
           onDesfazer={handleDesfazer}
+          textoDesfazer={textoDesfazer}
         />
       </Cabecalho>
       <input

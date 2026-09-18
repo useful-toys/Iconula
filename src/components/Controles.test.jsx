@@ -214,6 +214,28 @@ describe('Controles', () => {
     expect(onDesfazer).toHaveBeenCalledTimes(1);
   });
 
+  it('usa o texto do desfazer no nome acessível e no tooltip', () => {
+    render(
+      <Controles
+        ordenacao="pagina"
+        onTrocarOrdenacao={vi.fn()}
+        onDesfazer={vi.fn()}
+        podeDesfazer={true}
+        textoDesfazer="Desfazer: +1 em BRA05"
+      />,
+    );
+
+    const desfazer = screen.getByRole('button', { name: 'Desfazer: +1 em BRA05' });
+    expect(desfazer).toHaveAttribute('data-tooltip', 'Desfazer: +1 em BRA05');
+  });
+
+  it('não dá tooltip ao desfazer sem texto (sem histórico)', () => {
+    render(<Controles ordenacao="pagina" onTrocarOrdenacao={vi.fn()} onDesfazer={vi.fn()} podeDesfazer={false} />);
+
+    const desfazer = screen.getByRole('button', { name: 'desfazer a última alteração' });
+    expect(desfazer).not.toHaveAttribute('data-tooltip');
+  });
+
   it('dá a cada opção dos três grupos um tooltip igual ao nome acessível', () => {
     const { container } = render(
       <Controles

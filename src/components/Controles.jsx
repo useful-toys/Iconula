@@ -111,6 +111,9 @@ const FILTROS = [
  * @param {(filtro: 'todas'|'faltantes'|'coladas'|'repetidas') => void} [props.onTrocarFiltro] - callback de troca de filtro.
  * @param {boolean} [props.podeDesfazer=false] - há histórico para desfazer? (IDR 0012)
  * @param {() => void} [props.onDesfazer] - callback do botão de desfazer; sem ele, o botão não aparece.
+ * @param {string|null} [props.textoDesfazer=null] - código e operação do
+ *   desfazer (`Desfazer: +1 em BRA05`), do `aria-label` e do tooltip; sem
+ *   histórico, `null` (IDR 0064).
  */
 export function Controles({
   ordenacao,
@@ -121,6 +124,7 @@ export function Controles({
   onTrocarFiltro,
   podeDesfazer = false,
   onDesfazer,
+  textoDesfazer = null,
 }) {
   return (
     <div className="controles">
@@ -189,7 +193,8 @@ export function Controles({
             className="controles__desfazer"
             onClick={onDesfazer}
             disabled={!podeDesfazer}
-            aria-label="desfazer a última alteração"
+            aria-label={textoDesfazer ?? 'desfazer a última alteração'}
+            data-tooltip={textoDesfazer ?? undefined}
           >
             ↺
           </button>

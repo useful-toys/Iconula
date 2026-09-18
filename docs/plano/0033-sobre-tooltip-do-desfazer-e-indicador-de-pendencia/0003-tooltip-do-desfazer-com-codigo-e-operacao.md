@@ -3,7 +3,7 @@
 # Tarefa [0033-0003]: Tooltip do desfazer com código e operação
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 O botão de desfazer passa a mostrar, num tooltip visual e no `aria-label`
