@@ -86,9 +86,9 @@ leitura pública do produto, contabilizada no risco de cota do
 | Camada | Conteúdo |
 |---|---|
 | `src/data/` | Catálogo estático (50 seções, 994 figurinhas — [TDR 0010](tdr/0010-forma-do-catalogo-degradacao-do-checklist-e-sem-pipeline.md)) e suas derivações puras: ordenações/agrupamento ([TDR 0012](tdr/0012-derivacoes-do-catalogo-em-src-data.md)) e layout de página do álbum |
-| `src/lib/` | Módulos sem React: estado da coleção em memória, persistência no Firestore (`colecaoRemota.js`, único módulo que toca o SDK — inclusive o apagamento do documento), o SDK do Auth (`firebase.js`: login, reautenticação por popup e exclusão da conta — [TDR 0027](tdr/0027-autorizacao-e-ordem-da-exclusao-de-dados.md)), gravação agregada com debounce/flush, histórico de desfazer, preferências de vista no `localStorage`, portabilidade (export/import JSON), textos de troca, fila de avisos, conversão de bandeiras, cálculo de progresso e analytics de uso (`analytics.js`: carrega o `gtag` só sob consentimento — [ADR 0011](adr/0011-analytics-de-uso-com-google-analytics-4.md)) |
-| `src/components/` | Telas (login, atestação, política de privacidade, termos de uso e catálogo compartilhado por link) e árvore da tela principal: cabeçalho com placar e faixa de salto, controles (ordenação/disposição/filtro), menu de ações, catálogo (super-grupo → seção → figurinha ou página do álbum) e avisos flutuantes |
-| `src/App.jsx` | Único componente com estado: sessão (Firebase Auth), coleção, atestação, vistas internas (política e termos), preferências de vista e histórico de desfazer; decide qual tela mostrar (guarda de login e, pelo caminho `/catalogo/<uid>`, a vista do link antes dela — [IDR 0055](idr/0055-catalogo-compartilhado-por-link-somente-leitura.md)) e concentra toda leitura/escrita da coleção |
+| `src/lib/` | Módulos sem React: estado da coleção em memória, persistência no Firestore (`colecaoRemota.js`, único módulo que toca o SDK — inclusive o apagamento do documento), o SDK do Auth (`firebase.js`: login, reautenticação por popup e exclusão da conta — [TDR 0027](tdr/0027-autorizacao-e-ordem-da-exclusao-de-dados.md)), gravação agregada com debounce/flush, histórico de desfazer, preferências de vista no `localStorage`, portabilidade (export/import JSON), textos de troca, fila de avisos, conversão de bandeiras, cálculo de progresso, derivação pura das estatísticas da coleção (`estatisticas.js`: os cinco blocos da página de estatísticas — [IDR 0072](idr/0072-pagina-de-estatisticas-como-vista-interna.md), [TDR 0030](tdr/0030-graficos-de-estatisticas-a-mao-sem-biblioteca.md)) e analytics de uso (`analytics.js`: carrega o `gtag` só sob consentimento — [ADR 0011](adr/0011-analytics-de-uso-com-google-analytics-4.md)) |
+| `src/components/` | Telas (login, atestação, política de privacidade, termos de uso, estatísticas da coleção — `Estatisticas.jsx`, gráficos à mão: [IDR 0072](idr/0072-pagina-de-estatisticas-como-vista-interna.md), [TDR 0030](tdr/0030-graficos-de-estatisticas-a-mao-sem-biblioteca.md) — e catálogo compartilhado por link) e árvore da tela principal: cabeçalho com placar e faixa de salto, controles (ordenação/disposição/filtro), menu de ações, catálogo (super-grupo → seção → figurinha ou página do álbum) e avisos flutuantes |
+| `src/App.jsx` | Único componente com estado: sessão (Firebase Auth), coleção, atestação, vistas internas (política, termos e estatísticas), preferências de vista e histórico de desfazer; decide qual tela mostrar (guarda de login e, pelo caminho `/catalogo/<uid>`, a vista do link antes dela — [IDR 0055](idr/0055-catalogo-compartilhado-por-link-somente-leitura.md)) e concentra toda leitura/escrita da coleção |
 
 Convenção vigente (AGENTS.md): nada de router nem estado global até a
 árvore de componentes realmente exigir. Confirmada em uso, não só
@@ -199,6 +199,7 @@ Fluxos:
 | Deploy via GitHub Actions (três workflows) | [TDR 0023](tdr/0023-deploy-via-github-actions.md) |
 | Exclusão de dados (regra, autorização e ordem) | [TDR 0027](tdr/0027-autorizacao-e-ordem-da-exclusao-de-dados.md) |
 | Canal de contato montado em runtime | [TDR 0028](tdr/0028-canal-de-contato-montado-em-runtime.md) |
+| Gráficos de estatísticas à mão (SVG/CSS), sem biblioteca | [TDR 0030](tdr/0030-graficos-de-estatisticas-a-mao-sem-biblioteca.md) |
 | Branch protection exigindo preview deploy | [DDR 0005](devops-dr/0005-protecao-da-branch-main.md) |
 | Interface (disposições, estados, sync, scroll, acessibilidade…) | [IDR 0001–0044](idr/) + [interface.md](interface.md) |
 | Aparência (tema, paleta, medidas) | [IDR 0022](idr/0022-tema-escuro-unico-paleta-do-prototipo.md) + [interface.md](interface.md) |
@@ -207,6 +208,7 @@ Fluxos:
 | Paleta de referência da capa do álbum físico | [IDR 0054](idr/0054-paleta-da-capa-do-album-fifa-2026.md) |
 | Apagar meus dados na política, em dois passos | [IDR 0060](idr/0060-apagar-meus-dados-na-politica-em-dois-passos.md) |
 | Conteúdo de conformidade da política e dos termos | [IDR 0061](idr/0061-conteudo-de-conformidade-da-politica-e-dos-termos.md) |
+| Página de estatísticas como vista interna | [IDR 0072](idr/0072-pagina-de-estatisticas-como-vista-interna.md) |
 | Localização do documento no Firestore | [MDR 0001](model-dr/0001-localizacao-do-documento-no-firestore.md) |
 | Schema da coleção (mapa esparso) | [MDR 0002](model-dr/0002-schema-do-documento-da-colecao.md) + [modelo-firebase.md](modelo-firebase.md) |
 | Gravação agregada da coleção | [MDR 0003](model-dr/0003-gravacao-agregada-da-colecao.md) |
