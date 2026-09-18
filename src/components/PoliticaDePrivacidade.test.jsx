@@ -23,6 +23,7 @@ describe("PoliticaDePrivacidade", () => {
     expect(screen.getByRole("heading", { name: "Retenção" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Direitos do titular" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Dados de menores" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Alterações" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Contato" })).toBeInTheDocument();
     expect(screen.getByText(/dff4321@gmail\.com/)).toBeInTheDocument();
 
@@ -37,7 +38,7 @@ describe("PoliticaDePrivacidade", () => {
     // Controlador e encarregado, sem CPF nem endereço.
     expect(screen.getByText(/Daniel Felix Ferber, pessoa física/)).toBeInTheDocument();
     expect(screen.queryByText(/CPF/)).not.toBeInTheDocument();
-    expect(screen.queryByText(/endereço/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/endereço do controlador/)).not.toBeInTheDocument();
 
     // Base legal por finalidade.
     expect(screen.getByText(/hipótese legal \(LGPD art\. 9º, I\)/)).toBeInTheDocument();
@@ -79,6 +80,29 @@ describe("PoliticaDePrivacidade", () => {
       ),
     ).toBeInTheDocument();
     expect(screen.getByText(/seu nome, e-mail e foto não aparecem/)).toBeInTheDocument();
+  });
+
+  it("declara o prazo e a identificação do titular e o histórico (IDR 0061)", () => {
+    render(<PoliticaDePrivacidade onVoltar={vi.fn()} />);
+
+    // Prazo de resposta com o dispositivo legal.
+    expect(screen.getByText(/15 dias \(LGPD art\. 19, §1º, II\)/)).toBeInTheDocument();
+
+    // Identificação pelo e-mail da conta, com confirmação de outro endereço.
+    expect(screen.getByText(/mesmo e-mail da conta Google usada no app/)).toBeInTheDocument();
+    expect(screen.getByText(/pedimos a confirmação nessa conta/)).toBeInTheDocument();
+
+    // Histórico de versões, com a data de vigência e a nota do novo aceite.
+    expect(screen.getByRole("heading", { name: "Alterações" })).toBeInTheDocument();
+    expect(screen.getByText(/versão publicada com o conteúdo de conformidade/)).toBeInTheDocument();
+    expect(
+      screen.getByText((_, node) =>
+        node?.tagName === "P" &&
+        /Mudança material faz o app pedir um novo aceite na entrada, antes\s+de liberar o catálogo\./.test(
+          node.textContent,
+        ),
+      ),
+    ).toBeInTheDocument();
   });
 
   it("voltar chama onVoltar", async () => {

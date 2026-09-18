@@ -737,12 +737,24 @@ sob cláusulas-padrão contratuais); link do catálogo; armazenamento local
 cookies); retenção (24 meses de inatividade e até 90 dias após o
 encerramento); direitos do titular, com a exclusão pelo painel e a
 portabilidade pela exportação JSON (art. 18, V); dados de menores (ligado à
-atestação do primeiro login); e contato — cada um exercido pelo canal de
-contato declarado no próprio texto
+atestação do primeiro login); alterações, com o histórico de versões; e
+contato — cada um exercido pelo canal de contato declarado no próprio texto
 (`docs/plano/.../0004-politica-de-privacidade-e-rodape.md` tem a pergunta e
 a resposta que fixou esse endereço). O canal de contato é o mesmo das duas
 vistas: o componente `LinkDeContato`, com o endereço montado em runtime
 a partir de partes ([TDR 0028](tdr/0028-canal-de-contato-montado-em-runtime.md)).
+
+A seção "Direitos do titular" declara o prazo e a identificação do titular
+([IDR 0061](idr/0061-conteudo-de-conformidade-da-politica-e-dos-termos.md)):
+os pedidos são respondidos em até 15 dias (art. 19, §1º, II) e atendidos
+quando partem do mesmo e-mail da conta Google usada no app; de outro
+endereço, o app pede confirmação nessa conta antes de qualquer resposta.
+
+A seção "Alterações" traz o histórico de versões — uma linha por data de
+vigência, com o que mudou — e a nota de que mudança material faz o app pedir
+um novo aceite na entrada, antes de liberar o catálogo
+([IDR 0061](idr/0061-conteudo-de-conformidade-da-politica-e-dos-termos.md),
+[IDR 0062](idr/0062-reaceite-reusa-a-tela-de-atestacao.md)).
 
 A seção "Link do catálogo" declara a visibilidade por link
 ([IDR 0055](idr/0055-catalogo-compartilhado-por-link-somente-leitura.md)):
@@ -795,10 +807,16 @@ o serviço (gratuito e independente, sem vínculo com Panini ou FIFA);
 controlador e encarregado, o mesmo bloco da política; uso no estado em que
 se encontra, sem garantia de disponibilidade nem contra perda de dados, com
 o exportar como proteção; responsabilidade pela própria conta Google;
-limitação de responsabilidade; marcas; alterações dos termos; lei
+limitação de responsabilidade; marcas; alterações, com o histórico de
+versões e a nota do novo aceite; lei
 brasileira; e contato pelo mesmo componente da política — `LinkDeContato`,
 com o endereço montado em runtime
 ([TDR 0028](tdr/0028-canal-de-contato-montado-em-runtime.md)).
+
+A seção "Alterações" data a versão vigente e, como na política, registra o
+histórico do que mudou e avisa que mudança material pede um novo aceite na
+entrada ([IDR 0061](idr/0061-conteudo-de-conformidade-da-politica-e-dos-termos.md),
+[IDR 0062](idr/0062-reaceite-reusa-a-tela-de-atestacao.md)).
 
 ### Catálogo compartilhado
 

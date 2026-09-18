@@ -138,6 +138,13 @@ export default function PoliticaDePrivacidade({
           escreva para o canal de contato abaixo. A conta Google em si não é
           apagada por nós — ela é do Google, não do Iconula.
         </p>
+        <p>
+          Os pedidos são respondidos em até 15 dias (LGPD art. 19, §1º, II).
+          Para proteger os seus dados, eles são atendidos quando partem do
+          mesmo e-mail da conta Google usada no app; se você escrever de
+          outro endereço, pedimos a confirmação nessa conta antes de
+          qualquer resposta.
+        </p>
 
         {mostrarBloco &&
           (estado === "confirmando" ? (
@@ -198,6 +205,25 @@ export default function PoliticaDePrivacidade({
           conta. Se um responsável quiser revisar ou pedir a exclusão dos
           dados de um menor autorizado, o canal de contato abaixo atende
           esse pedido também.
+        </p>
+
+        <h2>Alterações</h2>
+        <p>
+          Esta política é versionada pela data de vigência no topo. Só
+          mudança material sobe a versão; correção de digitação ou de estilo
+          não altera o que você aceitou.
+        </p>
+        <ul>
+          <li>
+            <time dateTime="2026-09-17">17 de setembro de 2026</time> — versão
+            publicada com o conteúdo de conformidade: controlador e
+            encarregado, base legal, transferência internacional, retenção,
+            prazo de atendimento e histórico.
+          </li>
+        </ul>
+        <p>
+          Mudança material faz o app pedir um novo aceite na entrada, antes
+          de liberar o catálogo.
         </p>
 
         <h2>Contato</h2>

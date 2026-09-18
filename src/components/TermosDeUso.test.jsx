@@ -16,7 +16,7 @@ const SECOES = [
   "Sua conta Google",
   "Limitação de responsabilidade",
   "Marcas",
-  "Alterações dos termos",
+  "Alterações",
   "Lei brasileira",
   "Contato",
 ];
@@ -42,6 +42,28 @@ describe("TermosDeUso", () => {
     const vigencia = container.querySelector("time");
     expect(vigencia).toHaveAttribute("dateTime", "2026-09-17");
     expect(vigencia).toHaveTextContent("17 de setembro de 2026");
+  });
+
+  it("traz a seção de alterações com o histórico e o novo aceite (IDR 0061)", () => {
+    render(<TermosDeUso onVoltar={vi.fn()} />);
+
+    // Histórico de versões, com a data de vigência.
+    expect(screen.getByText(/versão publicada com o conteúdo de conformidade/)).toBeInTheDocument();
+    expect(
+      screen.getByText((_, node) =>
+        node?.tagName === "LI" &&
+        /17 de setembro de 2026/.test(node.textContent) &&
+        /versão publicada com o conteúdo de conformidade/.test(node.textContent),
+      ),
+    ).toBeInTheDocument();
+
+    // Mudança material pede novo aceite na entrada.
+    expect(
+      screen.getByText((_, node) =>
+        node?.tagName === "P" &&
+        /pedir um novo aceite na entrada/.test(node.textContent),
+      ),
+    ).toBeInTheDocument();
   });
 
   it("usa o mesmo canal de contato da política", () => {
