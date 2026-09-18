@@ -55,8 +55,9 @@
   font-size: 13px;
 }
 
-/* Painel "Apagar meus dados" (IDR 0060, Tarefa 0031-0003): os três estados
- * da seção "Direitos do titular". As regras de parágrafo levam o prefixo
+/* Painel "Apagar meus dados" (IDR 0060, Tarefa 0031-0003): os dois estados
+ * da seção "Direitos do titular" — repouso e confirmando; o estado final é a
+ * tela própria `ContaApagada`. As regras de parágrafo levam o prefixo
  * `.politica__corpo` para vencer a especificidade de `.politica__corpo p`. */
 .politica__apagar {
   margin-top: 16px;
@@ -120,15 +121,4 @@
   flex-wrap: wrap;
   gap: 8px;
   margin-top: 16px;
-}
-
-.politica__apagado {
-  margin-top: 16px;
-}
-
-.politica__corpo .politica__apagado-titulo {
-  margin: 0 0 12px;
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--gold);
 }

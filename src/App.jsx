@@ -8,6 +8,7 @@ import TelaDeLogin from "./components/TelaDeLogin.jsx";
 import Atestacao from "./components/Atestacao.jsx";
 import PoliticaDePrivacidade from "./components/PoliticaDePrivacidade.jsx";
 import TermosDeUso from "./components/TermosDeUso.jsx";
+import ContaApagada from "./components/ContaApagada.jsx";
 import { Cabecalho } from "./components/Cabecalho.jsx";
 import { Controles } from "./components/Controles.jsx";
 import { MenuDeAcoes } from "./components/MenuDeAcoes.jsx";
@@ -110,10 +111,11 @@ export default function App() {
   // `false` — mesma premissa otimista de `contagens`.
   const [linkAtivo, setLinkAtivo] = useState(false);
   // Vista interna (TDR 0020, revisitado na Tarefa 0020-0003): política de
-  // privacidade e termos de uso (IDR 0053) — sem router. Estado único,
-  // checado antes de qualquer outro ramo de retorno, para voltar sempre cair
-  // na tela que o restante do estado já determinaria; um único valor impede
-  // as duas vistas de ficarem ligadas ao mesmo tempo.
+  // privacidade, termos de uso (IDR 0053) e a tela final da exclusão
+  // `ContaApagada` (IDR 0060) — sem router. Estado único, checado antes de
+  // qualquer outro ramo de retorno, para voltar sempre cair na tela que o
+  // restante do estado já determinaria; um único valor impede duas vistas de
+  // ficarem ligadas ao mesmo tempo.
   const [vistaInterna, setVistaInterna] = useState(null);
   // Alvo do link do catálogo (IDR 0055), lido uma vez na abertura: um objeto
   // `{ uid }` quando o caminho é `/catalogo/<uid>` (com `uid: null` nos
@@ -459,12 +461,15 @@ export default function App() {
     }
 
     // Sucesso: nada da conta apagada pode sobreviver no estado local, que
-    // alimenta a tela principal se a sessão for restaurada.
+    // alimenta a tela principal se a sessão for restaurada. A vista troca
+    // para a tela dedicada `ContaApagada`, montada antes da guarda de login
+    // (TDR 0020), então o estado final sobrevive ao fim da sessão (IDR 0060).
     setContagens({});
     setAtualizadoEm('—');
     setHistorico([]);
     setPrecisaAtestar(false);
     setLinkAtivo(false);
+    setVistaInterna('contaApagada');
 
     return { status: 'sucesso' };
   }
@@ -739,8 +744,8 @@ export default function App() {
     // A `Avisos` entra aqui porque o fluxo de apagar dados emite as falhas
     // parciais do TDR 0027 ainda nesta vista; sem ela, o aviso se perderia
     // (a tela de login também não a renderiza — IDR 0060). `podeApagar` vem
-    // da sessão: sem usuário, a seção mostra só o canal de contato; o estado
-    // final da exclusão sobrevive sozinho ao fim da sessão (IDR 0060).
+    // da sessão: sem usuário, a seção mostra só o canal de contato; o
+    // sucesso troca a vista para a tela `ContaApagada` (IDR 0060).
     return (
       <>
         <PoliticaDePrivacidade
@@ -756,6 +761,14 @@ export default function App() {
 
   if (vistaInterna === 'termos') {
     return <TermosDeUso onVoltar={() => setVistaInterna(null)} />;
+  }
+
+  // Tela final da exclusão (IDR 0060): checada antes da guarda de login,
+  // como a política e os termos — a conta já foi apagada e a sessão zera;
+  // sem esta ordem, a vista se perderia no fim do fluxo. `onVoltar` devolve
+  // à tela de login, com o botão do Google, sem abrir popup automaticamente.
+  if (vistaInterna === 'contaApagada') {
+    return <ContaApagada onVoltar={() => setVistaInterna(null)} />;
   }
 
   // Vista do link do catálogo (IDR 0055): checada antes da guarda de login

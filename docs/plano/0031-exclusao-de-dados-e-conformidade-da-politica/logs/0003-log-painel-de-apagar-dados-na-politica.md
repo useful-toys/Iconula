@@ -298,3 +298,36 @@ Nenhum.
 - **Validação**: `npm run lint` (0 avisos/erros), `npm run test`
   (47 arquivos, 620 testes), `npm run build` (chunk > 500 kB, pré-existente)
   e `npm run test:e2e` (4 passed, JDK 21 no `PATH`) — verdes.
+
+### 2026-09-18 — estado final da exclusão vira tela própria "Conta apagada"
+
+- **Pedido do humano** (pós-PR #84): depois de apagar a conta, em vez de
+  permanecer na política com o bloco "Seus dados foram apagados", mostrar
+  uma tela dedicada em branco "Conta apagada", com o botão "Voltar à tela
+  de login" que leva à `TelaDeLogin` (com o botão do Google, sem abrir popup
+  automaticamente).
+- **Decisão confirmada pelo humano (2026-09-18)**: o terceiro estado do
+  IDR 0060 ("Apagado", dentro da política) sai da política e vira a tela
+  própria `ContaApagada`, renderizada antes da guarda de login — sobrevive
+  ao fim da sessão. A mudança foi registrada no próprio IDR 0060, com a
+  decisão anterior movida para `## Histórico` e a nota de reversão por
+  decisão do humano.
+- **Correção**: novo componente `ContaApagada` (`.jsx`, `.css`,
+  `.test.jsx`); `App.jsx` importa a vista, troca `vistaInterna` para
+  `'contaApagada'` no sucesso de `handleApagarDados` e a checa antes da
+  guarda de login; `PoliticaDePrivacidade.jsx` perde o estado `apagado`
+  (fica com repouso e confirmando) e `onApagar` deixa de inspecionar
+  `resultado.status`; testes de componente/integração e o e2e atualizados;
+  `docs/interface.md` e `AGENTS.md` ajustados.
+- **Arquivos alterados**: `docs/idr/0060-...md`,
+  `src/components/ContaApagada.jsx` (novo),
+  `src/components/ContaApagada.css` (novo),
+  `src/components/ContaApagada.test.jsx` (novo), `src/App.jsx`,
+  `src/components/PoliticaDePrivacidade.jsx`,
+  `src/components/PoliticaDePrivacidade.css`,
+  `src/components/PoliticaDePrivacidade.test.jsx`,
+  `src/App.apagarDados.test.jsx`, `e2e/apagarDados.spec.js`,
+  `docs/interface.md`, `AGENTS.md` e este log.
+- **Validação**: `npm run lint` (0 avisos/erros, 98 arquivos), `npm run test`
+  (48 arquivos, 621 testes), `npm run build` (chunk > 500 kB, pré-existente)
+  e `npm run test:e2e` (4 passed, 41.2s, JDK 21 no `PATH`) — verdes.

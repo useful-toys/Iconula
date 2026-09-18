@@ -11,13 +11,12 @@ import "./PoliticaDePrivacidade.css";
 // sem depender do histórico do navegador.
 //
 // A seção "Direitos do titular" também é onde vive o comando "Apagar meus
-// dados" (IDR 0060, Tarefa 0031-0003): um painel de dois passos, com o
-// "Exportar minha coleção antes" ao lado do "Apagar definitivamente". O
-// bloco só existe com sessão (`podeApagar`); o estado final, porém, continua
-// renderizado depois de a sessão acabar — a vista é montada antes da guarda
-// de login (TDR 0020) e é ele que fecha o fluxo. `onApagar` devolve
-// `{ status: 'sucesso' | 'falha' }`: falha mantém o painel para nova
-// tentativa, com o aviso já emitido por `App.jsx`.
+// dados" (IDR 0060, Tarefa 0031-0003): um painel de dois passos — repouso e
+// confirmando —, com o "Exportar minha coleção antes" ao lado do "Apagar
+// definitivamente". O bloco só existe com sessão (`podeApagar`); o sucesso
+// troca a vista para a tela dedicada `ContaApagada`, renderizada no `App.jsx`
+// antes da guarda de login (TDR 0020). `onApagar` dispara a exclusão e a
+// falha é avisada por `App.jsx`, mantendo o painel para nova tentativa.
 export default function PoliticaDePrivacidade({
   onVoltar,
   podeApagar = false,
@@ -29,14 +28,11 @@ export default function PoliticaDePrivacidade({
 
   async function handleApagar() {
     setEmVoo(true);
-    const resultado = await onApagar();
+    await onApagar();
     setEmVoo(false);
-    if (resultado?.status === "sucesso") {
-      setEstado("apagado");
-    }
   }
 
-  const mostrarBloco = podeApagar || estado === "apagado";
+  const mostrarBloco = podeApagar;
 
   return (
     <div className="politica">
@@ -144,20 +140,7 @@ export default function PoliticaDePrivacidade({
         </p>
 
         {mostrarBloco &&
-          (estado === "apagado" ? (
-            <div className="politica__apagado">
-              <p className="politica__apagado-titulo">
-                Seus dados foram apagados
-              </p>
-              <button
-                type="button"
-                className="politica__apagar-botao"
-                onClick={onVoltar}
-              >
-                Voltar à tela de login
-              </button>
-            </div>
-          ) : estado === "confirmando" ? (
+          (estado === "confirmando" ? (
             <div className="politica__confirmacao">
               <p className="politica__confirmacao-texto">
                 Serão apagados a sua coleção de figurinhas e a sua conta de

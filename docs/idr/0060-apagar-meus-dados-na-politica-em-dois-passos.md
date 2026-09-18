@@ -27,15 +27,16 @@ Aceito — implementação na Fase 0031, Tarefa 0031-0003.
 
 - O comando vive na seção "Direitos do titular" da política
   (`PoliticaDePrivacidade.jsx`), **não** no menu de ações.
-- Três estados na própria vista, sem `window.confirm()`:
+- Dois estados na própria política, sem `window.confirm()`:
   1. **Repouso** — botão "Apagar meus dados" e uma linha dizendo que
      apaga a coleção e a conta de login, mas não a conta Google.
   2. **Confirmando** — painel que lista o que será apagado, oferece
      "Exportar minha coleção antes" (a mesma exportação do menu de
      ações) e traz "Apagar definitivamente" ao lado de "Cancelar"; os
      botões ficam desabilitados enquanto a operação está em voo.
-  3. **Apagado** — "Seus dados foram apagados" e um botão que devolve à
-     tela de login.
+- O sucesso troca a vista para a tela dedicada `ContaApagada` (em
+  branco, título "Conta apagada", uma linha curta de confirmação e o
+  botão "Voltar à tela de login").
 - O bloco só aparece com sessão: antes de autenticar e na vista aberta
   pelo link do catálogo ([IDR 0055](0055-catalogo-compartilhado-por-link-somente-leitura.md)),
   a seção mostra apenas o canal de contato.
@@ -43,8 +44,9 @@ Aceito — implementação na Fase 0031, Tarefa 0031-0003.
 ## Consequências
 
 - A confirmação final sobrevive ao fim da sessão: quando
-  `onAuthStateChanged` zera o usuário, a política continua montada
-  (TDR 0020) e o estado 3 permanece na tela.
+  `onAuthStateChanged` zera o usuário, a vista `ContaApagada` continua
+  montada porque é renderizada antes da guarda de login (TDR 0020) — a
+  mesma mecânica da política, agora em tela própria.
 - Por isso a mensagem de sucesso **não** usa a fila de avisos
   ([IDR 0029](0029-avisos-flutuantes-com-tres-severidades.md)): `Avisos`
   não é renderizado na tela de login, e o aviso se perderia.
@@ -68,3 +70,14 @@ Aceito — implementação na Fase 0031, Tarefa 0031-0003.
   já são duas barreiras.
 - **Aviso de sucesso na fila do IDR 0029**: descartado pelo motivo acima
   — a tela de login não renderiza `Avisos`.
+
+## Histórico
+
+- **2026-09-18** — o terceiro estado ("Apagado", dentro da política) foi
+  revertido por decisão do humano na Fase 0031. Antes, o sucesso de
+  `onApagar` mantinha a política montada e exibia, na própria vista, o
+  bloco "Seus dados foram apagados" com o botão "Voltar à tela de login".
+  Agora o estado final é a tela dedicada `ContaApagada`, montada antes da
+  guarda de login (TDR 0020), com o título "Conta apagada", uma linha
+  curta de confirmação e o botão "Voltar à tela de login"; a política
+  fica só com o repouso e o confirmando.
