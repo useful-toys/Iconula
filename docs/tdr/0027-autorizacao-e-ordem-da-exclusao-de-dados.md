@@ -4,7 +4,8 @@
 
 ## Status
 
-Aceito — implementação na Fase 0031, Tarefas 0031-0001 e 0031-0003.
+Aceito — implementação na Fase 0031, Tarefas 0031-0001, 0031-0002 e
+0031-0003.
 
 ## Contexto
 
@@ -24,6 +25,9 @@ Aceito — implementação na Fase 0031, Tarefas 0031-0001 e 0031-0003.
 - Depois do `signOut` ou do `deleteUser` o ID token some e as regras
   negam qualquer escrita (o mesmo motivo do
   [IDR 0038](../idr/0038-sair-da-conta-aborta-se-o-flush-falhar.md)).
+- `apagarColecao` (apagar `users/{uid}`) não exige re-login: só um token
+  válido. Re-login só é exigido pelo `deleteUser` quando o login é antigo
+  (`auth/requires-recent-login`).
 
 ## Decisão
 
@@ -32,25 +36,30 @@ Aceito — implementação na Fase 0031, Tarefas 0031-0001 e 0031-0003.
   validar. O link do catálogo ativo libera `get`, nunca `delete`.
 - **Ordem da exclusão**, fixa:
   1. `descartarPendencias()` na gravação agregada;
-  2. reautenticar por popup do Google — **sempre**, não só em
-     `auth/requires-recent-login`;
-  3. apagar `users/{uid}`;
-  4. apagar a conta do Firebase Auth.
-- **Desistência**: popup fechado (`auth/popup-closed-by-user`,
-  `auth/cancelled-popup-request`) cancela tudo, sem apagar nada e sem
-  aviso de falha — mesmo tratamento que `LoginButton.jsx` já dá.
+  2. apagar `users/{uid}` — sem popup, só um token válido;
+  3. apagar a conta do Firebase Auth;
+  4. reautenticar por popup **somente se** `deleteUser` devolver
+     `auth/requires-recent-login`, e então tentar `deleteUser` de novo.
+- **Desistência**: o popup só existe depois de o documento já ter saído;
+  fechar/cancelar (`auth/popup-closed-by-user`,
+  `auth/cancelled-popup-request`) vira o caso de "coleção apagada, conta
+  permanece" — aviso dourado e `signOut`, não mais "cancela tudo sem
+  apagar".
 - **Falhas parciais**: erro ao apagar o documento aborta antes de tocar
-  a conta (falha, `tipo: 'apagar'`); erro ao apagar a conta, com o
-  documento já apagado, emite aviso dourado dizendo que a coleção foi
-  apagada e a conta de login permanece, e faz `signOut`.
+  a conta (falha, `tipo: 'apagar'`, sem reautenticação); erro final ao
+  apagar a conta (direto, popup fechado, falha na reautenticação ou no
+  retry), com o documento já apagado, emite aviso dourado dizendo que a
+  coleção foi apagada e a conta de login permanece, e faz `signOut`.
 
 ## Consequências
 
-- A reautenticação incondicional torna a ordem determinística: o passo
-  que pode exigir interação acontece antes de qualquer destruição, e
-  nunca sobra um estado meio-apagado por causa dela.
-- O popup do Google vira uma barreira a mais contra o acidente, somada
-  ao painel de dois passos do [IDR 0060](../idr/0060-apagar-meus-dados-na-politica-em-dois-passos.md).
+- Sem reautenticação no caso comum (login recente): nenhum popup aparece
+  na exclusão, e o fluxo fica com um passo a menos de atrito.
+- O popup deixa de virar um "novo login" — era ele que, ao trazer outra
+  conta, fazia o SDK devolver `auth/user-mismatch` sem apagar nada.
+- O passo que pode exigir interação acontece **depois** da destruição do
+  documento: fechar/cancelar já não deixa nada intacto — vira "coleção
+  apagada, conta permanece".
 - O descarte de pendências é obrigatório e não opcional: sem ele, o
   debounce ou o `pagehide` recriam o documento recém-apagado — é o único
   ponto do fluxo capaz de desfazer a exclusão sozinho.
@@ -61,10 +70,16 @@ Aceito — implementação na Fase 0031, Tarefas 0031-0001 e 0031-0003.
 
 ## Alternativas consideradas
 
-- **Reautenticar só quando `deleteUser` pedir**: menos atrito no caso
-  comum, mas se o popup falhar ou for fechado, o documento já foi
-  apagado e a conta fica órfã — estado meio-apagado sem caminho de
-  volta.
+- **Reautenticar só quando `deleteUser` pedir**: é a escolha agora. No
+  caso comum (login recente) não aparece popup; o popup só surge quando o
+  login é antigo e o `deleteUser` exige `auth/requires-recent-login`.
+  Menos atrito e, principalmente, o popup não vira um "novo login" (com
+  outra conta) que resultava em `auth/user-mismatch` e nada apagado.
+- **Reautenticação incondicional antes de tudo**: a decisão anterior.
+  Determinística, mas o popup virava uma barreira antes de qualquer
+  destruição que, na prática, se comportava como um novo login e causava
+  `auth/user-mismatch` sem apagar nada — revertida por decisão do humano
+  (2026-09-18), ver `## Histórico`.
 - **Apagar a conta antes do documento**: impossível — sem ID token as
   regras negam a exclusão do documento, e o dado pessoal sobreviveria à
   conta.
@@ -73,3 +88,13 @@ Aceito — implementação na Fase 0031, Tarefas 0031-0001 e 0031-0003.
   atende o art. 18, VI.
 - **Regra de `delete` validando `resource.data`**: sem propósito —
   apagar não escreve conteúdo.
+
+## Histórico
+
+- **2026-09-18** — revertida por decisão do humano (Fase 0031): a ordem
+  "descartar pendências → reautenticar por popup incondicional → apagar
+  documento → apagar conta" foi substituída por "descartar pendências →
+  apagar documento → apagar conta, reautenticando só quando o `deleteUser`
+  exige login recente". Motivo: no teste do preview, o popup de
+  reautenticação virou um novo login — o usuário entrou com outra conta e
+  o SDK devolveu `auth/user-mismatch`, sem apagar nada.

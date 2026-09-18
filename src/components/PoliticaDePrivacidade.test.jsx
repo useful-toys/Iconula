@@ -166,15 +166,15 @@ describe("PoliticaDePrivacidade — apagar meus dados", () => {
     expect(await screen.findByText("Seus dados foram apagados")).toBeInTheDocument();
   });
 
-  it("desistência no popup volta ao repouso, sem apagar", async () => {
+  it("falha mantém o painel de confirmação para nova tentativa", async () => {
     const user = userEvent.setup();
-    const onApagar = vi.fn(() => Promise.resolve({ status: "cancelado" }));
+    const onApagar = vi.fn(() => Promise.resolve({ status: "falha" }));
     render(<PoliticaDePrivacidade onVoltar={vi.fn()} podeApagar onApagar={onApagar} onExportar={vi.fn()} />);
 
     await user.click(screen.getByRole("button", { name: "Apagar meus dados" }));
     await user.click(screen.getByRole("button", { name: "Apagar definitivamente" }));
 
-    expect(await screen.findByRole("button", { name: "Apagar meus dados" })).toBeInTheDocument();
+    expect(await screen.findByRole("button", { name: "Apagar definitivamente" })).toBeInTheDocument();
   });
 
   it("o estado apagado permanece depois de a sessão acabar", async () => {

@@ -16,9 +16,8 @@ import "./PoliticaDePrivacidade.css";
 // bloco só existe com sessão (`podeApagar`); o estado final, porém, continua
 // renderizado depois de a sessão acabar — a vista é montada antes da guarda
 // de login (TDR 0020) e é ele que fecha o fluxo. `onApagar` devolve
-// `{ status: 'sucesso' | 'cancelado' | 'falha' }`: desistência do popup
-// volta ao repouso sem aviso; falha mantém o painel para nova tentativa,
-// com o aviso já emitido por `App.jsx`.
+// `{ status: 'sucesso' | 'falha' }`: falha mantém o painel para nova
+// tentativa, com o aviso já emitido por `App.jsx`.
 export default function PoliticaDePrivacidade({
   onVoltar,
   podeApagar = false,
@@ -34,8 +33,6 @@ export default function PoliticaDePrivacidade({
     setEmVoo(false);
     if (resultado?.status === "sucesso") {
       setEstado("apagado");
-    } else if (resultado?.status === "cancelado") {
-      setEstado("repouso");
     }
   }
 

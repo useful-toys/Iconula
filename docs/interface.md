@@ -753,7 +753,8 @@ em painel de dois passos e um estado final ([IDR 0060](idr/0060-apagar-meus-dado
   coleção antes" — a mesma exportação do menu de ações —, "Apagar
   definitivamente" e "Cancelar"; os botões ficam desabilitados enquanto a
   operação está em voo (descartar as pendências da gravação agregada,
-  reautenticar por popup, apagar o documento e apagar a conta).
+  apagar o documento e apagar a conta; reautenticar por popup só quando o
+  `deleteUser` exige login recente).
 - **Apagado**: "Seus dados foram apagados" e o botão "Voltar à tela de
   login". Como a vista é montada antes da guarda de login (TDR 0020), o
   estado permanece na tela depois de a sessão acabar.

@@ -5,9 +5,9 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import "@testing-library/jest-dom/vitest";
 
 // Testes de integração de "Apagar meus dados" (Tarefa 0031-0003): a ordem
-// do TDR 0027, a desistência no popup de reautenticação, as falhas parciais
-// e o descarte das pendências da gravação agregada. Temporizadores falsos e
-// `fireEvent`, como as demais suítes de integração da fase.
+// do TDR 0027, a reautenticação condicional ao login recente, as falhas
+// parciais e o descarte das pendências da gravação agregada. Temporizadores
+// falsos e `fireEvent`, como as demais suítes de integração da fase.
 
 const { authState, signOutMock } = vi.hoisted(() => ({
   authState: { user: null, callback: null },
@@ -133,22 +133,37 @@ afterEach(() => {
 });
 
 describe("App — apagar meus dados", () => {
-  it("apaga na ordem do TDR 0027 e chega ao estado final", async () => {
+  it("apaga na ordem do TDR 0027, sem reautenticação no login recente", async () => {
     await montarLogado();
 
     await abrirPainel();
     await confirmarApagar();
 
-    expect(firebase.reauthenticateWithGoogle).toHaveBeenCalledTimes(1);
+    expect(firebase.reauthenticateWithGoogle).not.toHaveBeenCalled();
     expect(colecao.apagarColecao).toHaveBeenCalledWith("uid1", expect.anything());
     expect(firebase.deleteUserAccount).toHaveBeenCalledTimes(1);
 
     const ordem = [
-      firebase.reauthenticateWithGoogle.mock.invocationCallOrder[0],
       colecao.apagarColecao.mock.invocationCallOrder[0],
       firebase.deleteUserAccount.mock.invocationCallOrder[0],
     ];
     expect(ordem).toEqual([...ordem].sort((a, b) => a - b));
+
+    expect(screen.getByText("Seus dados foram apagados")).toBeInTheDocument();
+  });
+
+  it("reautentica por popup só quando o deleteUser exige login recente", async () => {
+    firebase.deleteUserAccount
+      .mockRejectedValueOnce(Object.assign(new Error("recent"), { code: "auth/requires-recent-login" }))
+      .mockResolvedValueOnce(undefined);
+
+    await montarLogado();
+    await abrirPainel();
+    await confirmarApagar();
+
+    expect(firebase.reauthenticateWithGoogle).toHaveBeenCalledTimes(1);
+    expect(firebase.deleteUserAccount).toHaveBeenCalledTimes(2);
+    expect(colecao.apagarColecao).toHaveBeenCalledTimes(1);
 
     expect(screen.getByText("Seus dados foram apagados")).toBeInTheDocument();
   });
@@ -174,7 +189,10 @@ describe("App — apagar meus dados", () => {
     expect(screen.getByRole("button", { name: /entrar com google/i })).toBeInTheDocument();
   });
 
-  it("fechar o popup de reautenticação não apaga nada nem avisa falha", async () => {
+  it("fechar o popup de reautenticação deixa a coleção apagada e a conta de pé", async () => {
+    firebase.deleteUserAccount.mockRejectedValueOnce(
+      Object.assign(new Error("recent"), { code: "auth/requires-recent-login" }),
+    );
     firebase.reauthenticateWithGoogle.mockRejectedValue(
       Object.assign(new Error("popup fechado"), { code: "auth/popup-closed-by-user" }),
     );
@@ -183,11 +201,11 @@ describe("App — apagar meus dados", () => {
     await abrirPainel();
     await confirmarApagar();
 
-    expect(colecao.apagarColecao).not.toHaveBeenCalled();
-    expect(firebase.deleteUserAccount).not.toHaveBeenCalled();
+    // A coleção já saiu; o popup só existe depois do `requires-recent-login`.
+    expect(colecao.apagarColecao).toHaveBeenCalledTimes(1);
+    expect(screen.getByText("Coleção apagada, mas a conta de login permanece")).toBeInTheDocument();
     expect(screen.queryByRole("alert")).not.toBeInTheDocument();
-    // Desistência volta ao repouso, pronta para uma nova tentativa.
-    expect(screen.getByRole("button", { name: "Apagar meus dados" })).toBeInTheDocument();
+    expect(signOutMock).toHaveBeenCalledTimes(1);
   });
 
   it("falha ao apagar o documento aborta antes de tocar a conta", async () => {
@@ -200,6 +218,7 @@ describe("App — apagar meus dados", () => {
     await abrirPainel();
     await confirmarApagar();
 
+    expect(firebase.reauthenticateWithGoogle).not.toHaveBeenCalled();
     expect(firebase.deleteUserAccount).not.toHaveBeenCalled();
     const alerta = screen.getByRole("alert");
     expect(alerta).toHaveTextContent("Falha ao apagar — toque para detalhes");
@@ -210,12 +229,13 @@ describe("App — apagar meus dados", () => {
   });
 
   it("falha ao apagar a conta avisa em dourado e encerra a sessão", async () => {
-    firebase.deleteUserAccount.mockRejectedValue(new Error("auth/requires-recent-login"));
+    firebase.deleteUserAccount.mockRejectedValue(new Error("auth/network-request-failed"));
 
     await montarLogado();
     await abrirPainel();
     await confirmarApagar();
 
+    expect(firebase.reauthenticateWithGoogle).not.toHaveBeenCalled();
     expect(colecao.apagarColecao).toHaveBeenCalledTimes(1);
     expect(screen.getByText("Coleção apagada, mas a conta de login permanece")).toBeInTheDocument();
     expect(screen.queryByRole("alert")).not.toBeInTheDocument();

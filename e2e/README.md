@@ -14,6 +14,6 @@ Specs:
 - `catalogoCompartilhado.spec.js` — vista do link sem login
   ([IDR 0055](../docs/idr/0055-catalogo-compartilhado-por-link-somente-leitura.md));
 - `apagarDados.spec.js` — exclusão da coleção e da conta pelo painel da
-  política, com reautenticação pelo popup fake do Google
+  política, sem reautenticação (login recente)
   ([IDR 0060](../docs/idr/0060-apagar-meus-dados-na-politica-em-dois-passos.md),
   [TDR 0027](../docs/tdr/0027-autorizacao-e-ordem-da-exclusao-de-dados.md)).
