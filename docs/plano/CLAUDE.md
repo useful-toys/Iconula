@@ -107,8 +107,11 @@ mesmo commit. Divergência → siga o arquivo e aponte.
 
 ## Regras que valem em toda tarefa
 
-- Arquivo novo abre com `Copyright (c) 2026 Daniel Felix Ferber`, na sintaxe
-  de comentário do tipo do arquivo (`AGENTS.md` § Convenções).
+- Arquivo **criado por nós** abre com
+  `Copyright (c) 2026 Daniel Felix Ferber`, na sintaxe de comentário do tipo
+  do arquivo; arquivo **obtido de outra fonte** (asset vendorizado) mantém o
+  cabeçalho de origem e licença, sem o nosso copyright
+  (`AGENTS.md` § Convenções).
 - Componentes em `src/components/`, dados em `src/data/`; sem router nem
   estado global antes de a árvore exigir (`AGENTS.md` § Convenções).
 - Nenhuma requisição por figurinha, uma leitura por login, escrita agregada,
