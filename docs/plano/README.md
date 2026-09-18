@@ -76,6 +76,8 @@ Detalhes e status das tarefas no guia [CLAUDE.md](CLAUDE.md) § Status e ciclo d
 | 28 | [Notação compacta e título de seção em linha única](0028-notacao-compacta-e-titulo-de-secao/) | Aplicar `▯`/`×` sem `·` nos títulos e deixar o título da seção numa linha no celular | — | `feat: notação compacta e título de seção em linha única` | Entregue |
 | 29 | [Compactação vertical](0029-compactacao-vertical/) | Apertar os respiros verticais do catálogo e do cabeçalho, e o relógio em Roboto Condensed | 28 | `feat: compactação vertical do catálogo e do cabeçalho` | Entregue |
 | 30 | [Faixa sem barra e controles compactos](0030-faixa-sem-barra-e-controles-compactos/) | Faixa sem barra (fade + arrasto) e controles com ícones, espaçamento e feedback | 29 | `feat: faixa sem barra e controles compactos` | Entregue |
+| 31 | [Exclusão de dados e conformidade da política](0031-exclusao-de-dados-e-conformidade-da-politica/) | Apagar coleção e conta pelo app e completar a política com controlador, base legal, transferência e retenção | — | `feat: apagar meus dados e política de privacidade conforme a LGPD` | Pendente |
+| 32 | [Prova de aceite, atendimento e incidentes](0032-prova-de-aceite-atendimento-e-incidentes/) | Versionar os textos com reaceite, declarar prazo e identificação, registrar operações e resposta a incidente, e informar antes de ligar o link | 31 | `feat: aceite versionado, procedimentos de privacidade e consentimento do link` | Pendente |
 
 ---
 
@@ -580,6 +582,50 @@ rótulos compactos, espaçamento e feedback de confirmação
 | 0003 | [Rótulos compactos dos controles](0030-faixa-sem-barra-e-controles-compactos/0003-rotulos-compactos-dos-controles.md) | Material no layout; `Todas ▯ ▮ ×` no filtro; nome por extenso no aria/tooltip. | Concluída |
 | 0004 | [Espaçamento dos controles](0030-faixa-sem-barra-e-controles-compactos/0004-espacamento-dos-controles.md) | Padding 4px 10px, gap 6px, `::before` de toque. | Concluída |
 | 0005 | [Feedback de confirmação na troca de controle](0030-faixa-sem-barra-e-controles-compactos/0005-feedback-de-confirmacao-na-troca-de-controle.md) | Aviso de sucesso na troca de ordenação/disposição/filtro. | Concluída |
+
+## Fase 31 — Exclusão de dados e conformidade da política
+
+Decisões do planejamento: o comando de apagar vive na política, em painel de
+dois passos ([IDR 0060](../idr/0060-apagar-meus-dados-na-politica-em-dois-passos.md));
+a autorização e a ordem da exclusão
+([TDR 0027](../tdr/0027-autorizacao-e-ordem-da-exclusao-de-dados.md)); o
+conteúdo de conformidade dos dois textos
+([IDR 0061](../idr/0061-conteudo-de-conformidade-da-politica-e-dos-termos.md));
+o canal de contato montado em runtime
+([TDR 0028](../tdr/0028-canal-de-contato-montado-em-runtime.md)); e os
+procedimentos manuais de privacidade
+([DDR 0011](../devops-dr/0011-procedimentos-manuais-de-privacidade.md)).
+
+| # | Tarefa | Objetivo | Status |
+|---|---|---|---|
+| 0001 | [Regra de exclusão do próprio documento](0031-exclusao-de-dados-e-conformidade-da-politica/0001-regra-de-exclusao-do-proprio-documento.md) | `allow delete` para o dono, com os casos de intruso, anônimo e link ativo. | Pendente |
+| 0002 | [Funções de exclusão nas duas camadas](0031-exclusao-de-dados-e-conformidade-da-politica/0002-funcoes-de-exclusao-nas-duas-camadas.md) | Apagar documento em `colecaoRemota`; reautenticar e apagar conta em `firebase`. | Pendente |
+| 0003 | [Painel de apagar dados na política](0031-exclusao-de-dados-e-conformidade-da-politica/0003-painel-de-apagar-dados-na-politica.md) | Três estados na vista, ordem do TDR 0027 e e2e contra os emuladores. | Pendente |
+| 0004 | [Canal de contato protegido contra coleta](0031-exclusao-de-dados-e-conformidade-da-politica/0004-canal-de-contato-protegido-contra-coleta.md) | Endereço em partes e componente único; nada literal no `dist/`. | Pendente |
+| 0005 | [Conformidade do texto da política e dos termos](0031-exclusao-de-dados-e-conformidade-da-politica/0005-conformidade-do-texto-da-politica-e-dos-termos.md) | Controlador, base legal, operador e transferência, retenção, portabilidade, vigência. | Pendente |
+| 0006 | [Inventário e documentação de privacidade](0031-exclusao-de-dados-e-conformidade-da-politica/0006-inventario-e-documentacao-de-privacidade.md) | Cria `docs/privacidade.md`; DPA no `setup-gcloud.md`; decisões em `arquitetura.md`. | Pendente |
+
+## Fase 32 — Prova de aceite, atendimento e incidentes
+
+Decisões do planejamento: campos de aceite com data ISO como versão
+([MDR 0009](../model-dr/0009-campos-de-aceite-dos-textos.md)); o reaceite reusa
+a tela de atestação
+([IDR 0062](../idr/0062-reaceite-reusa-a-tela-de-atestacao.md)); prazo,
+identificação e histórico nos textos
+([IDR 0061](../idr/0061-conteudo-de-conformidade-da-politica-e-dos-termos.md));
+os procedimentos manuais
+([DDR 0011](../devops-dr/0011-procedimentos-manuais-de-privacidade.md)); e o
+passo informativo antes de ligar o link, que atualiza o
+[IDR 0055](../idr/0055-catalogo-compartilhado-por-link-somente-leitura.md).
+
+| # | Tarefa | Objetivo | Status |
+|---|---|---|---|
+| 0001 | [Schema do aceite nas regras](0032-prova-de-aceite-atendimento-e-incidentes/0001-schema-do-aceite-nas-regras.md) | `termosVersao`, `politicaVersao` e `aceitoEm` no `hasOnly` e validados. | Pendente |
+| 0002 | [Versões dos textos e gravação do aceite](0032-prova-de-aceite-atendimento-e-incidentes/0002-versoes-dos-textos-e-gravacao-do-aceite.md) | Módulo das versões; a gravação da atestação vira gravação do aceite. | Pendente |
+| 0003 | [Tela de reaceite](0032-prova-de-aceite-atendimento-e-incidentes/0003-tela-de-reaceite.md) | Versão divergente reabre a atestação com o motivo de atualização. | Pendente |
+| 0004 | [Histórico, prazo e identificação nos textos](0032-prova-de-aceite-atendimento-e-incidentes/0004-historico-prazo-e-identificacao-nos-textos.md) | Seção de alterações, 15 dias e pedidos pelo e-mail da conta. | Pendente |
+| 0005 | [Registro de operações e plano de incidente](0032-prova-de-aceite-atendimento-e-incidentes/0005-registro-de-operacoes-e-plano-de-incidente.md) | `docs/privacidade.md` completo; `SECURITY.md` distingue os dois casos. | Pendente |
+| 0006 | [Explicação antes de ligar o link](0032-prova-de-aceite-atendimento-e-incidentes/0006-explicacao-antes-de-ligar-o-link.md) | Bloco informativo no popup ao ligar; desligar segue imediato. | Pendente |
 
 ## Regras que valem em toda tarefa
 

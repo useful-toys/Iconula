@@ -105,8 +105,15 @@ Aceito.
     `url`**; "Copiar link do catálogo" copia só a URL; cancelar a folha não
     avisa, outra falha cai na cópia com a reserva do
     [IDR 0039](0039-texto-de-troca-ordem-fixa-e-copia-manual-de-reserva.md)
-  - sem confirmação para ligar ou desligar — é reversível
-    ([IDR 0010](0010-desfazer-ajustes-em-vez-de-confirmacoes.md))
+  - **ligar exige um passo informativo** (Fase 0032): a chave expande, no
+    próprio popup e sem fechá-lo, um bloco curto — a coleção fica legível
+    sem login para quem tiver o link, nome e e-mail não aparecem,
+    desligar revoga o acesso, mas quem já abriu pode ter copiado o que
+    viu — com "Ligar o link" e "Cancelar"; é o consentimento destacado
+    que o art. 7º, I exige para a única operação baseada em
+    consentimento ([IDR 0061](0061-conteudo-de-conformidade-da-politica-e-dos-termos.md))
+  - **desligar segue imediato**, sem confirmação: desligar nunca é a ação
+    arriscada ([IDR 0010](0010-desfazer-ajustes-em-vez-de-confirmacoes.md))
 - **Preferências de vista na vista do link: lê, mas não grava**
   ([IDR 0026](0026-preferencias-de-vista-persistidas-no-navegador.md))
   - abre com a ordenação, a disposição, o filtro e o colapso guardados no
@@ -192,6 +199,12 @@ Aceito.
 
 ## Histórico
 
+- 2026-09-17 — Planejamento da Fase 0032: ligar o link passa a exigir um
+  passo informativo no popup, como consentimento destacado (art. 7º, I);
+  desligar segue imediato. Antes: "sem confirmação para ligar ou
+  desligar — é reversível", decidido quando o link era tratado só como
+  comodidade de compartilhamento, sem base legal declarada.
+  Implementação na Fase 0032, Tarefa 0032-0006.
 - 2026-09-16 — Planejamento da Fase 0027: textos visíveis, texto da
   política, cartões sem papel de botão e folha do sistema só com a `url`;
   implementação na Fase 0027.
