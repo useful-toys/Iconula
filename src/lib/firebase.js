@@ -8,7 +8,9 @@ import { initializeApp } from "firebase/app";
 import {
   GoogleAuthProvider,
   connectAuthEmulator,
+  deleteUser,
   getAuth,
+  reauthenticateWithPopup,
   signInWithPopup,
 } from "firebase/auth";
 
@@ -60,4 +62,22 @@ if (isConfigured) {
 
 export function signInWithGoogle() {
   return signInWithPopup(auth, new GoogleAuthProvider());
+}
+
+// Reautenticação do usuário corrente por popup, exigida antes de apagar
+// qualquer dado (TDR 0027): o `deleteUser` falha com
+// `auth/requires-recent-login` quando o login não é recente, e o momento
+// em que isso acontece não é previsível pelo cliente. Popup, não redirect,
+// pelo mesmo motivo estrutural do login (DDR 0001). Fechar o popup
+// (`auth/popup-closed-by-user`, `auth/cancelled-popup-request`) é
+// desistência — quem chama trata, como em `LoginButton.jsx`.
+export function reauthenticateWithGoogle() {
+  return reauthenticateWithPopup(auth, new GoogleAuthProvider());
+}
+
+// Último passo da exclusão (TDR 0027), depois de `users/{uid}` já ter sido
+// apagado: apaga a conta do Firebase Auth, onde vivem nome, e-mail e foto
+// — o que o art. 18, VI da LGPD alcança além da coleção.
+export function deleteUserAccount() {
+  return deleteUser(auth.currentUser);
 }

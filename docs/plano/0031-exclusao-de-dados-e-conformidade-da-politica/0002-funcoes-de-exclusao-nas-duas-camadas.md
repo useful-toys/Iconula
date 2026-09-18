@@ -3,7 +3,7 @@
 # Tarefa [0031-0002]: funções de exclusão nas duas camadas
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 

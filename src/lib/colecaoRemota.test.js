@@ -2,6 +2,7 @@
 
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import {
+  apagarColecao,
   carregarColecao,
   carregarCatalogoCompartilhado,
   gravarAlteracoes,
@@ -31,6 +32,7 @@ const firestore = vi.hoisted(() => ({
   doc: vi.fn(),
   getDoc: vi.fn(),
   setDoc: vi.fn(),
+  deleteDoc: vi.fn(),
   deleteField: vi.fn(),
   serverTimestamp: vi.fn(),
 }));
@@ -42,6 +44,7 @@ vi.mock('firebase/firestore', () => ({
   doc: firestore.doc,
   getDoc: firestore.getDoc,
   setDoc: firestore.setDoc,
+  deleteDoc: firestore.deleteDoc,
   deleteField: firestore.deleteField,
   serverTimestamp: firestore.serverTimestamp,
 }));
@@ -53,6 +56,8 @@ beforeEach(() => {
   firestore.doc.mockReturnValue({});
   firestore.setDoc.mockReset();
   firestore.setDoc.mockResolvedValue(undefined);
+  firestore.deleteDoc.mockReset();
+  firestore.deleteDoc.mockResolvedValue(undefined);
   firestore.deleteField.mockReset();
   firestore.deleteField.mockReturnValue(CAMPO_APAGAR);
   firestore.serverTimestamp.mockReset();
@@ -657,6 +662,80 @@ describe('gravarImportacao', () => {
       const aoEsperar = vi.fn();
 
       await gravarImportacao('u1', { BRA05: 3 }, { aoEsperar });
+
+      expect(aoEsperar).not.toHaveBeenCalled();
+    });
+  });
+});
+
+describe('apagarColecao (Tarefa 0031-0002)', () => {
+  it('apaga o documento do usuário com deleteDoc', async () => {
+    const resultado = await apagarColecao('u1');
+
+    expect(firestore.deleteDoc).toHaveBeenCalledTimes(1);
+    expect(firestore.deleteDoc).toHaveBeenCalledWith({});
+    expect(resultado).toEqual({ status: 'sucesso' });
+  });
+
+  it('não grava nada: a exclusão não toca contagens, carimbo nem campos', async () => {
+    await apagarColecao('u1');
+
+    expect(firestore.setDoc).not.toHaveBeenCalled();
+    expect(firestore.serverTimestamp).not.toHaveBeenCalled();
+    expect(firestore.deleteField).not.toHaveBeenCalled();
+  });
+
+  it('devolve erro quando a exclusão falha', async () => {
+    firestore.deleteDoc.mockRejectedValue(new Error('permission-denied'));
+
+    const resultado = await apagarColecao('u1');
+
+    expect(resultado.status).toBe('erro');
+    expect(resultado.erro).toBeInstanceOf(Error);
+  });
+
+  it('devolve indisponível quando não há app configurado', async () => {
+    state.app = null;
+
+    const resultado = await apagarColecao('u1');
+
+    expect(resultado).toEqual({ status: 'indisponivel' });
+    expect(firestore.deleteDoc).not.toHaveBeenCalled();
+  });
+
+  describe('espera sem rede (Tarefa 0007-0005)', () => {
+    beforeEach(() => {
+      vi.useFakeTimers();
+    });
+
+    afterEach(() => {
+      vi.useRealTimers();
+    });
+
+    it('exclusão pendente além de ~5s chama aoEsperar e continua aguardando', async () => {
+      let resolverDeleteDoc;
+      firestore.deleteDoc.mockReturnValue(
+        new Promise((resolve) => {
+          resolverDeleteDoc = resolve;
+        }),
+      );
+      const aoEsperar = vi.fn();
+
+      const promessa = apagarColecao('u1', { aoEsperar });
+      await vi.advanceTimersByTimeAsync(5000);
+
+      expect(aoEsperar).toHaveBeenCalledTimes(1);
+
+      resolverDeleteDoc(undefined);
+      const resultado = await promessa;
+
+      expect(resultado).toEqual({ status: 'sucesso' });
+    });
+
+    it('resolvendo antes de ~5s nunca chama aoEsperar', async () => {
+      const aoEsperar = vi.fn();
+
+      await apagarColecao('u1', { aoEsperar });
 
       expect(aoEsperar).not.toHaveBeenCalled();
     });
