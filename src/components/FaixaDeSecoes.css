@@ -43,12 +43,16 @@
  * continuidade no lugar da barra de rolagem (IDR 0058): ligado por JS só do
  * lado em que há conteúdo a rolar. Fica sobre a trilha (`pointer-events:
  * none` preserva o arrasto e o clique) e cobre também o respiro do
- * `padding` da trilha, que já tem o mesmo fundo do cabeçalho. */
+ * `padding` da trilha, que já tem o mesmo fundo do cabeçalho. `z-index: 1`
+ * é necessário porque as bandeiras são `position: relative` e, na ordem de
+ * pintura, os elementos posicionados posteriores na árvore ficariam por
+ * cima do fade — sem ele o degradê fica atrás dos ícones e não indica nada. */
 .faixa-de-secoes__fade {
   position: absolute;
   top: 0;
   bottom: 0;
   width: 24px;
+  z-index: 1;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.15s;
