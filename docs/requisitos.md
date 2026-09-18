@@ -90,6 +90,20 @@ Questões recorrentes são marcadas como "Nota".*
     regras negam a escrita, e ajustes recentes se perderiam
   - Volta à tela de login; a coleção permanece gravada no Firestore e é
     recarregada no próximo login
+- Apagar meus dados (LGPD art. 18, VI)
+  - Comando na seção "Direitos do titular" da política de privacidade,
+    não no menu de ações — a ação é irreversível e não fica ao lado de
+    "Sair da conta" (ver
+    [IDR 0060](idr/0060-apagar-meus-dados-na-politica-em-dois-passos.md))
+  - Confirmação em dois passos na própria vista, com atalho para
+    exportar a coleção antes; sem diálogo nativo
+  - Apaga o documento `users/{uid}` e a conta no Firebase Auth; a conta
+    Google permanece — é do Google, não do app
+  - Descarta as gravações pendentes e reautentica por popup antes de
+    apagar qualquer coisa; fechar o popup cancela tudo, sem apagar (ver
+    [TDR 0027](tdr/0027-autorizacao-e-ordem-da-exclusao-de-dados.md))
+  - Termina numa confirmação visível mesmo depois de a sessão acabar, e
+    volta à tela de login
 ### Catálogo
 - Exibir o catálogo completo: 994 figurinhas
   - 980 da numeração oficial: 48 seleções × 20 figurinhas (960) + 20
@@ -262,19 +276,50 @@ Questões recorrentes são marcadas como "Nota".*
   - Acessível a partir da tela de login, antes de autenticar
   - Declara os dados tratados — identidade da conta Google (nome,
     e-mail, foto) e a coleção —, finalidade, retenção e direitos do titular
+  - Declara o armazenamento local do aparelho (preferências de vista,
+    colapso e cache do SDK), funcional e nunca enviado — por isso não há
+    banner de cookies
   - Declara que a coleção fica visível, sem login, a quem tiver o link
     enquanto ele estiver ativo (ver
     [IDR 0055](idr/0055-catalogo-compartilhado-por-link-somente-leitura.md))
-  - Direitos do titular (acesso, correção, exclusão) exercidos por canal
-    de contato declarado na própria política — exclusão dentro do app é
-    requisito futuro
+  - Identifica o controlador e o encarregado, com canal de contato
+    (LGPD art. 41)
+  - Declara a base legal de cada finalidade (LGPD art. 9º, I): conta e
+    coleção por execução do contrato dos termos de uso (art. 7º, V);
+    link do catálogo por consentimento específico, revogável ao
+    desligá-lo (art. 7º, I); atestação de idade pelo art. 14
+  - Declara o Google como operador e a transferência internacional da
+    identidade, com a salvaguarda aplicável (LGPD arts. 33 e 39)
+  - Declara prazo de retenção e descarte (LGPD arts. 15 e 16): 24 meses
+    sem login, e até 90 dias após o encerramento do projeto
+  - Direitos do titular: exclusão exercida dentro do app (ver Acesso);
+    portabilidade pela exportação JSON (LGPD art. 18, V); os demais pelo
+    canal de contato, respondidos em até 15 dias e atendidos quando
+    partem do mesmo e-mail da conta usada no app (ver
+    [IDR 0061](idr/0061-conteudo-de-conformidade-da-politica-e-dos-termos.md))
   - Trata dados de menores (LGPD art. 14): consentimento dos
     responsáveis capturado pela atestação do primeiro login (ver Acesso)
+  - Exibe data de vigência e histórico de versões
 - Exibir termos de uso
   - Acessíveis da tela de login e do rodapé da tela principal
   - Uso no estado em que se encontra, sem garantia de disponibilidade
     nem contra perda de dados (ver
     [IDR 0053](idr/0053-termos-de-uso-e-rodape-com-copyright-e-isencao.md))
+  - Exibem o mesmo bloco de controlador e a mesma data de vigência da
+    política
+- Registrar o aceite dos textos
+  - A conta guarda a versão aceita da política e dos termos e o instante
+    do aceite (ver
+    [MDR 0009](model-dr/0009-campos-de-aceite-dos-textos.md))
+  - Mudança material de qualquer um dos textos pede novo aceite na
+    entrada, num passo de um clique; correção de digitação ou de estilo
+    não pede (ver
+    [IDR 0062](idr/0062-reaceite-reusa-a-tela-de-atestacao.md))
+- Manter o registro das operações de tratamento e os procedimentos de
+  privacidade (LGPD arts. 37 e 48)
+  - Inventário, runbook da purga por inatividade e plano de resposta a
+    incidente, executados manualmente pelo controlador (ver
+    [DDR 0011](devops-dr/0011-procedimentos-manuais-de-privacidade.md))
 - Exibir aviso de independência e marcas (rodapé)
   - Projeto independente, sem vínculo com Panini ou FIFA; marcas
     pertencem aos seus titulares (Lei 9.279/96, art. 132)
@@ -396,10 +441,9 @@ especificação própria antes de implementar.*
 - Merge de sessões simultâneas: ajustes de figurinhas distintas feitos
   em dispositivos abertos ao mesmo tempo se combinam, em vez de a
   última gravação vencer (hoje: a última vence — decisão conscienta)
-- Apagar meus dados do app: excluir a coleção e a conta de login e
-  voltar à tela de login — a conta Google permanece (é do Google, não
-  do app); exige re-autenticação via popup quando o login não for
-  recente
+- Automatizar a purga por inatividade: hoje o controlador executa à mão
+  pelo console; automatizar depende de migrar para o plano Blaze (ver
+  [DDR 0011](devops-dr/0011-procedimentos-manuais-de-privacidade.md))
 - Match entre coleções: comparar com a coleção de outro usuário ("o que
   eu tenho que tu falta")
 - Importar lista colada do WhatsApp (se "receber por mensagem" virar
