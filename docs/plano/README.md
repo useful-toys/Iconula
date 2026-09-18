@@ -82,7 +82,7 @@ Detalhes e status das tarefas no guia [CLAUDE.md](CLAUDE.md) § Status e ciclo d
 | 34 | [Refinamentos visuais do catálogo](0034-refinamentos-visuais-do-catalogo/) | Respiro por letra na ordenação por código, ordem bandeira/sigla/nome no título de seção, espaçadores de linha/página na lista e gradiente de cor no selo `×N` | — | `feat: refinamentos visuais do catálogo (título, espaçamento e selo)` | Entregue |
 | 35 | [Apoio ao projeto por doação via Pix](0035-apoio-ao-projeto-por-doacao-via-pix/) | Vista dedicada com QR Pix, chave para copiar/compartilhar e frase de contexto; acesso pelo rodapé e por um bloco no menu de ações, depois de "Sobre" | 33 | `feat: apoio ao projeto por doação via pix` | Entregue |
 | 36 | [Analytics de uso com Google Analytics 4 e consentimento](0036-analytics-de-uso/) | Medir visitas, sessões e engajamento com GA4 (região Brasil), carregado por um módulo mínimo sob consentimento, com banner nas duas telas e política/conformidade atualizadas | — | `feat: analytics de uso (GA4) com banner de consentimento` | Entregue |
-| 37 | [Página de estatísticas da coleção](0037-pagina-de-estatisticas/) | Página de estatísticas e gráficos da coleção, como vista interna, aberta por botão no cabeçalho | 36 | `feat: página de estatísticas da coleção` | Em andamento |
+| 37 | [Página de estatísticas da coleção](0037-pagina-de-estatisticas/) | Página de estatísticas e gráficos da coleção, como vista interna, aberta por botão no cabeçalho | 36 | `feat: página de estatísticas da coleção` | Entregue |
 
 ---
 
