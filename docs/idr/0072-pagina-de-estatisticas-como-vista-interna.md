@@ -53,7 +53,7 @@ Aceito.
   vendorizado como SVG inline (TDR 0026), como desfazer e compartilhar.
 - `docs/requisitos.md` ganha § Estatísticas (mudança de requisito
   confirmada pelo humano).
-- Implementação: a planejar (/planejar).
+- Implementação: Fase 0037, Tarefas 0037-0002 e 0037-0003.
 
 ## Alternativas consideradas
 

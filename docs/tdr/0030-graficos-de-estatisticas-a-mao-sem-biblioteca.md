@@ -28,7 +28,7 @@ Aceito.
 - Zero peso adicional no bundle; casamento visual com o tema (`theme.css`).
 - Sem tooltip/animação prontos — desnecessários para o uso.
 - Cada gráfico é um bloco da vista, testável por unidade.
-- Implementação: a planejar (/planejar).
+- Implementação: Fase 0037, Tarefa 0037-0002.
 
 ## Alternativas consideradas
 

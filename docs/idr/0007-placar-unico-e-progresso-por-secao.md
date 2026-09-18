@@ -63,4 +63,4 @@ uma página de estatísticas, como vista interna.
   "sem tela separada de estatísticas" e a alternativa recusada acima são
   revertidas pelo [IDR 0072](0072-pagina-de-estatisticas-como-vista-interna.md),
   que cria a página como vista interna; o placar único de 994 e o
-  progresso por seção permanecem. Implementação a planejar.
+  progresso por seção permanecem. Implementação na Fase 0037.

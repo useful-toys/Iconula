@@ -82,6 +82,7 @@ Detalhes e status das tarefas no guia [CLAUDE.md](CLAUDE.md) § Status e ciclo d
 | 34 | [Refinamentos visuais do catálogo](0034-refinamentos-visuais-do-catalogo/) | Respiro por letra na ordenação por código, ordem bandeira/sigla/nome no título de seção, espaçadores de linha/página na lista e gradiente de cor no selo `×N` | — | `feat: refinamentos visuais do catálogo (título, espaçamento e selo)` | Entregue |
 | 35 | [Apoio ao projeto por doação via Pix](0035-apoio-ao-projeto-por-doacao-via-pix/) | Vista dedicada com QR Pix, chave para copiar/compartilhar e frase de contexto; acesso pelo rodapé e por um bloco no menu de ações, depois de "Sobre" | 33 | `feat: apoio ao projeto por doação via pix` | Entregue |
 | 36 | [Analytics de uso com Google Analytics 4 e consentimento](0036-analytics-de-uso/) | Medir visitas, sessões e engajamento com GA4 (região Brasil), carregado por um módulo mínimo sob consentimento, com banner nas duas telas e política/conformidade atualizadas | — | `feat: analytics de uso (GA4) com banner de consentimento` | Pendente |
+| 37 | [Página de estatísticas da coleção](0037-pagina-de-estatisticas/) | Página de estatísticas e gráficos da coleção, como vista interna, aberta por botão no cabeçalho | 36 | `feat: página de estatísticas da coleção` | Pendente |
 
 ---
 
@@ -724,6 +725,25 @@ Privacidade e § Dados e isolamento já foram ajustados neste planejamento.
 | 0003 | [Banner de consentimento e integração](0036-analytics-de-uso/0003-banner-de-consentimento-e-integracao.md) | `BannerDeConsentimento.jsx` (Aceitar/Recusar) nas telas de login e principal; grava em `localStorage` e dispara o loader no aceite; teste. | Pendente |
 | 0004 | [Política de privacidade e inventário](0036-analytics-de-uso/0004-politica-de-privacidade-e-inventario.md) | Reescrever `PoliticaDePrivacidade.jsx` (analytics consentido, região Brasil, retenção 14 meses); subir `VERSAO_POLITICA`; `privacidade.md`. | Pendente |
 | 0005 | [Documentação e setup](0036-analytics-de-uso/0005-documentacao-e-setup.md) | `arquitetura.md`, `devops.md`, `interface.md`, `setup-firebase.md` e `setup-gcloud.md`. | Pendente |
+
+## Fase 37 — Página de estatísticas da coleção
+
+Decisões já registradas no esmiuçamento: a página é uma vista interna
+separada, aberta por um botão no cabeçalho (à esquerda do compartilhar),
+somente leitura e derivada da coleção em memória, com cinco blocos de
+estatísticas ([IDR 0072](../idr/0072-pagina-de-estatisticas-como-vista-interna.md))
+e gráficos desenhados à mão em SVG/CSS, sem biblioteca
+([TDR 0030](../tdr/0030-graficos-de-estatisticas-a-mao-sem-biblioteca.md)).
+`docs/requisitos.md` § Estatísticas já foi criado no esmiuçamento. Depende da
+Fase 36 porque as duas tocam `App.jsx`, `interface.md`, `arquitetura.md` e
+`AGENTS.md`.
+
+| # | Tarefa | Objetivo | Status |
+|---|---|---|---|
+| 0001 | [Derivação pura das estatísticas](0037-pagina-de-estatisticas/0001-derivacao-pura-das-estatisticas.md) | `src/lib/estatisticas.js` (+ teste) com funções puras dos cinco blocos. | Pendente |
+| 0002 | [Vista de estatísticas](0037-pagina-de-estatisticas/0002-vista-de-estatisticas.md) | `Estatisticas.jsx` (+ css, teste) como vista interna, com gráficos à mão. | Pendente |
+| 0003 | [Ícone e botão no cabeçalho](0037-pagina-de-estatisticas/0003-icone-e-botao-no-cabecalho.md) | `material-bar-chart.svg` + botão no cabeçalho + estado em `App.jsx`. | Pendente |
+| 0004 | [Documentação viva](0037-pagina-de-estatisticas/0004-documentacao-viva.md) | `arquitetura.md` e `AGENTS.md` no estado atual. | Pendente |
 
 ## Regras que valem em toda tarefa
 
