@@ -104,6 +104,12 @@ Questões recorrentes são marcadas como "Nota".*
     [TDR 0027](tdr/0027-autorizacao-e-ordem-da-exclusao-de-dados.md))
   - Termina numa confirmação visível mesmo depois de a sessão acabar, e
     volta à tela de login
+- Exibir informações sobre o app
+  - Tela "Sobre": link para o código-fonte no GitHub e link para
+    reportar um problema ou sugerir algo (GitHub Issues) — ver
+    [IDR 0063](idr/0063-tela-sobre-com-link-ao-repositorio-e-issues.md)
+  - Acessível pelo rodapé (junto com política e termos) e pelo menu de
+    ações do cabeçalho
 ### Catálogo
 - Exibir o catálogo completo: 994 figurinhas
   - 980 da numeração oficial: 48 seleções × 20 figurinhas (960) + 20
@@ -195,8 +201,9 @@ Questões recorrentes são marcadas como "Nota".*
 ### Estado da sincronização
 - A persistência é automática e transparente: sem botões de ler ou
   salvar; a gravação é relativamente rápida, sem precisar acontecer a
-  cada ajuste — agregar mudanças é aceitável (debounce de ~2s com teto
-  de espera e flush ao fechar a página — ver ADR 0005)
+  cada ajuste — agregar mudanças é aceitável (debounce de ~4s com teto
+  de espera e flush ao fechar a página — ver ADR 0005 e
+  [MDR 0003](model-dr/0003-gravacao-agregada-da-colecao.md))
 - Notificar o usuário em caixa flutuante colada à borda inferior, com
   três severidades (ver
   [IDR 0029](idr/0029-avisos-flutuantes-com-tres-severidades.md))
