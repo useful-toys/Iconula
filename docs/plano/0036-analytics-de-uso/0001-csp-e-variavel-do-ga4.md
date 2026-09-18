@@ -3,7 +3,7 @@
 # Tarefa 0036-0001: CSP e variável do GA4
 
 ## Status
-Pendente
+Concluída
 
 ## Objetivo
 Abrir a CSP do `firebase.json` para as origens do Google Analytics e criar a
@@ -44,6 +44,7 @@ gtag da Tarefa 0036-0002 não carrega em produção.
 
 ## Impedimentos específicos
 - `gh variable set` é configuração pública do repositório — nível 3, exige aprovação explícita do humano com o comando exato antes de executar.
+- Resposta do humano (2026-09-18): a variável `VITE_GA_MEASUREMENT_ID` (valor `<REDACTED>`) foi criada manualmente pelo humano no repositório `useful-toys/Iconula`; o critério "a variável existe no repositório" fica **atendido por esta confirmação**, já que o agente não tem permissão de Actions (`gh variable set`/`list` → HTTP 403).
 
 ## Arquivos impactados
 - `firebase.json` — modificar (bloco `hosting.headers`, CSP)

@@ -92,6 +92,7 @@ mostrar o valor, útil para depurar builds.
 | `VITE_FIREBASE_STORAGE_BUCKET` | idem |
 | `VITE_FIREBASE_MESSAGING_SENDER_ID` | idem |
 | `VITE_FIREBASE_APP_ID` | idem |
+| `VITE_GA_MEASUREMENT_ID` | Measurement ID do Google Analytics 4 (GA4), injetado no build via `vars.*`; não é secreto (ver [ADR 0011](adr/0011-analytics-de-uso-com-google-analytics-4.md)) |
 
 Como foram criadas:
 
@@ -102,6 +103,7 @@ gh variable set VITE_FIREBASE_PROJECT_ID --repo useful-toys/Iconula --body "icon
 gh variable set VITE_FIREBASE_STORAGE_BUCKET --repo useful-toys/Iconula --body "<valor>"
 gh variable set VITE_FIREBASE_MESSAGING_SENDER_ID --repo useful-toys/Iconula --body "<valor>"
 gh variable set VITE_FIREBASE_APP_ID --repo useful-toys/Iconula --body "<valor>"
+gh variable set VITE_GA_MEASUREMENT_ID --repo useful-toys/Iconula --body "G-KQ72XBGSTM"
 ```
 
 Referenciadas nos workflows de deploy (`firebase-hosting-merge.yml` e
