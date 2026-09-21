@@ -85,7 +85,7 @@
 
 /* Cor de identidade do grupo no título (IDR 0045): cada letra A–L define
  * `--group-color` (variante ajustada, no fundo com 30% sobre `--panel`) e, em
- * D, F, I e L — os únicos cuja original difere da ajustada —,
+ * B, D, F, I, K e L — os grupos cuja original difere da ajustada —,
  * `--group-color-raw` (variante original, na borda esquerda de 3px); nos
  * demais grupos o `-raw` cai em `--group-color`, que já é a original. O texto
  * permanece em `--gold`. A letra vem da prop `grupo` do `SuperGrupo`. */
@@ -95,6 +95,7 @@
 
 .super-grupo__titulo--b {
   --group-color: var(--group-b);
+  --group-color-raw: var(--group-b-raw);
 }
 
 .super-grupo__titulo--c {
@@ -134,6 +135,7 @@
 
 .super-grupo__titulo--k {
   --group-color: var(--group-k);
+  --group-color-raw: var(--group-k-raw);
 }
 
 .super-grupo__titulo--l {

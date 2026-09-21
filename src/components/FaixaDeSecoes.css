@@ -162,8 +162,8 @@
 /* Identidade de grupo na faixa (IDR 0045): só na ordenação por página cada
  * bandeira soma a classe `--grupo-<chave>` (a letra A–L da seleção, ou FWC /
  * COC nos especiais) e define `--group-color` (variante ajustada); o
- * `background` mistura 60% dessa cor a `--panel`. Em D, F, I e L — os únicos
- * cuja original difere da ajustada — a classe também define
+ * `background` mistura 60% dessa cor a `--panel`. Em B, D, F, I, K, L e COC —
+ * os grupos cuja original difere da ajustada — a classe também define
  * `--group-color-raw` (variante original), que a barra inferior usa; nos
  * demais grupos o `-raw` cai em `--group-color`, que já é a original. Sem a
  * classe — ordenação por sigla — `--group-color` cai no `--panel`, o fundo
@@ -175,6 +175,7 @@
 
 .faixa-de-secoes__botao--grupo-b {
   --group-color: var(--group-b);
+  --group-color-raw: var(--group-b-raw);
 }
 
 .faixa-de-secoes__botao--grupo-c {
@@ -214,6 +215,7 @@
 
 .faixa-de-secoes__botao--grupo-k {
   --group-color: var(--group-k);
+  --group-color-raw: var(--group-k-raw);
 }
 
 .faixa-de-secoes__botao--grupo-l {
@@ -227,6 +229,7 @@
 
 .faixa-de-secoes__botao--grupo-coc {
   --group-color: var(--group-coc);
+  --group-color-raw: var(--coc-red-raw);
 }
 
 /* Barra inferior com 80% da cor original (IDR 0045), só nas bandeiras com

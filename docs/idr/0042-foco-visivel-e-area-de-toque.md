@@ -53,7 +53,9 @@ revelado pela heurística da plataforma) — clique de mouse ou toque não o
 dispara, preservando o minimalismo visual do IDR 0018 sem abrir mão da
 navegação por teclado. O contorno mede ≥ 8:1 de contraste contra `--turf`
 e `--panel` (medido nesta tarefa — ver o log), bem acima do 3:1 do WCAG
-1.4.11 para indicadores não textuais. As duas regras específicas já
+1.4.11 para indicadores não textuais. Com o `--turf` clareado em 2026-09-21
+(ver Histórico), o contraste contra ele cai para 6,55:1 — ainda folgado, e
+≥ 8:1 permanece contra o `--panel`. As duas regras específicas já
 existentes (ícones da faixa de bandeiras e itens do menu de ações, este
 com contorno para dentro por ficar colado à borda do popup) continuam
 valendo — mais específicas, seguem vencendo a regra global sem contradizê-la
@@ -125,6 +127,12 @@ Contexto do IDR 0024.
   espaçamento entre cartões vizinhos em vez do próprio cartão
 
 ## Histórico
+
+- 2026-09-21 — O `--turf` foi clareado para tornar o verde-gramado visível
+  ([IDR 0022](0022-tema-escuro-unico-paleta-do-prototipo.md)); o anel de foco
+  em `--gold` cai de 8,44:1 para 6,55:1 contra ele. Continua acima do 3:1 do
+  WCAG 1.4.11 — o ≥ 8:1 era folga, não requisito —, e ≥ 8:1 permanece contra
+  o `--panel`. Nenhuma mudança de implementação.
 
 - 2026-09-14 — Esmiuçamento: com o cartão de 60×70px e a paisagem de
   70×60px ([IDR 0047](0047-nomes-de-jogadores-nas-figurinhas.md)), o menos
