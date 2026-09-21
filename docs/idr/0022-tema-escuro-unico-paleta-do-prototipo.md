@@ -41,8 +41,12 @@ neutralizado fora do cabeçalho na Fase 0025.
   aplicação (corpo, tela de login, termos de uso, política de privacidade,
   menus flutuantes, estados da figurinha) usa fundo **neutro** — `--bg` e
   `--bg-deep` (sem matiz, croma zero), `--panel` e `--border` também sem
-  matiz. `--turf` não muda de valor, só passa a ser consumido num único
-  lugar
+  matiz
+- **`--turf` mais claro que `--bg`** (2026-09-21): `oklch(0.30 0.08 150)`
+  contra `oklch(0.22 0 0)`. Em `oklch(0.22 …)` o croma do verde já está no
+  limite do gamut sRGB e o matiz ficava imperceptível; a luminosidade 0,30 é
+  o mínimo para o verde-musgo aparecer, com as cores de grupo reajustadas
+  para manter ≥ 3:1 sobre ele ([IDR 0045](0045-cores-de-super-grupos.md))
 
 ## Consequências
 
@@ -77,6 +81,15 @@ neutralizado fora do cabeçalho na Fase 0025.
   cor de grupo/seção próxima do verde ou do dourado
 
 ## Histórico
+
+- 2026-09-21 — Esmiuçamento: o verde de fundo do cabeçalho estava
+  imperceptível. Em `oklch(0.22 0.06 150)` o croma já é o máximo que o gamut
+  sRGB permite naquela escuridão, então subir a saturação sem clarear não
+  muda nada (o navegador achata de volta). `--turf` passa a
+  `oklch(0.30 0.08 150)` — mais claro que `--bg` —, e as cores de grupo que
+  assentam nele são reajustadas para manter ≥ 3:1
+  ([IDR 0045](0045-cores-de-super-grupos.md)). Antes: `oklch(0.22 0.06 150)`,
+  mesma luminosidade do fundo neutro.
 
 - 2026-09-16 — Planejamento da Fase 0025: o humano achou que o
   verde-gramado geral brigava com as cores de grupo/seção (também verdes

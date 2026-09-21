@@ -1037,7 +1037,7 @@ claro (IDR 0022).
 |---|---|---|
 | `--bg` | `oklch(0.22 0 0)` | fundo da página (corpo e telas internas) |
 | `--bg-deep` | `oklch(0.15 0 0)` | fundo do selo `×N` e do controle de menos; texto sobre o controle ativo |
-| `--turf` | `oklch(0.22 0.06 150)` | fundo do `.cabecalho` — único uso da identidade verde-gramado |
+| `--turf` | `oklch(0.30 0.08 150)` | fundo do `.cabecalho` — único uso da identidade verde-gramado |
 | `--panel` | `oklch(0.19 0 0)` | cabeçalho de seção, chips, cartão faltante |
 | `--border` | `oklch(0.32 0 0)` | bordas e divisores |
 | `--gold` | `oklch(0.78 0.14 85)` | título, controle ativo, marca de metalizada, links |
@@ -1048,22 +1048,25 @@ claro (IDR 0022).
 | `--ink-on-light` | `oklch(0.2 0.02 90)` | texto sobre cartão colorido |
 | `--notif-red` | `oklch(0.6 0.18 25)` | borda da faixa de falha (fundo `oklch(0.3 0.15 25)`) |
 | `--group-a` | `oklch(0.710 0.124 142.3)` | identidade do grupo — variante ajustada (fundo tingido do título e da faixa) |
-| `--group-b` | `oklch(0.577 0.234 28.3)` | identidade do grupo — variante ajustada (fundo tingido do título e da faixa) |
+| `--group-b` | `oklch(0.602 0.234 28.3)` | identidade do grupo — variante ajustada (fundo tingido do título e da faixa) |
+| `--group-b-raw` | `oklch(0.577 0.234 28.3)` | identidade do grupo B — variante original (barra do título e da faixa) |
 | `--group-c` | `oklch(0.892 0.163 111.2)` | identidade do grupo — variante ajustada (fundo tingido do título e da faixa) |
-| `--group-d` | `oklch(0.513 0.129 254.8)` | identidade do grupo — variante ajustada (fundo tingido do título e da faixa) |
+| `--group-d` | `oklch(0.574 0.129 254.8)` | identidade do grupo — variante ajustada (fundo tingido do título e da faixa) |
 | `--group-d-raw` | `oklch(0.413 0.129 254.8)` | identidade do grupo D — variante original (barra do título e da faixa) |
 | `--group-e` | `oklch(0.647 0.177 46.4)` | identidade do grupo — variante ajustada (fundo tingido do título e da faixa) |
-| `--group-f` | `oklch(0.502 0.093 170.5)` | identidade do grupo — variante ajustada (fundo tingido do título e da faixa) |
+| `--group-f` | `oklch(0.562 0.093 170.5)` | identidade do grupo — variante ajustada (fundo tingido do título e da faixa) |
 | `--group-f-raw` | `oklch(0.473 0.093 170.5)` | identidade do grupo F — variante original (barra do título e da faixa) |
 | `--group-g` | `oklch(0.815 0.050 277.6)` | identidade do grupo — variante ajustada (fundo tingido do título e da faixa) |
 | `--group-h` | `oklch(0.696 0.089 166.7)` | identidade do grupo — variante ajustada (fundo tingido do título e da faixa) |
-| `--group-i` | `oklch(0.525 0.127 293.2)` | identidade do grupo — variante ajustada (fundo tingido do título e da faixa) |
+| `--group-i` | `oklch(0.584 0.127 293.2)` | identidade do grupo — variante ajustada (fundo tingido do título e da faixa) |
 | `--group-i-raw` | `oklch(0.399 0.127 293.2)` | identidade do grupo I — variante original (barra do título e da faixa) |
 | `--group-j` | `oklch(0.818 0.095 26.5)` | identidade do grupo — variante ajustada (fundo tingido do título e da faixa) |
-| `--group-k` | `oklch(0.589 0.200 7.6)` | identidade do grupo — variante ajustada (fundo tingido do título e da faixa) |
-| `--group-l` | `oklch(0.530 0.140 21.8)` | identidade do grupo — variante ajustada (fundo tingido do título e da faixa) |
+| `--group-k` | `oklch(0.599 0.200 7.6)` | identidade do grupo — variante ajustada (fundo tingido do título e da faixa) |
+| `--group-k-raw` | `oklch(0.589 0.200 7.6)` | identidade do grupo K — variante original (barra do título e da faixa) |
+| `--group-l` | `oklch(0.590 0.140 21.8)` | identidade do grupo — variante ajustada (fundo tingido do título e da faixa) |
 | `--group-l-raw` | `oklch(0.392 0.140 21.8)` | identidade do grupo L — variante original (barra do título e da faixa) |
-| `--coc-red` | `oklch(0.55 0.2 29)` | identidade da Coca-Cola (título do super-grupo, faixa de bandeiras) |
+| `--coc-red` | `oklch(0.597 0.2 29)` | identidade da Coca-Cola (título do super-grupo, faixa de bandeiras) |
+| `--coc-red-raw` | `oklch(0.55 0.2 29)` | identidade da Coca-Cola — variante original (barra do título e da faixa) |
 | `--group-fwc` | `var(--gold)` | alias de `--gold` para os Extras FIFA |
 | `--group-coc` | `var(--coc-red)` | alias de `--coc-red` para a Coca-Cola |
 | `--selection-<sigla>-1/-2/-3` | tabela do IDR 0046 | cores da bandeira da seleção, por posição no degradê do anel: 1 topo, 2 canto inferior esquerdo, 3 canto inferior direito — variante ajustada (clareada); nas cores sem ajuste, serve também ao anel |
@@ -1081,9 +1084,9 @@ fundo a 30% no título do super-grupo e a 60% (80% no hover) na faixa de
 bandeiras; a **original** (`--group-<x>-raw`, RGB oficial sem ajuste) desenha
 a barra esquerda de 3px do título e a barra inferior de 2px da faixa. Nos
 grupos em que a original já atinge o contraste mínimo a ajustada é a própria
-original e um único token cobre as duas finalidades — só D, F, I e L têm
-`-raw`. As cores são aplicadas no título do super-grupo e na faixa de
-bandeiras.
+original e um único token cobre as duas finalidades — só B, D, F, I, K e L
+têm `-raw`; a COC usa `--coc-red-raw`. As cores são aplicadas no título do
+super-grupo e na faixa de bandeiras.
 
 As 48 seleções têm as cores da própria bandeira na seção, com os valores da
 tabela do [IDR 0046](idr/0046-cores-de-selecoes.md): até 3 tokens por
@@ -1097,7 +1100,8 @@ anel) e o token sem sufixo é a **ajustada** (clareada para ≥ 3:1 contra
 a original já atinge o contraste mínimo e um único token serve ao anel. O
 interior da seção fica em `--bg` neutro, sem fundo tingido. Os especiais
 FWC e COC usam os alias `--selection-fwc` (de `--group-fwc`) e
-`--selection-coc` (de `--group-coc`), de cor única, sem degradê.
+`--selection-coc` (de `--group-coc`), de cor única, sem degradê; a moldura da
+COC desenha a variante original, `--coc-red-raw` (IDR 0045).
 
 ### Tipografia
 

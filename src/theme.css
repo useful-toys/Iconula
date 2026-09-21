@@ -7,7 +7,12 @@
    * `--panel`/`--border` também são sem matiz. */
   --bg: oklch(0.22 0 0);
   --bg-deep: oklch(0.15 0 0);
-  --turf: oklch(0.22 0.06 150);
+  /* `--turf` é mais claro que `--bg` de propósito: em `oklch(0.22 …)` o verde
+   * já está no limite do gamut sRGB (croma ~0,06 nessa escuridão) e o matiz
+   * ficava imperceptível — subir só o croma sai do gamut e o navegador achata
+   * de volta. A luminosidade 0,30 é o mínimo que torna o verde-musgo visível
+   * (sRGB 3,56,22), com as cores de grupo reajustadas para manter ≥ 3:1. */
+  --turf: oklch(0.30 0.08 150);
   --panel: oklch(0.19 0 0);
   --border: oklch(0.32 0 0);
   --gold: oklch(0.78 0.14 85);
@@ -24,27 +29,31 @@
    * --notif-red). Usadas no título do super-grupo e na faixa de bandeiras.
    * Cada cor da tabela oficial de sorteio tem duas variantes: --group-<x> é a
    * ajustada (luminosidade mínima para ≥ 3:1 sobre --turf), usada no fundo
-   * tingido; --group-<x>-raw, só nos grupos cuja original difere da ajustada
-   * (D, F, I e L), é a cor original sem ajuste, usada nos traços finos (barra
-   * do título e barra inferior da faixa). Nos outros grupos a ajustada é a
-   * própria original, e um único token cobre as duas finalidades. */
+   * tingido; --group-<x>-raw, nos grupos cuja original difere da ajustada
+   * (B, D, F, I, K e L; a COC usa --coc-red-raw), é a cor original sem ajuste,
+   * usada nos traços finos (barra do título e barra inferior da faixa). Nos
+   * outros grupos a ajustada é a própria original, e um único token cobre as
+   * duas finalidades. */
   --group-a: oklch(0.710 0.124 142.3);
-  --group-b: oklch(0.577 0.234 28.3);
+  --group-b: oklch(0.602 0.234 28.3);
+  --group-b-raw: oklch(0.577 0.234 28.3);
   --group-c: oklch(0.892 0.163 111.2);
-  --group-d: oklch(0.513 0.129 254.8);
+  --group-d: oklch(0.574 0.129 254.8);
   --group-d-raw: oklch(0.413 0.129 254.8);
   --group-e: oklch(0.647 0.177 46.4);
-  --group-f: oklch(0.502 0.093 170.5);
+  --group-f: oklch(0.562 0.093 170.5);
   --group-f-raw: oklch(0.473 0.093 170.5);
   --group-g: oklch(0.815 0.050 277.6);
   --group-h: oklch(0.696 0.089 166.7);
-  --group-i: oklch(0.525 0.127 293.2);
+  --group-i: oklch(0.584 0.127 293.2);
   --group-i-raw: oklch(0.399 0.127 293.2);
   --group-j: oklch(0.818 0.095 26.5);
-  --group-k: oklch(0.589 0.200 7.6);
-  --group-l: oklch(0.530 0.140 21.8);
+  --group-k: oklch(0.599 0.200 7.6);
+  --group-k-raw: oklch(0.589 0.200 7.6);
+  --group-l: oklch(0.590 0.140 21.8);
   --group-l-raw: oklch(0.392 0.140 21.8);
-  --coc-red: oklch(0.55 0.2 29);
+  --coc-red: oklch(0.597 0.2 29);
+  --coc-red-raw: oklch(0.55 0.2 29);
   --group-fwc: var(--gold);
   --group-coc: var(--coc-red);
 

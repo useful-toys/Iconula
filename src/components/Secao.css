@@ -295,6 +295,7 @@
 }
 .secao--coc {
   --sel-1: var(--selection-coc);
+  --sel-1-raw: var(--coc-red-raw);
 }
 
 .secao__icone {

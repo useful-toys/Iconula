@@ -5,7 +5,8 @@
 ## Status
 
 Aceito (revisado) — implementação na Fase 0015; ajustes na Fase 0018; nova
-fonte das cores e modelo de duas variantes na Fase 0025.
+fonte das cores e modelo de duas variantes na Fase 0025; reajuste do `--turf`
+e das cores de grupo que assentam nele em 2026-09-21.
 
 ## Contexto
 
@@ -45,39 +46,41 @@ fonte das cores e modelo de duas variantes na Fase 0025.
 
 RGB da **tabela oficial de sorteio dos grupos da Copa 2026** (fonte mais
 fiel que o hex de origem usado antes, sem procedência registrada) convertido
-para OKLCH. Contraste calculado contra `--turf` `oklch(0.22 0.06 150)` — a
+para OKLCH. Contraste calculado contra `--turf` `oklch(0.30 0.08 150)` — a
 superfície onde essas cores realmente aparecem (título do super-grupo e
 faixa de bandeiras vivem dentro do `.cabecalho`, que mantém o verde-gramado
 mesmo depois da Fase 0025 neutralizar o resto do fundo, ver
-[IDR 0022](0022-tema-escuro-unico-paleta-do-prototipo.md)). Só D, F, I e L
-precisam de cor ajustada — mesmos quatro grupos que já pediam ajuste na
-versão anterior desta tabela.
+[IDR 0022](0022-tema-escuro-unico-paleta-do-prototipo.md)). B, D, F, I, K e
+L precisam de cor ajustada (e a COC, em `--coc-red`) — mais que os quatro da
+versão anterior da tabela, porque o `--turf` mais claro reduziu o contraste
+de todas as cores que assentam nele (ver Histórico).
 
 | Grupo | RGB oficial | Token | Cor original (OKLCH) | Contraste original | Cor ajustada (OKLCH) | Contraste ajustada |
 |---|---|---|---|---|---|---|
-| A | 114 181 108 | `--group-a` | `oklch(0.710 0.124 142.3)` | 6,93:1 | = original | — |
-| B | 227 6 16 | `--group-b` | `oklch(0.577 0.234 28.3)` | 3,49:1 | = original | — |
-| C | 224 229 86 | `--group-c` | `oklch(0.892 0.163 111.2)` | 12,58:1 | = original | — |
-| D | 7 74 143 | `--group-d` / `--group-d-raw` | `oklch(0.413 0.129 254.8)` | 1,93:1 | `oklch(0.513 0.129 254.8)` | 3,00:1 |
-| E | 225 99 12 | `--group-e` | `oklch(0.647 0.177 46.4)` | 4,86:1 | = original | — |
-| F | 0 108 84 | `--group-f` / `--group-f-raw` | `oklch(0.473 0.093 170.5)` | 2,65:1 | `oklch(0.502 0.093 170.5)` | 3,02:1 |
-| G | 186 192 227 | `--group-g` | `oklch(0.815 0.050 277.6)` | 9,52:1 | = original | — |
-| H | 98 175 145 | `--group-h` | `oklch(0.696 0.089 166.7)` | 6,54:1 | = original | — |
-| I | 76 53 132 | `--group-i` / `--group-i-raw` | `oklch(0.399 0.127 293.2)` | 1,74:1 | `oklch(0.525 0.127 293.2)` | 3,02:1 |
-| J | 251 172 163 | `--group-j` | `oklch(0.818 0.095 26.5)` | 9,35:1 | = original | — |
-| K | 215 52 103 | `--group-k` | `oklch(0.589 0.200 7.6)` | 3,71:1 | = original | — |
-| L | 128 22 33 | `--group-l` / `--group-l-raw` | `oklch(0.392 0.140 21.8)` | 1,67:1 | `oklch(0.530 0.140 21.8)` | 3,01:1 |
+| A | 114 181 108 | `--group-a` | `oklch(0.710 0.124 142.3)` | 5,38:1 | = original | — |
+| B | 227 6 16 | `--group-b` / `--group-b-raw` | `oklch(0.577 0.234 28.3)` | 2,71:1 | `oklch(0.602 0.234 28.3)` | 3,01:1 |
+| C | 224 229 86 | `--group-c` | `oklch(0.892 0.163 111.2)` | 9,77:1 | = original | — |
+| D | 7 74 143 | `--group-d` / `--group-d-raw` | `oklch(0.413 0.129 254.8)` | 1,50:1 | `oklch(0.574 0.129 254.8)` | 3,00:1 |
+| E | 225 99 12 | `--group-e` | `oklch(0.647 0.177 46.4)` | 3,78:1 | = original | — |
+| F | 0 108 84 | `--group-f` / `--group-f-raw` | `oklch(0.473 0.093 170.5)` | 2,06:1 | `oklch(0.562 0.093 170.5)` | 3,01:1 |
+| G | 186 192 227 | `--group-g` | `oklch(0.815 0.050 277.6)` | 7,40:1 | = original | — |
+| H | 98 175 145 | `--group-h` | `oklch(0.696 0.089 166.7)` | 5,08:1 | = original | — |
+| I | 76 53 132 | `--group-i` / `--group-i-raw` | `oklch(0.399 0.127 293.2)` | 1,36:1 | `oklch(0.584 0.127 293.2)` | 3,00:1 |
+| J | 251 172 163 | `--group-j` | `oklch(0.818 0.095 26.5)` | 7,26:1 | = original | — |
+| K | 215 52 103 | `--group-k` / `--group-k-raw` | `oklch(0.589 0.200 7.6)` | 2,88:1 | `oklch(0.599 0.200 7.6)` | 3,00:1 |
+| L | 128 22 33 | `--group-l` / `--group-l-raw` | `oklch(0.392 0.140 21.8)` | 1,29:1 | `oklch(0.590 0.140 21.8)` | 3,00:1 |
 
 `--group-x` continua sendo a cor ajustada (mesmo papel de hoje, usada no
-fundo tingido); `--group-x-raw` (só D, F, I, L) é a cor original, usada na
-barra/borda.
+fundo tingido); `--group-x-raw` (B, D, F, I, K e L; a COC em
+`--coc-red-raw`) é a cor original, usada na barra/borda.
 
 ### Especiais
 
 - **Extras FIFA (FWC)**: `--group-fwc` é alias de `--gold`
-  (`oklch(0.78 0.14 85)`, 8,44:1)
+  (`oklch(0.78 0.14 85)`, 6,55:1)
 - **Coca-Cola (COC)**: `--group-coc` é alias de um token novo, `--coc-red`,
-  `oklch(0.55 0.2 29)` (3,18:1) — vermelho da marca, mais escuro que
+  `oklch(0.597 0.2 29)` (3,00:1), com a variante original em `--coc-red-raw`
+  (`oklch(0.55 0.2 29)`, 2,46:1) — vermelho da marca, mais escuro que
   `--notif-red` (`oklch(0.6 0.18 25)`) e separado da semântica de falha
 
 ## Consequências
@@ -90,7 +93,8 @@ barra/borda.
   permanece pela barra esquerda, pela cor (grupo × seleção) e pelo texto
   (`--gold` × `--cream`)
 - 15 tokens em `theme.css` continuam (12 cores de grupo, `--coc-red` e 2
-  alias) mais até 4 tokens `-raw` novos (D, F, I, L) para a cor original
+  alias) mais 7 tokens `-raw` (B, D, F, I, K, L e `--coc-red-raw`) para a cor
+  original
 - A cor reforça; o nome "Grupo A" continua no título — cor nunca é o único
   sinal
 
@@ -114,6 +118,15 @@ barra/borda.
   vira só referência, [IDR 0054](0054-paleta-da-capa-do-album-fifa-2026.md))
 
 ## Histórico
+
+- 2026-09-21 — Esmiuçamento: com o `--turf` clareado para tornar o
+  verde-gramado visível ([IDR 0022](0022-tema-escuro-unico-paleta-do-prototipo.md)),
+  a superfície mais clara derruba ~22% do contraste de todas as cores de
+  grupo que assentam nela. B, D, F, I, K e L passam a precisar de cor
+  ajustada e a COC de `--coc-red` (esta e B e K ganham `-raw` para a cor
+  original); a tabela e os contrastes são recalculados contra
+  `oklch(0.30 0.08 150)`. Os valores anteriores (contra
+  `oklch(0.22 0.06 150)`) ficam no histórico abaixo.
 
 - 2026-09-16 — Planejamento da Fase 0025: fonte das cores trocada do hex de
   origem sem procedência para a tabela oficial de sorteio 2026 (RGB exato);
