@@ -1,8 +1,42 @@
 // Copyright (c) 2026 Daniel Felix Ferber
 
 import { figurinhas, secoes } from '../data/catalogo.js';
+import { corDoSelo } from '../lib/corDoSelo.js';
 import { derivarEstatisticas } from '../lib/estatisticas.js';
 import './Estatisticas.css';
+
+/**
+ * Cor de identidade de um grupo (IDR 0045): `--group-a` … `--group-l`, e
+ * `--group-fwc` / `--group-coc` nos especiais. Tokens de `theme.css`, no
+ * `:root`, então resolvem em qualquer lugar da vista.
+ */
+function corDoGrupo(chave) {
+  return `var(--group-${chave.toLowerCase()})`;
+}
+
+/** FWC e COC não têm bandeira: a cor da seção é a do grupo especial. */
+function ehEspecial(sigla) {
+  return sigla === 'FWC' || sigla === 'COC';
+}
+
+/** Cor da posição 1 da bandeira da seleção (IDR 0046); FWC/COC usam a do grupo. */
+function corDaSecao(sigla) {
+  return ehEspecial(sigla) ? corDoGrupo(sigla) : `var(--selection-${sigla.toLowerCase()}-1)`;
+}
+
+/**
+ * Degradê horizontal com as 2–3 cores da bandeira (IDR 0046). A posição
+ * ausente cai na anterior, a mesma convenção de `Secao.css`; FWC/COC são cor
+ * única de grupo.
+ */
+function gradienteDaSecao(sigla) {
+  if (ehEspecial(sigla)) return corDoGrupo(sigla);
+  const chave = sigla.toLowerCase();
+  const primeira = `var(--selection-${chave}-1)`;
+  const segunda = `var(--selection-${chave}-2, ${primeira})`;
+  const terceira = `var(--selection-${chave}-3, ${segunda})`;
+  return `linear-gradient(to right, ${primeira}, ${segunda}, ${terceira})`;
+}
 
 /**
  * Vista interna de estatísticas da coleção (IDR 0072), sem router (TDR 0020):
@@ -32,11 +66,13 @@ export default function Estatisticas({ contagens = {}, onVoltar }) {
   const barrasDeGrupo = progressoPorGrupo.map((item) => ({
     chave: item.grupo,
     rotulo: item.grupo,
+    cor: corDoGrupo(item.grupo),
     ...item,
   }));
   const barrasDeSecao = progressoPorSecao.map((item) => ({
     chave: item.sigla,
     rotulo: item.sigla,
+    cor: gradienteDaSecao(item.sigla),
     ...item,
   }));
 
@@ -56,10 +92,10 @@ export default function Estatisticas({ contagens = {}, onVoltar }) {
           <div className="estatisticas__resumo">
             <Donut percentual={resumo.percentual} coladas={resumo.coladas} total={total} />
             <dl className="estatisticas__numeros">
-              <Numero rotulo="Coladas" valor={resumo.coladas} />
-              <Numero rotulo="Faltantes" valor={resumo.faltantes} />
-              <Numero rotulo="Repetidas" valor={resumo.repetidas} />
-              <Numero rotulo="Progresso" valor={`${resumo.percentual}%`} />
+              <Numero estado="colada" rotulo="Coladas" valor={resumo.coladas} />
+              <Numero estado="faltante" rotulo="Faltantes" valor={resumo.faltantes} />
+              <Numero estado="repetida" rotulo="Repetidas" valor={resumo.repetidas} />
+              <Numero estado="progresso" rotulo="Progresso" valor={`${resumo.percentual}%`} />
             </dl>
           </div>
         </section>
@@ -89,7 +125,11 @@ export default function Estatisticas({ contagens = {}, onVoltar }) {
             {repetidasPorSecao
               .filter((secao) => secao.codigos.length > 0)
               .map((secao) => (
-                <li className="estatisticas__repetidas-linha" key={secao.sigla}>
+                <li
+                  className="estatisticas__repetidas-linha"
+                  key={secao.sigla}
+                  style={{ '--cor': corDaSecao(secao.sigla) }}
+                >
                   <span className="estatisticas__repetidas-secao">{secao.nome}</span>
                   <span className="estatisticas__repetidas-codigos">
                     {secao.codigos.join(', ')}
@@ -110,10 +150,13 @@ export default function Estatisticas({ contagens = {}, onVoltar }) {
   );
 }
 
-/** Um par rótulo/valor do resumo geral (lista de definições). */
-function Numero({ rotulo, valor }) {
+/**
+ * Um par rótulo/valor do resumo geral (lista de definições). `estado` liga a
+ * cor ao cartão da página principal: colada, faltante e repetida.
+ */
+function Numero({ estado, rotulo, valor }) {
   return (
-    <div className="estatisticas__numero">
+    <div className={`estatisticas__numero estatisticas__numero--${estado}`}>
       <dt className="estatisticas__numero-rotulo">{rotulo}</dt>
       <dd className="estatisticas__numero-valor font-tabular">{valor}</dd>
     </div>
@@ -175,7 +218,7 @@ function Barras({ itens, fina = false }) {
             <div className="estatisticas__barra" role="img" aria-label={nome}>
               <div
                 className="estatisticas__barra-preenchimento"
-                style={{ width: `${item.percentual}%` }}
+                style={{ width: `${item.percentual}%`, '--cor': item.cor }}
               />
             </div>
             <span className="estatisticas__barra-valor font-tabular">
@@ -191,6 +234,17 @@ function Barras({ itens, fina = false }) {
 /** Escreve por extenso a cauda do histograma (`"6+"` → `"6 ou mais"`). */
 function faixaPorExtenso(rotulo) {
   return rotulo.endsWith('+') ? `${rotulo.slice(0, -1)} ou mais` : rotulo;
+}
+
+/**
+ * Cor da coluna pelo estado que a faixa representa na página principal:
+ * 0 é faltante e 1 é colada (classes no CSS); de 2 em diante é repetida, na
+ * escala laranja→vermelho do selo `×N` (IDR 0066), com contagem − 1 sobrando.
+ */
+function propsDaColuna(contagem) {
+  if (contagem === 0) return { className: 'estatisticas__histograma-barra estatisticas__histograma-barra--faltante' };
+  if (contagem === 1) return { className: 'estatisticas__histograma-barra estatisticas__histograma-barra--colada' };
+  return { className: 'estatisticas__histograma-barra', style: { fill: corDoSelo(contagem - 1) } };
 }
 
 /**
@@ -224,7 +278,7 @@ function Histograma({ faixas }) {
         return (
           <g key={faixa.contagem}>
             <rect
-              className="estatisticas__histograma-barra"
+              {...propsDaColuna(faixa.contagem)}
               x={x}
               y={topo + (alturaPlot - alturaBarra)}
               width={barraLargura}

@@ -72,7 +72,7 @@
 
 .estatisticas__donut-traco {
   fill: none;
-  stroke: var(--gold);
+  stroke: var(--green-card);
   stroke-width: 10;
   stroke-linecap: round;
 }
@@ -92,8 +92,26 @@
   margin: 0;
 }
 
+/* Cor do estado, a mesma dos cartões da página principal: colada verde,
+   faltante neutra, repetida laranja. O número e o rótulo seguem escritos, a
+   cor nunca é o único sinal (IDR 0018). */
 .estatisticas__numero {
+  --cor: var(--muted);
   margin: 0;
+  padding-left: 10px;
+  border-left: 3px solid var(--cor);
+}
+
+.estatisticas__numero--colada {
+  --cor: var(--green-card);
+}
+
+.estatisticas__numero--repetida {
+  --cor: var(--orange-card);
+}
+
+.estatisticas__numero--progresso {
+  --cor: var(--gold);
 }
 
 .estatisticas__numero-rotulo {
@@ -106,7 +124,7 @@
   margin: 2px 0 0;
   font-size: 20px;
   font-weight: 700;
-  color: var(--cream);
+  color: var(--cor);
 }
 
 /* Barras horizontais proporcionais — grupos e seções. */
@@ -149,7 +167,8 @@
 .estatisticas__barra-preenchimento {
   height: 100%;
   border-radius: inherit;
-  background: var(--gold);
+  /* Cor de identidade do grupo ou degradê da bandeira, vinda de `--cor`. */
+  background: var(--cor, var(--gold));
 }
 
 .estatisticas__barra-valor {
@@ -179,6 +198,8 @@
   flex-wrap: wrap;
   justify-content: space-between;
   gap: 4px 12px;
+  padding-left: 8px;
+  border-left: 3px solid var(--cor, var(--border));
   font-size: 13px;
 }
 
@@ -186,8 +207,9 @@
   color: var(--cream);
 }
 
+/* Código repetido: laranja, como o cartão repetida da página principal. */
 .estatisticas__repetidas-codigos {
-  color: var(--muted);
+  color: var(--orange-card);
   font-variant-numeric: tabular-nums;
 }
 
@@ -200,8 +222,17 @@
   margin: 0 auto;
 }
 
-.estatisticas__histograma-barra {
-  fill: var(--gold);
+/* Cor pelo estado da faixa: 0 faltante (tracejado, como o cartão), 1 colada;
+   de 2 em diante o `fill` vem inline, na escala laranja→vermelho do selo. */
+.estatisticas__histograma-barra--faltante {
+  fill: var(--panel);
+  stroke: var(--muted);
+  stroke-width: 1.5;
+  stroke-dasharray: 4 3;
+}
+
+.estatisticas__histograma-barra--colada {
+  fill: var(--green-card);
 }
 
 .estatisticas__histograma-total {
