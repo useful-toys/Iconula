@@ -39,6 +39,20 @@ Aceito.
   progresso por grupo da Copa (12 grupos + FWC + COC), progresso por
   seção (50 barras), repetidas por seção e histograma de contagens —
   gráficos à mão ([TDR 0030](../tdr/0030-graficos-de-estatisticas-a-mao-sem-biblioteca.md)).
+- **Cor com o mesmo significado da página principal**, só com tokens que já
+  existem (nenhuma cor nova); a cor nunca é o único sinal (IDR 0018):
+  - estado — colada `--green-card`, faltante `--muted` (tracejado no
+    histograma), repetida `--orange-card`: donut, números do resumo, colunas
+    do histograma e códigos repetidos;
+  - grupo ([IDR 0045](0045-cores-de-super-grupos.md)) — barra de cada grupo
+    na cor de identidade `--group-<x>` (FWC e COC pelos alias);
+  - seleção ([IDR 0046](0046-cores-de-selecoes.md)) — barra de cada seção em
+    degradê horizontal com as cores da bandeira `--selection-<sigla>-1/2/3`
+    (FWC e COC em cor única de grupo) e filete no nome em "Repetidas por
+    seção";
+  - repetidas no histograma — de 2 em diante, na escala laranja→vermelho do
+    selo `×N` ([IDR 0066](0066-gradiente-de-cor-do-selo-conforme-sobrando.md)),
+    com contagem − 1 sobrando.
 
 ## Consequências
 
@@ -66,3 +80,11 @@ Aceito.
   (IDR 0018).
 - **Rota nova com router**: o app evita router até a árvore exigir
   (TDR 0020).
+
+## Histórico
+
+- 2026-09-21 — Pedido: a página estava monótona, só em `--gold`. Passa a
+  colorir donut, números, barras, repetidas e histograma com os tokens de
+  estado, grupo e seleção da página principal (ver Decisão). Cor por
+  custom property inline (`--cor`), como o selo `×N`; `corDoSelo` extraída
+  de `Figurinha.jsx` para `src/lib/corDoSelo.js` para o histograma reusar.

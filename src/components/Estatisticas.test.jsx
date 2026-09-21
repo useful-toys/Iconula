@@ -5,6 +5,7 @@ import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
 import '@testing-library/jest-dom/vitest';
 
+import { corDoSelo } from '../lib/corDoSelo.js';
 import Estatisticas from './Estatisticas.jsx';
 
 // Testes da vista de estatísticas (IDR 0072): vista interna somente leitura,
@@ -74,6 +75,66 @@ describe('Estatisticas', () => {
 
     expect(screen.getByText('BRA01, BRA05')).toBeInTheDocument();
     expect(screen.getByText('2 figurinhas repetidas no total.')).toBeInTheDocument();
+  });
+
+  // O jsdom normaliza o hexadecimal do `fill` para `rgb(...)`.
+  function emRgb(cor) {
+    const el = document.createElement('div');
+    el.style.color = cor;
+    return el.style.color;
+  }
+
+  // Cores da vista: os mesmos tokens da página principal (IDR 0045, 0046, 0066).
+  // A cor vem por `--cor` no preenchimento; os nomes acessíveis não mudam.
+  function corDoPreenchimento(nome) {
+    const barra = screen.getByRole('img', { name: new RegExp(`^${nome}:`) });
+    return barra.querySelector('.estatisticas__barra-preenchimento').style.getPropertyValue('--cor');
+  }
+
+  it('pinta a barra de cada grupo com a cor de identidade do grupo', () => {
+    renderizar();
+
+    expect(corDoPreenchimento('Grupo C')).toBe('var(--group-c)');
+    expect(corDoPreenchimento('Grupo L')).toBe('var(--group-l)');
+  });
+
+  it('pinta a barra de cada seção com o degradê das cores da bandeira', () => {
+    renderizar();
+
+    const degrade = corDoPreenchimento('Brasil');
+    expect(degrade).toContain('linear-gradient');
+    expect(degrade).toContain('var(--selection-bra-1)');
+    expect(degrade).toContain('var(--selection-bra-2,');
+    expect(degrade).toContain('var(--selection-bra-3,');
+  });
+
+  it('usa a cor do grupo especial em FWC e COC, no grupo e na seção', () => {
+    const { container } = render(<Estatisticas contagens={{}} onVoltar={vi.fn()} />);
+
+    const fills = [...container.querySelectorAll('.estatisticas__barra-preenchimento')].map(
+      (el) => el.style.getPropertyValue('--cor'),
+    );
+    expect(fills.filter((cor) => cor === 'var(--group-fwc)')).toHaveLength(2);
+    expect(fills.filter((cor) => cor === 'var(--group-coc)')).toHaveLength(2);
+  });
+
+  it('colore o histograma pelo estado: faltante, colada e repetida em escala', () => {
+    const { container } = render(<Estatisticas contagens={{ BRA01: 1, BRA02: 3 }} onVoltar={vi.fn()} />);
+
+    const colunas = container.querySelectorAll('.estatisticas__histograma-barra');
+    expect(colunas[0]).toHaveClass('estatisticas__histograma-barra--faltante');
+    expect(colunas[1]).toHaveClass('estatisticas__histograma-barra--colada');
+    expect(colunas[2].style.fill).toBe(emRgb(corDoSelo(1)));
+    expect(colunas[3].style.fill).toBe(emRgb(corDoSelo(2)));
+    expect(colunas[5].style.fill).toBe(emRgb(corDoSelo(4)));
+  });
+
+  it('marca cada número do resumo com o estado correspondente', () => {
+    const { container } = render(<Estatisticas contagens={{}} onVoltar={vi.fn()} />);
+
+    for (const estado of ['colada', 'faltante', 'repetida', 'progresso']) {
+      expect(container.querySelector(`.estatisticas__numero--${estado}`)).toBeInTheDocument();
+    }
   });
 
   it('não tem controle de edição de contagem', () => {
